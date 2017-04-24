@@ -1,0 +1,25 @@
+<suite name="Suite" verbose="1">  
+	 <listeners>
+	     <parameter name="server" value="local"/>
+	   	 <listener class-name="com.auvenir.utilities.listeners.TestngListener" />
+	     <listener class-name="com.kirwa.nxgreport.listners.NXGTestListner"></listener>
+	 </listeners>
+	 <test name="Regression" preserve-order="true">    
+		<classes>
+     	<class name="com.auvenir.ui.tests.functional.SmokeTest"/>
+		<class name="com.auvenir.ui.tests.AdminTest"/>
+		<class name="com.auvenir.ui.tests.SupportTest"/>
+    	<class name="com.auvenir.ui.tests.CareerTest"/>
+    	<class name="com.auvenir.ui.tests.AuditorTest"/>
+    	<class name="com.auvenir.ui.tests.ClientTest"/>
+		<!--
+		<class name="com.auvenir.functionaltestsmokeTest"/>
+		<class nacom.auvenir.ui.testsests/>
+		<class name="com.auvenir.testst"/>
+    	<class nacom.auvenir.ui.testsests"/>
+    	<class name="com.auvenir.testst"/>
+    	<class nacom.auvenir.ui.testsests"/>
+ 	   	-->
+	    </classes>
+	 </test>  	
+</suite>
