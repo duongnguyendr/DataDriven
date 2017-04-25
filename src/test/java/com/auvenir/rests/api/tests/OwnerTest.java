@@ -36,6 +36,10 @@ public class OwnerTest extends AbstractAPIService {
         MongoDBService.insertConsumer("Consumer1");
         MongoDBService.deleteInstitution("Institution1");
         MongoDBService.insertInstitution("Institution1");
+        MongoDBService.deleteInstitution("ConsumerAccount1");
+        MongoDBService.insertConsumerAccount("ConsumerAccount1");
+        MongoDBService.deleteAccount("Account1");
+        MongoDBService.insertAccount("Account1");
     }
     /*
     // Connect DB

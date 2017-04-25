@@ -39,6 +39,8 @@ public class ConsumerTest extends AbstractAPIService {
         MongoDBService.insertInstitution("Institution1");
         MongoDBService.deleteInstitution("ConsumerAccount1");
         MongoDBService.insertConsumerAccount("ConsumerAccount1");
+        MongoDBService.deleteAccount("Account1");
+        MongoDBService.insertAccount("Account1");
     }
 
     /*
@@ -98,7 +100,6 @@ public class ConsumerTest extends AbstractAPIService {
             JsonPath jp = new JsonPath(json);
 
             assertionEquals(jp.get("code").toString(),"api-023");
-
             assertionEquals(jp.get("msg").toString(),"Error, missing or invalid consumerID.");
 
         }

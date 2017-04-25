@@ -247,6 +247,61 @@ public class MongoDBService {
         }
     }
     /* ===================================================================
+    Created by: DoaiTran    - 25-Apr-2017 -
+    In order to insert a new Account to DB server.
+     =================================================================== */
+    public static void insertAccount(String valueId) throws UnknownHostException {
+        try {
+            sData = toReadExcelData(valueId, "accounts");
+            new MongoDBService(ServerHost, portNo, DB);
+            MongoClient mongo = new MongoClient(ServerHost, portNo);
+            com.mongodb.DB db = mongo.getDB(DB);
+            DBCollection table = db.getCollection("accounts");
+            BasicDBObject document = new BasicDBObject();
+
+            document.put("_id", new ObjectId(sData[1]));
+            document.put("ownerID", new ObjectId(sData[2]));
+            document.put("institutionID", sData[3]);
+            document.put("integration", sData[4]);
+            document.put("dateCreated", sData[5]);
+            document.put("finID", sData[6]);
+            document.put("finCustomerID", sData[7]);
+            document.put("finInstitutionID", sData[8]);
+            document.put("finLoginID", sData[9]);
+            document.put("number", sData[10]);
+            document.put("name", sData[11]);
+            document.put("status", sData[12]);
+            document.put("type", sData[13]);
+            document.put("balance", sData[14]);
+            document.put("balanceDate", sData[15]);
+            document.put("currency", sData[16]);
+            document.put("finDateCreated", sData[17]);
+            document.put("lastTransactionDate", sData[18]);
+            document.put("raw", sData[19]);
+            table.insert(document);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /* ===================================================================
+    Created by: Doai.Tran    - 25-Apr-2017 -
+    In order to delete a Account to DB server.
+     =================================================================== */
+    public static void deleteAccount(String valueId)throws UnknownHostException{
+        try {
+            sData = toReadExcelData(valueId, "accounts");
+            new MongoDBService(ServerHost, portNo, DB);
+            MongoClient mongo = new MongoClient(ServerHost, portNo);
+            com.mongodb.DB db = mongo.getDB(DB);
+            DBCollection table = db.getCollection("accounts");
+            BasicDBObject document = new BasicDBObject();
+            document.put("_id", sData[1]);
+            table.remove(document);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /* ===================================================================
 	 * @author: LAKSHMI BS Description: To read tests data from excel sheet
 	 * Edited by Doai.Tran
 	 =================================================================== */
