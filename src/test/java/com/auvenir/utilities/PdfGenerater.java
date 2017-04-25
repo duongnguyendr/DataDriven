@@ -89,11 +89,11 @@ public class PdfGenerater
 		 }
 		  
 		 Paragraph preface = new Paragraph();
-		 Image AuvenirheaderImg = Image.getInstance(System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\Auvenir.png");
+		 Image AuvenirheaderImg = Image.getInstance(System.getProperty("user.dir")+"\\src\\test\\resources\\images\\Auvenir.png");
 		 AuvenirheaderImg.scaleAbsolute(50f, 20f);
 		 AuvenirheaderImg.setAlignment(Element.ALIGN_TOP);
 		  
-		 Image NxgheaderImg = Image.getInstance(System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\NXGlogo.png");
+		 Image NxgheaderImg = Image.getInstance(System.getProperty("user.dir")+"\\src\\test\\resources\\images\\NXGlogo.png");
 		 NxgheaderImg.scaleAbsolute(70f, 40f);
 		 NxgheaderImg.setAlignment(Element.ALIGN_RIGHT);
 		 /*preface.add(header);
@@ -115,11 +115,11 @@ public class PdfGenerater
 	     addEmptyLine(preface, 1);
 	     document.add(preface);
 	    
-	     Image image2 = Image.getInstance(System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\PieChart.png");
+	     Image image2 = Image.getInstance(System.getProperty("user.dir")+"\\src\\test\\resources\\images\\PieChart.png");
 	     image2.scaleAbsolute(120f, 120f);
 	     //image2.setAlignment(Element.ALIGN_LEFT);
 	     
-	     Image image3 = Image.getInstance(System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\BarChart.png");
+	     Image image3 = Image.getInstance(System.getProperty("user.dir")+"\\src\\test\\resources\\images\\BarChart.png");
 	     image3.scaleAbsolute(120f, 120f);
 
 	     addEmptyLine(preface, 8);
@@ -129,8 +129,8 @@ public class PdfGenerater
 	     table.setWidths(new int[]{1, 1});
 	     table.setSpacingAfter(10);
 	    
-	     table.addCell(createImageCell(System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\PieChart.png"));
-	     table.addCell(createImageCell(System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\BarChart.png"));
+	     table.addCell(createImageCell(System.getProperty("user.dir")+"\\src\\test\\resources\\images\\PieChart.png"));
+	     table.addCell(createImageCell(System.getProperty("user.dir")+"\\src\\test\\resources\\images\\BarChart.png"));
 	     document.add(table);
 	
 	     Paragraph prefaceThree = new Paragraph();
