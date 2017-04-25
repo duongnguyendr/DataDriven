@@ -7,18 +7,15 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 public class AddNewClientPage extends AbstractPage
 {
-	//Logger logger = null;
-	//WebDriver driver = null;
-	private int waitTime = 60;
+	Logger logger = null;
+	WebDriver driver = null;
 	public AddNewClientPage(Logger logger,WebDriver driver)
 	{
 		super(logger,driver);
-		//PageFactory.initElements(driver, this);
-		PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+		PageFactory.initElements(driver, this);
 	}
 		
 	@FindBy(xpath = "//h1[contains(text(),'Add New Client')]")

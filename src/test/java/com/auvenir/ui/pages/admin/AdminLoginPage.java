@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
@@ -23,7 +22,7 @@ public class AdminLoginPage extends AbstractPage {
 	private int waitTime = 30;
 	public AdminLoginPage(Logger logger,WebDriver driver) {
 		super(logger,driver);
-		PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime), this);
+		PageFactory.initElements(driver, this);
 	}
 	
 

@@ -2,6 +2,7 @@ package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 
@@ -16,23 +17,31 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.net.UnknownHostException;
+
 /**
  * Created by doai.tran on 4/21/2017.
  */
-public class CustomerTest extends AbstractAPIService {
-    public static final String restBaseUrl="http://auvenir-qa.com";
+public class ConsumerTest extends AbstractAPIService {
+    public static final String restBaseUrl="http://finicity-qa.com";
+    public static final String database ="serviceFinicity";
+    static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
-    public void getRestBaseUrl(){
+    public void getRestBaseUrl()throws UnknownHostException {
         RestAssured.basePath=restBaseUrl;
-
+        MongoDBService.connectDBServer("34.205.90.145",27017,database);
+        MongoDBService.deleteOwner("Owner1");
+        MongoDBService.insertOwner("Owner1");
+        MongoDBService.deleteConsumer("Consumer1");
+        MongoDBService.insertConsumer("Consumer1");
+        MongoDBService.deleteInstitution("Institution1");
+        MongoDBService.insertInstitution("Institution1");
+        MongoDBService.deleteInstitution("ConsumerAccount1");
+        MongoDBService.insertConsumerAccount("ConsumerAccount1");
+        MongoDBService.deleteAccount("Account1");
+        MongoDBService.insertAccount("Account1");
     }
-    /*
-    // Connect DB
-    @BeforeMethod
-    public void preCondition(){
-
-    }*/
 
     /*
     TestCase1: Get owner from Customer ID
@@ -40,7 +49,8 @@ public class CustomerTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get owner from Customer ID")
     public void getCustomerFromCustomerID() throws Exception {
         try {
-            Response response = given().get(restBaseUrl+"/v1/consumer/8283407");
+            sData = MongoDBService.toReadExcelData("Consumer1", "consumers");
+            Response response = given().get(restBaseUrl+"/v1/consumer/"+sData[4]);
             if (response.getStatusCode() == 200) {
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
             } else {
@@ -49,29 +59,17 @@ public class CustomerTest extends AbstractAPIService {
             String json = response.asString();
             JsonPath jp = new JsonPath(json);
             //  CustomerID
-            assertionEquals(jp.get("consumerID").toString(),"8283407");
-            /*assertEquals("8283407",jp.get("consumerID").toString());
-            getLogger().info("Request successfully with CustomerID: " + jp.get("consumerID").toString());*/
+            assertionEquals(jp.get("consumerID").toString(),sData[4]);
             //  institutionID
-            assertionEquals(jp.get("institutionID").toString(),"58f73f957d63f4745a0175fa");
-            /*assertEquals("58f73f957d63f4745a0175fa",jp.get("institutionID").toString());
-            getLogger().info("Request successfully with institutionID: " + jp.get("institutionID").toString());*/
+            assertionEquals(jp.get("institutionID").toString(),sData[3]);
             //  userID
-            assertionEquals(jp.get("userID").toString(),"58f707a6004d69fc2aeb8e51");
-            /*assertEquals("58f707a6004d69fc2aeb8e51",jp.get("userID").toString());
-            getLogger().info("Request successfully with institutionID: " + jp.get("userID").toString());*/
+            assertionEquals(jp.get("userID").toString(),sData[5]);
             //  status
-            assertionEquals(jp.get("status").toString(),"ACTIVE");
-            /*assertEquals("ACTIVE",jp.get("status").toString());
-            getLogger().info("Request successfully with institutionID: " + jp.get("status").toString());*/
+            assertionEquals(jp.get("status").toString(),sData[7]);
             //  callbackURL
-            assertionEquals(jp.get("callbackURL").toString(),"https://finicity-qa.com/v2");
-            /*assertEquals("https://finicity-qa.com/v2",jp.get("callbackURL").toString());
-            getLogger().info("Request successfully with institutionID: " + jp.get("callbackURL").toString());*/
+            assertionEquals(jp.get("callbackURL").toString(),sData[6]);
             //  dateCreated
-            assertionEquals(jp.get("dateCreated").toString(),"1492599536");
-            /*assertEquals("1492599536",jp.get("dateCreated").toString());
-            getLogger().info("Request successfully with institutionID: " + jp.get("dateCreated").toString());*/
+            assertionEquals(jp.get("dateCreated").toString(),sData[9]);
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with CustomerID", LogAs.PASSED, null);
@@ -100,15 +98,10 @@ public class CustomerTest extends AbstractAPIService {
             }
             String json = response.asString();
             JsonPath jp = new JsonPath(json);
-            //
+
             assertionEquals(jp.get("code").toString(),"api-023");
-            /*assertEquals("api-023",jp.get("code").toString());
-            getLogger().info("Request successfully with code: " + jp.get("code").toString());*/
-            //
             assertionEquals(jp.get("msg").toString(),"Error, missing or invalid consumerID.");
-            /*assertEquals("Error, missing or invalid consumerID.",jp.get("msg").toString());
-            getLogger().info("Request successfully with msg: " + jp.get("msg").toString());*/
-            //
+
         }
         catch(AssertionError e){
                 NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);

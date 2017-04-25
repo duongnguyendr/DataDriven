@@ -7,16 +7,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 public class AuditorActivityPage extends AbstractPage {
 
-	private int waitTime=60;
+	
 	public AuditorActivityPage(Logger logger,WebDriver driver)
 	{
 		super(logger,driver);
-		//PageFactory.initElements(driver, this);
-		PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+		PageFactory.initElements(driver, this);
 	}
 	
 	@FindBy(xpath="//h4[text()='Activity Feed']")
