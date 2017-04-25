@@ -7,8 +7,9 @@
 	 <test name="Regression" preserve-order="true">    
 		<classes>
      		<!--<class name="com.auvenir.rests.api.tests.OwnerTest"/>
-			<class name="com.auvenir.rests.api.tests.CustomerTest"/>-->
-			<class name="com.auvenir.rests.api.tests.AccountTest"/>
+			<class name="com.auvenir.rests.api.tests.ConsumerTest"/>-->
+			<!--<class name="com.auvenir.rests.api.tests.AccountTest"/>-->
+			<class name="com.auvenir.rests.api.tests.TestTrial"/>
 	    </classes>
 	 </test>  	
 </suite>
