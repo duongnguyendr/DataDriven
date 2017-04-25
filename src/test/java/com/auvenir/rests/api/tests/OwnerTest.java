@@ -64,16 +64,16 @@ public class OwnerTest extends AbstractAPIService {
             }
             String json = response.asString();
             JsonPath jp = new JsonPath(json);
-            assertionEquals(jp.get("ownerID").toString(),sData[1]);
-            assertionEquals(jp.get("uid").toString(),sData[2]);
-            assertionEquals(jp.get("status").toString(),sData[3]);
-            assertionEquals(jp.get("dateCreated").toString(),sData[4]);
+            assertionEquals(jp.get("ownerID").toString(),sData[2]);
+            assertionEquals(jp.get("uid").toString(),sData[3]);
+            assertionEquals(jp.get("status").toString(),sData[4]);
+            assertionEquals(jp.get("dateCreated").toString(),sData[5]);
 
             jp.setRoot("consumers");
             Map consumers = jp.get("find {e -> e.institutionID =~ /fe0947e/}");
-            assertionEquals(consumers.get("consumerID").toString(),sData[5]);
-            assertionEquals(consumers.get("institutionID").toString(),sData[6]);
-            assertionEquals(consumers.get("status").toString(),sData[7]);
+            assertionEquals(consumers.get("consumerID").toString(),sData[6]);
+            assertionEquals(consumers.get("institutionID").toString(),sData[7]);
+            assertionEquals(consumers.get("status").toString(),sData[8]);
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with ownerID", LogAs.PASSED, null);

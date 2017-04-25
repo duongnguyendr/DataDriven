@@ -17,13 +17,15 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
+import java.util.Map;
 
 /**
  * Created by doai.tran on 4/21/2017.
  */
 public class AccountTest extends AbstractAPIService {
-    public static final String restBaseUrl="http://finicity-qa.com";
+    public static final String restBaseUrl="http://finicity-qa-331.com";
     public static final String database ="serviceFinicity";
+    static String[] sData = null;
     // Connect DB and reset Data
     @BeforeSuite
     public void prepareData() {
@@ -46,27 +48,46 @@ public class AccountTest extends AbstractAPIService {
         MongoDBService.insertConsumer("Consumer1");
         MongoDBService.deleteInstitution("Institution1");
         MongoDBService.insertInstitution("Institution1");
+        MongoDBService.deleteInstitution("ConsumerAccount1");
+        MongoDBService.insertConsumerAccount("ConsumerAccount1");
+        MongoDBService.deleteAccount("Account1");
+        MongoDBService.insertAccount("Account1");
     }
     /*
-    TestCase1: Get account from Customer ID
+    TestCase1: Get all account with Customer ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase1: Get account from Customer ID")
-    public void GetAccountCustomerID() throws Exception {
+    @Test(priority = 1, enabled = true, description = "TestCase1: Get all account with Customer ID")
+    public void GetAllAccountCustomerID() throws Exception {
         try {
-            Response response = given().get(restBaseUrl+"/v1/institution/58f73f957d63f4745a0175fa?consumerID=8283407");
+            sData = MongoDBService.toReadExcelData("Account1","accounts");
+
+            Response response = given().get(restBaseUrl+"/v1/account/all?consumerID="+sData[6]);
             Assert.assertEquals(response.statusCode(), 200);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
-            assertionEquals(response.then().extract().jsonPath().getString("identifier"), "58f73f957d63f4745a0175fa");
-            assertionEquals(response.then().extract().jsonPath().getString("name"),"FinBank-local");
-            assertionEquals(response.then().extract().jsonPath().getString("typeDescription"),"bank free for testing");
-            assertionEquals(response.then().extract().jsonPath().getString("urlHomeApp"),"none");
-            assertionEquals(response.then().extract().jsonPath().getString("urlLogonApp"),"none");
-            assertionEquals(response.then().extract().jsonPath().getString("urlProductApp"),"none");
-            assertionEquals(response.then().extract().jsonPath().getString("phone"),"064-984963856");
-            assertionEquals(response.then().extract().jsonPath().getString("currency"),"none");
-            assertionEquals(response.then().extract().jsonPath().getString("email"),"none");
-            assertionEquals(response.then().extract().jsonPath().getString("specialText"),"none");
-            assertionEquals(response.then().extract().jsonPath().getString("address"),"none");
+            String json = response.asString();
+            JsonPath jp = new JsonPath(json);
+            jp.setRoot("result");
+            Map result = jp.get("find {e -> e.finCustomerID =~ /8283407/}");
+            assertionEquals(result.get("_id").toString(),sData[1]);
+            assertionEquals(result.get("ownerID").toString(),sData[2]);
+            assertionEquals(result.get("institutionID").toString(),sData[3]);
+            assertionEquals(result.get("integration").toString(),sData[4]);
+            assertionEquals(result.get("dateCreated").toString(),sData[5]);
+            assertionEquals(result.get("finID").toString(),sData[6]);
+            assertionEquals(result.get("finCustomerID").toString(),sData[7]);
+            assertionEquals(result.get("finInstitutionID").toString(),sData[8]);
+            assertionEquals(result.get("finLoginID").toString(),sData[9]);
+            assertionEquals(result.get("number").toString(),sData[10]);
+            assertionEquals(result.get("name").toString(),sData[11]);
+            assertionEquals(result.get("status").toString(),sData[12]);
+            assertionEquals(result.get("type").toString(),sData[13]);
+            assertionEquals(result.get("balanceDate").toString(),sData[15]);
+            assertionEquals(result.get("currency").toString(),sData[16]);
+            assertionEquals(result.get("finDateCreated").toString(),sData[17]);
+            assertionEquals(result.get("lastTransactionDate").toString(),sData[18]);
+            assertionEquals(result.get("raw").toString(),sData[19]);
+            assertionEquals(result.get("position").toString(),sData[20]);
+            assertionEquals(result.get("order").toString(),sData[21]);
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
@@ -80,14 +101,84 @@ public class AccountTest extends AbstractAPIService {
         }
     }
     /*
-    TestCase2: Get account from out Customer ID
+    TestCase2: Get account from Customer ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase2: Get account from Out Customer ID")
-    public void GetAccountOutCustomerID() throws Exception {
-        try{
-            Response response = given().get(restBaseUrl+"/v1/institution/58f73f957d63f4745a0175fa");
-            Assert.assertEquals(response.statusCode(), 401);
+    @Test(priority = 1, enabled = true, description = "TestCase2: Get account from Customer ID")
+    public void GetAccountCustomerID() throws Exception {
+        try {
+            sData = MongoDBService.toReadExcelData("Account1","accounts");
+            Response response = given().get(restBaseUrl+"/v1/account/"+sData[1]+"?consumerID="+sData[6]);
+            Assert.assertEquals(response.statusCode(), 200);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
+            String json = response.asString();
+            JsonPath jp = new JsonPath(json);
+            jp.setRoot("result");
+            Map result = jp.get("find {e -> e.finCustomerID =~ /8283407/}");
+            assertionEquals(result.get("_id").toString(),sData[1]);
+            assertionEquals(result.get("ownerID").toString(),sData[2]);
+            assertionEquals(result.get("institutionID").toString(),sData[3]);
+            assertionEquals(result.get("integration").toString(),sData[4]);
+            assertionEquals(result.get("dateCreated").toString(),sData[5]);
+            assertionEquals(result.get("finID").toString(),sData[6]);
+            assertionEquals(result.get("finCustomerID").toString(),sData[7]);
+            assertionEquals(result.get("finInstitutionID").toString(),sData[8]);
+            assertionEquals(result.get("finLoginID").toString(),sData[9]);
+            assertionEquals(result.get("number").toString(),sData[10]);
+            assertionEquals(result.get("name").toString(),sData[11]);
+            assertionEquals(result.get("status").toString(),sData[12]);
+            assertionEquals(result.get("type").toString(),sData[13]);
+            assertionEquals(result.get("balanceDate").toString(),sData[15]);
+            assertionEquals(result.get("currency").toString(),sData[16]);
+            assertionEquals(result.get("finDateCreated").toString(),sData[17]);
+            assertionEquals(result.get("lastTransactionDate").toString(),sData[18]);
+            assertionEquals(result.get("raw").toString(),sData[19]);
+            assertionEquals(result.get("position").toString(),sData[20]);
+            assertionEquals(result.get("order").toString(),sData[21]);
+            //assertionEquals(response.then().extract().jsonPath().getString("_id"),sData[1] );
+            //assertionEquals(response.then().extract().jsonPath().getString("ownerID"),sData[2]);
+            //assertionEquals(response.then().extract().jsonPath().getString("institutionID"),sData[3]);
+            //assertionEquals(response.then().extract().jsonPath().getString("integration"),sData[4]);
+            //assertionEquals(response.then().extract().jsonPath().getString("dateCreated"),sData[5]);
+            //assertionEquals(response.then().extract().jsonPath().getString("finID"),sData[6]);
+            //assertionEquals(response.then().extract().jsonPath().getString("finCustomerID"),sData[7]);
+            //assertionEquals(response.then().extract().jsonPath().getString("finInstitutionID"),sData[8]);
+            //assertionEquals(response.then().extract().jsonPath().getString("finLoginID"),sData[9]);
+            //assertionEquals(response.then().extract().jsonPath().getString("number"),sData[10]);
+            //assertionEquals(response.then().extract().jsonPath().getString("name"),sData[12]);
+            //assertionEquals(response.then().extract().jsonPath().getString("status"),sData[13]);
+            //assertionEquals(response.then().extract().jsonPath().getString("type"),sData[14]);
+            //assertionEquals(response.then().extract().jsonPath().getString("balanceDate"),sData[17]);
+            //assertionEquals(response.then().extract().jsonPath().getString("currency"),sData[18]);
+            /*assertionEquals(response.then().extract().jsonPath().getString("finDateCreated"),sData[19]);
+            assertionEquals(response.then().extract().jsonPath().getString("lastTransactionDate"),sData[20]);
+            assertionEquals(response.then().extract().jsonPath().getString("raw"),sData[19]);
+            assertionEquals(response.then().extract().jsonPath().getString("position"),sData[20]);
+            assertionEquals(response.then().extract().jsonPath().getString("order"),sData[21]);*/
+
+            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            NXGReports.addStep("Get account customer", LogAs.PASSED, null);
+        }catch (AssertionError e) {
+            NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
+            throw e;
+        }
+        catch (Exception e){
+            NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
+            throw e;
+        }
+    }
+    /*
+    TestCase2: Get account with wrong Customer ID
+     */
+    @Test(priority = 1, enabled = true, description = "TestCase2: Get account with wromg Customer ID")
+    public void GetAccountWrongCustomerID() throws Exception {
+        try{
+            sData = MongoDBService.toReadExcelData("Account1", "accounts");
+            Response response = given().get(restBaseUrl+"/v1/account/"+sData[1]+"?consumerID=12345");
+            System.out.println(restBaseUrl+"/v1/account/"+sData[1]+"?consumerID=12345");
+            Assert.assertEquals(response.statusCode(), 400);
+            NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
+            assertionEquals(response.then().extract().jsonPath().getString("code"),"api-024");
+            assertionEquals(response.then().extract().jsonPath().getString("msg"),"Error, missing or invalid params.");
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account from out Customer ID", LogAs.PASSED, null);
@@ -101,63 +192,21 @@ public class AccountTest extends AbstractAPIService {
         }
     }
     /*
-    TestCase3: Get account from wrong Customer ID
+    TestCase3: Get account from wrong account ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase3: Get account from Out Customer ID")
-    public void GetAccountWrongCustomerID() throws Exception {
-        try{
-            Response response = given().get(restBaseUrl+"/v1/institution/58f73f957d63f4745a0175fa?consumerID=12345");
+    @Test(priority = 1, enabled = true, description = "TestCase3: Get account with wromg account ID")
+    public void GetAccountWrongAccountID() throws Exception {
+        try {
+            sData = MongoDBService.toReadExcelData("Account1", "accounts");
+            System.out.println(restBaseUrl+"/v1/account/aaaaaaa"+"?consumerID="+sData[6]);
+            Response response = given().get(restBaseUrl+"/v1/account/aaaaaaa"+"?consumerID="+sData[6]);
             Assert.assertEquals(response.statusCode(), 400);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
-            assertionEquals(response.then().extract().jsonPath().getString("code"),"api-005");
-            assertionEquals(response.then().extract().jsonPath().getString("msg"),"Error, missing or invalid CustomerID.");
+            assertionEquals(response.then().extract().jsonPath().getString("code"),"api-024");
+            assertionEquals(response.then().extract().jsonPath().getString("msg"),"Error, missing or invalid params.");
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
-            NXGReports.addStep("Get account with wrong Customer ID", LogAs.PASSED, null);
-        }catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw e;
-        }
-        catch (Exception e){
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw e;
-        }
-    }
-    /*
-    TestCase4: Get account from wrong institutionID
-     */
-    @Test(priority = 1, enabled = true, description = "TestCase4: Get account from Out Customer ID")
-    public void GetAccountWronginstitutionID() throws Exception {
-        try{
-            Response response = given().get(restBaseUrl+"/v1/institution/58f73f957d63f474340175fa?consumerID=8283407");
-            Assert.assertEquals(response.statusCode(), 400);
-            NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
-            assertionEquals(response.then().extract().jsonPath().getString("code"),"api-005");
-            assertionEquals(response.then().extract().jsonPath().getString("msg"),"Error, missing or invalid institution ID.");
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
-            NXGReports.addStep("Get account with wrong Customer ID", LogAs.PASSED, null);
-        }catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw e;
-        }
-        catch (Exception e){
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw e;
-        }
-    }
-    /*
-    TestCase5: Get account from wrong institutionIDformat
-     */
-    @Test(priority = 1, enabled = true, description = "TestCase4: Get account from Out Customer ID")
-    public void GetAccountWronginstitutionIDFormat() throws Exception {
-        try{
-            Response response = given().get(restBaseUrl+"/v1/institution/58f73f957d63f4745260175fa?consumerID=8283407");
-            Assert.assertEquals(response.statusCode(), 404);
-            NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
-            /*assertionEquals(response.getBody().toString(),"Cannot GET /v1/institution/58f73f957d63f4745260175fa?consumerID=8283407");
-            System.out.println("----------- "+ response.getBody().toString())*/;
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
-            NXGReports.addStep("Get account with wrong institutionIDformat", LogAs.PASSED, null);
+            NXGReports.addStep("Get account from out Customer ID", LogAs.PASSED, null);
         }catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
             throw e;
@@ -168,4 +217,5 @@ public class AccountTest extends AbstractAPIService {
         }
     }
 }
+
 
