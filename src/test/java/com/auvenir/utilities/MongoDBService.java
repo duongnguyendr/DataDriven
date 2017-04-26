@@ -258,7 +258,6 @@ public class MongoDBService {
             com.mongodb.DB db = mongo.getDB(DB);
             DBCollection table = db.getCollection("accounts");
             BasicDBObject document = new BasicDBObject();
-
             document.put("_id", new ObjectId(sData[1]));
             document.put("ownerID", new ObjectId(sData[2]));
             document.put("institutionID", sData[3]);
@@ -294,6 +293,87 @@ public class MongoDBService {
             MongoClient mongo = new MongoClient(ServerHost, portNo);
             com.mongodb.DB db = mongo.getDB(DB);
             DBCollection table = db.getCollection("accounts");
+            BasicDBObject document = new BasicDBObject();
+            document.put("_id", sData[1]);
+            table.remove(document);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /* ===================================================================
+    Created by: DoaiTran    - 26-Apr-2017 -
+    In order to insert a new AuthSession to DB server.
+     =================================================================== */
+    public static void insertAuthSession(String valueId) throws UnknownHostException {
+        try {
+            sData = toReadExcelData(valueId, "authSessions");
+            new MongoDBService(ServerHost, portNo, DB);
+            MongoClient mongo = new MongoClient(ServerHost, portNo);
+            com.mongodb.DB db = mongo.getDB(DB);
+            DBCollection table = db.getCollection("authSessions");
+            BasicDBObject document = new BasicDBObject();
+            document.put("_id", new ObjectId(sData[1]));
+            document.put("ownerID", new ObjectId(sData[2]));
+            document.put("consumerID", sData[3]);
+            document.put("dateCreated", sData[4]);
+            document.put("expires", sData[5]);
+            document.put("state", sData[6]);
+            document.put("previousState", sData[7]);
+            document.put("socketID", sData[8]);
+            document.put("provider", sData[9]);
+            document.put("finCustomerID", sData[10]);
+            document.put("finLoginID", sData[11]);
+            document.put("uid", sData[12]);
+            document.put("userID", sData[13]);
+            document.put("callbackURL", sData[14]);
+            document.put("ownerUID", sData[15]);
+            document.put("consumerUID", sData[16]);
+            // loginForm
+
+            List<DBObject> arrayLoginForm = new ArrayList<DBObject>();
+            BasicDBObject documentLoginForm = new BasicDBObject();
+            documentLoginForm.put("dateCreated", sData[17]);
+            documentLoginForm.put("formDetails", sData[18]);
+            arrayLoginForm.add(documentLoginForm);
+            document.put("loginForm", arrayLoginForm);
+
+            // mfa
+            List<DBObject> arrayMfa = new ArrayList<DBObject>();
+            BasicDBObject documentMfa = new BasicDBObject();
+            documentMfa.put("dateCreated", sData[19]);
+            documentMfa.put("details", sData[20]);
+            arrayMfa.add(documentMfa);
+            document.put("mfa", arrayMfa);
+
+            // institution
+
+            List<DBObject> arrayInstitution = new ArrayList<DBObject>();
+            BasicDBObject documentInstitution = new BasicDBObject();
+            documentInstitution.put("dateCreated", sData[21]);
+            documentInstitution.put("finID", sData[22]);
+            documentInstitution.put("name", sData[23]);
+            documentInstitution.put("authorized", sData[24]);
+            documentInstitution.put("rawSource", sData[25]);
+            arrayInstitution.add(documentInstitution);
+            document.put("institution", arrayInstitution);
+
+            document.put("accounts",sData[26]);
+            table.insert(document);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /* ===================================================================
+    Created by: Doai.Tran    - 26-Apr-2017 -
+    In order to delete a AuthSession to DB server.
+     =================================================================== */
+    public static void deleteAuthSession(String valueId)throws UnknownHostException{
+        try {
+            sData = toReadExcelData(valueId, "authSessions");
+            new MongoDBService(ServerHost, portNo, DB);
+            MongoClient mongo = new MongoClient(ServerHost, portNo);
+            com.mongodb.DB db = mongo.getDB(DB);
+            DBCollection table = db.getCollection("authSessions");
             BasicDBObject document = new BasicDBObject();
             document.put("_id", sData[1]);
             table.remove(document);
