@@ -13,7 +13,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
 
-public class GmailLoginService extends AbstractService {
+public class GmailLoginService extends AbstractRefactorService {
 	Logger logger = Logger.getLogger(GmailLoginService.class);
 	GmailPage gmailLoginPo = null;
 	public void gmailLogin() throws Exception {

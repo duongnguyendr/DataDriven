@@ -1,8 +1,8 @@
 package com.auvenir.ui.tests;
 
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.CareerPage;
-import com.auvenir.ui.services.AbstractService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.auvenir.ui.pages.AuvenirPage;
@@ -13,7 +13,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 //import org.testng.log4testng.Logger;
 
 
-public class CareerTest extends AbstractService
+public class CareerTest extends AbstractRefactorService
 {
 	//Logger logger = Logger.getLogger(CareerTest.class);
 	CareerPage careerPage =null;
@@ -27,7 +27,7 @@ public class CareerTest extends AbstractService
 	@Test(priority=1,enabled=true, description="To Verify the display of Elements in Career Page")
 	public void verifyCareerPage() throws Exception
 	{
-        AbstractService.sStatusCnt=0;
+        AbstractRefactorService.sStatusCnt=0;
 		careerPage =new CareerPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try
@@ -51,9 +51,9 @@ public class CareerTest extends AbstractService
 			//auvenirPage.toValidate(careerPage.getEleSeniorDevOpsLnk(),"Senior Dev Ops Link","Displayed");
 			auvenirPage.verifyFooter();
 			getDriver().close();
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
-		//	driver.switchTo().window(AbstractService.newWin).close();
+		//	driver.switchTo().window(AbstractRefactorService.newWin).close();
 			
 		}
 		catch (AssertionError e)

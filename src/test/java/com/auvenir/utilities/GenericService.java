@@ -157,7 +157,7 @@ public class GenericService {
 		plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
 		try {
 			ChartUtilities.saveChartAsJPEG(
-					new File(System.getProperty("user.dir") + "\\src\\tests\\resources\\images\\PieChart.png"), piechart,
+					new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart.png"), piechart,
 					400, 400);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -209,7 +209,7 @@ public class GenericService {
 
 		try {
 			ChartUtilities.saveChartAsJPEG(
-					new File(System.getProperty("user.dir") + "\\src\\tests\\resources\\images\\BarChart.png"), chart,
+					new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart.png"), chart,
 					400, 400);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -263,7 +263,7 @@ public class GenericService {
 			textPart.setContent(message, "text/html");
 			MimeBodyPart messageBodyPart = new MimeBodyPart();
 			DataSource fds = new FileDataSource(
-					System.getProperty("user.dir") + "\\src\\tests\\resources\\images\\PieChart.png");
+					System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart.png");
 			messageBodyPart.setDataHandler(new DataHandler(fds));
 			messageBodyPart.setHeader("Content-ID", "<image>");
 			multipart.addBodyPart(textPart);

@@ -1,7 +1,7 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
-import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
@@ -65,7 +65,7 @@ public class InstitutionTest extends AbstractAPIService {
             assertionEquals(response.then().extract().jsonPath().getString("address"),sData[14]);
             //Verify Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[16]));
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
         }catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -87,7 +87,7 @@ public class InstitutionTest extends AbstractAPIService {
             Assert.assertEquals(response.statusCode(), 401);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
 
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account from out Customer ID", LogAs.PASSED, null);
         }catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -111,7 +111,7 @@ public class InstitutionTest extends AbstractAPIService {
             assertionEquals(response.then().extract().jsonPath().getString("code"),"api-024");
             assertionEquals(response.then().extract().jsonPath().getString("msg"),"Error, missing or invalid params.");
 
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account with wrong Customer ID", LogAs.PASSED, null);
         }catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -133,7 +133,7 @@ public class InstitutionTest extends AbstractAPIService {
             NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
             assertionEquals(response.then().extract().jsonPath().getString("code"),"api-024");
             assertionEquals(response.then().extract().jsonPath().getString("msg"),"Error, missing or invalid params.");
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account with wrong Customer ID", LogAs.PASSED, null);
         }catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -155,7 +155,7 @@ public class InstitutionTest extends AbstractAPIService {
             NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
             /*assertionEquals(response.getBody().toString(),"Cannot GET /v1/institution/58f73f957d63f4745260175fa?consumerID=8283407");
             System.out.println("----------- "+ response.getBody().toString())*/;
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account with wrong institutionIDformat", LogAs.PASSED, null);
         }catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);

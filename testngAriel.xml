@@ -6,6 +6,8 @@
 	 </listeners>
 	 <test name="Regression" preserve-order="true">    
 		<classes>
+			<!--
+			<class name="com.auvenir.ui.tests."/>
      	<class name="com.auvenir.ui.tests.SmokeTest"/>
 		<class name="com.auvenir.ui.tests.AdminTest"/>
 		<class name="com.auvenir.ui.tests.SupportTest"/>
@@ -13,7 +15,7 @@
     	<class name="com.auvenir.ui.tests.AuditorTest"/>
     	<class name="com.auvenir.ui.tests.ClientTest"/>
 
-		<!--
+
 		<class name="com.auvenir.functionaltestsmokeTest"/>
 		<class nacom.auvenir.ui.testsests/>
 		<class name="com.auvenir.testst"/>

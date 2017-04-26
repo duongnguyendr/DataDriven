@@ -1,12 +1,11 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
-import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 
-import static com.auvenir.rests.api.tests.AccountTest.restBaseUrl;
 import static com.jayway.restassured.RestAssured.given;
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -74,7 +73,7 @@ public class ConsumerTest extends AbstractAPIService {
             //Verify Json Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[11]));
 
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with CustomerID", LogAs.PASSED, null);
         }catch (AssertionError e)
             {
@@ -131,7 +130,7 @@ public class ConsumerTest extends AbstractAPIService {
             }
 
             //
-            Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with WronginstitutionID", LogAs.PASSED, null);
         }catch (AssertionError e)
         {
