@@ -11,7 +11,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 
 
-public class AuvenirLoginService extends AbstractService {
+public class AuvenirLoginService extends AbstractRefactorService {
 
 	//Getting the URl by passing Dev Auth ID and Authentication key
 	public void setURL(String sEMAILID, String sAUTHID, String sLOGINURL, String sDevAuthID, String sApiKey) throws Exception

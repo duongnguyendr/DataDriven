@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.client.ClientOnBoardingPage;
 import com.auvenir.ui.pages.CreateNewAuditPage;
@@ -14,7 +15,6 @@ import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.pages.auditor.AddNewClientPage;
 import com.auvenir.ui.pages.auditor.AuditorOnBoardingPage;
 import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.ui.services.AbstractService;
 import com.jayway.restassured.response.Response;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -36,7 +36,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 
 import static com.jayway.restassured.RestAssured.given;
 
-public class SmokeTest extends AbstractService {
+public class SmokeTest extends AbstractRefactorService {
 	//Logger logger = Logger.getLogger(SmokeTest.class);
 
 	CreateNewAuditPage createNewAuditPage = null;
@@ -287,7 +287,7 @@ public class SmokeTest extends AbstractService {
 	{
         getLogger().info("Verify Auditor onboarding page.");
         String sData[] = null;
-		AbstractService.sStatusCnt=0;
+		AbstractRefactorService.sStatusCnt=0;
 		auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		clientOnBoardingPage =new ClientOnBoardingPage(getLogger(),getDriver());
@@ -461,7 +461,7 @@ public class SmokeTest extends AbstractService {
 			getLogger().info("wait for new page is loaded.");
 			visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(),"Create New Button",waittime);
 			auvenirPage.toValidate(auditorEngagementPage.getEleCreateNewBtn(),"'Create New' Button","Displayed");
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e) 
@@ -843,7 +843,7 @@ public class SmokeTest extends AbstractService {
 			sWebDriverWait = new WebDriverWait(getDriver(), waitTime);
 			sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
 		} catch (Exception e) {
-			AbstractService.sStatusCnt++;
+			AbstractRefactorService.sStatusCnt++;
 			NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
 		}
 	}

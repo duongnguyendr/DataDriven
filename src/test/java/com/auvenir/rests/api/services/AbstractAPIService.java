@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
@@ -117,7 +118,7 @@ public class AbstractAPIService {
             sWebDriverWait = new WebDriverWait(driver, waitTime);
             sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
+            AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
         }
     }

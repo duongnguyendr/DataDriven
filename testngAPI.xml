@@ -6,10 +6,10 @@
 	 </listeners>
 	 <test name="Regression" preserve-order="true">    
 		<classes>
-     		<!--<class name="com.auvenir.rests.api.tests.OwnerTest"/>
+     		<class name="com.auvenir.rests.api.tests.OwnerTest"/>
 			<class name="com.auvenir.rests.api.tests.ConsumerTest"/>
 			<class name="com.auvenir.rests.api.tests.AccountTest"/>
-			<class name="com.auvenir.rests.api.tests.InstitutionTest"/>-->
+			<class name="com.auvenir.rests.api.tests.InstitutionTest"/>
 			<class name="com.auvenir.rests.api.tests.AuthSessionTest"/>
 	    </classes>
 	 </test>  	

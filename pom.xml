@@ -30,7 +30,7 @@
                 <inherited>true</inherited>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>testngAriel.xml</suiteXmlFile>
+                        <suiteXmlFile>testngLocal.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>

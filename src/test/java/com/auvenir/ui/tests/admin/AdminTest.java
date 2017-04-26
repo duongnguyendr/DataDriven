@@ -1,6 +1,6 @@
-package com.auvenir.ui.tests;
+package com.auvenir.ui.tests.admin;
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
 import org.openqa.selenium.Keys;
@@ -14,7 +14,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 //import org.testng.log4testng.Logger;
 
 
-public class AdminTest extends AbstractService {
+public class AdminTest extends AbstractRefactorService {
 	//Logger logger =Logger.getLogger(AdminTest.class);
 	AdminLoginPage adminLoginPage =null;
 	AuvenirPage auvenirPage =null;
@@ -38,7 +38,7 @@ public class AdminTest extends AbstractService {
 	{	adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		actions = new Actions(getDriver());
-		AbstractService.sStatusCnt=0;
+		AbstractRefactorService.sStatusCnt=0;
 		try
 		{
 			testCaseId = "VerifyAdminClientEntry";
@@ -84,7 +84,7 @@ public class AdminTest extends AbstractService {
 			Thread.sleep(5000);
 			
 			//adminLoginPage.getEleClientEntryValidate(sData[1], sData[2], sData[3], sData[4]);
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e)
@@ -105,7 +105,7 @@ public class AdminTest extends AbstractService {
 	 */
 	@Test(priority=2,enabled=true, description="To Verify the display of Elements in Messages screen")
 	public void verifyMessagesContent() throws Exception
-	{	AbstractService.sStatusCnt=0;
+	{	AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		actions = new Actions(getDriver());
@@ -145,7 +145,7 @@ public class AdminTest extends AbstractService {
 			auvenirPage.toValidate(adminLoginPage.getEleMailCloseIcn(), "Mail Close - Icon","Displayed");
 			adminLoginPage.getEleMailCloseIcn().click();
 			
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}catch (AssertionError e)
 		{
@@ -165,7 +165,7 @@ public class AdminTest extends AbstractService {
 	 */
 	@Test(priority=3,enabled=true, description="To Verify the display of Elements in Notification screen")
 	public void verifyAlertContent() throws Exception
-	{	AbstractService.sStatusCnt=0;
+	{	AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 
@@ -185,7 +185,7 @@ public class AdminTest extends AbstractService {
 			auvenirPage.toValidate(adminLoginPage.getEleNotificationsIcn(), "Notification - Icon","Displayed");
 			auvenirPage.toValidate(adminLoginPage.getEleYouDontHaveNotificationTxt(), "My Messages - Text","Displayed");
 			auvenirPage.toValidate(adminLoginPage.getEleClickHereLnk(), "View Messages - Button","Displayed");
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}catch (AssertionError e)
 		{
@@ -204,7 +204,7 @@ public class AdminTest extends AbstractService {
 	 */
 	@Test(priority=4,enabled=true, description="To Verify the display of Elements in Admin Account Settings and Deactivate screen")
 	public void verifyAdminSettingsAccContent() throws Exception
-	{	AbstractService.sStatusCnt=0;
+	{	AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try{
@@ -249,7 +249,7 @@ public class AdminTest extends AbstractService {
 			auvenirPage.toValidate(adminLoginPage.getEleSettingsTxt(), "Settings  - Title","Displayed");
 			auvenirPage.toValidate(adminLoginPage.getEleAccountLnk(), "Account  - Link","Displayed");
 			auvenirPage.toValidate(adminLoginPage.getEleDevicesLnk(), "Devices  - Link","Displayed");*/
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 			}
 		catch (AssertionError e)
@@ -270,7 +270,7 @@ public class AdminTest extends AbstractService {
 	@Test(priority=5,enabled=true, description="To Verify the display of Elements in Admin Settings Devices Registration screen")
 	public void verifyAdminSettingsDevicesContentRegister() throws Exception
 	{
-		AbstractService.sStatusCnt=0;
+		AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try{
@@ -305,7 +305,7 @@ public class AdminTest extends AbstractService {
 			auvenirPage.toValidate(adminLoginPage.getEleGetItGooglePlayImg(), "Google Play - Image","Displayed");
 			auvenirPage.toValidate(adminLoginPage.getElePopupCloseIcn(), "Register Device Close - Icn","Displayed");
 			
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}catch (AssertionError e)
 		{
@@ -325,7 +325,7 @@ public class AdminTest extends AbstractService {
 	@Test(priority=6,enabled=true, description="To Verify the display of Elements in Admin Settings Devices Disconnect screen")
 	public void verifyAdminSettingsDevicesContentDisconnect() throws Exception
 	{
-		AbstractService.sStatusCnt=0;
+		AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try{
@@ -354,7 +354,7 @@ public class AdminTest extends AbstractService {
 			auvenirPage.toValidate(adminLoginPage.getEleCancelDisconnectBtn(), "Cancel - Button","Displayed");
 			auvenirPage.toValidate(adminLoginPage.getEleDisconnectBtn(), "Disconnect - Button","Displayed");
 			auvenirPage.toValidate(adminLoginPage.getEleCloseIcn(), "Disconnect this device Close - Icon","Displayed");
-			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}catch (AssertionError e)
 		{
@@ -373,7 +373,7 @@ public class AdminTest extends AbstractService {
 	 */
 	@Test(priority=7,enabled=true, description="To Verify the display of Elements in Admin Settings Devices Disconnect screen")
 	public void verifyAdminTOS() throws Exception
-	{	AbstractService.sStatusCnt=0;
+	{	AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try{
@@ -414,7 +414,7 @@ public class AdminTest extends AbstractService {
 	 */
 	@Test(priority=8,enabled=true, description="To Verify the display of Elements in Admin Settings Devices Disconnect screen")
 	public void verifyAdminPrivacyPage() throws Exception
-	{	AbstractService.sStatusCnt=0;
+	{	AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try{
@@ -435,7 +435,7 @@ public class AdminTest extends AbstractService {
 			auvenirPage.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link","Displayed");
 			auvenirPage.toValidate(auvenirPage.getElePrivacyTOSLnk(), "Privacy - TOS - Link","Displayed");
 			auvenirPage.toValidate(auvenirPage.getElePrivacyCookiesLnk(), "Privacy Cookies - Link","Displayed");
-			//driver.switchTo().window(AbstractService.newWin).close();
+			//driver.switchTo().window(AbstractRefactorService.newWin).close();
 			
 		}catch (AssertionError e)
 		{
@@ -457,7 +457,7 @@ public class AdminTest extends AbstractService {
 	public void verifyAdminCookieNoticePage() throws Exception
 	{
 
-		AbstractService.sStatusCnt=0;
+		AbstractRefactorService.sStatusCnt=0;
 		adminLoginPage =new AdminLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try{
@@ -476,7 +476,7 @@ public class AdminTest extends AbstractService {
 			auvenirPage.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link","Displayed");
 			auvenirPage.toValidate(auvenirPage.getElePrivacyStatementLnk(), "Privacy Statement - Link","Displayed");
 			auvenirPage.toValidate(auvenirPage.getEleAboutCookiesLnk(), "About Cookies - Link","Displayed");
-			//driver.switchTo().window(AbstractService.newWin).close();
+			//driver.switchTo().window(AbstractRefactorService.newWin).close();
 		}catch (AssertionError e)
 		{
 			NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));

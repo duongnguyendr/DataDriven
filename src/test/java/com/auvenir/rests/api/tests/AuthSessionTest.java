@@ -1,6 +1,7 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
@@ -72,7 +73,7 @@ public class AuthSessionTest extends AbstractAPIService {
             this.assertionEquals(jp.get("dateCreated").toString(), sData[4]);
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[27]));
             NXGReports.addStep("Correct Schema of Json", LogAs.PASSED, null);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with AuthSessionTest", LogAs.PASSED, null);
         } catch (AssertionError var4) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -104,7 +105,7 @@ public class AuthSessionTest extends AbstractAPIService {
             JsonPath jp = new JsonPath(json);
             this.assertionEquals(jp.get("code").toString(), "api-001");
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
         } catch (AssertionError var4) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -136,7 +137,7 @@ public class AuthSessionTest extends AbstractAPIService {
             JsonPath jp = new JsonPath(json);
             this.assertionEquals(jp.get("code").toString(), "api-001");
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
         } catch (AssertionError var4) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);

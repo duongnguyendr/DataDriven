@@ -3,7 +3,7 @@ package com.auvenir.ui.pages;
 import java.util.concurrent.TimeUnit;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.AbstractRefactorService;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -533,7 +533,7 @@ public class AuvenirPage extends AbstractPage
 			} 
 		    catch (Exception e) 
 		    {
-		    	AbstractService.sStatusCnt++;
+		    	AbstractRefactorService.sStatusCnt++;
 		    	NXGReports.addStep(sExpectedText+ " is not displayed", LogAs.FAILED, null);
 		    }
 			
@@ -546,7 +546,7 @@ public class AuvenirPage extends AbstractPage
 		    } 
 		    catch (Exception e) 
 		    {
-		    	AbstractService.sStatusCnt++;
+		    	AbstractRefactorService.sStatusCnt++;
 		    	NXGReports.addStep(sExpectedText+ " is not enabled", LogAs.FAILED, null);
 		    }
 			
@@ -559,7 +559,7 @@ public class AuvenirPage extends AbstractPage
 			} 
 			catch (Exception e) 
 			{
-				AbstractService.sStatusCnt++;
+				AbstractRefactorService.sStatusCnt++;
 			   	NXGReports.addStep(sExpectedText+ " is not selected", LogAs.FAILED, null);
 			}
 			
@@ -571,7 +571,7 @@ public class AuvenirPage extends AbstractPage
 			} 
 			catch (Exception e) 
 			{
-				AbstractService.sStatusCnt++;
+				AbstractRefactorService.sStatusCnt++;
 			   	NXGReports.addStep(sExpectedText+ " text is displayed", LogAs.FAILED, null);
 			}						
 			break;

@@ -9,8 +9,8 @@
  	 <test name="Regression" preserve-order="true">    
  	     
 		<classes>
-		   <class name="com.auvenir.ui.tests.functional.SmokeTest"/>
-		    <class name="com.auvenir.ui.tests.AdminTest"/>
+		   <class name="com.auvenir.ui.tests.SmokeTest"/>
+		    <class name="com.auvenir.ui.tests.admin.AdminTest"/>
 		 	<class name="com.auvenir.ui.tests.SupportTest"/>
     	 	<class name="com.auvenir.ui.tests.CareerTest"/>
  			
