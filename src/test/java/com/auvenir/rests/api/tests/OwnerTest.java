@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import com.jayway.restassured.path.json.JsonPath;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -51,7 +52,7 @@ public class OwnerTest extends AbstractAPIService {
     /*
     TestCase1: Get owner from owner ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase 1")
+    @Test(priority = 1, enabled = true, description = "Get owner with owner ID")
     public void getOwnerFromOwnerID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Owner1", "owners");
@@ -74,6 +75,8 @@ public class OwnerTest extends AbstractAPIService {
             assertionEquals(consumers.get("consumerID").toString(),sData[6]);
             assertionEquals(consumers.get("institutionID").toString(),sData[7]);
             assertionEquals(consumers.get("status").toString(),sData[8]);
+            //Verify Schema
+            response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[9]));
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with ownerID", LogAs.PASSED, null);
@@ -89,9 +92,9 @@ public class OwnerTest extends AbstractAPIService {
         }
     }
     /*
-    TestCase2: Send request with invalid owner
+    TestCase2: Get Owner with invalid ownerid
      */
-    @Test(priority = 2, enabled = true, description = "TestCase2: Send request with invalid owner")
+    @Test(priority = 2, enabled = true, description = "Get Owner with invalid ownerid")
     public void getOwnerFromInvalidOwnerID() throws Exception {
         try {
             Response response = given().get(restBaseUrl+"/v1/owner/12345");
@@ -119,9 +122,9 @@ public class OwnerTest extends AbstractAPIService {
         }
     }
     /*
-    TestCase3: Send request with wrong institutionID format
+    TestCase3: Get Owner with wrong institutionID format
     */
-    @Test(priority = 3, enabled = true, description = "TestCase3: Send request with wrong institutionID format")
+    @Test(priority = 3, enabled = true, description = "Get Owner with wrong institutionID format")
     public void getOwnerWronginstitutionID() throws Exception {
         try{
             Response response = given().get(restBaseUrl+"/v1/owner/");
