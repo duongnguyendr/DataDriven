@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import com.jayway.restassured.path.json.JsonPath;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
@@ -56,7 +57,7 @@ public class AccountTest extends AbstractAPIService {
     /*
     TestCase1: Get all account with Customer ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase1: Get all account with Customer ID")
+    @Test(priority = 1, enabled = true, description = "Get all account with Customer ID")
     public void GetAllAccountCustomerID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Account1","accounts");
@@ -88,6 +89,8 @@ public class AccountTest extends AbstractAPIService {
             assertionEquals(result.get("raw").toString(),sData[19]);
             assertionEquals(result.get("position").toString(),sData[20]);
             assertionEquals(result.get("order").toString(),sData[21]);
+            //Verify Schema
+            response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[22]));
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
@@ -103,7 +106,7 @@ public class AccountTest extends AbstractAPIService {
     /*
     TestCase2: Get account from Customer ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase2: Get account from Customer ID")
+    @Test(priority = 1, enabled = true, description = "Get account from Customer ID")
     public void GetAccountCustomerID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Account1","accounts");
@@ -134,26 +137,8 @@ public class AccountTest extends AbstractAPIService {
             assertionEquals(result.get("raw").toString(),sData[19]);
             assertionEquals(result.get("position").toString(),sData[20]);
             assertionEquals(result.get("order").toString(),sData[21]);
-            //assertionEquals(response.then().extract().jsonPath().getString("_id"),sData[1] );
-            //assertionEquals(response.then().extract().jsonPath().getString("ownerID"),sData[2]);
-            //assertionEquals(response.then().extract().jsonPath().getString("institutionID"),sData[3]);
-            //assertionEquals(response.then().extract().jsonPath().getString("integration"),sData[4]);
-            //assertionEquals(response.then().extract().jsonPath().getString("dateCreated"),sData[5]);
-            //assertionEquals(response.then().extract().jsonPath().getString("finID"),sData[6]);
-            //assertionEquals(response.then().extract().jsonPath().getString("finCustomerID"),sData[7]);
-            //assertionEquals(response.then().extract().jsonPath().getString("finInstitutionID"),sData[8]);
-            //assertionEquals(response.then().extract().jsonPath().getString("finLoginID"),sData[9]);
-            //assertionEquals(response.then().extract().jsonPath().getString("number"),sData[10]);
-            //assertionEquals(response.then().extract().jsonPath().getString("name"),sData[12]);
-            //assertionEquals(response.then().extract().jsonPath().getString("status"),sData[13]);
-            //assertionEquals(response.then().extract().jsonPath().getString("type"),sData[14]);
-            //assertionEquals(response.then().extract().jsonPath().getString("balanceDate"),sData[17]);
-            //assertionEquals(response.then().extract().jsonPath().getString("currency"),sData[18]);
-            /*assertionEquals(response.then().extract().jsonPath().getString("finDateCreated"),sData[19]);
-            assertionEquals(response.then().extract().jsonPath().getString("lastTransactionDate"),sData[20]);
-            assertionEquals(response.then().extract().jsonPath().getString("raw"),sData[19]);
-            assertionEquals(response.then().extract().jsonPath().getString("position"),sData[20]);
-            assertionEquals(response.then().extract().jsonPath().getString("order"),sData[21]);*/
+            //Verify Schema
+            response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[22]));
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
@@ -169,7 +154,7 @@ public class AccountTest extends AbstractAPIService {
     /*
     TestCase2: Get account with wrong Customer ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase2: Get account with wromg Customer ID")
+    @Test(priority = 1, enabled = true, description = "Get account with wromg Customer ID")
     public void GetAccountWrongCustomerID() throws Exception {
         try{
             sData = MongoDBService.toReadExcelData("Account1", "accounts");
@@ -194,7 +179,7 @@ public class AccountTest extends AbstractAPIService {
     /*
     TestCase3: Get account from wrong account ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase3: Get account with wromg account ID")
+    @Test(priority = 1, enabled = true, description = "Get account with wromg account ID")
     public void GetAccountWrongAccountID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Account1", "accounts");

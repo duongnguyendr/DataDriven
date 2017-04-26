@@ -13,6 +13,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import com.jayway.restassured.path.json.JsonPath;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -70,6 +71,8 @@ public class ConsumerTest extends AbstractAPIService {
             assertionEquals(jp.get("callbackURL").toString(),sData[6]);
             //  dateCreated
             assertionEquals(jp.get("dateCreated").toString(),sData[9]);
+            //Verify Json Schema
+            response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[11]));
 
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with CustomerID", LogAs.PASSED, null);

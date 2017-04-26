@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import com.jayway.restassured.path.json.JsonPath;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
@@ -44,7 +45,7 @@ public class InstitutionTest extends AbstractAPIService {
     TestCase1: Get institution from Customer ID
     Created by: Doai.Tran    25. Apr.2017
      */
-    @Test(priority = 1, enabled = true, description = "TestCase1: Get account from Customer ID")
+    @Test(priority = 1, enabled = true, description = "Get account with valid Customer ID")
     public void GetAccountCustomerID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Institution1", "institutions");
@@ -62,7 +63,8 @@ public class InstitutionTest extends AbstractAPIService {
             assertionEquals(response.then().extract().jsonPath().getString("email"),sData[12]);
             assertionEquals(response.then().extract().jsonPath().getString("specialText"),sData[13]);
             assertionEquals(response.then().extract().jsonPath().getString("address"),sData[14]);
-
+            //Verify Schema
+            response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[16]));
             Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
         }catch (AssertionError e) {
@@ -77,7 +79,7 @@ public class InstitutionTest extends AbstractAPIService {
     /*
     TestCase2: Get account from out Customer ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase2: Get account from Out Customer ID")
+    @Test(priority = 1, enabled = true, description = "Get account from Out Customer ID")
     public void GetAccountOutCustomerID() throws Exception {
         try{
             sData = MongoDBService.toReadExcelData("Institution1", "institutions");
@@ -99,7 +101,7 @@ public class InstitutionTest extends AbstractAPIService {
     /*
     TestCase3: Get account from wrong Customer ID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase3: Get account with Out Customer ID")
+    @Test(priority = 1, enabled = true, description = "Get account with Out Customer ID")
     public void GetAccountWrongCustomerID() throws Exception {
         try{
             sData = MongoDBService.toReadExcelData("Institution1", "institutions");
@@ -123,7 +125,7 @@ public class InstitutionTest extends AbstractAPIService {
     /*
     TestCase4: Get account from wrong institutionID
      */
-    @Test(priority = 1, enabled = true, description = "TestCase4: Get account with wrong institutionID")
+    @Test(priority = 1, enabled = true, description = "Get account with wrong institutionID")
     public void GetAccountWronginstitutionID() throws Exception {
         try{
             Response response = given().get(restBaseUrl+"/v1/institution/58f73f957d63f474340175fa?consumerID="+sData[1]);
@@ -145,7 +147,7 @@ public class InstitutionTest extends AbstractAPIService {
     /*
     TestCase5: Get account with wrong institutionIDformat
      */
-    @Test(priority = 1, enabled = true, description = "TestCase4: Get account with wrong institutionIDformat")
+    @Test(priority = 1, enabled = true, description = "Get account with wrong institutionIDformat")
     public void GetAccountWronginstitutionIDFormat() throws Exception {
         try{
             Response response = given().get(restBaseUrl+"/v1/institution/zzzzzzzzzz?consumerID=8283407");
