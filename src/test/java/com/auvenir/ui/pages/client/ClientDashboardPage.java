@@ -469,22 +469,10 @@ public class ClientDashboardPage extends AbstractPage {
 	public void verifyTermsOfServiceLink() throws AWTException{
 		getLogger().info("Verify Terms of service link.");
 		eleTermsOfServiceLnk.click();
-		//Set<String> windowId = getDriver().getWindowHandles();
-		// get  window id of current window
-		//Iterator<String> itererator = windowId.iterator();
-
-		//String mainWinID = itererator.next();
-		//String  newAdwinID = itererator.next();
-
-		//getDriver().switchTo().window(newAdwinID);
-
-		WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']")));
-
-
+		waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
 		getLogger().info("verify texts are rendered.");
-		/*
-		/WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+
+		WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
 		validateElementText(terms,"Terms of Service");
 		WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
 		validateElementText(english,"English");
@@ -493,16 +481,9 @@ public class ClientDashboardPage extends AbstractPage {
 		WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
 		validateElementText(termsDate,"Effective: 16th January, 2017");
 		french.click();
-		getLogger().info("Wait for french terms of service render.");
-		WebDriverWait waitFrenchTerms = new WebDriverWait(getDriver(),waitTime);
-		waitFrenchTerms.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='custom-modal']//h3[contains(text(),'Prise d’effet : le 16 janvier, 2017')]")));
-		*/
 		getLogger().info("click close Terms of Service wizard.");
 		getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-		//getDriver().switchTo().window(mainWinID);
-		//WebElement termsFrenchDate = getDriver().findElement(By.xpath("//div[@id='agreement']/h3"));
-		//validateDisPlayedElement(termFrenchDateEle);
-		//termsOfServicePageCloseButton.click();
+
 	}
 
 
@@ -510,28 +491,38 @@ public class ClientDashboardPage extends AbstractPage {
 	public void verifyPrivacyStateLink() {
 		getLogger().info("Verify Pricacy statement link.");
 		elePrivacyStatementLnk.click();
-		validateElementText(auvenirTextEle,"Auvenir");
-		validateElementText(termsOfServiceTextEle,"Privacy Statement");
-		validateElementText(englishLinkEle,"English");
-		validateElementText(frenchLinkEle,"French");
-		validateDisPlayedElement(privacyEnglishLastRevisedTextEle);
-		frenchLinkEle.click();
-		validateDisPlayedElement(privacyFrenchLastRevisedTextEle);
-		termsOfServicePageCloseButton.click();
+		waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+		WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+		validateElementText(auvenir,"Auvenir");
+		WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+		validateElementText(terms,"Privacy Statement");
+		WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
+		validateElementText(english,"English");
+		WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
+		validateElementText(french,"French");
+		WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
+		validateElementText(termsDate,"Last revised: January 16th, 2017");
+		french.click();
+		getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
 
 	}
 
 	public void verifyCookieNotice() {
 		getLogger().info("verify cookie notices page.");
 		eleCookieNoticeLnk.click();
-		validateElementText(auvenirTextEle,"Auvenir");
-		validateElementText(termsOfServiceTextEle,"Cookie Notice");
-		validateElementText(englishLinkEle,"English");
-		validateElementText(frenchLinkEle,"French");
-		validateDisPlayedElement(privacyEnglishLastRevisedTextEle);
-		frenchLinkEle.click();
-		validateDisPlayedElement(cookiesNotesLastRevisedTextEle);
-		termsOfServicePageCloseButton.click();
+		waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+		WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+		validateElementText(auvenir,"Auvenir");
+		WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+		validateElementText(terms,"Cookie Notice");
+		WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
+		validateElementText(english,"English");
+		WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
+		validateElementText(french,"French");
+		WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
+		validateElementText(termsDate,"Last revised: January 16th, 2017");
+		french.click();
+		getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
 
 	}
 }

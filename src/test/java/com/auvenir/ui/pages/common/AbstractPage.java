@@ -4,10 +4,12 @@ import com.auvenir.ui.services.AbstractRefactorService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 //import org.testng.log4testng.Logger;
@@ -30,6 +32,7 @@ public class AbstractPage {
         this.driver = driver;
         this.logger = logger;
         PageFactory.initElements(driver,this);
+        //PageFactory.initElements( new AjaxElementLocatorFactory(driver,waitTime),this);
     }
     public WebDriver getDriver(){
 
@@ -123,6 +126,22 @@ public class AbstractPage {
     public void waitForVisibleElement(WebElement element){
         WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+    public void waitForPresentOfLocator(By by){
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+    public void waitForVisibleOfLocator(By by){
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
+    public void waitForInvisibleOfLocator(By by){
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+    public void waitForClickableOfLocator(By by){
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.elementToBeClickable(by));
     }
 
 

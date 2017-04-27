@@ -55,14 +55,15 @@ public class ClientService  extends AbstractService{
     public void verifyClientFooter() {
 
         try {
+            clientDashboardPage.scrollPageDown();
             getLogger().info("verify footer page.");
             clientDashboardPage.verifyClientFooter();
             getLogger().info("verfify term of service link.");
             clientDashboardPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");
-            //clientDashboardPage.verifyPrivacyStateLink();
+            clientDashboardPage.verifyPrivacyStateLink();
             getLogger().info("verify cookies notice link.");
-            //clientDashboardPage.verifyCookieNotice();
+            clientDashboardPage.verifyCookieNotice();
             clientDashboardPage.scrollPageUp();
                     NXGReports.addStep("verify footer page", LogAs.PASSED,null);
         }catch (Exception e)

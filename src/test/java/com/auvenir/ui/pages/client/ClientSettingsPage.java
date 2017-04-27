@@ -1,7 +1,11 @@
 package com.auvenir.ui.pages.client;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,29 +32,36 @@ public class ClientSettingsPage extends AbstractPage {
     @FindBy(id="link-setting-device")
     private WebElement devicesSettingsTabEle;
 
-    @FindBy(id="link-setting-notifications")
+    //@FindBy(id="link-setting-notifications")
+    @FindBy(xpath = "//div[@id='navSystem']//div[@id='link-setting-notifications']")
     private WebElement notificationsSettingsTabEle;
 
 
 
     public void navigateToAccountTab() {
-        waitForVisibleElement(accountSettingsTabEle);
+        waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Account')]"));
         accountSettingsTabEle.click();
     }
 
     public void navigatToIntegrationTab() {
-        waitForVisibleElement(integrationSettingsTabEle);
+
+        waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Integrations')]"));
         integrationSettingsTabEle.click();
 
     }
 
     public void navigateToDevicesTab() {
-        waitForVisibleElement(devicesSettingsTabEle);
+       waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Devices')]"));
         devicesSettingsTabEle.click();
     }
 
     public void navigateToNotificationsTab() {
-        waitForVisibleElement(notificationsSettingsTabEle);
-        notificationsSettingsTabEle.click();
+        try {
+            waitForClickableOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Notifications')]"));
+            notificationsSettingsTabEle.click();
+        }catch (Exception e) {
+            getLogger().info(e);
+        }
+
     }
 }
