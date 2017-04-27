@@ -1,7 +1,6 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
@@ -49,7 +48,7 @@ public class AuthSessionTest extends AbstractAPIService {
         MongoDBService.insertAuthSession("AuthSession1");
     }
     /*
-    TestCase: Get AuthSession with valid sessionID
+    TestCase1: Get AuthSession with valid sessionID
      */
     @Test(
             priority = 1,
@@ -73,18 +72,20 @@ public class AuthSessionTest extends AbstractAPIService {
             this.assertionEquals(jp.get("dateCreated").toString(), sData[4]);
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[27]));
             NXGReports.addStep("Correct Schema of Json", LogAs.PASSED, null);
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with AuthSessionTest", LogAs.PASSED, null);
-        } catch (AssertionError var4) {
+        } catch (AssertionError e)
+        {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw var4;
-        } catch (Exception var5) {
+            throw e;
+        }
+        catch (Exception e){
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw var5;
+            throw e;
         }
     }
     /*
-    TestCase: Get AuthSession with wrong sessionID
+    TestCase 2: Get AuthSession with wrong sessionID
      */
     @Test(
             priority = 1,
@@ -100,19 +101,20 @@ public class AuthSessionTest extends AbstractAPIService {
             } else {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED, (CaptureScreen)null);
             }
-
             String json = response.asString();
             JsonPath jp = new JsonPath(json);
             this.assertionEquals(jp.get("code").toString(), "api-001");
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
-        } catch (AssertionError var4) {
+        } catch (AssertionError e)
+        {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw var4;
-        } catch (Exception var5) {
+            throw e;
+        }
+        catch (Exception e){
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw var5;
+            throw e;
         }
     }
     /*
@@ -132,19 +134,20 @@ public class AuthSessionTest extends AbstractAPIService {
             } else {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED, (CaptureScreen)null);
             }
-
             String json = response.asString();
             JsonPath jp = new JsonPath(json);
             this.assertionEquals(jp.get("code").toString(), "api-001");
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
-        } catch (AssertionError var4) {
+        } catch (AssertionError e)
+        {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw var4;
-        } catch (Exception var5) {
+            throw e;
+        }
+        catch (Exception e){
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
-            throw var5;
+            throw e;
         }
     }
 }
