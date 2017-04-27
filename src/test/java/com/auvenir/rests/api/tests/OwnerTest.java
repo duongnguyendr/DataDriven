@@ -1,7 +1,6 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
@@ -59,6 +58,7 @@ public class OwnerTest extends AbstractAPIService {
             Response response = given().get(restBaseUrl+"/v1/owner/"+sData[2]);
             if(response.getStatusCode()==200){
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
+                NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
             }
             else {
                 Assert.fail();
@@ -78,7 +78,7 @@ public class OwnerTest extends AbstractAPIService {
             //Verify Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[9]));
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractAPIService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with ownerID", LogAs.PASSED, null);
         }
         catch (AssertionError e)
@@ -109,7 +109,7 @@ public class OwnerTest extends AbstractAPIService {
             assertionEquals(jp.get("code").toString(),"api-022");
             assertionEquals(jp.get("msg").toString(),"Error, missing or invalid ownerID.");
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractAPIService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
         }catch (AssertionError e)
         {
@@ -138,7 +138,7 @@ public class OwnerTest extends AbstractAPIService {
             }
 
             //
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+            Assert.assertTrue(AbstractAPIService.sStatusCnt==0, "Script Failed");
             NXGReports.addStep("Request successfully with WronginstitutionID", LogAs.PASSED, null);
         }catch (AssertionError e)
         {

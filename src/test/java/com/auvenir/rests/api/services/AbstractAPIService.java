@@ -37,10 +37,14 @@ public class AbstractAPIService {
     public static String gmailWindow;
     public static String parentWin = null;
     public static String newWin = null;
-
+    /**
+    @param actual The actual value that you want to assert.
+    @param expected The expected value that you want to assert.
+     */
     public void assertionEquals(String actual, String expected) {
         try {
             logger.info("Verify value of response: " + expected);
+
             Assert.assertEquals(actual, expected);
             NXGReports.addStep("Verify Value of response: " + expected, LogAs.PASSED, null);
 
@@ -59,10 +63,11 @@ public class AbstractAPIService {
             GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
         } else if (server.equalsIgnoreCase("local")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
-        } else {
+        } else if (server.equalsIgnoreCase("finicity")) {
+            GenericService.sConfigFile = GenericService.sDirPath + "/finicity.properties";
+        }else
             GenericService.sConfigFile = GenericService.sDirPath + "/ariel.properties";
         }
-    }
 
 	public Logger getLogger() {
         return logger;
@@ -70,7 +75,7 @@ public class AbstractAPIService {
     //Getting the URL by passing GetTokenURl and CheckTokenURL
 
 
-    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+    /*public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
         driver.get(sGetTokenURL + sEmailID);
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
@@ -81,12 +86,12 @@ public class AbstractAPIService {
         driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-    }
+    }*/
 
 
     //Loading the URL by keeping in config properties
 
-    public void loadURL(String sUrl) {
+    /*public void loadURL(String sUrl) {
         try {
             System.out.println(sUrl);
             driver.get(sUrl);
@@ -96,11 +101,11 @@ public class AbstractAPIService {
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
-    }
+    }*/
 
     //Getting the URl by passing Dev Auth ID and Authentication key
 
-    public void setURL(String sEMAILID, String sAUTHID, String sLOGINURL, String sDevAuthID, String sApiKey) throws Exception {
+    /*public void setURL(String sEMAILID, String sAUTHID, String sLOGINURL, String sDevAuthID, String sApiKey) throws Exception {
         try {
             WebService http = new WebService(logger);
             http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
@@ -110,10 +115,10 @@ public class AbstractAPIService {
             NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
-    }
+    }*/
 
 
-    public void visibilityOfElementWait(WebElement webElement, String elementName, int waitTime) {
+    /*public void visibilityOfElementWait(WebElement webElement, String elementName, int waitTime) {
         try {
             sWebDriverWait = new WebDriverWait(driver, waitTime);
             sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
@@ -121,9 +126,9 @@ public class AbstractAPIService {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
         }
-    }
+    }*/
 
-    public void gmaillLogin() throws Exception {
+    /*public void gmaillLogin() throws Exception {
         try {
             GmailPage gmailLoginPo = new GmailPage(logger, driver);
             driver.get(GenericService.getCongigValue(GenericService.sConfigFile, "GMAIL_URL"));
@@ -177,5 +182,5 @@ public class AbstractAPIService {
         logger.info("Swithc to new windwos.");
         driver.switchTo().window(newWin);
 
-    }
+    }*/
 }
