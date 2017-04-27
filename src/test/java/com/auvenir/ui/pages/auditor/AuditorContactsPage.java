@@ -21,12 +21,12 @@ public class AuditorContactsPage extends AbstractPage {
 		super(logger,driver);
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
 	}
-	@FindBy(id = "c-header-title")
+	@FindBy(xpath= "//span[contains(text(),'My Clients')]")
 	private WebElement myClientsTextEle;
 
 
 	public void verifyAuditorContactsPage() {
 		waitForVisibleElement(myClientsTextEle);
-		validateElementText(myClientsTextEle,"My Clients");
+
 	}
 }

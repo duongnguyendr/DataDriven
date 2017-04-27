@@ -32,6 +32,7 @@ public class NotificationsSettingsTest extends AbstractTest {
 
         try
         {
+            
             auditorNotificationsSettingsService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();

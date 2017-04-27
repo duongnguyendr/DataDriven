@@ -16,6 +16,7 @@
     		<class name="com.auvenir.ui.tests.ClientTest"/>
          	-->
 			<class name="com.auvenir.ui.tests.auditor.EngagementTest"/>
+			<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.AccountSettingsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.NotificationsSettingsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.DevicesSettingsTest"/>
