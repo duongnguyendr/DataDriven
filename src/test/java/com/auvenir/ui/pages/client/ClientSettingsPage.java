@@ -26,10 +26,12 @@ public class ClientSettingsPage extends AbstractPage {
     @FindBy(id ="link-setting-account")
     private WebElement accountSettingsTabEle;
 
-    @FindBy(id="link-setting-integrations")
-    private WebElement integrationSettingsTabEle;
+    //@FindBy(id="link-setting-integrations")
+    @FindBy(xpath = "///div[@id='navSystem']//div[@id='link-setting-integrations']")
+    private WebElement integrationSettingsLinkEle;
 
-    @FindBy(id="link-setting-device")
+    //@FindBy(id="link-setting-device")
+    @FindBy(xpath = "//div[@id='navSystem']//div[@id='link-setting-device")
     private WebElement devicesSettingsTabEle;
 
     //@FindBy(id="link-setting-notifications")
@@ -45,19 +47,27 @@ public class ClientSettingsPage extends AbstractPage {
 
     public void navigatToIntegrationTab() {
 
-        waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Integrations')]"));
-        integrationSettingsTabEle.click();
+        //waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Integrations')]"));
+        try {
+            waitForClickableOfElement(integrationSettingsLinkEle);
+            integrationSettingsLinkEle.click();
+        }catch (Exception e){
+            getLogger().info(e);
+        }
+
 
     }
 
     public void navigateToDevicesTab() {
-       waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Devices')]"));
+       //waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Devices')]"));
+        waitForClickableOfElement(devicesSettingsTabEle);
         devicesSettingsTabEle.click();
     }
 
     public void navigateToNotificationsTab() {
         try {
-            waitForClickableOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Notifications')]"));
+            //waitForClickableOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Notifications')]"));
+            waitForClickableOfElement(notificationsSettingsTabEle);
             notificationsSettingsTabEle.click();
         }catch (Exception e) {
             getLogger().info(e);

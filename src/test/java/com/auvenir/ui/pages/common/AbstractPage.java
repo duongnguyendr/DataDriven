@@ -143,6 +143,11 @@ public class AbstractPage {
         WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
         wait.until(ExpectedConditions.elementToBeClickable(by));
     }
+    public void waitForClickableOfElement(WebElement element){
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
 
 
 }
