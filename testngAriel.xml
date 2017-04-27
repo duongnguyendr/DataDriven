@@ -6,23 +6,32 @@
 	 </listeners>
 	 <test name="Regression" preserve-order="true">    
 		<classes>
-			<!--
-			<class name="com.auvenir.ui.tests."/>
-     	<class name="com.auvenir.ui.tests.SmokeTest"/>
-		<class name="com.auvenir.ui.tests.AdminTest"/>
-		<class name="com.auvenir.ui.tests.SupportTest"/>
-    	<class name="com.auvenir.ui.tests.CareerTest"/>
-    	<class name="com.auvenir.ui.tests.AuditorTest"/>
-    	<class name="com.auvenir.ui.tests.ClientTest"/>
+
+            <class name="com.auvenir.ui.tests.SmokeTest"/>
+           <class name="com.auvenir.ui.tests.admin.AdminTest"/>
+           <class name="com.auvenir.ui.tests.SupportTest"/>
+           <class name="com.auvenir.ui.tests.CareerTest"/>
+           <class name="com.auvenir.ui.tests.auditor.AuditorTest"/>
+           <class name="com.auvenir.ui.tests.client.ClientTest"/>
+
+			<class name="com.auvenir.ui.tests.auditor.EngagementTest"/>
+			<class name="com.auvenir.ui.tests.auditor.AccountSettingsTest"/>
+			<class name="com.auvenir.ui.tests.auditor.NotificationsSettingsTest"/>
+			<class name="com.auvenir.ui.tests.auditor.DevicesSettingsTest"/>
+
+			<class name="com.auvenir.ui.tests.client.HomeTest"/>
+			<class name="com.auvenir.ui.tests.client.AccountSettingsTest"/>
+			<class name="com.auvenir.ui.tests.client.NotificationsSettingsTest"/>
+			<class name="com.auvenir.ui.tests.client.IntegrationsSettingsTest"/>
+			<class name="com.auvenir.ui.tests.client.DevicesSettingsTest"/>
+
+            <class name="com.auvenir.rests.api.tests.OwnerTest"/>
+            <class name="com.auvenir.rests.api.tests.ConsumerTest"/>
+            <class name="com.auvenir.rests.api.tests.AccountTest"/>
+            <class name="com.auvenir.rests.api.tests.InstitutionTest"/>
+            <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>
 
 
-		<class name="com.auvenir.functionaltestsmokeTest"/>
-		<class nacom.auvenir.ui.testsests/>
-		<class name="com.auvenir.testst"/>
-    	<class nacom.auvenir.ui.testsests"/>
-    	<class name="com.auvenir.testst"/>
-    	<class nacom.auvenir.ui.testsests"/>
- 	   	-->
-	    </classes>
+		</classes>
 	 </test>  	
 </suite>

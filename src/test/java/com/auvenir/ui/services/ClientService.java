@@ -190,4 +190,15 @@ public class ClientService  extends AbstractService{
             NXGReports.addStep("integrations Settings page rendered.", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    public void verifyClientHomePage() {
+        try {
+            getLogger().info("verify client home page.");
+            clientDashboardPage.verifyClientHomePage();
+            NXGReports.addStep("verify Client home page.", LogAs.PASSED,null);
+        }catch (Exception e){
+            getLogger().info(e);
+            NXGReports.addStep("verify Client home page.", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 }

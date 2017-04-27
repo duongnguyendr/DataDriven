@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -31,15 +32,107 @@ public class AbstractPage {
     public AbstractPage(Logger logger,WebDriver driver){
         this.driver = driver;
         this.logger = logger;
-        PageFactory.initElements(driver,this);
-        //PageFactory.initElements( new AjaxElementLocatorFactory(driver,waitTime),this);
+        //PageFactory.initElements(driver,this);
+        PageFactory.initElements( new AjaxElementLocatorFactory(driver,waitTime),this);
     }
     public WebDriver getDriver(){
 
         return driver;
     }
+
+
     public Logger getLogger(){
         return logger;
+    }
+
+    @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
+    private WebElement eleAuvenirIncTxt;
+
+    @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'Terms of Service')]")
+    private WebElement eleTermsOfServiceLnk;
+
+    @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
+    private WebElement eleTermsOfServiceDotTxt;
+
+    @FindBy(id = "privacy")
+    private WebElement elePrivacyStatementLnk;
+
+    @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
+    private WebElement elePrivacyStatementDotTxt;
+
+    @FindBy(id = "cookies")
+    private WebElement eleCookieNoticeLnk;
+
+    @FindBy(id="dashboardUsername")
+    private WebElement dashboardUserNameEle;
+
+    @FindBy(id="h-ddl-item-settings")
+    WebElement settingsTabEle;
+
+    public void verifyFooter()
+    {
+        validateDisPlayedElement(eleAuvenirIncTxt);
+        validateDisPlayedElement(eleTermsOfServiceLnk);
+        validateDisPlayedElement(eleTermsOfServiceDotTxt);
+        validateDisPlayedElement(elePrivacyStatementLnk);
+        validateDisPlayedElement(elePrivacyStatementDotTxt);
+        validateDisPlayedElement(eleCookieNoticeLnk);
+    }
+    public void verifyTermsOfServiceLink() throws AWTException{
+        getLogger().info("Verify Terms of service link.");
+        eleTermsOfServiceLnk.click();
+        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+        getLogger().info("verify texts are rendered.");
+
+        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+        validateElementText(terms,"Terms of Service");
+        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
+        validateElementText(english,"English");
+        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
+        validateElementText(french,"French");
+        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
+        validateElementText(termsDate,"Effective: 16th January, 2017");
+        french.click();
+        getLogger().info("click close Terms of Service wizard.");
+        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
+
+    }
+    public void verifyPrivacyStateLink() {
+        getLogger().info("Verify Pricacy statement link.");
+        elePrivacyStatementLnk.click();
+        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+        validateElementText(auvenir,"Auvenir");
+        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+        validateElementText(terms,"Privacy Statement");
+        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
+        validateElementText(english,"English");
+        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
+        validateElementText(french,"French");
+        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
+        validateElementText(termsDate,"Last revised: January 16th, 2017");
+        french.click();
+        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
+
+    }
+
+    public void verifyCookieNotice() {
+        getLogger().info("verify cookie notices page.");
+        eleCookieNoticeLnk.click();
+        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+        validateElementText(auvenir,"Auvenir");
+        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+        validateElementText(terms,"Cookie Notice");
+        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
+        validateElementText(english,"English");
+        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
+        validateElementText(french,"French");
+        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
+        validateElementText(termsDate,"Last revised: January 16th, 2017");
+        french.click();
+        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
+
     }
 
     public void visibilityOfElementWait(WebElement webElement, String elementName, int waitTime) {
@@ -123,6 +216,7 @@ public class AbstractPage {
         robot.keyPress(KeyEvent.VK_PAGE_DOWN);
         robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
     }
+
     public void waitForVisibleElement(WebElement element){
         WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
         wait.until(ExpectedConditions.visibilityOf(element));
@@ -149,5 +243,12 @@ public class AbstractPage {
     }
 
 
+    public void navigateToSettingsPage() {
+        waitForClickableOfElement(dashboardUserNameEle);
+        dashboardUserNameEle.click();
+        waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
+        waitForClickableOfElement(settingsTabEle);
+        settingsTabEle.click();
+    }
 
 }

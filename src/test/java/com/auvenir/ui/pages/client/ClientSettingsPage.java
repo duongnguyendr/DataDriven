@@ -26,28 +26,25 @@ public class ClientSettingsPage extends AbstractPage {
     @FindBy(id ="link-setting-account")
     private WebElement accountSettingsTabEle;
 
-    //@FindBy(id="link-setting-integrations")
-    @FindBy(xpath = "///div[@id='navSystem']//div[@id='link-setting-integrations']")
+    @FindBy(xpath = "//div[@id='settingsPage']//..//div[@id='navSystem']//..//div[@id='link-setting-integrations']")
     private WebElement integrationSettingsLinkEle;
 
-    //@FindBy(id="link-setting-device")
-    @FindBy(xpath = "//div[@id='navSystem']//div[@id='link-setting-device")
+
+    @FindBy(xpath = "//div[@id='settingsPage']//..//div[@id='navSystem']//..//div[@id='link-setting-device']")
     private WebElement devicesSettingsTabEle;
 
-    //@FindBy(id="link-setting-notifications")
-    @FindBy(xpath = "//div[@id='navSystem']//div[@id='link-setting-notifications']")
+    @FindBy(xpath = "//div[@id='settingsPage']//..//div[@id='navSystem']//..//div[@id='link-setting-notifications']")
     private WebElement notificationsSettingsTabEle;
 
 
 
     public void navigateToAccountTab() {
-        waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Account')]"));
+        waitForClickableOfElement(accountSettingsTabEle);
         accountSettingsTabEle.click();
     }
 
     public void navigatToIntegrationTab() {
 
-        //waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Integrations')]"));
         try {
             waitForClickableOfElement(integrationSettingsLinkEle);
             integrationSettingsLinkEle.click();
@@ -59,14 +56,12 @@ public class ClientSettingsPage extends AbstractPage {
     }
 
     public void navigateToDevicesTab() {
-       //waitForPresentOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Devices')]"));
         waitForClickableOfElement(devicesSettingsTabEle);
         devicesSettingsTabEle.click();
     }
 
     public void navigateToNotificationsTab() {
         try {
-            //waitForClickableOfLocator(By.xpath("//div[@id='navSystem']//div[contains(text(),'Notifications')]"));
             waitForClickableOfElement(notificationsSettingsTabEle);
             notificationsSettingsTabEle.click();
         }catch (Exception e) {

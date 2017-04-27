@@ -401,6 +401,9 @@ public class ClientDashboardPage extends AbstractPage {
 		return getDashboardUserNameEle();
 	}
 
+	@FindBy(id ="c-header-title")
+	private WebElement myAuditTextEle;
+
 	public void verifyClientFooter()
 	{
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
@@ -456,8 +459,10 @@ public class ClientDashboardPage extends AbstractPage {
 	}
 
 	public void navigateToClientSettingsPage() {
+		waitForClickableOfElement(dashboardUserNameEle);
 		dashboardUserNameEle.click();
 		waitForSettingsTab();
+		waitForClickableOfElement(settingsTabEle);
 		settingsTabEle.click();
 	}
 
@@ -466,63 +471,15 @@ public class ClientDashboardPage extends AbstractPage {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(text(),'Settings')]")));
 	}
 
-	public void verifyTermsOfServiceLink() throws AWTException{
-		getLogger().info("Verify Terms of service link.");
-		eleTermsOfServiceLnk.click();
-		waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-		getLogger().info("verify texts are rendered.");
-
-		WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-		validateElementText(terms,"Terms of Service");
-		WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-		validateElementText(english,"English");
-		WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-		validateElementText(french,"French");
-		WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-		validateElementText(termsDate,"Effective: 16th January, 2017");
-		french.click();
-		getLogger().info("click close Terms of Service wizard.");
-		getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
-	}
 
 
 
-	public void verifyPrivacyStateLink() {
-		getLogger().info("Verify Pricacy statement link.");
-		elePrivacyStatementLnk.click();
-		waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-		WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-		validateElementText(auvenir,"Auvenir");
-		WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-		validateElementText(terms,"Privacy Statement");
-		WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-		validateElementText(english,"English");
-		WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-		validateElementText(french,"French");
-		WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-		validateElementText(termsDate,"Last revised: January 16th, 2017");
-		french.click();
-		getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
 
-	}
 
-	public void verifyCookieNotice() {
-		getLogger().info("verify cookie notices page.");
-		eleCookieNoticeLnk.click();
-		waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-		WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-		validateElementText(auvenir,"Auvenir");
-		WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-		validateElementText(terms,"Cookie Notice");
-		WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-		validateElementText(english,"English");
-		WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-		validateElementText(french,"French");
-		WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-		validateElementText(termsDate,"Last revised: January 16th, 2017");
-		french.click();
-		getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
 
+	public void verifyClientHomePage() {
+		getLogger().info("verify client home page.");
+		waitForVisibleElement(myAuditTextEle);
+		validateElementText(myAuditTextEle,"My Audits");
 	}
 }

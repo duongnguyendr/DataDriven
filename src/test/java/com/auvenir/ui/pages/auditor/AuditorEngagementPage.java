@@ -114,6 +114,12 @@ public class AuditorEngagementPage extends AbstractPage {
 	public WebElement getEleSetScheduleLabel(){
 		return eleSetScheduleLabel;
 	}
+
+	@FindBy(id ="c-header-title")
+	private WebElement myEngagementTextEle;
+
+	@FindBy(id = "h-clientListLink")
+	private WebElement contactsLinkEle;
 	
 	@FindBy(xpath="//button[contains(text(),'Add New')]")
 	private WebElement eleAddNewBtn;
@@ -133,5 +139,17 @@ public class AuditorEngagementPage extends AbstractPage {
 		auvenirPage.toValidate(auditorEngagementPage.getEleSignOutLnk(),"Dropdown SignOut Link","Displayed");
 		auvenirPage.toValidate(auditorEngagementPage.getEleChatIcn(),"Chat Icon","Displayed");
 		auvenirPage.toValidate(auditorEngagementPage.getEleNotificationIcn(),"Notification Icon","Displayed");
+	}
+
+    public void verifyAuditorEngagementPage() {
+		waitForVisibleElement(myEngagementTextEle);
+		validateElementText(myEngagementTextEle,"My Engagements");
+
+    }
+
+	public void navigateToContactsTab() {
+		waitForClickableOfElement(contactsLinkEle);
+		contactsLinkEle.click();
+
 	}
 }
