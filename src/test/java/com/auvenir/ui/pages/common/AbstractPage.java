@@ -249,18 +249,15 @@ public class AbstractPage {
     {
         getLogger().info("verify enabled of: " + element.getText());
 
-        try
-        {
+        try {
             if(!(element.isEnabled()))
             {
             NXGReports.addStep(element.getTagName() + " is disabled", LogAs.PASSED, null);
             }
-        }catch (Exception e)
-        {
+        }catch (Exception e){
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getText() + " is  enabled", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
     }
     public void navigateToSettingsPage() {
         waitForClickableOfElement(dashboardUserNameEle);

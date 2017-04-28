@@ -30,184 +30,187 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy(xpath = "//img[@src='images/logos/auvenir/auvenir.svg']")
     private WebElement eleAuvenirLogoImg;
     public WebElement getAuvenirLogoImg() {
-        return this.eleAuvenirLogoImg;
+        return eleAuvenirLogoImg;
     }
     @FindBy(id = "dashboardUsername")
     private WebElement dashboardUserNameEle;
     public WebElement getDashboardUserNameEle() {
-        return this.dashboardUserNameEle;
+        return dashboardUserNameEle;
     }
     @FindBy(id = "navTitle")
     private WebElement settingTitle;
     public WebElement getSettingTitle() {
-        return this.settingTitle;
+        return settingTitle;
     }
     @FindBy(id = "link-setting-account")
     private WebElement accountTab;
     public WebElement getAccountTab() {
-        return this.accountTab;
+        return accountTab;
     }
     @FindBy(id = "link-setting-device")
     private WebElement devicesTab;
     public WebElement getDevicesTab() {
-        return this.devicesTab;
+        return devicesTab;
     }
     @FindBy(id = "titleContainer")
     private WebElement accountSettingTitle;
     public WebElement getAccountSettingTitle() {
-        return this.accountSettingTitle;
+        return accountSettingTitle;
     }
     @FindBy(id = "acc-ay-fullName")
     private WebElement fullNameTextBox;
     public WebElement getFullnameTextBox() {
-        return this.fullNameTextBox;
+        return fullNameTextBox;
     }
     @FindBy(id = "acc-ay-email")
     private WebElement emailTextBox;
     public WebElement getEmailTextBox() {
-        return this.emailTextBox;
+        return emailTextBox;
     }
     @FindBy(id = "acc-ay-phone")
     private WebElement phoneNoTextBox;
     public WebElement getPhoneNoTextBox() {
-        return this.phoneNoTextBox;
+        return phoneNoTextBox;
     }
     @FindBy(id = "acc-ay-photo")
     private WebElement userPhoto;
     public WebElement getUserPhoto() {
-        return this.userPhoto;
+        return userPhoto;
     }
     @FindBy(id = "uploadButton")
     private WebElement uploadButton;
     public WebElement getUploadButton() {
-        return this.uploadButton;
+        return uploadButton;
     }
     @FindBy(xpath = "//*[@class='auvbtn secondary']")
     private WebElement deactivateButton;
     public WebElement getDeactivateButton() {
-        return this.deactivateButton;
+        return deactivateButton;
     }
     @FindBy(xpath = "//*[@class='auvbtn primary']")
     private WebElement updateButton;
     public WebElement getUpdateButton() {
-        return this.updateButton;
+        return updateButton;
     }
     @FindBy(xpath = "//*[@id='card-Mydevices']/div[1]/div")
     private WebElement myDeviceTitle;
     public WebElement getMyDeviceTitle() {
-        return this.myDeviceTitle;
+        return myDeviceTitle;
     }
     @FindBy(id = "pNumDevices")
     private WebElement numberDevicesText;
     public WebElement getNumberDevicesText() {
-        return this.numberDevicesText;
+        return numberDevicesText;
     }
     @FindBy(xpath = "//img[@src='images/illustrations/devices/Desktop.svg']")
     private WebElement computerImage;
     public WebElement getComputerImage() {
-        return this.computerImage;
+        return computerImage;
     }
     @FindBy(xpath = "//*[@class='c-devices-deviceCustomName']")
     private WebElement deviceCustomName;
     public WebElement getDeviceCustomName() {
-        return this.deviceCustomName;
+        return deviceCustomName;
     }
     @FindBy(xpath = "//*[@class='c-devices-deviceName']")
     private WebElement deviceName;
     public WebElement getDeviceName() {
-        return this.deviceName;
+        return deviceName;
     }
     @FindBy(xpath = "//*[@class='btn-lg ghost c-devices-viewDeviceBtn']")
     private WebElement viewButton;
     public WebElement getViewButton() {
-        return this.viewButton;
+        return viewButton;
     }
     @FindBy(xpath = "//*[@id='card-Mydevices']/button")
     private WebElement addAnotherButton;
     public WebElement getAddAnotherButton() {
-        return this.addAnotherButton;
+        return addAnotherButton;
     }
     @FindBy(xpath = "/html/body/footer/div/div/div[1]/span")
     private WebElement allRightReservedLink;
     public WebElement getAllRightReservedText() {
-        return this.allRightReservedLink;
+        return allRightReservedLink;
     }
     @FindBy(xpath = "/html/body/footer/div/div/div[2]/a[1]")
     private WebElement termOfServiceLink;
     public WebElement getTermOfService() {
-        return this.termOfServiceLink;
+        return termOfServiceLink;
     }
     @FindBy(xpath = "/html/body/footer/div/div/div[2]/a[3]")
     private WebElement privacyStatementLink;
     public WebElement getPrivacyStatementLink() {
-        return this.privacyStatementLink;
+        return privacyStatementLink;
     }
     @FindBy(xpath = "/html/body/footer/div/div/div[2]/a[5]")
     private WebElement cookiesNoticeLink;
     public WebElement getCookiesNoticeLink() {
-        return this.cookiesNoticeLink;
+        return cookiesNoticeLink;
     }
     @FindBy(id = "h-ddl-item-settings")
     private WebElement settingsTabEle;
     public WebElement getSettingTabEle() {
-        return this.settingsTabEle;
+        return settingsTabEle;
     }
+    @FindBy (id="fullNameLabel")
+    private WebElement fullnameLable;
+    public WebElement getFullNameTextBox(){return  fullNameTextBox;}
 
     public void goToSettingPage() {
-        WebDriverWait wait = new WebDriverWait(this.getDriver(), 60L);
-        wait.until(ExpectedConditions.visibilityOf(this.dashboardUserNameEle));
+        WebDriverWait wait = new WebDriverWait(getDriver(), 60L);
+        wait.until(ExpectedConditions.visibilityOf(dashboardUserNameEle));
         getDashboardUserNameEle().click();
-        wait.until(ExpectedConditions.visibilityOf(this.settingsTabEle));
+        wait.until(ExpectedConditions.visibilityOf(settingsTabEle));
         getSettingTabEle().click();
     }
 
     public void verifyElementsHeader() {
         getLogger().info("verify Element: eleAuvenirLogoImg displayed.");
-        waitForVisibleElement(this.eleAuvenirLogoImg);
+        waitForVisibleElement(eleAuvenirLogoImg);
         NXGReports.addStep("verified Element: eleAuvenirLogoImg displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: dashboardUserNameEle displayed.");
-        waitForVisibleElement(this.dashboardUserNameEle);
+        waitForVisibleElement(dashboardUserNameEle);
         NXGReports.addStep("verified Element: dashboardUserNameEle displayed.", LogAs.PASSED, (CaptureScreen)null);
     }
 
     public void verifyElementsOnAccountTab() {
         getLogger().info("verify Element: settingTitle displayed.");
-        waitForVisibleElement(this.settingTitle);
+        waitForVisibleElement(settingTitle);
         NXGReports.addStep("verified Element: settingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: accountTab displayed.");
-        waitForVisibleElement(this.accountTab);
+        waitForVisibleElement(accountTab);
         NXGReports.addStep("verified Element: accountTab displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: devicesTab displayed.");
-        waitForVisibleElement(this.devicesTab);
+        waitForVisibleElement(devicesTab);
         NXGReports.addStep("verified Element: devicesTab displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: accountSettingTitle displayed.");
-        waitForVisibleElement(this.accountSettingTitle);
+        waitForVisibleElement(accountSettingTitle);
         NXGReports.addStep("verify Element: accountSettingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: fullNameTextBox displayed.");
-        waitForVisibleElement(this.fullNameTextBox);
+        waitForVisibleElement(fullNameTextBox);
         NXGReports.addStep("verified Element: fullNameTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: emailTextBox displayed.");
-        waitForVisibleElement(this.emailTextBox);
+        waitForVisibleElement(emailTextBox);
         NXGReports.addStep("verified Element: emailTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: phoneNoTextBox displayed.");
-        waitForVisibleElement(this.phoneNoTextBox);
+        waitForVisibleElement(phoneNoTextBox);
         NXGReports.addStep("verified Element: phoneNoTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: userPhoto displayed.");
-        waitForVisibleElement(this.userPhoto);
+        waitForVisibleElement(userPhoto);
         NXGReports.addStep("verified Element: userPhoto displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: uploadButton displayed.");
-        waitForVisibleElement(this.uploadButton);
+        waitForVisibleElement(uploadButton);
         NXGReports.addStep("verified Element: uploadButton displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: deactivateButton displayed.");
-        validateElementText(this.deactivateButton, "Deactivate My Account");
+        validateElementText(deactivateButton, "Deactivate My Account");
         NXGReports.addStep("verified Element: deactivateButton displayed and disable", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: updateButton displayed.");
-        validateElementText(this.updateButton, "Update");
+        validateElementText(updateButton, "Update");
         NXGReports.addStep("verified Element: updateButton displayed and disable", LogAs.PASSED, (CaptureScreen)null);
     }
 
     public void navigateToDevicesTab() {
-        waitForVisibleElement(this.devicesTab);
+        waitForVisibleElement(devicesTab);
         getLogger().info("verify Element: devicesTab displayed.");
         devicesTab.click();
         NXGReports.addStep("Go to Device Tab successfully.", LogAs.PASSED, (CaptureScreen)null);
@@ -215,49 +218,49 @@ public class AdminAccountSettingsPage extends AbstractPage {
 
     public void verifyElementsOnDevicesTab() {
         getLogger().info("verify Element: settingTitle displayed.");
-        this.waitForVisibleElement(this.settingTitle);
+        waitForVisibleElement(settingTitle);
         NXGReports.addStep("verified Element: settingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: accountTab displayed.");
-        waitForVisibleElement(this.accountTab);
+        waitForVisibleElement(accountTab);
         NXGReports.addStep("verified Element: accountTab displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: devicesTab displayed.");
-        waitForVisibleElement(this.devicesTab);
+        waitForVisibleElement(devicesTab);
         NXGReports.addStep("verified Element: devicesTab displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: myDeviceTitle displayed.");
-        waitForVisibleElement(this.myDeviceTitle);
+        waitForVisibleElement(myDeviceTitle);
         NXGReports.addStep("verified Element: myDeviceTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: numberDevicesText displayed.");
-        waitForVisibleElement(this.numberDevicesText);
+        waitForVisibleElement(numberDevicesText);
         NXGReports.addStep("verified Element: numberDevicesText displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: computerImage displayed.");
-        waitForVisibleElement(this.computerImage);
+        waitForVisibleElement(computerImage);
         NXGReports.addStep("verified Element: computerImage displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: deviceCustomName displayed.");
-        waitForVisibleElement(this.deviceCustomName);
+        waitForVisibleElement(deviceCustomName);
         NXGReports.addStep("verified Element: deviceCustomName displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: deviceName displayed.");
-        waitForVisibleElement(this.deviceName);
+        waitForVisibleElement(deviceName);
         NXGReports.addStep("verified Element: deviceName displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: viewButton displayed.");
-        waitForVisibleElement(this.viewButton);
+        waitForVisibleElement(viewButton);
         NXGReports.addStep("verify Element: viewButton displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: addAnotherButton displayed.");
-        waitForVisibleElement(this.addAnotherButton);
+        waitForVisibleElement(addAnotherButton);
         NXGReports.addStep("verified Element: addAnotherButton displayed.", LogAs.PASSED, (CaptureScreen)null);
     }
 
     public void verifyElementsFooter() {
         getLogger().info("verify Element: allRightReservedLink displayed.");
-        waitForVisibleElement(this.allRightReservedLink);
+        waitForVisibleElement(allRightReservedLink);
         NXGReports.addStep("verified Element: allRightReservedLink displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: termOfServiceLink displayed.");
-        waitForVisibleElement(this.termOfServiceLink);
+        waitForVisibleElement(termOfServiceLink);
         NXGReports.addStep("verified Element: termOfServiceLink displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: privacyStatementLink displayed.");
-        waitForVisibleElement(this.privacyStatementLink);
+        waitForVisibleElement(privacyStatementLink);
         NXGReports.addStep("verified Element: privacyStatementLink displayed.", LogAs.PASSED, (CaptureScreen)null);
         getLogger().info("verify Element: cookiesNoticeLink displayed.");
-        waitForVisibleElement(this.cookiesNoticeLink);
+        waitForVisibleElement(cookiesNoticeLink);
         NXGReports.addStep("verified Element: cookiesNoticeLink displayed.", LogAs.PASSED, (CaptureScreen)null);
     }
 
@@ -275,5 +278,8 @@ public class AdminAccountSettingsPage extends AbstractPage {
 
     public void verifyEmailTextBoxIsDisable() {
         validatDisabledElement(phoneNoTextBox);
+    }
+    public void validateTextMessageFullNametxtbox(){
+        validateElementText(fullnameLable,"First and Last Name");
     }
 }

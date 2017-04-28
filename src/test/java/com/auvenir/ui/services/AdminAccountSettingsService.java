@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import javax.xml.bind.Element;
+
 /**
  * Created by doai.tran on 4/27/2017.
  *
@@ -84,5 +86,14 @@ public class AdminAccountSettingsService extends AbstractService{
             NXGReports.addStep("Email TextBox is NOT visible.", LogAs.FAILED, (CaptureScreen)null);
         }
 
+    }
+    public void verifyTextFullNameLable(){
+        try{
+            getLogger().info("Verify text of Element: FullName lable ");
+            adminAccountSettingsPage.validateTextMessageFullNametxtbox();
+            NXGReports.addStep("Element: FullName lable ",LogAs.PASSED, (CaptureScreen)null);
+        }catch (Exception e){
+            NXGReports.addStep("Element : FullName lable has not text as expected.",LogAs.FAILED,(CaptureScreen)null);
+        }
     }
 }
