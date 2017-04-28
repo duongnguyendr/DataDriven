@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
@@ -19,14 +20,14 @@ public class AdminLoginPage extends AbstractPage {
 
 	AuvenirPage auvenirPage = null;
 	WebElement SelectStatus = null;
-	private int waitTime = 30;
+	private int waitTime = 60;
 	public AdminLoginPage(Logger logger,WebDriver driver) {
 		super(logger,driver);
-		PageFactory.initElements(driver, this);
+		PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
 	}
-	
 
-	@FindBy(xpath = "//span[@id='pageHeadBackText']")
+	//@FindBy(xpath = "//span[@id='pageHeadBackText']")
+	@FindBy(xpath = "//span[text()='Admin']")
 	private WebElement eleAdminHdrTxt;
 	public WebElement getEleAdminHdrTxt() {
 		return eleAdminHdrTxt;
@@ -673,6 +674,8 @@ public class AdminLoginPage extends AbstractPage {
 		deleteBtn.click();
 		getEleConfirmBtn().click();
 	}
-	
-	
+	public void verifyAdminLoginPage(){
+		waitForVisibleElement(eleAdminHdrTxt);
+		validateElementText(eleAdminHdrTxt,"Admin");
+	}
 }

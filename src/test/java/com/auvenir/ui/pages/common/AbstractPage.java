@@ -241,8 +241,27 @@ public class AbstractPage {
         WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
+    public void waitForInvisibleElement(WebElement element){
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.invisibilityOf(element));
+    }
+    public void validatDisabledElement(WebElement element) throws InvalidElementStateException
+    {
+        getLogger().info("verify enabled of: " + element.getText());
 
+        try
+        {
+            if(!(element.isEnabled()))
+            {
+            NXGReports.addStep(element.getTagName() + " is disabled", LogAs.PASSED, null);
+            }
+        }catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getText() + " is  enabled", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
 
+    }
     public void navigateToSettingsPage() {
         waitForClickableOfElement(dashboardUserNameEle);
         dashboardUserNameEle.click();
