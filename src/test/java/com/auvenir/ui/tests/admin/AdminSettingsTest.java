@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 public class AdminSettingsTest extends AbstractTest {
     AdminAccountSettingsService adminAccountSettingsService;
     AdminService adminService;
-    @Test(  priority = 1,enabled = false, description = "Verify GUI admin setting page.")
+    @Test(  priority = 1,enabled = true, description = "Verify GUI admin setting page.")
     public void verifyUIAdminSetting() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
@@ -40,7 +40,7 @@ public class AdminSettingsTest extends AbstractTest {
         }
     }
     @Test(priority = 2,enabled = true,description = "Test First and Last name on Admin Setting Page.")
-    public void updateFullNameAdminSetting() throws Exception {
+    public void InputValueFullName() throws Exception {
         adminService = new AdminService(getLogger(),getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
@@ -75,7 +75,7 @@ public class AdminSettingsTest extends AbstractTest {
         }
     }
     @Test(priority = 3,enabled = true,description = "Email element View only on Admin Setting Page.")
-    public void VerifyEmailTextBoxAdminSetting() throws Exception {
+    public void VerifyEmailTextBox() throws Exception {
         adminService = new AdminService(getLogger(),getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
@@ -90,8 +90,46 @@ public class AdminSettingsTest extends AbstractTest {
             NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    @Test(priority = 4,enabled = false,description = "Update new information on Admin Setting Page.")
-    public void updateNewInfoAdminSetting() throws Exception {
+    @Test(priority = 4,enabled = true,description = "PhoneNumber textbox on Admin Setting Page.")
+    public void InputValuePhoneNumber() throws Exception {
+        adminService = new AdminService(getLogger(),getDriver());
+        adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
+        adminService.verifyAdminLoginPage();
+        adminService.navigateToSettingPage();
+        try{
+            getLogger().info("Input any value on PhoneNumber TextBox.");
+            adminAccountSettingsService.inputFullNameAdminSettingPage("0934567890");
+
+            getLogger().info("Do not input any value on PhoneNumber TextBox.");
+            adminAccountSettingsService.inputPhoneNumberAdminSettingPage("");
+            adminAccountSettingsService.inputFullNameAdminSettingPage("");
+            getLogger().info("Get the error message.");
+            adminAccountSettingsService.verifyTextphoneLabel();
+            getLogger().info("Input value on PhoneNumber TextBox with max length: 10.");
+            adminAccountSettingsService.inputFullNameAdminSettingPage("0934");
+            adminAccountSettingsService.inputFullNameAdminSettingPage("");
+            getLogger().info("Get the error message.");
+            adminAccountSettingsService.verifyTextphoneLabel();
+            getLogger().info("Input CHARACTER on PhoneNumber TextBox.");
+            adminAccountSettingsService.inputPhoneNumberAdminSettingPage("abcdcdsfafs");
+            adminAccountSettingsService.inputFullNameAdminSettingPage("");
+            getLogger().info("Get the error message.");
+            adminAccountSettingsService.verifyTextphoneLabel();
+            getLogger().info("Input SPECIAL KEY on FullName TextBox.");
+            adminAccountSettingsService.inputPhoneNumberAdminSettingPage("!@#$%^");
+            adminAccountSettingsService.inputFullNameAdminSettingPage("");
+            getLogger().info("Get the error message.");
+            adminAccountSettingsService.verifyTextphoneLabel();
+        }catch (Exception e){
+            NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    @Test(priority = 5,enabled = true,description = "Update new information on Admin Setting Page.")
+    public void updateNewInfo() throws Exception {
         adminService = new AdminService(getLogger(),getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");

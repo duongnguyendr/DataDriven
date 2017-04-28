@@ -96,4 +96,13 @@ public class AdminAccountSettingsService extends AbstractService{
             NXGReports.addStep("Element : FullName lable has not text as expected.",LogAs.FAILED,(CaptureScreen)null);
         }
     }
+    public void verifyTextphoneLabel(){
+        try{
+            getLogger().info("Verify text of Element: phoneLabel");
+            adminAccountSettingsPage.validateTextMessagePhoneTxtbox();
+            NXGReports.addStep("Element: FullName lable ",LogAs.PASSED, (CaptureScreen)null);
+        }catch (Exception e){
+            NXGReports.addStep("Element : FullName lable has not text as expected.",LogAs.FAILED,(CaptureScreen)null);
+        }
+    }
 }

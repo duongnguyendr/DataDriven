@@ -155,6 +155,9 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy (id="fullNameLabel")
     private WebElement fullnameLable;
     public WebElement getFullNameTextBox(){return  fullNameTextBox;}
+    @FindBy (id="phoneLabel")
+    private WebElement phoneLable;
+    public WebElement getphoneTextBox(){return  phoneLable;}
 
     public void goToSettingPage() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 60L);
@@ -281,5 +284,8 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
     public void validateTextMessageFullNametxtbox(){
         validateElementText(fullnameLable,"First and Last Name");
+    }
+    public void validateTextMessagePhoneTxtbox(){
+        validateElementText(phoneLable,"Phone Number");
     }
 }
