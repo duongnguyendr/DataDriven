@@ -18,7 +18,6 @@ public class AuditorEngagementPage extends AbstractPage {
 	public AuditorEngagementPage(Logger logger,WebDriver driver)
 	{
 		super(logger,driver);
-		PageFactory.initElements(driver, this);
 	}
 	
 	@FindBy(css="img[class='header-auvenirLogo']")

@@ -29,12 +29,14 @@ public class AccountSettingsTest extends AbstractTest {
 
         try
         {
+            logCurrentStepStart();
             auditorAccountSettingsService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
             auditorAccountSettingsService.verifyFooter();
             NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 

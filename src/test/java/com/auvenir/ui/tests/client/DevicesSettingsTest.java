@@ -25,6 +25,7 @@ public class DevicesSettingsTest extends AbstractTest {
 
         try
         {
+            logCurrentStepStart();
             clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();
@@ -33,6 +34,7 @@ public class DevicesSettingsTest extends AbstractTest {
             clientService.verifyDevicesSettingsPage();
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Footer in Devices Settings page.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 

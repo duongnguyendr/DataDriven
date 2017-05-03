@@ -20,7 +20,7 @@ public class ClientSettingsPage extends AbstractPage {
     private static final int waitTime = 60;
     public ClientSettingsPage(Logger logger, WebDriver driver){
         super(logger,driver);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+        //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
     }
 
     @FindBy(id ="link-setting-account")

@@ -28,12 +28,14 @@ public class ContactsTest extends AbstractTest {
 
         try
         {
+            logCurrentStepStart();
             contactsService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToContactsTab();
             contactsService.verifyAuditorContactsPage();
             contactsService.verifyAuditorFooter();
             NXGReports.addStep("Verify footer in Auditor Contacts page.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 

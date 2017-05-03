@@ -3,10 +3,12 @@ package com.auvenir.ui.tests;
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
+import com.auvenir.utilities.listeners.TestngListener;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,11 +17,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
+import org.testng.ITestMethodFinder;
+import org.testng.ITestNGListener;
+import org.testng.ITestNGMethod;
+import org.testng.annotations.*;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -27,11 +30,22 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by cuong.nguyen on 4/24/2017.
  */
-
+@Listeners(TestngListener.class)
 public class AbstractTest
 {
     private Logger logger = Logger.getLogger(com.auvenir.ui.tests.AbstractTest.class) ;
     private WebDriver driver;
+    protected static final String SD_START = "start";
+    /**
+     * Default differentiator - end of the step.
+     */
+    protected static final String SD_END = "end";
+    /**
+     * Default differentiator - failure.
+     */
+    protected static final String SD_FAILURE = "failure";
+
+    private String testName = "initial";
 
     @Parameters({"server"})
     @BeforeSuite
@@ -52,8 +66,9 @@ public class AbstractTest
     }
 
     @BeforeMethod
-    public void setUp()
+    public void setUp(Method method)
     {
+        testName = method.getName();
         try
         {
             if(GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")){
@@ -89,6 +104,61 @@ public class AbstractTest
     public Logger getLogger(){
         return logger;
     }
+
+    /**
+     * Records the start of the current step.
+     */
+    @SuppressWarnings("deprecation")
+    protected void logCurrentStepStart() {
+        logForCurrentStep(Priority.INFO, SD_START);
+
+    }
+
+    /**
+     * Records the end of the current step.
+     */
+    @SuppressWarnings("deprecation")
+    protected void logCurrentStepEnd() {
+        logForCurrentStep(Priority.INFO, SD_END);
+
+    }
+
+    /**
+     * Records a failure of the current step.
+     *
+     * @param t exception/error that happened
+     */
+    @SuppressWarnings("deprecation")
+    protected void logCurrentStepFailure(Throwable t) {
+        logForCurrentStep(Priority.FATAL, SD_FAILURE, t);
+
+    }
+
+    /**
+     * Logs a message related to the current step.
+     *
+     * @param priority priority of the message
+     * @param differentiator message differentiator
+     */
+    protected void logForCurrentStep(Priority priority, String differentiator) {
+        logForCurrentStep(priority, differentiator, null);
+    }
+
+    /**
+     * Logs a message related to the current step.
+     *
+     * @param priority priority of the message
+     * @param differentiator message differentiator
+     * @param t exception/error that happened (if any)
+     */
+    protected void logForCurrentStep(Priority priority, String differentiator, Throwable t) {
+        if (t == null) {
+            logger.log(priority, "STEP INFO - " + testName + " - " + differentiator);
+        } else {
+            logger.log(priority, "STEP INFO - " + testName + " - " + differentiator, t);
+        }
+    }
+
 
 
 

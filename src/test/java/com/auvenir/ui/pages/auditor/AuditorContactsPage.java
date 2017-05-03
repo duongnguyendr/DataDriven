@@ -19,7 +19,7 @@ public class AuditorContactsPage extends AbstractPage {
 	public AuditorContactsPage(Logger logger, WebDriver driver)
 	{
 		super(logger,driver);
-		PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+		//PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
 	}
 	@FindBy(xpath= "//span[contains(text(),'My Clients')]")
 	private WebElement myClientsTextEle;

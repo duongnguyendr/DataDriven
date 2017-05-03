@@ -15,7 +15,7 @@ public class AuditorAcountSettingsPage extends AbstractPage {
     private final static int waitTime=60;
     public AuditorAcountSettingsPage(Logger logger,WebDriver driver){
         super(logger,driver);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+        //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
         
     }
     @FindBy(xpath = "//h4[contains(text(),'Account Settings')]")

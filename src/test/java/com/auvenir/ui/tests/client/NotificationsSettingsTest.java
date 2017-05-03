@@ -27,6 +27,7 @@ public class NotificationsSettingsTest extends AbstractTest {
 
         try
         {
+            logCurrentStepStart();
             clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();
@@ -35,6 +36,7 @@ public class NotificationsSettingsTest extends AbstractTest {
             clientService.verifyNotificationsSettingsPage();
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Notification Setting footer page.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 

@@ -23,8 +23,7 @@ public class ClientDashboardPage extends AbstractPage {
 	public ClientDashboardPage(Logger logger,WebDriver driver)
 	{
 		super(logger,driver);
-		//PageFactory.initElements(driver, this);
-		PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+		//PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
 	}
 
 	@FindBy(xpath = "//img[@class='header-auvenirLogo']")
