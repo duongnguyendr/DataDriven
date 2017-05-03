@@ -30,6 +30,7 @@ public class IntegrationsSettingsTest extends AbstractTest {
 
         try
         {
+            logCurrentStepStart();
             clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();
@@ -38,6 +39,7 @@ public class IntegrationsSettingsTest extends AbstractTest {
             clientService.verifyIntegrationsSettingsPage();
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Footer in Integrations Settings page.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 

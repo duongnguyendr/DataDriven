@@ -26,12 +26,14 @@ public class AccountSettingsTest extends AbstractTest {
 
         try
         {
+            logCurrentStepStart();
             clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();
             clientService.verifyAccountSettingsPage();
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify client Account Settings page footer.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 

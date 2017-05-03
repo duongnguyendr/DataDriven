@@ -25,10 +25,12 @@ public class EngagementTest extends AbstractTest {
 
         try
         {
+            logCurrentStepStart();
             auditorEngagementService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifyAuditorFooter();
             NXGReports.addStep("Verify footer in Auditor Engagement page.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 

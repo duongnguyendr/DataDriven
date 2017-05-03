@@ -32,7 +32,7 @@ public class NotificationsSettingsTest extends AbstractTest {
 
         try
         {
-            
+            logCurrentStepStart();
             auditorNotificationsSettingsService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
@@ -41,6 +41,7 @@ public class NotificationsSettingsTest extends AbstractTest {
             auditorNotificationsSettingsService.verifyAuditorNotificationSettingsPage();
             auditorNotificationsSettingsService.verifyFooter();
             NXGReports.addStep("Verify Footer in Auditor Notifications Settings page.", LogAs.PASSED, null);
+            logCurrentStepEnd();
 
         }
 
