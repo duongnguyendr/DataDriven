@@ -105,4 +105,31 @@ public class AdminAccountSettingsService extends AbstractService{
             NXGReports.addStep("Element : FullName lable has not text as expected.",LogAs.FAILED,(CaptureScreen)null);
         }
     }
+    public void clickUpdateImageBTN(){
+        try{
+            getLogger().info("Try to click on Update Image button.");
+            adminAccountSettingsPage.clickUpdateImageBTN();
+            NXGReports.addStep("Clicked on Update Image button.",LogAs.PASSED, (CaptureScreen)null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to click on Update Image button.",LogAs.FAILED,(CaptureScreen)null);
+        }
+    }
+    public void clickUpdateBTN(){
+        try{
+            getLogger().info("Try to click on Update button.");
+            adminAccountSettingsPage.ClickUpdateBTN();
+            NXGReports.addStep("clicked on Update button.",LogAs.PASSED,(CaptureScreen)null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to click on Update button.",LogAs.FAILED,(CaptureScreen)null);
+        }
+    }
+    public void waitAndVerifyUpdatedTextMessage(){
+        try{
+            getLogger().info("Try to waitAndVerifyUpdatedTextMessage.");
+            adminAccountSettingsPage.waitAndVerifyUpdatedTextMessage();
+            NXGReports.addStep("waitAndVerifyUpdatedTextMessage successfully.",LogAs.PASSED,(CaptureScreen)null);
+        }catch (Exception e){
+            NXGReports.addStep("waitAndVerifyUpdatedTextMessage failed.",LogAs.FAILED,(CaptureScreen)null);
+        }
+    }
 }

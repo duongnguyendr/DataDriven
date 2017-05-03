@@ -158,6 +158,9 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy (id="phoneLabel")
     private WebElement phoneLable;
     public WebElement getphoneTextBox(){return  phoneLable;}
+    @FindBy (xpath = "//*[contains(text(),'Your account has been updated.')]")
+    private WebElement updatedTextMessage;
+    public WebElement getUpdatedTextMessage(){return updatedTextMessage;}
 
     public void goToSettingPage() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 60L);
@@ -287,5 +290,19 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
     public void validateTextMessagePhoneTxtbox(){
         validateElementText(phoneLable,"Phone Number");
+    }
+    public void clickUpdateImageBTN() throws InterruptedException {
+        waitForClickableOfElement(uploadButton);
+        getLogger().info("waited clickable");
+        ClickAndHold(uploadButton);
+
+    }
+    public void ClickUpdateBTN(){
+        waitForClickableOfElement(updateButton);
+        ClickAndHold(updateButton);
+    }
+    public void waitAndVerifyUpdatedTextMessage(){
+        waitForVisibleElement(updatedTextMessage);
+        validateElementText(updatedTextMessage,"Your account has been updated.");
     }
 }
