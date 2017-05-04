@@ -10,6 +10,7 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import java.io.IOException;
 
 /**
  * Created by Doai.tran on 4/27/2017.
@@ -18,7 +19,7 @@ import org.testng.annotations.Test;
 public class AdminSettingsTest extends AbstractTest {
     AdminAccountSettingsService adminAccountSettingsService;
     AdminService adminService;
-    @Test(  priority = 1,enabled = true, description = "Verify GUI admin setting page.")
+    @Test(  priority = 1,enabled = false, description = "Verify GUI admin setting page.")
     public void verifyUIAdminSetting() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
@@ -39,7 +40,7 @@ public class AdminSettingsTest extends AbstractTest {
             NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    @Test(priority = 2,enabled = true,description = "Test First and Last name on Admin Setting Page.")
+    @Test(priority = 2,enabled = false,description = "Test First and Last name on Admin Setting Page.")
     public void InputValueFullName() throws Exception {
         adminService = new AdminService(getLogger(),getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
@@ -70,11 +71,13 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("");
             getLogger().info("Get the error message.");
             adminAccountSettingsService.verifyTextFullNameLable();
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e){
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    @Test(priority = 3,enabled = true,description = "Email element View only on Admin Setting Page.")
+    @Test(priority = 3,enabled = false,description = "Email element View only on Admin Setting Page.")
     public void VerifyEmailTextBox() throws Exception {
         adminService = new AdminService(getLogger(),getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
@@ -86,11 +89,13 @@ public class AdminSettingsTest extends AbstractTest {
         adminService.navigateToSettingPage();
         try {
             adminAccountSettingsService.verifyEmailTextBoxVisible();
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    @Test(priority = 4,enabled = true,description = "PhoneNumber textbox on Admin Setting Page.")
+    @Test(priority = 4,enabled = false,description = "PhoneNumber textbox on Admin Setting Page.")
     public void InputValuePhoneNumber() throws Exception {
         adminService = new AdminService(getLogger(),getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
@@ -124,11 +129,37 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.inputFullNameAdminSettingPage("");
             getLogger().info("Get the error message.");
             adminAccountSettingsService.verifyTextphoneLabel();
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e){
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    @Test(priority = 5,enabled = true,description = "Update new information on Admin Setting Page.")
+    @Test(priority = 5,enabled = true,description = "Update new image on Admin Setting Page.")
+    public void updateNewImage()throws IOException {
+        adminService = new AdminService(getLogger(),getDriver());
+        adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
+        adminService.verifyAdminLoginPage();
+        adminService.navigateToSettingPage();
+        try{
+            adminAccountSettingsService.clickUpdateImageBTN();
+            getLogger().info("Run autoIT");
+            Runtime.getRuntime().exec("D:/GIT LOCAL/automation/src/test/resources/uploadfile.exe");
+            getLogger().info("Selected image successfully.");
+            adminAccountSettingsService.clickUpdateBTN();
+            adminAccountSettingsService.waitAndVerifyUpdatedTextMessage();
+
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
+        }catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    @Test(priority = 6,enabled = false,description = "Update new information on Admin Setting Page.")
     public void updateNewInfo() throws Exception {
         adminService = new AdminService(getLogger(),getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(),getDriver());
