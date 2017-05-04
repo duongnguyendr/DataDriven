@@ -30,10 +30,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by cuong.nguyen on 4/24/2017.
  */
-@Listeners(TestngListener.class)
+
 public class AbstractTest
 {
-    private Logger logger = Logger.getLogger(com.auvenir.ui.tests.AbstractTest.class) ;
+    private Logger logger = Logger.getLogger(AbstractTest.class) ;
     private WebDriver driver;
     protected static final String SD_START = "start";
     /**
@@ -44,6 +44,8 @@ public class AbstractTest
      * Default differentiator - failure.
      */
     protected static final String SD_FAILURE = "failure";
+
+
 
     private String testName = "initial";
 
@@ -69,6 +71,8 @@ public class AbstractTest
     public void setUp(Method method)
     {
         testName = method.getName();
+        logCurrentStepStart();
+
         try
         {
             if(GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")){
@@ -93,10 +97,12 @@ public class AbstractTest
     }
 
     @AfterMethod
-    public void tearDown()
+    public void tearDown(Method method)
     {
+        testName = method.getName();
         logger.info("Close the browser.");
         driver.quit();
+        logCurrentStepEnd();
     }
     public WebDriver getDriver(){
         return driver;

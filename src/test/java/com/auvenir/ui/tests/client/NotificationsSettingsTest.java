@@ -18,7 +18,7 @@ public class NotificationsSettingsTest extends AbstractTest {
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Client Notification Settings page.")
-    public void verifyFooterNotificationsSettingsPage() throws Exception
+    public void verifyFooterClientNotificationsSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
         String userId= GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
@@ -27,8 +27,8 @@ public class NotificationsSettingsTest extends AbstractTest {
 
         try
         {
-            logCurrentStepStart();
-            clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
+            //logCurrentStepStart();
+            clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();
             clientService.verifyAccountSettingsPage();
@@ -36,7 +36,7 @@ public class NotificationsSettingsTest extends AbstractTest {
             clientService.verifyNotificationsSettingsPage();
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Notification Setting footer page.", LogAs.PASSED, null);
-            logCurrentStepEnd();
+            //logCurrentStepEnd();
 
         }
 

@@ -17,7 +17,7 @@ public class AccountSettingsTest extends AbstractTest {
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in  client Account Settings page.")
-    public void verifyFooterAccountSettingsPage() throws Exception
+    public void verifyFooterClientAccountSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
         String userId= GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
@@ -26,14 +26,14 @@ public class AccountSettingsTest extends AbstractTest {
 
         try
         {
-            logCurrentStepStart();
-            clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
+            //logCurrentStepStart();
+            clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();
             clientService.verifyAccountSettingsPage();
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify client Account Settings page footer.", LogAs.PASSED, null);
-            logCurrentStepEnd();
+            //logCurrentStepEnd();
 
         }
 

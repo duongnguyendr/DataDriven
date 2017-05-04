@@ -24,7 +24,7 @@ public class HomeTest extends AbstractTest {
 
         try
         {
-            clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
+            clientService.loginWithUserRole(userId);
             clientService.navigateToClientDashboardPage();
             clientService.navigateToInProgressTab();
             clientService.verifyClientFooter();

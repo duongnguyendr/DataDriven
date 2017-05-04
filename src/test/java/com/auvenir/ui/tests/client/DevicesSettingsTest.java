@@ -16,7 +16,7 @@ public class DevicesSettingsTest extends AbstractTest {
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Client Devices Settings page.")
-    public void verifyFooterDevicesSettingsPage() throws Exception
+    public void verifyFooterClientDevicesSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
         String userId= GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
@@ -25,8 +25,8 @@ public class DevicesSettingsTest extends AbstractTest {
 
         try
         {
-            logCurrentStepStart();
-            clientService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
+            //logCurrentStepStart();
+            clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();
             clientService.verifyAccountSettingsPage();
@@ -34,7 +34,7 @@ public class DevicesSettingsTest extends AbstractTest {
             clientService.verifyDevicesSettingsPage();
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Footer in Devices Settings page.", LogAs.PASSED, null);
-            logCurrentStepEnd();
+            //logCurrentStepEnd();
 
         }
 
