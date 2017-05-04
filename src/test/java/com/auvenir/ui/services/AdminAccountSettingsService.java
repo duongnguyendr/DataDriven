@@ -132,4 +132,46 @@ public class AdminAccountSettingsService extends AbstractService{
             NXGReports.addStep("waitAndVerifyUpdatedTextMessage failed.",LogAs.FAILED,(CaptureScreen)null);
         }
     }
+    public void waitAndVerifyErrorMessageUploadImage() {
+        try {
+            this.getLogger().info("Try to waitAndVerifyUpdatedTextMessage.");
+            this.adminAccountSettingsPage.waitAndVerifyErrorMessageUploadImage();
+            NXGReports.addStep("waitAndVerifyErrorMessageUploadImage successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception var2) {
+            NXGReports.addStep("waitAndVerifyErrorMessageUploadImage failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
+
+    public void waitAndVerifyErrorMessageBigFile() {
+        try {
+            this.getLogger().info("Try to waitAndVerifyErrorMessageBigFile.");
+            this.adminAccountSettingsPage.waitAndVerifyErrorMessageBigFile();
+            NXGReports.addStep("waitAndVerifyErrorMessageBigFile successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception var2) {
+            NXGReports.addStep("waitAndVerifyErrorMessageBigFile failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
+
+    public void verifyUpdateButtonDisableDefault() {
+        try {
+            this.getLogger().info("Try to verifyUpdateButtonDisableDefault.");
+            this.adminAccountSettingsPage.verifyUpdateButtonDisableDefault();
+            NXGReports.addStep("verifyUpdateButtonDisableDefault successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception e) {
+            NXGReports.addStep("verifyUpdateButtonDisableDefault failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
+    public void verifyUpdateButtonEnable() {
+        try {
+            getLogger().info("Try to verifyUpdateButtonEnable.");
+            adminAccountSettingsPage.verifyUpdateButtonEnable();
+            NXGReports.addStep("verifyUpdateButtonEnable successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception e) {
+            NXGReports.addStep("verifyUpdateButtonEnable failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
 }
