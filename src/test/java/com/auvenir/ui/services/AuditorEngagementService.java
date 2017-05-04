@@ -68,6 +68,7 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("verify Auditor Engagement page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Auditor Engagement page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
         }
     }
 

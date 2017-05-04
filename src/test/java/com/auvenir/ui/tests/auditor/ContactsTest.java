@@ -18,7 +18,7 @@ public class ContactsTest extends AbstractTest {
     AuditorEngagementService auditorEngagementService;
 
     @Test(priority=1,enabled=true, description="Verify Footer in Auditor Contacts page.")
-    public void verifyFooterAuditorEngagementPage() throws Exception
+    public void verifyFooterAuditorContactsPage() throws Exception
     {
         contactsService = new ContactsService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -28,14 +28,14 @@ public class ContactsTest extends AbstractTest {
 
         try
         {
-            logCurrentStepStart();
-            contactsService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
+            //logCurrentStepStart();
+            contactsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToContactsTab();
             contactsService.verifyAuditorContactsPage();
             contactsService.verifyAuditorFooter();
             NXGReports.addStep("Verify footer in Auditor Contacts page.", LogAs.PASSED, null);
-            logCurrentStepEnd();
+           // logCurrentStepEnd();
 
         }
 

@@ -21,7 +21,7 @@ public class DevicesSettingsTest extends AbstractTest {
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Auditor Notifications Settings page.")
-    public void verifyFooterNotificationsSettingsPage() throws Exception
+    public void verifyFooterAuditorDevicesSettingsPage() throws Exception
     {
         auditorDevicesSettingsService = new AuditorDevicesSettingsService(getLogger(),getDriver());
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
@@ -32,8 +32,8 @@ public class DevicesSettingsTest extends AbstractTest {
 
         try
         {
-            logCurrentStepStart();
-            auditorDevicesSettingsService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
+            //logCurrentStepStart();
+            auditorDevicesSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
@@ -41,7 +41,7 @@ public class DevicesSettingsTest extends AbstractTest {
             auditorDevicesSettingsService.verifyAuditorDevicesSettingsPage();
             auditorDevicesSettingsService.verifyFooter();
             NXGReports.addStep("Verify Footer in Auditor Notifications Settings page.", LogAs.PASSED, null);
-            logCurrentStepEnd();
+            //logCurrentStepEnd();
 
         }
 

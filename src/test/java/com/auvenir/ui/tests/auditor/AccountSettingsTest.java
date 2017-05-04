@@ -19,7 +19,7 @@ public class AccountSettingsTest extends AbstractTest {
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Auditor Account Settings page.")
-    public void verifyFooterAccountSettingsPage() throws Exception
+    public void verifyFooterAuditorAccountSettingsPage() throws Exception
     {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -29,14 +29,14 @@ public class AccountSettingsTest extends AbstractTest {
 
         try
         {
-            logCurrentStepStart();
-            auditorAccountSettingsService.loginWithUserRole(userId,getTokenUrl,checkTokenUrl);
+            //logCurrentStepStart();
+            auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
             auditorAccountSettingsService.verifyFooter();
             NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
-            logCurrentStepEnd();
+           // logCurrentStepEnd();
 
         }
 
