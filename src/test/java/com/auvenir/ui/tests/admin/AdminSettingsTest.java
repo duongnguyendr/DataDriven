@@ -364,7 +364,7 @@ public class AdminSettingsTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(priority = 13,enabled = true,description = "Update with valid Name on Admin Setting Page.")
+    @Test(priority = 13,enabled = false,description = "Update with valid Name on Admin Setting Page.")
     public void updateWithValidName() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
@@ -382,11 +382,11 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.verifyUpdateButtonEnable();
             adminAccountSettingsService.clickUpdateBTN();
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
-    @Test(priority = 14,enabled = true,description = "Update with valid PhoneNumber on Admin Setting Page.")
+    @Test(priority = 14,enabled = false,description = "Update with valid PhoneNumber on Admin Setting Page.")
     public void updateWithValidPhoneNumber() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
@@ -403,8 +403,70 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.verifyUpdateButtonEnable();
             adminAccountSettingsService.clickUpdateBTN();
         }catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
+
+    @Test(priority = 15,enabled = true,description = "change avatar successful")
+    public void updateAvatarSuccessful() throws Exception {
+        adminService = new AdminService(getLogger(), getDriver());
+        adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        try{
+            adminService.loginWithUserRole(userId);
+            adminService.verifyAdminLoginPage();
+            adminService.navigateToSettingPage();
+            getLogger().info("Upload an valid image file.");
+            adminAccountSettingsService.clickUpdateImageBTN();
+            getLogger().info("Run autoIT to select an image file");
+            String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
+            String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile3.jpg\"";
+            adminAccountSettingsService.executeAutoITScriptUploadImage(autoITExecutable,fileName);
+            getLogger().info("Click on Update button.");
+            adminAccountSettingsService.clickUpdateBTN();
+            getLogger().info("Selected image successfully.");
+            adminAccountSettingsService.waitAndVerifyUpdatedTextMessage();
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Update new image on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
+        }catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+    @Test(priority = 16,enabled = true,description = "Update all new information successfully.")
+    public void updateAllInfoSuccessful() throws Exception {
+        adminService = new AdminService(getLogger(), getDriver());
+        adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        try{
+            adminService.loginWithUserRole(userId);
+            adminService.verifyAdminLoginPage();
+            adminService.navigateToSettingPage();
+            getLogger().info("Input valid Full Name.");
+            adminAccountSettingsService.inputFullNameAdminSettingPage("Admin test");
+            getLogger().info("Input valid phone number.");
+            adminAccountSettingsService.inputPhoneNumberAdminSettingPage("0906973162");
+            getLogger().info("Upload an valid image file.");
+            adminAccountSettingsService.clickUpdateImageBTN();
+            getLogger().info("Run autoIT to select an image file");
+            String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
+            String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile3.jpg\"";
+            adminAccountSettingsService.executeAutoITScriptUploadImage(autoITExecutable,fileName);
+            getLogger().info("Click on Update button.");
+            adminAccountSettingsService.clickUpdateBTN();
+            getLogger().info("Selected image successfully.");
+            adminAccountSettingsService.waitAndVerifyUpdatedTextMessage();
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Update all new info on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
+        }catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
 }
