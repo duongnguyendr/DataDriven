@@ -24,7 +24,7 @@ public class CreateToDoTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);            
+            auditorCreateToDoService.loginWithUserRole(userId);          
             auditorCreateToDoService.verifyAuditorCreateToDo();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
