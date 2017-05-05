@@ -35,7 +35,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.verifyBodyAdminSettingPage();
             adminAccountSettingsService.verifyFooterAdminSettingPage();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
+            NXGReports.addStep("Verify GUI admin setting page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -73,7 +73,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("");
             getLogger().info("Get the error message.");adminAccountSettingsService.verifyTextFullNameLable();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
+            NXGReports.addStep("Test First and Last name on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -93,7 +93,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyEmailTextBoxVisible();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
+            NXGReports.addStep("Email element View only on Admin Setting Page:PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -133,7 +133,7 @@ public class AdminSettingsTest extends AbstractTest {
             getLogger().info("Get the error message.");
             adminAccountSettingsService.verifyTextphoneLabel();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
+            NXGReports.addStep("PhoneNumber textbox on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
