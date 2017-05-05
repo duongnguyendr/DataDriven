@@ -50,7 +50,7 @@ public class AdminSettingsTest extends AbstractTest {
         String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
         String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
-            adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
+            adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input any value on FullName TextBox.");
@@ -88,7 +88,7 @@ public class AdminSettingsTest extends AbstractTest {
         String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
         String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
-            adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
+            adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyEmailTextBoxVisible();
@@ -107,7 +107,7 @@ public class AdminSettingsTest extends AbstractTest {
         String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
         String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
-            adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
+            adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input any value on PhoneNumber TextBox.");
