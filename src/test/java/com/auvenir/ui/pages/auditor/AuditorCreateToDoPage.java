@@ -1,5 +1,7 @@
 package com.auvenir.ui.pages.auditor;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -56,22 +58,26 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath="//table[@id='todo-table']//..//..//..//th[@data-id='audit']")
 	private WebElement eleSortByAuditAssignee;
 	
+	@FindBy(xpath="//div[@class='e-widget-content']")
+	private List<WebElement> eleWidgetContent;
+	
 	@FindBy(xpath="//div[@class='e-widget-content']//div[@class='e-widget-options']//input[@type='button']")
-	private WebElement[] eleViewEngagementPage;
+	private List<WebElement> eleViewEngagementPage;
 	
 	@FindBy(xpath="//nav[@id='dashboardLinks']//div[@id='engagementTodoLink']")
 	private WebElement eleToDoLnk;
 	
 
 	public void verifyToDoListPage() throws Exception {
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"background","#2c8188");
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"color","#fff");
+		
+		 this.validateCssValueElement(this.eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
+		 this.validateCssValueElement(this.eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
 		 this.validateDisPlayedElement(this.eleCreateToDoBtn);
 		 this.validateDisPlayedElement(this.eleFilterBtn);
 		 this.validateDisPlayedElement(this.eleToDoSearchInput);
 		 this.validateAttributeElement(this.eleToDoSearchInput,"placeholder","Search...");
 		 this.eleToDoSearchInput.click();
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"border","#599ba1");
+		 this.validateCssValueElement(this.eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
 		 this.validateDisPlayedElement(this.eleCheckBox);
 		 this.validateElementText(this.eleNameToDoTitleLabel, "To-Dos");
 		 this.validateElementText(this.eleCategoryTitleLabel, "Category");	
@@ -85,19 +91,21 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		 if(!this.eleCheckBox.isSelected()){
 			 this.eleCheckBox.click();
 		 }
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"background","#5cd4c0");		 
+		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(92, 212, 192, 1)");		 
 		 if(this.eleCheckBox.isSelected()){
 			 this.eleCheckBox.click();
+			 
 		 }
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"background","#cacece");		 	 
+		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(202, 206, 206, 1)");		 	 
 	    }
 	
-	public void navigateToEngagementPage(){
-		waitForClickableOfElement(eleViewEngagementPage[0]);
-		eleViewEngagementPage[0].click();
+	public void navigateToEngagementPage() throws Exception{
+		getLogger().info("Click view button open Engagement Page");
+		waitForClickableOfElement(eleWidgetContent.get(0));
+		ClickAndHold(eleWidgetContent.get(0));
 	}
 	
-	public void navigateToToDoList(){
+	public void navigateToToDoList() throws Exception{
 		waitForClickableOfElement(eleToDoLnk);
 		eleToDoLnk.click();
 	}

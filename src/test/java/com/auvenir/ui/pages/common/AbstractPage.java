@@ -209,7 +209,7 @@ public class AbstractPage {
     
     public void validateAttributeElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
     {
-        getLogger().info("verify Attribute "+ attributeName+" of: " + element.getText());      
+        getLogger().info("verify Attribute "+ attributeName);      
        
 
         try
@@ -221,7 +221,26 @@ public class AbstractPage {
         catch (Exception e)
         {
             AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(element.getText() + " has attribute "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+    
+    public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    {
+        getLogger().info("verify style with "+ attributeName);      
+       
+
+        try
+        {
+        	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
+            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
+        }
+
+        catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
