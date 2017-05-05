@@ -6,6 +6,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -130,6 +131,66 @@ public class AdminAccountSettingsService extends AbstractService{
             NXGReports.addStep("waitAndVerifyUpdatedTextMessage successfully.",LogAs.PASSED,(CaptureScreen)null);
         }catch (Exception e){
             NXGReports.addStep("waitAndVerifyUpdatedTextMessage failed.",LogAs.FAILED,(CaptureScreen)null);
+        }
+    }
+    public void waitAndVerifyErrorMessageUploadImage() {
+        try {
+            this.getLogger().info("Try to waitAndVerifyUpdatedTextMessage.");
+            this.adminAccountSettingsPage.waitAndVerifyErrorMessageUploadImage();
+            NXGReports.addStep("waitAndVerifyErrorMessageUploadImage successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception var2) {
+            NXGReports.addStep("waitAndVerifyErrorMessageUploadImage failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
+
+    public void waitAndVerifyErrorMessageBigFile() {
+        try {
+            this.getLogger().info("Try to waitAndVerifyErrorMessageBigFile.");
+            this.adminAccountSettingsPage.waitAndVerifyErrorMessageBigFile();
+            NXGReports.addStep("waitAndVerifyErrorMessageBigFile successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception var2) {
+            NXGReports.addStep("waitAndVerifyErrorMessageBigFile failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
+
+    public void verifyUpdateButtonDisableDefault() {
+        try {
+            this.getLogger().info("Try to verifyUpdateButtonDisableDefault.");
+            this.adminAccountSettingsPage.verifyUpdateButtonDisableDefault();
+            NXGReports.addStep("verifyUpdateButtonDisableDefault successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception e) {
+            NXGReports.addStep("verifyUpdateButtonDisableDefault failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
+    public void verifyUpdateButtonEnable() {
+        try {
+            getLogger().info("Try to verifyUpdateButtonEnable.");
+            adminAccountSettingsPage.verifyUpdateButtonEnable();
+            NXGReports.addStep("verifyUpdateButtonEnable successfully.", LogAs.PASSED, (CaptureScreen)null);
+        } catch (Exception e) {
+            NXGReports.addStep("verifyUpdateButtonEnable failed.", LogAs.FAILED, (CaptureScreen)null);
+        }
+
+    }
+    public void sendTabkeyFullNametxt(){
+        try{
+            adminAccountSettingsPage.sendTabkeyFullNameTxt();
+            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to tab on Element.", LogAs.FAILED, null);
+            throw e;
+        }
+    }
+    public void sendTabkeyPhoneNumbertxt(){
+        try{
+            adminAccountSettingsPage.sendTabkeyPhoneNumberTxt();
+            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to tab on Element.", LogAs.FAILED, null);
+            throw e;
         }
     }
 }

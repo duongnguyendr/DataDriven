@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -93,6 +94,16 @@ public class AbstractService  {
             throw e;
         }
 
+    }
+    public void executeAutoITScriptUploadImage(String AutoITScripDirectory, String fileDirectory) throws IOException {
+        try{
+            String[] cmdRun = new String[]{AutoITScripDirectory, fileDirectory};
+            Runtime.getRuntime().exec(cmdRun);
+            NXGReports.addStep("Execute AutoITScriptUploadImage successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Execute AutoITScriptUploadImage successfully", LogAs.FAILED, null);
+            throw e;
+        }
     }
 
 

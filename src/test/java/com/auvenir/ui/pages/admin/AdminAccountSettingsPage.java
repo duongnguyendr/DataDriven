@@ -161,6 +161,16 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy (xpath = "//*[contains(text(),'Your account has been updated.')]")
     private WebElement updatedTextMessage;
     public WebElement getUpdatedTextMessage(){return updatedTextMessage;}
+    @FindBy(xpath = "//*[contains(text(),'*Please select a valid image file.')]")
+    private WebElement errorMessageWrongTypeImage;
+    public WebElement getErrorMessageWrongTypeImage() {
+        return this.errorMessageWrongTypeImage;
+    }
+    @FindBy(xpath = "//*[contains(text(),'*Your image is too big. Please upload an image less than 2MB.')]")
+    private WebElement errorMessageBigFile;
+    public WebElement getErrorMessageBigFile() {
+        return this.errorMessageBigFile;
+    }
 
     public void goToSettingPage() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 60L);
@@ -304,5 +314,29 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void waitAndVerifyUpdatedTextMessage(){
         waitForVisibleElement(updatedTextMessage);
         validateElementText(updatedTextMessage,"Your account has been updated.");
+    }
+    public void waitAndVerifyErrorMessageUploadImage() {
+        waitForVisibleElement(errorMessageWrongTypeImage);
+        validateElementText(errorMessageWrongTypeImage, "*Please select a valid image file.");
+    }
+
+    public void waitAndVerifyErrorMessageBigFile() {
+        waitForVisibleElement(errorMessageBigFile);
+        validateElementText(errorMessageBigFile, "*Your image is too big. Please upload an image less than 2MB.");
+    }
+
+    public void verifyUpdateButtonDisableDefault() {
+        validatDisabledElement(updateButton);
+    }
+
+    public void verifyUpdateButtonEnable() {
+        validateEnabledElement(updateButton);
+        waitForClickableOfElement(updateButton);
+    }
+    public void sendTabkeyFullNameTxt(){
+        sendTabkey(fullNameTextBox);
+    }
+    public void sendTabkeyPhoneNumberTxt(){
+        sendTabkey(phoneNoTextBox);
     }
 }
