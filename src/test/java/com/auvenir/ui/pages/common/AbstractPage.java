@@ -205,6 +205,26 @@ public class AbstractPage {
         }
 
     }
+    
+    
+    public void validateAttributeElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    {
+        getLogger().info("verify Attribute "+ attributeName+" of: " + element.getText());      
+       
+
+        try
+        {
+        	 Assert.assertEquals(element.getAttribute(attributeName).trim(),attributeValue);
+            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.PASSED, null);
+        }
+
+        catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getText() + " has attribute "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
     public void scrollPageUp() throws AWTException {
 
         Robot robot = new Robot();

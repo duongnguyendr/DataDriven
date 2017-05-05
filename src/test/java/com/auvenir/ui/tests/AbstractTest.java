@@ -70,9 +70,10 @@ public class AbstractTest
     @BeforeMethod
     public void setUp(Method method)
     {
+    	System.out.println("setUp");
         testName = method.getName();
         logCurrentStepStart();
-
+        
         try
         {
             if(GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")){
@@ -116,6 +117,7 @@ public class AbstractTest
      */
     @SuppressWarnings("deprecation")
     protected void logCurrentStepStart() {
+    	System.out.println("logCurrentStepStart");
         logForCurrentStep(Priority.INFO, SD_START);
 
     }
