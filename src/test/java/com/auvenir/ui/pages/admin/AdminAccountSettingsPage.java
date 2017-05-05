@@ -70,7 +70,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy(id = "acc-ay-phone")
     private WebElement phoneNoTextBox;
     public WebElement getPhoneNoTextBox() {
-        return phoneNoTextBox;
+            return phoneNoTextBox;
     }
     @FindBy(id = "acc-ay-photo")
     private WebElement userPhoto;
