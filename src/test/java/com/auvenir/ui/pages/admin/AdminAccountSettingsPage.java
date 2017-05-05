@@ -333,4 +333,10 @@ public class AdminAccountSettingsPage extends AbstractPage {
         validateEnabledElement(updateButton);
         waitForClickableOfElement(updateButton);
     }
+    public void sendTabkeyFullNameTxt(){
+        sendTabkey(fullNameTextBox);
+    }
+    public void sendTabkeyPhoneNumberTxt(){
+        sendTabkey(phoneNoTextBox);
+    }
 }

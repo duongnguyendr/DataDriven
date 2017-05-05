@@ -6,6 +6,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -173,5 +174,23 @@ public class AdminAccountSettingsService extends AbstractService{
             NXGReports.addStep("verifyUpdateButtonEnable failed.", LogAs.FAILED, (CaptureScreen)null);
         }
 
+    }
+    public void sendTabkeyFullNametxt(){
+        try{
+            adminAccountSettingsPage.sendTabkeyFullNameTxt();
+            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to tab on Element.", LogAs.FAILED, null);
+            throw e;
+        }
+    }
+    public void sendTabkeyPhoneNumbertxt(){
+        try{
+            adminAccountSettingsPage.sendTabkeyPhoneNumberTxt();
+            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to tab on Element.", LogAs.FAILED, null);
+            throw e;
+        }
     }
 }

@@ -4,10 +4,7 @@ import com.auvenir.ui.services.AbstractRefactorService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -271,5 +268,9 @@ public class AbstractPage {
         actions.moveToElement(element);
         actions.click(element);
         actions.perform();
+    }
+    public void sendTabkey(WebElement element) {
+        element.sendKeys(Keys.TAB);
+        element.sendKeys(Keys.ENTER);
     }
 }
