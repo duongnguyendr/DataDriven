@@ -6,7 +6,7 @@
 	 </listeners>
 	 <test name="Regression" preserve-order="true">    
 		<classes>
-			<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
+			<!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>-->
 			<!--
      		<class name="com.auvenir.ui.tests.SmokeTest"/>
 			<class name="com.auvenir.ui.tests.AdminTest"/>
@@ -15,8 +15,9 @@
     		<class name="com.auvenir.ui.tests.AuditorTest"/>
     		<class name="com.auvenir.ui.tests.ClientTest"/>
          	-->
-			<!--<class name="com.auvenir.ui.tests.auditor.EngagementTest"/>
-			<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
+			<!--<class name="com.auvenir.ui.tests.auditor.EngagementTest"/>-->
+			<class name="com.auvenir.ui.tests.auditor.CreateToDoTest"/>
+			<!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.AccountSettingsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.NotificationsSettingsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.DevicesSettingsTest"/>
