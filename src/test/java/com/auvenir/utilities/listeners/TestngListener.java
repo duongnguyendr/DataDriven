@@ -104,7 +104,7 @@ public class TestngListener implements ITestListener {
 	     GenericService.getPieChart(iPassCount,iFailCount,iSkippedCount);
 	     GenericService.getBarChart(iPassCount,iFailCount,iSkippedCount);
          PdfGenerater pdf = new PdfGenerater();
-         pdf.toExecute(sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount, pdfReports);
+         PdfGenerater.toExecute(sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount, pdfReports);
          //File reports = new File(sTestngReports);
      	try
         {

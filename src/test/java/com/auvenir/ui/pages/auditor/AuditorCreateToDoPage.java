@@ -4,6 +4,7 @@ package com.auvenir.ui.pages.auditor;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -77,8 +78,15 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyImgEmtyToDo()throws Exception {
 		this.validateDisPlayedElement(this.eleImgEmtyToDo);		
 	}
-	
-	
+
+	@FindBy(id="todo-search")
+	private WebElement txtIdTodoSearch;
+	@FindBy(id="todo-table")
+	private WebElement tblIdTodoTable;
+	@FindBy(id="todo-name")
+	private WebElement eleIdToDoName;
+	@FindBy(id="todo-add-btn")
+	private WebElement eleBtnToDoAdd;
 	
 	public void verifyButtonCreateToDo()throws Exception {
 		 this.validateCssValueElement(this.eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
@@ -150,11 +158,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		 }
 		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
 	}
-	
-	
 
-	
-	
 	public void navigateToEngagementPage() throws Exception{
 		getLogger().info("Click view button open Engagement Page");
 		waitForClickableOfElement(eleWidgetContent.get(0));
@@ -164,6 +168,44 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void navigateToToDoList() throws Exception{
 		waitForClickableOfElement(eleToDoLnk);
 		eleToDoLnk.click();
+	}
+
+	public boolean checkSearchData(String strSearchData) throws InterruptedException {
+		boolean isCheckData = false;
+		waitForVisibleElement(txtIdTodoSearch);
+		Thread.sleep(1000);
+		txtIdTodoSearch.sendKeys(strSearchData);
+		waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")));
+		// Check the result in the list data
+		List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
+		for (WebElement trElement : tr_collection) {
+			List<WebElement> td_collection = trElement.findElements(By.xpath("td"));
+			for (WebElement tdElement : td_collection) {
+				String strSearchValue = "";
+				try {
+					strSearchValue = tdElement.findElement(By.tagName("input")).getAttribute("value");
+				}
+				catch(Exception ex)
+				{}
+				System.out.println("strSearchValue = " + strSearchValue);
+				if(strSearchValue.equals(strSearchData))
+				{
+					isCheckData = true;
+					break;
+				}
+			}
+			if(isCheckData)
+			{
+				break;
+			}
+		}
+		return isCheckData;
+	}
+
+	public void createToDoPage(String toDoName)throws Exception {
+		this.eleCreateToDoBtn.click();
+		eleIdToDoName.sendKeys(toDoName);
+		eleBtnToDoAdd.click();
 	}
 
 }
