@@ -205,10 +205,10 @@ public class AuditorAcountSettingsPage extends AbstractPage {
         waitForVisibleElement(logoUploadButton);
         NXGReports.addStep("verified Element: logoUploadButton displayed.", LogAs.PASSED, (CaptureScreen)null);
         validateElementText(deactivateButton, "Deactivate My Account");
-        validatDisabledElement(deactivateButton);
+        validateDisabledElement(deactivateButton);
         NXGReports.addStep("verified Element: deactivateButton displayed and disable", LogAs.PASSED, (CaptureScreen)null);
         validateElementText(updateButton, "Update");
-        validatDisabledElement(updateButton);
+        validateDisabledElement(updateButton);
         NXGReports.addStep("verified Element: updateButton displayed and disable.", LogAs.PASSED, (CaptureScreen)null);
     }
     public void navigateToNotificationTab() {
