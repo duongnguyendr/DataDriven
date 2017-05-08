@@ -17,6 +17,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 
 import com.auvenir.ui.services.AbstractRefactorService;
@@ -149,6 +151,7 @@ public class AbstractPage {
     public void validateElementText(WebElement webElement, String elementText) {
         try {
             getLogger().info("Check renderd of text: " + elementText);
+            getLogger().info("Actual Text is displayed: " + webElement.getText().trim());
             Assert.assertEquals(webElement.getText().trim(),elementText);
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED,null);
         }catch (AssertionError error) {
@@ -207,12 +210,12 @@ public class AbstractPage {
         }
 
     }
-    
-    
+
+
     public void validateAttributeElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
     {
-        getLogger().info("verify Attribute "+ attributeName);      
-       
+        getLogger().info("verify Attribute "+ attributeName);
+
 
         try
         {
@@ -227,11 +230,11 @@ public class AbstractPage {
         }
 
     }
-    
+
     public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
     {
-        getLogger().info("verify style with "+ attributeName);      
-       
+        getLogger().info("verify style with "+ attributeName);
+
 
         try
         {
@@ -246,7 +249,7 @@ public class AbstractPage {
         }
 
     }
-    
+
     public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
         try {
             getLogger().info("verify input with max length with " + maxLenght +"character");
@@ -258,9 +261,9 @@ public class AbstractPage {
             throw error;
         }
     }
-    
-    
-    
+
+
+
     public void scrollPageUp() throws AWTException {
 
         Robot robot = new Robot();
@@ -327,5 +330,50 @@ public class AbstractPage {
         actions.moveToElement(element);
         actions.click(element);
         actions.perform();
+    }
+    public void HoverElement(WebElement element){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.build().perform();
+    }
+    public void sendTabkey(WebElement element) {
+        element.sendKeys(Keys.TAB);
+        element.sendKeys(Keys.ENTER);
+    }
+
+    public void validateAttributeElement(WebElement element, String attributeName, String expectedAttributeValue) throws InvalidElementStateException {
+        getLogger().info("verify Attribute " + attributeName + " of: " + element.toString());
+        String actualAttributeValue = null;
+        try {
+            actualAttributeValue = element.getAttribute(attributeName).trim();
+            getLogger().info("actualAttributeValue of " + attributeName + " is: " + actualAttributeValue);
+            if (actualAttributeValue.equals(expectedAttributeValue)) {
+                NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
+            } else {
+                AbstractRefactorService.sStatusCnt++;
+                NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) throws InvalidElementStateException {
+        getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.toString());
+        String actualCSSValue = null;
+        try {
+            actualCSSValue = element.getCssValue(cSSValueName);
+            getLogger().info("actualCSSValue of " + cSSValueName + " is: " + actualCSSValue);
+            if (actualCSSValue.equals(expectedCSSValue)) {
+                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.PASSED, null);
+            } else {
+                AbstractRefactorService.sStatusCnt++;
+                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 }
