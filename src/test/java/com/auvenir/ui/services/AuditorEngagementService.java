@@ -93,5 +93,16 @@ public class AuditorEngagementService extends AbstractService {
         }
 
     }
+
+    public void clickNewEnagementButton() {
+        try {
+            getLogger().info("click Add New engagement button.");
+            auditorEngagementPage.clickNewEnagementButton();
+            NXGReports.addStep("click Add New engagement button.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("click Add New engagement button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
 }
 

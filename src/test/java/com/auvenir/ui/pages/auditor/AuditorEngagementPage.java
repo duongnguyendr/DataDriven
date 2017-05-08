@@ -119,6 +119,8 @@ public class AuditorEngagementPage extends AbstractPage {
 
 	@FindBy(id = "h-clientListLink")
 	private WebElement contactsLinkEle;
+	@FindBy(id = "newAuditBtn")
+	private WebElement newEngagementButtonEle;
 	
 	@FindBy(xpath="//button[contains(text(),'Add New')]")
 	private WebElement eleAddNewBtn;
@@ -151,4 +153,9 @@ public class AuditorEngagementPage extends AbstractPage {
 		contactsLinkEle.click();
 
 	}
+
+    public void clickNewEnagementButton() {
+		waitForClickableOfElement(newEngagementButtonEle);
+		newEngagementButtonEle.click();
+    }
 }
