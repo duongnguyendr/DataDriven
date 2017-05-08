@@ -87,6 +87,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath="//*[@id='todo-add-btn']")
 	private WebElement eleToDoSaveIcon;
 
+	@FindBy(xpath="//*[@id='todo-cancel-btn']")
+	private WebElement eleToDoCloseIcon;
+
 
 	public void verifyImgEmtyToDo()throws Exception {
 		this.validateDisPlayedElement(this.eleImgEmtyToDo);		
@@ -280,5 +283,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		eleToDoNameInput.sendKeys("Task01");
 		waitForVisibleElement(eleToDoSaveIcon);
 		validateEnabledElement(eleToDoSaveIcon);
+	}
+
+	public void verifyEnableToDoCloseIcon(){
+		waitForVisibleElement(eleToDoCloseIcon);
+		eleToDoCloseIcon.click();
+		validateIsNotDisPlayedElement(eleToDoCloseIcon);
 	}
 }

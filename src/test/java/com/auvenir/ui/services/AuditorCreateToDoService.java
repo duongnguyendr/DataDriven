@@ -110,7 +110,7 @@ public class AuditorCreateToDoService extends AbstractService {
 	public void verifyColumnsInGrid(){
 
 		try {
-			createToDoPage.verifyColumnsInGrid(); 
+			createToDoPage.verifyColumnsInGrid();
 			NXGReports.addStep("[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.FAILED,
@@ -227,26 +227,26 @@ public class AuditorCreateToDoService extends AbstractService {
 		}
 	}
 
-	public void verifyDisableToDoSaveIcon(){
-		getLogger().info("Verify the To Do Save Icon is disabled");
+	public void verifyGUIToDoSaveIcon(){
+		getLogger().info("Verify GUI of the To Do Save Icon");
 		try {
 			createToDoPage.verifyDisableToDoSaveIcon();
-			NXGReports.addStep("To Do Save Icon is disabled.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("To Do Save Icon is enabled.", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
-	}
-
-	public void	verifyEnableToDoSaveIcon(){
-		getLogger().info("Verify the To Do Save Icon is enabled");
-		try {
 			createToDoPage.verifyEnableToDoSaveIcon();
-			NXGReports.addStep("To Do Save Icon is disabled.", LogAs.PASSED, null);
+			NXGReports.addStep("Verify GUI of the To Do Save Icon.", LogAs.PASSED, null);
 		} catch (Exception e) {
-			NXGReports.addStep("To Do Save Icon is enabled.", LogAs.FAILED,
+			NXGReports.addStep("Verify GUI of the To Do Save Icon.", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 
+	public void verifyGUIToDoCloseIcon(){
+		getLogger().info("Verify GUI of To Do Close Icon.");
+		try {
+			createToDoPage.verifyEnableToDoCloseIcon();
+			NXGReports.addStep("Verify GUI of To Do Close Icon.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("Verify GUI of To Do Close Icon.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
 }

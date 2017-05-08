@@ -184,18 +184,24 @@ public class CreateToDoTest extends AbstractTest {
         }
     }
 
-	@Test(  priority = 13,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Dos Textbox")
+	@Test(  priority = 13,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
 	public void verifyGUIToDoSaveIcon() throws Exception {
 		try {
-			auditorCreateToDoService.verifyDisableToDoSaveIcon();
-			auditorCreateToDoService.verifyEnableToDoSaveIcon();
-			/*auditorCreateToDoService.navigatetoCreateToDoTab();
-			auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
-			auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
-			auditorCreateToDoService.verifyToDoNameInputLimitCharacter(255);
-			auditorCreateToDoService.verifyToDoNameInputSpecialCharacter("~!@#$%^&*+?><,.");
+			auditorCreateToDoService.navigatetoCreateToDoTab();
+			auditorCreateToDoService.verifyGUIToDoSaveIcon();
 			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-			NXGReports.addStep("Verify GUI To Dos Text box - create to do page.", LogAs.PASSED, null);*/
+			NXGReports.addStep("Verify GUI To Dos Text box - create to do page.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("TestScript Failed: Verify GUI To Dos Text box - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+	@Test(  priority = 14,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
+	public void verifyGUIToDoCloseIcon() throws Exception {
+		try {
+			auditorCreateToDoService.navigatetoCreateToDoTab();
+			auditorCreateToDoService.verifyGUIToDoCloseIcon();
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+			NXGReports.addStep("Verify GUI To Dos Text box - create to do page.", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("TestScript Failed: Verify GUI To Dos Text box - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
