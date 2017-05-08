@@ -151,4 +151,11 @@ public class AuditorEngagementPage extends AbstractPage {
 		contactsLinkEle.click();
 
 	}
+
+    public void clickNewEngagementButton() {
+
+    }
+
+	public void verifyCreatedEngagementRendered(String engagement01) {
+	}
 }
