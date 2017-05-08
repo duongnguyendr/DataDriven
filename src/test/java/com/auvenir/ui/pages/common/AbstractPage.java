@@ -1,24 +1,28 @@
 package com.auvenir.ui.pages.common;
 
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.openqa.selenium.*;
+//import library
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 import org.testng.Assert;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.concurrent.TimeUnit;
+import com.auvenir.ui.services.AbstractRefactorService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
@@ -138,7 +142,7 @@ public class AbstractPage {
          WebDriverWait   sWebDriverWait = new WebDriverWait(driver, waitTime);
             sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
+            AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -164,7 +168,7 @@ public class AbstractPage {
 
         catch (Exception e)
         {
-            AbstractService.sStatusCnt++;
+            AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -181,7 +185,7 @@ public class AbstractPage {
 
         catch (Exception e)
         {
-            AbstractService.sStatusCnt++;
+            AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getText() + " is  enabled", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -198,111 +202,109 @@ public class AbstractPage {
 
         catch (Exception e)
         {
-            AbstractService.sStatusCnt++;
+            AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getText() + " is  selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
-    /*
-    Improvement to detect value: true/ false after take actions
-    Updated by: Doai.Tran 8/5/2017
-     */
-    public void scrollPageUp() throws AWTException {
-        getLogger().info("Try to scroll Page up.");
+    
+    
+    public void validateAttributeElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    {
+        getLogger().info("verify Attribute "+ attributeName);      
+       
+
+        try
+        {
+        	 Assert.assertEquals(element.getAttribute(attributeName).trim(),attributeValue);
+            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.PASSED, null);
+        }
+
+        catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+    
+    public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    {
+        getLogger().info("verify style with "+ attributeName);      
+       
+
+        try
+        {
+        	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
+            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
+        }
+
+        catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+    
+    public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
         try {
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_PAGE_UP);
-            robot.keyRelease(KeyEvent.VK_PAGE_UP);
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to scroll Page up.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("verify input with max length with " + maxLenght +"character");
+            Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
+            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
+        }catch (AssertionError error) {
+            getLogger().info(error);
+            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw error;
         }
     }
+    
+    
+    
+    public void scrollPageUp() throws AWTException {
+
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_PAGE_UP);
+        robot.keyRelease(KeyEvent.VK_PAGE_UP);
+    }
     public void scrollPageDown() throws AWTException {
-        getLogger().info("Try to scroll Page down.");
-        try{
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_PAGE_DOWN);
-            robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to scroll Page down.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_PAGE_DOWN);
+        robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
     }
 
     public void waitForVisibleElement(WebElement element){
-        getLogger().info("Try to waitForVisibleElement: " +element.getText());
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
-            wait.until(ExpectedConditions.visibilityOf(element));
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.visibilityOf(element));
     }
     public void waitForPresentOfLocator(By by){
-        getLogger().info("Try to waitForPresentOfLocator");
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
-            wait.until(ExpectedConditions.presenceOfElementLocated(by));
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not present.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
     public void waitForVisibleOfLocator(By by){
-        getLogger().info("Try to waitForVisibleOfLocator");
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
     public void waitForInvisibleOfLocator(By by){
-        getLogger().info("Try to waitForInvisibleOfLocator");
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     public void waitForClickableOfLocator(By by){
-        getLogger().info("Try to waitForClickableOfLocator");
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
-            wait.until(ExpectedConditions.elementToBeClickable(by));
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.elementToBeClickable(by));
     }
     public void waitForClickableOfElement(WebElement element){
-        getLogger().info("Try to waitForClickableOfElement: "+element.getText());
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not clickable on Element: "+element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
     public void waitForInvisibleElement(WebElement element){
-        getLogger().info("Try to waitForInvisibleElement: "+element.getText());
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
-            wait.until(ExpectedConditions.invisibilityOf(element));
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not invisible on Element: "+element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
+        wait.until(ExpectedConditions.invisibilityOf(element));
     }
-    public void validateDisabledElement(WebElement element) throws InvalidElementStateException
+    public void validatDisabledElement(WebElement element) throws InvalidElementStateException
     {
         getLogger().info("verify enabled of: " + element.getText());
+
         try {
             if(!(element.isEnabled()))
             {
@@ -313,41 +315,17 @@ public class AbstractPage {
             NXGReports.addStep(element.getText() + " is  enabled", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    /*
-    Method to go to setting page for Admin, Auditor, Client
-     */
     public void navigateToSettingsPage() {
-        try {
-            waitForClickableOfElement(dashboardUserNameEle);
-            dashboardUserNameEle.click();
-            waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
-            waitForClickableOfElement(settingsTabEle);
-            settingsTabEle.click();
-        }catch (Exception e){
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep("Unable to go to setting page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        waitForClickableOfElement(dashboardUserNameEle);
+        dashboardUserNameEle.click();
+        waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
+        waitForClickableOfElement(settingsTabEle);
+        settingsTabEle.click();
     }
     public void ClickAndHold(WebElement element){
-        getLogger().info("Try to ClickAndHold: "+element.getText());
-        try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.click(element);
-            actions.perform();
-        }catch (Exception e){
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep("Unable to ClickAndHold on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-    public void sendTabkey(WebElement element) {
-        getLogger().info("Try to sendTabkey: "+element.getText());
-        try {
-            element.sendKeys(Keys.TAB);
-            element.sendKeys(Keys.ENTER);
-        }catch (Exception e){
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep("Unable to sendTabkey on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.click(element);
+        actions.perform();
     }
 }
