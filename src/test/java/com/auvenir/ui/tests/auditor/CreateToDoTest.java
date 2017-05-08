@@ -1,6 +1,6 @@
-<<<<<<< HEAD
 package com.auvenir.ui.tests.auditor;
 
+import com.auvenir.ui.services.AbstractService;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -10,6 +10,7 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 
 /**
  * Created by Hai.Nguyen on 05/04/2017.
@@ -17,7 +18,6 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
  */
 public class CreateToDoTest extends AbstractTest {
     AuditorCreateToDoService auditorCreateToDoService;
-    
     
     @BeforeMethod
     public void initTest() throws Exception{
@@ -28,7 +28,7 @@ public class CreateToDoTest extends AbstractTest {
     }
     
     
-    @Test(  priority = 1,enabled = true, description = "[PLAT 2288]-03: verify button create to do display with green background and white text.")
+    @Test(  priority = 1,enabled = false, description = "[PLAT 2288]-03: verify button create to do display with green background and white text.")
     public void verifyUIAuditorCreateToDo() throws Exception {        
     	try {
     		auditorCreateToDoService.verifyButtonCreateToDo(); 
@@ -40,7 +40,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 3,enabled = true, description = "[PLAT 2288]-05: verify displayed of this button filter")
+    @Test(  priority = 3,enabled = false, description = "[PLAT 2288]-05: verify displayed of this button filter")
     public void verifyButtonFilter() throws Exception {        
 
 		try {
@@ -53,7 +53,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 4,enabled = true, description = "[PLAT 2288]-06:verify default value(Search...) of this Search")
+    @Test(  priority = 4,enabled = false, description = "[PLAT 2288]-06:verify default value(Search...) of this Search")
     public void verifySearchPlaceholder() throws Exception {        
 
     	try {
@@ -66,7 +66,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 5,enabled = true, description = "[PLAT 2288]-07: verify when hover on Search change bounary color to green.")
+    @Test(  priority = 5,enabled = false, description = "[PLAT 2288]-07: verify when hover on Search change bounary color to green.")
     public void verifySearchHover() throws Exception {        
 
     	try {
@@ -79,7 +79,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 6,enabled = true, description = "[PLAT 2288]-08: verify input text.")
+    @Test(  priority = 6,enabled = false, description = "[PLAT 2288]-08: verify input text.")
     public void verifySearchInputText() throws Exception {        
 
     	try {
@@ -104,7 +104,7 @@ public class CreateToDoTest extends AbstractTest {
 //		}
 //    }
     
-    @Test(  priority = 8,enabled = true, description = "[PLAT 2288]-10: verify input number to field search.")
+    @Test(  priority = 8,enabled = false, description = "[PLAT 2288]-10: verify input number to field search.")
     public void verifySearchInputNumber() throws Exception {        
 
     	try {
@@ -117,7 +117,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 9,enabled = true, description = "[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title")
+    @Test(  priority = 9,enabled = false, description = "[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title")
     public void verifyColumnsInGrid() throws Exception {        
 
     	try {
@@ -130,7 +130,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 10,enabled = true, description = "[PLAT 2288]-15: verify after each column title have a arrow icon to sort.")
+    @Test(  priority = 10,enabled = false, description = "[PLAT 2288]-15: verify after each column title have a arrow icon to sort.")
     public void verifySotleOnTitle() throws Exception {        
 
     	try {
@@ -143,7 +143,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 11,enabled = true, description = "[PLAT 2288]-16: verify checkbox will change green color a have stick icon")
+    @Test(  priority = 11,enabled = false, description = "[PLAT 2288]-16: verify checkbox will change green color a have stick icon")
     public void verifyCheckOnCheckBox() throws Exception {        
 
     	try {
@@ -156,7 +156,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
     
-    @Test(  priority = 12,enabled = true, description = "[PLAT 2288]-17: verify checkbox will change green color a have stick icon")
+    @Test(  priority = 12,enabled = false, description = "[PLAT 2288]-17: verify checkbox will change green color a have stick icon")
     public void verifyUnCheckOnCheckBox() throws Exception {        
 
     	try {
@@ -168,65 +168,36 @@ public class CreateToDoTest extends AbstractTest {
 			throw e;
 		}
     }
-    
-    
-    
 
-}
-=======
-package com.auvenir.ui.tests.auditor;
-
-import com.auvenir.ui.services.AuditorEngagementService;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.auvenir.ui.services.AuditorCreateToDoService;
-import com.auvenir.ui.tests.AbstractTest;
-import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-
-/**
- * Created by Hai.Nguyen on 05/04/2017.
- * Implement for PLAT - 2288
- */
-public class CreateToDoTest extends AbstractTest {
-    AuditorCreateToDoService auditorCreateToDoService;
-    AuditorEngagementService auditorEngagementService;
-    
-    @Test(  priority = 1,enabled = true, description = "Verify GUI auditor create to do page.")
-    public void verifyUIAuditorCreateToDo() throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        try {
-            auditorCreateToDoService.loginWithUserRole(userId);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorCreateToDoService.verifyAuditorCreateToDo();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    @Test(  priority = 2,enabled = true, description = "Add new To Do")
+    @Test(  priority = 2,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Dos Textbox")
     public void verifyGUIToDoTextBox() throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
             auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script should be passed all steps");
-            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
+			auditorCreateToDoService.verifyToDoNameInputLimitCharacter(255);
+			auditorCreateToDoService.verifyToDoNameInputSpecialCharacter("~!@#$%^&*+?><,.");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify GUI To Dos Text box - create to do page.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify GUI To Dos Text box - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+	@Test(  priority = 13,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Dos Textbox")
+	public void verifyGUIToDoSaveIcon() throws Exception {
+		try {
+			auditorCreateToDoService.verifyDisableToDoSaveIcon();
+			auditorCreateToDoService.verifyEnableToDoSaveIcon();
+			/*auditorCreateToDoService.navigatetoCreateToDoTab();
+			auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
+			auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
+			auditorCreateToDoService.verifyToDoNameInputLimitCharacter(255);
+			auditorCreateToDoService.verifyToDoNameInputSpecialCharacter("~!@#$%^&*+?><,.");
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+			NXGReports.addStep("Verify GUI To Dos Text box - create to do page.", LogAs.PASSED, null);*/
+		} catch (Exception e) {
+			NXGReports.addStep("TestScript Failed: Verify GUI To Dos Text box - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
 }
->>>>>>> origin/thuan.duong

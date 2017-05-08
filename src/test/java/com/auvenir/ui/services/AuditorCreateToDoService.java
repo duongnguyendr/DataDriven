@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.auvenir.ui.services;
 
 //import library
@@ -158,36 +157,6 @@ public class AuditorCreateToDoService extends AbstractService {
 		this.createToDoPage.navigateToToDoList();
 	}
 
-}
-=======
-package com.auvenir.ui.services;
-
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
-import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-
-/**
- * Created by hai.nguyen on 05/04/2017.
- */
-
-public class AuditorCreateToDoService extends AbstractService {
-
-	AuditorCreateToDoPage createToDoPage;
-
-	/*
-	 * contructor
-	 */
-	public AuditorCreateToDoService(Logger logger, WebDriver driver) {
-
-		super(logger, driver);
-		createToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
-
-	}
-
 	public void verifyAuditorCreateToDo() {
 
 		try {
@@ -216,8 +185,6 @@ public class AuditorCreateToDoService extends AbstractService {
 	public void navigatetoCreateToDoTab() {
 		getLogger().info("Navigate to CreateToDo Tab");
 		try {
-			createToDoPage.navigateToEngagementTask();
-			createToDoPage.navigateToToDoList();
 			createToDoPage.clickCreateToDoTask();
 			//createToDoPage.verifyAddNewToDoTask();
 			NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
@@ -238,5 +205,48 @@ public class AuditorCreateToDoService extends AbstractService {
 		}
 	}
 
+	public void verifyToDoNameInputLimitCharacter(int maxLength){
+		getLogger().info(String.format("Verify To Do name text box can put %d characters.",maxLength));
+		try {
+			createToDoPage.verifyToDoNameInputLimitCharacter(maxLength);
+			NXGReports.addStep("Input " + maxLength + " characters on ToDo Name Textbox successfully.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("Input " + maxLength + " characters on ToDo Name Textbox successfully.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void verifyToDoNameInputSpecialCharacter(String value){
+		getLogger().info("Input special characters into ToDo name Text box.");
+		try {
+			createToDoPage.verifyToDoNameInputSpecialCharacter(value);
+			NXGReports.addStep("Input special characters: " + value + " on ToDo Name Textbox successfully.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("Input special characters: " + value + " on ToDo Name Textbox unsuccessfully.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void verifyDisableToDoSaveIcon(){
+		getLogger().info("Verify the To Do Save Icon is disabled");
+		try {
+			createToDoPage.verifyDisableToDoSaveIcon();
+			NXGReports.addStep("To Do Save Icon is disabled.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("To Do Save Icon is enabled.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void	verifyEnableToDoSaveIcon(){
+		getLogger().info("Verify the To Do Save Icon is enabled");
+		try {
+			createToDoPage.verifyEnableToDoSaveIcon();
+			NXGReports.addStep("To Do Save Icon is disabled.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("To Do Save Icon is enabled.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
 }
->>>>>>> origin/thuan.duong

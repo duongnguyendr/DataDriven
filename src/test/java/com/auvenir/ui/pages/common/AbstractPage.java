@@ -7,10 +7,7 @@ import java.awt.event.KeyEvent;
 
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -212,25 +209,6 @@ public class AbstractPage {
     }
 
 
-    public void validateAttributeElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
-    {
-        getLogger().info("verify Attribute "+ attributeName);
-
-
-        try
-        {
-        	 Assert.assertEquals(element.getAttribute(attributeName).trim(),attributeValue);
-            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.PASSED, null);
-        }
-
-        catch (Exception e)
-        {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
-
     public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
     {
         getLogger().info("verify style with "+ attributeName);
@@ -253,6 +231,8 @@ public class AbstractPage {
     public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
         try {
             getLogger().info("verify input with max length with " + maxLenght +"character");
+            webElement.click();
+            webElement.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
             Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
             NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
         }catch (AssertionError error) {
@@ -304,7 +284,7 @@ public class AbstractPage {
         WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
-    public void validatDisabledElement(WebElement element) throws InvalidElementStateException
+    public void validateDisabledElement(WebElement element) throws InvalidElementStateException
     {
         getLogger().info("verify enabled of: " + element.getText());
 
@@ -375,5 +355,25 @@ public class AbstractPage {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public void validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException
+    {
+        getLogger().info("Verify element is not displayed of: " + element.getText());
+
+        try
+        {
+            if(!element.isDisplayed())
+                NXGReports.addStep(element.getTagName() + " is displayed", LogAs.PASSED, null);
+            else
+                NXGReports.addStep(element.getTagName() + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 }
