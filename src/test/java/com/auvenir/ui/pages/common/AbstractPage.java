@@ -1,23 +1,28 @@
 package com.auvenir.ui.pages.common;
 
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.openqa.selenium.*;
+//import library
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 import org.testng.Assert;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.concurrent.TimeUnit;
+import com.auvenir.ui.services.AbstractRefactorService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
@@ -202,6 +207,60 @@ public class AbstractPage {
         }
 
     }
+    
+    
+    public void validateAttributeElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    {
+        getLogger().info("verify Attribute "+ attributeName);      
+       
+
+        try
+        {
+        	 Assert.assertEquals(element.getAttribute(attributeName).trim(),attributeValue);
+            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.PASSED, null);
+        }
+
+        catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has attribute "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+    
+    public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    {
+        getLogger().info("verify style with "+ attributeName);      
+       
+
+        try
+        {
+        	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
+            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
+        }
+
+        catch (Exception e)
+        {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+    
+    public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
+        try {
+            getLogger().info("verify input with max length with " + maxLenght +"character");
+            Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
+            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
+        }catch (AssertionError error) {
+            getLogger().info(error);
+            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw error;
+        }
+    }
+    
+    
+    
     public void scrollPageUp() throws AWTException {
 
         Robot robot = new Robot();
@@ -268,9 +327,5 @@ public class AbstractPage {
         actions.moveToElement(element);
         actions.click(element);
         actions.perform();
-    }
-    public void sendTabkey(WebElement element) {
-        element.sendKeys(Keys.TAB);
-        element.sendKeys(Keys.ENTER);
     }
 }
