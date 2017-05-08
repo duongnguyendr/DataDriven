@@ -1,10 +1,12 @@
 package com.auvenir.ui.pages.common;
 
 //import library
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
@@ -15,13 +17,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 import org.testng.Assert;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.concurrent.TimeUnit;
+import com.auvenir.ui.services.AbstractRefactorService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
@@ -245,6 +246,21 @@ public class AbstractPage {
         }
 
     }
+    
+    public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
+        try {
+            getLogger().info("verify input with max length with " + maxLenght +"character");
+            Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
+            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
+        }catch (AssertionError error) {
+            getLogger().info(error);
+            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw error;
+        }
+    }
+    
+    
+    
     public void scrollPageUp() throws AWTException {
 
         Robot robot = new Robot();
