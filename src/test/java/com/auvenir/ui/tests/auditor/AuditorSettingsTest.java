@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.AuditorAccountSettingsService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -13,7 +14,7 @@ import org.testng.annotations.Test;
 
 /**
  * Created by cuong.nguyen on 4/27/2017.
- * Edited by Doai.Tran -PLAT 2273
+ * Edited by Doai.Tran - PLAT 2273
  */
 
 public class AuditorSettingsTest extends AbstractTest {
@@ -58,8 +59,8 @@ public class AuditorSettingsTest extends AbstractTest {
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyBody();
             auditorAccountSettingsService.verifyFooter();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify GUI auditor setting page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e)
         {
             NXGReports.addStep("Verify All UI Audit Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -78,14 +79,16 @@ public class AuditorSettingsTest extends AbstractTest {
             getLogger().info("Input any value on FullName TextBox.");
             auditorAccountSettingsService.inputFullName("Doai Test");
             auditorAccountSettingsService.sendTabkeyFullNametxt();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("", LogAs.PASSED, (CaptureScreen)null);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Test First and Last name on Auditor Setting Page: Passed", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e)
         {
             NXGReports.addStep("Test First and Last name on Auditor Setting Page: PASSED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
+
 }
 
 

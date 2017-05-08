@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.admin;
 
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AdminAccountSettingsService;
 import com.auvenir.ui.services.AdminService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -34,7 +35,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.verifyHeaderAdminSettingPage();
             adminAccountSettingsService.verifyBodyAdminSettingPage();
             adminAccountSettingsService.verifyFooterAdminSettingPage();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify GUI admin setting page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -72,7 +73,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.inputFullNameAdminSettingPage("!@#$%^");
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("");
             getLogger().info("Get the error message.");adminAccountSettingsService.verifyTextFullNameLable();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test First and Last name on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -92,7 +93,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminService.verifyAdminLoginPage();
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyEmailTextBoxVisible();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Email element View only on Admin Setting Page:PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Some Elements on Admin Setting page not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -132,7 +133,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.inputFullNameAdminSettingPage("");
             getLogger().info("Get the error message.");
             adminAccountSettingsService.verifyTextphoneLabel();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("PhoneNumber textbox on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -161,7 +162,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Selected image successfully.");
             adminAccountSettingsService.waitAndVerifyUpdatedTextMessage();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Update new image on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -188,7 +189,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.executeAutoITScriptUploadImage(autoITExecutable,fileName);
             getLogger().info("Get the message: *Please select a valid image file.");
             adminAccountSettingsService.waitAndVerifyErrorMessageUploadImage();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Update a wrong type on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -215,7 +216,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.executeAutoITScriptUploadImage(autoITExecutable,fileName);
             getLogger().info("Get the message: *Please select a valid image file.");
             adminAccountSettingsService.waitAndVerifyErrorMessageBigFile();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Update a overload image file on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -242,7 +243,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("");
             getLogger().info("Verify Update Button to enable after changes value.");
             adminAccountSettingsService.verifyUpdateButtonEnable();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify disable default Update button on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -286,7 +287,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.waitAndVerifyErrorMessageBigFile();
             getLogger().info("Verify disable default Update Button.");
             adminAccountSettingsService.verifyUpdateButtonDisableDefault();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify message when Update button with invalid value on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -309,7 +310,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.verifyTextFullNameLable();
             getLogger().info("Verify disable Update Button.");
             adminAccountSettingsService.verifyUpdateButtonDisableDefault();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Update failed because of wrong name: PASSED", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -332,7 +333,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.verifyTextphoneLabel();
             getLogger().info("Verify disable Update Button.");
             adminAccountSettingsService.verifyUpdateButtonDisableDefault();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Update failed because of wrong name: PASSED", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -358,7 +359,8 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.waitAndVerifyErrorMessageBigFile();
             getLogger().info("Verify disable default Update Button.");
             adminAccountSettingsService.verifyUpdateButtonDisableDefault();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Update failed because of wrong image: PASSED", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -381,6 +383,8 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.sendTabkeyFullNametxt();
             adminAccountSettingsService.verifyUpdateButtonEnable();
             adminAccountSettingsService.clickUpdateBTN();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Update with valid Name on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -402,6 +406,8 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.sendTabkeyPhoneNumbertxt();
             adminAccountSettingsService.verifyUpdateButtonEnable();
             adminAccountSettingsService.clickUpdateBTN();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Update with valid PhoneNumber on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -429,7 +435,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Selected image successfully.");
             adminAccountSettingsService.waitAndVerifyUpdatedTextMessage();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Update new image on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -461,7 +467,7 @@ public class AdminSettingsTest extends AbstractTest {
             adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Selected image successfully.");
             adminAccountSettingsService.waitAndVerifyUpdatedTextMessage();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Update all new info on Admin Setting Page: PASSED", LogAs.PASSED, (CaptureScreen)null);
         }catch (Exception e) {
             NXGReports.addStep("TestScript Failed: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
