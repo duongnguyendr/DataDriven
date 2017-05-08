@@ -12,6 +12,7 @@ import com.kirwa.nxgreport.logging.LogAs;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
@@ -20,13 +21,13 @@ import java.net.UnknownHostException;
  * Created by doai.tran on 4/21/2017.
  */
 public class ConsumerTest extends AbstractAPIService {
-    public static final String restBaseUrl="http://finicity-qa.com";
+    //public static final String restBaseUrl="http://finicity-qa.com";
     public static final String database ="serviceFinicity";
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
     public void getRestBaseUrl()throws UnknownHostException {
-        RestAssured.basePath=restBaseUrl;
+        //RestAssured.basePath=restBaseUrl;
         MongoDBService.connectDBServer("34.205.90.145",27017,database);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
@@ -39,7 +40,10 @@ public class ConsumerTest extends AbstractAPIService {
         MongoDBService.deleteAccount("Account1");
         MongoDBService.insertAccount("Account1");
     }
-
+    @BeforeMethod
+    public void preCondition(){
+        getBaseUrl();
+    }
     /*
     TestCase1: Get owner from Customer ID
      */
@@ -47,7 +51,7 @@ public class ConsumerTest extends AbstractAPIService {
     public void getCustomerFromCustomerID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Consumer1", "consumers");
-            Response response = given().get(restBaseUrl+"/v1/consumer/"+sData[4]);
+            Response response = given().get(baseUrl+"/v1/consumer/"+sData[4]);
             if (response.getStatusCode() == 200) {
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
             } else {
@@ -88,7 +92,7 @@ public class ConsumerTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get owner from Invalid Customer ID")
     public void getCustomerInvalidCustomerID() throws Exception {
         try {
-            Response response = given().get(restBaseUrl+"/v1/consumer/12345");
+            Response response = given().get(baseUrl+"/v1/consumer/12345");
             if(response.getStatusCode()==400){
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
             }
@@ -117,7 +121,7 @@ public class ConsumerTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get owner from Invalid Customer ID")
     public void getCustomerWronginstitutionID() throws Exception {
         try{
-            Response response = given().get(restBaseUrl+"/v1/consumer/");
+            Response response = given().get(baseUrl+"/v1/consumer/");
             if(response.getStatusCode()==404){
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
                 NXGReports.addStep("Request with wrong institutionID format with code: " +response.getStatusCode() , LogAs.PASSED, null);

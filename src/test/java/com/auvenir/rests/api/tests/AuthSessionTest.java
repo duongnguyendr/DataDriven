@@ -15,6 +15,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -26,13 +27,13 @@ import java.util.Map;
  */
 
 public class AuthSessionTest extends AbstractAPIService {
-    public static final String restBaseUrl = "http://finicity-qa-334.com";
+    //public static final String restBaseUrl = "http://finicity-qa-334.com";
     public static final String database = "serviceFinicity";
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException {
-        RestAssured.basePath = "http://finicity-qa-334.com";
+        //RestAssured.basePath = "http://finicity-qa-334.com";
         MongoDBService.connectDBServer("34.205.90.145", 27017, "serviceFinicity");
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
@@ -47,6 +48,10 @@ public class AuthSessionTest extends AbstractAPIService {
         MongoDBService.deleteAuthSession("AuthSession1");
         MongoDBService.insertAuthSession("AuthSession1");
     }
+    @BeforeMethod
+    public void preCondition(){
+        getBaseUrl();
+    }
     /*
     TestCase1: Get AuthSession with valid sessionID
      */
@@ -58,7 +63,7 @@ public class AuthSessionTest extends AbstractAPIService {
     public void GetAuthSession() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = (Response)RestAssured.given().get("http://finicity-qa-334.com/v1/authenticate?sessionID=" + sData[1], new Object[0]);
+            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=" + sData[1], new Object[0]);
             if(response.getStatusCode() == 200) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, null);
             } else {
@@ -95,7 +100,7 @@ public class AuthSessionTest extends AbstractAPIService {
     public void GetAuthSessionWrongSessionID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = (Response)RestAssured.given().get("http://finicity-qa-334.com/v1/authenticate?sessionID=12345", new Object[0]);
+            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=12345", new Object[0]);
             if(response.getStatusCode() == 401) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen)null);
             } else {
@@ -128,7 +133,7 @@ public class AuthSessionTest extends AbstractAPIService {
     public void GetAuthSessionWithoutSessionID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = (Response)RestAssured.given().get("http://finicity-qa-334.com/v1/authenticate?sessionID=", new Object[0]);
+            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=", new Object[0]);
             if(response.getStatusCode() == 401) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen)null);
             } else {
