@@ -27,7 +27,7 @@ public class AdminLoginPage extends AbstractPage {
 	}
 
 	//@FindBy(xpath = "//span[@id='pageHeadBackText']")
-	@FindBy(xpath = "//span[text()='Admin']")
+	@FindBy(id = "pageHeadBackText")
 	private WebElement eleAdminHdrTxt;
 	public WebElement getEleAdminHdrTxt() {
 		return eleAdminHdrTxt;
@@ -592,8 +592,8 @@ public class AdminLoginPage extends AbstractPage {
 	public WebElement getEleGetItGooglePlayImg() {
 		return eleGetItGooglePlayImg;
 	}
-	
-	
+
+
 	public void getEleClientEntryValidate(String UserType, String Email,String DateCreated, String ClientName) throws InterruptedException
 	{
 		Thread.sleep(10000);
