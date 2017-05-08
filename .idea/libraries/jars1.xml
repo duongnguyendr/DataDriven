@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jars1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jars/jmf.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/NXGReport.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jars/customizer.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
