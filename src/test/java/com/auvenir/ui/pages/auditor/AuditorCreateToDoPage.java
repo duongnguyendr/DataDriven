@@ -173,9 +173,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 
 	public void createToDoPage()throws Exception {
-		Random randNum = new Random();
-		int  n = randNum.nextInt(10000) + 1;
-		todoNamePage = "To-do name " + n;
+		todoNamePage = "To-do name " + RandomNumber();
 		this.eleCreateToDoBtn.click();
 		Thread.sleep(1000);
 		eleIdToDoName.sendKeys(todoNamePage);

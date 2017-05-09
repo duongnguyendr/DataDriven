@@ -176,17 +176,16 @@ public class AuditorCreateToDoService extends AbstractService {
 		try {
 			boolean isCheckData = createToDoPage.checkSearchData();
 			if(isCheckData) {
-				NXGReports.addStep("verify search data on the to do page", LogAs.PASSED, null);
+				NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
 			}
 			else
 			{
-				NXGReports.addStep("verify search data on the to do page", LogAs.FAILED, null);
+				NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
 			}
 			System.out.println("isCheckData = " + isCheckData);
 		} catch (Exception e) {
-			NXGReports.addStep("verify search data on the to do page", LogAs.FAILED,
+			NXGReports.addStep("Verify realtime search", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-
 }

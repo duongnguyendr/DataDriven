@@ -4,6 +4,7 @@ package com.auvenir.ui.pages.common;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
@@ -227,12 +228,11 @@ public class AbstractPage {
         }
 
     }
-    
+
+    // For example: attributeName = border, attributeValue = 1px solid #599ba1
     public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
     {
-        getLogger().info("verify style with "+ attributeName);      
-       
-
+        getLogger().info("verify style with "+ attributeName);
         try
         {
         	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
@@ -244,7 +244,6 @@ public class AbstractPage {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
     }
     
     public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
@@ -258,9 +257,7 @@ public class AbstractPage {
             throw error;
         }
     }
-    
-    
-    
+
     public void scrollPageUp() throws AWTException {
 
         Robot robot = new Robot();
@@ -308,7 +305,8 @@ public class AbstractPage {
         try {
             if(!(element.isEnabled()))
             {
-            NXGReports.addStep(element.getTagName() + " is disabled", LogAs.PASSED, null);
+                //throw new exception();
+            //NXGReports.addStep(element.getTagName() + " is disabled", LogAs.PASSED, null);
             }
         }catch (Exception e){
             AbstractRefactorService.sStatusCnt++;
@@ -327,5 +325,12 @@ public class AbstractPage {
         actions.moveToElement(element);
         actions.click(element);
         actions.perform();
+    }
+
+    public int RandomNumber()
+    {
+        Random randNum = new Random();
+        int  intRanNum = randNum.nextInt(10000) + 1;
+        return intRanNum;
     }
 }
