@@ -1,11 +1,13 @@
 package com.auvenir.ui.tests.auditor;
 
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -29,6 +31,7 @@ public class EngagementTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifyAuditorFooter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify footer in Auditor Engagement page.", LogAs.PASSED, null);
            // logCurrentStepEnd();
 

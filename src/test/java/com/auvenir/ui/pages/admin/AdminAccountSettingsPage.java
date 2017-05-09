@@ -293,7 +293,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void verifyEmailTextBoxIsDisable() {
-        validatDisabledElement(phoneNoTextBox);
+        validateDisabledElement(phoneNoTextBox);
     }
     public void validateTextMessageFullNametxtbox(){
         validateElementText(fullnameLable,"First and Last Name");
@@ -326,7 +326,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void verifyUpdateButtonDisableDefault() {
-        validatDisabledElement(updateButton);
+        validateDisabledElement(updateButton);
     }
 
     public void verifyUpdateButtonEnable() {

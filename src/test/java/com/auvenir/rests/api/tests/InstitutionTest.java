@@ -13,22 +13,24 @@ import com.kirwa.nxgreport.logging.LogAs;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
 
 /**
- * Created by doai.tran on 4/25/2017.
+ * Created by Doai.tran on 4/25/2017.
+ * Updated by Doai.Tran on 5/9/2017: Refactor parameter dataBaseServer on maven
  */
 public class InstitutionTest extends AbstractAPIService {
-    public static final String restBaseUrl="http://finicity-qa-331.com";
-    public static final String database ="serviceFinicity";
+    //public static final String restBaseUrl="http://finicity-qa-331.com";
+    //public static final String database ="serviceFinicity";
     static String[] sData = null;
     @BeforeClass
     public void getRestBaseUrl()throws UnknownHostException {
-        RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer("34.205.90.145",27017,database);
+        //RestAssured.basePath=restBaseUrl;
+        MongoDBService.connectDBServer(dataBaseServer,27017,database);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
@@ -40,6 +42,10 @@ public class InstitutionTest extends AbstractAPIService {
         MongoDBService.deleteAccount("Account1");
         MongoDBService.insertAccount("Account1");
     }
+    @BeforeMethod
+    public void preCondition(){
+        getBaseUrl();
+    }
     /*
     TestCase1: Get institution from Customer ID
     Created by: Doai.Tran    25. Apr.2017
@@ -48,7 +54,7 @@ public class InstitutionTest extends AbstractAPIService {
     public void GetAccountCustomerID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Institution1", "institutions");
-            Response response = given().get(restBaseUrl+"/v1/institution/"+sData[1]+"?consumerID="+sData[4]);
+            Response response = given().get(baseUrl+"/v1/institution/"+sData[1]+"?consumerID="+sData[4]);
             Assert.assertEquals(response.statusCode(), 200);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
             assertionEquals(response.then().extract().jsonPath().getString("identifier"), sData[1]);
@@ -82,7 +88,7 @@ public class InstitutionTest extends AbstractAPIService {
     public void GetAccountOutCustomerID() throws Exception {
         try{
             sData = MongoDBService.toReadExcelData("Institution1", "institutions");
-            Response response = given().get(restBaseUrl+"/v1/institution/"+sData[1]);
+            Response response = given().get(baseUrl+"/v1/institution/"+sData[1]);
             Assert.assertEquals(response.statusCode(), 401);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
 
@@ -104,7 +110,7 @@ public class InstitutionTest extends AbstractAPIService {
     public void GetAccountWrongCustomerID() throws Exception {
         try{
             sData = MongoDBService.toReadExcelData("Institution1", "institutions");
-            Response response = given().get(restBaseUrl+"/v1/institution/"+sData[1]+"?consumerID=12345");
+            Response response = given().get(baseUrl+"/v1/institution/"+sData[1]+"?consumerID=12345");
             Assert.assertEquals(response.statusCode(), 400);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
             assertionEquals(response.then().extract().jsonPath().getString("code"),"api-024");
@@ -127,7 +133,7 @@ public class InstitutionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account with wrong institutionID")
     public void GetAccountWronginstitutionID() throws Exception {
         try{
-            Response response = given().get(restBaseUrl+"/v1/institution/58f73f957d63f474340175fa?consumerID="+sData[1]);
+            Response response = given().get(baseUrl+"/v1/institution/58f73f957d63f474340175fa?consumerID="+sData[1]);
             Assert.assertEquals(response.statusCode(), 400);
             NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
             assertionEquals(response.then().extract().jsonPath().getString("code"),"api-024");
@@ -149,7 +155,7 @@ public class InstitutionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account with wrong institutionIDformat")
     public void GetAccountWronginstitutionIDFormat() throws Exception {
         try{
-            Response response = given().get(restBaseUrl+"/v1/institution/zzzzzzzzzz?consumerID=8283407");
+            Response response = given().get(baseUrl+"/v1/institution/zzzzzzzzzz?consumerID=8283407");
             Assert.assertEquals(response.statusCode(), 404);
             NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
             Assert.assertTrue(AbstractAPIService.sStatusCnt==0, "Script Failed");
