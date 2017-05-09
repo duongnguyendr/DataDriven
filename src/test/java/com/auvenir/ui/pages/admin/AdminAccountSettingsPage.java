@@ -304,12 +304,12 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void clickUpdateImageBTN() throws InterruptedException {
         waitForClickableOfElement(uploadButton);
         getLogger().info("waited clickable");
-        ClickAndHold(uploadButton);
+        clickAndHold(uploadButton);
 
     }
     public void ClickUpdateBTN(){
         waitForClickableOfElement(updateButton);
-        ClickAndHold(updateButton);
+        clickAndHold(updateButton);
     }
     public void waitAndVerifyUpdatedTextMessage(){
         waitForVisibleElement(updatedTextMessage);

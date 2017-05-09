@@ -28,13 +28,13 @@ import java.util.Map;
 
 public class AuthSessionTest extends AbstractAPIService {
     //public static final String restBaseUrl = "http://finicity-qa-334.com";
-    public static final String database = "serviceFinicity";
+    //public static final String database = "serviceFinicity";
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException {
         //RestAssured.basePath = "http://finicity-qa-334.com";
-        MongoDBService.connectDBServer("34.205.90.145", 27017, "serviceFinicity");
+        MongoDBService.connectDBServer(dataBaseServer, 27017, "serviceFinicity");
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");

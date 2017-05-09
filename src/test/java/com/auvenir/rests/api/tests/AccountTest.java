@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class AccountTest extends AbstractAPIService {
     //public static final String restBaseUrl="http://finicity-qa-331.com";
-    public static final String database ="serviceFinicity";
+    //public static final String database ="serviceFinicity";
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeSuite
@@ -40,7 +40,7 @@ public class AccountTest extends AbstractAPIService {
     @BeforeClass
     public void getRestBaseUrl()throws UnknownHostException {
         //RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer("34.205.90.145",27017,database);
+        MongoDBService.connectDBServer(dataBaseServer,27017,database);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
