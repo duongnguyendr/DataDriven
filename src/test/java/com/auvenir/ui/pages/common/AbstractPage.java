@@ -145,6 +145,7 @@ public class AbstractPage {
     public void validateElementText(WebElement webElement, String elementText) {
         try {
             getLogger().info("Check renderd of text: " + elementText);
+            getLogger().info("Actual Text is displayed: " + webElement.getText().trim());
             Assert.assertEquals(webElement.getText().trim(),elementText);
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED,null);
         }catch (AssertionError error) {
@@ -340,6 +341,11 @@ public class AbstractPage {
             NXGReports.addStep("Unable to ClickAndHold on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    public void HoverElement(WebElement element){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.build().perform();
+    }
     public void sendTabkey(WebElement element) {
         getLogger().info("Try to sendTabkey: "+element.getText());
         try {
@@ -348,6 +354,42 @@ public class AbstractPage {
         }catch (Exception e){
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep("Unable to sendTabkey on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void validateAttributeElement(WebElement element, String attributeName, String expectedAttributeValue) throws InvalidElementStateException {
+        getLogger().info("verify Attribute " + attributeName + " of: " + element.toString());
+        String actualAttributeValue = null;
+        try {
+            actualAttributeValue = element.getAttribute(attributeName).trim();
+            getLogger().info("actualAttributeValue of " + attributeName + " is: " + actualAttributeValue);
+            if (actualAttributeValue.equals(expectedAttributeValue)) {
+                NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
+            } else {
+                AbstractRefactorService.sStatusCnt++;
+                NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) throws InvalidElementStateException {
+        getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.toString());
+        String actualCSSValue = null;
+        try {
+            actualCSSValue = element.getCssValue(cSSValueName);
+            getLogger().info("actualCSSValue of " + cSSValueName + " is: " + actualCSSValue);
+            if (actualCSSValue.equals(expectedCSSValue)) {
+                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.PASSED, null);
+            } else {
+                AbstractRefactorService.sStatusCnt++;
+                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractRefactorService.sStatusCnt++;
+            NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 }
