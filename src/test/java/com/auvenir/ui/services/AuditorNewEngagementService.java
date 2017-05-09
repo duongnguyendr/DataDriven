@@ -1,12 +1,12 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+
 import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Created by hai.nguyen on 5/8/2017.
@@ -29,12 +29,23 @@ public class AuditorNewEngagementService extends AbstractService {
 
     public void verifyNewEngagementPage() {
         try {
-            getLogger().info("navigate to Contacts page.");
+            getLogger().info("verify create new Engagement form page.(Implemented later)");
             auditorNewEngagementPage.verifyNewEngagementPage();
-            NXGReports.addStep("navigate to Contacts page.", LogAs.PASSED, null);
+            NXGReports.addStep("verify create new Engagement form page.(Implemented later)", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("navigate to Contacts page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("verify create new Engagement form page.(Implemented later)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+    
+    
+ public void enterDataForNewEngagementPage(String engagement01, String s, String s1) {
+	   try {
+		   getLogger().info("Enter data for new Engagement form.(Hard code)");
+		   auditorNewEngagementPage.enterDataForNewEngagementPage(engagement01, s, s1);
+		   NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.PASSED, null);
+       } catch (Exception e) {
+           NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+       }
     }
 }
 

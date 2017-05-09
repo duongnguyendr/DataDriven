@@ -301,6 +301,7 @@ public class AbstractPage {
         WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
+   
     public void validatDisabledElement(WebElement element) throws InvalidElementStateException
     {
         getLogger().info("verify enabled of: " + element.getText());

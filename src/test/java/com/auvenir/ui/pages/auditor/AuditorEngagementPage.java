@@ -1,13 +1,15 @@
 package com.auvenir.ui.pages.auditor;
 
-import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.common.AbstractPage;
+import java.util.List;
+
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
+
+import com.auvenir.ui.pages.AuvenirPage;
+import com.auvenir.ui.pages.common.AbstractPage;
 
 public class AuditorEngagementPage extends AbstractPage {
 	
@@ -128,6 +130,9 @@ public class AuditorEngagementPage extends AbstractPage {
 		return eleAddNewBtn;
 	}
 	
+	@FindBy(xpath="//div[@class='e-widget-content']")
+	private List<WebElement> eleWidgetContent;
+	
 	public void auditorPageHeaderContent()
 	{
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
@@ -158,4 +163,11 @@ public class AuditorEngagementPage extends AbstractPage {
 		waitForClickableOfElement(newEngagementButtonEle);
 		newEngagementButtonEle.click();
     }
+    
+    public void viewEngagementDetailsPage(String engagementName) throws Exception{		
+		waitForClickableOfElement(eleWidgetContent.get(0));
+		ClickAndHold(eleWidgetContent.get(0));
+	}
+    
+  
 }

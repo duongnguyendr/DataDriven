@@ -1,21 +1,18 @@
 package com.auvenir.ui.pages.auditor;
 
 //import library
-import java.util.List;
-
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 
-public class AuditorCreateToDoPage  extends AbstractPage{
+public class AuditorTodoListPage  extends AbstractPage{
 
-	public AuditorCreateToDoPage(Logger logger, WebDriver driver) {
+	public AuditorTodoListPage(Logger logger, WebDriver driver) {
 		super(logger, driver);
-		PageFactory.initElements(driver, this);
 	}
 	
 	@FindBy(id="auv-todo-createToDo")
@@ -27,7 +24,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(id="todo-search")
 	private WebElement eleToDoSearchInput;
 	
-	@FindBy(xpath="//input[@type='checkbox']")
+	@FindBy(xpath="//table[@id='todo-table']//..//..//th//input[@type='checkbox']")
 	private WebElement eleCheckBox;
 	
 	@FindBy(xpath="//th[@data-id='name']")
@@ -59,28 +56,41 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath="//th[@data-id='audit']")
 	private WebElement eleSortByAuditAssignee;
 	
-	@FindBy(xpath="//div[@class='e-widget-content']")
-	private List<WebElement> eleWidgetContent;
-	
-	@FindBy(xpath="//div[@class='e-widget-content']//div[@class='e-widget-options']//input[@type='button']")
-	private List<WebElement> eleViewEngagementPage;
-	
-	@FindBy(id="engagementTodoLink")
-	private WebElement eleToDoLnk;
 	
 	@FindBy(xpath="//tr[@id='empty-todo']//..//..//img")
 	private WebElement eleImgEmtyToDo;
 	
-	@FindBy(xpath="//tr[@id='empty-todo']//..//..//div")
+	@FindBy(xpath="//tr[@id='empty-todo']//td//div//div")
 	private WebElement eleNotesEmtyToDo;
 	
-	public void verifyImgEmtyToDo()throws Exception {
-		this.validateDisPlayedElement(this.eleImgEmtyToDo);		
+	
+	 public void verifyTodoListPage() throws Exception {
+		 this.verifyButtonCreateToDo();
+		 this.verifyButtonFilter();		
+		 this.verifyCheckOnCheckBox();
+		 this.verifyUnCheckOnCheckBox();
+		 this.verifyColumnsInGrid();
+		 this.verifySotleOnTitle();
+		 this.verifySearchHover();
+		 this.verifySearchInputText();
+		 this.verifySearchInputNumber();		
+		 this.verifySearchDefault();
+		
+	  }
+
+	public void verifyEmptyTodoList() throws Exception {
+		this.waitForVisibleElement(this.eleImgEmtyToDo);
+    	this.validateDisPlayedElement(this.eleImgEmtyToDo);		
+    	this.waitForVisibleElement(this.eleNotesEmtyToDo);
+		this.validateDisPlayedElement(this.eleNotesEmtyToDo);
 	}
 	
 	
 	
-	public void verifyButtonCreateToDo()throws Exception {
+	
+	
+	public void verifyButtonCreateToDo()throws Exception {		
+		
 		 this.validateCssValueElement(this.eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
 		 this.validateCssValueElement(this.eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
 		 this.validateDisPlayedElement(this.eleCreateToDoBtn);
@@ -96,12 +106,14 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 	
 	public void verifySearchHover()throws Exception {
-		 this.eleToDoSearchInput.click();
+		 this.ClickAndHold(this.eleToDoSearchInput);
+		 this.waitForPresentOfLocator(By.xpath("//input[@id='todo-search']"));
 		 this.validateCssValueElement(this.eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
 	}
 	
 	public void verifySearchInputText()throws Exception {
 		this.eleToDoSearchInput.click();
+		this.eleToDoSearchInput.clear();
 		 this.eleToDoSearchInput.sendKeys("Search to do");
 		 System.out.println(this.eleToDoSearchInput.getText());
 		 this.validateAttributeElement(this.eleToDoSearchInput, "value",  "Search to do");
@@ -109,12 +121,14 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	
 	public void verifySearchLimit255()throws Exception {
 		this.eleToDoSearchInput.click();
+		this.eleToDoSearchInput.clear();
 		 this.eleToDoSearchInput.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
 		this.validateMaxlenght(this.eleToDoSearchInput, 255);
 	}
 	
 	public void verifySearchInputNumber()throws Exception {
 		this.eleToDoSearchInput.click();	
+		this.eleToDoSearchInput.clear();
 		this.eleToDoSearchInput.sendKeys("123");
 		 this.validateAttributeElement(this.eleToDoSearchInput, "value", "123");
 	}
@@ -140,6 +154,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		if(!this.eleCheckBox.isSelected()){
 			 this.eleCheckBox.click();
 		 }
+		this.waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
 		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(92, 212, 192, 1)");	
 	}
 	
@@ -148,22 +163,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			 this.eleCheckBox.click();
 			 
 		 }
+		 this.waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
 		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
 	}
 	
 	
 
-	
-	
-	public void navigateToEngagementPage() throws Exception{
-		getLogger().info("Click view button open Engagement Page");
-		waitForClickableOfElement(eleWidgetContent.get(0));
-		ClickAndHold(eleWidgetContent.get(0));
-	}
-	
-	public void navigateToToDoList() throws Exception{
-		waitForClickableOfElement(eleToDoLnk);
-		eleToDoLnk.click();
-	}
 
 }
