@@ -19,16 +19,17 @@ import java.net.UnknownHostException;
 
 /**
  * Created by doai.tran on 4/21/2017.
+ * Updated by Doai.Tran on 5/9/2017: Refactor parameter dataBaseServer on maven
  */
 public class ConsumerTest extends AbstractAPIService {
     //public static final String restBaseUrl="http://finicity-qa.com";
-    public static final String database ="serviceFinicity";
+    //public static final String database ="serviceFinicity";
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
     public void getRestBaseUrl()throws UnknownHostException {
         //RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer("34.205.90.145",27017,database);
+        MongoDBService.connectDBServer(dataBaseServer,27017,database);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
