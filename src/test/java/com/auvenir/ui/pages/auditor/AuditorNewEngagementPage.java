@@ -31,7 +31,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
 	private WebElement eleEngagementNameInput;
     
     @FindBy(id="engagement-type-container")
-	private WebElement eleEngagementTypeSelect;
+	private WebElement eleEngagementTypeSelect; 
     
     @FindBy(xpath="//div[@id='engagement-type-container']//..//..//..//a[@class='ddlText auv-inputDdl-text']")
    	private List<WebElement> eleEngagementTypeList;
