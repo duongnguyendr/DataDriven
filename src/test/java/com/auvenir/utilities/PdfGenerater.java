@@ -65,7 +65,7 @@ public class PdfGenerater
 	    document.addHeader("Test", "Selenium");
 	}
 
-	private static void addTitlePage(Document document, ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkipCount)throws DocumentException, MalformedURLException, IOException 
+	private static void addTitlePage(Document document, ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkipCount)throws DocumentException, IOException
 	{
 		 
 		 //Header header = new Header("header", "D:\\Auvenir.png") ;

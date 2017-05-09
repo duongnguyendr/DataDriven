@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.auvenir.ui.pages.common.AbstractPage;
@@ -626,9 +627,6 @@ public class AuvenirPage extends AbstractPage
 		}
 		
 		toValidate(getEleAllRightsReservedTxt(),"All Rights Reserversd - Text","Displayed");
-		
-		
+
 	}
-
-
 }

@@ -6,8 +6,9 @@
 	 </listeners>
 	 <test name="Regression" preserve-order="true">    
 		<classes>
-			<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
-			<class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>
+		<!-- <class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/> -->
+		
+			<class name="com.auvenir.ui.tests.auditor.CreateToDoTest"/>
 			<!--
      		<class name="com.auvenir.ui.tests.SmokeTest"/>
 			<class name="com.auvenir.ui.tests.AdminTest"/>
