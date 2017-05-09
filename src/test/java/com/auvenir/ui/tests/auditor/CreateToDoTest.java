@@ -1,5 +1,6 @@
 package com.auvenir.ui.tests.auditor;
 
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -29,7 +30,7 @@ public class CreateToDoTest extends AbstractTest {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorCreateToDoService.verifyAuditorCreateToDo();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -46,7 +47,7 @@ public class CreateToDoTest extends AbstractTest {
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
             auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script should be passed all steps");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
