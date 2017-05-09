@@ -22,24 +22,20 @@ public class AuditorSettingsTest extends AbstractTest {
     AuditorEngagementService auditorEngagementService;
 
 
-    @Test(priority=1,enabled=false, description="Verify Footer in Auditor Account Settings page.")
+    @Test(priority=1,enabled=true, description="Verify Footer in Auditor Account Settings page.")
     public void verifyFooterAuditorAccountSettingsPage() throws Exception
     {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
         String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        /*String getTokenUrl =   GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");*/
         try
         {
-            //logCurrentStepStart();
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
             auditorAccountSettingsService.verifyFooter();
             NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
-           // logCurrentStepEnd();
         }
 
         catch (Exception e)
@@ -48,7 +44,7 @@ public class AuditorSettingsTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(priority = 1,enabled = true,description = "Verify GUI auditor setting page.")
+    @Test(priority = 2,enabled = true,description = "Verify GUI auditor setting page.")
     public void verifyUIAuditorSetting() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -67,7 +63,7 @@ public class AuditorSettingsTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(priority = 2,enabled = true,description = "Test First and Last name on Auditor Setting Page.")
+    @Test(priority = 3,enabled = true,description = "Test First and Last name on Auditor Setting Page.")
     public void InputValueFullName() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
