@@ -9,6 +9,8 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
+import java.util.Random;
+
 /**
  * Created by hai.nguyen on 05/04/2017.
  */
@@ -16,6 +18,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 public class AuditorCreateToDoService extends AbstractService {
 
 	AuditorCreateToDoPage createToDoPage;
+	String todoNamePage = "";
 
 	/*
 	 * contructor
@@ -155,6 +158,37 @@ public class AuditorCreateToDoService extends AbstractService {
 	public void navigateToDoListPage() throws Exception{
 		this.createToDoPage.navigateToEngagementPage();
 		this.createToDoPage.navigateToToDoList();
+	}
+
+	public void createToDoPage(){
+
+		try {
+			Random randNum = new Random();
+			int  n = randNum.nextInt(10000) + 1;
+			todoNamePage = "To-do name " + n;
+			createToDoPage.createToDoPage(todoNamePage);
+			NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("Create To-Do page", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void verifyDataSearch() throws Exception {
+		try {
+			boolean isCheckData = createToDoPage.checkSearchData(todoNamePage);
+			if(isCheckData) {
+				NXGReports.addStep("verify search data on the to do page", LogAs.PASSED, null);
+			}
+			else
+			{
+				NXGReports.addStep("verify search data on the to do page", LogAs.FAILED, null);
+			}
+			System.out.println("isCheckData = " + isCheckData);
+		} catch (Exception e) {
+			NXGReports.addStep("verify search data on the to do page", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
 }
