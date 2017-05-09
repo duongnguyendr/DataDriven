@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
 
 public class AuditorTodoListPage  extends AbstractPage{
 
@@ -53,7 +55,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	@FindBy(xpath="//th[@data-id='audit']")
 	private WebElement eleAuditAssigneeTitleLabel;	
-	@FindBy(xpath="//th[@data-id='audit']")
+	@FindBy(xpath="//th[@data-id='audit']//i")
 	private WebElement eleSortByAuditAssignee;
 	
 	
@@ -65,16 +67,46 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	
 	 public void verifyTodoListPage() throws Exception {
-		 this.verifyButtonCreateToDo();
+		 getLogger().info("verify create to do button.");
+		 	this.verifyButtonCreateToDo();
+	     NXGReports.addStep("verify create to do button.", LogAs.PASSED, null);
+		
+		 getLogger().info("verify filter button.");
 		 this.verifyButtonFilter();		
+	     NXGReports.addStep("verify filter button.", LogAs.PASSED, null);
+		 
+		 getLogger().info("verify check on checkbox.");
 		 this.verifyCheckOnCheckBox();
+	     NXGReports.addStep("verify check on checkbox.", LogAs.PASSED, null);
+		
+		 getLogger().info("verify uncheck on checkbox.");
 		 this.verifyUnCheckOnCheckBox();
+	     NXGReports.addStep("verify uncheck on checkbox.", LogAs.PASSED, null);
+		 
+		 getLogger().info("verify columns in gird.");
 		 this.verifyColumnsInGrid();
-		 this.verifySotleOnTitle();
+	     NXGReports.addStep("verify columns in gird.", LogAs.PASSED, null);
+		
+		 getLogger().info("verify icon sort on title.");
+		 this.verifySortOnTitle();
+	     NXGReports.addStep("verify icon sort on title.", LogAs.PASSED, null);
+		
+		 getLogger().info("verify search hover.");
 		 this.verifySearchHover();
+	     NXGReports.addStep("verify search hover.", LogAs.PASSED, null);
+		
+		 getLogger().info("verify input text for field search.");
 		 this.verifySearchInputText();
-		 this.verifySearchInputNumber();		
+	     NXGReports.addStep("verify input text for field search.", LogAs.PASSED, null);
+		 
+		 getLogger().info("verify input number for field search.");
+		 this.verifySearchInputNumber();	
+	     NXGReports.addStep("verify input number for field search.", LogAs.PASSED, null);
+		 
+		 getLogger().info("verify default value(hint) field search.");
 		 this.verifySearchDefault();
+	     NXGReports.addStep("verify default value(hint) field search.", LogAs.PASSED, null);
+		 
 		
 	  }
 
@@ -107,7 +139,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	public void verifySearchHover()throws Exception {
 		 this.ClickAndHold(this.eleToDoSearchInput);
-		 this.waitForPresentOfLocator(By.xpath("//input[@id='todo-search']"));
+		 this.waitForVisibilityOfAllElementsLocatedBy(By.xpath("//input[@id='todo-search']"));
 		 this.validateCssValueElement(this.eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
 	}
 	
@@ -115,7 +147,6 @@ public class AuditorTodoListPage  extends AbstractPage{
 		this.eleToDoSearchInput.click();
 		this.eleToDoSearchInput.clear();
 		 this.eleToDoSearchInput.sendKeys("Search to do");
-		 System.out.println(this.eleToDoSearchInput.getText());
 		 this.validateAttributeElement(this.eleToDoSearchInput, "value",  "Search to do");
 	}
 	
@@ -143,7 +174,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 	}
 	
 
-	public void verifySotleOnTitle()throws Exception {
+	public void verifySortOnTitle()throws Exception {
 		this.validateDisPlayedElement(this.eleSortByNameToDo);	
 		 this.validateDisPlayedElement(this.eleSortByClientAssignee);
 		 this.validateDisPlayedElement(this.eleSortByDueDate);
@@ -154,7 +185,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 		if(!this.eleCheckBox.isSelected()){
 			 this.eleCheckBox.click();
 		 }
-		this.waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
+		this.waitForVisibilityOfAllElementsLocatedBy(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
 		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(92, 212, 192, 1)");	
 	}
 	
@@ -163,7 +194,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 			 this.eleCheckBox.click();
 			 
 		 }
-		 this.waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
+		 this.waitForVisibilityOfAllElementsLocatedBy(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
 		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
 	}
 	

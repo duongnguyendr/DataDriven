@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
@@ -35,10 +37,10 @@ public class AuditorNewEngagementPage extends AbstractPage {
    	private List<WebElement> eleEngagementTypeList;
     
     @FindBy(id="engagement-company")
-	private WebElement eleEngagementCompanyInput;
+	private WebElement eleCompanyNameInput;
     
     @FindBy(id="engagement-deadline")
-	private WebElement eleEngagementDeadlineInput;
+	private WebElement eleReportDeadlineInput;
     
     
     @FindBy(id="engagement-date-range-start")
@@ -69,25 +71,94 @@ public class AuditorNewEngagementPage extends AbstractPage {
     }
 
     public void enterDataForNewEngagementPage(String engagement01, String s, String s1) throws Exception {
-    	this.waitForClickableOfElement(this.eleEngagementNameInput);
-    	this.eleEngagementNameInput.click();
-    	this.eleEngagementNameInput.sendKeys(engagement01);
-    	this.eleEngagementTypeSelect.click();
-    	this.eleEngagementTypeList.get(0).click();
-    	this.eleEngagementNameInput.click();
-    	this.eleEngagementCompanyInput.sendKeys(s);
-    	Calendar startDate=Calendar.getInstance();
-    	Calendar endDate=Calendar.getInstance();
-    	endDate.add(Calendar.DATE, 10);
-    	SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy"); 
-    	this.eleEngagementDeadlineInput.sendKeys(dt.format(endDate.getTime()));   
-    	this.eleStartDateInput.sendKeys(dt.format(startDate.getTime()));
     	
-    	this.eleEndDateInput.sendKeys(dt.format(endDate.getTime()));
+        getLogger().info("Enter engagement name.");
+        enterEngagementName(engagement01);
+        NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
+        
+        getLogger().info("Select engagement type.");
+        selectEngagementType(s);
+        NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
+                
+        getLogger().info("Enter company name.");
+        enterCompanyName(s1);
+        NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
+        
+        getLogger().info("Enter deadline date.");
+        enterDeadLineDate(this.tmp(10));
+        NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
+    	
+        getLogger().info("Enter start date.");
+        enterStartDate(this.tmp(0));
+        NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
+        
+        getLogger().info("Enter end date.");
+        enterEndDate(this.tmp(10));
+        NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
+    	
+        getLogger().info("Click Continue button.");
+        this.clickContinueBtn();
+        NXGReports.addStep("Click Continue button.", LogAs.PASSED, null);
+        
+        getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
+        this.clickNoMemberBtn();
+        NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
+        
+        getLogger().info("Click create to do button.");
+        this.clickCreateToDoBtn();
+        NXGReports.addStep("Click create to do button.", LogAs.PASSED, null);
+    }
+    
+    
+    
+    
+    
+    public void enterEngagementName(String engagementName){
+    	this.waitForClickableOfElement(this.eleEngagementNameInput);
+    	this.eleEngagementNameInput.sendKeys(engagementName);
+    	
+    }
+    
+    public void selectEngagementType(String engagementType){
+    	this.eleEngagementTypeSelect.click();
+    	this.eleEngagementTypeList.get(0).click();    	
+    }
+    
+    
+    public void enterCompanyName(String conpanyName){
+    	this.eleCompanyNameInput.sendKeys(conpanyName);   	    	
+    }
+    
+    public void enterDeadLineDate(String dateLineDate){    	
+    	this.eleReportDeadlineInput.sendKeys(dateLineDate); 
+    }
+    
+    public void enterStartDate(String startDate){    	
+    	this.eleStartDateInput.sendKeys(startDate); 
+    }
+    
+    public void enterEndDate(String endDate){    	
+    	this.eleStartDateInput.sendKeys(endDate); 
+    }
+    
+    public void clickContinueBtn(){
     	this.eleContinueBtn.click();
+    }
+    
+    public void clickNoMemberBtn(){
     	this.waitForClickableOfElement(this.eleContinueNoMemberBtn);
     	this.eleContinueNoMemberBtn.click();    	
+    }
+    
+    public void clickCreateToDoBtn(){
     	this.waitForClickableOfElement(this.eleCustomizeCreateBtn);
     	this.eleCustomizeCreateBtn.click();
+    }
+    
+    public String tmp(int num){
+    	Calendar date=Calendar.getInstance();
+    	date.add(Calendar.DATE, num);
+    	SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy"); 
+    	return dt.format(date.getTime());
     }
 }
