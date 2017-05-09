@@ -357,20 +357,15 @@ public class AbstractPage {
         }
     }
 
-    public void validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException
-    {
+    public void validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException {
         getLogger().info("Verify element is not displayed of: " + element.getText());
 
-        try
-        {
-            if(!element.isDisplayed())
+        try {
+            if (!element.isDisplayed())
                 NXGReports.addStep(element.getTagName() + " is displayed", LogAs.PASSED, null);
             else
                 NXGReports.addStep(element.getTagName() + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }

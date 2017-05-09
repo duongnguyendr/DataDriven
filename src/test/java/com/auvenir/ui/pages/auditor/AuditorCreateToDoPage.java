@@ -3,6 +3,10 @@ package com.auvenir.ui.pages.auditor;
 //import library
 import java.util.List;
 
+import com.auvenir.ui.services.AbstractRefactorService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -89,6 +93,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	@FindBy(xpath="//*[@id='todo-cancel-btn']")
 	private WebElement eleToDoCloseIcon;
+
+	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']")
+	private List<WebElement> eleToDoNewRow;
 
 
 	public void verifyImgEmtyToDo()throws Exception {
@@ -286,8 +293,24 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 
 	public void verifyEnableToDoCloseIcon(){
+		int count = -1;
+		if(eleToDoNewRow.isEmpty())
+			count = 0;
+		else count = eleToDoNewRow.size();
+		clickCreateToDoTask();
 		waitForVisibleElement(eleToDoCloseIcon);
 		eleToDoCloseIcon.click();
-		validateIsNotDisPlayedElement(eleToDoCloseIcon);
+		getLogger().info("Verify new To Do Task is not created.");
+		try {
+			if (count == eleToDoNewRow.size())
+				NXGReports.addStep( "New To Do Task is not created", LogAs.PASSED, null);
+			else{
+				AbstractRefactorService.sStatusCnt++;
+				NXGReports.addStep("New To Do Task is created", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractRefactorService.sStatusCnt++;
+			NXGReports.addStep("New To Do Task is created", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 }

@@ -169,7 +169,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
     }
 
-    @Test(  priority = 2,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Dos Textbox")
+    @Test(  priority = 2,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Dos Textbox")
     public void verifyGUIToDoTextBox() throws Exception {
         try {
             auditorCreateToDoService.navigatetoCreateToDoTab();
@@ -184,26 +184,35 @@ public class CreateToDoTest extends AbstractTest {
         }
     }
 
-	@Test(  priority = 13,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
+	@Test(  priority = 13,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
 	public void verifyGUIToDoSaveIcon() throws Exception {
 		try {
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifyGUIToDoSaveIcon();
 			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-			NXGReports.addStep("Verify GUI To Dos Text box - create to do page.", LogAs.PASSED, null);
+			NXGReports.addStep("Verify GUI Save Icon - create to do page.", LogAs.PASSED, null);
 		} catch (Exception e) {
-			NXGReports.addStep("TestScript Failed: Verify GUI To Dos Text box - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify GUI Save Icon - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 	@Test(  priority = 14,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
 	public void verifyGUIToDoCloseIcon() throws Exception {
 		try {
-			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifyGUIToDoCloseIcon();
 			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-			NXGReports.addStep("Verify GUI To Dos Text box - create to do page.", LogAs.PASSED, null);
+			NXGReports.addStep("Verify GUI Close Icon - create to do page.", LogAs.PASSED, null);
 		} catch (Exception e) {
-			NXGReports.addStep("TestScript Failed: Verify GUI To Dos Text box - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify GUI Close Icon - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+	@Test(  priority = 15,enabled = true, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
+	public void verifyDataGridToDoTaskPage() throws Exception {
+		try {
+			auditorCreateToDoService.verifyGUIToDoCloseIcon();
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+			NXGReports.addStep("Verify GUI Close Icon - create to do page.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("TestScript Failed: Verify GUI Close Icon - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 }
