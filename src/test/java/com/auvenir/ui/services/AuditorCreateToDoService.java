@@ -18,7 +18,7 @@ import java.util.Random;
 public class AuditorCreateToDoService extends AbstractService {
 
 	AuditorCreateToDoPage createToDoPage;
-	String todoNamePage = "";
+
 
 	/*
 	 * contructor
@@ -163,10 +163,8 @@ public class AuditorCreateToDoService extends AbstractService {
 	public void createToDoPage(){
 
 		try {
-			Random randNum = new Random();
-			int  n = randNum.nextInt(10000) + 1;
-			todoNamePage = "To-do name " + n;
-			createToDoPage.createToDoPage(todoNamePage);
+
+			createToDoPage.createToDoPage();
 			NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -176,7 +174,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
 	public void verifyDataSearch() throws Exception {
 		try {
-			boolean isCheckData = createToDoPage.checkSearchData(todoNamePage);
+			boolean isCheckData = createToDoPage.checkSearchData();
 			if(isCheckData) {
 				NXGReports.addStep("verify search data on the to do page", LogAs.PASSED, null);
 			}

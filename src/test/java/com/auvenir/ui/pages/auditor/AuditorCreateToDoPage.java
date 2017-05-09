@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.auditor;
 
 //import library
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -18,6 +19,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		super(logger, driver);
 		PageFactory.initElements(driver, this);
 	}
+	private String todoNamePage = "";
 	
 	@FindBy(id="auv-todo-createToDo")
 	private WebElement eleCreateToDoBtn;
@@ -170,11 +172,21 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		eleToDoLnk.click();
 	}
 
-	public boolean checkSearchData(String strSearchData) throws InterruptedException {
+	public void createToDoPage()throws Exception {
+		Random randNum = new Random();
+		int  n = randNum.nextInt(10000) + 1;
+		todoNamePage = "To-do name " + n;
+		this.eleCreateToDoBtn.click();
+		Thread.sleep(1000);
+		eleIdToDoName.sendKeys(todoNamePage);
+		eleBtnToDoAdd.click();
+	}
+
+	public boolean checkSearchData() throws InterruptedException {
 		boolean isCheckData = false;
 		waitForVisibleElement(txtIdTodoSearch);
 		Thread.sleep(1000);
-		txtIdTodoSearch.sendKeys(strSearchData);
+		txtIdTodoSearch.sendKeys(todoNamePage);
 		waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")));
 		// Check the result in the list data
 		List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
@@ -188,7 +200,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 				catch(Exception ex)
 				{}
 				System.out.println("strSearchValue = " + strSearchValue);
-				if(strSearchValue.equals(strSearchData))
+				if(strSearchValue.equals(todoNamePage))
 				{
 					isCheckData = true;
 					break;
@@ -201,11 +213,4 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		}
 		return isCheckData;
 	}
-
-	public void createToDoPage(String toDoName)throws Exception {
-		this.eleCreateToDoBtn.click();
-		eleIdToDoName.sendKeys(toDoName);
-		eleBtnToDoAdd.click();
-	}
-
 }
