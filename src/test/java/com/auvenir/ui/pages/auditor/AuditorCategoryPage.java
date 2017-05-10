@@ -14,11 +14,10 @@ import sun.awt.windows.WEmbeddedFrame;
 public class AuditorCategoryPage extends AbstractPage {
 
 
-    public AuditorCategoryPage(Logger logger, WebDriver driver) {
+    public AuditorCategoryPage(Logger logger, WebDriver driver) throws InterruptedException {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }
-
     @FindBy(id = "category-dropdown")
     WebElement eleCategoryMenu;
 
@@ -49,7 +48,11 @@ public class AuditorCategoryPage extends AbstractPage {
         eleCategoryMenu.click();
     }
 
-
+    public void navigateToEditCategory()
+    {
+        waitForVisibleElement(eleEditCategory);
+        eleEditCategory.click();
+    }
 
 
 

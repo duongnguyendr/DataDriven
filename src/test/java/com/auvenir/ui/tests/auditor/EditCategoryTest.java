@@ -3,7 +3,6 @@ package com.auvenir.ui.tests.auditor;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorCreateToDoService;
 import com.auvenir.ui.services.AuditorEditCategoryService;
-import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -47,13 +46,13 @@ public class EditCategoryTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(),getDriver());
                 try {
-                auditorEditCategoryService.verifyCategoryGUI();
+                auditorEditCategoryService.navigateToCategoryTab();
 
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-            NXGReports.addStep("Verify GUI Category DropDown.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify click passed", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify GUI Category DropDown.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Click failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 

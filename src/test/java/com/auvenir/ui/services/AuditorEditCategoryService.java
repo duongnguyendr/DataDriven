@@ -1,8 +1,6 @@
 package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.auditor.AuditorCategoryPage;
-import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
-import com.auvenir.ui.pages.common.AbstractPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -14,7 +12,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class AuditorEditCategoryService extends AbstractService{
 
-    AuditorCategoryPage auditorCategoryPage;
+    AuditorCategoryPage auditorCategoryPage ;
 
         /*
      * contructor
@@ -22,11 +20,14 @@ public class AuditorEditCategoryService extends AbstractService{
     public AuditorEditCategoryService(Logger logger, WebDriver driver) {
 
         super(logger, driver);
-       // auditorCategoryPage = new AuditorCreateToDoPage(getLogger(), getDriver());
+
     }
 
-    public void verifyCategoryGUI(){
-        //auditorCategoryPage.navigateToCategoryMenu();
+    public void navigateToCategoryTab() throws Exception {
+
+        auditorCategoryPage.navigateToCategoryMenu();
+    auditorCategoryPage.navigateToEditCategory();
+
 
         try {
 
