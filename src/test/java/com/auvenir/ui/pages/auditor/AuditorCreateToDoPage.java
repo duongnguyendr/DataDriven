@@ -108,10 +108,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	
 	public void navigateToEngagementTask(){
 		if(eleViewEngagementPage.size()>0)
-			ClickAndHold(eleViewEngagementPage.get(0));
+			clickAndHold(eleViewEngagementPage.get(0));
 		else{
 			//ToDo: With create new Engagement Task
-			ClickAndHold(eleViewEngagementPage.get(0));
+			clickAndHold(eleViewEngagementPage.get(0));
 		}
 	}
 	
@@ -132,13 +132,13 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 	public void verifyCssValueToDoTextBox(){
 		waitForVisibleElement(eleToDoNameInput);
-		ClickAndHold(eleToDoNameInput);
+		clickAndHold(eleToDoNameInput);
 		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgb(89, 155, 161)");
 	}
 	public void verifyCssValueWarningToDoTextBox(){
 		waitForVisibleElement(eleToDoNameInput);
 		waitForVisibleElement(eleDueDateInput);
-		ClickAndHold(eleToDoNameInput);
+		clickAndHold(eleToDoNameInput);
 		eleDueDateInput.click();
 		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgba(253, 109, 71, 0.4)");
 		//waitForVisibleElement(eleToDoNameErrorLabel);
@@ -150,7 +150,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyAddNewToDoTask(){
 		validateDisPlayedElement(eleToDoNameInput);
 		validateAttributeElement(eleToDoNameInput,"placeholder","Write your first to do here");//Write your first to do here
-		ClickAndHold(eleToDoNameInput);
+		clickAndHold(eleToDoNameInput);
 		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgb(89, 155, 161)");
 
 	}
