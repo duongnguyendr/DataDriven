@@ -4,8 +4,12 @@ package com.auvenir.ui.pages.common;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 //import org.testng.log4testng.Logger;
+import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -14,8 +18,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 import org.testng.Assert;
 
 import com.auvenir.ui.services.AbstractRefactorService;
@@ -370,5 +372,43 @@ public class AbstractPage {
             NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
+    }
+
+    public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon) throws Exception {
+        try{
+            List<String> toDoTaskName = new ArrayList<String>();
+            List<String> sortToDoTaskName;
+            for (int i = 0; i < elementRowValue.size(); i++) {
+                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+            }
+            sortToDoTaskName = toDoTaskName;
+            Collections.sort(sortToDoTaskName);
+            elementSortIcon.click();
+            toDoTaskName.clear();
+            for (int i = 0; i < elementRowValue.size(); i++) {
+                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+            }
+            if (sortToDoTaskName.equals(toDoTaskName)) {
+                getLogger().info("Ascending sort is as expected");
+            } else {
+                getLogger().info("Ascending sort is NOT as expected");
+                throw new Exception();
+            }
+            Collections.reverse(sortToDoTaskName);
+            elementSortIcon.click();
+            toDoTaskName.clear();
+            for (int i = 0; i < elementRowValue.size(); i++) {
+                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+            }
+            if (sortToDoTaskName.equals(toDoTaskName)) {
+                getLogger().info("Descending sort is successfully");
+            } else {
+                getLogger().info("Descending sort is NOT successfully");
+                throw new Exception();
+            }
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Cannot sort data on Data Grid View.");
+        }
     }
 }
