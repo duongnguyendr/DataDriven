@@ -293,7 +293,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void verifyEmailTextBoxIsDisable() {
-        validateDisabledElement(phoneNoTextBox);
+        //validateDisabledElement(phoneNoTextBox);
     }
     public void validateTextMessageFullNametxtbox(){
         validateElementText(fullnameLable,"First and Last Name");
@@ -326,7 +326,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void verifyUpdateButtonDisableDefault() {
-        validateDisabledElement(updateButton);
+        //validateDisabledElement(updateButton);
     }
 
     public void verifyUpdateButtonEnable() {
@@ -334,9 +334,9 @@ public class AdminAccountSettingsPage extends AbstractPage {
         waitForClickableOfElement(updateButton);
     }
     public void sendTabkeyFullNameTxt(){
-        //sendTabkey(fullNameTextBox);
+        sendTabkey(fullNameTextBox);
     }
     public void sendTabkeyPhoneNumberTxt(){
-        //sendTabkey(phoneNoTextBox);
+        sendTabkey(phoneNoTextBox);
     }
 }
