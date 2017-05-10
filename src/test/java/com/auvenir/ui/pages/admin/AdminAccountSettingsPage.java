@@ -292,7 +292,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
         phoneNoTextBox.sendKeys(Value);
     }
 
-    public void verifyEmailTextBoxIsDisable() {
+    public void verifyEmailTextBoxIsDisable(){
         validateDisabledElement(phoneNoTextBox);
     }
     public void validateTextMessageFullNametxtbox(){
@@ -301,11 +301,10 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void validateTextMessagePhoneTxtbox(){
         validateElementText(phoneLable,"Phone Number");
     }
-    public void clickUpdateImageBTN() throws InterruptedException {
+    public void clickUpdateImageBTN(){
         waitForClickableOfElement(uploadButton);
         getLogger().info("waited clickable");
         clickAndHold(uploadButton);
-
     }
     public void ClickUpdateBTN(){
         waitForClickableOfElement(updateButton);
@@ -325,7 +324,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
         validateElementText(errorMessageBigFile, "*Your image is too big. Please upload an image less than 2MB.");
     }
 
-    public void verifyUpdateButtonDisableDefault() {
+    public void verifyUpdateButtonDisableDefault(){
         validateDisabledElement(updateButton);
     }
 
