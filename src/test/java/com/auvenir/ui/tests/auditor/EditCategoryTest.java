@@ -45,7 +45,10 @@ public class EditCategoryTest extends AbstractTest {
     @Test(  priority = 2,enabled = true, description = "[PLAT 2291]-03:Verify EditPopup's Title on new Todo window")
     public void verifyEditCategoryPopup() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(),getDriver());
                 try {
+                auditorEditCategoryService.verifyCategoryGUI();
+
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify GUI Category DropDown.", LogAs.PASSED, null);

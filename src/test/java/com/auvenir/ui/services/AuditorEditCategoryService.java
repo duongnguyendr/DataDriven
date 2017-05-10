@@ -26,7 +26,7 @@ public class AuditorEditCategoryService extends AbstractService{
     }
 
     public void verifyCategoryGUI(){
-
+        //auditorCategoryPage.navigateToCategoryMenu();
 
         try {
 

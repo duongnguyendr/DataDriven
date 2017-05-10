@@ -44,6 +44,11 @@ public class AuditorCategoryPage extends AbstractPage {
     WebElement eleCategorySaveBtn;
 
 
+    public void navigateToCategoryMenu() throws Exception{
+        waitForClickableOfElement(eleCategoryMenu);
+        eleCategoryMenu.click();
+    }
+
 
 
 
