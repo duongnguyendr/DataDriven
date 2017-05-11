@@ -1,15 +1,12 @@
 package com.auvenir.ui.services;
 
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+
 import com.auvenir.ui.pages.admin.AdminAccountSettingsPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import javax.xml.bind.Element;
 
 /**
  * Created by doai.tran on 4/27/2017.

@@ -130,8 +130,10 @@ public class AuditorEngagementPage extends AbstractPage {
 		return eleAddNewBtn;
 	}
 	
-	@FindBy(xpath="//div[@class='e-widget-content']")
+	@FindBy(xpath="//div[@class='e-widget-options']")
 	private List<WebElement> eleWidgetContent;
+	@FindBy(xpath="//div[@class='e-widget-options']//input[@value='View']")
+	private List<WebElement> eleViewEngagementDetail;
 	
 	public void auditorPageHeaderContent()
 	{
@@ -154,7 +156,7 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
 	public void navigateToContactsTab() {
-		waitForClickableOfElement(contactsLinkEle);
+		waitForClickableOfElement(contactsLinkEle); 
 		contactsLinkEle.click();
 
 	}
@@ -164,9 +166,10 @@ public class AuditorEngagementPage extends AbstractPage {
 		newEngagementButtonEle.click();
     }
     
-    public void viewEngagementDetailsPage(String engagementName) throws Exception{		
-		waitForClickableOfElement(eleWidgetContent.get(0));
-		ClickAndHold(eleWidgetContent.get(0));
+    public void navigateToEngagementTask(String EngagementName) throws Exception{
+    	scrollPageDown();
+    	hoverElement(eleWidgetContent.get(eleWidgetContent.size()-1));    	
+		clickAndHold(eleViewEngagementDetail.get(eleViewEngagementDetail.size()-1));
 	}
     
   

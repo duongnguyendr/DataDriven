@@ -11,7 +11,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 
-public class AuditorTodoListPage  extends AbstractPage{
+public class AuditorTodoListPage  extends AbstractPage{ 
 
 	public AuditorTodoListPage(Logger logger, WebDriver driver) {
 		super(logger, driver);
@@ -68,11 +68,11 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	 public void verifyTodoListPage() throws Exception {
 		 getLogger().info("verify create to do button.");
-		 verifyButtonCreateToDo();
+		 	verifyButtonCreateToDo();
 	     NXGReports.addStep("verify create to do button.", LogAs.PASSED, null);
 		
 		 getLogger().info("verify filter button.");
-		 verifyButtonFilter();
+		 verifyButtonFilter();		
 	     NXGReports.addStep("verify filter button.", LogAs.PASSED, null);
 		 
 		 getLogger().info("verify check on checkbox.");
@@ -100,7 +100,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 	     NXGReports.addStep("verify input text for field search.", LogAs.PASSED, null);
 		 
 		 getLogger().info("verify input number for field search.");
-		 verifySearchInputNumber();
+		 verifySearchInputNumber();	
 	     NXGReports.addStep("verify input number for field search.", LogAs.PASSED, null);
 		 
 		 getLogger().info("verify default value(hint) field search.");
@@ -112,7 +112,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 
 	public void verifyEmptyTodoList() throws Exception {
 		waitForVisibleElement(eleImgEmtyToDo);
-    	validateDisPlayedElement(eleImgEmtyToDo);
+    	validateDisPlayedElement(eleImgEmtyToDo);		
     	waitForVisibleElement(eleNotesEmtyToDo);
 		validateDisPlayedElement(eleNotesEmtyToDo);
 	}
@@ -121,82 +121,108 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	
 	
-	public void verifyButtonCreateToDo()throws Exception {		
-		
-		 validateCssValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
-		 validateCssValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
+	public void verifyButtonCreateToDo()throws Exception {
+		 validateCSSValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
+		 validateCSSValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
 		 validateDisPlayedElement(eleCreateToDoBtn);
 		
 	}
 	
 	public void verifyButtonFilter()throws Exception {
-		 validateDisPlayedElement(eleFilterBtn);
+		validateDisPlayedElement(eleFilterBtn);		
 	}
 	
 	public void verifySearchDefault()throws Exception {
-		 validateAttributeElement(eleToDoSearchInput,"placeholder","Search...");
+		 validateAttributeElement(eleToDoSearchInput,"placeholder","Search...");	
 	}
 	
 	public void verifySearchHover()throws Exception {
-		 ClickAndHold(eleToDoSearchInput);
-		 waitForVisibleOfLocator(By.xpath("//input[@id='todo-search']"));
-		 validateCssValueElement(eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
+		 clickAndHold(eleToDoSearchInput);
+		 waitForPresentOfLocator(By.xpath("//input[@id='todo-search']"));
+		 
+		 validateCSSValueElement(eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
 	}
 	
 	public void verifySearchInputText()throws Exception {
-		 eleToDoSearchInput.click();
-		 eleToDoSearchInput.clear();
-		 eleToDoSearchInput.sendKeys("Search to do");
-		 validateAttributeElement(this.eleToDoSearchInput, "value",  "Search to do");
+		enterSearchToDoTask("To do task name");
+		 validateAttributeElement(eleToDoSearchInput, "value",  "To do task name");
 	}
-	
-	public void verifySearchLimit255()throws Exception {
-		 eleToDoSearchInput.click();
-		 eleToDoSearchInput.clear();
-		 eleToDoSearchInput.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
-		 validateMaxlenght(eleToDoSearchInput, 255);
-	}
+
 	
 	public void verifySearchInputNumber()throws Exception {
-		eleToDoSearchInput.click();
-		eleToDoSearchInput.clear();
-		eleToDoSearchInput.sendKeys("123");
-		 validateAttributeElement(this.eleToDoSearchInput, "value", "123");
+		enterSearchToDoTask("123");
+		 validateAttributeElement(eleToDoSearchInput, "value", "123");
 	}
 	
 		
 	public void verifyColumnsInGrid()throws Exception {
-		 validateElementText(this.eleNameToDoTitleLabel, "To-Dos");
-		 validateElementText(this.eleCategoryTitleLabel, "Category");
-		 validateElementText(this.eleClientAssigneeTitleLabel, "Client Assignee");
-		 validateElementText(this.eleDueDateTitleLabel, "Due Date");
-		 validateElementText(this.eleAuditAssigneeTitleLabel, "Audit Assignee");
+		validateElementText(eleNameToDoTitleLabel, "To-Dos");
+		 validateElementText(eleCategoryTitleLabel, "Category");	
+		 validateElementText(eleClientAssigneeTitleLabel, "Client Assignee");
+		 validateElementText(eleDueDateTitleLabel, "Due Date");
+		 validateElementText(eleAuditAssigneeTitleLabel, "Audit Assignee");
 	}
 	
 
 	public void verifySortOnTitle()throws Exception {
-		 validateDisPlayedElement(this.eleSortByNameToDo);
-		 validateDisPlayedElement(this.eleSortByClientAssignee);
-		 validateDisPlayedElement(this.eleSortByDueDate);
-		 validateDisPlayedElement(this.eleSortByAuditAssignee);
+		validateDisPlayedElement(eleSortByNameToDo);	
+		 validateDisPlayedElement(eleSortByClientAssignee);
+		 validateDisPlayedElement(eleSortByDueDate);
+		 validateDisPlayedElement(eleSortByAuditAssignee);
 	}
 	
 	public void verifyCheckOnCheckBox()throws Exception {
-		if(!eleCheckBox.isSelected()){
-			eleCheckBox.click();
-		 }
-		waitForVisibleOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
-		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(92, 212, 192, 1)");	
+		checkAllToDoTask();
+		waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
+		 validateCSSValueElement(eleCheckBox,"background-color","rgba(92, 212, 192, 1)");	
 	}
 	
 	public void verifyUnCheckOnCheckBox()throws Exception {
-		 if(eleCheckBox.isSelected()){
-		 	eleCheckBox.click();
-			 
-		 }
-		 waitForVisibleOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
-		 validateCssValueElement(eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
+		unCheckAllToDoTask();
+		waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
+		 validateCSSValueElement(eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
 	}
+	
+	public void clickCreateToDoBtn(){
+		clickElement(eleCreateToDoBtn);
+	}
+	
+	public void checkAllToDoTask(){
+		if(!eleCheckBox.isSelected()){
+			clickOnCheckBox(eleCheckBox);			
+		 }
+	}
+	
+	public void unCheckAllToDoTask(){
+		if(eleCheckBox.isSelected()){
+			clickOnCheckBox(eleCheckBox);			
+		 }
+	}
+	
+	public void enterSearchToDoTask(String searchValue){
+		sendKeyTextBox(eleToDoSearchInput, searchValue);
+	}
+	
+	public void clickSortByNameToDoTask(){
+		clickElement(eleSortByNameToDo);
+	}
+	
+	public void clickSortByAuditAssignee(){
+		clickElement(eleSortByAuditAssignee);
+	}
+	
+	public void clickSortByCategory(){
+		clickElement(eleSortByCategory);
+	}
+	
+	public void clickSortByDueDate(){
+		clickElement(eleSortByDueDate);
+	}
+	
+	public void clickSortByClientAssignee(){
+		clickElement(eleSortByClientAssignee);
+	}
+	
 	
 	
 

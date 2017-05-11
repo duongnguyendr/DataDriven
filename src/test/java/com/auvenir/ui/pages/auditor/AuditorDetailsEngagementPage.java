@@ -5,7 +5,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBy; 
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
@@ -21,26 +21,14 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
         super(logger,driver);
     }
 	@FindBy(id="engagementTodoLink")
-	private WebElement eleToDoLnk;
-	
-	@FindBy(xpath="//tr[@id='empty-todo']//..//..//img")
-	private WebElement eleImgEmtyToDo;
-	
-	@FindBy(xpath="//tr[@id='empty-todo']//..//..//div")
-	private WebElement eleNotesEmtyToDo;
-
-	@FindBy(id = "engagementDashboardLink")
-    private WebElement dashBoardLinkEle;
+	private WebElement eleToDoListLnk;
 
     public void verifyDetailsEngagementPage(String engagement01) {
-    	//we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
-        waitForClickableOfElement(dashBoardLinkEle);
-
+    	//Updated later because I do not know which component to test
     }
 
-    public void navigateToTodoListPage() throws Exception { 
-    		waitForClickableOfElement(eleToDoLnk);
-    		eleToDoLnk.click();
+    public void navigateToTaskList() throws Exception { 
+    		clickElement(eleToDoListLnk);
     }
 }
 

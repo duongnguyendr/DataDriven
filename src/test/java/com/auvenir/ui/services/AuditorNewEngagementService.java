@@ -17,7 +17,7 @@ public class AuditorNewEngagementService extends AbstractService {
     AuditorNewEngagementPage auditorNewEngagementPage;
 
     /*
-     * contructor
+     * contructor 
      */
     public AuditorNewEngagementService(Logger logger, WebDriver driver) {
 
@@ -38,10 +38,10 @@ public class AuditorNewEngagementService extends AbstractService {
     }
     
     
- public void enterDataForNewEngagementPage(String name, String engagementType, String company) {
+ public void enterDataForNewEngagementPage(String engagement01, String s, String s1) {
 	   try {
 		   getLogger().info("Enter data for new Engagement form.(Hard code)");
-		   auditorNewEngagementPage.enterDataForNewEngagementPage(name, engagementType, company);
+		   auditorNewEngagementPage.enterDataForNewEngagementPage(engagement01, s, s1);
 		   NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.PASSED, null);
        } catch (Exception e) {
            NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

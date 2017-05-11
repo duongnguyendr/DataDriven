@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.logging.LogAs; 
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
@@ -64,51 +64,48 @@ public class AuditorNewEngagementPage extends AbstractPage {
     
     @FindBy(id="customize-create-btn")
    	private WebElement eleCustomizeCreateBtn;
-    @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
-    private WebElement newEngagementHeaderTextEle;
 
 
     public void verifyNewEngagementPage() {
-    	getLogger().info("Verify New engagement Page.");
-    	waitForVisibleElement(newEngagementHeaderTextEle);
+    	///Updated later because I do not know which component to test
     }
 
-    public void enterDataForNewEngagementPage(String name, String engagementType, String company) throws Exception {
+    public void enterDataForNewEngagementPage(String engagement01, String s, String s1) throws Exception {
     	
         getLogger().info("Enter engagement name.");
-        enterEngagementName(name);
+        enterEngagementName(engagement01);
         NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
         
         getLogger().info("Select engagement type.");
-        selectEngagementType(engagementType);
+        selectEngagementType(s);
         NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
                 
         getLogger().info("Enter company name.");
-        enterCompanyName(company);
+        enterCompanyName(s1);
         NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
         
         getLogger().info("Enter deadline date.");
-        enterDeadLineDate(getDate(10));
+        enterDeadLineDate(this.tmp(10));
         NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
     	
         getLogger().info("Enter start date.");
-        enterStartDate(getDate(0));
+        enterStartDate(this.tmp(0));
         NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
         
         getLogger().info("Enter end date.");
-        enterEndDate(getDate(10));
+        enterEndDate(this.tmp(10));
         NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
     	
         getLogger().info("Click Continue button.");
-        clickContinueBtn();
+        this.clickContinueBtn();
         NXGReports.addStep("Click Continue button.", LogAs.PASSED, null);
         
         getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
-        clickNoMemberBtn();
+        this.clickNoMemberBtn();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
         
         getLogger().info("Click create to do button.");
-        clickCreateToDoBtn();
+        this.clickCreateToDoBtn();
         NXGReports.addStep("Click create to do button.", LogAs.PASSED, null);
     }
     
@@ -117,51 +114,49 @@ public class AuditorNewEngagementPage extends AbstractPage {
     
     
     public void enterEngagementName(String engagementName){
-    	waitForClickableOfElement(this.eleEngagementNameInput);
-    	eleEngagementNameInput.sendKeys(engagementName);
+    	this.waitForClickableOfElement(this.eleEngagementNameInput);
+    	sendKeyTextBox(eleEngagementNameInput, engagementName);
     	
     }
     
     public void selectEngagementType(String engagementType){
-    	eleEngagementTypeSelect.click();
-    	eleEngagementTypeList.get(0).click();
+    	clickElement(eleEngagementTypeSelect);
+    	this.eleEngagementTypeList.get(0).click();    	
     }
     
     
     public void enterCompanyName(String conpanyName){
-    	eleCompanyNameInput.sendKeys(conpanyName);
+    	sendKeyTextBox(this.eleCompanyNameInput,conpanyName);   	    	
     }
     
     public void enterDeadLineDate(String dateLineDate){    	
-    	eleReportDeadlineInput.sendKeys(dateLineDate);
+    	sendKeyTextBox(this.eleReportDeadlineInput,dateLineDate); 
     }
     
     public void enterStartDate(String startDate){    	
-    	eleStartDateInput.sendKeys(startDate);
+    	sendKeyTextBox(this.eleStartDateInput,startDate); 
     }
     
     public void enterEndDate(String endDate){    	
-    	eleStartDateInput.sendKeys(endDate);
+    	sendKeyTextBox(this.eleEndDateInput,endDate); 
     }
     
     public void clickContinueBtn(){
-    	eleContinueBtn.click();
+    	clickElement(this.eleContinueBtn);
     }
     
     public void clickNoMemberBtn(){
-    	this.waitForClickableOfElement(eleContinueNoMemberBtn);
-    	eleContinueNoMemberBtn.click();
+    	clickElement(this.eleContinueNoMemberBtn);    	
     }
     
     public void clickCreateToDoBtn(){
-    	waitForClickableOfElement(this.eleCustomizeCreateBtn);
-    	eleCustomizeCreateBtn.click();
+    	clickElement(this.eleCustomizeCreateBtn);
     }
     
-    public String getDate(int day){
+    public String tmp(int num){
     	Calendar date=Calendar.getInstance();
-    	date.add(Calendar.DATE, day);
-    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    	return simpleDateFormat.format(date.getTime());
+    	date.add(Calendar.DATE, num);
+    	SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy"); 
+    	return dt.format(date.getTime());
     }
 }

@@ -10,15 +10,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by cuong.nguyen on 4/25/2017.
+ * Updated by Doai.Tran
  */
 public class AbstractService  {
     private WebDriver driver;
     private Logger logger;
     private static final int waitTime = 60;
+    /*
+    Variable to validate Passed - Failed of a TestCases
+     */
+    public static int sStatusCnt=0;
     /**
      * Base url this value is set at runtime.
      *
@@ -93,6 +99,16 @@ public class AbstractService  {
             throw e;
         }
 
+    }
+    public void executeAutoITScriptUploadImage(String AutoITScripDirectory, String fileDirectory) throws IOException {
+        try{
+            String[] cmdRun = new String[]{AutoITScripDirectory, fileDirectory};
+            Runtime.getRuntime().exec(cmdRun);
+            NXGReports.addStep("Execute AutoITScriptUploadImage successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Execute AutoITScriptUploadImage successfully", LogAs.FAILED, null);
+            throw e;
+        }
     }
 
 
