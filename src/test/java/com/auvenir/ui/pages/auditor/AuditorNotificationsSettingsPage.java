@@ -23,7 +23,7 @@ public class AuditorNotificationsSettingsPage extends AbstractPage {
 
 
     public void verifyAuditorNotificationSettingsPage() {
-        waitForVisibleElement(auditorNotificationsSettingsHeaderTextEle);
+        waitForVisibleElement(auditorNotificationsSettingsHeaderTextEle,"auditorNotificationsSettingsHeaderTextEle");
 
 
     }

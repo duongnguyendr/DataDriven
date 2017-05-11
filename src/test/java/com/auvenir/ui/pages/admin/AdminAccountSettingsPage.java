@@ -183,10 +183,10 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void verifyElementsHeader() {
         try {
             getLogger().info("verify Element: eleAuvenirLogoImg displayed.");
-            waitForVisibleElement(eleAuvenirLogoImg);
+            waitForVisibleElement(eleAuvenirLogoImg,"eleAuvenirLogoImg");
             NXGReports.addStep("verified Element: eleAuvenirLogoImg displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: dashboardUserNameEle displayed.");
-            waitForVisibleElement(dashboardUserNameEle);
+            waitForVisibleElement(dashboardUserNameEle,"dashboardUserNameEle");
             NXGReports.addStep("verified Element: dashboardUserNameEle displayed.", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e){
             NXGReports.addStep("Some Elements on header are not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -196,31 +196,31 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void verifyElementsOnAccountTab() {
         try{
             getLogger().info("verify Element: settingTitle displayed.");
-            waitForVisibleElement(settingTitle);
+            waitForVisibleElement(settingTitle,"settingTitle");
             NXGReports.addStep("verified Element: settingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: accountTab displayed.");
-            waitForVisibleElement(accountTab);
+            waitForVisibleElement(accountTab,"accountTab");
             NXGReports.addStep("verified Element: accountTab displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: devicesTab displayed.");
-            waitForVisibleElement(devicesTab);
+            waitForVisibleElement(devicesTab,"devicesTab");
             NXGReports.addStep("verified Element: devicesTab displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: accountSettingTitle displayed.");
-            waitForVisibleElement(accountSettingTitle);
+            waitForVisibleElement(accountSettingTitle,"accountSettingTitle");
             NXGReports.addStep("verify Element: accountSettingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: fullNameTextBox displayed.");
-            waitForVisibleElement(fullNameTextBox);
+            waitForVisibleElement(fullNameTextBox,"fullNameTextBox");
             NXGReports.addStep("verified Element: fullNameTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: emailTextBox displayed.");
-            waitForVisibleElement(emailTextBox);
+            waitForVisibleElement(emailTextBox,"emailTextBox");
             NXGReports.addStep("verified Element: emailTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: phoneNoTextBox displayed.");
-            waitForVisibleElement(phoneNoTextBox);
+            waitForVisibleElement(phoneNoTextBox,"phoneNoTextBox");
             NXGReports.addStep("verified Element: phoneNoTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: userPhoto displayed.");
-            waitForVisibleElement(userPhoto);
+            waitForVisibleElement(userPhoto,"userPhoto");
             NXGReports.addStep("verified Element: userPhoto displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: uploadButton displayed.");
-            waitForVisibleElement(uploadButton);
+            waitForVisibleElement(uploadButton,"uploadButton");
             NXGReports.addStep("verified Element: uploadButton displayed.", LogAs.PASSED, (CaptureScreen)null);
             getLogger().info("verify Element: deactivateButton displayed.");
             validateElementText(deactivateButton, "Deactivate My Account");
@@ -234,7 +234,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void navigateToDevicesTab() {
-        waitForVisibleElement(devicesTab);
+        waitForVisibleElement(devicesTab,"devicesTab");
         getLogger().info("verify Element: devicesTab displayed.");
         devicesTab.click();
         NXGReports.addStep("Go to Device Tab successfully.", LogAs.PASSED, (CaptureScreen)null);
@@ -243,34 +243,34 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void verifyElementsOnDevicesTab() {
         try {
             getLogger().info("verify Element: settingTitle displayed.");
-            waitForVisibleElement(settingTitle);
+            waitForVisibleElement(settingTitle,"settingTitle");
             NXGReports.addStep("verified Element: settingTitle displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: accountTab displayed.");
-            waitForVisibleElement(accountTab);
+            waitForVisibleElement(accountTab,"accountTab");
             NXGReports.addStep("verified Element: accountTab displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: devicesTab displayed.");
-            waitForVisibleElement(devicesTab);
+            waitForVisibleElement(devicesTab,"devicesTab");
             NXGReports.addStep("verified Element: devicesTab displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: myDeviceTitle displayed.");
-            waitForVisibleElement(myDeviceTitle);
+            waitForVisibleElement(myDeviceTitle,"myDeviceTitle");
             NXGReports.addStep("verified Element: myDeviceTitle displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: numberDevicesText displayed.");
-            waitForVisibleElement(numberDevicesText);
+            waitForVisibleElement(numberDevicesText,"numberDevicesText");
             NXGReports.addStep("verified Element: numberDevicesText displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: computerImage displayed.");
-            waitForVisibleElement(computerImage);
+            waitForVisibleElement(computerImage,"computerImage");
             NXGReports.addStep("verified Element: computerImage displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: deviceCustomName displayed.");
-            waitForVisibleElement(deviceCustomName);
+            waitForVisibleElement(deviceCustomName,"deviceCustomName");
             NXGReports.addStep("verified Element: deviceCustomName displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: deviceName displayed.");
-            waitForVisibleElement(deviceName);
+            waitForVisibleElement(deviceName,"deviceName");
             NXGReports.addStep("verified Element: deviceName displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: viewButton displayed.");
-            waitForVisibleElement(viewButton);
+            waitForVisibleElement(viewButton,"viewButton");
             NXGReports.addStep("verify Element: viewButton displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: addAnotherButton displayed.");
-            waitForVisibleElement(addAnotherButton);
+            waitForVisibleElement(addAnotherButton,"addAnotherButton");
             NXGReports.addStep("verified Element: addAnotherButton displayed.", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e){
             NXGReports.addStep("Some Elements on DevicesTab are not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -280,16 +280,16 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void verifyElementsFooter() {
         try {
             getLogger().info("verify Element: allRightReservedLink displayed.");
-            waitForVisibleElement(allRightReservedLink);
+            waitForVisibleElement(allRightReservedLink,"allRightReservedLink");
             NXGReports.addStep("verified Element: allRightReservedLink displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: termOfServiceLink displayed.");
-            waitForVisibleElement(termOfServiceLink);
+            waitForVisibleElement(termOfServiceLink,"termOfServiceLink");
             NXGReports.addStep("verified Element: termOfServiceLink displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: privacyStatementLink displayed.");
-            waitForVisibleElement(privacyStatementLink);
+            waitForVisibleElement(privacyStatementLink,"privacyStatementLink");
             NXGReports.addStep("verified Element: privacyStatementLink displayed.", LogAs.PASSED, (CaptureScreen) null);
             getLogger().info("verify Element: cookiesNoticeLink displayed.");
-            waitForVisibleElement(cookiesNoticeLink);
+            waitForVisibleElement(cookiesNoticeLink,"cookiesNoticeLink");
             NXGReports.addStep("verified Element: cookiesNoticeLink displayed.", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e){
             NXGReports.addStep("Some Elements on footer are not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -297,18 +297,17 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void inputValueFullName(String Value) {
-        waitForVisibleElement(fullNameTextBox);
-        clearTextBox(fullNameTextBox);
-        sendKeyTextBox(fullNameTextBox,Value);
+        waitForVisibleElement(fullNameTextBox,"fullNameTextBox");
+        sendKeyTextBox(fullNameTextBox,Value,"fullNameTextBox");
     }
 
     public void inputValuePhoneNumber(String Value) {
-        waitForVisibleElement(phoneNoTextBox);
-        sendKeyTextBox(phoneNoTextBox,Value);
+        waitForVisibleElement(phoneNoTextBox,"phoneNoTextBox");
+        sendKeyTextBox(phoneNoTextBox,Value,"phoneNoTextBox");
     }
 
     public void verifyEmailTextBoxIsDisable(){
-        validateDisabledElement(phoneNoTextBox);
+        validateDisabledElement(emailTextBox,"emailTextBox");
     }
     public void validateTextMessageFullNametxtbox(){
         validateElementText(fullnameLable,"First and Last Name");
@@ -317,40 +316,39 @@ public class AdminAccountSettingsPage extends AbstractPage {
         validateElementText(phoneLable,"Phone Number");
     }
     public void clickUpdateImageBTN(){
-        waitForClickableOfElement(uploadButton);
         getLogger().info("waited clickable");
-        clickAndHold(uploadButton);
+        clickAndHold(uploadButton,"updateButton");
     }
     public void ClickUpdateBTN(){
-        waitForClickableOfElement(updateButton);
-        clickAndHold(updateButton);
+        waitForClickableOfElement(updateButton,"updateButton");
+        clickAndHold(updateButton,"updateButton");
     }
     public void waitAndVerifyUpdatedTextMessage(){
-        waitForVisibleElement(updatedTextMessage);
+        waitForVisibleElement(updatedTextMessage,"updatedTextMessage");
         validateElementText(updatedTextMessage,"Your account has been updated.");
     }
     public void waitAndVerifyErrorMessageUploadImage() {
-        waitForVisibleElement(errorMessageWrongTypeImage);
+        waitForVisibleElement(errorMessageWrongTypeImage,"errorMessageWrongTypeImage");
         validateElementText(errorMessageWrongTypeImage, "*Please select a valid image file.");
     }
 
     public void waitAndVerifyErrorMessageBigFile() {
-        waitForVisibleElement(errorMessageBigFile);
+        waitForVisibleElement(errorMessageBigFile,"errorMessageBigFile");
         validateElementText(errorMessageBigFile, "*Your image is too big. Please upload an image less than 2MB.");
     }
 
     public void verifyUpdateButtonDisableDefault(){
-        validateDisabledElement(updateButton);
+        validateDisabledElement(updateButton,"updateButton");
     }
 
     public void verifyUpdateButtonEnable() {
-        validateEnabledElement(updateButton);
-        waitForClickableOfElement(updateButton);
+        validateEnabledElement(updateButton,"updateButton");
+        waitForClickableOfElement(updateButton,"updateButton");
     }
     public void sendTabkeyFullNameTxt(){
-        sendTabkey(fullNameTextBox);
+        sendTabkey(fullNameTextBox,"fullNameTextBox");
     }
     public void sendTabkeyPhoneNumberTxt(){
-        sendTabkey(phoneNoTextBox);
+        sendTabkey(phoneNoTextBox,"phoneNoTextBox");
     }
 }

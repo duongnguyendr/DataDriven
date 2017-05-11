@@ -141,13 +141,13 @@ public class AuditorEngagementPage extends AbstractPage {
 	}
 
     public void verifyAuditorEngagementPage() {
-		waitForVisibleElement(myEngagementTextEle);
+		waitForVisibleElement(myEngagementTextEle,"myEngagementTextEle");
 		validateElementText(myEngagementTextEle,"My Engagements");
 
     }
 
 	public void navigateToContactsTab() {
-		waitForClickableOfElement(contactsLinkEle);
+		waitForClickableOfElement(contactsLinkEle,"contactsLinkEle");
 		contactsLinkEle.click();
 
 	}

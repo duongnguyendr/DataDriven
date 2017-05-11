@@ -78,24 +78,24 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	private WebElement eleToDoNameErrorLabel;
 
 	public void verifyToDoListPage() throws Exception {
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"background","#2c8188");
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"color","#fff");
-		 this.validateDisPlayedElement(this.eleCreateToDoBtn);
-		 this.validateDisPlayedElement(this.eleFilterBtn);
-		 this.validateDisPlayedElement(this.eleToDoSearchInput);
-		 this.validateAttributeElement(this.eleToDoSearchInput,"placeholder","Search...");
-		 this.eleToDoSearchInput.click();
-		 this.validateAttributeElement(this.eleCreateToDoBtn,"border","#599ba1");
-		 this.validateDisPlayedElement(this.eleCheckBox);
-		 this.validateElementText(this.eleNameToDoTitleLabel, "To-Dos");
-		 this.validateElementText(this.eleCategoryTitleLabel, "Category");	
-		 this.validateElementText(this.eleClientAssigneeTitleLabel, "Client Assignee");
-		 this.validateElementText(this.eleDueDateTitleLabel, "Due Date");
-		 this.validateElementText(this.eleAuditAssigneeTitleLabel, "Audit Assignee");			 
-		 this.validateDisPlayedElement(this.eleSortByNameToDo);	
-		 this.validateDisPlayedElement(this.eleSortByClientAssignee);
-		 this.validateDisPlayedElement(this.eleSortByDueDate);
-		 this.validateDisPlayedElement(this.eleSortByAuditAssignee);		 
+		 validateAttributeElement(eleCreateToDoBtn,"background","#2c8188");
+		 validateAttributeElement(eleCreateToDoBtn,"color","#fff");
+		 validateDisPlayedElement(eleCreateToDoBtn,"eleCreateToDoBtn");
+		 validateDisPlayedElement(eleFilterBtn,"eleFilterBtn");
+		 validateDisPlayedElement(eleToDoSearchInput,"eleFilterBtn");
+		 validateAttributeElement(eleToDoSearchInput,"placeholder","Search...");
+		 eleToDoSearchInput.click();
+		 validateAttributeElement(eleCreateToDoBtn,"border","#599ba1");
+		 validateDisPlayedElement(eleCheckBox,"eleCheckBox");
+		 validateElementText(eleNameToDoTitleLabel, "To-Dos");
+		 validateElementText(eleCategoryTitleLabel, "Category");
+		 validateElementText(eleClientAssigneeTitleLabel, "Client Assignee");
+		 validateElementText(eleDueDateTitleLabel, "Due Date");
+		 validateElementText(eleAuditAssigneeTitleLabel, "Audit Assignee");
+		 validateDisPlayedElement(eleSortByNameToDo,"eleSortByNameToDo");
+		 validateDisPlayedElement(eleSortByClientAssignee,"eleSortByClientAssignee");
+		 validateDisPlayedElement(eleSortByDueDate,"eleSortByDueDate");
+		 validateDisPlayedElement(eleSortByAuditAssignee,"eleSortByAuditAssignee");
 		 if(!this.eleCheckBox.isSelected()){
 			 this.eleCheckBox.click();
 		 }
@@ -108,37 +108,37 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	
 	public void navigateToEngagementTask(){
 		if(eleViewEngagementPage.size()>0)
-			clickAndHold(eleViewEngagementPage.get(0));
+			clickAndHold(eleViewEngagementPage.get(0),"eleViewEngagementPage");
 		else{
 			//ToDo: With create new Engagement Task
-			clickAndHold(eleViewEngagementPage.get(0));
+			clickAndHold(eleViewEngagementPage.get(0),"eleViewEngagementPage");
 		}
 	}
 	
 	public void navigateToToDoList(){
-		waitForClickableOfElement(eleToDoLnk);
+		waitForClickableOfElement(eleToDoLnk,"eleToDoLnk");
 		eleToDoLnk.click();
 	}
 
 	public void clickCreateToDoTask(){
-		waitForClickableOfElement(eleCreateToDoBtn);
+		waitForClickableOfElement(eleCreateToDoBtn,"eleCreateToDoBtn");
 		eleCreateToDoBtn.click();
 	}
 
 	public void verifyDefaultValueToDoTextBox(){
-		waitForVisibleElement(eleToDoNameInput);
-		validateDisPlayedElement(eleToDoNameInput);
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
+		validateDisPlayedElement(eleToDoNameInput,"eleToDoNameInput");
 		validateAttributeElement(eleToDoNameInput,"placeholder","Write your first to do here");
 	}
 	public void verifyCssValueToDoTextBox(){
-		waitForVisibleElement(eleToDoNameInput);
-		clickAndHold(eleToDoNameInput);
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
+		clickAndHold(eleToDoNameInput,"eleToDoNameInput");
 		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgb(89, 155, 161)");
 	}
 	public void verifyCssValueWarningToDoTextBox(){
-		waitForVisibleElement(eleToDoNameInput);
-		waitForVisibleElement(eleDueDateInput);
-		clickAndHold(eleToDoNameInput);
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
+		waitForVisibleElement(eleDueDateInput,"eleDueDateInput");
+		clickAndHold(eleToDoNameInput,"eleToDoNameInput");
 		eleDueDateInput.click();
 		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgba(253, 109, 71, 0.4)");
 		//waitForVisibleElement(eleToDoNameErrorLabel);
@@ -148,15 +148,15 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	//Will be deleted after finish coding
 	public void verifyAddNewToDoTask(){
-		validateDisPlayedElement(eleToDoNameInput);
+		validateDisPlayedElement(eleToDoNameInput,"eleToDoNameInput");
 		validateAttributeElement(eleToDoNameInput,"placeholder","Write your first to do here");//Write your first to do here
-		clickAndHold(eleToDoNameInput);
+		clickAndHold(eleToDoNameInput,"eleToDoNameInput");
 		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgb(89, 155, 161)");
 
 	}
 
 	public void verifyInputValueToDoNameTextBox(String Value) {
-		waitForVisibleElement(eleToDoNameInput);
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
 		eleToDoNameInput.clear();
 		eleToDoNameInput.sendKeys(Value);
 		validateAttributeElement(eleToDoNameInput, "value", Value);

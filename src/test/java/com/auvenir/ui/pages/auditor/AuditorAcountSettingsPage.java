@@ -130,16 +130,15 @@ public class AuditorAcountSettingsPage extends AbstractPage {
     Some Methods to action on elements
      */
     public void verifyAccountSettingsPage() {
-        waitForVisibleElement(auditorAccountSettingsHeaderTextEle);
+        waitForVisibleElement(auditorAccountSettingsHeaderTextEle,"auditorAccountSettingsHeaderTextEle");
     }
 
     public void navigateToNotificationsPage() {
-        waitForClickableOfElement(notificationLinkEle);
         notificationLinkEle.click();
     }
 
     public void navigateToDevicesPage() {
-        waitForClickableOfElement(devicesLinkEle);
+        waitForClickableOfElement(devicesLinkEle,"devicesLinkEle");
         devicesLinkEle.click();
     }
     /*
@@ -147,26 +146,26 @@ public class AuditorAcountSettingsPage extends AbstractPage {
     Created by DoaiTran on 5/5/2017
      */
     public void verifyHeader(){
-        waitForVisibleElement(auvenirLogo);
+        waitForVisibleElement(auvenirLogo,"auvenirLogo");
         NXGReports.addStep("verified Element: auvenirLogo displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(engagementlink);
+        waitForVisibleElement(engagementlink,"engagementlink");
         NXGReports.addStep("verified Element: engagementlink displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(contactLink);
+        waitForVisibleElement(contactLink,"contactLink");
         NXGReports.addStep("verified Element: contactLink displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(dashboardUserNameEle);
+        waitForVisibleElement(dashboardUserNameEle,"dashboardUserNameEle");
         NXGReports.addStep("verified Element: dashboardUserNameEle displayed.", LogAs.PASSED, (CaptureScreen)null);
     }
     /*
 
      */
     public void verifyFooterAcountSetting(){
-        waitForVisibleElement(eleAuvenirIncTxt);
+        waitForVisibleElement(eleAuvenirIncTxt,"eleAuvenirIncTxt");
         NXGReports.addStep("verified Element: eleAuvenirIncTxt displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(eleTermsOfService);
+        waitForVisibleElement(eleTermsOfService,"eleTermsOfService");
         NXGReports.addStep("verified Element: eleAuvenirIncTxt displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(elePrivacyStatement);
+        waitForVisibleElement(elePrivacyStatement,"elePrivacyStatement");
         NXGReports.addStep("verified Element: elePrivacyStatement displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(eleCookiesNotice);
+        waitForVisibleElement(eleCookiesNotice,"eleCookiesNotice");
         NXGReports.addStep("verified Element: eleCookiesNotice displayed.", LogAs.PASSED, (CaptureScreen)null);
     }
     /*
@@ -174,101 +173,101 @@ public class AuditorAcountSettingsPage extends AbstractPage {
     Created by DoaiTran on 5/5/2017
      */
     public void verifyElementsOnAccountTab() {
-        waitForVisibleElement(settingTitle);
+        waitForVisibleElement(settingTitle,"settingTitle");
         NXGReports.addStep("verified Element: settingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(accountTab);
+        waitForVisibleElement(accountTab,"accountTab");
         NXGReports.addStep("verified Element: accountTab displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(notificationTab);
+        waitForVisibleElement(notificationTab,"notificationTab");
         NXGReports.addStep("verified Element: notificationTab displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(devicesTab);
+        waitForVisibleElement(devicesTab,"devicesTab");
         NXGReports.addStep("verified Element: devicesTab displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(accountSettingTitle);
+        waitForVisibleElement(accountSettingTitle,"accountSettingTitle");
         NXGReports.addStep("verified Element: accountSettingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(fullNameTextBox);
+        waitForVisibleElement(fullNameTextBox,"fullNameTextBox");
         NXGReports.addStep("verified Element: fullNameTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(emailTextBox);
+        waitForVisibleElement(emailTextBox,"emailTextBox");
         NXGReports.addStep("verified Element: emailTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(phoneNoTextBox);
+        waitForVisibleElement(phoneNoTextBox,"phoneNoTextBox");
         NXGReports.addStep("verified Element: phoneNoTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(userPhoto);
+        waitForVisibleElement(userPhoto,"userPhoto");
         NXGReports.addStep("verified Element: userPhoto displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(uploadButton);
+        waitForVisibleElement(uploadButton,"uploadButton");
         NXGReports.addStep("verified Element: uploadButton displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(firNameTextBox);
+        waitForVisibleElement(firNameTextBox,"firNameTextBox");
         NXGReports.addStep("verified Element: firNameTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(roleTextBox);
+        waitForVisibleElement(roleTextBox,"");
         NXGReports.addStep("verified Element: roleTextBox displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(firmSizeDropBox);
+        waitForVisibleElement(firmSizeDropBox,"firmSizeDropBox");
         NXGReports.addStep("verified Element: firmSizeDropBox displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(firmLogo);
+        waitForVisibleElement(firmLogo,"firmLogo");
         NXGReports.addStep("verified Element: firmLogo displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(logoUploadButton);
+        waitForVisibleElement(logoUploadButton,"logoUploadButton");
         NXGReports.addStep("verified Element: logoUploadButton displayed.", LogAs.PASSED, (CaptureScreen)null);
         validateElementText(deactivateButton, "Deactivate My Account");
-        validateDisabledElement(deactivateButton);
+        validateDisabledElement(deactivateButton,"deactivateButton");
         NXGReports.addStep("verified Element: deactivateButton displayed and disable", LogAs.PASSED, (CaptureScreen)null);
         validateElementText(updateButton, "Update");
-        validateDisabledElement(updateButton);
+        validateDisabledElement(updateButton,"updateButton");
         NXGReports.addStep("verified Element: updateButton displayed and disable.", LogAs.PASSED, (CaptureScreen)null);
     }
     public void navigateToNotificationTab() {
-        waitForVisibleElement(notificationTab);
+        waitForVisibleElement(notificationTab,"notificationTab");
         getLogger().info("verify Element: notificationTab displayed.");
         notificationTab.click();
         NXGReports.addStep("Go to Notification Tab successfully.", LogAs.PASSED, (CaptureScreen)null);
     }
     public void navigateToDevicesTab() {
-        waitForVisibleElement(devicesTab);
+        waitForVisibleElement(devicesTab,"devicesTab");
         getLogger().info("verify Element: devicesTab displayed.");
         devicesTab.click();
         NXGReports.addStep("Go to Device Tab successfully.", LogAs.PASSED, (CaptureScreen)null);
     }
     public void verifyElementsOnNotificationTab() {
-        waitForVisibleElement(notificationSettingTitle);
+        waitForVisibleElement(notificationSettingTitle,"notificationNote");
         NXGReports.addStep("verified Element: notificationSettingTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(notificationNote);
+        waitForVisibleElement(notificationNote,"notificationNote");
         NXGReports.addStep("verified Element: notificationNote displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(byEmailTitle);
+        waitForVisibleElement(byEmailTitle,"byEmailTitle");
         NXGReports.addStep("verified Element: byEmailTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(SubNotification);
+        waitForVisibleElement(SubNotification,"SubNotification");
         NXGReports.addStep("verified Element: SubNotification displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(isInventedToYourEngagementSlider);
+        waitForVisibleElement(isInventedToYourEngagementSlider,"isInventedToYourEngagementSlider");
         NXGReports.addStep("verified Element: isInventedToYourEngagementSlider displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(hasJoinedYourEngagementSlider);
+        waitForVisibleElement(hasJoinedYourEngagementSlider,"hasJoinedYourEngagementSlider");
         NXGReports.addStep("verified Element: hasJoinedYourEngagementSlider displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(sendYouAMessageSlider);
+        waitForVisibleElement(sendYouAMessageSlider,"sendYouAMessageSlider");
         NXGReports.addStep("verified Element: sendYouAMessageSlider displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(uploadsADocumentSlider);
+        waitForVisibleElement(uploadsADocumentSlider,"verified");
         NXGReports.addStep("verified Element: uploadsADocumentSlider displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(commentsOnEngagementSlider);
+        waitForVisibleElement(commentsOnEngagementSlider,"commentsOnEngagementSlider");
         NXGReports.addStep("verified Element: commentsOnEngagementSlider displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(createANewRequestSlider);
+        waitForVisibleElement(createANewRequestSlider,"createANewRequestSlider");
         NXGReports.addStep("verified Element: createANewRequestSlider displayed.", LogAs.PASSED, (CaptureScreen)null);
     }
     public void verifyElementsOnDevicesTab() {
-        waitForVisibleElement(myDeviceTitle);
+        waitForVisibleElement(myDeviceTitle,"myDeviceTitle");
         NXGReports.addStep("verified Element: myDeviceTitle displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(numberDevicesText);
+        waitForVisibleElement(numberDevicesText,"numberDevicesText");
         NXGReports.addStep("verified Element: numberDevicesText displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(computerImage);
+        waitForVisibleElement(computerImage,"computerImage");
         NXGReports.addStep("verified Element: computerImage displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(deviceCustomName);
+        waitForVisibleElement(deviceCustomName,"deviceCustomName");
         NXGReports.addStep("verified Element: deviceCustomName displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(deviceName);
+        waitForVisibleElement(deviceName,"deviceName");
         NXGReports.addStep("verified Element: deviceName displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(viewButton);
+        waitForVisibleElement(viewButton,"viewButton");
         NXGReports.addStep("verified Element: viewButton displayed.", LogAs.PASSED, (CaptureScreen)null);
-        waitForVisibleElement(addAnotherButton);
+        waitForVisibleElement(addAnotherButton,"addAnotherButton");
         NXGReports.addStep("verified Element: addAnotherButton displayed.", LogAs.PASSED, (CaptureScreen)null);
     }
     public void inputFullName(String TextVlaue){
-        waitForVisibleElement(fullNameTextBox);
+        waitForVisibleElement(fullNameTextBox,"fullNameTextBox");
         fullNameTextBox.sendKeys(TextVlaue);
     }
     public void sendTabkeyFullNameTxt(){
-        sendTabkey(fullNameTextBox);
+        sendTabkey(fullNameTextBox,"fullNameTextBox");
     }
     public void sendTabkeyPhoneNumberTxt(){
-        sendTabkey(phoneNoTextBox);
+        sendTabkey(phoneNoTextBox,"phoneNoTextBox");
     }
 }
