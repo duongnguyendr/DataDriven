@@ -67,9 +67,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath="//div[@class='e-widget-content']")
 	private List<WebElement> eleWidgetContent;
 	
-	@FindBy(xpath="//div[@class='e-widget-content']//div[@class='e-widget-options']//input[@type='button']")
+	@FindBy(xpath="div[@class='e-widget-options']/input")
 	private List<WebElement> eleViewEngagementPage;
-	
+
+
 	@FindBy(id="engagementTodoLink")
 	private WebElement eleToDoLnk;
 	
@@ -178,6 +179,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		waitForClickableOfElement(eleWidgetContent.get(0));
 		ClickAndHold(eleWidgetContent.get(0));
 	}
+
 	
 	public void navigateToToDoList() throws Exception{
 		waitForClickableOfElement(eleToDoLnk);

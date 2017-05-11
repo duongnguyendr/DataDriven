@@ -186,9 +186,9 @@ public class AuditorCreateToDoService extends AbstractService {
 		getLogger().info("Navigate to CreateToDo Tab");
 		try {
 			createToDoPage.clickCreateToDoTask();
-			NXGReports.addStep("verify Navigate to Create ToDo TextBox", LogAs.PASSED, null);
+			NXGReports.addStep("Verify Navigate to Create ToDo Button", LogAs.PASSED, null);
 		} catch (Exception e) {
-			NXGReports.addStep("verify Navigate to Create ToDo TextBox", LogAs.FAILED,
+			NXGReports.addStep("Verify Navigate to Create ToDo Button", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}

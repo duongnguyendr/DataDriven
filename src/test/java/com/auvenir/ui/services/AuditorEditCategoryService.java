@@ -1,6 +1,6 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.auditor.AuditorCategoryPage;
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -12,7 +12,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class AuditorEditCategoryService extends AbstractService{
 
-    AuditorCategoryPage auditorCategoryPage ;
+    AbstractPage auditorEditCategories = new AbstractPage(getLogger(),getDriver()) ;
 
         /*
      * contructor
@@ -23,21 +23,46 @@ public class AuditorEditCategoryService extends AbstractService{
 
     }
 
-    public void navigateToCategoryTab() throws Exception {
+    public void navigateToEditCategoriesOption(){
+    getLogger().info("Navigate to EditCategories ");
+          try {
+            auditorEditCategories.EditCategories();
+           // auditorEditCategories.navigateToEditCategory();
 
-        auditorCategoryPage.navigateToCategoryMenu();
-    auditorCategoryPage.navigateToEditCategory();
-
-
-        try {
-
-            NXGReports.addStep("[PLAT 2288]-03: verify button create to do display with green background and white text.", LogAs.PASSED, null);
+            NXGReports.addStep(" Access Edit Categories window.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-03: verify button create to do display with green background and white text.", LogAs.FAILED,
+            NXGReports.addStep(" Access Edit Categories window.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
         }
     }
 
+//    public void verifyEditCategoriesGUI (){
+//        getLogger().info("Verify EditCategories GUI");
+//        try {
+//
+//            verify the elements of Edit Categories are displayed correctly
+//            auditorEditCategories.verifyEditCategoriesElements();
+//
+//            NXGReports.addStep("Verify EditCategories GUI", LogAs.PASSED,null
+//        }catch (Exception e)(
+//                NXGReports.addStep("Verify EditCategories GUI", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//                )
+//
+//    }
+
+
+//    public void verifyListOfCategories (){
+//        getLogger().info("Verify EditCategories GUI");
+//        try {
+//
+//
+//            NXGReports.addStep("Verify EditCategories GUI", LogAs.PASSED,null
+//        }catch (Exception e) (
+//                NXGReports.addStep("Verify EditCategories GUI", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//                )
+//
+//    }
 
 
 }

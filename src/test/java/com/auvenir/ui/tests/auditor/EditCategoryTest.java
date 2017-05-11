@@ -41,18 +41,20 @@ public class EditCategoryTest extends AbstractTest {
 //    }
 
 
-    @Test(  priority = 2,enabled = true, description = "[PLAT 2291]-03:Verify EditPopup's Title on new Todo window")
-    public void verifyEditCategoryPopup() throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(),getDriver());
+    @Test(  priority = 2,enabled = true, description = "[PLAT 2291]-03-4:Verify EditCategories GUI")
+    public void verifyEditCategoriesGUI() throws Exception {
+               auditorEditCategoryService = new AuditorEditCategoryService(getLogger(),getDriver());
                 try {
-                auditorEditCategoryService.navigateToCategoryTab();
-
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-            NXGReports.addStep("Verify click passed", LogAs.PASSED, null);
+                //Navigate to Create TDo button and create new item.
+                auditorCreateToDoService.navigatetoCreateToDoTab();
+                //navigate to Category and select Edit Categories
+                auditorEditCategoryService.navigateToEditCategoriesOption();
+                //Verify EditCategoriesWindowGUI
+//              auditorEditCategoryService.verifyEditCategoriesGUI();
+              Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify EditCategoriesGUI", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Click failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify EditCategoriesGUI", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
