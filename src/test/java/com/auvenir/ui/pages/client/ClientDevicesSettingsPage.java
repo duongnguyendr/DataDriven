@@ -23,6 +23,6 @@ public class ClientDevicesSettingsPage extends AbstractPage {
     private WebElement myDevicesTextEle;
 
     public void verifyDevicesSettingsPage() {
-        waitForVisibleElement(myDevicesTextEle);
+        waitForVisibleElement(myDevicesTextEle,"myDevicesTextEle");
     }
 }

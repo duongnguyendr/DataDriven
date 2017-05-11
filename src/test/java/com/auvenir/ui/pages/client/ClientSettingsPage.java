@@ -39,14 +39,14 @@ public class ClientSettingsPage extends AbstractPage {
 
 
     public void navigateToAccountTab() {
-        waitForClickableOfElement(accountSettingsTabEle);
+        waitForClickableOfElement(accountSettingsTabEle,"accountSettingsTabEle");
         accountSettingsTabEle.click();
     }
 
     public void navigatToIntegrationTab() {
 
         try {
-            waitForClickableOfElement(integrationSettingsLinkEle);
+            waitForClickableOfElement(integrationSettingsLinkEle,"integrationSettingsLinkEle");
             integrationSettingsLinkEle.click();
         }catch (Exception e){
             getLogger().info(e);
@@ -56,13 +56,13 @@ public class ClientSettingsPage extends AbstractPage {
     }
 
     public void navigateToDevicesTab() {
-        waitForClickableOfElement(devicesSettingsTabEle);
+        waitForClickableOfElement(devicesSettingsTabEle,"devicesSettingsTabEle");
         devicesSettingsTabEle.click();
     }
 
     public void navigateToNotificationsTab() {
         try {
-            waitForClickableOfElement(notificationsSettingsTabEle);
+            waitForClickableOfElement(notificationsSettingsTabEle,"notificationsSettingsTabEle");
             notificationsSettingsTabEle.click();
         }catch (Exception e) {
             getLogger().info(e);
