@@ -79,52 +79,36 @@ public class AbstractPage {
     @FindBy(id="h-ddl-item-settings")
     WebElement settingsTabEle;
 
-    // Minh.Nguyen & Thuan.Duong Create Category======================
+    // ====================== ======================
 
 
-    @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[1]")
-    private WebElement eleXpathCreateNewCategory;
-    @FindBy(id="category-name")
-    private WebElement eleIdCategoryName;
-    @FindBy(id="category-color")
-    private WebElement eleIdCategoryColor;
-    @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li[4]")
-    private WebElement eleXpathDetailCateColor;
-    @FindBy(id="category-addBtn")
-    private WebElement eleIdBtnAddCategory;
-    @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
-    private WebElement eleCategoryCombobox;
-    //====================================
+
 
     // Vien.Pham added EditCategories Elements
 
     @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[2]")
     WebElement eleEditCategory;
-
     @FindBy(xpath = "//*[@id=\"m-ce-systemContainer\"]/h3/text()")
     WebElement eleEditCategoryTitle;
-
     @FindBy(xpath = "//*[@id=\"edit-category-container\"]/div[1]")
     WebElement eleEditCategoryGuide;
-
     @FindBy(id = "cat-edit-btn")
     WebElement eleEditCategoryPen;
-
     @FindBy(id = "cat-trash-btn")
     WebElement eleEditCategoryTrash;
-
     @FindBy (id = "m-ce-cancelBtn")
     WebElement eleEditCategoryCancelBtn;
-
     @FindBy(id = "category-updateBtn")
     WebElement eleEditCategorySaveBtn;
-
     @FindBy(xpath = "//img[@id='modal-close-categoryModel-2Dd9bM38sb25ObfMVSJG6Ui8tLVE205c']")
     WebElement eleEditCategoryCloseBtn;
 
-    //================================================
+    /*
+    Elements for create a Category
+    Create by: Minh.Nguyen & Thuan.Duong
+    Update: Doai.Tran
+     */
 
-    // Create Category
     @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
     private WebElement eleCategoryComboBox;
     @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[1]")
@@ -137,14 +121,14 @@ public class AbstractPage {
     private WebElement eleXpathDetailCateColor;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
-
     @FindBy(id="category-dropdown")
     private WebElement eleIdDdlCategory;
     @FindBy(xpath="\"id('todo-table')/tbody/tr\"")
     private WebElement tblXpathTodoTable;
     @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/a")
     private WebElement eleCategoryText;
-
+    @FindBy(xpath = "/*//*[@id='category-dropdown']/div[@class='text']")
+    private WebElement eleCategoryCombobox;
     public void verifyFooter()
     {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
@@ -786,77 +770,25 @@ public class AbstractPage {
 
 
 
-    //Minh.Nguyen added createNewCategory May10th 2017=============
 
-
-    public void createNewCategory () throws Exception
-    {
-        // Create new Category
-        waitForClickableOfElement(eleXpathCreateNewCategory);
-        eleXpathCreateNewCategory.click();
-        waitForClickableOfElement(eleIdCategoryName);
-        eleIdCategoryName.sendKeys("Category " + randomNumber());
-        waitForClickableOfElement(eleIdCategoryColor);
-        Thread.sleep(smallTimeOut);
-        eleIdCategoryColor.click();
-        waitForClickableOfElement(eleXpathDetailCateColor);
-        eleXpathDetailCateColor.click();
-        waitForClickableOfElement(eleIdBtnAddCategory);
-        eleIdBtnAddCategory.click();
-
-
-            }
-
-
-    // Vien.Pham added new EditCategory method
-       public void EditCategories ( )throws Exception{
-        waitForClickableOfElement(eleCategoryCombobox);
+    // EditCategory method
+    public void EditCategories() throws Exception {
+        waitForClickableOfElement(eleCategoryCombobox, "eleCategoryCombobox");
         eleCategoryCombobox.click();
         //Verify Category_Dropdown GUI
-
-
-           //=========
-
-           //Click EditCategories option
-        waitForClickableOfElement(eleEditCategory);
+        //=========
+        //Click EditCategories option
+        waitForClickableOfElement(eleEditCategory, "eleEditCategory");
         eleEditCategory.click();
     }
 
-        // to verify the Elements of EditCategories Window are displayed correctly.
-//        public void verifyEditCategoriesElements(){
-
-
-
-
-//        }
-
-        // to verfy the List of Categories is displayed correctly
-
-
-
-
-
-
-
-
-    //====================================
-
-
-    //===============================
-    public int randomNumber()
-    {
-        Random randNum = new Random();
-        int  intRanNum = randNum.nextInt(10000) + 1;
-        return intRanNum;
-    }
 
     public String getTextByJavaScripts(WebElement eleGetText)
     {
         JavascriptExecutor jse = (JavascriptExecutor)getDriver();
         return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
     }
-    public static  final int smallerTimeOut = 500;
-    public static  final int smallTimeOut = 1000;
+
 
 
 
@@ -907,21 +839,21 @@ public class AbstractPage {
         boolean isCheckCategory = false;
         String categoryName = "Category " + randomNumber();
         // Create new Category
-        waitForClickableOfElement(eleIdDdlCategory);
+        waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
         eleIdDdlCategory.click();
-        waitForClickableOfElement(eleXpathCreateNewCategory);
+        waitForClickableOfElement(eleXpathCreateNewCategory,"eleXpathCreateNewCategory");
         eleXpathCreateNewCategory.click();
-        waitForClickableOfElement(eleIdCategoryName);
+        waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
         eleIdCategoryName.sendKeys(categoryName);
-        waitForClickableOfElement(eleIdCategoryColor);
+        waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
         Thread.sleep(smallTimeOut);
         eleIdCategoryColor.click();
-        waitForClickableOfElement(eleXpathDetailCateColor);
+        waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
         eleXpathDetailCateColor.click();
-        waitForClickableOfElement(eleIdBtnAddCategory);
+        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
         eleIdBtnAddCategory.click();
         // Verify the category that has just created
-        waitForVisibleElement(tblXpathTodoTable);
+        waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
 
         List<WebElement> td_collection = tblXpathTodoTable.findElements(By.xpath("td"));
         for (WebElement tdElement : td_collection) {
@@ -949,20 +881,16 @@ public class AbstractPage {
         return intRanNum;
     }
 
-    public String getTextByJavaScripts(WebElement eleGetText)
-    {
-        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
-        return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
-    }
+
 
     public void verifyDefaultValueOfElement(WebElement element, String attributeName, String defaultValue) {
-        waitForVisibleElement(element);
-        validateDisPlayedElement(element);
+        waitForVisibleElement(element,"Element");
+        validateDisPlayedElement(element,"Element");
         validateAttributeElement(element, attributeName, defaultValue);
     }
 
     public void verifyHoverElement(WebElement element, String cssValueName, String expectedCssValue) {
-        clickAndHold(element);
+        clickAndHold(element, "Element");
         validateCSSValueElement(element, cssValueName, expectedCssValue);
     }
 }
