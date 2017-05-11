@@ -312,7 +312,7 @@ public class AuditorCreateToDoService extends AbstractService {
 			createToDoPage.verifyCheckAllCheckbox();
 			createToDoPage.verifyUnCheckAllCheckbox();
 			createToDoPage.verifyCheckMultipleCheckBox();
-			NXGReports.addStep("CheckBox on Data Grid is working successfully", LogAs.PASSED, null);
+			NXGReports.addStep("CheckBox on Data Grid is working successfully.", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("CheckBox on Data Grid is working unsuccessfully", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
