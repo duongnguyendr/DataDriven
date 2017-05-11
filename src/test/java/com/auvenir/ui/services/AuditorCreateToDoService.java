@@ -305,10 +305,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void createToDoPage() {
 
         try {
-            Random randNum = new Random();
-            int n = randNum.nextInt(10000) + 1;
-            todoNamePage = "To-do name " + n;
-            createToDoPage.createToDoPage(todoNamePage);
+            createToDoPage.createToDoPage();
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
