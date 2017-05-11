@@ -293,7 +293,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void verifyEmailTextBoxIsDisable() {
-        validatDisabledElement(phoneNoTextBox);
+        validateDisabledElement(phoneNoTextBox);
     }
     public void validateTextMessageFullNametxtbox(){
         validateElementText(fullnameLable,"First and Last Name");
@@ -304,12 +304,12 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void clickUpdateImageBTN() throws InterruptedException {
         waitForClickableOfElement(uploadButton);
         getLogger().info("waited clickable");
-        ClickAndHold(uploadButton);
+        clickAndHold(uploadButton);
 
     }
     public void ClickUpdateBTN(){
         waitForClickableOfElement(updateButton);
-        ClickAndHold(updateButton);
+        clickAndHold(updateButton);
     }
     public void waitAndVerifyUpdatedTextMessage(){
         waitForVisibleElement(updatedTextMessage);
@@ -326,7 +326,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
     }
 
     public void verifyUpdateButtonDisableDefault() {
-        validatDisabledElement(updateButton);
+        validateDisabledElement(updateButton);
     }
 
     public void verifyUpdateButtonEnable() {

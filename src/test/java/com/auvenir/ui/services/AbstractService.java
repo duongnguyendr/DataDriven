@@ -20,6 +20,11 @@ public class AbstractService  {
     private WebDriver driver;
     private Logger logger;
     private static final int waitTime = 60;
+    /*
+    Variable to validate Passed - Failed of a TestCases
+     */
+    public static int sStatusCnt=0;
+
     /**
      * Base url this value is set at runtime.
      *
