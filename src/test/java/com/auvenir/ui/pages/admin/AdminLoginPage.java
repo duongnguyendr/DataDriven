@@ -675,7 +675,7 @@ public class AdminLoginPage extends AbstractPage {
 		getEleConfirmBtn().click();
 	}
 	public void verifyAdminLoginPage(){
-		waitForVisibleElement(eleAdminHdrTxt);
+		waitForVisibleElement(eleAdminHdrTxt,"eleAdminHdrTxt");
 		validateElementText(eleAdminHdrTxt,"Admin");
 	}
 }

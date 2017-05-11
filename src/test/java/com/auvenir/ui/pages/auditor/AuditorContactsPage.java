@@ -26,7 +26,7 @@ public class AuditorContactsPage extends AbstractPage {
 
 
 	public void verifyAuditorContactsPage() {
-		waitForVisibleElement(myClientsTextEle);
+		waitForVisibleElement(myClientsTextEle,"myClientsTextEle");
 
 	}
 }

@@ -458,10 +458,10 @@ public class ClientDashboardPage extends AbstractPage {
 	}
 
 	public void navigateToClientSettingsPage() {
-		waitForClickableOfElement(dashboardUserNameEle);
+		waitForClickableOfElement(dashboardUserNameEle,"dashboardUserNameEle");
 		dashboardUserNameEle.click();
 		waitForSettingsTab();
-		waitForClickableOfElement(settingsTabEle);
+		waitForClickableOfElement(settingsTabEle,"settingsTabEle");
 		settingsTabEle.click();
 	}
 
@@ -478,7 +478,7 @@ public class ClientDashboardPage extends AbstractPage {
 
 	public void verifyClientHomePage() {
 		getLogger().info("verify client home page.");
-		waitForVisibleElement(myAuditTextEle);
+		waitForVisibleElement(myAuditTextEle,"myAuditTextEle");
 		validateElementText(myAuditTextEle,"My Audits");
 	}
 }

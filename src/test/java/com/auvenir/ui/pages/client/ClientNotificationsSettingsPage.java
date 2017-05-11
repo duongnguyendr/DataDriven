@@ -23,7 +23,7 @@ public class ClientNotificationsSettingsPage extends AbstractPage{
 
 
     public void verifyNotificationsSettingsPage() {
-        waitForVisibleElement(notificationsSettingsHeaderEle);
+        waitForVisibleElement(notificationsSettingsHeaderEle,"notificationsSettingsHeaderEle");
 
     }
 }
