@@ -32,9 +32,9 @@ public class MongoDBService {
     static String[] sData = null;
 
     public MongoDBService(String ServerHost, int portNo, String DB){
-        this.ServerHost = ServerHost;
-        this.portNo = portNo;
-        this.DB = DB;
+        MongoDBService.ServerHost = ServerHost;
+        MongoDBService.portNo = portNo;
+        MongoDBService.DB = DB;
     }
     /* ===================================================================
     Created by: Doai.Tran    - 24-Apr-2017 -
@@ -389,7 +389,7 @@ public class MongoDBService {
         String sData[] = null;
         try {
             FileInputStream fis = new FileInputStream(sTestDataFile);
-            Workbook wb = (Workbook) WorkbookFactory.create(fis);
+            Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
 
             System.out.println(SheetName);

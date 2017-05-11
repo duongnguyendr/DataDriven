@@ -1,5 +1,6 @@
 package com.auvenir.ui.tests.auditor;
 
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ContactsService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -7,6 +8,7 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -34,9 +36,10 @@ public class ContactsTest extends AbstractTest {
             auditorEngagementService.navigateToContactsTab();
             contactsService.verifyAuditorContactsPage();
             contactsService.verifyAuditorFooter();
-            NXGReports.addStep("Verify footer in Auditor Contacts page.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Footer in Auditor Contacts page: PASSED", LogAs.PASSED, null);
            // logCurrentStepEnd();
-
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
         }
 
         catch (Exception e)

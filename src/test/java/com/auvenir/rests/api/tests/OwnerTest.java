@@ -13,6 +13,7 @@ import com.kirwa.nxgreport.logging.LogAs;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
@@ -20,16 +21,18 @@ import java.util.Map;
 
 /**
  * Created by doai.tran on 4/20/2017.
+ * Updated by Doai.Tran on 5/9/2017: Refactor parameter dataBaseServer on maven
  */
 public class OwnerTest extends AbstractAPIService {
-    public static final String restBaseUrl="http://finicity-qa.com";
-    public static final String database ="serviceFinicity";
+    //public static final String restBaseUrl="http://finicity-qa.com";
+    //public static final String database ="serviceFinicity";
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException {
-        RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer("34.205.90.145",27017,database);
+        //RestAssured.basePath=restBaseUrl;
+        //MongoDBService.connectDBServer("34.205.90.145",27017,database);
+        MongoDBService.connectDBServer(dataBaseServer,27017,database);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
@@ -41,12 +44,11 @@ public class OwnerTest extends AbstractAPIService {
         MongoDBService.deleteAccount("Account1");
         MongoDBService.insertAccount("Account1");
     }
-    /*
-    // Connect DB
+
     @BeforeMethod
     public void preCondition(){
-
-    }*/
+        getBaseUrl();
+    }
 
     /*
     TestCase1: Get owner from owner ID
@@ -55,7 +57,7 @@ public class OwnerTest extends AbstractAPIService {
     public void getOwnerFromOwnerID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("Owner1", "owners");
-            Response response = given().get(restBaseUrl+"/v1/owner/"+sData[2]);
+            Response response = given().get(baseUrl+"/v1/owner/"+sData[2]);
             if(response.getStatusCode()==200){
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
                 NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
@@ -97,7 +99,7 @@ public class OwnerTest extends AbstractAPIService {
     @Test(priority = 2, enabled = true, description = "Get Owner with invalid ownerid")
     public void getOwnerFromInvalidOwnerID() throws Exception {
         try {
-            Response response = given().get(restBaseUrl+"/v1/owner/12345");
+            Response response = given().get(baseUrl+"/v1/owner/12345");
             if(response.getStatusCode()==400){
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
             }
@@ -127,7 +129,7 @@ public class OwnerTest extends AbstractAPIService {
     @Test(priority = 3, enabled = true, description = "Get Owner with wrong institutionID format")
     public void getOwnerWronginstitutionID() throws Exception {
         try{
-            Response response = given().get(restBaseUrl+"/v1/owner/");
+            Response response = given().get(baseUrl+"/v1/owner/");
             //Response response = given().get("http://finicity-qa.com/v1/owner/");
             if(response.getStatusCode()==404){
                 getLogger().info("Request successfully with code: " + response.getStatusCode());

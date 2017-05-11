@@ -14,7 +14,7 @@ import javax.xml.bind.Element;
 
 /**
  * Created by doai.tran on 4/27/2017.
- *
+ * Updated by doai.tran on 5/201/2017
  */
 public class AdminAccountSettingsService extends AbstractService{
     AdminAccountSettingsPage adminAccountSettingsPage;
@@ -23,174 +23,90 @@ public class AdminAccountSettingsService extends AbstractService{
         adminAccountSettingsPage = new AdminAccountSettingsPage(getLogger(), getDriver());
     }
     public void verifyHeaderAdminSettingPage() {
-        try {
-            getLogger().info("Start verify Elements on Admin Setting page.");
-            adminAccountSettingsPage.verifyElementsHeader();
-        } catch (Exception e) {
-            getLogger().info("Header Elements on Admin Setting page is not displayed" + e.getMessage());
-        }
-
+        getLogger().info("Start verify Elements on Admin Setting page.");
+        adminAccountSettingsPage.verifyElementsHeader();
     }
 
     public void verifyBodyAdminSettingPage() {
-        try {
-            getLogger().info("Start verify Element on Account Tab on Admin Setting page.");
-            adminAccountSettingsPage.verifyElementsOnAccountTab();
-            adminAccountSettingsPage.navigateToDevicesTab();
-            adminAccountSettingsPage.verifyElementsOnDevicesTab();
-        } catch (Exception e) {
-            getLogger().info("Body Elements on Admin Setting page is not displayed" + e.getMessage());
-        }
-
+        getLogger().info("Start verify Element on Account Tab on Admin Setting page.");
+        adminAccountSettingsPage.verifyElementsOnAccountTab();
+        adminAccountSettingsPage.navigateToDevicesTab();
+        adminAccountSettingsPage.verifyElementsOnDevicesTab();
     }
 
     public void verifyFooterAdminSettingPage() {
-        try {
-            getLogger().info("Start verify Elements on Admin Setting page.");
-            adminAccountSettingsPage.verifyElementsFooter();
-        } catch (Exception e) {
-            getLogger().info("Footer Elements on Admin Setting page is not displayed" + e.getMessage());
-        }
-
+        getLogger().info("Start verify Elements on Admin Setting page.");
+        adminAccountSettingsPage.verifyElementsFooter();
     }
 
     public void inputFullNameAdminSettingPage(String Value) {
-        try {
-            getLogger().info("Input data for FullName Textbox.");
-            adminAccountSettingsPage.inputValueFullName(Value);
-            NXGReports.addStep("Input value " + Value + " on FullName successfully.", LogAs.PASSED, (CaptureScreen)null);
-        } catch (Exception e) {
-            getLogger().info("Unable to input new value for Admin Setting Page.");
-            NXGReports.addStep("Input value " + Value + " on FullName successfully.", LogAs.FAILED, (CaptureScreen)null);
-        }
-
+        getLogger().info("Input data for FullName Textbox.");
+        adminAccountSettingsPage.inputValueFullName(Value);
     }
 
     public void inputPhoneNumberAdminSettingPage(String Value) {
-        try {
-            getLogger().info("Input data for Phone Number Textbox.");
-            adminAccountSettingsPage.inputValuePhoneNumber(Value);
-            NXGReports.addStep("Input value " + Value + " on PhoneNumber successfully.", LogAs.PASSED, (CaptureScreen)null);
-        } catch (Exception e) {
-            getLogger().info("Unable to input new value for Admin Setting Page.");
-            NXGReports.addStep("Input value " + Value + " on PhoneNumber successfully.", LogAs.FAILED, (CaptureScreen)null);
-        }
-
+        getLogger().info("Input data for Phone Number Textbox.");
+        adminAccountSettingsPage.inputValuePhoneNumber(Value);
     }
 
     public void verifyEmailTextBoxVisible() {
-        try {
-            getLogger().info("Verify that Email TextBox is disable.");
-            adminAccountSettingsPage.verifyEmailTextBoxIsDisable();
-            NXGReports.addStep("Email TextBox is visible.", LogAs.PASSED, (CaptureScreen)null);
-        } catch (Exception e) {
-            NXGReports.addStep("Email TextBox is NOT visible.", LogAs.FAILED, (CaptureScreen)null);
-        }
+        getLogger().info("Verify that Email TextBox is disable.");
+        adminAccountSettingsPage.verifyEmailTextBoxIsDisable();
+    }
 
+    public void verifyTextFullNameLable() {
+        getLogger().info("Verify text of Element: FullName lable ");
+        adminAccountSettingsPage.validateTextMessageFullNametxtbox();
     }
-    public void verifyTextFullNameLable(){
-        try{
-            getLogger().info("Verify text of Element: FullName lable ");
-            adminAccountSettingsPage.validateTextMessageFullNametxtbox();
-            NXGReports.addStep("Element: FullName lable ",LogAs.PASSED, (CaptureScreen)null);
-        }catch (Exception e){
-            NXGReports.addStep("Element : FullName lable has not text as expected.",LogAs.FAILED,(CaptureScreen)null);
-        }
+
+    public void verifyTextphoneLabel() {
+        getLogger().info("Verify text of Element: phoneLabel");
+        adminAccountSettingsPage.validateTextMessagePhoneTxtbox();
     }
-    public void verifyTextphoneLabel(){
-        try{
-            getLogger().info("Verify text of Element: phoneLabel");
-            adminAccountSettingsPage.validateTextMessagePhoneTxtbox();
-            NXGReports.addStep("Element: FullName lable ",LogAs.PASSED, (CaptureScreen)null);
-        }catch (Exception e){
-            NXGReports.addStep("Element : FullName lable has not text as expected.",LogAs.FAILED,(CaptureScreen)null);
-        }
-    }
-    public void clickUpdateImageBTN(){
-        try{
-            getLogger().info("Try to click on Update Image button.");
+
+    public void clickUpdateImageBTN() {
+        getLogger().info("Try to click on Update Image button.");
+        try {
             adminAccountSettingsPage.clickUpdateImageBTN();
-            NXGReports.addStep("Clicked on Update Image button.",LogAs.PASSED, (CaptureScreen)null);
-        }catch (Exception e){
-            NXGReports.addStep("Unable to click on Update Image button.",LogAs.FAILED,(CaptureScreen)null);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
-    public void clickUpdateBTN(){
-        try{
-            getLogger().info("Try to click on Update button.");
-            adminAccountSettingsPage.ClickUpdateBTN();
-            NXGReports.addStep("clicked on Update button.",LogAs.PASSED,(CaptureScreen)null);
-        }catch (Exception e){
-            NXGReports.addStep("Unable to click on Update button.",LogAs.FAILED,(CaptureScreen)null);
-        }
-    }
-    public void waitAndVerifyUpdatedTextMessage(){
-        try{
-            getLogger().info("Try to waitAndVerifyUpdatedTextMessage.");
-            adminAccountSettingsPage.waitAndVerifyUpdatedTextMessage();
-            NXGReports.addStep("waitAndVerifyUpdatedTextMessage successfully.",LogAs.PASSED,(CaptureScreen)null);
-        }catch (Exception e){
-            NXGReports.addStep("waitAndVerifyUpdatedTextMessage failed.",LogAs.FAILED,(CaptureScreen)null);
-        }
-    }
-    public void waitAndVerifyErrorMessageUploadImage() {
-        try {
-            this.getLogger().info("Try to waitAndVerifyUpdatedTextMessage.");
-            this.adminAccountSettingsPage.waitAndVerifyErrorMessageUploadImage();
-            NXGReports.addStep("waitAndVerifyErrorMessageUploadImage successfully.", LogAs.PASSED, (CaptureScreen)null);
-        } catch (Exception var2) {
-            NXGReports.addStep("waitAndVerifyErrorMessageUploadImage failed.", LogAs.FAILED, (CaptureScreen)null);
-        }
 
+    public void clickUpdateBTN() {
+        getLogger().info("Try to click on Update button.");
+        adminAccountSettingsPage.ClickUpdateBTN();
+    }
+
+    public void waitAndVerifyUpdatedTextMessage() {
+        getLogger().info("Try to waitAndVerifyUpdatedTextMessage.");
+        adminAccountSettingsPage.waitAndVerifyUpdatedTextMessage();
+    }
+
+    public void waitAndVerifyErrorMessageUploadImage() {
+        getLogger().info("Try to waitAndVerifyUpdatedTextMessage.");
+        adminAccountSettingsPage.waitAndVerifyErrorMessageUploadImage();
     }
 
     public void waitAndVerifyErrorMessageBigFile() {
-        try {
-            this.getLogger().info("Try to waitAndVerifyErrorMessageBigFile.");
-            this.adminAccountSettingsPage.waitAndVerifyErrorMessageBigFile();
-            NXGReports.addStep("waitAndVerifyErrorMessageBigFile successfully.", LogAs.PASSED, (CaptureScreen)null);
-        } catch (Exception var2) {
-            NXGReports.addStep("waitAndVerifyErrorMessageBigFile failed.", LogAs.FAILED, (CaptureScreen)null);
-        }
-
+        getLogger().info("Try to waitAndVerifyErrorMessageBigFile.");
+        adminAccountSettingsPage.waitAndVerifyErrorMessageBigFile();
     }
 
     public void verifyUpdateButtonDisableDefault() {
-        try {
-            this.getLogger().info("Try to verifyUpdateButtonDisableDefault.");
-            this.adminAccountSettingsPage.verifyUpdateButtonDisableDefault();
-            NXGReports.addStep("verifyUpdateButtonDisableDefault successfully.", LogAs.PASSED, (CaptureScreen)null);
-        } catch (Exception e) {
-            NXGReports.addStep("verifyUpdateButtonDisableDefault failed.", LogAs.FAILED, (CaptureScreen)null);
-        }
-
+        getLogger().info("Try to verifyUpdateButtonDisableDefault.");
+        adminAccountSettingsPage.verifyUpdateButtonDisableDefault();
     }
     public void verifyUpdateButtonEnable() {
-        try {
-            getLogger().info("Try to verifyUpdateButtonEnable.");
-            adminAccountSettingsPage.verifyUpdateButtonEnable();
-            NXGReports.addStep("verifyUpdateButtonEnable successfully.", LogAs.PASSED, (CaptureScreen)null);
-        } catch (Exception e) {
-            NXGReports.addStep("verifyUpdateButtonEnable failed.", LogAs.FAILED, (CaptureScreen)null);
-        }
-
+        getLogger().info("Try to verifyUpdateButtonEnable.");
+        adminAccountSettingsPage.verifyUpdateButtonEnable();
     }
     public void sendTabkeyFullNametxt(){
-        try{
-            adminAccountSettingsPage.sendTabkeyFullNameTxt();
-            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
-        }catch (Exception e){
-            NXGReports.addStep("Unable to tab on Element.", LogAs.FAILED, null);
-            throw e;
-        }
+        getLogger().info("Try to sendTabkeyFullNametxt");
+        adminAccountSettingsPage.sendTabkeyFullNameTxt();
     }
     public void sendTabkeyPhoneNumbertxt(){
-        try{
-            adminAccountSettingsPage.sendTabkeyPhoneNumberTxt();
-            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
-        }catch (Exception e){
-            NXGReports.addStep("Unable to tab on Element.", LogAs.FAILED, null);
-            throw e;
-        }
+        getLogger().info("Try to sendTabkeyPhoneNumbertxt");
+        adminAccountSettingsPage.sendTabkeyPhoneNumberTxt();
     }
 }

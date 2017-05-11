@@ -109,7 +109,7 @@ public class TestngListener implements ITestListener {
      	try
         {
      		FileUtils.copyDirectoryToDirectory(testOuput,new File(sTestngReports));
-     		GenericService.sendMail(iPassCount, iFailCount, iSkippedCount, iTotalExecuted, pdfReports);
+     		//GenericService.sendMail(iPassCount, iFailCount, iSkippedCount, iTotalExecuted, pdfReports);
      		System.out.println("testoutput is moved");
         }
         catch(Exception e)
