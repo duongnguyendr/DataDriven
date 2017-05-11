@@ -1,13 +1,15 @@
 package com.auvenir.ui.pages.auditor;
 
-import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.common.AbstractPage;
+import java.util.List;
+
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
+
+import com.auvenir.ui.pages.AuvenirPage;
+import com.auvenir.ui.pages.common.AbstractPage;
 
 public class AuditorEngagementPage extends AbstractPage {
 	
@@ -119,12 +121,19 @@ public class AuditorEngagementPage extends AbstractPage {
 
 	@FindBy(id = "h-clientListLink")
 	private WebElement contactsLinkEle;
+	@FindBy(id = "newAuditBtn")
+	private WebElement newEngagementButtonEle;
 	
 	@FindBy(xpath="//button[contains(text(),'Add New')]")
 	private WebElement eleAddNewBtn;
 	public WebElement getEleAddNewBtn(){
 		return eleAddNewBtn;
 	}
+	
+	@FindBy(xpath="//div[@class='e-widget-options']")
+	private List<WebElement> eleWidgetContent;
+	@FindBy(xpath="//div[@class='e-widget-options']//input[@value='View']")
+	private List<WebElement> eleViewEngagementDetail;
 	
 	public void auditorPageHeaderContent()
 	{
@@ -147,8 +156,21 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
 	public void navigateToContactsTab() {
-		waitForClickableOfElement(contactsLinkEle);
+		waitForClickableOfElement(contactsLinkEle); 
 		contactsLinkEle.click();
 
 	}
+
+    public void clickNewEnagementButton() {
+		waitForClickableOfElement(newEngagementButtonEle);
+		newEngagementButtonEle.click();
+    }
+    
+    public void navigateToEngagementTask(String EngagementName) throws Exception{
+    	scrollPageDown();
+    	hoverElement(eleWidgetContent.get(eleWidgetContent.size()-1));    	
+		clickAndHold(eleViewEngagementDetail.get(eleViewEngagementDetail.size()-1));
+	}
+    
+  
 }

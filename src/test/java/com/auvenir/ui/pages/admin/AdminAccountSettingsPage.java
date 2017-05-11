@@ -161,16 +161,6 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy (xpath = "//*[contains(text(),'Your account has been updated.')]")
     private WebElement updatedTextMessage;
     public WebElement getUpdatedTextMessage(){return updatedTextMessage;}
-    @FindBy(xpath = "//*[contains(text(),'*Please select a valid image file.')]")
-    private WebElement errorMessageWrongTypeImage;
-    public WebElement getErrorMessageWrongTypeImage() {
-        return this.errorMessageWrongTypeImage;
-    }
-    @FindBy(xpath = "//*[contains(text(),'*Your image is too big. Please upload an image less than 2MB.')]")
-    private WebElement errorMessageBigFile;
-    public WebElement getErrorMessageBigFile() {
-        return this.errorMessageBigFile;
-    }
 
     public void goToSettingPage() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 60L);

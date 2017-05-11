@@ -1,7 +1,7 @@
 package com.auvenir.ui.pages.auditor;
 
-//import library
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
@@ -31,24 +31,32 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     private String todoNamePage = "";
     private String todoContentTextSearch = "name";
 
-	@FindBy(id="auv-todo-createToDo")
-	private WebElement eleCreateToDoBtn;
+	//verify date picker
 	
-	@FindBy(id="auv-todo-filter")
-	private WebElement eleFilterBtn;
+	@FindBy(id="ui-datepicker-div") 
+	private WebElement eleCalendarPopup;
 	
-	@FindBy(id="todo-search")
-	private WebElement eleToDoSearchInput;
 	
+
+	@FindBy(xpath="//div[@id='divName']/div/input[@id='todo-name']")
+	private WebElement eleToDoNameInput;
+
+	@FindBy(xpath="//input[@id='due-date']")
+	private WebElement eleDueDateInput;
+
+	@FindBy(xpath="//div[@id='divName']/div/p[@class='auv-inputError']")
+	private WebElement eleToDoNameErrorLabel;
 	@FindBy(xpath="//*[@id='todo-table']/thead//th/input[@type='checkbox']")
 	private WebElement eleCheckBox;
 	
-	@FindBy(xpath="//th[@data-id='name']")
-	private WebElement eleNameToDoTitleLabel;
 	
-	@FindBy(xpath="//th[@data-id='name']//i")
-	private WebElement eleSortByNameToDo;
 	
+
+
+	public void verifyDefaultValueToDoTextBox(){
+		waitForVisibleElement(eleToDoNameInput);
+		validateDisPlayedElement(eleToDoNameInput);
+		validateAttributeElement(eleToDoNameInput,"placeholder","Write your first to do here");
 	@FindBy(xpath="//th[@data-id='category']")
 	private WebElement eleCategoryTitleLabel;
 	
@@ -99,6 +107,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyImgEmtyToDo()throws Exception {
 		this.validateDisPlayedElement(this.eleImgEmtyToDo);		
 	}
+	public void verifyCssValueToDoTextBox(){
+		waitForVisibleElement(eleToDoNameInput);
+		clickAndHold(eleToDoNameInput);
+		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgb(89, 155, 161)");
 
     @FindBy(xpath="//div[@id='divName']/div/input[@id='todo-name']")
     private WebElement eleToDoNameInput;
@@ -148,29 +160,72 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		 this.validateDisPlayedElement(this.eleCreateToDoBtn);
 		
 	}
-	
-	public void verifyButtonFilter()throws Exception {
-		this.validateDisPlayedElement(this.eleFilterBtn);		
+	public void verifyCssValueWarningToDoTextBox(){
+		waitForVisibleElement(eleToDoNameInput);
+		waitForVisibleElement(eleDueDateInput);
+		clickAndHold(eleToDoNameInput);
+		clickElement(eleDueDateInput);
+		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgba(253, 109, 71, 0.4)");
+		//waitForVisibleElement(eleToDoNameErrorLabel);
+		//validateElementText(eleToDoNameErrorLabel,"Not a valid name.");
+	}
+
+
+	//Will be deleted after finish coding
+	public void verifyAddNewToDoTask(){
+		validateDisPlayedElement(eleToDoNameInput);
+		validateAttributeElement(eleToDoNameInput,"placeholder","Write your first to do here");//Write your first to do here
+		clickAndHold(eleToDoNameInput);
+		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgb(89, 155, 161)");
+
+	}
+
+	public void verifyInputValueToDoNameTextBox(String Value) {
+		waitForVisibleElement(eleToDoNameInput);
+		clearTextBox(eleToDoNameInput);
+		eleToDoNameInput.sendKeys(Value);
+		validateAttributeElement(eleToDoNameInput, "value", Value);
 	}
 	
-
-	
+	public void verifyCssDueDateWhenHover(){
+		clickAndHold(eleDueDateInput);
+		waitForVisibleElement(eleDueDateInput);
+		validateCSSValueElement(eleDueDateInput,"border","1px solid rgb(89, 155, 161)");
 		
-	public void verifyColumnsInGrid()throws Exception {
-		this.validateElementText(this.eleNameToDoTitleLabel, "To-Dos");
-		 this.validateElementText(this.eleCategoryTitleLabel, "Category");	
-		 this.validateElementText(this.eleClientAssigneeTitleLabel, "Client Assignee");
-		 this.validateElementText(this.eleDueDateTitleLabel, "Due Date");
-		 this.validateElementText(this.eleAuditAssigneeTitleLabel, "Audit Assignee");
 	}
 	
-
-	public void verifySotleOnTitle()throws Exception {
-		this.validateDisPlayedElement(this.eleSortByNameToDo);	
-		 this.validateDisPlayedElement(this.eleSortByClientAssignee);
-		 this.validateDisPlayedElement(this.eleSortByDueDate);
-		 this.validateDisPlayedElement(this.eleSortByAuditAssignee);
+	public void verifyCalendarPopup(){
+		validateDisabledElement(eleCalendarPopup);
+		validateDisPlayedElement(eleCalendarPopup);
 	}
+	
+	public void verifyEnterDueDate(String date){
+		sendKeyTextBox(eleDueDateInput, date);
+	}
+	
+	public void verifyDueDateDefault(String date){
+		validateElementText(eleDueDateInput, date);
+	}
+	
+	public void verifyDueDateChoose(Calendar cal){
+		WebElement ele=getDriver().findElement(By.xpath("//td[@data-month='"+cal.get(Calendar.MONTH)+1+"'][@data-year='"+cal.get(Calendar.YEAR)+"']//a[contains(text(),'"+cal.get(Calendar.DAY_OF_MONTH)+"')]"));
+		clickElement(ele);
+		
+	}
+	
+	public int getToDay(){
+		Calendar cal=Calendar.getInstance();
+		return cal.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	public String getMonthName(){
+		Calendar cal=Calendar.getInstance();
+		return new SimpleDateFormat("MMMM").format(cal.getTime());
+	}
+	
+	public String getToDate(){
+		Calendar cal=Calendar.getInstance();
+		return new SimpleDateFormat("MM/dd/yyyy").format(cal.getTime());
 
 
 	public void verifyToDoListPage() throws Exception {

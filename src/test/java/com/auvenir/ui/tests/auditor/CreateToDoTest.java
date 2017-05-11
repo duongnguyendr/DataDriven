@@ -1,7 +1,11 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.AuditorEngagementService;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AuditorCreateToDoService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -158,18 +162,22 @@ public class CreateToDoTest extends AbstractTest {
 //			throw e;
 //		}
 //    }
-//
-	@Test(  priority = 8,enabled = false, description = "[PLAT 2288]-10: verify input number to field search.")
-	public void verifySearchInputNumber() throws Exception {
 
-		try {
-			auditorCreateToDoService.verifySearchInputNumber();
-			NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-			throw e;
-		}
+    @Test(  priority = 2,enabled = true, description = "Add new To Do") 
+    public void verifyGUIToDoTextBox() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
+            auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
 	}
 
 	@Test(  priority = 9,enabled = false, description = "[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title")

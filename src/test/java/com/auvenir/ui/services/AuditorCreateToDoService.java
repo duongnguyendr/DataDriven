@@ -1,10 +1,12 @@
 package com.auvenir.ui.services;
 
-//import library
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
 import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
+import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
+import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
+import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -19,7 +21,10 @@ import java.util.Random;
 public class AuditorCreateToDoService extends AbstractService {
 
 	AuditorCreateToDoPage createToDoPage;
-	String todoNamePage = "";
+	AuditorTodoListPage todoListPage;
+	AuditorEngagementPage engagementPage;
+	AuditorDetailsEngagementPage  detailsEngagementPage ;
+
 	/*
 	 * contructor
 	 */
@@ -27,17 +32,22 @@ public class AuditorCreateToDoService extends AbstractService {
 
 		super(logger, driver);
 		createToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
-	
-
+		todoListPage=new AuditorTodoListPage(getLogger(), getDriver());
+		engagementPage= new AuditorEngagementPage(getLogger(), getDriver());
+		detailsEngagementPage =new AuditorDetailsEngagementPage(getLogger(), getDriver());
 	}
 
-	public void verifyButtonCreateToDo(){
 
+	public void verifyGUIAddNewToDoTextBox(){
 		try {
+			createToDoPage.verifyDefaultValueToDoTextBox();
+			createToDoPage.verifyCssValueToDoTextBox();
+			createToDoPage.verifyCssValueWarningToDoTextBox();
+			NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.PASSED, null);
 			createToDoPage.verifyButtonCreateToDo();
 			NXGReports.addStep("[PLAT 2288]-03: verify button create to do display with green background and white text.", LogAs.PASSED, null);
 		} catch (Exception e) {
-			NXGReports.addStep("[PLAT 2288]-03: verify button create to do display with green background and white text.", LogAs.FAILED,
+			NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
@@ -69,28 +79,30 @@ public class AuditorCreateToDoService extends AbstractService {
 
 	public void verifyButtonFilter(){
 
+	public void navigatetoCreateToDoTab() { 
+		getLogger().info("Navigate to CreateToDo Tab");
 		try {
-			createToDoPage.verifyButtonFilter(); 
-			NXGReports.addStep("[PLAT 2288]-05: verify displayed of this button filter", LogAs.PASSED, null);
+			engagementPage.navigateToEngagementTask("engagement");
+			detailsEngagementPage.navigateToTaskList();
+			todoListPage.clickCreateToDoBtn();
+			createToDoPage.verifyAddNewToDoTask();
+			NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
 		} catch (Exception e) {
-			NXGReports.addStep("[PLAT 2288]-05: verify displayed of this button filter", LogAs.FAILED,
+			NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-	
-	public void verifySearchPlaceholder(){
 
+	public void verifyInputDataToDoTextBox(String value){
+		getLogger().info("Input data into ToDo name Textbox.");
 		try {
-			createToDoPage.verifySearchDefault(); 
-			NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.PASSED, null);
+			createToDoPage.verifyInputValueToDoNameTextBox(value);
+			NXGReports.addStep("Input value " + value + " on ToDo Name Textbox successfully.", LogAs.PASSED, null);
 		} catch (Exception e) {
-			NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.FAILED,
+			NXGReports.addStep("Input value " + value + " on ToDo Name Textbox unsuccessfully.", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-	
-	
-	public void verifySearchHover(){
 
 		try {
 			createToDoPage.verifySearchHover(); 

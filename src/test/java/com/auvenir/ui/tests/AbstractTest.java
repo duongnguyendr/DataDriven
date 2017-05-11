@@ -102,7 +102,7 @@ public class AbstractTest
     {
         testName = method.getName();
         logger.info("Close the browser.");
-        driver.quit();
+       driver.quit();
         logCurrentStepEnd();
     }
     public WebDriver getDriver(){
