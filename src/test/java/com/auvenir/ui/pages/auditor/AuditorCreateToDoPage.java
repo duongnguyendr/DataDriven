@@ -154,6 +154,86 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     @FindBy(xpath = "//*[@id='category-dropdown']")
     private WebElement eleCategoryComboBox;
 	
+	@FindBy(id="auv-todo-createToDo")
+	private WebElement eleCreateToDoBtn;
+	
+	@FindBy(id="auv-todo-filter")
+	private WebElement eleFilterBtn;
+	
+	@FindBy(id="todo-search")
+	private WebElement eleToDoSearchInput;
+	
+	@FindBy(xpath="//input[@type='checkbox']")
+	private WebElement eleCheckBox;
+	
+	@FindBy(xpath="//th[@data-id='name']")
+	private WebElement eleNameToDoTitleLabel;
+	
+	@FindBy(xpath="//th[@data-id='name']//i")
+	private WebElement eleSortByNameToDo;
+	
+	@FindBy(xpath="//th[@data-id='category']")
+	private WebElement eleCategoryTitleLabel;
+	
+	@FindBy(xpath="//th[@data-id='category']//i")
+	private WebElement eleSortByCategory;
+	
+	@FindBy(xpath="//th[@data-id='client']")
+	private WebElement eleClientAssigneeTitleLabel;
+	
+	@FindBy(xpath="//th[@data-id='client']//i")
+	private WebElement eleSortByClientAssignee;
+	
+	@FindBy(xpath="//th[@data-id='dueDate']")
+	private WebElement eleDueDateTitleLabel;
+	
+	@FindBy(xpath="//th[@data-id='dueDate']//i")
+	private WebElement eleSortByDueDate;
+	
+	@FindBy(xpath="//th[@data-id='audit']")
+	private WebElement eleAuditAssigneeTitleLabel;	
+	@FindBy(xpath="//th[@data-id='audit']")
+	private WebElement eleSortByAuditAssignee;
+	
+	@FindBy(xpath="//div[@class='e-widget-content']")
+	private List<WebElement> eleWidgetContent;
+	
+	@FindBy(xpath="div[@class='e-widget-options']/input")
+	private List<WebElement> eleViewEngagementPage;
+
+
+	@FindBy(id="engagementTodoLink")
+	private WebElement eleToDoLnk;
+	
+	@FindBy(xpath="//tr[@id='empty-todo']//..//..//img")
+	private WebElement eleImgEmtyToDo;
+	
+	@FindBy(xpath="//tr[@id='empty-todo']//..//..//div")
+	private WebElement eleNotesEmtyToDo;
+
+	@FindBy(xpath="//div[@id='divName']/div/input[@id='todo-name']")
+	private WebElement eleToDoNameInput;
+
+	@FindBy(xpath="//input[@id='due-date']")
+	private WebElement eleDueDateInput;
+
+	@FindBy(xpath="//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
+	private WebElement eleToDoNameErrorLabel;
+
+	@FindBy(xpath="//*[@id='todo-add-btn']")
+	private WebElement eleToDoSaveIcon;
+
+	@FindBy(xpath="//*[@id='todo-cancel-btn']")
+	private WebElement eleToDoCloseIcon;
+
+	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']")
+	private List<WebElement> eleToDoNewRow;
+
+
+	public void verifyImgEmtyToDo()throws Exception {
+		this.validateDisPlayedElement(this.eleImgEmtyToDo);		
+	}
+
 	public void verifyButtonCreateToDo()throws Exception {
 		 this.validateCssValueElement(this.eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
 		 this.validateCssValueElement(this.eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
@@ -227,6 +307,17 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		Calendar cal=Calendar.getInstance();
 		return new SimpleDateFormat("MM/dd/yyyy").format(cal.getTime());
 
+	public void navigateToEngagementPage() throws Exception{
+		getLogger().info("Click view button open Engagement Page");
+		waitForClickableOfElement(eleWidgetContent.get(0));
+		ClickAndHold(eleWidgetContent.get(0));
+	}
+
+	
+	public void navigateToToDoList() throws Exception{
+		waitForClickableOfElement(eleToDoLnk);
+		eleToDoLnk.click();
+	}
 
 	public void verifyToDoListPage() throws Exception {
 		 this.validateAttributeElement(this.eleCreateToDoBtn,"background","#2c8188");

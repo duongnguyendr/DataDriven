@@ -20,6 +20,8 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 
 import com.auvenir.ui.services.AbstractRefactorService;
@@ -76,6 +78,51 @@ public class AbstractPage {
 
     @FindBy(id="h-ddl-item-settings")
     WebElement settingsTabEle;
+
+    // Minh.Nguyen & Thuan.Duong Create Category======================
+
+
+    @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[1]")
+    private WebElement eleXpathCreateNewCategory;
+    @FindBy(id="category-name")
+    private WebElement eleIdCategoryName;
+    @FindBy(id="category-color")
+    private WebElement eleIdCategoryColor;
+    @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li[4]")
+    private WebElement eleXpathDetailCateColor;
+    @FindBy(id="category-addBtn")
+    private WebElement eleIdBtnAddCategory;
+    @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
+    private WebElement eleCategoryCombobox;
+    //====================================
+
+    // Vien.Pham added EditCategories Elements
+
+    @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[2]")
+    WebElement eleEditCategory;
+
+    @FindBy(xpath = "//*[@id=\"m-ce-systemContainer\"]/h3/text()")
+    WebElement eleEditCategoryTitle;
+
+    @FindBy(xpath = "//*[@id=\"edit-category-container\"]/div[1]")
+    WebElement eleEditCategoryGuide;
+
+    @FindBy(id = "cat-edit-btn")
+    WebElement eleEditCategoryPen;
+
+    @FindBy(id = "cat-trash-btn")
+    WebElement eleEditCategoryTrash;
+
+    @FindBy (id = "m-ce-cancelBtn")
+    WebElement eleEditCategoryCancelBtn;
+
+    @FindBy(id = "category-updateBtn")
+    WebElement eleEditCategorySaveBtn;
+
+    @FindBy(xpath = "//img[@id='modal-close-categoryModel-2Dd9bM38sb25ObfMVSJG6Ui8tLVE205c']")
+    WebElement eleEditCategoryCloseBtn;
+
+    //================================================
 
     // Create Category
     @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
@@ -645,6 +692,86 @@ public class AbstractPage {
         }
 
     }
+
+
+
+    //Minh.Nguyen added createNewCategory May10th 2017=============
+
+
+    public void createNewCategory () throws Exception
+    {
+        // Create new Category
+        waitForClickableOfElement(eleXpathCreateNewCategory);
+        eleXpathCreateNewCategory.click();
+        waitForClickableOfElement(eleIdCategoryName);
+        eleIdCategoryName.sendKeys("Category " + randomNumber());
+        waitForClickableOfElement(eleIdCategoryColor);
+        Thread.sleep(smallTimeOut);
+        eleIdCategoryColor.click();
+        waitForClickableOfElement(eleXpathDetailCateColor);
+        eleXpathDetailCateColor.click();
+        waitForClickableOfElement(eleIdBtnAddCategory);
+        eleIdBtnAddCategory.click();
+
+
+            }
+
+
+    // Vien.Pham added new EditCategory method
+       public void EditCategories ( )throws Exception{
+        waitForClickableOfElement(eleCategoryCombobox);
+        eleCategoryCombobox.click();
+        //Verify Category_Dropdown GUI
+
+
+           //=========
+
+           //Click EditCategories option
+        waitForClickableOfElement(eleEditCategory);
+        eleEditCategory.click();
+    }
+
+        // to verify the Elements of EditCategories Window are displayed correctly.
+//        public void verifyEditCategoriesElements(){
+
+
+
+
+//        }
+
+        // to verfy the List of Categories is displayed correctly
+
+
+
+
+
+
+
+
+    //====================================
+
+
+    //===============================
+    public int randomNumber()
+    {
+        Random randNum = new Random();
+        int  intRanNum = randNum.nextInt(10000) + 1;
+        return intRanNum;
+    }
+
+    public String getTextByJavaScripts(WebElement eleGetText)
+    {
+        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
+        return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
+    }
+    public static  final int smallerTimeOut = 500;
+    public static  final int smallTimeOut = 1000;
+
+
+
+
+
+
 
     public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon) throws Exception {
         try{

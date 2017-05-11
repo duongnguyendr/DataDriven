@@ -58,7 +58,7 @@ public class AuthSessionTest extends AbstractAPIService {
     public void GetAuthSession() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = RestAssured.given().get("http://finicity-qa-334.com/v1/authenticate?sessionID=" + sData[1]);
+            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=" + sData[1], new Object[0]);
             if(response.getStatusCode() == 200) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, null);
             } else {
@@ -95,7 +95,7 @@ public class AuthSessionTest extends AbstractAPIService {
     public void GetAuthSessionWrongSessionID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = RestAssured.given().get("http://finicity-qa-334.com/v1/authenticate?sessionID=12345");
+            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=12345", new Object[0]);
             if(response.getStatusCode() == 401) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen)null);
             } else {
@@ -128,7 +128,7 @@ public class AuthSessionTest extends AbstractAPIService {
     public void GetAuthSessionWithoutSessionID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = RestAssured.given().get("http://finicity-qa-334.com/v1/authenticate?sessionID=");
+            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=", new Object[0]);
             if(response.getStatusCode() == 401) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen)null);
             } else {
