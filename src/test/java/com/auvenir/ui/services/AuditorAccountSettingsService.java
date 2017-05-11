@@ -80,5 +80,50 @@ public class AuditorAccountSettingsService extends AbstractService {
         }
 
     }
+    public void verifyBody(){
+        try{
+            getLogger().info("Start verify account tab of auditor settings page.");
+            auditorAccountSettingsPage.verifyElementsOnAccountTab();
+            getLogger().info("Go to Notification tab of auditor settings page.");
+            auditorAccountSettingsPage.navigateToNotificationTab();
+            getLogger().info("Start verify Notification Tab of auditor settings page.");
+            auditorAccountSettingsPage.verifyElementsOnNotificationTab();
+            getLogger().info("Go to Devices tab of auditor settings page.");
+            auditorAccountSettingsPage.navigateToDevicesTab();
+            getLogger().info("Start verify Devices Tab of auditor settings page.");
+            auditorAccountSettingsPage.verifyElementsOnDevicesTab();
+        }catch (Exception e){
+            NXGReports.addStep("Some elements on body are not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+    public void inputFullName(String TextValue){
+        try{
+            getLogger().info("Try to input value: "+ TextValue+" on FullName TextBox.");
+            auditorAccountSettingsPage.inputFullName(TextValue);
+            NXGReports.addStep("Inputed value: "+ TextValue+" on FullName TextBox.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to input value: "+ TextValue+" on FullName TextBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+    public void sendTabkeyFullNametxt(){
+        try{
+            auditorAccountSettingsPage.sendTabkeyFullNameTxt();
+            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to tab on Element FullNametxt.", LogAs.FAILED, null);
+            throw e;
+        }
+    }
+    public void sendTabkeyPhoneNumbertxt(){
+        try{
+            auditorAccountSettingsPage.sendTabkeyPhoneNumberTxt();
+            NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to tab on Element PhoneNumbertx.", LogAs.FAILED, null);
+            throw e;
+        }
+    }
 }
 
