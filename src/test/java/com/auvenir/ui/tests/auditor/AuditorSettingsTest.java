@@ -61,7 +61,7 @@ public class AuditorSettingsTest extends AbstractTest {
             auditorAccountSettingsService.verifyBody();
             auditorAccountSettingsService.verifyFooter();
             //Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, TestConstants.SCRIPT_FAIL);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, CommonConstants.SCRIPT_FAIL);
             //NXGReports.addStep("Verify GUI auditor setting page: PASSED", LogAs.PASSED, (CaptureScreen)null);
             NXGReports.addStep(TestConstants.VERIFY_GUI_AUDITOR_ACCOUNT_SETTING_PAGE_PASS, LogAs.PASSED, null);
         }catch (Exception e)
@@ -76,20 +76,26 @@ public class AuditorSettingsTest extends AbstractTest {
     public void InputValueFullName() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        //String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId= GenericService.getCongigValue(GenericService.sConfigFile, TestConstants.AUDITOR_ID_PARAMETER);
         try{
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
-            getLogger().info("Input any value on FullName TextBox.");
-            auditorAccountSettingsService.inputFullName("Doai Test");
+            //getLogger().info("Input any value on FullName TextBox.");
+            getLogger().info(TestConstants.LOG_INPUT_VALUE_FULL_NAME);
+            //auditorAccountSettingsService.inputFullName("Doai Test");
+            auditorAccountSettingsService.inputFullName(TestConstants.INPUT_FULL_NAME_VALUE);
             auditorAccountSettingsService.sendTabkeyFullNametxt();
 
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Test First and Last name on Auditor Setting Page: Passed", LogAs.PASSED, (CaptureScreen)null);
+            //Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, CommonConstants.SCRIPT_FAIL);
+            //NXGReports.addStep("Test First and Last name on Auditor Setting Page: Passed", LogAs.PASSED, (CaptureScreen)null);
+            NXGReports.addStep(TestConstants.TEST_FIRST_LAST_NAME_FIELD_IN_ACCOUNT_SETTING_PAGE_PASS, LogAs.PASSED, null);
         }catch (Exception e)
         {
-            NXGReports.addStep("Test First and Last name on Auditor Setting Page: PASSED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //NXGReports.addStep("Test First and Last name on Auditor Setting Page: PASSED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(TestConstants.TEST_FIRST_LAST_NAME_FIELD_IN_ACCOUNT_SETTING_PAGE_FAIL, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
