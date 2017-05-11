@@ -23,6 +23,6 @@ public class ClientIntegrationsSettingsPage extends AbstractPage {
     private WebElement googleDriveTextEle;
 
     public void verifyIntegrationsSettingsPage() {
-        waitForVisibleElement(googleDriveTextEle);
+        waitForVisibleElement(googleDriveTextEle,"googleDriveTextEle");
     }
 }

@@ -1,6 +1,5 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.AuditorAccountSettingsService;
@@ -11,7 +10,6 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 /**
  * Created by cuong.nguyen on 4/27/2017.
  * Edited by Doai.Tran - PLAT 2273
