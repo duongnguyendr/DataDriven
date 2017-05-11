@@ -58,12 +58,16 @@ public class CreateToDoTest extends AbstractTest {
 
     @Test(  priority = 3,enabled = true, description = "Verify to create To-Do page and search data.")
     public void verifyCreateToDoPageCategorySearchData() throws Exception {
+		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
+			auditorCreateToDoService.loginWithUserRole(userId);
+			auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyDataSearch();
             auditorCreateToDoService.verifyCheckMaxLength();
             auditorCreateToDoService.verifyContentTextSearch();
-            //auditorCreateToDoService.verifyCreateNewCategory();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify to create To-Do page, category and search data.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -75,11 +79,12 @@ public class CreateToDoTest extends AbstractTest {
 
     @Test(  priority = 14,enabled = true, description = "Verify to create new Category")
     public void verifyCreateNewCategory() throws Exception {
+		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
-            //auditorCreateToDoService.createToDoPage();
-            //auditorCreateToDoService.verifyDataSearch();
-            //auditorCreateToDoService.verifyCheckMaxLength();
-            //auditorCreateToDoService.verifyContentTextSearch();
+			auditorCreateToDoService.loginWithUserRole(userId);
+			auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyCreateNewCategory();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
