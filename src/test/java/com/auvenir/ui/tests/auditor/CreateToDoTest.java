@@ -81,24 +81,6 @@ public class CreateToDoTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 14,enabled = true, description = "Verify to create new Category")
-    public void verifyCreateNewCategory() throws Exception {
-		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        try {
-			auditorCreateToDoService.loginWithUserRole(userId);
-			auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.verifyCreateNewCategory();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify to create new Category", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
 	@Test(  priority = 4,enabled = false, description = "[PLAT 2288]-05: verify displayed of this button filter")
 	public void verifyButtonFilter() throws Exception {
 
@@ -243,6 +225,25 @@ public class CreateToDoTest extends AbstractTest {
 			NXGReports.addStep("TestScript Failed: Verify GUI Save Icon - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
+
+	@Test(  priority = 14,enabled = true, description = "Verify to create new Category")
+	public void verifyCreateNewCategory() throws Exception {
+		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+		try {
+			auditorCreateToDoService.loginWithUserRole(userId);
+			auditorCreateToDoService.navigatetoCreateToDoTab();
+			auditorCreateToDoService.verifyCreateNewCategory();
+			Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+			NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("Verify to create new Category", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			throw e;
+		}
+	}
+
 	@Test(  priority = 15,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
 	public void verifyGUIToDoCloseIcon() throws Exception {
 		try {
