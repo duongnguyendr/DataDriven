@@ -43,6 +43,21 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
+	@Test(  priority = 2,enabled = false, description = "Add new To Do")
+	public void verifyGUIToDoTextBox() throws Exception {
+		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+		try {
+			auditorCreateToDoService.navigatetoCreateToDoTab();
+			auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
+			auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+			NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
 	@Test(  priority = 3,enabled = false, description = "[PLAT 2288]-05: verify displayed of this button filter")
 	public void verifyButtonFilter() throws Exception {
 
@@ -193,7 +208,7 @@ public class CreateToDoTest extends AbstractTest {
 			NXGReports.addStep("TestScript Failed: Verify GUI Close Icon - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-	@Test(  priority = 15,enabled = true, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
+	@Test(  priority = 15,enabled = false, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
 	public void verifyDataGridToDoTaskPage() throws Exception {
 		try {
 			auditorCreateToDoService.navigatetoCreateToDoTab();
@@ -210,6 +225,19 @@ public class CreateToDoTest extends AbstractTest {
 			NXGReports.addStep("Verify Data Grid after adding new To Do Task", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("TestScript Failed: Verify Data Grid after adding new To Do Task", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	@Test(  priority = 16,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
+	public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
+		try {
+			auditorCreateToDoService.navigatetoCreateToDoTab();
+			auditorCreateToDoService.verifyDefaultValueofCategoryComboBox("Select Category");
+			auditorCreateToDoService.verifyHoverCategoryComboBox();
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+			NXGReports.addStep("Verify 'Category' combo box on Create to-do", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("TestScript Failed: Verify 'Category' combo box on Create to-do", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 }

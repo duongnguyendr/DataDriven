@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 //import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
@@ -32,6 +33,9 @@ public class AbstractPage {
     private    Logger logger = null;
     private  WebDriver driver = null;
     private static final int waitTime = 60;
+    public static  final int smallerTimeOut = 500;
+    public static  final int smallTimeOut = 1000;
+
 
     public AbstractPage(Logger logger,WebDriver driver){
         this.driver = driver;
@@ -71,6 +75,20 @@ public class AbstractPage {
 
     @FindBy(id="h-ddl-item-settings")
     WebElement settingsTabEle;
+
+    // Create Category
+    @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
+    private WebElement eleCategoryComboBox;
+    @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[1]")
+    private WebElement eleXpathCreateNewCategory;
+    @FindBy(id="category-name")
+    private WebElement eleIdCategoryName;
+    @FindBy(id="category-color")
+    private WebElement eleIdCategoryColor;
+    @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li[4]")
+    private WebElement eleXpathDetailCateColor;
+    @FindBy(id="category-addBtn")
+    private WebElement eleIdBtnAddCategory;
 
     public void verifyFooter()
     {
@@ -324,7 +342,7 @@ public class AbstractPage {
     }
 
     public void validateAttributeElement(WebElement element, String attributeName, String expectedAttributeValue) throws InvalidElementStateException {
-        getLogger().info("verify Attribute " + attributeName + " of: " + element.toString());
+        getLogger().info("verify Attribute " + attributeName + " of: " + element.getTagName()+" type "+ element.getAttribute("type"));
         String actualAttributeValue = null;
         try {
             actualAttributeValue = element.getAttribute(attributeName).trim();
@@ -332,17 +350,17 @@ public class AbstractPage {
             if (actualAttributeValue.equals(expectedAttributeValue)) {
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
             } else {
-                AbstractRefactorService.sStatusCnt++;
+                AbstractService.sStatusCnt++;
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     public void validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) throws InvalidElementStateException {
-        getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.toString());
+        getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.getTagName()+" type "+ element.getAttribute("type"));
         String actualCSSValue = null;
         try {
             actualCSSValue = element.getCssValue(cSSValueName);
@@ -410,5 +428,47 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             getLogger().info("Cannot sort data on Data Grid View.");
         }
+    }
+    public void createNewCategory () throws Exception
+    {
+        // Create new Category
+        waitForClickableOfElement(eleCategoryComboBox);
+        eleCategoryComboBox.click();
+        waitForClickableOfElement(eleXpathCreateNewCategory);
+        eleXpathCreateNewCategory.click();
+        waitForClickableOfElement(eleIdCategoryName);
+        eleIdCategoryName.sendKeys("Category " + randomNumber());
+        waitForClickableOfElement(eleIdCategoryColor);
+        Thread.sleep(smallTimeOut);
+        eleIdCategoryColor.click();
+        waitForClickableOfElement(eleXpathDetailCateColor);
+        eleXpathDetailCateColor.click();
+        waitForClickableOfElement(eleIdBtnAddCategory);
+        eleIdBtnAddCategory.click();
+    }
+
+    public int randomNumber()
+    {
+        Random randNum = new Random();
+        int  intRanNum = randNum.nextInt(10000) + 1;
+        return intRanNum;
+    }
+
+    public String getTextByJavaScripts(WebElement eleGetText)
+    {
+        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
+        return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
+    }
+
+    public void verifyDefaultValueOfElement(WebElement element, String attributeName, String defaultValue) {
+        waitForVisibleElement(element);
+        validateDisPlayedElement(element);
+        validateAttributeElement(element, attributeName, defaultValue);
+    }
+
+    public void verifyHoverElement(WebElement element, String cssValueName, String expectedCssValue) {
+        waitForVisibleElement(element);
+        ClickAndHold(element);
+        validateCSSValueElement(element, cssValueName, expectedCssValue);
     }
 }

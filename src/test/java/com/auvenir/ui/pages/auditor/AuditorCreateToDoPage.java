@@ -1,12 +1,8 @@
 package com.auvenir.ui.pages.auditor;
 
 //import library
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -16,10 +12,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.PageFactory;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.openqa.selenium.support.ui.Select;
 
 public class AuditorCreateToDoPage  extends AbstractPage{
 
@@ -122,6 +118,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public List<WebElement> getEleToDoNewRowNameText() {
 		return eleToDoNewRowNameText;
 	}
+
+	@FindBy(xpath = "//*[@id='category-dropdown']")
+	private WebElement eleCategoryComboBox;
+
+	//Select selectEleCategoryComboBox = new Select(eleCategoryComboBox);
 
 	public void verifyImgEmtyToDo()throws Exception {
 		this.validateDisPlayedElement(this.eleImgEmtyToDo);		
@@ -443,5 +444,16 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             AbstractService.sStatusCnt++;
             getLogger().info("Check box icons are NOT selected multiple.");
         }
+	}
+
+	public void verifyDefaultValueofCategoryComboBox(String value) {
+		getLogger().info("Verify Default Value Of Category ComboBox");
+		//System.out.println("First Option in Dropdown box: " + selectEleCategoryComboBox.getFirstSelectedOption());
+		System.out.println("Default Value in Dropdown box: " + eleCategoryComboBox.getAttribute("value"));
+		verifyDefaultValueOfElement(eleCategoryComboBox, "value", value);
+	}
+	public void verifyHoverCategoryComboBox(){
+		getLogger().info("Verify Default Value Of Category ComboBox");
+		verifyHoverElement(eleCategoryComboBox,"border","1px solid rgb(89, 155, 161)");
 	}
 }

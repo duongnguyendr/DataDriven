@@ -318,4 +318,12 @@ public class AuditorCreateToDoService extends AbstractService {
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
+
+	public void verifyDefaultValueofCategoryComboBox(String value){
+		createToDoPage.verifyDefaultValueofCategoryComboBox(value);
+	}
+
+	public void verifyHoverCategoryComboBox() {
+		createToDoPage.verifyHoverCategoryComboBox();
+	}
 }
