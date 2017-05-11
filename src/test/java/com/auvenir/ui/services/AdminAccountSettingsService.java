@@ -66,7 +66,11 @@ public class AdminAccountSettingsService extends AbstractService{
 
     public void clickUpdateImageBTN() {
         getLogger().info("Try to click on Update Image button.");
-        adminAccountSettingsPage.clickUpdateImageBTN();
+        try {
+            adminAccountSettingsPage.clickUpdateImageBTN();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clickUpdateBTN() {

@@ -208,7 +208,7 @@ public class CreateToDoTest extends AbstractTest {
 			NXGReports.addStep("TestScript Failed: Verify GUI Close Icon - create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-	@Test(  priority = 15,enabled = false, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
+	@Test(  priority = 15,enabled = true, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
 	public void verifyDataGridToDoTaskPage() throws Exception {
 		try {
 			auditorCreateToDoService.navigatetoCreateToDoTab();
@@ -228,7 +228,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
-	@Test(  priority = 16,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
+	@Test(  priority = 16,enabled = false, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
 	public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
 		try {
 			auditorCreateToDoService.navigatetoCreateToDoTab();

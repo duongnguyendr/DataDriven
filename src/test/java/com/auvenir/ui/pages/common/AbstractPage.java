@@ -18,6 +18,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -713,8 +714,7 @@ public class AbstractPage {
     }
 
     public void verifyHoverElement(WebElement element, String cssValueName, String expectedCssValue) {
-        waitForVisibleElement(element);
-        ClickAndHold(element);
+        clickAndHold(element);
         validateCSSValueElement(element, cssValueName, expectedCssValue);
     }
 }

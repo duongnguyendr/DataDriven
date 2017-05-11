@@ -453,7 +453,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		verifyDefaultValueOfElement(eleCategoryComboBox, "value", value);
 	}
 	public void verifyHoverCategoryComboBox(){
-		getLogger().info("Verify Default Value Of Category ComboBox");
+		getLogger().info("Verify Default Value Of Category ComboBox.");
 		verifyHoverElement(eleCategoryComboBox,"border","1px solid rgb(89, 155, 161)");
 	}
 }
