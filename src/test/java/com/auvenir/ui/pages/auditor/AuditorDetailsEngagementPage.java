@@ -29,13 +29,18 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
 	@FindBy(xpath="//tr[@id='empty-todo']//..//..//div")
 	private WebElement eleNotesEmtyToDo;
 
+	@FindBy(id = "engagementDashboardLink")
+    private WebElement dashBoardLinkEle;
+
     public void verifyDetailsEngagementPage(String engagement01) {
-    	//Updated later because I do not know which component to test
+    	//we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
+        waitForClickableOfElement(dashBoardLinkEle);
+
     }
 
     public void navigateToTodoListPage() throws Exception { 
-    		waitForClickableOfElement(this.eleToDoLnk);
-    		this.eleToDoLnk.click();
+    		waitForClickableOfElement(eleToDoLnk);
+    		eleToDoLnk.click();
     }
 }
 

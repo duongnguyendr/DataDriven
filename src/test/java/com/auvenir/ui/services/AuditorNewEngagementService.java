@@ -38,10 +38,10 @@ public class AuditorNewEngagementService extends AbstractService {
     }
     
     
- public void enterDataForNewEngagementPage(String engagement01, String s, String s1) {
+ public void enterDataForNewEngagementPage(String name, String engagementType, String company) {
 	   try {
 		   getLogger().info("Enter data for new Engagement form.(Hard code)");
-		   auditorNewEngagementPage.enterDataForNewEngagementPage(engagement01, s, s1);
+		   auditorNewEngagementPage.enterDataForNewEngagementPage(name, engagementType, company);
 		   NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.PASSED, null);
        } catch (Exception e) {
            NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

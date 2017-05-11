@@ -73,11 +73,17 @@ public class AbstractPage {
 
     public void verifyFooter()
     {
+        getLogger().info("verify Auvenir text.");
         validateDisPlayedElement(eleAuvenirIncTxt);
+        getLogger().info("verify term of service link");
         validateDisPlayedElement(eleTermsOfServiceLnk);
+        getLogger().info("verify term of service dot text.");
         validateDisPlayedElement(eleTermsOfServiceDotTxt);
+        getLogger().info("verify privacy statement link.");
         validateDisPlayedElement(elePrivacyStatementLnk);
+        getLogger().info("verify privacy statement text.");
         validateDisPlayedElement(elePrivacyStatementDotTxt);
+        getLogger().info("verify Cookies notice link.");
         validateDisPlayedElement(eleCookieNoticeLnk);
     }
     public void verifyTermsOfServiceLink() throws AWTException{

@@ -68,53 +68,53 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	 public void verifyTodoListPage() throws Exception {
 		 getLogger().info("verify create to do button.");
-		 	this.verifyButtonCreateToDo();
+		 verifyButtonCreateToDo();
 	     NXGReports.addStep("verify create to do button.", LogAs.PASSED, null);
 		
 		 getLogger().info("verify filter button.");
-		 this.verifyButtonFilter();		
+		 verifyButtonFilter();
 	     NXGReports.addStep("verify filter button.", LogAs.PASSED, null);
 		 
 		 getLogger().info("verify check on checkbox.");
-		 this.verifyCheckOnCheckBox();
+		 verifyCheckOnCheckBox();
 	     NXGReports.addStep("verify check on checkbox.", LogAs.PASSED, null);
 		
 		 getLogger().info("verify uncheck on checkbox.");
-		 this.verifyUnCheckOnCheckBox();
+		 verifyUnCheckOnCheckBox();
 	     NXGReports.addStep("verify uncheck on checkbox.", LogAs.PASSED, null);
 		 
 		 getLogger().info("verify columns in gird.");
-		 this.verifyColumnsInGrid();
+		 verifyColumnsInGrid();
 	     NXGReports.addStep("verify columns in gird.", LogAs.PASSED, null);
 		
 		 getLogger().info("verify icon sort on title.");
-		 this.verifySortOnTitle();
+		 verifySortOnTitle();
 	     NXGReports.addStep("verify icon sort on title.", LogAs.PASSED, null);
 		
 		 getLogger().info("verify search hover.");
-		 this.verifySearchHover();
+		 verifySearchHover();
 	     NXGReports.addStep("verify search hover.", LogAs.PASSED, null);
 		
 		 getLogger().info("verify input text for field search.");
-		 this.verifySearchInputText();
+		 verifySearchInputText();
 	     NXGReports.addStep("verify input text for field search.", LogAs.PASSED, null);
 		 
 		 getLogger().info("verify input number for field search.");
-		 this.verifySearchInputNumber();	
+		 verifySearchInputNumber();
 	     NXGReports.addStep("verify input number for field search.", LogAs.PASSED, null);
 		 
 		 getLogger().info("verify default value(hint) field search.");
-		 this.verifySearchDefault();
+		 verifySearchDefault();
 	     NXGReports.addStep("verify default value(hint) field search.", LogAs.PASSED, null);
 		 
 		
 	  }
 
 	public void verifyEmptyTodoList() throws Exception {
-		this.waitForVisibleElement(this.eleImgEmtyToDo);
-    	this.validateDisPlayedElement(this.eleImgEmtyToDo);		
-    	this.waitForVisibleElement(this.eleNotesEmtyToDo);
-		this.validateDisPlayedElement(this.eleNotesEmtyToDo);
+		waitForVisibleElement(eleImgEmtyToDo);
+    	validateDisPlayedElement(eleImgEmtyToDo);
+    	waitForVisibleElement(eleNotesEmtyToDo);
+		validateDisPlayedElement(eleNotesEmtyToDo);
 	}
 	
 	
@@ -123,79 +123,79 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	public void verifyButtonCreateToDo()throws Exception {		
 		
-		 this.validateCssValueElement(this.eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
-		 this.validateCssValueElement(this.eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
-		 this.validateDisPlayedElement(this.eleCreateToDoBtn);
+		 validateCssValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
+		 validateCssValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
+		 validateDisPlayedElement(eleCreateToDoBtn);
 		
 	}
 	
 	public void verifyButtonFilter()throws Exception {
-		this.validateDisPlayedElement(this.eleFilterBtn);		
+		 validateDisPlayedElement(eleFilterBtn);
 	}
 	
 	public void verifySearchDefault()throws Exception {
-		 this.validateAttributeElement(this.eleToDoSearchInput,"placeholder","Search...");	
+		 validateAttributeElement(eleToDoSearchInput,"placeholder","Search...");
 	}
 	
 	public void verifySearchHover()throws Exception {
-		 this.ClickAndHold(this.eleToDoSearchInput);
-		 this.waitForVisibilityOfAllElementsLocatedBy(By.xpath("//input[@id='todo-search']"));
-		 this.validateCssValueElement(this.eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
+		 ClickAndHold(eleToDoSearchInput);
+		 waitForVisibleOfLocator(By.xpath("//input[@id='todo-search']"));
+		 validateCssValueElement(eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
 	}
 	
 	public void verifySearchInputText()throws Exception {
-		this.eleToDoSearchInput.click();
-		this.eleToDoSearchInput.clear();
-		 this.eleToDoSearchInput.sendKeys("Search to do");
-		 this.validateAttributeElement(this.eleToDoSearchInput, "value",  "Search to do");
+		 eleToDoSearchInput.click();
+		 eleToDoSearchInput.clear();
+		 eleToDoSearchInput.sendKeys("Search to do");
+		 validateAttributeElement(this.eleToDoSearchInput, "value",  "Search to do");
 	}
 	
 	public void verifySearchLimit255()throws Exception {
-		this.eleToDoSearchInput.click();
-		this.eleToDoSearchInput.clear();
-		 this.eleToDoSearchInput.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
-		this.validateMaxlenght(this.eleToDoSearchInput, 255);
+		 eleToDoSearchInput.click();
+		 eleToDoSearchInput.clear();
+		 eleToDoSearchInput.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
+		 validateMaxlenght(eleToDoSearchInput, 255);
 	}
 	
 	public void verifySearchInputNumber()throws Exception {
-		this.eleToDoSearchInput.click();	
-		this.eleToDoSearchInput.clear();
-		this.eleToDoSearchInput.sendKeys("123");
-		 this.validateAttributeElement(this.eleToDoSearchInput, "value", "123");
+		eleToDoSearchInput.click();
+		eleToDoSearchInput.clear();
+		eleToDoSearchInput.sendKeys("123");
+		 validateAttributeElement(this.eleToDoSearchInput, "value", "123");
 	}
 	
 		
 	public void verifyColumnsInGrid()throws Exception {
-		this.validateElementText(this.eleNameToDoTitleLabel, "To-Dos");
-		 this.validateElementText(this.eleCategoryTitleLabel, "Category");	
-		 this.validateElementText(this.eleClientAssigneeTitleLabel, "Client Assignee");
-		 this.validateElementText(this.eleDueDateTitleLabel, "Due Date");
-		 this.validateElementText(this.eleAuditAssigneeTitleLabel, "Audit Assignee");
+		 validateElementText(this.eleNameToDoTitleLabel, "To-Dos");
+		 validateElementText(this.eleCategoryTitleLabel, "Category");
+		 validateElementText(this.eleClientAssigneeTitleLabel, "Client Assignee");
+		 validateElementText(this.eleDueDateTitleLabel, "Due Date");
+		 validateElementText(this.eleAuditAssigneeTitleLabel, "Audit Assignee");
 	}
 	
 
 	public void verifySortOnTitle()throws Exception {
-		this.validateDisPlayedElement(this.eleSortByNameToDo);	
-		 this.validateDisPlayedElement(this.eleSortByClientAssignee);
-		 this.validateDisPlayedElement(this.eleSortByDueDate);
-		 this.validateDisPlayedElement(this.eleSortByAuditAssignee);
+		 validateDisPlayedElement(this.eleSortByNameToDo);
+		 validateDisPlayedElement(this.eleSortByClientAssignee);
+		 validateDisPlayedElement(this.eleSortByDueDate);
+		 validateDisPlayedElement(this.eleSortByAuditAssignee);
 	}
 	
 	public void verifyCheckOnCheckBox()throws Exception {
-		if(!this.eleCheckBox.isSelected()){
-			 this.eleCheckBox.click();
+		if(!eleCheckBox.isSelected()){
+			eleCheckBox.click();
 		 }
-		this.waitForVisibilityOfAllElementsLocatedBy(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
+		waitForVisibleOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
 		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(92, 212, 192, 1)");	
 	}
 	
 	public void verifyUnCheckOnCheckBox()throws Exception {
-		 if(this.eleCheckBox.isSelected()){
-			 this.eleCheckBox.click();
+		 if(eleCheckBox.isSelected()){
+		 	eleCheckBox.click();
 			 
 		 }
-		 this.waitForVisibilityOfAllElementsLocatedBy(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
-		 this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
+		 waitForVisibleOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
+		 validateCssValueElement(eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
 	}
 	
 	

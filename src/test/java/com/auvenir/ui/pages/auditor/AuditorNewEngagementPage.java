@@ -64,48 +64,51 @@ public class AuditorNewEngagementPage extends AbstractPage {
     
     @FindBy(id="customize-create-btn")
    	private WebElement eleCustomizeCreateBtn;
+    @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
+    private WebElement newEngagementHeaderTextEle;
 
 
     public void verifyNewEngagementPage() {
-    	///Updated later because I do not know which component to test
+    	getLogger().info("Verify New engagement Page.");
+    	waitForVisibleElement(newEngagementHeaderTextEle);
     }
 
-    public void enterDataForNewEngagementPage(String engagement01, String s, String s1) throws Exception {
+    public void enterDataForNewEngagementPage(String name, String engagementType, String company) throws Exception {
     	
         getLogger().info("Enter engagement name.");
-        enterEngagementName(engagement01);
+        enterEngagementName(name);
         NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
         
         getLogger().info("Select engagement type.");
-        selectEngagementType(s);
+        selectEngagementType(engagementType);
         NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
                 
         getLogger().info("Enter company name.");
-        enterCompanyName(s1);
+        enterCompanyName(company);
         NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
         
         getLogger().info("Enter deadline date.");
-        enterDeadLineDate(this.tmp(10));
+        enterDeadLineDate(getDate(10));
         NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
     	
         getLogger().info("Enter start date.");
-        enterStartDate(this.tmp(0));
+        enterStartDate(getDate(0));
         NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
         
         getLogger().info("Enter end date.");
-        enterEndDate(this.tmp(10));
+        enterEndDate(getDate(10));
         NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
     	
         getLogger().info("Click Continue button.");
-        this.clickContinueBtn();
+        clickContinueBtn();
         NXGReports.addStep("Click Continue button.", LogAs.PASSED, null);
         
         getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
-        this.clickNoMemberBtn();
+        clickNoMemberBtn();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
         
         getLogger().info("Click create to do button.");
-        this.clickCreateToDoBtn();
+        clickCreateToDoBtn();
         NXGReports.addStep("Click create to do button.", LogAs.PASSED, null);
     }
     
@@ -114,51 +117,51 @@ public class AuditorNewEngagementPage extends AbstractPage {
     
     
     public void enterEngagementName(String engagementName){
-    	this.waitForClickableOfElement(this.eleEngagementNameInput);
-    	this.eleEngagementNameInput.sendKeys(engagementName);
+    	waitForClickableOfElement(this.eleEngagementNameInput);
+    	eleEngagementNameInput.sendKeys(engagementName);
     	
     }
     
     public void selectEngagementType(String engagementType){
-    	this.eleEngagementTypeSelect.click();
-    	this.eleEngagementTypeList.get(0).click();    	
+    	eleEngagementTypeSelect.click();
+    	eleEngagementTypeList.get(0).click();
     }
     
     
     public void enterCompanyName(String conpanyName){
-    	this.eleCompanyNameInput.sendKeys(conpanyName);   	    	
+    	eleCompanyNameInput.sendKeys(conpanyName);
     }
     
     public void enterDeadLineDate(String dateLineDate){    	
-    	this.eleReportDeadlineInput.sendKeys(dateLineDate); 
+    	eleReportDeadlineInput.sendKeys(dateLineDate);
     }
     
     public void enterStartDate(String startDate){    	
-    	this.eleStartDateInput.sendKeys(startDate); 
+    	eleStartDateInput.sendKeys(startDate);
     }
     
     public void enterEndDate(String endDate){    	
-    	this.eleStartDateInput.sendKeys(endDate); 
+    	eleStartDateInput.sendKeys(endDate);
     }
     
     public void clickContinueBtn(){
-    	this.eleContinueBtn.click();
+    	eleContinueBtn.click();
     }
     
     public void clickNoMemberBtn(){
-    	this.waitForClickableOfElement(this.eleContinueNoMemberBtn);
-    	this.eleContinueNoMemberBtn.click();    	
+    	this.waitForClickableOfElement(eleContinueNoMemberBtn);
+    	eleContinueNoMemberBtn.click();
     }
     
     public void clickCreateToDoBtn(){
-    	this.waitForClickableOfElement(this.eleCustomizeCreateBtn);
-    	this.eleCustomizeCreateBtn.click();
+    	waitForClickableOfElement(this.eleCustomizeCreateBtn);
+    	eleCustomizeCreateBtn.click();
     }
     
-    public String tmp(int num){
+    public String getDate(int day){
     	Calendar date=Calendar.getInstance();
-    	date.add(Calendar.DATE, num);
-    	SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy"); 
-    	return dt.format(date.getTime());
+    	date.add(Calendar.DATE, day);
+    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    	return simpleDateFormat.format(date.getTime());
     }
 }

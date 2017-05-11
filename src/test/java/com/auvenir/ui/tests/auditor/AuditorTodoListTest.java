@@ -40,10 +40,10 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement01","","");
-            //Updated later because Enggagement name not found
+            //will implement later, current we can not navigate engagment by name
             // auditorEngagementService.verifyCreatedEngagementRendered("engagement01");            
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //Updated later because I do not know which component to test
+
             auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyEmptyTodoList();
