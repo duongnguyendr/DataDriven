@@ -217,15 +217,17 @@ public class AbstractPage {
      * @param webElement  WebElement
      * @param elementText Text of Element be presented.
      */
-    public void validateElementText(WebElement webElement, String elementText) {
+    public boolean validateElementText(WebElement webElement, String elementText) {
         try {
             getLogger().info("Check renderd of text: " + elementText);
             getLogger().info("Actual Text is displayed: " + webElement.getText().trim());
             Assert.assertEquals(webElement.getText().trim(),elementText);
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED,null);
+            return true;
         }catch (AssertionError error) {
             getLogger().info(error);
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
@@ -235,17 +237,19 @@ public class AbstractPage {
      * @throws InvalidElementStateException
      * @elementName Name of element that we want to verify
      */
-    public void validateDisPlayedElement(WebElement element, String elementName) throws InvalidElementStateException
+    public boolean validateDisPlayedElement(WebElement element, String elementName) throws InvalidElementStateException
     {
         getLogger().info("verify Displayed of: " + element.getText());
         try{
             element.isDisplayed();
             getLogger().info("Element : " + element.getText() +"is presented");
             NXGReports.addStep("Element : "+ elementName + " is presented.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + element.getText() +"is not presented");
             NXGReports.addStep("Element : " + elementName +"is not presented", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
@@ -256,17 +260,19 @@ public class AbstractPage {
      * @throws InvalidElementStateException
      */
 
-    public void validateEnabledElement(WebElement element, String elementName) throws InvalidElementStateException
+    public boolean validateEnabledElement(WebElement element, String elementName) throws InvalidElementStateException
     {
         getLogger().info("verify enabled of: " + element.getText());
         try{
             element.isEnabled();
             getLogger().info("Element : " + element.getText() +"is enable");
             NXGReports.addStep(element.getText() + " is enable.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + element.getText() +"is not enable.");
             NXGReports.addStep("Element : " + element.getText() +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
@@ -276,17 +282,19 @@ public class AbstractPage {
      * @param elementName Name of element that we want to verify
      * @throws InvalidElementStateException
      */
-    public void validateSelectedElement(WebElement element,String elementName) throws InvalidElementStateException
+    public boolean validateSelectedElement(WebElement element,String elementName) throws InvalidElementStateException
     {
         getLogger().info("verify selected of: " + element.getText());
         try{
             element.isSelected();
             getLogger().info("Element : " + element.getText() +"is selected.");
             NXGReports.addStep("Element: "+ elementName + " is selected.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + element.getText() +"is not selected.");
             NXGReports.addStep("Element : " + elementName +"is not selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
@@ -296,13 +304,14 @@ public class AbstractPage {
      * @param elementName Name of element that we want to verify
      * @throws InvalidElementStateException
      */
-    public void validateNotSelectedElement(WebElement element, String elementName) throws InvalidElementStateException
+    public boolean validateNotSelectedElement(WebElement element, String elementName) throws InvalidElementStateException
     {
         getLogger().info("verify not selected of: " + element.getText());
         try{
             if(!element.isSelected()){
                 getLogger().info("Element : " + element.getText() +"is not selected.");
                 NXGReports.addStep("Element : " + elementName + " is not selected.", LogAs.PASSED, null);
+                return true;
             }else {
                 new Exception();
             }
@@ -310,35 +319,37 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + element.getText() +"is selected.");
             NXGReports.addStep("Element : " + elementName +"is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
-    public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    public boolean validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
     {
         getLogger().info("verify style with "+ attributeName);
-
-
         try
         {
         	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
             NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
+            return true;
         }
 
         catch (Exception e)
         {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
 
     }
 
-    public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
+    public boolean validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
         try {
             getLogger().info("verify input with max length with " + maxLenght +"character");
             webElement.click();
             webElement.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
             Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
             NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
+            return true;
         }catch (AssertionError error) {
             getLogger().info(error);
             NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -384,16 +395,18 @@ public class AbstractPage {
      @param element element defined on page class
      @param elementName Name of element that we want to verify
      */
-    public void waitForVisibleElement(WebElement element, String elementName){
+    public boolean waitForVisibleElement(WebElement element, String elementName){
         getLogger().info("Try to waitForVisibleElement: " + elementName);
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.visibilityOf(element));
             NXGReports.addStep("Element: "+ elementName + " is visible.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element: " + element.getText() +"is not visible.");
             NXGReports.addStep("Element: "+ elementName +" is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
@@ -651,15 +664,17 @@ public class AbstractPage {
      * @param element element defined on page class
      * @param selText Visible text that you want to select on dropdown
      */
-    public void selectByVisibleText(WebElement element, String selText){
+    public boolean selectByVisibleText(WebElement element, String selText){
         getLogger().info("Try to selectByVisibleText on element: "+element.getText());
         try {
             Select dropDown = new Select(element);
             dropDown.selectByVisibleText(selText);
             NXGReports.addStep("selectByVisibleText on checkbox: "+ element.getText(), LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Unable to selectByVisibleText on element: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
@@ -883,15 +898,12 @@ public class AbstractPage {
         return isCheckCategory;
     }
 
-
     public int randomNumber()
     {
         Random randNum = new Random();
         int  intRanNum = randNum.nextInt(10000) + 1;
         return intRanNum;
     }
-
-
 
     public void verifyDefaultValueOfElement(WebElement element, String attributeName, String defaultValue) {
         waitForVisibleElement(element,"Element");
