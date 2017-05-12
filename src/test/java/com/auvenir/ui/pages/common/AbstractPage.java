@@ -39,6 +39,7 @@ public class AbstractPage {
     private static final int waitTime = 60;
     public static  final int smallerTimeOut = 500;
     public static  final int smallTimeOut = 1000;
+    public static final  String categoryIndiMode = "indicategory";
 
 
     public AbstractPage(Logger logger,WebDriver driver){
@@ -109,6 +110,9 @@ public class AbstractPage {
     Update: Doai.Tran
      */
 
+    @FindBy(xpath = "/*//*[@id='category-dropdown']/div[@class='text']")
+    private WebElement eleCategoryCombobox;
+    // Create Category
     @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
     private WebElement eleCategoryComboBox;
     @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[1]")
@@ -123,12 +127,13 @@ public class AbstractPage {
     private WebElement eleIdBtnAddCategory;
     @FindBy(id="category-dropdown")
     private WebElement eleIdDdlCategory;
-    @FindBy(xpath="\"id('todo-table')/tbody/tr\"")
+    @FindBy(id="todo-table")
     private WebElement tblXpathTodoTable;
-    @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/a")
+    @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/button")
     private WebElement eleCategoryText;
-    @FindBy(xpath = "/*//*[@id='category-dropdown']/div[@class='text']")
-    private WebElement eleCategoryCombobox;
+    @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/a")
+    private WebElement eleIndiCategoryText;
+
     public void verifyFooter()
     {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
@@ -860,12 +865,12 @@ public class AbstractPage {
         }
     }
 
-    public boolean createNewCategory () throws Exception
+    public boolean createNewCategory (String categoryMode) throws Exception
     {
         boolean isCheckCategory = false;
         String categoryName = "Category " + randomNumber();
         // Create new Category
-        waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
+        waitForClickableOfElement(eleIdDdlCategory, "eleIdDdlCategory");
         eleIdDdlCategory.click();
         waitForClickableOfElement(eleXpathCreateNewCategory,"eleXpathCreateNewCategory");
         eleXpathCreateNewCategory.click();
@@ -880,21 +885,28 @@ public class AbstractPage {
         eleIdBtnAddCategory.click();
         // Verify the category that has just created
         waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
+        List<WebElement> td_collection = new ArrayList<>();
 
-        List<WebElement> td_collection = tblXpathTodoTable.findElements(By.xpath("td"));
-        for (WebElement tdElement : td_collection) {
-            String strSearchValue = "";
-            try {
-                strSearchValue = eleCategoryText.getText();
+        if(categoryMode.equals(categoryIndiMode)) {
+            waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
+            eleIdDdlCategory.click();
+            waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
+            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
+            for (WebElement tdElement : td_collection) {
+                String strSearchValue = "";
+                try {
+                    strSearchValue = eleIndiCategoryText.getText();
+                } catch (Exception ex) {
+                }
+                getLogger().info("SearchValue = " + strSearchValue);
+                if (strSearchValue.equals(categoryName)) {
+                    isCheckCategory = true;
+                    break;
+                }
             }
-            catch(Exception ex)
-            {}
-            getLogger().info("SearchValue = " + strSearchValue);
-            if(strSearchValue.equals(categoryName))
-            {
-                isCheckCategory = true;
-                break;
-            }
+        }
+        else {
+            isCheckCategory = true;
         }
         return isCheckCategory;
     }
