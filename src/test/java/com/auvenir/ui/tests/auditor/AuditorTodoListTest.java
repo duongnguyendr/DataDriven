@@ -25,7 +25,7 @@ public class AuditorTodoListTest extends AbstractTest {
     private AuditorCreateToDoService auditorCreateToDoService;
 
 
-    @Test(priority=1,enabled=true, description="Verify Auditor empty Todo List page.")
+    @Test(priority=1,enabled= true, description="Verify Auditor empty Todo List page.")
     public void verifyAuditorEmptyTodoListPage() throws Exception
     {
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -64,7 +64,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 2,enabled = true, description = "Verify to create To-Do page and search data.")
+    @Test(  priority = 2,enabled = false, description = "Verify to create To-Do page and search data.")
     public void verifyCreateToDoPageCategorySearchData() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -90,7 +90,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 3,enabled = true, description = "Verify to create new Category")
+    @Test(  priority = 3,enabled = false, description = "Verify to create new Category")
     public void verifyCreateNewCategory() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -233,7 +233,7 @@ public class AuditorTodoListTest extends AbstractTest {
     }
 
 
-    @Test(  priority = 9,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
+    @Test(  priority = 9,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
     public void verifyGUIToDoSaveIcon() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -244,9 +244,9 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            //auditorTodoListService.verifyTodoListPage();
+            auditorTodoListService.verifyTodoListPage();
 
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyGUIToDoSaveIcon();
@@ -262,7 +262,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
 
 
-    @Test(  priority = 10,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
+    @Test(  priority = 10,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
     public void verifyGUIToDoCloseIcon() throws Exception {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -322,7 +322,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 12,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
+    @Test(  priority = 12,enabled = false, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
     public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());

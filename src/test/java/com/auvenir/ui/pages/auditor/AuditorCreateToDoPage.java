@@ -325,45 +325,45 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		createNewCategory("");
 		Thread.sleep(smallTimeOut);
 		hoverElement(eleDdlCategory,"eleDdlCategory");
-		waitForClickableOfElement(eleDdlCategory,"");
+		waitForClickableOfElement(eleDdlCategory,"eleDdlCategory");
 		eleDdlCategory.click();
-		waitForClickableOfElement(eleXpathCategoryItem,"");
+		waitForClickableOfElement(eleXpathCategoryItem,"eleXpathCategoryItem");
 		eleXpathCategoryItem.click();
-		waitForClickableOfElement(eleIdDueDate,"");
+		waitForClickableOfElement(eleIdDueDate,"eleIdDueDate");
 		Thread.sleep(2000);
 		eleIdDueDate.click();
-		waitForClickableOfElement(eleXpathChooseDate,"");
+		waitForClickableOfElement(eleXpathChooseDate,"eleXpathChooseDate");
 		eleXpathChooseDate.click();
-		waitForClickableOfElement(eleBtnToDoAdd,"");
+		waitForClickableOfElement(eleBtnToDoAdd,"eleBtnToDoAdd");
 		eleBtnToDoAdd.click();
 	}
 
 	public void verifyToDoNameInputLimitCharacter(int maxLength)throws Exception {
-		waitForVisibleElement(eleToDoNameInput,"");
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
 		validateMaxlenght(eleToDoNameInput, maxLength);
 	}
 
 	public void verifyToDoNameInputSpecialCharacter(String value)throws Exception {
-		waitForVisibleElement(eleToDoNameInput,"");
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
 		eleToDoNameInput.clear();
 		eleToDoNameInput.sendKeys(value);
 		eleDueDateInput.click();
-		waitForVisibleElement(eleToDoNameErrorLabel,"");
+		waitForVisibleElement(eleToDoNameErrorLabel,"eleToDoNameErrorLabel");
 		validateElementText(eleToDoNameErrorLabel,"Not a valid name.");
 	}
 
 	public void verifyDisableToDoSaveIcon(){
-		waitForVisibleElement(eleToDoNameInput,"");
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
 		eleToDoNameInput.clear();
-		waitForVisibleElement(eleToDoSaveIcon,"");
-		validateDisabledElement(eleToDoSaveIcon,"");
+		waitForVisibleElement(eleToDoSaveIcon,"eleToDoSaveIcon");
+		validateDisabledElement(eleToDoSaveIcon,"eleToDoSaveIcon");
 	}
 
 	public void verifyEnableToDoSaveIcon(){
-		waitForVisibleElement(eleToDoNameInput,"");
+		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
 		eleToDoNameInput.sendKeys("Task01");
-		waitForVisibleElement(eleToDoSaveIcon,"");
-		validateEnabledElement(eleToDoSaveIcon,"");
+		waitForVisibleElement(eleToDoSaveIcon,"eleToDoSaveIcon");
+		validateEnabledElement(eleToDoSaveIcon,"eleToDoSaveIcon");
 	}
 
 	public void verifyEnableToDoCloseIcon(){
@@ -372,7 +372,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			count = 0;
 		else count = eleToDoNewRow.size();
 		clickCreateToDoTask();
-		waitForVisibleElement(eleToDoCloseIcon,"");
+		waitForVisibleElement(eleToDoCloseIcon,"eleToDoCloseIcon");
 		eleToDoCloseIcon.click();
 		getLogger().info("Verify new To Do Task is not created.");
 		try {
@@ -434,8 +434,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	public void navigateToEngagementPage() throws Exception{
 		getLogger().info("Click view button open Engagement Page");
-		waitForClickableOfElement(eleWidgetContent.get(0),"");
-		clickAndHold(eleWidgetContent.get(0),"");
+		waitForClickableOfElement(eleWidgetContent.get(0),"eleWidgetContent");
+		clickAndHold(eleWidgetContent.get(0),"eleWidgetContent");
 	}
 
 	public void navigateToToDoList() throws Exception{
@@ -446,7 +446,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public boolean checkSearchData() throws InterruptedException {
 		getLogger().info("Run checkSearchData()");
 		boolean isCheckData = false;
-		waitForVisibleElement(txtIdTodoSearch,"");
+		waitForVisibleElement(txtIdTodoSearch,"txtIdTodoSearch");
 		Thread.sleep(smallTimeOut);
 		txtIdTodoSearch.clear();
 		Thread.sleep(smallTimeOut);

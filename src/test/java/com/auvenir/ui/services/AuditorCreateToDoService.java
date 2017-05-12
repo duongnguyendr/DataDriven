@@ -85,7 +85,7 @@ public class AuditorCreateToDoService extends AbstractService {
         getLogger().info("Navigate to CreateToDo Tab");
         try {
             //engagementPage.navigateToEngagementTask("engagement");
-            detailsEngagementPage.navigateToTaskList();
+            //detailsEngagementPage.navigateToTaskList();
             todoListPage.clickCreateToDoBtn();
             createToDoPage.verifyAddNewToDoTask("task");
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
@@ -439,10 +439,10 @@ public class AuditorCreateToDoService extends AbstractService {
             } else {
                 NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED, null);
 
-                AbstractRefactorService.sStatusCnt++;
+                AbstractService.sStatusCnt++;
             }
         } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED,
 
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
