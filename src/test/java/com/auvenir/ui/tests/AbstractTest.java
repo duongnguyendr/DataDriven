@@ -2,6 +2,7 @@ package com.auvenir.ui.tests;
 
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
 import com.auvenir.utilities.listeners.TestngListener;
@@ -65,7 +66,7 @@ public class AbstractTest
     	System.out.println("setUp");
         testName = method.getName();
         logCurrentStepStart();
-        AbstractRefactorService.sStatusCnt=0;
+        AbstractService.sStatusCnt=0;
         try
         {
             if(GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")){
