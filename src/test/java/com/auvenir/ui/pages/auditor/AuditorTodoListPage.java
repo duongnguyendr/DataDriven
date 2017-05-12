@@ -25,6 +25,8 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	@FindBy(id="todo-search")
 	private WebElement eleToDoSearchInput;
+	@FindBy(xpath = "//button[contains(text(),'Create To-Do')]")
+	private WebElement createTodoTextEle;
 	
 	@FindBy(xpath="//table[@id='todo-table']//..//..//th//input[@type='checkbox']")
 	private WebElement eleCheckBox;
@@ -225,7 +227,9 @@ public class AuditorTodoListPage  extends AbstractPage{
 
 
 	public void verifyTodoListPage() {
-		waitForClickableOfElement(eleCreateToDoBtn,"Create Todo button");
+		//waitForClickableOfElement(eleCreateToDoBtn,"Create Todo button");
 		//validateElementText(eleCreateToDoBtn,"Create To-Do");
+		waitForVisibleElement(createTodoTextEle,"Create Todo text");
+
 	}
 }

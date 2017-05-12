@@ -25,10 +25,14 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
 
     @FindBy(id = "engagementDashboardLink")
     private WebElement dashBoardLinkEle;
+    @FindBy(xpath = "//div[contains(text(),'Dashboard')]")
+    private WebElement dashboardTextEle;
 
     public void verifyDetailsEngagementPage(String engagement01) {
         //we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
-        waitForClickableOfElement(dashBoardLinkEle,"DashBoard Link");
+        //waitForClickableOfElement(dashBoardLinkEle,"DashBoard Link");
+        waitForVisibleElement(dashboardTextEle,"dashboard text");
+
     }
 
     public void navigateToTaskList() throws Exception { 
