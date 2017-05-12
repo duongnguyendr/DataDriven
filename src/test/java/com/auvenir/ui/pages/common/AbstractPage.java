@@ -994,6 +994,78 @@ public class AbstractPage {
         }
     }
 
+    /**
+     *
+     * @param element The element that we want to check.
+     * @param elementName Name of element we are verifying.
+     * @return
+     */
+    public boolean HoverAndWaitForClickableOfElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForClickableOfElement: "+elementName);
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.build().perform();
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            NXGReports.addStep("Element: "+ elementName+" is  clickable.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable on Element: "+element.getText());
+            NXGReports.addStep("Element: "+ elementName+" is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param element The element that we want to check.
+     * @param verifyText The expected text should be displayed.
+     * @param elementName Name of element we are verifying.
+     * @return
+     */
+    public boolean HoverAndWaitForPresentOfElement(WebElement element, String verifyText, String elementName){
+        getLogger().info("Try to waitForClickableOfElement: "+elementName);
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.build().perform();
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.textToBePresentInElement(element,verifyText));
+            NXGReports.addStep("Element: "+ elementName+" is  presented and have the correct text.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable on Element: "+element.getText());
+            NXGReports.addStep("Element: "+ elementName+" is not presented and have the incorrect text.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+    /**
+     *
+     * @param element The element that we want to check.
+     * @param elementName Name of element we are verifying.
+     * @return
+     */
+    public boolean HoverAndWaitForVisibleOfElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForClickableOfElement: "+elementName);
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.build().perform();
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            NXGReports.addStep("Element: "+ elementName+" is  visible.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable on Element: "+element.getText());
+            NXGReports.addStep("Element: "+ elementName+" is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
     public boolean createNewCategory (String categoryMode, String categoryName) throws Exception
     {
         boolean isCheckCategory = false;
@@ -1040,39 +1112,6 @@ public class AbstractPage {
             isCheckCategory = true;
         }
         return isCheckCategory;
-        /*boolean isCheckCategory = false;
-        // Create new Category
-        waitForClickableOfElement(eleIdDdlCategory,"Category Dropdown");
-        eleIdDdlCategory.click();
-        waitForClickableOfElement(eleXpathCreateNewCategory,"Add New Category option");
-        eleXpathCreateNewCategory.click();
-        waitForClickableOfElement(eleIdCategoryName,"Category Name");
-        eleIdCategoryName.sendKeys(categoryName);
-        waitForClickableOfElement(eleIdCategoryColor, "Category Color");
-        Thread.sleep(smallTimeOut);
-        eleIdCategoryColor.click();
-        waitForClickableOfElement(eleXpathDetailCateColor,"List Category Color");
-        eleXpathDetailCateColor.click();
-        waitForClickableOfElement(eleIdBtnAddCategory,"Create Category button");
-        eleIdBtnAddCategory.click();
-        // Verify the category that has just created
-        waitForVisibleElement(tblXpathTodoTable,"To Do Table");
 
-        List<WebElement> td_collection = tblXpathTodoTable.findElements(By.xpath("td"));
-        for (WebElement tdElement : td_collection) {
-            String strSearchValue = "";
-            try {
-                strSearchValue = eleCategoryText.getText();
-            }
-            catch(Exception ex)
-            {}
-            getLogger().info("SearchValue = " + strSearchValue);
-            if(strSearchValue.equals(categoryName))
-            {
-                isCheckCategory = true;
-                break;
-            }
-        }
-        return isCheckCategory;*/
     }
 }
