@@ -80,21 +80,33 @@ public class AuditorCreateToDoService extends AbstractService {
 	public void verifyButtonFilter() {
     }
 
-        public void navigatetoCreateToDoTab () {
-            getLogger().info("Navigate to CreateToDo Tab");
-            try {
-                //engagementPage.navigateToEngagementTask("engagement");
-                detailsEngagementPage.navigateToTaskList();
-                todoListPage.clickCreateToDoBtn();
-                createToDoPage.verifyAddNewToDoTask("task");
-                NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
-            } catch (Exception e) {
-                NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
-                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
+    public void navigatetoCreateToDoTab () {
+        getLogger().info("Navigate to CreateToDo Tab");
+        try {
+            //engagementPage.navigateToEngagementTask("engagement");
+            detailsEngagementPage.navigateToTaskList();
+            todoListPage.clickCreateToDoBtn();
+            createToDoPage.verifyAddNewToDoTask("task");
+            NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
 
-	public void verifyInputDataToDoTextBox(String value){
+    public void verifySearchPlaceholder(){
+
+        try {
+            createToDoPage.verifySearchDefault();
+            NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    public void verifyInputDataToDoTextBox(String value){
 		getLogger().info("Input data into ToDo name Textbox.");
 		try {
 			createToDoPage.verifyInputValueToDoNameTextBox(value);

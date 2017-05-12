@@ -76,6 +76,9 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
+
+
+
             auditorTodoListService.verifyTodoListPage();
 
             auditorCreateToDoService.verifyAuditorCreateToDo();
@@ -127,10 +130,9 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            auditorTodoListService.verifyTodoListPage();
+            //auditorTodoListService.verifyTodoListPage();
 
-
-            auditorCreateToDoService.navigatetoCreateToDoTab();
+            //auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyDataSearch();
             auditorCreateToDoService.verifyCheckMaxLength();
@@ -430,10 +432,10 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            auditorTodoListService.verifyTodoListPage();
+            //auditorTodoListService.verifyTodoListPage();
 
 
-            auditorCreateToDoService.navigatetoCreateToDoTab();
+            //auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyCreateNewCategory();
 
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");

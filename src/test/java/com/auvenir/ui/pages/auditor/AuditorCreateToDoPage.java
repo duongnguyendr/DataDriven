@@ -264,7 +264,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 
 	public  boolean verifyCreateNewCategory() throws Exception {
-		return createNewCategory();
+		return createNewCategory(categoryIndiMode);
 	}
 
 	public void createToDoPage(String toDoName)throws Exception {
@@ -286,7 +286,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		//waitForClickableOfElement(eleDdlCategory);
 		//eleDdlCategory.click();
 		// Create new category
-		createNewCategory();
+		createNewCategory("");
 		Thread.sleep(smallTimeOut);
 		waitForClickableOfElement(eleDdlCategory,"");
 		eleDdlCategory.click();
