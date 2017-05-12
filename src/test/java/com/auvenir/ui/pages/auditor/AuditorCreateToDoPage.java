@@ -324,6 +324,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		// Create new category
 		createNewCategory("");
 		Thread.sleep(smallTimeOut);
+		hoverElement(eleDdlCategory,"eleDdlCategory");
 		waitForClickableOfElement(eleDdlCategory,"");
 		eleDdlCategory.click();
 		waitForClickableOfElement(eleXpathCategoryItem,"");

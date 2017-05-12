@@ -36,7 +36,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 public class AbstractPage {
     private    Logger logger = null;
     private  WebDriver driver = null;
-    private static final int waitTime = 1;
+    private static final int waitTime = 60;
     public static  final int smallerTimeOut = 500;
     public static  final int smallTimeOut = 1000;
     public static final  String categoryIndiMode = "indicategory";
@@ -133,6 +133,8 @@ public class AbstractPage {
     private WebElement eleCategoryText;
     @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/a")
     private WebElement eleIndiCategoryText;
+    @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
+    private WebElement categoryColors;
 
     public void verifyFooter()
     {
@@ -875,8 +877,10 @@ public class AbstractPage {
         String categoryName = "Category " + randomNumber();
         // Create new Category
         waitForClickableOfElement(eleIdDdlCategory, "eleIdDdlCategory");
+        Thread.sleep(smallerTimeOut);
         eleIdDdlCategory.click();
         waitForClickableOfElement(eleXpathCreateNewCategory,"eleXpathCreateNewCategory");
+        Thread.sleep(smallerTimeOut);
         eleXpathCreateNewCategory.click();
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
         eleIdCategoryName.sendKeys(categoryName);
@@ -884,22 +888,27 @@ public class AbstractPage {
         Thread.sleep(smallerTimeOut);
         hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
         waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
+        Thread.sleep(smallerTimeOut);
         eleIdCategoryColor.click();
         waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
+        Thread.sleep(smallerTimeOut);
         eleXpathDetailCateColor.click();
         waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
+        Thread.sleep(smallerTimeOut);
         eleIdBtnAddCategory.click();
         // Verify the category that has just created
         waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
         List<WebElement> td_collection = new ArrayList<>();
 
         if(categoryMode.equals(categoryIndiMode)) {
+            hoverElement(eleIdDdlCategory, "eleIdDdlCategory");
             waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
             // Wait eleIdDdlCategory but can not click to eleIdDdlCategory
             Thread.sleep(smallerTimeOut);
             eleIdDdlCategory.click();
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
             td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
+            //td_collection = tblXpathTodoTable.findElements((By) eleIndiCategoryText);
             for (WebElement tdElement : td_collection) {
                 String strSearchValue = "";
                 try {
@@ -918,6 +927,13 @@ public class AbstractPage {
             isCheckCategory = true;
         }
         return isCheckCategory;
+    }
+
+    public boolean countCategoryColor()
+    {
+        boolean isCountColor = false;
+        waitForClickableOfElement(categoryColors,"categoryColors");
+        return  isCountColor;
     }
 
     public int randomNumber()
