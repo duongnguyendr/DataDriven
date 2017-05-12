@@ -669,17 +669,18 @@ public class AbstractPage {
      *@Description: select a value on dropdown via visible text
      * @param element element defined on page class
      * @param selText Visible text that you want to select on dropdown
+     * @param elementName checkbox name
      */
-    public boolean selectByVisibleText(WebElement element, String selText){
-        getLogger().info("Try to selectByVisibleText on element: "+element.getText());
+    public boolean selectByVisibleText(WebElement element, String selText, String elementName){
+        getLogger().info("Try to selectByVisibleText on element: "+ elementName);
         try {
             Select dropDown = new Select(element);
             dropDown.selectByVisibleText(selText);
-            NXGReports.addStep("selectByVisibleText on checkbox: "+ element.getText(), LogAs.PASSED, null);
+            NXGReports.addStep("selectByVisibleText on checkbox: "+ elementName, LogAs.PASSED, null);
             return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to selectByVisibleText on element: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to selectByVisibleText on element: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -687,32 +688,34 @@ public class AbstractPage {
      *@Description: select a value on dropdown via visible text
      * @param element element defined on page class
      * @param selValue Value that you want to select on dropdown
+     * @param elementName checkbox name
      */
-    public void selectByValue(WebElement element, String selValue){
-        getLogger().info("Try to selectByValue on element: "+element.getText());
+    public void selectByValue(WebElement element, String selValue, String elementName){
+        getLogger().info("Try to selectByValue on element: "+ elementName);
         try {
             Select dropDown = new Select(element);
             dropDown.selectByValue(selValue);
-            NXGReports.addStep("selectByValue on checkbox: "+ element.getText(), LogAs.PASSED, null);
+            NXGReports.addStep("selectByValue on checkbox: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to selectByValue on element: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to selectByValue on element: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
     /**
      *@Description: select a value on dropdown via visible text
      * @param element element defined on page class
      * @param selIndex Value that you want to select on dropdown
+     * @param elementName checkbox name
      */
-    public void selectByIndex(WebElement element, int selIndex){
-        getLogger().info("Try to selectByIndex on element: "+element.getText());
+    public void selectByIndex(WebElement element, int selIndex, String elementName){
+        getLogger().info("Try to selectByIndex on element: "+elementName);
         try {
             Select dropDown = new Select(element);
             dropDown.selectByIndex(selIndex);
-            NXGReports.addStep("selectByIndex on checkbox: "+ element.getText(), LogAs.PASSED, null);
+            NXGReports.addStep("selectByIndex on checkbox: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to selectByIndex on element: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to selectByIndex on element: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -722,15 +725,15 @@ public class AbstractPage {
      * @param elementName Name of element: CheckBox that we want to Send TabKey
      */
     public void sendTabkey(WebElement element, String elementName) {
-        getLogger().info("Try to sendTabkey: "+element.getText());
+        getLogger().info("Try to sendTabkey: "+elementName);
         try {
             element.sendKeys(Keys.TAB);
             element.sendKeys(Keys.ENTER);
-            NXGReports.addStep("sendTabkey on element: "+ element.getText(), LogAs.PASSED, null);
+            NXGReports.addStep("sendTabkey on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendTabkey on: " +element.getText());
-            NXGReports.addStep("Unable to sendTabkey on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to sendTabkey on: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -927,5 +930,61 @@ public class AbstractPage {
     public void verifyHoverElement(WebElement element, String cssValueName, String expectedCssValue) {
         clickAndHold(element, "Element");
         validateCSSValueElement(element, cssValueName, expectedCssValue);
+    }
+
+    /**
+     *
+     * @param elements List<WebElement></WebElement>
+     * @return true: All checkbox on Element list be selected
+     * @throws Exception
+     */
+    public boolean verifyCheckAllCheckboxList(List<WebElement> elements, String elementListName) throws Exception {
+        try {
+            for (int i = 0; i < elements.size(); i++){
+                if (!elements.get(i).isSelected()){
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Check box icon at position " + i + " is NOT checked");
+                    throw new Exception();
+                }else{
+                    System.out.println("Checkbox is selected:? " + elements.get(i).isSelected());
+                }
+            }
+            getLogger().info("Check box icons are selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is selected", LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Check box icons are not selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is NOT selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param elements List<WebElement></WebElement>
+     * @return true: All checkbox on Element list be not selected
+     * @throws Exception
+     */
+    public boolean verifyUnCheckAllCheckboxList(List<WebElement> elements,String elementListName) throws Exception {
+        try {
+            for (int i = 0; i < elements.size(); i++){
+                if (elements.get(i).isSelected()){
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Check box icon at position " + i + " is checked");
+                    throw new Exception();
+                }else{
+                    System.out.println("Checkbox is not selected:? " + elements.get(i).isSelected());
+                }
+            }
+            getLogger().info("Check box icons are not selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is NOT selected", LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Check box icons are  selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
 }
