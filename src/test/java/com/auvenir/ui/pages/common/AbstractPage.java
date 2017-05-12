@@ -399,61 +399,69 @@ public class AbstractPage {
     /**
      @Description In order to wait element to be present by locator.
      */
-    public void waitForPresentOfLocator(By by){
+    public boolean waitForPresentOfLocator(By by){
         getLogger().info("Try to waitForPresentOfLocator");
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.presenceOfElementLocated(by));
             NXGReports.addStep("Element is presented.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not present.");
             NXGReports.addStep("Element is not present.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
      @Description In order to wait element to be visible by locator.
      */
-    public void waitForVisibleOfLocator(By by){
+    public boolean waitForVisibleOfLocator(By by){
         getLogger().info("Try to waitForVisibleOfLocator");
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             NXGReports.addStep("Element is visible.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not visible.");
             NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
      @Description In order to wait element to be invisible by locator.
      */
-    public void waitForInvisibleOfLocator(By by){
+    public boolean waitForInvisibleOfLocator(By by){
         getLogger().info("Try to waitForInvisibleOfLocator");
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
             NXGReports.addStep("eElement is invisible.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not invisible.");
             NXGReports.addStep("eElement: is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
      @Description In order to wait element to be clickable by locator.
      */
-    public void waitForClickableOfLocator(By by){
+    public boolean waitForClickableOfLocator(By by){
         getLogger().info("Try to waitForClickableOfLocator");
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.elementToBeClickable(by));
             NXGReports.addStep("eElement is clickable.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable.");
             NXGReports.addStep("eElement: is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
@@ -461,16 +469,18 @@ public class AbstractPage {
      @param element element defined on page class
      @param elementName Name of element that we want to verify
      */
-    public void waitForClickableOfElement(WebElement element, String elementName){
+    public boolean waitForClickableOfElement(WebElement element, String elementName){
         getLogger().info("Try to waitForClickableOfElement: "+elementName);
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.elementToBeClickable(element));
             NXGReports.addStep("Element: "+ elementName+" is  clickable.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable on Element: "+element.getText());
             NXGReports.addStep("Element: "+ elementName+" is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
@@ -478,16 +488,18 @@ public class AbstractPage {
      @param element element defined on page class
      @param elementName Name of element that we want to verify
      */
-    public void waitForInvisibleElement(WebElement element, String elementName){
+    public boolean waitForInvisibleElement(WebElement element, String elementName){
         getLogger().info("Try to waitForInvisibleElement: "+elementName);
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.invisibilityOf(element));
             NXGReports.addStep("Element: "+elementName+ " is invisible.", LogAs.PASSED, null);
+            return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not invisible on Element: "+elementName);
             NXGReports.addStep("Element: "+elementName+" is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /**
@@ -495,7 +507,7 @@ public class AbstractPage {
      @param element element defined on page class
      @param elementName Name of element that we want to verify
      */
-    public void validateDisabledElement(WebElement element, String elementName)
+    public boolean validateDisabledElement(WebElement element, String elementName)
     {
         getLogger().info("verify disable of: " + elementName);
         try {
@@ -503,6 +515,7 @@ public class AbstractPage {
             {
                 getLogger().info(element.getTagName() + " is disabled");
                 NXGReports.addStep("Element: "+elementName+" is disable.", LogAs.PASSED, null);
+                return true;
             }else {
                 throw new Exception();
             }
@@ -510,6 +523,7 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             getLogger().info(elementName + " is  not disabled");
             NXGReports.addStep("Element: "+elementName+" is not disabled.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /*
@@ -705,7 +719,7 @@ public class AbstractPage {
      * @param attributeName Attribute that we want to validate
      * @param expectedAttributeValue Expected value that we want to validate
      */
-    public void validateAttributeElement(WebElement element, String attributeName, String expectedAttributeValue){
+    public boolean validateAttributeElement(WebElement element, String attributeName, String expectedAttributeValue){
         getLogger().info("verify Attribute " + attributeName + " of: " + element.toString());
         String actualAttributeValue = null;
         try {
@@ -714,6 +728,7 @@ public class AbstractPage {
             if (actualAttributeValue.equals(expectedAttributeValue)) {
                 getLogger().info(element.getTagName() + " has attribute " + actualAttributeValue);
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
+                return true;
             } else {
                 AbstractService.sStatusCnt++;
                 getLogger().info(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue);
@@ -723,6 +738,7 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             getLogger().info(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue);
             NXGReports.addStep(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
@@ -732,7 +748,7 @@ public class AbstractPage {
      * @param cSSValueName AttributeCSSS that we want to validate
      * @param expectedCSSValue Expected value that we want to validate
      */
-    public void validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) {
+    public boolean validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) {
         getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.toString());
         String actualCSSValue = null;
         try {
@@ -741,6 +757,7 @@ public class AbstractPage {
             if (actualCSSValue.equals(expectedCSSValue)) {
                 getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
                 NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.PASSED, null);
+                return true;
             } else {
                 AbstractService.sStatusCnt++;
                 getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
@@ -750,26 +767,27 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
             NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
-    public void validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException {
+    public boolean validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException {
         getLogger().info("Verify element is not displayed of: " + element.getText());
-
         try {
-            if (!element.isDisplayed())
+            if (!element.isDisplayed()){
                 NXGReports.addStep(element.getTagName() + " is displayed", LogAs.PASSED, null);
-            else
+                return true;
+            }else{
                 NXGReports.addStep(element.getTagName() + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                throw new Exception();
+            }
         } catch (Exception e) {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
 
     }
-
-
-
 
     // EditCategory method
     public void EditCategories() throws Exception {
@@ -782,19 +800,11 @@ public class AbstractPage {
         eleEditCategory.click();
     }
 
-
     public String getTextByJavaScripts(WebElement eleGetText)
     {
         JavascriptExecutor jse = (JavascriptExecutor)getDriver();
         return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
     }
-
-
-
-
-
-
-
 
     public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon) throws Exception {
         try{
