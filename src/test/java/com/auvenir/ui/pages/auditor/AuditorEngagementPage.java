@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -124,7 +125,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
 	@FindBy(id = "newAuditBtn")
 	private WebElement newEngagementButtonEle;
-	@FindBy(xpath="//div[@class='e-widget-content']")
+	@FindBy(xpath="//div[@id='cpa-main']/div")
 	private List<WebElement> engagementListEle;
 	
 	@FindBy(xpath="//button[contains(text(),'Add New')]")
@@ -163,8 +164,8 @@ public class AuditorEngagementPage extends AbstractPage {
 		newEngagementButtonEle.click();
 	}
 	public void viewEngagementDetailsPage(String engagementName) throws Exception{
-		waitForClickableOfElement(engagementListEle.get(0),engagementName);
-		clickAndHold(engagementListEle.get(0),engagementName);
+		//waitForClickableOfElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+		clickAndHold(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 	}
 
 }
