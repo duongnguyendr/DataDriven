@@ -36,7 +36,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 public class AbstractPage {
     private    Logger logger = null;
     private  WebDriver driver = null;
-    private static final int waitTime = 60;
+    private static final int waitTime = 1;
     public static  final int smallerTimeOut = 500;
     public static  final int smallTimeOut = 1000;
     public static final  String categoryIndiMode = "indicategory";
@@ -877,7 +877,6 @@ public class AbstractPage {
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
         eleIdCategoryName.sendKeys(categoryName);
         waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
-        Thread.sleep(smallTimeOut);
         eleIdCategoryColor.click();
         waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
         eleXpathDetailCateColor.click();
@@ -889,12 +888,15 @@ public class AbstractPage {
 
         if(categoryMode.equals(categoryIndiMode)) {
             waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
+            // Wait eleIdDdlCategory but can not click to eleIdDdlCategory
+            Thread.sleep(smallerTimeOut);
             eleIdDdlCategory.click();
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
             td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
             for (WebElement tdElement : td_collection) {
                 String strSearchValue = "";
                 try {
+                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
                     strSearchValue = eleIndiCategoryText.getText();
                 } catch (Exception ex) {
                 }
