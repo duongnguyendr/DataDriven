@@ -24,7 +24,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -245,10 +244,10 @@ public class AbstractPage {
      */
     public boolean validateDisPlayedElement(WebElement element, String elementName) throws InvalidElementStateException
     {
-        getLogger().info("verify Displayed of: " + element.getText());
+        getLogger().info("verify Displayed of: " + elementName);
         try{
             element.isDisplayed();
-            getLogger().info("Element : " + element.getText() +"is presented");
+            getLogger().info("Element : " + elementName +"is presented");
             NXGReports.addStep("Element : "+ elementName + " is presented.", LogAs.PASSED, null);
             return true;
         }catch (Exception e){
@@ -268,7 +267,7 @@ public class AbstractPage {
 
     public boolean validateEnabledElement(WebElement element, String elementName) throws InvalidElementStateException
     {
-        getLogger().info("verify enabled of: " + element.getText());
+        getLogger().info("verify enabled of: " + elementName);
         try{
             element.isEnabled();
             getLogger().info("Element : " + element.getText() +"is enable");
@@ -290,7 +289,7 @@ public class AbstractPage {
      */
     public boolean validateSelectedElement(WebElement element,String elementName) throws InvalidElementStateException
     {
-        getLogger().info("verify selected of: " + element.getText());
+        getLogger().info("verify selected of: " + elementName);
         try{
             element.isSelected();
             getLogger().info("Element : " + element.getText() +"is selected.");
@@ -312,7 +311,7 @@ public class AbstractPage {
      */
     public boolean validateNotSelectedElement(WebElement element, String elementName) throws InvalidElementStateException
     {
-        getLogger().info("verify not selected of: " + element.getText());
+        getLogger().info("verify not selected of: " + elementName);
         try{
             if(!element.isSelected()){
                 getLogger().info("Element : " + element.getText() +"is not selected.");
@@ -342,7 +341,7 @@ public class AbstractPage {
 
         catch (Exception e)
         {
-            AbstractRefactorService.sStatusCnt++;
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
@@ -593,7 +592,7 @@ public class AbstractPage {
             NXGReports.addStep("Clicked and Hold on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to ClickAndHold on: " +element.getText());
+            getLogger().info("Unable to ClickAndHold on: " +elementName);
             NXGReports.addStep("Unable to ClickAndHold on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -603,16 +602,16 @@ public class AbstractPage {
      @param elementName Name of element that we want to hover to
      */
     public void hoverElement(WebElement element, String elementName){
-        getLogger().info("Try to hoverElement: "+element.getText());
+        getLogger().info("Try to hoverElement: "+elementName);
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(element);
             actions.build().perform();
-            NXGReports.addStep("Hover on element: "+ element.getText(), LogAs.PASSED, null);
+            NXGReports.addStep("Hover on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to hoverElement on: " +element.getText());
-            NXGReports.addStep("Unable to hoverElement on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Unable to hoverElement on: " +elementName);
+            NXGReports.addStep("Unable to hoverElement on: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -623,15 +622,15 @@ public class AbstractPage {
      * @param elementName Name of element that we want to input value.
      */
     public void sendKeyTextBox(WebElement element, String text,String elementName){
-        getLogger().info("Try to sendKey on : "+element.getText());
+        getLogger().info("Try to sendKey on : "+elementName);
         try {
             element.clear();
             element.sendKeys(text);
-            NXGReports.addStep("Send text: "+text+ "on element: "+ element.getText(), LogAs.PASSED, null);
+            NXGReports.addStep("Send text: "+text+ "on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to sendKey on: " +element.getText());
-            NXGReports.addStep("Unable to sendKey on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Unable to sendKey on: " +elementName);
+            NXGReports.addStep("Unable to sendKey on: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
     /**
@@ -733,7 +732,7 @@ public class AbstractPage {
             NXGReports.addStep("sendTabkey on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to sendTabkey on: " +element.getText());
+            getLogger().info("Unable to sendTabkey on: " +elementName);
             NXGReports.addStep("Unable to sendTabkey on: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -796,19 +795,19 @@ public class AbstractPage {
         }
     }
 
-    public boolean validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException {
-        getLogger().info("Verify element is not displayed of: " + element.getText());
+    public boolean validateIsNotDisPlayedElement(WebElement element, String elementName) {
+        getLogger().info("Verify element is not displayed of: " + elementName);
         try {
             if (!element.isDisplayed()){
-                NXGReports.addStep(element.getTagName() + " is displayed", LogAs.PASSED, null);
+                NXGReports.addStep(elementName + " is displayed", LogAs.PASSED, null);
                 return true;
             }else{
-                NXGReports.addStep(element.getTagName() + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep(elementName + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 throw new Exception();
             }
         } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementName + " is not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
 
