@@ -164,6 +164,8 @@ public class AuditorEngagementPage extends AbstractPage {
 		newEngagementButtonEle.click();
 	}
 	public void viewEngagementDetailsPage(String engagementName) throws Exception{
+		//current we cannot view engagement by name we test with first engagment
+		hoverElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 		waitForClickableOfElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 		clickAndHold(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 	}

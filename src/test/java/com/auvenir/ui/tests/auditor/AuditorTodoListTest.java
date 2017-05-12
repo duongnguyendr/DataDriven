@@ -26,7 +26,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
 
     @Test(priority=1,enabled=true, description="Verify Auditor empty Todo List page.")
-    public void verifyAuditorTodoListPage() throws Exception
+    public void verifyAuditorEmptyTodoListPage() throws Exception
     {
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(),getDriver());
