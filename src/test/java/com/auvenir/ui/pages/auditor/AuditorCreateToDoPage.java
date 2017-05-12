@@ -16,7 +16,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 public class AuditorCreateToDoPage  extends AbstractPage{
 
@@ -28,8 +28,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindAll(@FindBy(xpath="//div[@class='e-widget-content']//div[@class='e-widget-options']"))
 	private List<WebElement> planningEngagementPage;
 
-	private String todoNamePage = "";
-	private String todoContentTextSearch = "name";
+    private String todoNamePage = "";
+    private String todoContentTextSearch = "name";
+    public static  final int smallTimeOut = 2000;
 
 	@FindBy(id="auv-todo-createToDo")
 	private WebElement eleCreateToDoBtn;
@@ -139,9 +140,32 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		return eleToDoNewRowNameText;
 	}
 
-	@FindBy(xpath = "//*[@id='category-dropdown']")
-	private WebElement eleCategoryComboBox;
+    @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
+    private List<WebElement> eleCategoryComboBoxText;
 
+    //Category ComboBox
+    @FindBy(id ="category-dropdown")
+    private List<WebElement> eleCategoryComboBox;
+
+    //Category dropdown menu
+    @FindBy(id = "category-dropdown-menu")
+    private List<WebElement> eleCategoryComboBoxMenu;
+
+    @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[1]")
+    private WebElement eleXpathCreateNewCategory;
+
+    @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[2]")
+    WebElement eleEditCategory;
+
+    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
+    WebElement eleCategoryTitle;
+
+    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[starts-with(@id,'modal-close-categoryModel')]")
+    WebElement eleEditCategoryCloseBtn;
+
+    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
+    WebElement eleEditCategoryCancelBtn;
+	
 	public void verifyButtonCreateToDo()throws Exception {
 		validateCssValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
 		validateCssValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
@@ -267,14 +291,26 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		return createNewCategory(categoryIndiMode);
 	}
 
-	public void createToDoPage(String toDoName)throws Exception {
-		waitForVisibleElement(eleCreateToDoBtn,"create Todo button");
-		eleCreateToDoBtn.click();
-		eleIdToDoName.sendKeys(toDoName);
-		waitForVisibleElement(eleToDoSaveIcon,"Save todo button.");
-		eleToDoSaveIcon.click();
-		verifyAddNewToDoTask(toDoName);
-	}
+    public void createToDoPage(String toDoName)throws Exception {
+        waitForClickableOfElement(eleCreateToDoBtn,"Create To Do Button");
+        eleCreateToDoBtn.click();
+        Thread.sleep(smallTimeOut);
+        eleIdToDoName.sendKeys(toDoName);
+        // Create new category
+        createNewCategory("");
+        Thread.sleep(smallTimeOut);
+        waitForClickableOfElement(eleDdlCategory,"Category Dropdown");
+        eleDdlCategory.click();
+        waitForClickableOfElement(eleXpathCategoryItem,"Category Option Item");
+        eleXpathCategoryItem.click();
+        waitForClickableOfElement(eleIdDueDate,"Due Date field");
+        eleIdDueDate.click();
+        waitForClickableOfElement(eleXpathChooseDate,"Date value");
+        eleXpathChooseDate.click();
+        waitForVisibleElement(eleToDoSaveIcon,"Save Icon");
+        eleToDoSaveIcon.click();
+        verifyAddNewToDoTask(toDoName);
+    }
 
 	public void createToDoPage()throws Exception {
 		getLogger().info("Run createToDoPage()");
@@ -488,90 +524,192 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	}
 
-	public void verifyCheckAllCheckbox() throws Exception {
-		try {
-			if (!eleCheckBox.isSelected()) eleCheckBox.click();
-			for (int i = 0; i < eleToDoCheckboxRow.size(); i++) {
-				System.out.println("Checkbox is selected:? " + eleToDoCheckboxRow.get(i).isSelected());
-				if (!eleToDoCheckboxRow.get(i).isSelected()) {
-					AbstractService.sStatusCnt++;
-					getLogger().info("Check box icon at position " + i + " is NOT checked");
-					throw new Exception();
-				}
-			}
-			getLogger().info("Check box icons are selected all.");
-		} catch (Exception e) {
-			AbstractService.sStatusCnt++;
-			getLogger().info("Check box icons are not selected all.");
-		}
-	}
+    public void verifyCheckAllCheckbox() throws Exception {
+        try {
+            if (!eleCheckBox.isSelected()) eleCheckBox.click();
+            for (int i = 0; i < eleToDoCheckboxRow.size(); i++) {
+                System.out.println("Checkbox is selected:? " + eleToDoCheckboxRow.get(i).isSelected());
+                if (!eleToDoCheckboxRow.get(i).isSelected()) {
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Check box icon at position " + i + " is NOT checked");
+                    throw new Exception();
+                }
+            }
+            getLogger().info("Check box icons are selected all.");
+            NXGReports.addStep("Check box icons are selected all.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Check box icons are not selected all.");
+            NXGReports.addStep("Failed: Check box icons are not selected all.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
-	public void verifyUnCheckAllCheckbox()throws Exception{
-		try{
-			if (eleCheckBox.isSelected()) eleCheckBox.click();
-			for (int i = 0 ; i < eleToDoCheckboxRow.size();i++){
-				System.out.println("Checkbox is selected:? " + eleToDoCheckboxRow.get(i).isSelected());
-				if(eleToDoCheckboxRow.get(i).isSelected()){
-					AbstractService.sStatusCnt++;
-					getLogger().info("Check box icon at position " + i + " is checked");
-					throw new Exception();
-				}
-			}
-			getLogger().info("Check box icons are unselected all.");
-		}catch (Exception e) {
-			AbstractService.sStatusCnt++;
-			getLogger().info("Check box icons are not unselected all.");
+    public void verifyUnCheckAllCheckbox()throws Exception{
+        try{
+            if (eleCheckBox.isSelected()) eleCheckBox.click();
+            for (int i = 0 ; i < eleToDoCheckboxRow.size();i++){
+                System.out.println("Checkbox is selected:? " + eleToDoCheckboxRow.get(i).isSelected());
+                if(eleToDoCheckboxRow.get(i).isSelected()){
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Check box icon at position " + i + " is checked");
+                    throw new Exception();
+                }
+            }
+            getLogger().info("Check box icons are unselected all.");
+            NXGReports.addStep("Check box icons are unselected all.", LogAs.PASSED, null);
+        }catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Check box icons are not unselected all.");
+            NXGReports.addStep("Failed: Check box icons are not unselected all.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
-		}
-	}
+    public void verifyCheckMultipleCheckBox() throws Exception{
+        try{
+            if(eleCheckBox.isSelected()) eleCheckBox.click();
+            if(eleToDoCheckboxRow.size()>3) {
+                eleToDoCheckboxRow.get(0).click();
+                if (!eleToDoCheckboxRow.get(0).isSelected()) {
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Cannot select single checkbox on row");
+                    throw new Exception();
+                }
+                eleToDoCheckboxRow.get(eleToDoCheckboxRow.size()-1).click();
+                if (!eleToDoCheckboxRow.get(eleToDoCheckboxRow.size()-1).isSelected()) {
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Cannot select single checkbox on row");
+                    throw new Exception();
+                }
+            }
+            getLogger().info("Select single and multiple checkbox successfully");
+            NXGReports.addStep("Select single and multiple checkbox successfully.", LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Check box icons are NOT selected multiple.");
+            NXGReports.addStep("Failed: Check box icons are NOT selected multiple.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
-	public void verifyCheckMultipleCheckBox() throws Exception{
-		try{
-			if(eleCheckBox.isSelected()) eleCheckBox.click();
-			if(eleToDoCheckboxRow.size()>3) {
-				eleToDoCheckboxRow.get(0).click();
-				if (!eleToDoCheckboxRow.get(0).isSelected()) {
-					AbstractService.sStatusCnt++;
-					getLogger().info("Cannot select single checkbox on row");
-					throw new Exception();
-				}
-				eleToDoCheckboxRow.get(eleToDoCheckboxRow.size()).click();
-				if (!eleToDoCheckboxRow.get(eleToDoCheckboxRow.size()).isSelected()) {
-					AbstractService.sStatusCnt++;
-					getLogger().info("Cannot select single checkbox on row");
-					throw new Exception();
-				}
-			}
-		}catch (Exception e){
-			AbstractService.sStatusCnt++;
-			getLogger().info("Check box icons are NOT selected multiple.");
-		}
-	}
+    public void verifyDefaultValueofCategoryComboBox(String value) {
+            boolean result = false;
+            getLogger().info("Verify Default Value Of Category ComboBox");
+            //System.out.println("First Option in Dropdown box: " + selectEleCategoryComboBox.getFirstSelectedOption());
+            System.out.println("Default Value in Dropdown box: " + eleCategoryComboBoxText.get(0).getText());
+            result  = validateElementText(eleCategoryComboBoxText.get(0), value);
+            if(result){
+                NXGReports.addStep("Verify Default Value Of Category ComboBox successfully.", LogAs.PASSED, null);
+            }else{
+                NXGReports.addStep("Failed: Verify Default Value Of Category ComboBox", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+    }
 
-	public void verifyDefaultValueofCategoryComboBox(String value) {
-		getLogger().info("Verify Default Value Of Category ComboBox");
-		//System.out.println("First Option in Dropdown box: " + selectEleCategoryComboBox.getFirstSelectedOption());
-		System.out.println("Default Value in Dropdown box: " + eleCategoryComboBox.getAttribute("value"));
-		verifyDefaultValueOfElement(eleCategoryComboBox, "value", value);
-	}
-	public void verifyHoverCategoryComboBox(){
-		getLogger().info("Verify Default Value Of Category ComboBox.");
-		verifyHoverElement(eleCategoryComboBox,"border","1px solid rgb(89, 155, 161)");
-	}
-	public void createToDoTaskWithoutCategory(String toDoName)throws Exception {
-		waitForClickableOfElement(eleCreateToDoBtn,"Create Todo Button");
-		eleCreateToDoBtn.click();
-		Thread.sleep(smallTimeOut);
-		eleIdToDoName.sendKeys(toDoName);
-		// Create new category
-		Thread.sleep(smallTimeOut);
-		waitForClickableOfElement(eleIdDueDate,"Due date Element");
-		eleIdDueDate.click();
-		waitForClickableOfElement(eleXpathChooseDate,"Due date select");
-		eleXpathChooseDate.click();
-		waitForVisibleElement(eleToDoSaveIcon,"Save Button");
-		eleToDoSaveIcon.click();
-		verifyAddNewToDoTask(toDoName);
-	}
+    public void verifyHoverCategoryComboBox(){
+        getLogger().info("Verify Default Value Of Category ComboBox.");
+        verifyHoverElement(eleCategoryComboBox.get(0),"border","1px solid rgb(92, 155, 160)");
+    }
+
+    public void createToDoTaskWithCategoryName(String toDoName, String categoryName)throws Exception {
+        waitForClickableOfElement(eleCreateToDoBtn,"Create To Do Button");
+        eleCreateToDoBtn.click();
+        Thread.sleep(smallTimeOut);
+        eleIdToDoName.sendKeys(toDoName);
+        // Create new category
+        createNewCategory("",categoryName);
+        Thread.sleep(smallTimeOut);
+        waitForClickableOfElement(eleDdlCategory, "Category Dropdown");
+        eleDdlCategory.click();
+        waitForClickableOfElement(eleXpathCategoryItem,"Category Option Item");
+        eleXpathCategoryItem.click();
+        waitForClickableOfElement(eleIdDueDate,"Due Date field");
+        eleIdDueDate.click();
+        waitForClickableOfElement(eleXpathChooseDate,"Date value");
+        eleXpathChooseDate.click();
+        waitForVisibleElement(eleToDoSaveIcon,"Save Icon");
+        eleToDoSaveIcon.click();
+        verifyAddNewToDoTask(toDoName);
+    }
+
+    public void verifyListValueofCategoryComboxBox(String categoryName) {
+        try{
+            boolean result;
+            waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
+            eleIdToDoName.click();
+            waitForClickableOfElement(eleCategoryComboBox.get(0),"Category Combo box");
+            eleCategoryComboBox.get(0).click();
+            List<WebElement> menuCateComboBox = eleCategoryComboBoxMenu.get(0).findElements(By.tagName("div"));
+            result = validateElementText(menuCateComboBox.get(0), "Add New Category");
+            Assert.assertTrue(result, "Add New Category option is not displayed");
+            validateElementText(menuCateComboBox.get(1), "Edit Categories");
+            Assert.assertTrue(result, "Edit Categories option is not displayed");
+            validateElementText(menuCateComboBox.get(2).findElement(By.tagName("button")), categoryName);
+            Assert.assertTrue(result, String.format("%s option is not displayed",categoryName));
+            NXGReports.addStep("Verify List Value of Category ComboxBox", LogAs.PASSED,null);
+        }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Verify List Value of Category ComboxBox", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyNewCategoryPopUpDisplayed() throws  Exception{
+        try{
+            boolean result;
+            waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
+            eleIdToDoName.click();
+            waitForClickableOfElement(eleCategoryComboBox.get(0),"Category Combo box");
+            eleCategoryComboBox.get(0).click();
+            eleXpathCreateNewCategory.click();
+            waitForVisibleElement(eleCategoryTitle,"Category Title");
+            result = validateElementText(eleCategoryTitle,"Add New Category");
+            Assert.assertTrue(result, "Add New Category popup is not displayed");
+            hoverElement(eleEditCategoryCancelBtn,"Cancel Catergory button");
+            waitForClickableOfElement(eleEditCategoryCancelBtn,"Cancel Create Category Button");
+            eleEditCategoryCancelBtn.click();
+            //Will be change to wait Ajax change function
+            Thread.sleep(smallTimeOut);
+            NXGReports.addStep("Verify New Category popup is displayed", LogAs.PASSED,null);
+        }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Verify New Category popup is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyEditCategoriesPopUpDisplayed() throws Exception{
+        try{
+            boolean result;
+            waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
+            eleIdToDoName.click();
+            waitForClickableOfElement(eleCategoryComboBox.get(0),"Category Combo box");
+            eleCategoryComboBox.get(0).click();
+            eleEditCategory.click();
+            waitForVisibleElement(eleCategoryTitle,"Category Title");
+            result = validateElementText(eleCategoryTitle,"Edit Categories");
+            Assert.assertTrue(result, "Edit Categories popup is not displayed");
+            hoverElement(eleEditCategoryCancelBtn,"Cancel Catergory button");
+            waitForClickableOfElement(eleEditCategoryCancelBtn,"Cancel Edit Category Button");
+            eleEditCategoryCancelBtn.click();
+            //Will be change to wait Ajax change function
+            Thread.sleep(smallTimeOut);
+            NXGReports.addStep("Verify Edit Categories popup is displayed", LogAs.PASSED,null);
+        }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Verify Edit Categories popup is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyCreateToDoTaskWithoutCategory(String toDoName)throws Exception {
+        waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
+        eleIdToDoName.sendKeys(toDoName);
+        // Choose Due Date
+        waitForClickableOfElement(eleIdDueDate, "Due Date field");
+        eleIdDueDate.click();
+        waitForClickableOfElement(eleXpathChooseDate,"Date value");
+        eleXpathChooseDate.click();
+        waitForVisibleElement(eleToDoSaveIcon,"Save Icon");
+        eleToDoSaveIcon.click();
+        verifyAddNewToDoTask(toDoName);
+    }
 }
 

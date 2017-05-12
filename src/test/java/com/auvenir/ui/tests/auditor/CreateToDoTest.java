@@ -1,9 +1,6 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AuditorCreateToDoService;
-import com.auvenir.ui.services.AuditorEngagementService;
+import com.auvenir.ui.services.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -22,8 +19,25 @@ import java.util.ArrayList;
 public class CreateToDoTest extends AbstractTest {
 	AuditorCreateToDoService auditorCreateToDoService;
 	AuditorEngagementService auditorEngagementService;
+    private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    private AuditorTodoListService auditorTodoListService;
 
-	@Test(  priority = 3,enabled = true, description = "Verify to create To-Do page and search data.")
+    @Test(  priority = 1,enabled = false, description = "Verify GUI auditor create to do page.")
+    public void verifyUIAuditorCreateToDo() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorCreateToDoService.verifyAuditorCreateToDo();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+	@Test(  priority = 3,enabled = false, description = "Verify to create To-Do page and search data.")
 	public void verifyCreateToDoPageCategorySearchData() throws Exception {
 		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -44,7 +58,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
-	@Test(  priority = 5,enabled = true, description = "[PLAT 2288]-06:verify default value(Search...) of this Search")
+	@Test(  priority = 5,enabled = false, description = "[PLAT 2288]-06:verify default value(Search...) of this Search")
 	public void verifySearchPlaceholder() throws Exception {
 		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -62,7 +76,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
-	@Test(  priority = 6,enabled = true, description = "[PLAT 2288]-07: verify when hover on Search change bounary color to green.")
+	@Test(  priority = 6,enabled = false, description = "[PLAT 2288]-07: verify when hover on Search change bounary color to green.")
 	public void verifySearchHover() throws Exception {
 		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -80,7 +94,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
-	@Test(  priority = 7,enabled = true, description = "[PLAT 2288]-08: verify input text.")
+	@Test(  priority = 7,enabled = false, description = "[PLAT 2288]-08: verify input text.")
 	public void verifySearchInputText() throws Exception {
 		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -98,7 +112,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
-	@Test(  priority = 8,enabled = true, description = "[PLAT 2288]-10: verify input number to field search.")
+	@Test(  priority = 8,enabled = false, description = "[PLAT 2288]-10: verify input number to field search.")
 	public void verifySearchInputNumber() throws Exception {
 		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -116,7 +130,7 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
-	@Test(  priority = 14,enabled = true, description = "Verify to create new Category")
+	@Test(  priority = 14,enabled = false, description = "Verify to create new Category")
 	public void verifyCreateNewCategory() throws Exception {
 		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -151,25 +165,25 @@ public class CreateToDoTest extends AbstractTest {
 		}
 	}
 
-	@Test(  priority = 2,enabled = false, description = "Add new To Do")
-	public void verifyGUIToDoTextBox() throws Exception {
-		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-		try {
-			auditorCreateToDoService.loginWithUserRole(userId);
-			auditorCreateToDoService.navigatetoCreateToDoTab();
-			auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
-			auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
-			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-			NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
-	}
+    @Test(  priority = 2,enabled = false, description = "Add new To Do")
+    public void verifyGUIToDoTextBox() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
+            auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
-	@Test(  priority = 3,enabled = false, description = "Verify to create To-Do page and search data.")
-	public void verifyCreateToDoPageCategorySearchData() throws Exception {
+    @Test(  priority = 3,enabled = false, description = "Verify to create To-Do page and search data.")
+    public void verifyCreateToDoPageCategorySearchData() throws Exception {
 		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
 		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
@@ -324,7 +338,6 @@ public class CreateToDoTest extends AbstractTest {
 		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
 		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
 		try {
-
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifyGUIToDoSaveIcon();
 			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
@@ -369,7 +382,6 @@ public class CreateToDoTest extends AbstractTest {
 		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
 		try {
 			auditorCreateToDoService.loginWithUserRole(userId);
-
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifyAddNewDataGridIcon("ZAToDo PLAT 2282");
 			ArrayList<String> names = new ArrayList<String>();
@@ -386,24 +398,36 @@ public class CreateToDoTest extends AbstractTest {
 			NXGReports.addStep("TestScript Failed: Verify Data Grid after adding new To Do Task", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-
-	@Test(  priority = 17,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
-	public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
-		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-		try {
-			auditorCreateToDoService.loginWithUserRole(userId);
-			auditorCreateToDoService.navigatetoCreateToDoTab();
-			auditorCreateToDoService.createToDoTaskWithoutCategory("Category PLAT 2289");
-			auditorCreateToDoService.verifyDefaultValueofCategoryComboBox("Select Category");
-			auditorCreateToDoService.verifyHoverCategoryComboBox();
-			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-			NXGReports.addStep("Verify 'Category' combo box on Create to-do", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("TestScript Failed: Verify 'Category' combo box on Create to-do", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
-	}
-	*/
+    */
+//	@Test(  priority = 17,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
+//	public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
+//		auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+//		auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+//        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+//        auditorTodoListService = new AuditorTodoListService(getLogger(),getDriver());
+//		String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//    	try {
+//            auditorEngagementService.loginWithUserRole(userId);
+//            auditorEngagementService.verifyAuditorEngagementPage();
+//            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+//            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+//            auditorDetailsEngagementService.navigateToTodoListPage();
+//            auditorTodoListService.verifyTodoListPage();
+//
+//			//auditorCreateToDoService.navigatetoCreateToDoTab();
+//			auditorCreateToDoService.createToDoTaskWithCategoryName("Task01 2289", "Category1");
+//			auditorCreateToDoService.clickCreateToDoTask();
+//			auditorCreateToDoService.verifyDefaultValueofCategoryComboBox("Select Category");
+//			auditorCreateToDoService.verifyHoverCategoryComboBox();
+//			auditorCreateToDoService.verifyValueofCategoryComboBox("Category1");
+//			auditorCreateToDoService.verifyNewCategoryPopUpDisplayed();
+//			auditorCreateToDoService.verifyEditCategoryPopUpDisplayed();
+//			auditorCreateToDoService.verifyCreateToDoTaskWithoutCategory("Task01 2289 without Category");
+//			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+//			NXGReports.addStep("Verify 'Category' combo box on Create to-do", LogAs.PASSED, null);
+//		} catch (Exception e) {
+//			NXGReports.addStep("TestScript Failed: Verify 'Category' combo box on Create to-do", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//		}
+//	}
 }
 

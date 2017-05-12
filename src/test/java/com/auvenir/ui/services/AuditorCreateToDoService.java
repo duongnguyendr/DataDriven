@@ -375,16 +375,10 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
-    public void verifyCheckBoxToDoPage(){
-        try {
+    public void verifyCheckBoxToDoPage() throws Exception {
             createToDoPage.verifyCheckAllCheckbox();
             createToDoPage.verifyUnCheckAllCheckbox();
             createToDoPage.verifyCheckMultipleCheckBox();
-            NXGReports.addStep("CheckBox on Data Grid is working successfully", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("CheckBox on Data Grid is working unsuccessfully.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
     }
 
     public void verifyDefaultValueofCategoryComboBox(String value){
@@ -490,15 +484,28 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
-
-    public void createToDoTaskWithoutCategory(String toDoName)  {
-        try{
-            createToDoPage.createToDoPage(toDoName);
-            NXGReports.addStep("New To Do task is created successfully", LogAs.PASSED, null);
-        } catch (Exception e) {
-             NXGReports.addStep("New To Do task is created unsuccessfully", LogAs.FAILED,
-                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    public void createToDoTaskWithCategoryName(String toDoNameTask, String categoryName) throws Exception {
+        createToDoPage.createToDoTaskWithCategoryName(toDoNameTask, categoryName);
     }
+
+    public void clickCreateToDoTask()throws  Exception{
+        createToDoPage.clickCreateToDoTask();
+    }
+
+    public void verifyValueofCategoryComboBox(String categoryName) throws Exception{
+        createToDoPage.verifyListValueofCategoryComboxBox(categoryName);
+    }
+
+    public void verifyNewCategoryPopUpDisplayed() throws Exception{
+        createToDoPage.verifyNewCategoryPopUpDisplayed();
+    }
+
+    public void verifyEditCategoryPopUpDisplayed() throws Exception{
+        createToDoPage.verifyEditCategoriesPopUpDisplayed();
+    }
+
+    public void verifyCreateToDoTaskWithoutCategory(String todoName) throws Exception {
+        createToDoPage.verifyCreateToDoTaskWithoutCategory(todoName);
     }
 }
 

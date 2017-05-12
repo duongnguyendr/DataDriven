@@ -231,6 +231,7 @@ public class AbstractPage {
             return true;
         }catch (AssertionError error) {
             getLogger().info(error);
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
@@ -879,6 +880,9 @@ public class AbstractPage {
         eleXpathCreateNewCategory.click();
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
         eleIdCategoryName.sendKeys(categoryName);
+        //Will be removed.
+        Thread.sleep(smallerTimeOut);
+        hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
         waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
         eleIdCategoryColor.click();
         waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
@@ -930,7 +934,7 @@ public class AbstractPage {
     }
 
     public void verifyHoverElement(WebElement element, String cssValueName, String expectedCssValue) {
-        clickAndHold(element, "Element");
+        hoverElement(element, "Element");
         validateCSSValueElement(element, cssValueName, expectedCssValue);
     }
 
@@ -988,5 +992,87 @@ public class AbstractPage {
             NXGReports.addStep("All checkbox: "+elementListName+" is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
+    }
+
+    public boolean createNewCategory (String categoryMode, String categoryName) throws Exception
+    {
+        boolean isCheckCategory = false;
+        // Create new Category
+        waitForClickableOfElement(eleIdDdlCategory, "eleIdDdlCategory");
+        eleIdDdlCategory.click();
+        waitForClickableOfElement(eleXpathCreateNewCategory,"eleXpathCreateNewCategory");
+        eleXpathCreateNewCategory.click();
+        waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
+        eleIdCategoryName.sendKeys(categoryName);
+        hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
+        waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
+        eleIdCategoryColor.click();
+        waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
+        eleXpathDetailCateColor.click();
+        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
+        eleIdBtnAddCategory.click();
+        // Verify the category that has just created
+        waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
+        List<WebElement> td_collection = new ArrayList<>();
+
+        if(categoryMode.equals(categoryIndiMode)) {
+            waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
+            // Wait eleIdDdlCategory but can not click to eleIdDdlCategory
+            Thread.sleep(smallerTimeOut);
+            eleIdDdlCategory.click();
+            waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
+            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
+            for (WebElement tdElement : td_collection) {
+                String strSearchValue = "";
+                try {
+                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
+                    strSearchValue = eleIndiCategoryText.getText();
+                } catch (Exception ex) {
+                }
+                getLogger().info("SearchValue = " + strSearchValue);
+                if (strSearchValue.equals(categoryName)) {
+                    isCheckCategory = true;
+                    break;
+                }
+            }
+        }
+        else {
+            isCheckCategory = true;
+        }
+        return isCheckCategory;
+        /*boolean isCheckCategory = false;
+        // Create new Category
+        waitForClickableOfElement(eleIdDdlCategory,"Category Dropdown");
+        eleIdDdlCategory.click();
+        waitForClickableOfElement(eleXpathCreateNewCategory,"Add New Category option");
+        eleXpathCreateNewCategory.click();
+        waitForClickableOfElement(eleIdCategoryName,"Category Name");
+        eleIdCategoryName.sendKeys(categoryName);
+        waitForClickableOfElement(eleIdCategoryColor, "Category Color");
+        Thread.sleep(smallTimeOut);
+        eleIdCategoryColor.click();
+        waitForClickableOfElement(eleXpathDetailCateColor,"List Category Color");
+        eleXpathDetailCateColor.click();
+        waitForClickableOfElement(eleIdBtnAddCategory,"Create Category button");
+        eleIdBtnAddCategory.click();
+        // Verify the category that has just created
+        waitForVisibleElement(tblXpathTodoTable,"To Do Table");
+
+        List<WebElement> td_collection = tblXpathTodoTable.findElements(By.xpath("td"));
+        for (WebElement tdElement : td_collection) {
+            String strSearchValue = "";
+            try {
+                strSearchValue = eleCategoryText.getText();
+            }
+            catch(Exception ex)
+            {}
+            getLogger().info("SearchValue = " + strSearchValue);
+            if(strSearchValue.equals(categoryName))
+            {
+                isCheckCategory = true;
+                break;
+            }
+        }
+        return isCheckCategory;*/
     }
 }
