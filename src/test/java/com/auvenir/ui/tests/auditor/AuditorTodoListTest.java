@@ -43,7 +43,6 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement01","","");
             //will implement later, current we can not navigate engagment by name
-            // auditorEngagementService.verifyCreatedEngagementRendered("engagement01");
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
 
@@ -76,11 +75,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            //auditorTodoListService.verifyTodoListPage();
-
-            //auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyDataSearch();
             auditorCreateToDoService.verifyCheckMaxLength();
@@ -106,7 +101,6 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
             auditorCreateToDoService.verifyCreateNewCategory();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -119,7 +113,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 5,enabled = true, description = "[PLAT 2288]-05: verify displayed of this button filter")
+    @Test(  priority = 5,enabled = true, description = "verify displayed of this button filter")
     public void verifyButtonFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -131,22 +125,19 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            //auditorTodoListService.verifyTodoListPage();
-
             auditorCreateToDoService.verifyButtonFilter();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("[PLAT 2288]-05: verify displayed of this button filter", LogAs.PASSED, null);
+            NXGReports.addStep("verify displayed of this button filter", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-05: verify displayed of this button filter", LogAs.FAILED,
+            NXGReports.addStep("verify displayed of this button filter", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(  priority = 6,enabled = true, description = "[PLAT 2288]-06:verify default value(Search...) of this Search")
+    @Test(  priority = 6,enabled = true, description = "verify default value(Search...) of this Search")
     public void verifySearchPlaceholder() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -158,21 +149,18 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            //auditorTodoListService.verifyTodoListPage();
-
             auditorCreateToDoService.verifySearchPlaceholder();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.PASSED, null);
+            NXGReports.addStep("verify default value(Search...) of this Search", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.FAILED,
+            NXGReports.addStep("verify default value(Search...) of this Search", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
         }
     }
 
-    @Test(  priority = 7,enabled = true, description = "[PLAT 2288]-07: verify when hover on Search change bounary color to green.")
+    @Test(  priority = 7,enabled = true, description = "verify when hover on Search change bounary color to green.")
     public void verifySearchHover() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -184,22 +172,19 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            //auditorTodoListService.verifyTodoListPage();
-
             auditorCreateToDoService.verifySearchHover();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("[PLAT 2288]-07: verify when hover on Search change bounary color to green.", LogAs.PASSED, null);
+            NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-07: verify when hover on Search change bounary color to green.", LogAs.FAILED,
+            NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(  priority = 8,enabled = true, description = "[PLAT 2288]-08: verify input text.")
+    @Test(  priority = 8,enabled = true, description = "verify input text.")
     public void verifySearchInputText() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -211,22 +196,19 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            //auditorTodoListService.verifyTodoListPage();
-
             auditorCreateToDoService.verifySearchInputText();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("[PLAT 2288]-08: verify input text.", LogAs.PASSED, null);
+            NXGReports.addStep("verify input text.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-08: verify input text.", LogAs.FAILED,
+            NXGReports.addStep("verify input text.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(  priority = 9,enabled = true, description = "[PLAT 2288]-10: verify input number to field search.")
+    @Test(  priority = 9,enabled = true, description = "verify input number to field search.")
     public void verifySearchInputNumber() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -238,16 +220,12 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             auditorDetailsEngagementService.navigateToTodoListPage();
-            //auditorTodoListService.verifyTodoListPage();
-
-
             auditorCreateToDoService.verifySearchInputNumber();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.PASSED, null);
+            NXGReports.addStep("verify input number to field search.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.FAILED,
+            NXGReports.addStep("verify input number to field search.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
