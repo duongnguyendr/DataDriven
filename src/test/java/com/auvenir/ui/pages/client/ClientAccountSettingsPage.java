@@ -21,7 +21,7 @@ public class ClientAccountSettingsPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(text(),'Account Settings')]")
     private WebElement accountSettingsHeaderEle;
     public void verifyAccountSettingsPage() {
-        waitForVisibleElement(accountSettingsHeaderEle);
+        waitForVisibleElement(accountSettingsHeaderEle,"accountSettingsHeaderEle");
 
     }
 }

@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests;
 
 import com.auvenir.ui.pages.common.GmailPage;
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
 import com.auvenir.utilities.listeners.TestngListener;
@@ -44,25 +45,16 @@ public class AbstractTest
      * Default differentiator - failure.
      */
     protected static final String SD_FAILURE = "failure";
-
-
-
     private String testName = "initial";
-
     @Parameters({"server"})
-    @BeforeSuite
-    public void setConfig(String server)
-    {
-        if(server.equalsIgnoreCase("cadet"))
-        {
-            GenericService.sConfigFile = GenericService.sDirPath+"/cadet.properties";
-        }
-        else if(server.equalsIgnoreCase("local")){
-            GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
-        }
 
-        else
-        {
+    @BeforeSuite
+    public void setConfig(String server){
+        if(server.equalsIgnoreCase("cadet")){
+            GenericService.sConfigFile = GenericService.sDirPath+"/cadet.properties";
+        }else if(server.equalsIgnoreCase("local")){
+            GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
+        }else{
             GenericService.sConfigFile = GenericService.sDirPath+"/ariel.properties";
         }
     }
@@ -73,7 +65,7 @@ public class AbstractTest
     	System.out.println("setUp");
         testName = method.getName();
         logCurrentStepStart();
-        
+        AbstractRefactorService.sStatusCnt=0;
         try
         {
             if(GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")){
@@ -102,7 +94,7 @@ public class AbstractTest
     {
         testName = method.getName();
         logger.info("Close the browser.");
-        driver.quit();
+        driver.close();
         logCurrentStepEnd();
     }
     public WebDriver getDriver(){

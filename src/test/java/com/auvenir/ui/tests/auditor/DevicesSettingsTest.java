@@ -1,5 +1,6 @@
 package com.auvenir.ui.tests.auditor;
 
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorAccountSettingsService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.AuditorDevicesSettingsService;
@@ -8,6 +9,7 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -15,9 +17,9 @@ import org.testng.annotations.Test;
  */
 
 public class DevicesSettingsTest extends AbstractTest {
-    AuditorDevicesSettingsService auditorDevicesSettingsService;
-    AuditorEngagementService auditorEngagementService;
-    AuditorAccountSettingsService auditorAccountSettingsService;
+    private AuditorDevicesSettingsService auditorDevicesSettingsService;
+    private AuditorEngagementService auditorEngagementService;
+    private AuditorAccountSettingsService auditorAccountSettingsService;
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Auditor Notifications Settings page.")
@@ -40,6 +42,7 @@ public class DevicesSettingsTest extends AbstractTest {
             auditorAccountSettingsService.navigateToDevicesPage();
             auditorDevicesSettingsService.verifyAuditorDevicesSettingsPage();
             auditorDevicesSettingsService.verifyFooter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify Footer in Auditor Notifications Settings page.", LogAs.PASSED, null);
             //logCurrentStepEnd();
 

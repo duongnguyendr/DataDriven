@@ -23,6 +23,6 @@ public class AuditorDevicesSettingsPage extends AbstractPage {
 
 
     public void verifyAuditorDevicesSettingsPage() {
-        waitForVisibleElement(auditorDevicesSettingsHeaderTextEle);
+        waitForVisibleElement(auditorDevicesSettingsHeaderTextEle,"auditorDevicesSettingsHeaderTextEle");
     }
 }

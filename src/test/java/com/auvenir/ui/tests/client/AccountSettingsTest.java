@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
  */
 
 public class AccountSettingsTest extends AbstractTest {
-    ClientService clientService;
+    private ClientService clientService;
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in  client Account Settings page.")

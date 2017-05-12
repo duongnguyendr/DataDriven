@@ -25,6 +25,7 @@ public class AbstractService  {
     Variable to validate Passed - Failed of a TestCases
      */
     public static int sStatusCnt=0;
+
     /**
      * Base url this value is set at runtime.
      *

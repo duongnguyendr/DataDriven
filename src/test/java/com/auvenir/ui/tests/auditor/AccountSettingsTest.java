@@ -1,25 +1,27 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
+import com.auvenir.ui.services.AuditorAccountSettingsService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
  * Created by cuong.nguyen on 4/27/2017.
  */
 
-public class EngagementTest extends AbstractTest {
+public class AccountSettingsTest extends AbstractTest {
+    private AuditorAccountSettingsService auditorAccountSettingsService;
     private AuditorEngagementService auditorEngagementService;
 
-    @Test(priority=1,enabled=true, description="Verify Footer in Auditor Engagements page.")
-    public void verifyFooterAuditorEngagementPage() throws Exception
+
+    @Test(priority=1,enabled=true, description="Verify Footer in Auditor Account Settings page.")
+    public void verifyFooterAuditorAccountSettingsPage() throws Exception
     {
+        auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
         String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         String getTokenUrl =   GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
@@ -28,23 +30,23 @@ public class EngagementTest extends AbstractTest {
         try
         {
             //logCurrentStepStart();
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.verifyAuditorFooter();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-            NXGReports.addStep("Verify footer in Auditor Engagement page.", LogAs.PASSED, null);
+            auditorEngagementService.navigateToSettingsPage();
+            auditorAccountSettingsService.verifyAccountSettingsPage();
+            auditorAccountSettingsService.verifyFooter();
+            NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
            // logCurrentStepEnd();
 
         }
 
         catch (Exception e)
         {
-            NXGReports.addStep("Verify footer in Auditor Engagement page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Footer in Auditor Account Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
 }
-
 
 

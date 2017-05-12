@@ -18,7 +18,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+//import org.testng.log4testng.Logger;
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 
 import com.auvenir.ui.services.AbstractRefactorService;
@@ -28,13 +31,15 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
+ * Updated by Doai.Tran on 5/9/2017.
  */
 public class AbstractPage {
     private    Logger logger = null;
     private  WebDriver driver = null;
-    private static final int waitTime = 60;
+    private static final int waitTime = 1;
     public static  final int smallerTimeOut = 500;
     public static  final int smallTimeOut = 1000;
+    public static final  String categoryIndiMode = "indicategory";
 
 
     public AbstractPage(Logger logger,WebDriver driver){
@@ -43,7 +48,6 @@ public class AbstractPage {
         PageFactory.initElements( new AjaxElementLocatorFactory(driver,waitTime),this);
     }
     public WebDriver getDriver(){
-
         return driver;
     }
 
@@ -76,6 +80,38 @@ public class AbstractPage {
     @FindBy(id="h-ddl-item-settings")
     WebElement settingsTabEle;
 
+    // ====================== ======================
+
+
+
+
+    // Vien.Pham added EditCategories Elements
+
+    @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[2]")
+    WebElement eleEditCategory;
+    @FindBy(xpath = "//*[@id=\"m-ce-systemContainer\"]/h3/text()")
+    WebElement eleEditCategoryTitle;
+    @FindBy(xpath = "//*[@id=\"edit-category-container\"]/div[1]")
+    WebElement eleEditCategoryGuide;
+    @FindBy(id = "cat-edit-btn")
+    WebElement eleEditCategoryPen;
+    @FindBy(id = "cat-trash-btn")
+    WebElement eleEditCategoryTrash;
+    @FindBy (id = "m-ce-cancelBtn")
+    WebElement eleEditCategoryCancelBtn;
+    @FindBy(id = "category-updateBtn")
+    WebElement eleEditCategorySaveBtn;
+    @FindBy(xpath = "//img[@id='modal-close-categoryModel-2Dd9bM38sb25ObfMVSJG6Ui8tLVE205c']")
+    WebElement eleEditCategoryCloseBtn;
+
+    /*
+    Elements for create a Category
+    Create by: Minh.Nguyen & Thuan.Duong
+    Update: Doai.Tran
+     */
+
+    @FindBy(xpath = "/*//*[@id='category-dropdown']/div[@class='text']")
+    private WebElement eleCategoryCombobox;
     // Create Category
     @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
     private WebElement eleCategoryComboBox;
@@ -89,15 +125,23 @@ public class AbstractPage {
     private WebElement eleXpathDetailCateColor;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
+    @FindBy(id="category-dropdown")
+    private WebElement eleIdDdlCategory;
+    @FindBy(id="todo-table")
+    private WebElement tblXpathTodoTable;
+    @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/button")
+    private WebElement eleCategoryText;
+    @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/a")
+    private WebElement eleIndiCategoryText;
 
     public void verifyFooter()
     {
-        validateDisPlayedElement(eleAuvenirIncTxt);
-        validateDisPlayedElement(eleTermsOfServiceLnk);
-        validateDisPlayedElement(eleTermsOfServiceDotTxt);
-        validateDisPlayedElement(elePrivacyStatementLnk);
-        validateDisPlayedElement(elePrivacyStatementDotTxt);
-        validateDisPlayedElement(eleCookieNoticeLnk);
+        validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
+        validateDisPlayedElement(eleTermsOfServiceLnk,"eleAuvenirIncTxt");
+        validateDisPlayedElement(eleTermsOfServiceDotTxt,"eleAuvenirIncTxt");
+        validateDisPlayedElement(elePrivacyStatementLnk,"eleAuvenirIncTxt");
+        validateDisPlayedElement(elePrivacyStatementDotTxt,"eleAuvenirIncTxt");
+        validateDisPlayedElement(eleCookieNoticeLnk,"eleAuvenirIncTxt");
     }
     public void verifyTermsOfServiceLink() throws AWTException{
         getLogger().info("Verify Terms of service link.");
@@ -156,240 +200,635 @@ public class AbstractPage {
 
     }
 
+    /**
+     *
+     * @param webElement
+     * @param elementName
+     * @param waitTime
+     */
     public void visibilityOfElementWait(WebElement webElement, String elementName, int waitTime) {
         try {
-         WebDriverWait   sWebDriverWait = new WebDriverWait(driver, waitTime);
+            WebDriverWait   sWebDriverWait = new WebDriverWait(driver, waitTime);
             sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+            NXGReports.addStep(elementName + " is visibility.", LogAs.PASSED, null);
         } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementName + " is not visibility.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    public void validateElementText(WebElement webElement, String elementText) {
+
+    /**
+     *
+     * @param webElement  WebElement
+     * @param elementText Text of Element be presented.
+     */
+    public boolean validateElementText(WebElement webElement, String elementText) {
         try {
             getLogger().info("Check renderd of text: " + elementText);
             getLogger().info("Actual Text is displayed: " + webElement.getText().trim());
             Assert.assertEquals(webElement.getText().trim(),elementText);
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED,null);
+            return true;
         }catch (AssertionError error) {
             getLogger().info(error);
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
-    public void validateDisPlayedElement(WebElement element) throws InvalidElementStateException
+
+    /**
+     *
+     * @param element
+     * @throws InvalidElementStateException
+     * @elementName Name of element that we want to verify
+     */
+    public boolean validateDisPlayedElement(WebElement element, String elementName) throws InvalidElementStateException
     {
         getLogger().info("verify Displayed of: " + element.getText());
-
-        try
-        {
+        try{
             element.isDisplayed();
-            NXGReports.addStep(element.getTagName() + " is displayed", LogAs.PASSED, null);
+            getLogger().info("Element : " + element.getText() +"is presented");
+            NXGReports.addStep("Element : "+ elementName + " is presented.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element : " + element.getText() +"is not presented");
+            NXGReports.addStep("Element : " + elementName +"is not presented", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
-
-        catch (Exception e)
-        {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
     }
-    public void validateEnabledElement(WebElement element) throws InvalidElementStateException
+
+    /**
+     *
+     * @param element element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @throws InvalidElementStateException
+     */
+
+    public boolean validateEnabledElement(WebElement element, String elementName) throws InvalidElementStateException
     {
         getLogger().info("verify enabled of: " + element.getText());
-
-        try
-        {
+        try{
             element.isEnabled();
-            NXGReports.addStep(element.getTagName() + " is enabled", LogAs.PASSED, null);
+            getLogger().info("Element : " + element.getText() +"is enable");
+            NXGReports.addStep(element.getText() + " is enable.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element : " + element.getText() +"is not enable.");
+            NXGReports.addStep("Element : " + element.getText() +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
-
-        catch (Exception e)
-        {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(element.getText() + " is  enabled", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
     }
-    public void validateSelectedElement(WebElement element) throws InvalidElementStateException
+
+    /**
+     *
+     * @param element element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @throws InvalidElementStateException
+     */
+    public boolean validateSelectedElement(WebElement element,String elementName) throws InvalidElementStateException
     {
         getLogger().info("verify selected of: " + element.getText());
-
-        try
-        {
-            element.isEnabled();
-            NXGReports.addStep(element.getTagName() + " is selected", LogAs.PASSED, null);
+        try{
+            element.isSelected();
+            getLogger().info("Element : " + element.getText() +"is selected.");
+            NXGReports.addStep("Element: "+ elementName + " is selected.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element : " + element.getText() +"is not selected.");
+            NXGReports.addStep("Element : " + elementName +"is not selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
-
-        catch (Exception e)
-        {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(element.getText() + " is  selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
     }
 
+    /**
+     *
+     * @param element element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @throws InvalidElementStateException
+     */
+    public boolean validateNotSelectedElement(WebElement element, String elementName) throws InvalidElementStateException
+    {
+        getLogger().info("verify not selected of: " + element.getText());
+        try{
+            if(!element.isSelected()){
+                getLogger().info("Element : " + element.getText() +"is not selected.");
+                NXGReports.addStep("Element : " + elementName + " is not selected.", LogAs.PASSED, null);
+                return true;
+            }else {
+                new Exception();
+                return false;
+            }
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element : " + element.getText() +"is selected.");
+            NXGReports.addStep("Element : " + elementName +"is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
 
-    public void validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    public boolean validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
     {
         getLogger().info("verify style with "+ attributeName);
-
-
         try
         {
         	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
             NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
+            return true;
         }
 
         catch (Exception e)
         {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
 
     }
 
-    public void validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
+    public boolean validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
         try {
             getLogger().info("verify input with max length with " + maxLenght +"character");
             webElement.click();
             webElement.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
             Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
             NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
+            return true;
         }catch (AssertionError error) {
             getLogger().info(error);
             NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw error;
         }
     }
-
-
-
+    /*
+            Improvement to detect value: true/ false after take actions
+            Updated by: Doai.Tran 8/5/2017
+             */
     public void scrollPageUp() throws AWTException {
+        getLogger().info("Try to scroll Page up.");
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_PAGE_UP);
+            robot.keyRelease(KeyEvent.VK_PAGE_UP);
+            NXGReports.addStep("Scrolled Page up.", LogAs.PASSED, null);
 
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_PAGE_UP);
-        robot.keyRelease(KeyEvent.VK_PAGE_UP);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("scroll Page up unsuccessfully.");
+            NXGReports.addStep("scroll Page up unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
+    /*
+    Method to scrollPageDown
+     */
     public void scrollPageDown() throws AWTException {
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_PAGE_DOWN);
-        robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
+        getLogger().info("Try to scroll Page down.");
+        try{
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_PAGE_DOWN);
+            robot.keyRelease(KeyEvent.VK_PAGE_DOWN);
+            NXGReports.addStep("Scrolled Page down.", LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("scroll Page down unsuccessfully.");
+            NXGReports.addStep("scroll Page down unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
-
-    public void waitForVisibleElement(WebElement element){
-        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-        wait.until(ExpectedConditions.visibilityOf(element));
+    /**
+     @Description In order to wait element to be visible.
+     @param element element defined on page class
+     @param elementName Name of element that we want to verify
+     */
+    public boolean waitForVisibleElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForVisibleElement: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            NXGReports.addStep("Element: "+ elementName + " is visible.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element: " + element.getText() +"is not visible.");
+            NXGReports.addStep("Element: "+ elementName +" is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
-    public void waitForPresentOfLocator(By by){
-        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    /**
+     @Description In order to wait element to be present by locator.
+     */
+    public boolean waitForPresentOfLocator(By by){
+        getLogger().info("Try to waitForPresentOfLocator");
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.presenceOfElementLocated(by));
+            NXGReports.addStep("Element is presented.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not present.");
+            NXGReports.addStep("Element is not present.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
-    public void waitForVisibleOfLocator(By by){
-        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    /**
+     @Description In order to wait element to be visible by locator.
+     */
+    public boolean waitForVisibleOfLocator(By by){
+        getLogger().info("Try to waitForVisibleOfLocator");
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+            NXGReports.addStep("Element is visible.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not visible.");
+            NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
-    public void waitForInvisibleOfLocator(By by){
-        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    /**
+     @Description In order to wait element to be invisible by locator.
+     */
+    public boolean waitForInvisibleOfLocator(By by){
+        getLogger().info("Try to waitForInvisibleOfLocator");
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+            NXGReports.addStep("eElement is invisible.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not invisible.");
+            NXGReports.addStep("eElement: is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
-    public void waitForClickableOfLocator(By by){
-        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-        wait.until(ExpectedConditions.elementToBeClickable(by));
+    /**
+     @Description In order to wait element to be clickable by locator.
+     */
+    public boolean waitForClickableOfLocator(By by){
+        getLogger().info("Try to waitForClickableOfLocator");
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.elementToBeClickable(by));
+            NXGReports.addStep("eElement is clickable.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable.");
+            NXGReports.addStep("eElement: is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
-    public void waitForClickableOfElement(WebElement element){
-        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+    /**
+     @Description In order to wait element to be visible.
+     @param element element defined on page class
+     @param elementName Name of element that we want to verify
+     */
+    public boolean waitForClickableOfElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForClickableOfElement: "+elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            NXGReports.addStep("Element: "+ elementName+" is  clickable.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable on Element: "+element.getText());
+            NXGReports.addStep("Element: "+ elementName+" is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
-    public void waitForInvisibleElement(WebElement element){
-        WebDriverWait wait = new WebDriverWait(getDriver(),waitTime);
-        wait.until(ExpectedConditions.invisibilityOf(element));
+    /**
+     @Description In order to wait element to be visible.
+     @param element element defined on page class
+     @param elementName Name of element that we want to verify
+     */
+    public boolean waitForInvisibleElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForInvisibleElement: "+elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+            NXGReports.addStep("Element: "+elementName+ " is invisible.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not invisible on Element: "+elementName);
+            NXGReports.addStep("Element: "+elementName+" is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
     }
-    public void validateDisabledElement(WebElement element) throws InvalidElementStateException
+    /**
+     @Description In order to wait element to be visible.
+     @param element element defined on page class
+     @param elementName Name of element that we want to verify
+     */
+    public boolean validateDisabledElement(WebElement element, String elementName)
     {
-        getLogger().info("verify enabled of: " + element.getText());
-
+        getLogger().info("verify disable of: " + elementName);
         try {
             if(!(element.isEnabled()))
             {
-            NXGReports.addStep(element.getTagName() + " is disabled", LogAs.PASSED, null);
+                getLogger().info(element.getTagName() + " is disabled");
+                NXGReports.addStep("Element: "+elementName+" is disable.", LogAs.PASSED, null);
+                return true;
+            }else {
+                throw new Exception();
             }
         }catch (Exception e){
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(element.getText() + " is  enabled", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
+            getLogger().info(elementName + " is  not disabled");
+            NXGReports.addStep("Element: "+elementName+" is not disabled.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
+    /*
+    Method to go to setting page for Admin, Auditor, Client
+     */
     public void navigateToSettingsPage() {
-        waitForClickableOfElement(dashboardUserNameEle);
-        dashboardUserNameEle.click();
-        waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
-        waitForClickableOfElement(settingsTabEle);
-        settingsTabEle.click();
-    }
-    public void ClickAndHold(WebElement element){
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element);
-        actions.click(element);
-        actions.perform();
-    }
-    public void HoverElement(WebElement element){
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element);
-        actions.build().perform();
-    }
-    public void sendTabkey(WebElement element) {
-        element.sendKeys(Keys.TAB);
-        element.sendKeys(Keys.ENTER);
+        try {
+            waitForClickableOfElement(dashboardUserNameEle,"dashboardUserNameEle");
+            dashboardUserNameEle.click();
+            waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
+            waitForClickableOfElement(settingsTabEle,"dashboardUserNameEle");
+            settingsTabEle.click();
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to go to setting page.");
+        }
     }
 
-    public void validateAttributeElement(WebElement element, String attributeName, String expectedAttributeValue) throws InvalidElementStateException {
-        getLogger().info("verify Attribute " + attributeName + " of: " + element.getTagName()+" type "+ element.getAttribute("type"));
+    /**
+    @Description: Click on element
+     @param element element defined on page class
+     @param elementName Name of element that we want to click
+     */
+    public void clickElement(WebElement element,String elementName){
+        getLogger().info("Try to ClickElement: "+element.getText());
+        try{
+            element.click();
+            NXGReports.addStep("Clicked on element: "+ elementName, LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to Click on: " +element.getText());
+            NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     @Description: Click and Hold on element
+     @param element element defined on page class
+     @param elementName Name of element that we want to click and hold
+     */
+    public void clickAndHold(WebElement element, String elementName){
+        getLogger().info("Try to ClickAndHold: "+element.getText());
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.click(element);
+            actions.perform();
+            NXGReports.addStep("Clicked and Hold on element: "+ elementName, LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to ClickAndHold on: " +element.getText());
+            NXGReports.addStep("Unable to ClickAndHold on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     @Description: Hover on element
+     @param element element defined on page class
+     @param elementName Name of element that we want to hover to
+     */
+    public void hoverElement(WebElement element, String elementName){
+        getLogger().info("Try to hoverElement: "+element.getText());
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.build().perform();
+            NXGReports.addStep("Hover on element: "+ element.getText(), LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to hoverElement on: " +element.getText());
+            NXGReports.addStep("Unable to hoverElement on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * @Description: Send a String to textBox.
+     * @param element element defined on page class
+     * @param text The content of text that we want to input.
+     * @param elementName Name of element that we want to input value.
+     */
+    public void sendKeyTextBox(WebElement element, String text,String elementName){
+        getLogger().info("Try to sendKey on : "+element.getText());
+        try {
+            element.clear();
+            element.sendKeys(text);
+            NXGReports.addStep("Send text: "+text+ "on element: "+ element.getText(), LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to sendKey on: " +element.getText());
+            NXGReports.addStep("Unable to sendKey on: " +element.getText(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     *@Description: Clear all Strings to textBox.
+     * @param element element defined on page class
+     * @param elementName Name of element that we want to input value.
+     */
+    public void clearTextBox(WebElement element,String elementName){
+        getLogger().info("Try to sendKey on : "+elementName);
+        try {
+            element.clear();
+            NXGReports.addStep("Cleared text: on element: "+ elementName, LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to clear on: " +elementName);
+            NXGReports.addStep("Unable to clear on: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     *@Description: Click on checkbox
+     * @param element element defined on page class
+     * @param elementName Name of element: CheckBox that we want to click
+     */
+    public void clickOnCheckBox(WebElement element,String elementName){
+        getLogger().info("Try to click on checkbox: "+elementName);
+        try {
+            element.click();
+            NXGReports.addStep("Click on checkbox: "+ elementName, LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to click on checkbox element: " +elementName);
+            NXGReports.addStep("Unable to click on checkbox: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     *@Description: select a value on dropdown via visible text
+     * @param element element defined on page class
+     * @param selText Visible text that you want to select on dropdown
+     * @param elementName checkbox name
+     */
+    public boolean selectByVisibleText(WebElement element, String selText, String elementName){
+        getLogger().info("Try to selectByVisibleText on element: "+ elementName);
+        try {
+            Select dropDown = new Select(element);
+            dropDown.selectByVisibleText(selText);
+            NXGReports.addStep("selectByVisibleText on checkbox: "+ elementName, LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Unable to selectByVisibleText on element: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+    /**
+     *@Description: select a value on dropdown via visible text
+     * @param element element defined on page class
+     * @param selValue Value that you want to select on dropdown
+     * @param elementName checkbox name
+     */
+    public void selectByValue(WebElement element, String selValue, String elementName){
+        getLogger().info("Try to selectByValue on element: "+ elementName);
+        try {
+            Select dropDown = new Select(element);
+            dropDown.selectByValue(selValue);
+            NXGReports.addStep("selectByValue on checkbox: "+ elementName, LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Unable to selectByValue on element: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     *@Description: select a value on dropdown via visible text
+     * @param element element defined on page class
+     * @param selIndex Value that you want to select on dropdown
+     * @param elementName checkbox name
+     */
+    public void selectByIndex(WebElement element, int selIndex, String elementName){
+        getLogger().info("Try to selectByIndex on element: "+elementName);
+        try {
+            Select dropDown = new Select(element);
+            dropDown.selectByIndex(selIndex);
+            NXGReports.addStep("selectByIndex on checkbox: "+ elementName, LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Unable to selectByIndex on element: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * @Description: Send TabKey
+     * @param element element defined on page class
+     * @param elementName Name of element: CheckBox that we want to Send TabKey
+     */
+    public void sendTabkey(WebElement element, String elementName) {
+        getLogger().info("Try to sendTabkey: "+elementName);
+        try {
+            element.sendKeys(Keys.TAB);
+            element.sendKeys(Keys.ENTER);
+            NXGReports.addStep("sendTabkey on element: "+ elementName, LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to sendTabkey on: " +element.getText());
+            NXGReports.addStep("Unable to sendTabkey on: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     *
+     * @param element element defined on page class
+     * @param attributeName Attribute that we want to validate
+     * @param expectedAttributeValue Expected value that we want to validate
+     */
+    public boolean validateAttributeElement(WebElement element, String attributeName, String expectedAttributeValue){
+        getLogger().info("verify Attribute " + attributeName + " of: " + element.toString());
         String actualAttributeValue = null;
         try {
             actualAttributeValue = element.getAttribute(attributeName).trim();
             getLogger().info("actualAttributeValue of " + attributeName + " is: " + actualAttributeValue);
             if (actualAttributeValue.equals(expectedAttributeValue)) {
+                getLogger().info(element.getTagName() + " has attribute " + actualAttributeValue);
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
+                return true;
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                getLogger().info(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue);
+                throw new Exception();
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue);
+            NXGReports.addStep(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
-    public void validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) throws InvalidElementStateException {
-        getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.getTagName()+" type "+ element.getAttribute("type"));
+    /**
+     *
+     * @param element element defined on page class
+     * @param cSSValueName AttributeCSSS that we want to validate
+     * @param expectedCSSValue Expected value that we want to validate
+     */
+    public boolean validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) {
+        getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.toString());
         String actualCSSValue = null;
         try {
             actualCSSValue = element.getCssValue(cSSValueName);
             getLogger().info("actualCSSValue of " + cSSValueName + " is: " + actualCSSValue);
             if (actualCSSValue.equals(expectedCSSValue)) {
+                getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
                 NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.PASSED, null);
+                return true;
             } else {
-                AbstractRefactorService.sStatusCnt++;
-                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                AbstractService.sStatusCnt++;
+                getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
+                throw new Exception();
             }
         } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
+            AbstractService.sStatusCnt++;
+            getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
             NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
-    public void validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException {
+    public boolean validateIsNotDisPlayedElement(WebElement element) throws InvalidElementStateException {
         getLogger().info("Verify element is not displayed of: " + element.getText());
-
         try {
-            if (!element.isDisplayed())
+            if (!element.isDisplayed()){
                 NXGReports.addStep(element.getTagName() + " is displayed", LogAs.PASSED, null);
-            else
+                return true;
+            }else{
                 NXGReports.addStep(element.getTagName() + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                throw new Exception();
+            }
         } catch (Exception e) {
             AbstractRefactorService.sStatusCnt++;
             NXGReports.addStep(element.getText() + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
 
+    }
+
+    // EditCategory method
+    public void EditCategories() throws Exception {
+        waitForClickableOfElement(eleCategoryCombobox, "eleCategoryCombobox");
+        eleCategoryCombobox.click();
+        //Verify Category_Dropdown GUI
+        //=========
+        //Click EditCategories option
+        waitForClickableOfElement(eleEditCategory, "eleEditCategory");
+        eleEditCategory.click();
+    }
+
+    public String getTextByJavaScripts(WebElement eleGetText)
+    {
+        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
+        return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
     }
 
     public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon) throws Exception {
@@ -429,22 +868,56 @@ public class AbstractPage {
             getLogger().info("Cannot sort data on Data Grid View.");
         }
     }
-    public void createNewCategory () throws Exception
+
+    public boolean createNewCategory (String categoryMode) throws Exception
     {
+        boolean isCheckCategory = false;
+        String categoryName = "Category " + randomNumber();
         // Create new Category
-        waitForClickableOfElement(eleCategoryComboBox);
-        eleCategoryComboBox.click();
-        waitForClickableOfElement(eleXpathCreateNewCategory);
+        waitForClickableOfElement(eleIdDdlCategory, "eleIdDdlCategory");
+        eleIdDdlCategory.click();
+        waitForClickableOfElement(eleXpathCreateNewCategory,"eleXpathCreateNewCategory");
         eleXpathCreateNewCategory.click();
-        waitForClickableOfElement(eleIdCategoryName);
-        eleIdCategoryName.sendKeys("Category " + randomNumber());
-        waitForClickableOfElement(eleIdCategoryColor);
-        Thread.sleep(smallTimeOut);
+        waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
+        eleIdCategoryName.sendKeys(categoryName);
+        //Will be removed.
+        Thread.sleep(smallerTimeOut);
+        hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
+        waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
         eleIdCategoryColor.click();
-        waitForClickableOfElement(eleXpathDetailCateColor);
+        waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
         eleXpathDetailCateColor.click();
-        waitForClickableOfElement(eleIdBtnAddCategory);
+        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
         eleIdBtnAddCategory.click();
+        // Verify the category that has just created
+        waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
+        List<WebElement> td_collection = new ArrayList<>();
+
+        if(categoryMode.equals(categoryIndiMode)) {
+            waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
+            // Wait eleIdDdlCategory but can not click to eleIdDdlCategory
+            Thread.sleep(smallerTimeOut);
+            eleIdDdlCategory.click();
+            waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
+            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
+            for (WebElement tdElement : td_collection) {
+                String strSearchValue = "";
+                try {
+                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
+                    strSearchValue = eleIndiCategoryText.getText();
+                } catch (Exception ex) {
+                }
+                getLogger().info("SearchValue = " + strSearchValue);
+                if (strSearchValue.equals(categoryName)) {
+                    isCheckCategory = true;
+                    break;
+                }
+            }
+        }
+        else {
+            isCheckCategory = true;
+        }
+        return isCheckCategory;
     }
 
     public int randomNumber()
@@ -454,21 +927,152 @@ public class AbstractPage {
         return intRanNum;
     }
 
-    public String getTextByJavaScripts(WebElement eleGetText)
-    {
-        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
-        return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
-    }
-
     public void verifyDefaultValueOfElement(WebElement element, String attributeName, String defaultValue) {
-        waitForVisibleElement(element);
-        validateDisPlayedElement(element);
+        waitForVisibleElement(element,"Element");
+        validateDisPlayedElement(element,"Element");
         validateAttributeElement(element, attributeName, defaultValue);
     }
 
     public void verifyHoverElement(WebElement element, String cssValueName, String expectedCssValue) {
-        waitForVisibleElement(element);
-        ClickAndHold(element);
+        hoverElement(element, "Element");
         validateCSSValueElement(element, cssValueName, expectedCssValue);
+    }
+
+    /**
+     *
+     * @param elements List<WebElement></WebElement>
+     * @return true: All checkbox on Element list be selected
+     * @throws Exception
+     */
+    public boolean verifyCheckAllCheckboxList(List<WebElement> elements, String elementListName) throws Exception {
+        try {
+            for (int i = 0; i < elements.size(); i++){
+                if (!elements.get(i).isSelected()){
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Check box icon at position " + i + " is NOT checked");
+                    throw new Exception();
+                }else{
+                    System.out.println("Checkbox is selected:? " + elements.get(i).isSelected());
+                }
+            }
+            getLogger().info("Check box icons are selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is selected", LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Check box icons are not selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is NOT selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param elements List<WebElement></WebElement>
+     * @return true: All checkbox on Element list be not selected
+     * @throws Exception
+     */
+    public boolean verifyUnCheckAllCheckboxList(List<WebElement> elements,String elementListName) throws Exception {
+        try {
+            for (int i = 0; i < elements.size(); i++){
+                if (elements.get(i).isSelected()){
+                    AbstractService.sStatusCnt++;
+                    getLogger().info("Check box icon at position " + i + " is checked");
+                    throw new Exception();
+                }else{
+                    System.out.println("Checkbox is not selected:? " + elements.get(i).isSelected());
+                }
+            }
+            getLogger().info("Check box icons are not selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is NOT selected", LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Check box icons are  selected all.");
+            NXGReports.addStep("All checkbox: "+elementListName+" is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    public boolean createNewCategory (String categoryMode, String categoryName) throws Exception
+    {
+        boolean isCheckCategory = false;
+        // Create new Category
+        waitForClickableOfElement(eleIdDdlCategory, "eleIdDdlCategory");
+        eleIdDdlCategory.click();
+        waitForClickableOfElement(eleXpathCreateNewCategory,"eleXpathCreateNewCategory");
+        eleXpathCreateNewCategory.click();
+        waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
+        eleIdCategoryName.sendKeys(categoryName);
+        hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
+        waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
+        eleIdCategoryColor.click();
+        waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
+        eleXpathDetailCateColor.click();
+        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
+        eleIdBtnAddCategory.click();
+        // Verify the category that has just created
+        waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
+        List<WebElement> td_collection = new ArrayList<>();
+
+        if(categoryMode.equals(categoryIndiMode)) {
+            waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
+            // Wait eleIdDdlCategory but can not click to eleIdDdlCategory
+            Thread.sleep(smallerTimeOut);
+            eleIdDdlCategory.click();
+            waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
+            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
+            for (WebElement tdElement : td_collection) {
+                String strSearchValue = "";
+                try {
+                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
+                    strSearchValue = eleIndiCategoryText.getText();
+                } catch (Exception ex) {
+                }
+                getLogger().info("SearchValue = " + strSearchValue);
+                if (strSearchValue.equals(categoryName)) {
+                    isCheckCategory = true;
+                    break;
+                }
+            }
+        }
+        else {
+            isCheckCategory = true;
+        }
+        return isCheckCategory;
+        /*boolean isCheckCategory = false;
+        // Create new Category
+        waitForClickableOfElement(eleIdDdlCategory,"Category Dropdown");
+        eleIdDdlCategory.click();
+        waitForClickableOfElement(eleXpathCreateNewCategory,"Add New Category option");
+        eleXpathCreateNewCategory.click();
+        waitForClickableOfElement(eleIdCategoryName,"Category Name");
+        eleIdCategoryName.sendKeys(categoryName);
+        waitForClickableOfElement(eleIdCategoryColor, "Category Color");
+        Thread.sleep(smallTimeOut);
+        eleIdCategoryColor.click();
+        waitForClickableOfElement(eleXpathDetailCateColor,"List Category Color");
+        eleXpathDetailCateColor.click();
+        waitForClickableOfElement(eleIdBtnAddCategory,"Create Category button");
+        eleIdBtnAddCategory.click();
+        // Verify the category that has just created
+        waitForVisibleElement(tblXpathTodoTable,"To Do Table");
+
+        List<WebElement> td_collection = tblXpathTodoTable.findElements(By.xpath("td"));
+        for (WebElement tdElement : td_collection) {
+            String strSearchValue = "";
+            try {
+                strSearchValue = eleCategoryText.getText();
+            }
+            catch(Exception ex)
+            {}
+            getLogger().info("SearchValue = " + strSearchValue);
+            if(strSearchValue.equals(categoryName))
+            {
+                isCheckCategory = true;
+                break;
+            }
+        }
+        return isCheckCategory;*/
     }
 }

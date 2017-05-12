@@ -8,8 +8,6 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
-import javax.xml.bind.Element;
-
 /**
  * Created by cuong.nguyen on 4/27/2017.
  */
@@ -27,12 +25,12 @@ public class AuditorAccountSettingsService extends AbstractService {
         auditorAccountSettingsPage = new AuditorAcountSettingsPage(getLogger(), getDriver());
 
     }
-    /*
-    Refactor Verify Footer of Auditor Account Settings by DoaiTran for PLAT-2273
-     */
+
+
     public void verifyFooter() {
+
         try {
-            /*auditorAccountSettingsPage.scrollPageDown();
+            auditorAccountSettingsPage.scrollPageDown();
             getLogger().info("verify footer page.");
             auditorAccountSettingsPage.verifyFooter();
             getLogger().info("verfify term of service link.");
@@ -41,14 +39,15 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.verifyPrivacyStateLink();
             getLogger().info("verify cookies notice link.");
             auditorAccountSettingsPage.verifyCookieNotice();
-            auditorAccountSettingsPage.scrollPageUp();*/
-
-            auditorAccountSettingsPage.verifyFooterAcountSetting();
+            auditorAccountSettingsPage.scrollPageUp();
             NXGReports.addStep("verify footer page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+
+
 
     public void verifyAccountSettingsPage() {
 
@@ -80,16 +79,6 @@ public class AuditorAccountSettingsService extends AbstractService {
             NXGReports.addStep("navigate to Devices tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
-    }
-    public void verifyHeader(){
-        try{
-            getLogger().info("Start verify header of auditor settings page.");
-            auditorAccountSettingsPage.verifyHeader();
-            NXGReports.addStep("All elements are displayed on auditor settings page.", LogAs.PASSED, null);
-        }catch (Exception e) {
-            NXGReports.addStep("Some elements on header are not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
     }
     public void verifyBody(){
         try{

@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
  * Created by cuong.nguyen on 4/27/2017.
  */
 public class HomeTest extends AbstractTest {
-    ClientService clientService;
+    private ClientService clientService;
 
     @Test(priority=1,enabled=true, description="Verify Footer in Client Home page.")
     public void verifyFooterClientHomePage() throws Exception
