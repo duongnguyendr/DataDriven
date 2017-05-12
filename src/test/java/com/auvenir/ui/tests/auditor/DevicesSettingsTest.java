@@ -17,9 +17,9 @@ import org.testng.annotations.Test;
  */
 
 public class DevicesSettingsTest extends AbstractTest {
-    AuditorDevicesSettingsService auditorDevicesSettingsService;
-    AuditorEngagementService auditorEngagementService;
-    AuditorAccountSettingsService auditorAccountSettingsService;
+    private AuditorDevicesSettingsService auditorDevicesSettingsService;
+    private AuditorEngagementService auditorEngagementService;
+    private AuditorAccountSettingsService auditorAccountSettingsService;
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Auditor Notifications Settings page.")

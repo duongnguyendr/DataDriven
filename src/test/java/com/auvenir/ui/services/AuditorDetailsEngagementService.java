@@ -61,6 +61,16 @@ public class AuditorDetailsEngagementService extends AbstractService {
             NXGReports.addStep("navigate to task list tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    public void navigateToTodoListPage() {
+        try {
+            getLogger().info("navigate to To Do list page.");
+            auditorDetailsEngagementPage.navigateToTodoListPage();
+            NXGReports.addStep("navigate to To Do list tab.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("navigate to To Do list tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
 }
 
 

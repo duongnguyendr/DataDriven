@@ -103,8 +103,17 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("click Add New engagement button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
-    } 
-    
+    }
+    public void viewEngagementDetailsPage(String engagementName) {
+        try {
+            getLogger().info("navigate to Engagement detail page.(Hard code)");
+            auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /*
     public void navigateToEngagementTask(String engagementName) {
     	try {
             getLogger().info("navigate to Engagement detail page.(Hard code)");
@@ -114,6 +123,7 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    */
     
   
     

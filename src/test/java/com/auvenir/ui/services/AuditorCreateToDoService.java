@@ -55,7 +55,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyAuditorCreateToDo() {
 
         try {
-            this.createToDoPage.navigateToEngagementTask();
+            //this.createToDoPage.navigateToEngagementTask();
             this.createToDoPage.navigateToToDoList();
             createToDoPage.verifyToDoListPage();
             NXGReports.addStep("verify create to do page", LogAs.PASSED, null);
@@ -77,21 +77,22 @@ public class AuditorCreateToDoService extends AbstractService {
 //        }
 //    }
 
-	public void verifyButtonFilter(){
+	public void verifyButtonFilter() {
+    }
 
-	public void navigatetoCreateToDoTab() { 
-		getLogger().info("Navigate to CreateToDo Tab");
-		try {
-			engagementPage.navigateToEngagementTask("engagement");
-			detailsEngagementPage.navigateToTaskList();
-			todoListPage.clickCreateToDoBtn();
-			createToDoPage.verifyAddNewToDoTask();
-			NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
-	}
+        public void navigatetoCreateToDoTab () {
+            getLogger().info("Navigate to CreateToDo Tab");
+            try {
+                //engagementPage.navigateToEngagementTask("engagement");
+                detailsEngagementPage.navigateToTaskList();
+                todoListPage.clickCreateToDoBtn();
+                createToDoPage.verifyAddNewToDoTask("task");
+                NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
+            } catch (Exception e) {
+                NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
 
 	public void verifyInputDataToDoTextBox(String value){
 		getLogger().info("Input data into ToDo name Textbox.");
@@ -103,7 +104,7 @@ public class AuditorCreateToDoService extends AbstractService {
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-
+    public void verifySearchHover(){
 		try {
 			createToDoPage.verifySearchHover(); 
 			NXGReports.addStep("[PLAT 2288]-07: verify when hover on Search change bounary color to green.", LogAs.PASSED, null);
@@ -169,11 +170,11 @@ public class AuditorCreateToDoService extends AbstractService {
 //					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 //		}
 //	}
-
+/*
     public void navigatetoCreateToDoTab() {
         getLogger().info("Navigate to CreateToDo Tab");
         try {
-            createToDoPage.navigateToEngagementTask();
+            //createToDoPage.navigateToEngagementTask();
             createToDoPage.navigateToToDoList();
             createToDoPage.clickCreateToDoTask();
             //createToDoPage.verifyAddNewToDoTask();
@@ -183,7 +184,7 @@ public class AuditorCreateToDoService extends AbstractService {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-	
+	*/
 //	public void verifyCheckOnCheckBox(){
 //
 //		try {
@@ -213,7 +214,7 @@ public class AuditorCreateToDoService extends AbstractService {
 	}
 
 
-
+/*
     public void verifyInputDataToDoTextBox(String value) {
         getLogger().info("Input data into ToDo name Textbox.");
         try {
@@ -224,6 +225,7 @@ public class AuditorCreateToDoService extends AbstractService {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+*/
 
 //	public void verifySearchLimit255(){
 //		try {
@@ -324,7 +326,7 @@ public class AuditorCreateToDoService extends AbstractService {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
+/*
     public void verifyGUIAddNewToDoTextBox() {
         try {
             createToDoPage.verifyDefaultValueToDoTextBox();
@@ -336,7 +338,7 @@ public class AuditorCreateToDoService extends AbstractService {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
+*/
     public void verifyAddNewDataGridIcon(String toDoName) throws Exception {
         try {
             createToDoPage.createToDoPage(toDoName);
@@ -475,5 +477,15 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+
+    public void createToDoTaskWithoutCategory(String toDoName)  {
+        try{
+            createToDoPage.createToDoPage(toDoName);
+            NXGReports.addStep("New To Do task is created successfully", LogAs.PASSED, null);
+        } catch (Exception e) {
+             NXGReports.addStep("New To Do task is created unsuccessfully", LogAs.FAILED,
+                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    }
+    }
 }
 

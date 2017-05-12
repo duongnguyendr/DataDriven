@@ -9,6 +9,8 @@ import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
 public class AuditorEngagementPage extends AbstractPage {
 	
 
@@ -119,6 +121,11 @@ public class AuditorEngagementPage extends AbstractPage {
 
 	@FindBy(id = "h-clientListLink")
 	private WebElement contactsLinkEle;
+
+	@FindBy(id = "newAuditBtn")
+	private WebElement newEngagementButtonEle;
+	@FindBy(xpath="//div[@class='e-widget-content']")
+	private List<WebElement> engagementListEle;
 	
 	@FindBy(xpath="//button[contains(text(),'Add New')]")
 	private WebElement eleAddNewBtn;
@@ -151,4 +158,13 @@ public class AuditorEngagementPage extends AbstractPage {
 		contactsLinkEle.click();
 
 	}
+	public void clickNewEnagementButton() {
+		waitForClickableOfElement(newEngagementButtonEle,"New Engagement Button");
+		newEngagementButtonEle.click();
+	}
+	public void viewEngagementDetailsPage(String engagementName) throws Exception{
+		waitForClickableOfElement(engagementListEle.get(0),engagementName);
+		clickAndHold(engagementListEle.get(0),engagementName);
+	}
+
 }

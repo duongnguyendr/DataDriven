@@ -23,12 +23,20 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
 	@FindBy(id="engagementTodoLink")
 	private WebElement eleToDoListLnk;
 
+    @FindBy(id = "engagementDashboardLink")
+    private WebElement dashBoardLinkEle;
+
     public void verifyDetailsEngagementPage(String engagement01) {
-    	//Updated later because I do not know which component to test
+        //we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
+        waitForClickableOfElement(dashBoardLinkEle,"DashBoard Link");
     }
 
     public void navigateToTaskList() throws Exception { 
-    		clickElement(eleToDoListLnk);
+    		clickElement(eleToDoListLnk,"Todo List");
+    }
+    public void navigateToTodoListPage() throws Exception {
+        waitForClickableOfElement(eleToDoListLnk,"Todo Link");
+        clickElement(eleToDoListLnk,"Todo Link");
     }
 }
 

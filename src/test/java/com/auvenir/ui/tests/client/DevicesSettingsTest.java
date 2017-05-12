@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
  * Created by cuong.nguyen on 4/24/2017.
  */
 public class DevicesSettingsTest extends AbstractTest {
-    ClientService clientService;
+    private ClientService clientService;
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Client Devices Settings page.")

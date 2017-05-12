@@ -44,10 +44,10 @@ public class AuditorTodoListService extends AbstractService {
     }
 
 
-    public void verifyTodoListPage() {
+    public void verifyTodoListPageColumnHeader() {
         try {
             getLogger().info("verify To Do List page.");
-            auditorTodoListPage.verifyTodoListPage();
+            auditorTodoListPage.verifyTodoListPageColumnHeader();
             NXGReports.addStep("verify To Do List page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify To Do List page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -61,6 +61,17 @@ public class AuditorTodoListService extends AbstractService {
             NXGReports.addStep("verify empty To Do List.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify empty To Do List.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyTodoListPage() {
+        try {
+            getLogger().info("verify todo List Page.");
+            auditorTodoListPage.verifyTodoListPage();
+            NXGReports.addStep("verify todo List Page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            getLogger().info(e);
+            NXGReports.addStep("verify todo List Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 }

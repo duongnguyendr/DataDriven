@@ -16,8 +16,8 @@ import org.testng.annotations.Test;
  */
 
 public class ContactsTest extends AbstractTest {
-    ContactsService contactsService;
-    AuditorEngagementService auditorEngagementService;
+    private ContactsService contactsService;
+    private AuditorEngagementService auditorEngagementService;
 
     @Test(priority=1,enabled=true, description="Verify Footer in Auditor Contacts page.")
     public void verifyFooterAuditorContactsPage() throws Exception

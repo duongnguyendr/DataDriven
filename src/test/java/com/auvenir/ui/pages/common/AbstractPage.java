@@ -314,6 +314,7 @@ public class AbstractPage {
                 return true;
             }else {
                 new Exception();
+                return false;
             }
         }catch (Exception e){
             AbstractService.sStatusCnt++;

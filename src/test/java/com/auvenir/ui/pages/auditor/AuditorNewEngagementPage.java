@@ -19,7 +19,10 @@ import com.kirwa.nxgreport.logging.LogAs;
 
 public class AuditorNewEngagementPage extends AbstractPage {
 
-
+    @FindBy(id = "team-component-header")
+    private WebElement teamMemberWizardHeader;
+    @FindBy(xpath = "//p[contains(text(),'Create a new To-Do list')]")
+    private WebElement createNewTodoListTextEle;
 
     public AuditorNewEngagementPage(Logger logger, WebDriver driver)
     {
@@ -64,12 +67,15 @@ public class AuditorNewEngagementPage extends AbstractPage {
     
     @FindBy(id="customize-create-btn")
    	private WebElement eleCustomizeCreateBtn;
+    @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
+    private WebElement newEngagementHeaderTextEle;
 
 
     public void verifyNewEngagementPage() {
-    	///Updated later because I do not know which component to test
+        getLogger().info("Verify New engagement Page.");
+        waitForVisibleElement(newEngagementHeaderTextEle,"New Engagement Header");
     }
-
+    /*
     public void enterDataForNewEngagementPage(String engagement01, String s, String s1) throws Exception {
     	
         getLogger().info("Enter engagement name.");
@@ -108,55 +114,101 @@ public class AuditorNewEngagementPage extends AbstractPage {
         this.clickCreateToDoBtn();
         NXGReports.addStep("Click create to do button.", LogAs.PASSED, null);
     }
-    
-    
-    
-    
-    
+    */
+    public void enterDataForNewEngagementPage(String name, String engagementType, String company) throws Exception {
+
+        getLogger().info("Enter engagement name.");
+        enterEngagementName(name);
+        NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
+
+        getLogger().info("Select engagement type.");
+        selectEngagementType(engagementType);
+        NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
+
+        getLogger().info("Enter company name.");
+        enterCompanyName(company);
+        NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
+
+        getLogger().info("Enter deadline date.");
+        enterDeadLineDate(getDate(10));
+        NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
+
+        getLogger().info("Enter start date.");
+        enterStartDate(getDate(0));
+        NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
+
+        getLogger().info("Enter end date.");
+        enterEndDate(getDate(10));
+        NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
+
+        getLogger().info("Click Continue button.");
+        clickContinueBtn();
+        NXGReports.addStep("Click Continue button.", LogAs.PASSED, null);
+
+        verifyTeamMemberWizardPage();
+
+        getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
+        clickNoMemberBtn();
+        NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
+        waitForVisibleElement(createNewTodoListTextEle,"Create new todo list text");
+
+        //getLogger().info("Click create to do button.");
+        //clickCreateToDoBtn();
+        //NXGReports.addStep("Click create to do button.", LogAs.PASSED, null);
+        clickContinueBtn();
+    }
+
+    private void verifyTeamMemberWizardPage() {
+        getLogger().info("Verify team member wizard page.");
+        waitForVisibleElement(teamMemberWizardHeader,"team member header");
+        validateElementText(teamMemberWizardHeader,"Create Your Team");
+    }
+
+
     public void enterEngagementName(String engagementName){
-    	this.waitForClickableOfElement(this.eleEngagementNameInput);
-    	sendKeyTextBox(eleEngagementNameInput, engagementName);
+    	waitForClickableOfElement(eleEngagementNameInput,"EngagementName");
+    	sendKeyTextBox(eleEngagementNameInput, engagementName,"engagementName");
     	
     }
     
     public void selectEngagementType(String engagementType){
-    	clickElement(eleEngagementTypeSelect);
-    	this.eleEngagementTypeList.get(0).click();    	
+    	clickElement(eleEngagementTypeSelect,"Select Engagement Type");
+    	eleEngagementTypeList.get(0).click();
     }
     
     
     public void enterCompanyName(String conpanyName){
-    	sendKeyTextBox(this.eleCompanyNameInput,conpanyName);   	    	
+    	sendKeyTextBox(eleCompanyNameInput,conpanyName,"Comany field");
     }
     
     public void enterDeadLineDate(String dateLineDate){    	
-    	sendKeyTextBox(this.eleReportDeadlineInput,dateLineDate); 
+    	sendKeyTextBox(eleReportDeadlineInput,dateLineDate,"DateLine");
     }
     
     public void enterStartDate(String startDate){    	
-    	sendKeyTextBox(this.eleStartDateInput,startDate); 
+    	sendKeyTextBox(eleStartDateInput,startDate,"StartDate");
     }
     
     public void enterEndDate(String endDate){    	
-    	sendKeyTextBox(this.eleEndDateInput,endDate); 
+    	sendKeyTextBox(eleEndDateInput,endDate, "EndDate");
     }
     
     public void clickContinueBtn(){
-    	clickElement(this.eleContinueBtn);
+    	clickElement(eleContinueBtn,"Continue Button");
     }
     
     public void clickNoMemberBtn(){
-    	clickElement(this.eleContinueNoMemberBtn);    	
+    	clickElement(eleContinueNoMemberBtn,"No member button");
     }
     
     public void clickCreateToDoBtn(){
-    	clickElement(this.eleCustomizeCreateBtn);
+    	clickElement(eleCustomizeCreateBtn,"Customize Create Button");
     }
-    
-    public String tmp(int num){
-    	Calendar date=Calendar.getInstance();
-    	date.add(Calendar.DATE, num);
-    	SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy"); 
-    	return dt.format(date.getTime());
+
+    public String getDate(int day){
+        Calendar date=Calendar.getInstance();
+        date.add(Calendar.DATE, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return simpleDateFormat.format(date.getTime());
     }
 }

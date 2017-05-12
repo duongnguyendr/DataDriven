@@ -66,7 +66,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 	private WebElement eleNotesEmtyToDo;
 	
 	
-	 public void verifyTodoListPage() throws Exception {
+	 public void verifyTodoListPageColumnHeader() throws Exception {
 		 getLogger().info("verify create to do button.");
 		 	verifyButtonCreateToDo();
 	     NXGReports.addStep("verify create to do button.", LogAs.PASSED, null);
@@ -111,10 +111,10 @@ public class AuditorTodoListPage  extends AbstractPage{
 	  }
 
 	public void verifyEmptyTodoList() throws Exception {
-		waitForVisibleElement(eleImgEmtyToDo);
-    	validateDisPlayedElement(eleImgEmtyToDo);		
-    	waitForVisibleElement(eleNotesEmtyToDo);
-		validateDisPlayedElement(eleNotesEmtyToDo);
+		waitForVisibleElement(eleImgEmtyToDo,"Empty Todo Image");
+    	validateDisPlayedElement(eleImgEmtyToDo,"Empty Todo Image");
+    	waitForVisibleElement(eleNotesEmtyToDo,"Empty Todo Note");
+		validateDisPlayedElement(eleNotesEmtyToDo,"Empty Todo Note");
 	}
 	
 	
@@ -124,12 +124,12 @@ public class AuditorTodoListPage  extends AbstractPage{
 	public void verifyButtonCreateToDo()throws Exception {
 		 validateCSSValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
 		 validateCSSValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
-		 validateDisPlayedElement(eleCreateToDoBtn);
+		 validateDisPlayedElement(eleCreateToDoBtn,"Create Todo Button");
 		
 	}
 	
 	public void verifyButtonFilter()throws Exception {
-		validateDisPlayedElement(eleFilterBtn);		
+		validateDisPlayedElement(eleFilterBtn,"Filter button");
 	}
 	
 	public void verifySearchDefault()throws Exception {
@@ -137,7 +137,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 	}
 	
 	public void verifySearchHover()throws Exception {
-		 clickAndHold(eleToDoSearchInput);
+		 clickAndHold(eleToDoSearchInput,"Search Button");
 		 waitForPresentOfLocator(By.xpath("//input[@id='todo-search']"));
 		 
 		 validateCSSValueElement(eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
@@ -165,10 +165,10 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 
 	public void verifySortOnTitle()throws Exception {
-		validateDisPlayedElement(eleSortByNameToDo);	
-		 validateDisPlayedElement(eleSortByClientAssignee);
-		 validateDisPlayedElement(eleSortByDueDate);
-		 validateDisPlayedElement(eleSortByAuditAssignee);
+		validateDisPlayedElement(eleSortByNameToDo,"Sort By name");
+		 validateDisPlayedElement(eleSortByClientAssignee,"Sort By Client Assignee");
+		 validateDisPlayedElement(eleSortByDueDate,"Sort By due Date");
+		 validateDisPlayedElement(eleSortByAuditAssignee,"Sort By Auditor Assignee");
 	}
 	
 	public void verifyCheckOnCheckBox()throws Exception {
@@ -184,46 +184,48 @@ public class AuditorTodoListPage  extends AbstractPage{
 	}
 	
 	public void clickCreateToDoBtn(){
-		clickElement(eleCreateToDoBtn);
+		clickElement(eleCreateToDoBtn,"Create Todo Button");
 	}
 	
 	public void checkAllToDoTask(){
 		if(!eleCheckBox.isSelected()){
-			clickOnCheckBox(eleCheckBox);			
+			clickOnCheckBox(eleCheckBox,"All Check Box");
 		 }
 	}
 	
 	public void unCheckAllToDoTask(){
 		if(eleCheckBox.isSelected()){
-			clickOnCheckBox(eleCheckBox);			
+			clickOnCheckBox(eleCheckBox,"CheckBox");
 		 }
 	}
 	
 	public void enterSearchToDoTask(String searchValue){
-		sendKeyTextBox(eleToDoSearchInput, searchValue);
+		sendKeyTextBox(eleToDoSearchInput, searchValue,"Search Field");
 	}
 	
 	public void clickSortByNameToDoTask(){
-		clickElement(eleSortByNameToDo);
+		clickElement(eleSortByNameToDo,"Sort By Name");
 	}
 	
 	public void clickSortByAuditAssignee(){
-		clickElement(eleSortByAuditAssignee);
+		clickElement(eleSortByAuditAssignee,"Sort By auditor Assignee");
 	}
 	
 	public void clickSortByCategory(){
-		clickElement(eleSortByCategory);
+		clickElement(eleSortByCategory,"Sort by Category");
 	}
 	
 	public void clickSortByDueDate(){
-		clickElement(eleSortByDueDate);
+		clickElement(eleSortByDueDate,"Sort By Due Date");
 	}
 	
 	public void clickSortByClientAssignee(){
-		clickElement(eleSortByClientAssignee);
+		clickElement(eleSortByClientAssignee,"Sort By client assignee");
 	}
-	
-	
-	
 
+
+	public void verifyTodoListPage() {
+		waitForClickableOfElement(eleCreateToDoBtn,"Create Todo button");
+		//validateElementText(eleCreateToDoBtn,"Create To-Do");
+	}
 }

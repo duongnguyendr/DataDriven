@@ -16,8 +16,8 @@ import org.testng.annotations.Test;
  * Created by vien.pham on 5/9/2017.
  */
 public class EditCategoryTest extends AbstractTest {
-    AuditorCreateToDoService auditorCreateToDoService;
-    AuditorEditCategoryService auditorEditCategoryService;
+    private AuditorCreateToDoService auditorCreateToDoService;
+    private AuditorEditCategoryService auditorEditCategoryService;
     @BeforeMethod
     public void initTest() throws Exception{
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());

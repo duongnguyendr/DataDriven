@@ -60,13 +60,13 @@ public class AdminAccountSettingsService extends AbstractService{
         adminAccountSettingsPage.validateTextMessagePhoneTxtbox();
     }
 
-    public void clickUpdateImageBTN() {
+    public void clickUpdateImageBTN()  {
         getLogger().info("Try to click on Update Image button.");
-        try {
+      //  try {
             adminAccountSettingsPage.clickUpdateImageBTN();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+      //  } catch (InterruptedException e) {
+     //       getLogger().info(e);
+    //    }
     }
 
     public void clickUpdateBTN() {
