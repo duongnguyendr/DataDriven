@@ -987,4 +987,76 @@ public class AbstractPage {
             return false;
         }
     }
+
+    /**
+     *
+     * @param element The element that we want to check.
+     * @param elementName Name of element we are verifying.
+     * @return
+     */
+    public boolean HoverAndWaitForClickableOfElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForClickableOfElement: "+elementName);
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.build().perform();
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            NXGReports.addStep("Element: "+ elementName+" is  clickable.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable on Element: "+element.getText());
+            NXGReports.addStep("Element: "+ elementName+" is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param element The element that we want to check.
+     * @param verifyText The expected text should be displayed.
+     * @param elementName Name of element we are verifying.
+     * @return
+     */
+    public boolean HoverAndWaitForPresentOfElement(WebElement element, String verifyText, String elementName){
+        getLogger().info("Try to waitForClickableOfElement: "+elementName);
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.build().perform();
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.textToBePresentInElement(element,verifyText));
+            NXGReports.addStep("Element: "+ elementName+" is  presented and have the correct text.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable on Element: "+element.getText());
+            NXGReports.addStep("Element: "+ elementName+" is not presented and have the incorrect text.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+    /**
+     *
+     * @param element The element that we want to check.
+     * @param elementName Name of element we are verifying.
+     * @return
+     */
+    public boolean HoverAndWaitForVisibleOfElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForClickableOfElement: "+elementName);
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.build().perform();
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            NXGReports.addStep("Element: "+ elementName+" is  visible.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not clickable on Element: "+element.getText());
+            NXGReports.addStep("Element: "+ elementName+" is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
 }
