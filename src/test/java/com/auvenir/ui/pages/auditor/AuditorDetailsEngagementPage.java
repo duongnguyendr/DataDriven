@@ -27,6 +27,8 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     private WebElement dashBoardLinkEle;
     @FindBy(xpath = "//div[contains(text(),'Dashboard')]")
     private WebElement dashboardTextEle;
+    @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
+    private WebElement toDoLinkTextEle;
 
     public void verifyDetailsEngagementPage(String engagement01) {
         //we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
@@ -40,6 +42,7 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     }
     public void navigateToTodoListPage() throws Exception {
         //waitForClickableOfElement(eleToDoListLnk,"Todo Link");
+        waitForVisibleElement(toDoLinkTextEle,"Todo link text");
         clickElement(eleToDoListLnk,"Todo Link");
     }
 }
