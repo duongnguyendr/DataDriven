@@ -33,7 +33,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     public static  final int smallTimeOut = 2000;
 
 	@FindBy(id="auv-todo-createToDo")
-	private WebElement eleCreateToDoBtn;
+	private WebElement createToDoBtnEle;
 
 	@FindBy(id="auv-todo-filter")
 	private WebElement eleFilterBtn;
@@ -48,7 +48,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	private WebElement eleNameToDoTitleLabel;
 
 	@FindBy(xpath="//th[@data-id='name']//i")
-	private WebElement eleSortByNameToDo;
+	private WebElement sortByToDoNameIconEle;
 
 	@FindBy(xpath="//th[@data-id='category']")
 	private WebElement eleCategoryTitleLabel;
@@ -89,31 +89,28 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	private WebElement eleNotesEmtyToDo;
 
 	@FindBy(id="category-dropdown")
-	private WebElement eleDdlCategory;
+	private WebElement categoryDropdownEle;
 	@FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[3]")
-	private WebElement eleXpathCategoryItem;
+	private WebElement categoryOptionItemEle;
 	@FindBy(id="due-date")
-	private WebElement eleIdDueDate;
+	private WebElement dueDateFieldEle;
 	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody/tr[2]/td[5]/a")
-	private WebElement eleXpathChooseDate;
+	private WebElement dateItemonCalendarEle;
 
 	public void verifyImgEmtyToDo()throws Exception {
 		validateDisPlayedElement(eleImgEmtyToDo,"EmptyTodoImage");
 	}
 
 	@FindBy(xpath="//div[@id='divName']/div/input[@id='todo-name']")
-	private WebElement eleToDoNameInput;
-
-	@FindBy(xpath="//input[@id='due-date']")
-	private WebElement eleDueDateInput;
+	private WebElement toDoNameInputEle;
 
 	@FindBy(xpath="//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
-	private WebElement eleToDoNameErrorLabel;
+	private WebElement toDoNameErrorLabelEle;
 
 	@FindBy(xpath="//*[@id='todo-add-btn']")
-	private WebElement eleToDoSaveIcon;
-	public WebElement getEleToDoSaveIcon() {
-		return eleToDoSaveIcon;
+	private WebElement toDoSaveIconEle;
+	public WebElement getToDoSaveIconEle() {
+		return toDoSaveIconEle;
 	}
 
 	@FindBy(xpath="//*[@id='todo-cancel-btn']")
@@ -127,14 +124,14 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(id="todo-table")
 	private WebElement tblIdTodoTable;
 	@FindBy(id="todo-name")
-	private WebElement eleIdToDoName;
+	private WebElement createToDoNameTextBoxEle;
 	@FindBy(id="todo-add-btn")
 	private WebElement eleBtnToDoAdd;
 
 	@FindBy(xpath="//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='newTodoInput']")
-	private List<WebElement> eleToDoNewRowNameText;
-	public List<WebElement> getEleToDoNewRowNameText() {
-		return eleToDoNewRowNameText;
+	private List<WebElement> toDoNameTextColumnEle;
+	public List<WebElement> getToDoNameTextColumnEle() {
+		return toDoNameTextColumnEle;
 	}
 
     @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
@@ -142,32 +139,43 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
     //Category ComboBox
     @FindBy(id ="category-dropdown")
-    private List<WebElement> eleCategoryComboBox;
+    private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
     @FindBy(id = "category-dropdown-menu")
-    private List<WebElement> eleCategoryComboBoxMenu;
+    private List<WebElement> categoryComboBoxMenuEle;
 
     @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[1]")
-    private WebElement eleXpathCreateNewCategory;
+    private WebElement addNewCategoryMenuItemEle;
 
     @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[2]")
-    WebElement eleEditCategory;
+    WebElement editCategoryEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
-    WebElement eleCategoryTitle;
+    WebElement categoryTitleEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[starts-with(@id,'modal-close-categoryModel')]")
     WebElement eleEditCategoryCloseBtn;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
-    WebElement eleEditCategoryCancelBtn;
+    WebElement editCategoryCancelBtnEle;
 	
-	public void verifyButtonCreateToDo()throws Exception {
-		validateCssValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
-		validateCssValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
-		validateDisPlayedElement(eleCreateToDoBtn,"Create Todo Button");
-
+	public void verifyGUIButtonCreateToDo(){
+		try{
+			boolean result;
+			result = validateCssValueElement(createToDoBtnEle,"background-color","rgba(89, 155, 161, 1)");
+			Assert.assertTrue(result, "Background-color of Create To Do Button is displayed unsuccessfully");
+			result = validateCssValueElement(createToDoBtnEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text Color of Create To Do Button is displayed unsuccessfully");
+			result = validateDisPlayedElement(createToDoBtnEle,"Create Todo Button");
+			Assert.assertTrue(result, "Text Value of Create To Do Button is displayed unsuccessfully");
+			NXGReports.addStep("Verify GUI of Create To Do Button", LogAs.PASSED, null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			getLogger().info("GUI of Create To Do Button is displayed unsuccessfully");
+			NXGReports.addStep("TestScript Failed: Verify GUI of Create To Do Button", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
 	public void verifyButtonFilter()throws Exception {
@@ -187,7 +195,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 
 	public void verifySotleOnTitle()throws Exception {
-		validateDisPlayedElement(eleSortByNameToDo,"Sort By Name Button");
+		validateDisPlayedElement(sortByToDoNameIconEle,"Sort By Name Button");
 		validateDisPlayedElement(eleSortByClientAssignee,"Sort By Client Assignee Button.");
 		validateDisPlayedElement(eleSortByDueDate,"Sort By");
 		validateDisPlayedElement(eleSortByAuditAssignee,"Sort by Auditor Assignee button.");
@@ -195,72 +203,128 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 
 	public void verifyToDoListPage() throws Exception {
-		validateAttributeElement(eleCreateToDoBtn,"background","#2c8188");
-		validateAttributeElement(eleCreateToDoBtn,"color","#fff");
-		validateDisPlayedElement(eleCreateToDoBtn,"Create Todo Button");
+		validateAttributeElement(createToDoBtnEle,"background","#2c8188");
+		validateAttributeElement(createToDoBtnEle,"color","#fff");
+		validateDisPlayedElement(createToDoBtnEle,"Create Todo Button");
 		validateDisPlayedElement(eleFilterBtn,"Filter Button");
 		validateDisPlayedElement(eleToDoSearchInput,"Search button");
 		validateAttributeElement(eleToDoSearchInput,"placeholder","Search...");
 		eleToDoSearchInput.click();
-		validateAttributeElement(eleCreateToDoBtn,"border","#599ba1");
+		validateAttributeElement(createToDoBtnEle,"border","#599ba1");
 		validateDisPlayedElement(eleCheckBox,"Check Box");
 		validateElementText(eleNameToDoTitleLabel, "To-Dos");
 		validateElementText(eleCategoryTitleLabel, "Category");
 		validateElementText(eleClientAssigneeTitleLabel, "Client Assignee");
 		validateElementText(eleDueDateTitleLabel, "Due Date");
 		validateElementText(eleAuditAssigneeTitleLabel, "Audit Assignee");
-		validateDisPlayedElement(eleSortByNameToDo,"Sort By Name");
+		validateDisPlayedElement(sortByToDoNameIconEle,"Sort By Name");
 		validateDisPlayedElement(eleSortByClientAssignee,"Sort By Assign button.");
 		validateDisPlayedElement(eleSortByDueDate,"Sort By Due Date button.");
 		validateDisPlayedElement(eleSortByAuditAssignee,"Sort by Auditor Assignee.");
 		if(!eleCheckBox.isSelected()){
 			eleCheckBox.click();
 		}
-		validateAttributeElement(eleCreateToDoBtn,"background","#5cd4c0");
+		validateAttributeElement(createToDoBtnEle,"background","#5cd4c0");
 		if(eleCheckBox.isSelected()){
 			eleCheckBox.click();
 		}
-		validateAttributeElement(eleCreateToDoBtn,"background","#cacece");
+		validateAttributeElement(createToDoBtnEle,"background","#cacece");
 	}
 
 
 	public void clickCreateToDoTask(){
-		waitForClickableOfElement(eleCreateToDoBtn,"Create Todo button");
-		eleCreateToDoBtn.click();
+		waitForClickableOfElement(createToDoBtnEle,"Create Todo button");
+		createToDoBtnEle.click();
 	}
 
-	public void verifyDefaultValueToDoTextBox(){
-		waitForVisibleElement(eleToDoNameInput,"Todo name input field.");
-		validateDisPlayedElement(eleToDoNameInput,"Todo name input field.");
-		validateAttributeElement(eleToDoNameInput,"placeholder","Write your first to do here");
+	public void verifyDefaultValueToDoNameTextBox(){
+		try{
+			boolean result;
+			getLogger().info("Verify Default Value To Do Text Box");
+			waitForVisibleElement(toDoNameInputEle,"Todo name input field.");
+			validateDisPlayedElement(toDoNameInputEle,"Todo name input field.");
+			result = validateAttributeElement(toDoNameInputEle,"placeholder","Write your to do here");
+			Assert.assertTrue(result, "Default Value To Do TextBox is displayed unsuccessfully");
+			NXGReports.addStep("Verify Default Value To Do Text Box", LogAs.PASSED, null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			getLogger().info("Default Value To Do TextBox is displayed unsuccessfully");
+			NXGReports.addStep("TestScript Failed: Verify Default Value To Do Text Box", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+
 	}
-	public void verifyCssValueToDoTextBox(){
-		waitForVisibleElement(eleToDoNameInput,"Todo Name input field");
-		clickAndHold(eleToDoNameInput,"Todo Name input field");
-		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgb(89, 155, 161)");
+	public void verifyHoverCssValueToDoNameTextBox(){
+		try{
+			boolean result;
+			getLogger().info("Verify Hover CSS Value To Do Text Box");
+			waitForVisibleElement(toDoNameInputEle,"Todo Name input field");
+			clickAndHold(toDoNameInputEle,"Todo Name input field");
+			result = validateCSSValueElement(toDoNameInputEle,"border","1px solid rgb(89, 155, 161)");
+			Assert.assertTrue(result, "Hover CSS Value of To Do TextBox is displayed unsuccessfully");
+			NXGReports.addStep("Verify Hover CSS Value of To Do Text Box", LogAs.PASSED, null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			getLogger().info("Hover CSS Value of To Do TextBox is displayed unsuccessfully");
+			NXGReports.addStep("TestScript Failed: Verify Hover CSS Value To Do Text Box", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
-	public void verifyCssValueWarningToDoTextBox(){
-		waitForVisibleElement(eleToDoNameInput,"Todo name input field");
-		waitForVisibleElement(eleDueDateInput,"Due Date input field");
-		clickAndHold(eleToDoNameInput,"Todo Name input field");
-		eleDueDateInput.click();
-		validateCSSValueElement(eleToDoNameInput,"border","1px solid rgba(253, 109, 71, 0.4)");
-		waitForVisibleElement(eleToDoNameErrorLabel,"Todo Name error  Label");
-		validateElementText(eleToDoNameErrorLabel,"Not a valid name.");
+	public void verifyWarningCssValueToDoNameTextBox(){
+		try{
+			boolean result;
+			getLogger().info("Verify CSS Value Warning To Do Name Text Box");
+			waitForVisibleElement(toDoNameInputEle,"Todo name input field");
+			waitForVisibleElement(dueDateFieldEle,"Due Date input field");
+			clickAndHold(toDoNameInputEle,"Todo Name input field");
+			dueDateFieldEle.click();
+			result = validateCSSValueElement(toDoNameInputEle,"border","1px solid rgba(253, 109, 71, 0.4)");
+			Assert.assertTrue(result, "Warning CSS Value of To Do TextBox is displayed unsuccessfully");
+			waitForVisibleElement(toDoNameErrorLabelEle,"Todo Name error  Label");
+			result = validateElementText(toDoNameErrorLabelEle,"Not a valid name.");
+			Assert.assertTrue(result, "Warning Value of To Do TextBox is displayed unsuccessfully");
+			NXGReports.addStep("Verify Warning CSS Value of To Do Text Box", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			getLogger().info("Warning CSS Value of To Do Name TextBox is displayed unsuccessfully");
+			NXGReports.addStep("TestScript Failed: Verify Warning CSS Value To Do Name Text Box", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
 
 	public void verifyAddNewToDoTask(String toDoName) {
-		validateDisPlayedElement(eleToDoNewRowNameText.get(0),"Todo New Row Name");
-		validateAttributeElement(eleToDoNewRowNameText.get(0), "value", toDoName);
+		try {
+			boolean result;
+			validateDisPlayedElement(toDoNameTextColumnEle.get(0),"Todo New Row Name");
+			result = validateAttributeElement(toDoNameTextColumnEle.get(0), "value", toDoName);
+			Assert.assertTrue(result, String.format("New To Do task '%s' is NOT added successfully",toDoName));
+			NXGReports.addStep("New To Do task is added successfully", LogAs.PASSED, null);
+		} catch (Exception e) {
+			NXGReports.addStep("New To Do task is added unsuccessfully", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
-	public void verifyInputValueToDoNameTextBox(String Value) {
-		waitForVisibleElement(eleToDoNameInput,"Todo Name input field");
-		eleToDoNameInput.clear();
-		eleToDoNameInput.sendKeys(Value);
-		validateAttributeElement(eleToDoNameInput, "value", Value);
+	public boolean verifyInputValueToDoNameTextBox(String toDoNameValue) {
+		try{
+			boolean result;
+			getLogger().info("Verify Input Value ToDo Name TextBox");
+			waitForVisibleElement(toDoNameInputEle,"Todo Name input field");
+			sendKeyTextBox(toDoNameInputEle, toDoNameValue, "To Do Name Input");
+			result = validateAttributeElement(toDoNameInputEle, "value", toDoNameValue);
+			Assert.assertTrue(result, "Input Value into ToDo Name TextBox is unsuccessfully");
+			NXGReports.addStep("Verify Input Value ToDo Name TextBox", LogAs.PASSED, null);
+			return true;
+		}catch (AssertionError e) {
+			AbstractService.sStatusCnt++;
+			getLogger().info("Input Value into ToDo Name TextBox is unsuccessfully");
+			NXGReports.addStep("TestScript Failed: Verify Input Value ToDo Name TextBox", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
 	}
+
 	public boolean verifyCheckMaxLength()throws Exception {
 		boolean isSearchText = false;
 		waitForClickableOfElement(eleToDoSearchInput,"wait for txtIdTodoSearch");
@@ -290,98 +354,122 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		return createNewCategory(categoryIndiMode);
 	}
 
-    public void createToDoPage(String toDoName)throws Exception {
-        waitForClickableOfElement(eleCreateToDoBtn,"Create To Do Button");
-        eleCreateToDoBtn.click();
-        Thread.sleep(smallTimeOut);
-        eleIdToDoName.sendKeys(toDoName);
-        // Create new category
-        createNewCategory("");
-        Thread.sleep(smallTimeOut);
-        waitForClickableOfElement(eleDdlCategory,"Category Dropdown");
-        eleDdlCategory.click();
-        waitForClickableOfElement(eleXpathCategoryItem,"Category Option Item");
-        eleXpathCategoryItem.click();
-        waitForClickableOfElement(eleIdDueDate,"Due Date field");
-        eleIdDueDate.click();
-        waitForClickableOfElement(eleXpathChooseDate,"Date value");
-        eleXpathChooseDate.click();
-        waitForVisibleElement(eleToDoSaveIcon,"Save Icon");
-        eleToDoSaveIcon.click();
-        verifyAddNewToDoTask(toDoName);
+    public void createToDoTask(String toDoName)throws Exception {
+			waitForClickableOfElement(createToDoBtnEle,"Create To Do Button");
+			createToDoBtnEle.click();
+			Thread.sleep(smallTimeOut);
+			createToDoNameTextBoxEle.sendKeys(toDoName);
+			// Create new category
+			createNewCategory("");
+			Thread.sleep(smallTimeOut);
+			waitForClickableOfElement(categoryDropdownEle,"Category Dropdown");
+			categoryDropdownEle.click();
+			waitForClickableOfElement(categoryOptionItemEle,"Category Option Item");
+			categoryOptionItemEle.click();
+			waitForClickableOfElement(dueDateFieldEle,"Due Date field");
+			dueDateFieldEle.click();
+			waitForClickableOfElement(dateItemonCalendarEle,"Date value");
+			dateItemonCalendarEle.click();
+			waitForVisibleElement(toDoSaveIconEle,"Save Icon");
+			toDoSaveIconEle.click();
+			verifyAddNewToDoTask(toDoName);
     }
 
-	public void createToDoPage()throws Exception {
-		getLogger().info("Run createToDoPage()");
+	public void createToDoTask()throws Exception {
+		getLogger().info("Run createToDoTask()");
 		todoNamePage = "To-do name " + randomNumber();
-		waitForClickableOfElement(eleCreateToDoBtn,"create todo button.");
-		clickElement(eleCreateToDoBtn, "click to eleCreateToDoBtn");
-		waitForClickableOfElement(eleIdToDoName, "wait for eleIdToDoName");
-		clickElement(eleIdToDoName, "click to eleIdToDoName");
-		eleIdToDoName.sendKeys(todoNamePage);
+		waitForClickableOfElement(createToDoBtnEle,"create todo button.");
+		clickElement(createToDoBtnEle, "click to eleCreateToDoBtn");
+		waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
+		clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
+        createToDoNameTextBoxEle.sendKeys(todoNamePage);
 		createNewCategory("");
-		hoverElement(eleDdlCategory,"eleDdlCategory");
-		waitForClickableOfElement(eleDdlCategory,"eleDdlCategory");
+		hoverElement(categoryDropdownEle,"eleDdlCategory");
+		waitForClickableOfElement(categoryDropdownEle,"eleDdlCategory");
         Thread.sleep(smallTimeOut);
-		clickElement(eleDdlCategory, "click to eleDdlCategory");
-		waitForClickableOfElement(eleXpathCategoryItem,"eleXpathCategoryItem");
-		clickElement(eleXpathCategoryItem, "click to eleXpathCategoryItem");
-		waitForClickableOfElement(eleIdDueDate,"eleIdDueDate");
+		clickElement(categoryDropdownEle, "click to eleDdlCategory");
+		waitForClickableOfElement(categoryOptionItemEle,"eleXpathCategoryItem");
+		clickElement(categoryOptionItemEle, "click to eleXpathCategoryItem");
+		waitForClickableOfElement(dueDateFieldEle,"eleIdDueDate");
 		Thread.sleep(smallerTimeOut);
-		clickElement(eleIdDueDate, "click to eleIdDueDate");
-		waitForClickableOfElement(eleXpathChooseDate,"eleXpathChooseDate");
-		clickElement(eleXpathChooseDate, "click to eleXpathChooseDate");
+		clickElement(dueDateFieldEle, "click to eleIdDueDate");
+		waitForClickableOfElement(dateItemonCalendarEle,"eleXpathChooseDate");
+		clickElement(dateItemonCalendarEle, "click to eleXpathChooseDate");
 		waitForClickableOfElement(eleBtnToDoAdd,"eleBtnToDoAdd");
 		clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
 	}
 
 	public void verifyToDoNameInputLimitCharacter(int maxLength)throws Exception {
-		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
-		validateMaxlenght(eleToDoNameInput, maxLength);
+		waitForVisibleElement(toDoNameInputEle,"eleToDoNameInput");
+		validateMaxlenght(toDoNameInputEle, "ToDo Name Input",maxLength);
 	}
 
 	public void verifyToDoNameInputSpecialCharacter(String value)throws Exception {
-		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
-		eleToDoNameInput.clear();
-		eleToDoNameInput.sendKeys(value);
-		eleDueDateInput.click();
-		waitForVisibleElement(eleToDoNameErrorLabel,"eleToDoNameErrorLabel");
-		validateElementText(eleToDoNameErrorLabel,"Not a valid name.");
+		waitForVisibleElement(toDoNameInputEle,"eleToDoNameInput");
+		toDoNameInputEle.clear();
+		toDoNameInputEle.sendKeys(value);
+		dueDateFieldEle.click();
+		waitForVisibleElement(toDoNameErrorLabelEle,"eleToDoNameErrorLabel");
+		validateElementText(toDoNameErrorLabelEle,"Not a valid name.");
 	}
 
-	public void verifyDisableToDoSaveIcon(){
-		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
-		eleToDoNameInput.clear();
-		waitForVisibleElement(eleToDoSaveIcon,"eleToDoSaveIcon");
-		validateDisabledElement(eleToDoSaveIcon,"eleToDoSaveIcon");
+	public void verifyDisableToDoSaveIcon() {
+		try {
+			boolean result;
+			waitForVisibleElement(toDoNameInputEle, "To Do Name Input");
+			toDoNameInputEle.clear();
+			waitForVisibleElement(toDoSaveIconEle, "To Do Save Icon");
+			result = validateAttributeElement(toDoSaveIconEle, "class", "fa fa-floppy-o disabled");
+			Assert.assertTrue(result, "To Do Save Icon is not disabled");
+			getLogger().info("To Do Save Icon is disabled");
+			NXGReports.addStep("Verify Disable ToDo Save Icon", LogAs.PASSED, null);
+		} catch (AssertionError e) {
+			AbstractService.sStatusCnt++;
+			getLogger().info("To Do Save Icon is not disabled");
+			NXGReports.addStep("TestScript Failed: Verify Disable ToDo Save Icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
 	public void verifyEnableToDoSaveIcon(){
-		waitForVisibleElement(eleToDoNameInput,"eleToDoNameInput");
-		eleToDoNameInput.sendKeys("Task01");
-		waitForVisibleElement(eleToDoSaveIcon,"eleToDoSaveIcon");
-		validateEnabledElement(eleToDoSaveIcon,"eleToDoSaveIcon");
+		try{
+			boolean result;
+			waitForVisibleElement(toDoNameInputEle,"To Do Name Input");
+			toDoNameInputEle.sendKeys("Task01");
+			waitForVisibleElement(toDoSaveIconEle,"To Do Save Icon");
+			result = validateAttributeElement(toDoSaveIconEle, "class", "fa fa-floppy-o");
+			Assert.assertTrue(result, "To Do Save Icon is not enabled");
+			getLogger().info("To Do Save Icon is enabled");
+			NXGReports.addStep("Verify Enabled ToDo Save Icon", LogAs.PASSED, null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			getLogger().info("To Do Save Icon is not enabled");
+			NXGReports.addStep("TestScript Failed: Verify Enabled ToDo Save Icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
-	public void verifyEnableToDoCloseIcon(){
+	public void verifyToDoCloseIcon(){
 		int count = -1;
 		if(eleToDoNewRow.isEmpty())
 			count = 0;
 		else count = eleToDoNewRow.size();
 		clickCreateToDoTask();
-		waitForVisibleElement(eleToDoCloseIcon,"eleToDoCloseIcon");
+		waitForVisibleElement(eleToDoCloseIcon,"To Do Close Icon");
 		eleToDoCloseIcon.click();
 		getLogger().info("Verify new To Do Task is not created.");
 		try {
-			if (count == eleToDoNewRow.size())
-				NXGReports.addStep( "New To Do Task is not created", LogAs.PASSED, null);
+			if (count == eleToDoNewRow.size()) {
+				NXGReports.addStep("New To Do Task is not created", LogAs.PASSED, null);
+				NXGReports.addStep("Close Icon is working", LogAs.PASSED, null);
+			}
 			else{
 				AbstractService.sStatusCnt++;
 				NXGReports.addStep("New To Do Task is created", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				NXGReports.addStep("Close Icon is not working", LogAs.PASSED, null);
 			}
 		} catch (Exception e) {
 			AbstractService.sStatusCnt++;
 			NXGReports.addStep("New To Do Task is created", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("Close Icon is not working", LogAs.PASSED, null);
 		}
 	}
 
@@ -406,7 +494,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	    waitForClickableOfElement(eleToDoSearchInput, "wait for click eleToDoSearchInput");
 		clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
 		sendKeyTextBox(eleToDoSearchInput,maxLenghtString,"send key to maxLenghtString");
-		this.validateMaxlenght(this.eleToDoSearchInput, maxLenght);
+		validateMaxlenght(this.eleToDoSearchInput, "To Do Search Input", maxLenght);
 	}
 
 	public void verifySearchInputNumber()throws Exception {
@@ -514,21 +602,15 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 
 
-	public void verifySortToDoTaskOnName() throws Exception {
-		try {
-			verifySortDataGrid(eleToDoNewRowNameText,eleSortByNameToDo);
-		} catch (Exception e) {
-			AbstractService.sStatusCnt++;
-			getLogger().info("Cannot sort data on Data Grid View.");
-		}
-
+	public void verifySortToDoTaskOnName(){
+		getLogger().info("Verify Sort ToDo Task On Name");
+		verifySortDataGrid(toDoNameTextColumnEle, sortByToDoNameIconEle);
 	}
 
-    public void verifyCheckAllCheckbox() throws Exception {
+    public void verifyCheckAllCheckboxToDoName() throws Exception {
         try {
             if (!eleCheckBox.isSelected()) eleCheckBox.click();
             for (int i = 0; i < eleToDoCheckboxRow.size(); i++) {
-                System.out.println("Checkbox is selected:? " + eleToDoCheckboxRow.get(i).isSelected());
                 if (!eleToDoCheckboxRow.get(i).isSelected()) {
                     AbstractService.sStatusCnt++;
                     getLogger().info("Check box icon at position " + i + " is NOT checked");
@@ -545,11 +627,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
         }
     }
 
-    public void verifyUnCheckAllCheckbox()throws Exception{
+    public void verifyUnCheckAllCheckboxToDoName()throws Exception{
         try{
             if (eleCheckBox.isSelected()) eleCheckBox.click();
             for (int i = 0 ; i < eleToDoCheckboxRow.size();i++){
-                System.out.println("Checkbox is selected:? " + eleToDoCheckboxRow.get(i).isSelected());
                 if(eleToDoCheckboxRow.get(i).isSelected()){
                     AbstractService.sStatusCnt++;
                     getLogger().info("Check box icon at position " + i + " is checked");
@@ -566,7 +647,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
         }
     }
 
-    public void verifyCheckMultipleCheckBox() throws Exception{
+    public void verifyCheckMultipleCheckBoxToDoName() throws Exception{
         try{
             if(eleCheckBox.isSelected()) eleCheckBox.click();
             if(eleToDoCheckboxRow.size()>3) {
@@ -593,12 +674,12 @@ public class AuditorCreateToDoPage  extends AbstractPage{
         }
     }
 
-    public void verifyDefaultValueofCategoryComboBox(String value) {
+    public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox) {
             boolean result = false;
             getLogger().info("Verify Default Value Of Category ComboBox");
             //System.out.println("First Option in Dropdown box: " + selectEleCategoryComboBox.getFirstSelectedOption());
             System.out.println("Default Value in Dropdown box: " + eleCategoryComboBoxText.get(0).getText());
-            result  = validateElementText(eleCategoryComboBoxText.get(0), value);
+            result  = validateElementText(eleCategoryComboBoxText.get(0), defaultValueComboBox);
             if(result){
                 NXGReports.addStep("Verify Default Value Of Category ComboBox successfully.", LogAs.PASSED, null);
             }else{
@@ -608,38 +689,40 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
     public void verifyHoverCategoryComboBox(){
         getLogger().info("Verify Default Value Of Category ComboBox.");
-        verifyHoverElement(eleCategoryComboBox.get(0),"border","1px solid rgb(92, 155, 160)");
+        verifyHoverElement(categoryComboBoxEle.get(0),"border","1px solid rgb(92, 155, 160)");
     }
 
     public void createToDoTaskWithCategoryName(String toDoName, String categoryName)throws Exception {
-        waitForClickableOfElement(eleCreateToDoBtn,"Create To Do Button");
-        eleCreateToDoBtn.click();
+        waitForClickableOfElement(createToDoBtnEle,"Create To Do Button");
+        createToDoBtnEle.click();
+        // Will changed after finding new solution for waiting Element
         Thread.sleep(smallTimeOut);
-        eleIdToDoName.sendKeys(toDoName);
+        createToDoNameTextBoxEle.sendKeys(toDoName);
         // Create new category
         createNewCategory("",categoryName);
+		// Will changed after finding new solution for waiting Element
         Thread.sleep(smallTimeOut);
-        waitForClickableOfElement(eleDdlCategory, "Category Dropdown");
-        eleDdlCategory.click();
-        waitForClickableOfElement(eleXpathCategoryItem,"Category Option Item");
-        eleXpathCategoryItem.click();
-        waitForClickableOfElement(eleIdDueDate,"Due Date field");
-        eleIdDueDate.click();
-        waitForClickableOfElement(eleXpathChooseDate,"Date value");
-        eleXpathChooseDate.click();
-        waitForVisibleElement(eleToDoSaveIcon,"Save Icon");
-        eleToDoSaveIcon.click();
+        waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
+        categoryDropdownEle.click();
+        waitForClickableOfElement(categoryOptionItemEle,"Category Option Item");
+        categoryOptionItemEle.click();
+        waitForClickableOfElement(dueDateFieldEle,"Due Date field");
+		dueDateFieldEle.click();
+        waitForClickableOfElement(dateItemonCalendarEle,"Date value");
+        dateItemonCalendarEle.click();
+        waitForVisibleElement(toDoSaveIconEle,"Save Icon");
+        toDoSaveIconEle.click();
         verifyAddNewToDoTask(toDoName);
     }
 
     public void verifyListValueofCategoryComboxBox(String categoryName) {
         try{
             boolean result;
-            waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
-            eleIdToDoName.click();
-            waitForClickableOfElement(eleCategoryComboBox.get(0),"Category Combo box");
-            eleCategoryComboBox.get(0).click();
-            List<WebElement> menuCateComboBox = eleCategoryComboBoxMenu.get(0).findElements(By.tagName("div"));
+            waitForClickableOfElement(createToDoNameTextBoxEle,"To Task name Textbox");
+            createToDoNameTextBoxEle.click();
+            waitForClickableOfElement(categoryComboBoxEle.get(0),"Category Combo box");
+            categoryComboBoxEle.get(0).click();
+            List<WebElement> menuCateComboBox = categoryComboBoxMenuEle.get(0).findElements(By.tagName("div"));
             result = validateElementText(menuCateComboBox.get(0), "Add New Category");
             Assert.assertTrue(result, "Add New Category option is not displayed");
             validateElementText(menuCateComboBox.get(1), "Edit Categories");
@@ -656,17 +739,14 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     public void verifyNewCategoryPopUpDisplayed() throws  Exception{
         try{
             boolean result;
-            waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
-            eleIdToDoName.click();
-            waitForClickableOfElement(eleCategoryComboBox.get(0),"Category Combo box");
-            eleCategoryComboBox.get(0).click();
-            eleXpathCreateNewCategory.click();
-            waitForVisibleElement(eleCategoryTitle,"Category Title");
-            result = validateElementText(eleCategoryTitle,"Add New Category");
+            waitForVisibleElement(categoryTitleEle,"Category Title");
+            result = validateElementText(categoryTitleEle,"Add New Category");
             Assert.assertTrue(result, "Add New Category popup is not displayed");
-            hoverElement(eleEditCategoryCancelBtn,"Cancel Catergory button");
-            waitForClickableOfElement(eleEditCategoryCancelBtn,"Cancel Create Category Button");
-            eleEditCategoryCancelBtn.click();
+            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
+            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
+			//Will be change to wait Ajax change function
+            Thread.sleep(smallTimeOut);
+            editCategoryCancelBtnEle.click();
             //Will be change to wait Ajax change function
             Thread.sleep(smallTimeOut);
             NXGReports.addStep("Verify New Category popup is displayed", LogAs.PASSED,null);
@@ -679,17 +759,12 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     public void verifyEditCategoriesPopUpDisplayed() throws Exception{
         try{
             boolean result;
-            waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
-            eleIdToDoName.click();
-            waitForClickableOfElement(eleCategoryComboBox.get(0),"Category Combo box");
-            eleCategoryComboBox.get(0).click();
-            eleEditCategory.click();
-            waitForVisibleElement(eleCategoryTitle,"Category Title");
-            result = validateElementText(eleCategoryTitle,"Edit Categories");
+            waitForVisibleElement(categoryTitleEle,"Category Title");
+            result = validateElementText(categoryTitleEle,"Edit Categories");
             Assert.assertTrue(result, "Edit Categories popup is not displayed");
-            hoverElement(eleEditCategoryCancelBtn,"Cancel Catergory button");
-            waitForClickableOfElement(eleEditCategoryCancelBtn,"Cancel Edit Category Button");
-            eleEditCategoryCancelBtn.click();
+            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
+            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Edit Category Button");
+            editCategoryCancelBtnEle.click();
             //Will be change to wait Ajax change function
             Thread.sleep(smallTimeOut);
             NXGReports.addStep("Verify Edit Categories popup is displayed", LogAs.PASSED,null);
@@ -700,16 +775,58 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     }
 
     public void verifyCreateToDoTaskWithoutCategory(String toDoName)throws Exception {
-        waitForClickableOfElement(eleIdToDoName,"To Task name Textbox");
-        eleIdToDoName.sendKeys(toDoName);
+    	getLogger().info("Verify Create ToDo Task Without Category");
+        waitForClickableOfElement(createToDoNameTextBoxEle,"To Task name Textbox");
+        createToDoNameTextBoxEle.sendKeys(toDoName);
         // Choose Due Date
-        waitForClickableOfElement(eleIdDueDate, "Due Date field");
-        eleIdDueDate.click();
-        waitForClickableOfElement(eleXpathChooseDate,"Date value");
-        eleXpathChooseDate.click();
-        waitForVisibleElement(eleToDoSaveIcon,"Save Icon");
-        eleToDoSaveIcon.click();
+        waitForClickableOfElement(dueDateFieldEle, "Due Date field");
+		dueDateFieldEle.click();
+        waitForClickableOfElement(dateItemonCalendarEle,"Date value");
+        dateItemonCalendarEle.click();
+        waitForVisibleElement(toDoSaveIconEle,"Save Icon");
+        toDoSaveIconEle.click();
         verifyAddNewToDoTask(toDoName);
     }
+
+	public void verifyInputMaxLengthToDoNameTextBox(){
+    	try{
+			boolean result = false;
+			getLogger().info("Verify Input Max Length ToDo Name TextBox.");
+			result = validateMaxlenght(toDoNameInputEle,"ToDo Name Input",255);
+			Assert.assertTrue(result, "Input 255 Characters into ToDo Name TextBox is unsuccessfully.");
+			NXGReports.addStep("Verify Edit Categories popup is displayed", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			getLogger().info("Input 255 Characters into ToDo Name TextBox is unsuccessfully.");
+			NXGReports.addStep("TestScript Failed: Verify Input Max Length ToDo Name TextBox", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+	public void inputInvalidValueToDoNameTextBox(){
+		getLogger().info("Input Invalid Value into To Do Name TextBox.");
+		verifyInputValueToDoNameTextBox("~!@#$%^&*+?><,.");
+	}
+
+	public void selectDueDateToDoTask(){
+		waitForClickableOfElement(dueDateFieldEle, "Due Date field");
+		clickElement(dueDateFieldEle,"Due Date field");
+		waitForClickableOfElement(dateItemonCalendarEle,"Date value on Calendar");
+		clickElement(dateItemonCalendarEle,"Date value on Calendar");
+	}
+
+	public void clickAddNewCategory(){
+		waitForClickableOfElement(createToDoNameTextBoxEle,"To Task name Textbox");
+		createToDoNameTextBoxEle.click();
+		waitForClickableOfElement(categoryComboBoxEle.get(0),"Category Combo box");
+		categoryComboBoxEle.get(0).click();
+		addNewCategoryMenuItemEle.click();
+	}
+
+	public void clickEditCategory(){
+		waitForClickableOfElement(createToDoNameTextBoxEle,"To Task name Textbox");
+		createToDoNameTextBoxEle.click();
+		waitForClickableOfElement(categoryComboBoxEle.get(0),"Category Combo box");
+		categoryComboBoxEle.get(0).click();
+		editCategoryEle.click();
+	}
 }
 

@@ -45,10 +45,14 @@ public class AbstractPage {
     public  static  final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ";
     public  static  final String borderColor = "border-color";
     public  static  final String border = "border";
+    public static  final String background = "background";
     public  static  final String searchTextToDoListPage = "Search to do";
     public  static final String searchTextDefault = "Search...";
     public  static final String greenColor = "\"1px solid rgba(89, 155, 161, 1)\"";
+    public  static final String blueColor = "\"1px solid rgba(43, 72, 117, 1)\"";
     public static  final String categoryNameAllText = "category name all text";
+    public static final  String notValidNameMessage = "Not a valid name.";
+    public  static  final String specialCharacter = "~!@#$%^&*+?><,.";
     public  static  final int maxLenght = 255;
 
     public AbstractPage(Logger logger,WebDriver driver){
@@ -142,6 +146,10 @@ public class AbstractPage {
     private WebElement categoryColors;
     @FindBy(id="m-ce-systemContainer")
     private WebElement idTitleCategory;
+    @FindBy(xpath = "//*[@id=\"setup-component-body\"]/div/div[1]/p[2]")
+    private WebElement xpathRequiredDataCategoryName;
+    @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
+    private WebElement xpathAllCategoryColor;
 
     public void verifyFooter()
     {
@@ -280,13 +288,13 @@ public class AbstractPage {
         getLogger().info("verify enabled of: " + elementName);
         try{
             element.isEnabled();
-            getLogger().info("Element : " + element.getText() +"is enable");
-            NXGReports.addStep(element.getText() + " is enable.", LogAs.PASSED, null);
+            getLogger().info("Element : " + elementName +"is enable");
+            NXGReports.addStep(elementName + " is enable.", LogAs.PASSED, null);
             return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Element : " + element +"is not enable.");
-            NXGReports.addStep("Element : " + element +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Element : " + elementName +"is not enable.");
+            NXGReports.addStep("Element : " + elementName +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -328,8 +336,7 @@ public class AbstractPage {
                 NXGReports.addStep("Element : " + elementName + " is not selected.", LogAs.PASSED, null);
                 return true;
             }else {
-                new Exception();
-                return false;
+                throw new Exception();
             }
         }catch (Exception e){
             AbstractService.sStatusCnt++;
@@ -357,18 +364,21 @@ public class AbstractPage {
 
     }
 
-    public boolean validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
+    public boolean validateMaxlenght(WebElement webElement, String webElementName, int maxLength) {
         try {
-            getLogger().info("verify input with max length with " + maxLenght +"character");
-            clickElement(webElement, "click to " + webElement);
-            sendKeyTextBox(webElement, maxLenghtString, "send key to " + webElement);
-            Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
-            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
+            String inputTextwithMaxLength = randomCharacters(maxLength);
+            getLogger().info("Verify input with max length with " + maxLength + " characters");
+            clickElement(webElement, webElementName);
+            clearTextBox(webElement, webElementName);
+            webElement.sendKeys(inputTextwithMaxLength);
+            String actualTextInput = webElement.getAttribute("value");
+            Assert.assertEquals(actualTextInput, inputTextwithMaxLength, String.format("%s cannot input %d characters", webElementName, maxLength));
+            NXGReports.addStep("input with max length with " + maxLength + "character", LogAs.PASSED, null);
             return true;
-        }catch (AssertionError error) {
+        } catch (AssertionError error) {
             getLogger().info(error);
-            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw error;
+            NXGReports.addStep("input with max length with " + maxLength + "character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
     /*
@@ -576,13 +586,14 @@ public class AbstractPage {
      @param elementName Name of element that we want to click
      */
     public void clickElement(WebElement element,String elementName){
-        getLogger().info("Try to ClickElement: " + element);
+        getLogger().info("Try to ClickElement: " + elementName);
         try{
+            waitForClickableOfElement(element, "click to " + elementName);
             element.click();
-            NXGReports.addStep("Clicked on element: "+ elementName, LogAs.PASSED, null);
-        }catch (Exception e){
+            NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to Click on: " + element);
+            getLogger().info("Unable to Click on: " + elementName);
             NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -592,7 +603,7 @@ public class AbstractPage {
      @param elementName Name of element that we want to click and hold
      */
     public void clickAndHold(WebElement element, String elementName){
-        getLogger().info("Try to ClickAndHold: " + element);
+        getLogger().info("Try to ClickAndHold: "+ elementName);
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(element);
@@ -648,7 +659,7 @@ public class AbstractPage {
      * @param elementName Name of element that we want to input value.
      */
     public void clearTextBox(WebElement element,String elementName){
-        getLogger().info("Try to sendKey on : "+elementName);
+        getLogger().info("Try to clear text on : "+elementName);
         try {
             element.clear();
             NXGReports.addStep("Cleared text: on element: "+ elementName, LogAs.PASSED, null);
@@ -763,8 +774,6 @@ public class AbstractPage {
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
                 return true;
             } else {
-                AbstractService.sStatusCnt++;
-                getLogger().info(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue);
                 throw new Exception();
             }
         } catch (Exception e) {
@@ -794,8 +803,7 @@ public class AbstractPage {
             } else {
                 AbstractService.sStatusCnt++;
                 getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
-                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.PASSED, null);
-                return false;
+                throw new Exception();
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -850,41 +858,34 @@ public class AbstractPage {
         }
     }
 
-    public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon) throws Exception {
+    public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon){
         try{
-            List<String> toDoTaskName = new ArrayList<String>();
-            List<String> sortToDoTaskName;
+            List<String> listToDoTaskName = new ArrayList<String>();
+            List<String> listSortedToDoTaskName;
             for (int i = 0; i < elementRowValue.size(); i++) {
-                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+                listToDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
             }
-            sortToDoTaskName = toDoTaskName;
-            Collections.sort(sortToDoTaskName);
+            listSortedToDoTaskName = listToDoTaskName;
+            Collections.sort(listSortedToDoTaskName);
             elementSortIcon.click();
-            toDoTaskName.clear();
+            listToDoTaskName.clear();
             for (int i = 0; i < elementRowValue.size(); i++) {
-                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+                listToDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
             }
-            if (sortToDoTaskName.equals(toDoTaskName)) {
-                getLogger().info("Ascending sort is as expected");
-            } else {
-                getLogger().info("Ascending sort is NOT as expected");
-                throw new Exception();
-            }
-            Collections.reverse(sortToDoTaskName);
+            Assert.assertEquals(listSortedToDoTaskName, listToDoTaskName, "Ascending sort is NOT as expected");
+            NXGReports.addStep("The data on Data Grid is sorted in ascending order successfully", LogAs.PASSED, null);
+            Collections.reverse(listSortedToDoTaskName);
             elementSortIcon.click();
-            toDoTaskName.clear();
+            listToDoTaskName.clear();
             for (int i = 0; i < elementRowValue.size(); i++) {
-                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+                listToDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
             }
-            if (sortToDoTaskName.equals(toDoTaskName)) {
-                getLogger().info("Descending sort is successfully");
-            } else {
-                getLogger().info("Descending sort is NOT successfully");
-                throw new Exception();
-            }
-        }catch (Exception e){
+            Assert.assertEquals(listSortedToDoTaskName, listToDoTaskName, "Descending sort is NOT as expected");
+            NXGReports.addStep("The data on Data Grid is sorted in descending order successfully", LogAs.PASSED, null);
+        }catch (AssertionError e){
             AbstractService.sStatusCnt++;
             getLogger().info("Cannot sort data on Data Grid View.");
+            NXGReports.addStep("The data on Data Grid is sorted unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -900,6 +901,7 @@ public class AbstractPage {
         Thread.sleep(smallerTimeOut);
         clickElement(eleXpathCreateNewCategory, "click to eleXpathCreateNewCategory");
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
+        Thread.sleep(smallerTimeOut);
         clickElement(eleIdCategoryName, "click to eleIdCategoryName");
         sendKeyTextBox(eleIdCategoryName, categoryName, "send key to eleIdCategoryName");
         //Will be removed.
@@ -1109,6 +1111,8 @@ public class AbstractPage {
         eleXpathCreateNewCategory.click();
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
         eleIdCategoryName.sendKeys(categoryName);
+        // Will changed after finding new solution for waiting Element
+        Thread.sleep(smallTimeOut);
         hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
         waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
         eleIdCategoryColor.click();
@@ -1145,7 +1149,6 @@ public class AbstractPage {
             isCheckCategory = true;
         }
         return isCheckCategory;
-
     }
 
     public boolean verifyCategoryTitle()
@@ -1157,8 +1160,13 @@ public class AbstractPage {
             String strCategoryTitle = idTitleCategory.getText();
             if (categoryTitleOfAddNew.equals(strCategoryTitle)) {
                 isCheckTitle = true;
+                NXGReports.addStep("Verify category title", LogAs.PASSED, null);
             }
-            NXGReports.addStep("Verify category title", LogAs.PASSED, null);
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify category title", LogAs.FAILED, null);
+            }
             return isCheckTitle;
         }
         catch(Exception ex)
@@ -1181,8 +1189,14 @@ public class AbstractPage {
             if(strCateDefaultValue.equals(""))
             {
                 isCheckDetaultValue = true;
+                NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
             }
-            NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            }
+
             return isCheckDetaultValue;
         }
         catch(Exception ex)
@@ -1202,7 +1216,14 @@ public class AbstractPage {
             // Green color
             clickElement(eleIdCategoryName, "click to eleIdCategoryName");
             isCheckBorderColor = validateCSSValueElement(eleIdCategoryName, border, greenColor);
-            NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+            if(isCheckBorderColor) {
+                NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            }
             return isCheckBorderColor;
         }
         catch (Exception ex)
@@ -1227,8 +1248,13 @@ public class AbstractPage {
             if(categoryNameAllText.equals(strGetCategoryName))
             {
                 isCheckShowAllText = true;
+                NXGReports.addStep("Verify check show all text of category name", LogAs.PASSED, null);
             }
-            NXGReports.addStep("Verify check show all text of category name", LogAs.PASSED, null);
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify check show all text of category name", LogAs.FAILED, null);
+            }
             return isCheckShowAllText;
         }
         catch(Exception ex)
@@ -1237,6 +1263,195 @@ public class AbstractPage {
             NXGReports.addStep("Verify check show all text of category name", LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return isCheckShowAllText;
+        }
+    }
+
+    public boolean verifyCategoryNameRequiredData()
+    {
+        boolean isCheckRequiredData = false;
+        getLogger().info("Verify to check required data of category name");
+        try
+        {
+            clickElement(eleIdCategoryName, "click to eleIdCategoryName");
+            clickElement(eleIdCategoryColor, "click to eleIdCategoryColor");
+            waitForVisibleElement(xpathRequiredDataCategoryName, "wait for visible xpathRequiredDataCategoryName");
+            String strRequiredDataMessage = getTextByJavaScripts(xpathRequiredDataCategoryName);
+            if(strRequiredDataMessage.equals(notValidNameMessage))
+            {
+                isCheckRequiredData = true;
+                NXGReports.addStep("Verify to check required data of category name", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to check required data of category name", LogAs.FAILED, null);
+            }
+            return isCheckRequiredData;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to check required data of category name", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckRequiredData;
+        }
+    }
+
+    public boolean verifyCategoryNameMaxLength()
+    {
+        boolean isCheckMaxLength = false;
+        getLogger().info("Verify to check max length of category name");
+        try
+        {
+            isCheckMaxLength = validateMaxlenght(eleIdCategoryName, "Category Name TextBox", maxLenght);
+            if(isCheckMaxLength) {
+                NXGReports.addStep("Verify to check max length of category name", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to check max length of category name", LogAs.FAILED, null);
+            }
+            return isCheckMaxLength;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to check max length of category name", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckMaxLength;
+        }
+    }
+
+    public boolean verifyCategoryNameInputNumber()
+    {
+        boolean isCheckMaxLength = false;
+        getLogger().info("Verify to check the number value of category name");
+        try
+        {
+            waitForClickableOfElement(eleIdCategoryName,"wait for click eleIdCategoryName");
+            clickElement(eleIdCategoryName,"click to eleIdCategoryName");
+            sendKeyTextBox(eleIdCategoryName,numberSequence,"send key to eleIdCategoryName");
+            String strNumberValue = getTextByJavaScripts(eleIdCategoryName);
+            if(strNumberValue.equals(numberSequence))
+            {
+                isCheckMaxLength = true;
+                NXGReports.addStep("Verify to check the number value of category name", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to check the number value of category name", LogAs.FAILED, null);
+            }
+
+            return isCheckMaxLength;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to check the number value of category name", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckMaxLength;
+        }
+    }
+    public String randomCharacters(int maxLength){
+        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < maxLength; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        String results = sb.toString();
+        return results;
+    }
+
+    public boolean verifyCategoryNameSpecialCharacter()
+    {
+        boolean isCheckSpecialCharacter = false;
+        getLogger().info("Verify to check special character of category name");
+        try
+        {
+            clickElement(eleIdCategoryName, "click to eleIdCategoryName");
+            sendKeyTextBox(eleIdCategoryName, specialCharacter,"send special character to eleIdCategoryName");
+            clickElement(eleIdCategoryColor, "click to eleIdCategoryColor");
+            waitForVisibleElement(xpathRequiredDataCategoryName, "wait for visible xpathRequiredDataCategoryName");
+            String strRequiredDataMessage = getTextByJavaScripts(xpathRequiredDataCategoryName);
+            if(strRequiredDataMessage.equals(notValidNameMessage))
+            {
+                isCheckSpecialCharacter = true;
+                NXGReports.addStep("Verify to check special character of category name", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to check special character of category name", LogAs.FAILED, null);
+            }
+            return isCheckSpecialCharacter;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to check special character of category name", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckSpecialCharacter;
+        }
+    }
+
+    public boolean verifyCategoryColorAllQuantityColor()
+    {
+        boolean isCheckAllQuantityColor = false;
+        getLogger().info("Verify to check all quantity color of category color");
+        try
+        {
+            clickElement(eleIdCategoryColor, "click to eleIdCategoryColor");
+            waitForVisibleElement(xpathAllCategoryColor, "wait for visible xpathAllCategoryColor");
+            List<WebElement> listCategoryColor = getDriver().findElements(By.xpath("//*[@id=\"category-color-container\"]/ul/li"));
+            if(listCategoryColor.size() == 10)
+            {
+                isCheckAllQuantityColor = true;
+                NXGReports.addStep("Verify to check all quantity color of category color", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to check all quantity color of category color", LogAs.FAILED, null);
+            }
+            return isCheckAllQuantityColor;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to check all quantity color of category color", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckAllQuantityColor;
+        }
+    }
+
+    public boolean verifyChoosedCategoryColor()
+    {
+        boolean isCheckChoosedColor = false;
+        getLogger().info("Verify hover and click to category name");
+        try {
+            // blue color
+            waitForVisibleElement(eleIdCategoryColor, "wait for eleIdCategoryColor");
+            isCheckChoosedColor = validateCSSValueElement(eleIdCategoryColor, background, blueColor);
+            if(isCheckChoosedColor) {
+                NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            }
+            return isCheckChoosedColor;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckChoosedColor;
         }
     }
 }
