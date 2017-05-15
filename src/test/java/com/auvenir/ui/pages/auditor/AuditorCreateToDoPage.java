@@ -744,6 +744,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             Assert.assertTrue(result, "Add New Category popup is not displayed");
             hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
             waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
+			//Will be change to wait Ajax change function
+            Thread.sleep(smallTimeOut);
             editCategoryCancelBtnEle.click();
             //Will be change to wait Ajax change function
             Thread.sleep(smallTimeOut);
