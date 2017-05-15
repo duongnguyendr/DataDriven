@@ -48,6 +48,7 @@ public class AbstractPage {
     public  static  final String searchTextToDoListPage = "Search to do";
     public  static final String searchTextDefault = "Search...";
     public  static final String greenColor = "\"1px solid rgba(89, 155, 161, 1)\"";
+    public static  final String categoryNameAllText = "category name all text";
     public  static  final int maxLenght = 255;
 
     public AbstractPage(Logger logger,WebDriver driver){
@@ -835,8 +836,18 @@ public class AbstractPage {
 
     public String getTextByJavaScripts(WebElement eleGetText)
     {
-        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
-        return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
+        getLogger().info("Get text by javascript of element " + eleGetText);
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+            NXGReports.addStep("Get text by javascript of element " + eleGetText, LogAs.PASSED, null);
+            return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;", eleGetText);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Get text by javascript of element " + eleGetText, LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return "";
+        }
     }
 
     public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon) throws Exception {
@@ -1152,6 +1163,7 @@ public class AbstractPage {
         }
         catch(Exception ex)
         {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify category title", LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return isCheckTitle;
@@ -1175,6 +1187,7 @@ public class AbstractPage {
         }
         catch(Exception ex)
         {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return isCheckDetaultValue;
@@ -1187,15 +1200,43 @@ public class AbstractPage {
         getLogger().info("Verify hover and click to category name");
         try {
             // Green color
+            clickElement(eleIdCategoryName, "click to eleIdCategoryName");
             isCheckBorderColor = validateCSSValueElement(eleIdCategoryName, border, greenColor);
             NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
             return isCheckBorderColor;
         }
         catch (Exception ex)
         {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return isCheckBorderColor;
+        }
+    }
+
+    public boolean verifyShowAllTextCategoryName()
+    {
+        boolean isCheckShowAllText = false;
+        getLogger().info("Verify check show all text of category name");
+        try
+        {
+            clickElement(eleIdCategoryName,"click to eleIdCategoryName");
+            clearTextBox(eleIdCategoryName, "clear eleIdCategoryName");
+            sendKeyTextBox(eleIdCategoryName,categoryNameAllText,"send key to eleIdCategoryName");
+            String strGetCategoryName = getTextByJavaScripts(eleIdCategoryName);
+            if(categoryNameAllText.equals(strGetCategoryName))
+            {
+                isCheckShowAllText = true;
+            }
+            NXGReports.addStep("Verify check show all text of category name", LogAs.PASSED, null);
+            return isCheckShowAllText;
+        }
+        catch(Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify check show all text of category name", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckShowAllText;
         }
     }
 }
