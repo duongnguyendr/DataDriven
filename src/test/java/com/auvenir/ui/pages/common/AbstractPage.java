@@ -45,11 +45,14 @@ public class AbstractPage {
     public  static  final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ";
     public  static  final String borderColor = "border-color";
     public  static  final String border = "border";
+    public static  final String background = "background";
     public  static  final String searchTextToDoListPage = "Search to do";
     public  static final String searchTextDefault = "Search...";
     public  static final String greenColor = "\"1px solid rgba(89, 155, 161, 1)\"";
+    public  static final String blueColor = "\"1px solid rgba(43, 72, 117, 1)\"";
     public static  final String categoryNameAllText = "category name all text";
     public static final  String notValidNameMessage = "Not a valid name.";
+    public  static  final String specialCharacter = "~!@#$%^&*+?><,.";
     public  static  final int maxLenght = 255;
 
     public AbstractPage(Logger logger,WebDriver driver){
@@ -145,6 +148,8 @@ public class AbstractPage {
     private WebElement idTitleCategory;
     @FindBy(xpath = "//*[@id=\"setup-component-body\"]/div/div[1]/p[2]")
     private WebElement xpathRequiredDataCategoryName;
+    @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
+    private WebElement xpathAllCategoryColor;
 
     public void verifyFooter()
     {
@@ -580,9 +585,10 @@ public class AbstractPage {
      @param element element defined on page class
      @param elementName Name of element that we want to click
      */
-    public void clickElement(WebElement element, String elementName) {
+    public void clickElement(WebElement element,String elementName){
         getLogger().info("Try to ClickElement: " + elementName);
-        try {
+        try{
+            waitForClickableOfElement(element, "click to " + elementName);
             element.click();
             NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1358,5 +1364,94 @@ public class AbstractPage {
         }
         String results = sb.toString();
         return results;
+    }
+
+    public boolean verifyCategoryNameSpecialCharacter()
+    {
+        boolean isCheckSpecialCharacter = false;
+        getLogger().info("Verify to check special character of category name");
+        try
+        {
+            clickElement(eleIdCategoryName, "click to eleIdCategoryName");
+            sendKeyTextBox(eleIdCategoryName, specialCharacter,"send special character to eleIdCategoryName");
+            clickElement(eleIdCategoryColor, "click to eleIdCategoryColor");
+            waitForVisibleElement(xpathRequiredDataCategoryName, "wait for visible xpathRequiredDataCategoryName");
+            String strRequiredDataMessage = getTextByJavaScripts(xpathRequiredDataCategoryName);
+            if(strRequiredDataMessage.equals(notValidNameMessage))
+            {
+                isCheckSpecialCharacter = true;
+                NXGReports.addStep("Verify to check special character of category name", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to check special character of category name", LogAs.FAILED, null);
+            }
+            return isCheckSpecialCharacter;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to check special character of category name", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckSpecialCharacter;
+        }
+    }
+
+    public boolean verifyCategoryColorAllQuantityColor()
+    {
+        boolean isCheckAllQuantityColor = false;
+        getLogger().info("Verify to check all quantity color of category color");
+        try
+        {
+            clickElement(eleIdCategoryColor, "click to eleIdCategoryColor");
+            waitForVisibleElement(xpathAllCategoryColor, "wait for visible xpathAllCategoryColor");
+            List<WebElement> listCategoryColor = getDriver().findElements(By.xpath("//*[@id=\"category-color-container\"]/ul/li"));
+            if(listCategoryColor.size() == 10)
+            {
+                isCheckAllQuantityColor = true;
+                NXGReports.addStep("Verify to check all quantity color of category color", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to check all quantity color of category color", LogAs.FAILED, null);
+            }
+            return isCheckAllQuantityColor;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to check all quantity color of category color", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckAllQuantityColor;
+        }
+    }
+
+    public boolean verifyChoosedCategoryColor()
+    {
+        boolean isCheckChoosedColor = false;
+        getLogger().info("Verify hover and click to category name");
+        try {
+            // blue color
+            waitForVisibleElement(eleIdCategoryColor, "wait for eleIdCategoryColor");
+            isCheckChoosedColor = validateCSSValueElement(eleIdCategoryColor, background, blueColor);
+            if(isCheckChoosedColor) {
+                NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            }
+            return isCheckChoosedColor;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckChoosedColor;
+        }
     }
 }
