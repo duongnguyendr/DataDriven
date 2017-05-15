@@ -36,7 +36,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 public class AbstractPage {
     private    Logger logger = null;
     private  WebDriver driver = null;
-    private static final int waitTime = 1;
+    private static final int waitTime = 60;
     public static  final int smallerTimeOut = 500;
     public static  final int smallTimeOut = 1000;
     public static final  String categoryIndiMode = "indicategory";
@@ -268,16 +268,16 @@ public class AbstractPage {
 
     public boolean validateEnabledElement(WebElement element, String elementName) throws InvalidElementStateException
     {
-        getLogger().info("verify enabled of: " + element.getText());
+        getLogger().info("verify enabled of: " + elementName);
         try{
             element.isEnabled();
-            getLogger().info("Element : " + element.getText() +"is enable");
-            NXGReports.addStep(element.getText() + " is enable.", LogAs.PASSED, null);
+            getLogger().info("Element : " + elementName +"is enable");
+            NXGReports.addStep(elementName + " is enable.", LogAs.PASSED, null);
             return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Element : " + element.getText() +"is not enable.");
-            NXGReports.addStep("Element : " + element.getText() +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Element : " + elementName +"is not enable.");
+            NXGReports.addStep("Element : " + elementName +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -349,17 +349,20 @@ public class AbstractPage {
 
     }
 
-    public boolean validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
+    public boolean validateMaxlenght(WebElement webElement, String webElementName, int maxLength) {
         try {
-            getLogger().info("verify input with max length with " + maxLenght +"character");
-            webElement.click();
-            webElement.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
-            Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
-            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
+            String inputTextwithMaxLength = randomCharacters(maxLength);
+            getLogger().info("Verify input with max length with " + maxLength + " characters");
+            clickElement(webElement, webElementName);
+            clearTextBox(webElement, webElementName);
+            webElement.sendKeys(inputTextwithMaxLength);
+            String actualTextInput = webElement.getAttribute("value");
+            Assert.assertEquals(actualTextInput, inputTextwithMaxLength, String.format("%s cannot input %d characters", webElementName, maxLength));
+            NXGReports.addStep("input with max length with " + maxLength + "character", LogAs.PASSED, null);
             return true;
-        }catch (AssertionError error) {
+        } catch (AssertionError error) {
             getLogger().info(error);
-            NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("input with max length with " + maxLength + "character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw error;
         }
     }
@@ -529,7 +532,7 @@ public class AbstractPage {
      */
     public boolean validateDisabledElement(WebElement element, String elementName)
     {
-        getLogger().info("verify disable of: " + elementName);
+        getLogger().info("aaverify disable of: " + elementName);
         try {
             if(!(element.isEnabled()))
             {
@@ -567,14 +570,14 @@ public class AbstractPage {
      @param element element defined on page class
      @param elementName Name of element that we want to click
      */
-    public void clickElement(WebElement element,String elementName){
-        getLogger().info("Try to ClickElement: "+element.getText());
-        try{
+    public void clickElement(WebElement element, String elementName) {
+        getLogger().info("Try to ClickElement: " + elementName);
+        try {
             element.click();
-            NXGReports.addStep("Clicked on element: "+ elementName, LogAs.PASSED, null);
-        }catch (Exception e){
+            NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to Click on: " +element.getText());
+            getLogger().info("Unable to Click on: " + element.getText());
             NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -623,7 +626,7 @@ public class AbstractPage {
      * @param elementName Name of element that we want to input value.
      */
     public void sendKeyTextBox(WebElement element, String text,String elementName){
-        getLogger().info("Try to sendKey on : "+element.getText());
+        getLogger().info("Try to sendKey on : "+ elementName);
         try {
             element.clear();
             element.sendKeys(text);
@@ -640,7 +643,7 @@ public class AbstractPage {
      * @param elementName Name of element that we want to input value.
      */
     public void clearTextBox(WebElement element,String elementName){
-        getLogger().info("Try to sendKey on : "+elementName);
+        getLogger().info("Try to clear text on : "+elementName);
         try {
             element.clear();
             NXGReports.addStep("Cleared text: on element: "+ elementName, LogAs.PASSED, null);
@@ -755,8 +758,6 @@ public class AbstractPage {
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
                 return true;
             } else {
-                AbstractService.sStatusCnt++;
-                getLogger().info(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue);
                 throw new Exception();
             }
         } catch (Exception e) {
@@ -831,41 +832,34 @@ public class AbstractPage {
         return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;",eleGetText);
     }
 
-    public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon) throws Exception {
+    public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon){
         try{
-            List<String> toDoTaskName = new ArrayList<String>();
-            List<String> sortToDoTaskName;
+            List<String> listToDoTaskName = new ArrayList<String>();
+            List<String> listSortedToDoTaskName;
             for (int i = 0; i < elementRowValue.size(); i++) {
-                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+                listToDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
             }
-            sortToDoTaskName = toDoTaskName;
-            Collections.sort(sortToDoTaskName);
+            listSortedToDoTaskName = listToDoTaskName;
+            Collections.sort(listSortedToDoTaskName);
             elementSortIcon.click();
-            toDoTaskName.clear();
+            listToDoTaskName.clear();
             for (int i = 0; i < elementRowValue.size(); i++) {
-                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+                listToDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
             }
-            if (sortToDoTaskName.equals(toDoTaskName)) {
-                getLogger().info("Ascending sort is as expected");
-            } else {
-                getLogger().info("Ascending sort is NOT as expected");
-                throw new Exception();
-            }
-            Collections.reverse(sortToDoTaskName);
+            Assert.assertEquals(listSortedToDoTaskName, listToDoTaskName, "Ascending sort is NOT as expected");
+            NXGReports.addStep("The data on Data Grid is sorted in ascending order successfully", LogAs.PASSED, null);
+            Collections.reverse(listSortedToDoTaskName);
             elementSortIcon.click();
-            toDoTaskName.clear();
+            listToDoTaskName.clear();
             for (int i = 0; i < elementRowValue.size(); i++) {
-                toDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
+                listToDoTaskName.add(elementRowValue.get(i).getAttribute("value"));
             }
-            if (sortToDoTaskName.equals(toDoTaskName)) {
-                getLogger().info("Descending sort is successfully");
-            } else {
-                getLogger().info("Descending sort is NOT successfully");
-                throw new Exception();
-            }
-        }catch (Exception e){
+            Assert.assertEquals(listSortedToDoTaskName, listToDoTaskName, "Descending sort is NOT as expected");
+            NXGReports.addStep("The data on Data Grid is sorted in descending order successfully", LogAs.PASSED, null);
+        }catch (AssertionError e){
             AbstractService.sStatusCnt++;
             getLogger().info("Cannot sort data on Data Grid View.");
+            NXGReports.addStep("The data on Data Grid is sorted unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1040,39 +1034,18 @@ public class AbstractPage {
             isCheckCategory = true;
         }
         return isCheckCategory;
-        /*boolean isCheckCategory = false;
-        // Create new Category
-        waitForClickableOfElement(eleIdDdlCategory,"Category Dropdown");
-        eleIdDdlCategory.click();
-        waitForClickableOfElement(eleXpathCreateNewCategory,"Add New Category option");
-        eleXpathCreateNewCategory.click();
-        waitForClickableOfElement(eleIdCategoryName,"Category Name");
-        eleIdCategoryName.sendKeys(categoryName);
-        waitForClickableOfElement(eleIdCategoryColor, "Category Color");
-        Thread.sleep(smallTimeOut);
-        eleIdCategoryColor.click();
-        waitForClickableOfElement(eleXpathDetailCateColor,"List Category Color");
-        eleXpathDetailCateColor.click();
-        waitForClickableOfElement(eleIdBtnAddCategory,"Create Category button");
-        eleIdBtnAddCategory.click();
-        // Verify the category that has just created
-        waitForVisibleElement(tblXpathTodoTable,"To Do Table");
-
-        List<WebElement> td_collection = tblXpathTodoTable.findElements(By.xpath("td"));
-        for (WebElement tdElement : td_collection) {
-            String strSearchValue = "";
-            try {
-                strSearchValue = eleCategoryText.getText();
-            }
-            catch(Exception ex)
-            {}
-            getLogger().info("SearchValue = " + strSearchValue);
-            if(strSearchValue.equals(categoryName))
-            {
-                isCheckCategory = true;
-                break;
-            }
-        }
-        return isCheckCategory;*/
     }
+
+    public String randomCharacters(int maxLength){
+        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < maxLength; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        String results = sb.toString();
+        return results;
+    }
+
 }

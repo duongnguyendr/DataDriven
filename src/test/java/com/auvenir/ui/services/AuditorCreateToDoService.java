@@ -12,7 +12,6 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by hai.nguyen on 05/04/2017.
@@ -38,24 +37,18 @@ public class AuditorCreateToDoService extends AbstractService {
 	}
 
 
-	public void verifyGUIAddNewToDoTextBox(){
-		try {
-			createToDoPage.verifyDefaultValueToDoTextBox();
-			createToDoPage.verifyCssValueToDoTextBox();
-			createToDoPage.verifyCssValueWarningToDoTextBox();
-			NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.PASSED, null);
-			createToDoPage.verifyButtonCreateToDo();
-			NXGReports.addStep("[PLAT 2288]-03: verify button create to do display with green background and white text.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+	public void verifyGUIAddNewToDoNameTextBox(){
+		    getLogger().info("Verify GUI Add New To Do Text Box");
+			createToDoPage.verifyDefaultValueToDoNameTextBox();
+			createToDoPage.verifyHoverCssValueToDoNameTextBox();
+			createToDoPage.verifyWarningCssValueToDoNameTextBox();
+			createToDoPage.verifyGUIButtonCreateToDo();
 	}
 
     public void verifyAuditorCreateToDo() {
 
         try {
-            //this.createToDoPage.navigateToEngagementTask();
+            //this.createToDoTask.navigateToEngagementTask();
             this.createToDoPage.navigateToToDoList();
             createToDoPage.verifyToDoListPage();
             NXGReports.addStep("verify create to do page", LogAs.PASSED, null);
@@ -65,11 +58,11 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
-//    public void verifyGUIAddNewToDoTextBox() {
+//    public void verifyGUIAddNewToDoNameTextBox() {
 //        try {
-//            createToDoPage.verifyDefaultValueToDoTextBox();
-//            createToDoPage.verifyCssValueToDoTextBox();
-//            createToDoPage.verifyCssValueWarningToDoTextBox();
+//            createToDoTask.verifyDefaultValueToDoNameTextBox();
+//            createToDoTask.verifyHoverCssValueToDoNameTextBox();
+//            createToDoTask.verifyWarningCssValueToDoNameTextBox();
 //            NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.PASSED, null);
 //        } catch (Exception e) {
 //            NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.FAILED,
@@ -107,16 +100,11 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
 
-    public void verifyInputDataToDoTextBox(String value){
+    public void verifyInputDataToDoNameTextBox(String toDoNameValue){
 		getLogger().info("Input data into ToDo name Textbox.");
-		try {
-			createToDoPage.verifyInputValueToDoNameTextBox(value);
-			NXGReports.addStep("Input value " + value + " on ToDo Name Textbox successfully.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("Input value " + value + " on ToDo Name Textbox unsuccessfully.", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+        createToDoPage.verifyInputValueToDoNameTextBox(toDoNameValue);
 	}
+
     public void verifySearchHover(){
 		try {
 			createToDoPage.verifySearchHover(); 
@@ -153,7 +141,7 @@ public class AuditorCreateToDoService extends AbstractService {
 	
 //	public void verifySearchLimit255(){
 //		try {
-//			createToDoPage.verifySearchLimit255(); 
+//			createToDoTask.verifySearchLimit255();
 //			NXGReports.addStep("[PLAT 2288]-09: verify input with max length limit with  255 character", LogAs.PASSED, null);
 //		} catch (Exception e) {
 //			NXGReports.addStep("[PLAT 2288]-09: verify input with max length limit with  255 character", LogAs.FAILED,
@@ -165,7 +153,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //	public void verifyColumnsInGrid(){
 //
 //		try {
-//			createToDoPage.verifyColumnsInGrid();
+//			createToDoTask.verifyColumnsInGrid();
 //			NXGReports.addStep("[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.PASSED, null);
 //		} catch (Exception e) {
 //			NXGReports.addStep("[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.FAILED,
@@ -176,7 +164,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //	public void verifySotleOnTitle(){
 //
 //		try {
-//			createToDoPage.verifySotleOnTitle();
+//			createToDoTask.verifySotleOnTitle();
 //			NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.PASSED, null);
 //		} catch (Exception e) {
 //			NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.FAILED,
@@ -187,10 +175,10 @@ public class AuditorCreateToDoService extends AbstractService {
     public void navigatetoCreateToDoTab() {
         getLogger().info("Navigate to CreateToDo Tab");
         try {
-            //createToDoPage.navigateToEngagementTask();
-            createToDoPage.navigateToToDoList();
-            createToDoPage.clickCreateToDoTask();
-            //createToDoPage.verifyAddNewToDoTask();
+            //createToDoTask.navigateToEngagementTask();
+            createToDoTask.navigateToToDoList();
+            createToDoTask.clickCreateToDoTask();
+            //createToDoTask.verifyAddNewToDoTask();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -201,7 +189,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //	public void verifyCheckOnCheckBox(){
 //
 //		try {
-//			createToDoPage.verifyCheckOnCheckBox();
+//			createToDoTask.verifyCheckOnCheckBox();
 //			NXGReports.addStep("[PLAT 2288]-16: verify checkbox will change green color a have stick icon", LogAs.PASSED, null);
 //		} catch (Exception e) {
 //			NXGReports.addStep("[PLAT 2288]-16: verify checkbox will change green color a have stick icon", LogAs.FAILED,
@@ -213,7 +201,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //
 //		try {
 //
-//			createToDoPage.verifyUnCheckOnCheckBox();
+//			createToDoTask.verifyUnCheckOnCheckBox();
 //			NXGReports.addStep("[PLAT 2288]-17: verify checkbox will change green color a have stick icon", LogAs.PASSED, null);
 //		} catch (Exception e) {
 //			NXGReports.addStep("[PLAT 2288]-17: verify checkbox will change green color a have stick icon", LogAs.FAILED,
@@ -228,10 +216,10 @@ public class AuditorCreateToDoService extends AbstractService {
 
 
 /*
-    public void verifyInputDataToDoTextBox(String value) {
+    public void verifyInputDataToDoNameTextBox(String value) {
         getLogger().info("Input data into ToDo name Textbox.");
         try {
-            createToDoPage.verifyInputValueToDoNameTextBox(value);
+            createToDoTask.verifyInputValueToDoNameTextBox(value);
             NXGReports.addStep("Input value " + value + " on ToDo Name Textbox successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Input value " + value + " on ToDo Name Textbox unsuccessfully.", LogAs.FAILED,
@@ -242,7 +230,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
 //	public void verifySearchLimit255(){
 //		try {
-//			createToDoPage.verifySearchLimit255(); 
+//			createToDoTask.verifySearchLimit255();
 //			NXGReports.addStep("[PLAT 2288]-09: verify input with max length limit with  255 character", LogAs.PASSED, null);
 //		} catch (Exception e) {
 //			NXGReports.addStep("[PLAT 2288]-09: verify input with max length limit with  255 character", LogAs.FAILED,
@@ -261,27 +249,19 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
-    public void verifyGUIToDoSaveIcon(){
-        getLogger().info("Verify GUI of the To Do Save Icon");
-        try {
-            createToDoPage.verifyDisableToDoSaveIcon();
-            createToDoPage.verifyEnableToDoSaveIcon();
-            NXGReports.addStep("Verify GUI of the To Do Save Icon.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify GUI of the To Do Save Icon.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifyGUIToDoSaveIconDisabled(){
+        getLogger().info("Verify GUI of the To Do Save Icon is disabled");
+        createToDoPage.verifyDisableToDoSaveIcon();
     }
 
-    public void verifyGUIToDoCloseIcon(){
-        getLogger().info("Verify GUI of To Do Close Icon.");
-        try {
-            createToDoPage.verifyEnableToDoCloseIcon();
-            NXGReports.addStep("Verify GUI of To Do Close Icon.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify GUI of To Do Close Icon.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifyGUIToDoSaveIconEnabled(){
+        getLogger().info("Verify GUI of the To Do Save Icon is enabled");
+        createToDoPage.verifyEnableToDoSaveIcon();
+    }
+
+    public void verifyToDoCloseIcon(){
+        getLogger().info("Verify To Do Close Icon.");
+        createToDoPage.verifyToDoCloseIcon();
     }
 
     public void verifyColumnsInGrid() {
@@ -332,7 +312,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void createToDoPage() {
 
         try {
-            createToDoPage.createToDoPage();
+            createToDoPage.createToDoTask();
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -340,11 +320,11 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 /*
-    public void verifyGUIAddNewToDoTextBox() {
+    public void verifyGUIAddNewToDoNameTextBox() {
         try {
-            createToDoPage.verifyDefaultValueToDoTextBox();
-            createToDoPage.verifyCssValueToDoTextBox();
-            createToDoPage.verifyCssValueWarningToDoTextBox();
+            createToDoTask.verifyDefaultValueToDoNameTextBox();
+            createToDoTask.verifyHoverCssValueToDoNameTextBox();
+            createToDoTask.verifyWarningCssValueToDoNameTextBox();
             NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify GUI AddNew ToDo Text Box", LogAs.FAILED,
@@ -353,36 +333,22 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 */
     public void verifyAddNewDataGridIcon(String toDoName) throws Exception {
-        try {
-            createToDoPage.createToDoPage(toDoName);
-            NXGReports.addStep("New To Do task is added successfully", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("New To Do task is added unsuccessfully", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        createToDoPage.createToDoTask(toDoName);
     }
 
-    public void verifySortDataGridIcon(List<String> toDoName) throws Exception {
-        try {
-            for (int i = 0; i < toDoName.size(); i++) {
-                createToDoPage.createToDoPage(toDoName.get(i));
-            }
+    public void verifySortDataGridIcon(){
             createToDoPage.verifySortToDoTaskOnName();
-            NXGReports.addStep("The data on Data Grid is sorted successfully", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("The data on Data Grid is sorted unsuccessfully", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
     }
 
-    public void verifyCheckBoxToDoPage() throws Exception {
-            createToDoPage.verifyCheckAllCheckbox();
-            createToDoPage.verifyUnCheckAllCheckbox();
-            createToDoPage.verifyCheckMultipleCheckBox();
+    public void verifyCheckBoxToDoName() throws Exception {
+            //Check All Checkbox is failed on System.
+            createToDoPage.verifyCheckAllCheckboxToDoName();
+            createToDoPage.verifyUnCheckAllCheckboxToDoName();
+            createToDoPage.verifyCheckMultipleCheckBoxToDoName();
     }
 
-    public void verifyDefaultValueofCategoryComboBox(String value){
-        createToDoPage.verifyDefaultValueofCategoryComboBox(value);
+    public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox){
+        createToDoPage.verifyDefaultValueofCategoryComboBox(defaultValueComboBox);
     }
 
     public void verifyHoverCategoryComboBox() {
@@ -497,15 +463,37 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyNewCategoryPopUpDisplayed() throws Exception{
+        createToDoPage.clickAddNewCategory();
         createToDoPage.verifyNewCategoryPopUpDisplayed();
     }
 
     public void verifyEditCategoryPopUpDisplayed() throws Exception{
+        createToDoPage.clickEditCategory();
         createToDoPage.verifyEditCategoriesPopUpDisplayed();
     }
 
     public void verifyCreateToDoTaskWithoutCategory(String todoName) throws Exception {
         createToDoPage.verifyCreateToDoTaskWithoutCategory(todoName);
+    }
+
+    public void verifyInputMaxLengthToDoNameTextBox(){
+        createToDoPage.verifyInputMaxLengthToDoNameTextBox();
+    }
+
+    public void verifyInputInValidValueToDoNameTextBox(){
+        createToDoPage.inputInvalidValueToDoNameTextBox();
+        createToDoPage.selectDueDateToDoTask();
+        createToDoPage.verifyWarningCssValueToDoNameTextBox();
+    }
+
+    public void setDueDateField(){
+        createToDoPage.selectDueDateToDoTask();
+    }
+
+    public void createListToDoTask(List<String> toDoTaskNames) throws Exception {
+        for (int i = 0; i < toDoTaskNames.size(); i++) {
+            createToDoPage.createToDoTask(toDoTaskNames.get(i));
+        }
     }
 }
 
