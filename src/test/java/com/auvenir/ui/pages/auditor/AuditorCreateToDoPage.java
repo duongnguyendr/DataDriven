@@ -494,7 +494,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	    waitForClickableOfElement(eleToDoSearchInput, "wait for click eleToDoSearchInput");
 		clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
 		sendKeyTextBox(eleToDoSearchInput,maxLenghtString,"send key to maxLenghtString");
-		this.validateMaxlenght(this.eleToDoSearchInput, maxLenght);
+		validateMaxlenght(this.eleToDoSearchInput, "To Do Search Input", maxLenght);
 	}
 
 	public void verifySearchInputNumber()throws Exception {

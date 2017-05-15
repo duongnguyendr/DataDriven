@@ -895,6 +895,7 @@ public class AbstractPage {
         Thread.sleep(smallerTimeOut);
         clickElement(eleXpathCreateNewCategory, "click to eleXpathCreateNewCategory");
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
+        Thread.sleep(smallerTimeOut);
         clickElement(eleIdCategoryName, "click to eleIdCategoryName");
         sendKeyTextBox(eleIdCategoryName, categoryName, "send key to eleIdCategoryName");
         //Will be removed.
@@ -1104,6 +1105,8 @@ public class AbstractPage {
         eleXpathCreateNewCategory.click();
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
         eleIdCategoryName.sendKeys(categoryName);
+        // Will changed after finding new solution for waiting Element
+        Thread.sleep(smallTimeOut);
         hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
         waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
         eleIdCategoryColor.click();
@@ -1294,7 +1297,7 @@ public class AbstractPage {
         getLogger().info("Verify to check max length of category name");
         try
         {
-            isCheckMaxLength = validateMaxlenght(eleIdCategoryName, maxLenght);
+            isCheckMaxLength = validateMaxlenght(eleIdCategoryName, "Category Name TextBox", maxLenght);
             if(isCheckMaxLength) {
                 NXGReports.addStep("Verify to check max length of category name", LogAs.PASSED, null);
             }
