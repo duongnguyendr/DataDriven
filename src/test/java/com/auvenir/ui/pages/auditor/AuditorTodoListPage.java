@@ -11,6 +11,8 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 
+import java.util.List;
+
 public class AuditorTodoListPage  extends AbstractPage{ 
 
 	public AuditorTodoListPage(Logger logger, WebDriver driver) {
@@ -66,8 +68,29 @@ public class AuditorTodoListPage  extends AbstractPage{
 	
 	@FindBy(xpath="//tr[@id='empty-todo']//td//div//div")
 	private WebElement eleNotesEmtyToDo;
-	
-	
+
+	/*
+    Filter elements
+     */
+	@FindBy(id="filter-container")
+	private WebElement eleFilterDropDownList;
+	@FindBy(xpath = "//*[@id='filter-container']//button[contains(text(),'Show All')]")
+	private WebElement eleShowAllBTN;
+	@FindBy(xpath = "//*[@id='filter-container']//button[contains(text(),'Due Date')]")
+	private WebElement eleDueDateBTN;
+	@FindBy(xpath = "//*[@id='filter-container']//div[contains(text(),'Assigned')]")
+	private WebElement eleAssignedBTN;
+	@FindBy(xpath = "//*[@id='filter-container']//div[contains(text(),'Assigned')]//button")
+	private List<WebElement> AssignValue;
+	@FindBy(xpath = "//*[@id='filter-container']//button[contains(text(),'With Comments')]")
+	private WebElement eleWithCommentBTN;
+	@FindBy(xpath = "//*[@id='filter-container']//button[contains(text(),'Complete')]")
+	private WebElement eleCompleteBTN;
+	@FindBy (xpath = "//*[@id='filter-container']//button[contains(text(),'Outstanding')]")
+	private WebElement eleOutstandingBTN;
+	@FindBy (xpath = "//*[@id='filter-container']//button[contains(text(),'Flagged For Request')]")
+	private WebElement eleFlaggedForRequest;
+	/////////////////////////////////////////////////
 	 public void verifyTodoListPageColumnHeader() throws Exception {
 		 getLogger().info("verify create to do button.");
 		 	verifyButtonCreateToDo();
@@ -229,7 +252,26 @@ public class AuditorTodoListPage  extends AbstractPage{
 	public void verifyTodoListPage() {
 		//waitForClickableOfElement(eleCreateToDoBtn,"Create Todo button");
 		//validateElementText(eleCreateToDoBtn,"Create To-Do");
-		waitForVisibleElement(createTodoTextEle,"Create Todo text");
+		waitForClickableOfElement(createTodoTextEle,"Create Todo text");
 
+	}
+	public void verifyFilterDropDownList(){
+		waitForVisibleElement(eleFilterDropDownList,"eleFilterDropDownList");
+		hoverElement(eleFilterDropDownList,"eleFilterDropDownList");
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
+		waitForVisibleElement(eleShowAllBTN,"eleShowAllBTN");
+		waitForVisibleElement(eleDueDateBTN,"eleDueDateBTN");
+		waitForVisibleElement(eleAssignedBTN,"eleAssignedBTN");
+		waitForVisibleElement(eleWithCommentBTN,"eleWithCommentBTN");
+		waitForVisibleElement(eleCompleteBTN,"eleCompleteBTN");
+		waitForVisibleElement(eleOutstandingBTN,"eleOutstandingBTN");
+		waitForVisibleElement(eleFlaggedForRequest,"eleFlaggedForRequest");
+		waitForClickableOfElement(eleShowAllBTN,"eleShowAllBTN");
+		waitForClickableOfElement(eleDueDateBTN,"eleDueDateBTN");
+		waitForClickableOfElement(eleAssignedBTN,"eleAssignedBTN");
+		waitForClickableOfElement(eleWithCommentBTN,"eleWithCommentBTN");
+		waitForClickableOfElement(eleCompleteBTN,"eleCompleteBTN");
+		waitForClickableOfElement(eleOutstandingBTN,"eleOutstandingBTN");
+		waitForClickableOfElement(eleFlaggedForRequest,"eleFlaggedForRequest");
 	}
 }

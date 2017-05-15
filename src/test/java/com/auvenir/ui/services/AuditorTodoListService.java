@@ -74,6 +74,10 @@ public class AuditorTodoListService extends AbstractService {
             NXGReports.addStep("verify todo List Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    public void verifyFilterDropDownList(){
+        getLogger().info("Verify Filter DropDown List.");
+        auditorTodoListPage.verifyFilterDropDownList();
+    }
 }
 
 
