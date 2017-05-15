@@ -124,9 +124,6 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
 	private List<WebElement> eleToDoCheckboxRow;
-
-	@FindBy(id="todo-search")
-	private WebElement txtIdTodoSearch;
 	@FindBy(id="todo-table")
 	private WebElement tblIdTodoTable;
 	@FindBy(id="todo-name")
@@ -266,16 +263,18 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 	public boolean verifyCheckMaxLength()throws Exception {
 		boolean isSearchText = false;
-		txtIdTodoSearch.clear();
+		waitForClickableOfElement(eleToDoSearchInput,"wait for txtIdTodoSearch");
+		clickElement(eleToDoSearchInput, "click to txtIdTodoSearch");
+        clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
 		Thread.sleep(smallerTimeOut);
-		eleToDoSearchInput.sendKeys("12345678901112131415161718192021222324252627282930313233343536373839401234567890111213141516171819202122232425262728293031323334353637383940123456789011121314151617181920212223242526272829303132333435363738394011111111111111111111111111MMMMnnnnnnnnnn55255");
+		eleToDoSearchInput.sendKeys(maxLenghtString);
 		Thread.sleep(smallerTimeOut);
-		eleToDoSearchInput.sendKeys("678");
+		eleToDoSearchInput.sendKeys(numberSequence);
 		// Get the text from eleToDoSearchInput
 		Thread.sleep(smallerTimeOut);
 		String txtSearchText = getTextByJavaScripts(eleToDoSearchInput);
 		getLogger().info("The input txtSearchText = " + txtSearchText);
-		if(txtSearchText.equals("12345678901112131415161718192021222324252627282930313233343536373839401234567890111213141516171819202122232425262728293031323334353637383940123456789011121314151617181920212223242526272829303132333435363738394011111111111111111111111111MMMMnnnnnnnnnn55255"))
+		if(txtSearchText.equals(maxLenghtString))
 		{
 			isSearchText = true;
 		}
@@ -316,26 +315,24 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		getLogger().info("Run createToDoPage()");
 		todoNamePage = "To-do name " + randomNumber();
 		waitForClickableOfElement(eleCreateToDoBtn,"create todo button.");
-		this.eleCreateToDoBtn.click();
-		Thread.sleep(smallTimeOut);
+		clickElement(eleCreateToDoBtn, "click to eleCreateToDoBtn");
+		waitForClickableOfElement(eleIdToDoName, "wait for eleIdToDoName");
+		clickElement(eleIdToDoName, "click to eleIdToDoName");
 		eleIdToDoName.sendKeys(todoNamePage);
-		//waitForClickableOfElement(eleDdlCategory);
-		//eleDdlCategory.click();
-		// Create new category
 		createNewCategory("");
-		Thread.sleep(smallTimeOut);
 		hoverElement(eleDdlCategory,"eleDdlCategory");
 		waitForClickableOfElement(eleDdlCategory,"eleDdlCategory");
-		eleDdlCategory.click();
+        Thread.sleep(smallTimeOut);
+		clickElement(eleDdlCategory, "click to eleDdlCategory");
 		waitForClickableOfElement(eleXpathCategoryItem,"eleXpathCategoryItem");
-		eleXpathCategoryItem.click();
+		clickElement(eleXpathCategoryItem, "click to eleXpathCategoryItem");
 		waitForClickableOfElement(eleIdDueDate,"eleIdDueDate");
-		Thread.sleep(2000);
-		eleIdDueDate.click();
+		Thread.sleep(smallerTimeOut);
+		clickElement(eleIdDueDate, "click to eleIdDueDate");
 		waitForClickableOfElement(eleXpathChooseDate,"eleXpathChooseDate");
-		eleXpathChooseDate.click();
+		clickElement(eleXpathChooseDate, "click to eleXpathChooseDate");
 		waitForClickableOfElement(eleBtnToDoAdd,"eleBtnToDoAdd");
-		eleBtnToDoAdd.click();
+		clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
 	}
 
 	public void verifyToDoNameInputLimitCharacter(int maxLength)throws Exception {
@@ -389,39 +386,41 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 
 	public void verifySearchDefault()throws Exception {
-		this.validateAttributeElement(this.eleToDoSearchInput,"placeholder","Search...");
+		this.validateAttributeElement(this.eleToDoSearchInput,"placeholder",searchTextDefault);
 	}
 
 	public void verifySearchHover()throws Exception {
-		this.eleToDoSearchInput.click();
-		this.validateCssValueElement(this.eleToDoSearchInput,"border-color","rgb(89, 155, 161)");
+	    waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
+		clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+		this.validateCssValueElement(this.eleToDoSearchInput,borderColor,"rgb(89, 155, 161)");
 	}
 
 	public void verifySearchInputText()throws Exception {
-		this.eleToDoSearchInput.click();
-		this.eleToDoSearchInput.sendKeys("Search to do");
+		clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+		sendKeyTextBox(eleToDoSearchInput, searchTextToDoListPage, "send key to searchTextToDoListPage");
 		System.out.println(this.eleToDoSearchInput.getText());
-		this.validateAttributeElement(this.eleToDoSearchInput, "value",  "Search to do");
+		this.validateAttributeElement(this.eleToDoSearchInput, "value",  searchTextToDoListPage);
 	}
 
 	public void verifySearchLimit255()throws Exception {
-		this.eleToDoSearchInput.click();
-		this.eleToDoSearchInput.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
-		this.validateMaxlenght(this.eleToDoSearchInput, 255);
+	    waitForClickableOfElement(eleToDoSearchInput, "wait for click eleToDoSearchInput");
+		clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+		sendKeyTextBox(eleToDoSearchInput,maxLenghtString,"send key to maxLenghtString");
+		this.validateMaxlenght(this.eleToDoSearchInput, maxLenght);
 	}
 
 	public void verifySearchInputNumber()throws Exception {
-		this.eleToDoSearchInput.click();
-		this.eleToDoSearchInput.sendKeys("123");
-		this.validateAttributeElement(this.eleToDoSearchInput, "value", "123");
+	    waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
+	    clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+		sendKeyTextBox(eleToDoSearchInput, numberSequence, "send key to numberSequence");
+		this.validateAttributeElement(this.eleToDoSearchInput, "value", numberSequence);
 	}
-
 
 	public void verifyCheckOnCheckBox()throws Exception {
 		if(!this.eleCheckBox.isSelected()){
 			this.eleCheckBox.click();
 		}
-		this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(92, 212, 192, 1)");
+		this.validateCssValueElement(this.eleCheckBox,backgroundColor,"rgba(92, 212, 192, 1)");
 	}
 
 	public void verifyUnCheckOnCheckBox()throws Exception {
@@ -429,7 +428,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			this.eleCheckBox.click();
 
 		}
-		this.validateCssValueElement(this.eleCheckBox,"background-color","rgba(202, 206, 206, 1)");
+		this.validateCssValueElement(this.eleCheckBox,backgroundColor,"rgba(202, 206, 206, 1)");
 	}
 
 	public void navigateToEngagementPage() throws Exception{
@@ -446,11 +445,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public boolean checkSearchData() throws InterruptedException {
 		getLogger().info("Run checkSearchData()");
 		boolean isCheckData = false;
-		waitForVisibleElement(txtIdTodoSearch,"txtIdTodoSearch");
+		waitForVisibleElement(eleToDoSearchInput,"txtIdTodoSearch");
 		Thread.sleep(smallTimeOut);
-		txtIdTodoSearch.clear();
+		clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
 		Thread.sleep(smallTimeOut);
-		txtIdTodoSearch.sendKeys(todoNamePage);
+		sendKeyTextBox(eleToDoSearchInput, todoNamePage, "sendkey to txtIdTodoSearch");
 		waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")),"");
 		// Check the result in the list data
 		List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
@@ -481,11 +480,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public boolean checkContentTextSearch() throws InterruptedException {
 		getLogger().info("Run checkContentTextSearch()");
 		boolean isCheckData = false;
-		waitForVisibleElement(txtIdTodoSearch,"");
+		waitForVisibleElement(eleToDoSearchInput,"");
 		Thread.sleep(smallTimeOut);
-		txtIdTodoSearch.clear();
+        clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
 		Thread.sleep(smallTimeOut);
-		txtIdTodoSearch.sendKeys(todoContentTextSearch);
+		sendKeyTextBox(eleToDoSearchInput, todoContentTextSearch,"sendkey to todoContentTextSearch");
 		waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")),"");
 		// Check the result in the list data
 		List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));

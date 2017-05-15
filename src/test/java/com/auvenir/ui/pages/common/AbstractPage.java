@@ -39,7 +39,14 @@ public class AbstractPage {
     public static  final int smallerTimeOut = 500;
     public static  final int smallTimeOut = 1000;
     public static final  String categoryIndiMode = "indicategory";
-
+    public static  final  String categoryTitleOfAddNew = "Add New Category";
+    public static  final String backgroundColor = "background-color";
+    public  static  final String numberSequence = "123456";
+    public  static  final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ";
+    public  static  final String borderColor = "border-color";
+    public  static  final String searchTextToDoListPage = "Search to do";
+    public  static final String searchTextDefault = "Search...";
+    public  static  final int maxLenght = 255;
 
     public AbstractPage(Logger logger,WebDriver driver){
         this.driver = driver;
@@ -80,10 +87,6 @@ public class AbstractPage {
     WebElement settingsTabEle;
 
     // ====================== ======================
-
-
-
-
     // Vien.Pham added EditCategories Elements
 
     @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[2]")
@@ -134,6 +137,8 @@ public class AbstractPage {
     private WebElement eleIndiCategoryText;
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement categoryColors;
+    @FindBy(id="m-ce-systemContainer")
+    private WebElement idTitleCategory;
 
     public void verifyFooter()
     {
@@ -254,7 +259,7 @@ public class AbstractPage {
             return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Element : " + element.getText() +"is not presented");
+            getLogger().info("Element : " + element +"is not presented");
             NXGReports.addStep("Element : " + elementName +"is not presented", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
@@ -277,8 +282,8 @@ public class AbstractPage {
             return true;
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Element : " + element.getText() +"is not enable.");
-            NXGReports.addStep("Element : " + element.getText() +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Element : " + element +"is not enable.");
+            NXGReports.addStep("Element : " + element +"is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -340,11 +345,10 @@ public class AbstractPage {
             NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
             return true;
         }
-
         catch (Exception e)
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(element + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
 
@@ -353,8 +357,8 @@ public class AbstractPage {
     public boolean validateMaxlenght(WebElement webElement, int maxLenght) throws Exception{
         try {
             getLogger().info("verify input with max length with " + maxLenght +"character");
-            webElement.click();
-            webElement.sendKeys("limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ");
+            clickElement(webElement, "click to " + webElement);
+            sendKeyTextBox(webElement, maxLenghtString, "send key to " + webElement);
             Assert.assertTrue(webElement.getAttribute("value").length()<=maxLenght);
             NXGReports.addStep("input with max length with " + maxLenght +"character", LogAs.PASSED,null);
             return true;
@@ -569,13 +573,13 @@ public class AbstractPage {
      @param elementName Name of element that we want to click
      */
     public void clickElement(WebElement element,String elementName){
-        getLogger().info("Try to ClickElement: "+element.getText());
+        getLogger().info("Try to ClickElement: " + element);
         try{
             element.click();
             NXGReports.addStep("Clicked on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to Click on: " +element.getText());
+            getLogger().info("Unable to Click on: " + element);
             NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -585,7 +589,7 @@ public class AbstractPage {
      @param elementName Name of element that we want to click and hold
      */
     public void clickAndHold(WebElement element, String elementName){
-        getLogger().info("Try to ClickAndHold: "+element.getText());
+        getLogger().info("Try to ClickAndHold: " + element);
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(element);
@@ -1129,4 +1133,18 @@ public class AbstractPage {
         return isCheckCategory;
 
     }
+
+    public boolean verifyCategoryTitle()
+    {
+        boolean isCheckTitle = false;
+        waitForVisibleElement(idTitleCategory, "wait idTitleCategory");
+        String strCategoryTitle = idTitleCategory.getText();
+        if(categoryTitleOfAddNew.equals(strCategoryTitle))
+        {
+            isCheckTitle = true;
+        }
+        return isCheckTitle;
+    }
+
+    //public boolean verify
 }
