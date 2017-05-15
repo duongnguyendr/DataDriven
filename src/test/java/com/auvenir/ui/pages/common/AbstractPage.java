@@ -44,8 +44,10 @@ public class AbstractPage {
     public  static  final String numberSequence = "123456";
     public  static  final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character  limit with 255 character ";
     public  static  final String borderColor = "border-color";
+    public  static  final String border = "border";
     public  static  final String searchTextToDoListPage = "Search to do";
     public  static final String searchTextDefault = "Search...";
+    public  static final String greenColor = "\"1px solid rgba(89, 155, 161, 1)\"";
     public  static  final int maxLenght = 255;
 
     public AbstractPage(Logger logger,WebDriver driver){
@@ -791,7 +793,8 @@ public class AbstractPage {
             } else {
                 AbstractService.sStatusCnt++;
                 getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
-                throw new Exception();
+                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.PASSED, null);
+                return false;
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -881,24 +884,24 @@ public class AbstractPage {
         // Create new Category
         waitForClickableOfElement(eleIdDdlCategory, "eleIdDdlCategory");
         Thread.sleep(smallerTimeOut);
-        eleIdDdlCategory.click();
+        clickElement(eleIdDdlCategory, "click to eleIdDdlCategory");
         waitForClickableOfElement(eleXpathCreateNewCategory,"eleXpathCreateNewCategory");
         Thread.sleep(smallerTimeOut);
-        eleXpathCreateNewCategory.click();
+        clickElement(eleXpathCreateNewCategory, "click to eleXpathCreateNewCategory");
         waitForClickableOfElement(eleIdCategoryName,"eleIdCategoryName");
-        eleIdCategoryName.sendKeys(categoryName);
+        clickElement(eleIdCategoryName, "click to eleIdCategoryName");
+        sendKeyTextBox(eleIdCategoryName, categoryName, "send key to eleIdCategoryName");
         //Will be removed.
-        Thread.sleep(smallerTimeOut);
         hoverElement(eleIdCategoryColor,"eleIdCategoryColor");
         waitForClickableOfElement(eleIdCategoryColor,"eleIdCategoryColor");
         Thread.sleep(smallerTimeOut);
-        eleIdCategoryColor.click();
+        clickElement(eleIdCategoryColor, "click to eleIdCategoryColor");
         waitForClickableOfElement(eleXpathDetailCateColor,"eleXpathDetailCateColor");
         Thread.sleep(smallerTimeOut);
-        eleXpathDetailCateColor.click();
+        clickElement(eleXpathDetailCateColor, "click to eleXpathDetailCateColor");
         waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
         Thread.sleep(smallerTimeOut);
-        eleIdBtnAddCategory.click();
+        clickElement(eleIdBtnAddCategory, "click to eleIdBtnAddCategory");
         // Verify the category that has just created
         waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
         List<WebElement> td_collection = new ArrayList<>();
@@ -908,7 +911,7 @@ public class AbstractPage {
             waitForClickableOfElement(eleIdDdlCategory,"eleIdDdlCategory");
             // Wait eleIdDdlCategory but can not click to eleIdDdlCategory
             Thread.sleep(smallerTimeOut);
-            eleIdDdlCategory.click();
+            clickElement(eleIdDdlCategory, "click to eleIdDdlCategory");
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
             td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
             //td_collection = tblXpathTodoTable.findElements((By) eleIndiCategoryText);
@@ -1137,14 +1140,62 @@ public class AbstractPage {
     public boolean verifyCategoryTitle()
     {
         boolean isCheckTitle = false;
-        waitForVisibleElement(idTitleCategory, "wait idTitleCategory");
-        String strCategoryTitle = idTitleCategory.getText();
-        if(categoryTitleOfAddNew.equals(strCategoryTitle))
-        {
-            isCheckTitle = true;
+        getLogger().info("Verify category title");
+        try {
+            waitForVisibleElement(idTitleCategory, "wait idTitleCategory");
+            String strCategoryTitle = idTitleCategory.getText();
+            if (categoryTitleOfAddNew.equals(strCategoryTitle)) {
+                isCheckTitle = true;
+            }
+            NXGReports.addStep("Verify category title", LogAs.PASSED, null);
+            return isCheckTitle;
         }
-        return isCheckTitle;
+        catch(Exception ex)
+        {
+            NXGReports.addStep("Verify category title", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckTitle;
+        }
     }
 
-    //public boolean verify
+    public boolean verifyCategoryDefaultValue()
+    {
+        boolean isCheckDetaultValue = false;
+        getLogger().info("Verify category default value");
+        try
+        {
+            waitForClickableOfElement(eleIdCategoryName, "click to eleIdCategoryName");
+            String strCateDefaultValue = getTextByJavaScripts(eleIdCategoryName);
+            if(strCateDefaultValue.equals(""))
+            {
+                isCheckDetaultValue = true;
+            }
+            NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+            return isCheckDetaultValue;
+        }
+        catch(Exception ex)
+        {
+            NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckDetaultValue;
+        }
+    }
+
+    public boolean verifyHoverClickCategoryName()
+    {
+        boolean isCheckBorderColor = false;
+        getLogger().info("Verify hover and click to category name");
+        try {
+            // Green color
+            isCheckBorderColor = validateCSSValueElement(eleIdCategoryName, border, greenColor);
+            NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+            return isCheckBorderColor;
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckBorderColor;
+        }
+    }
 }
