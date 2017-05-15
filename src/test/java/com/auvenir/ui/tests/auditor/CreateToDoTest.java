@@ -173,8 +173,8 @@ public class CreateToDoTest extends AbstractTest {
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.verifyGUIAddNewToDoTextBox();
-            auditorCreateToDoService.verifyInputDataToDoTextBox("Task01");
+            auditorCreateToDoService.verifyGUIAddNewToDoNameTextBox();
+            auditorCreateToDoService.verifyInputDataToDoNameTextBox("Task01");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -190,7 +190,7 @@ public class CreateToDoTest extends AbstractTest {
 		try {
 			auditorCreateToDoService.loginWithUserRole(userId);
 			auditorCreateToDoService.navigatetoCreateToDoTab();
-			auditorCreateToDoService.createToDoPage();
+			auditorCreateToDoService.createToDoTask();
 			auditorCreateToDoService.verifyDataSearch();
 			auditorCreateToDoService.verifyCheckMaxLength();
 			auditorCreateToDoService.verifyContentTextSearch();
@@ -366,9 +366,9 @@ public class CreateToDoTest extends AbstractTest {
 	}
 
 	@Test(  priority = 15,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
-	public void verifyGUIToDoCloseIcon() throws Exception {
+	public void verifyToDoCloseIcon() throws Exception {
 		try {
-			auditorCreateToDoService.verifyGUIToDoCloseIcon();
+			auditorCreateToDoService.verifyToDoCloseIcon();
 			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
 			NXGReports.addStep("Verify GUI Close Icon - create to do page.", LogAs.PASSED, null);
 		} catch (Exception e) {
@@ -391,7 +391,7 @@ public class CreateToDoTest extends AbstractTest {
 			names.add("bbb To Do Task02");
 			names.add("cc To Do Task02");
 			auditorCreateToDoService.verifySortDataGridIcon(names);
-			auditorCreateToDoService.verifyCheckBoxToDoPage();
+			auditorCreateToDoService.verifyCheckBoxToDoName();
 			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
 			NXGReports.addStep("Verify Data Grid after adding new To Do Task", LogAs.PASSED, null);
 		} catch (Exception e) {
