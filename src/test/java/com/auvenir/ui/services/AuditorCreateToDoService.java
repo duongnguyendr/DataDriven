@@ -508,5 +508,112 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCreateToDoTaskWithoutCategory(String todoName) throws Exception {
         createToDoPage.verifyCreateToDoTaskWithoutCategory(todoName);
     }
+
+    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+    /**
+     * Move add new to do page
+     */
+    public void navigateAddNewToDoPage() {
+
+        try {
+            createToDoPage.navigateAddNewToDoPage();
+            NXGReports.addStep("Move Add new To-Do page", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Move Add new To-Do page", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify select data drop down
+     */
+    public void verifySelectDateDropDown() throws  Exception {
+        createToDoPage.verifySelectDateDropDown();
+    }
+
+    /**
+     * Check default value of due date text box
+     */
+    public void checkDefaultValueDueDate() {
+        boolean result = createToDoPage.checkDefaultDueDateValue();
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+
+    /**
+     * Check deafult format due date
+     */
+    public void checkFormatDueDate() {
+        boolean result = createToDoPage.checkFormatDueDate();
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+
+    /**
+     * Hover item in date picker
+     */
+    public void hoverItemInDatePikcer() {
+        createToDoPage.hoverDateItemInDatePicker();
+    }
+
+    /**
+     * Choose date item in date picker
+     */
+    public void chooseDateItemInDatePicker() throws Exception {
+        boolean result = createToDoPage.chooseDateItemInDataPicker(true);
+    }
+
+    /**
+     * Verify previous date picker link is click
+     */
+    public void verifyPreviousDatePickerLink(){
+        boolean result = createToDoPage.checkDatePickerChangeMonth("prev",false, true);
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+
+    /**
+     * Verify next date picker link is click
+     */
+    public void verifyNextDatePickerLink(){
+        boolean result = createToDoPage.checkDatePickerChangeMonth("next",true, true);
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+
+    /**
+     * Verify input correct format date in due date text box
+     */
+    public void verifyInputCorrectFormatDate(){
+        boolean result = createToDoPage.verifyInputCorrectFormatDate("05/20/2017",true);
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+    /**
+     * Verify input wrong format date in due date text box
+     */
+    public void verifyInputWrongFormatDate(){
+        boolean result = createToDoPage.verifyInputWrongValue("055/20/2017",true);
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+
+    /**
+     * Verify input text in due date text box
+     */
+    public void verifyInputTextValue(){
+        boolean result = createToDoPage.verifyInputWrongValue("dadasdasdad",true);
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+
+    /**
+     * Verify input text in due date text box
+     */
+    public void verifyInputSpecialCharacterValue(){
+        boolean result = createToDoPage.verifyInputWrongValue("~!@#$%^&*+?><,. ",true);
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
 }
 
