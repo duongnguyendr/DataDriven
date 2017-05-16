@@ -369,7 +369,8 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     TestCase to cover ticket: PLAT 2283
      */
-    
+    @Test(priority = 20,enabled = true, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
+    public void verifyFilterButton() throws Exception {
     
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -380,8 +381,6 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            
-            //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyFilterDropDownList();
         } catch (Exception e) {
@@ -400,7 +399,6 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyDefaultValueFilterDropDownList();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
