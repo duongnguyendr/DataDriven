@@ -50,6 +50,9 @@ public class AbstractPage {
     public  static final String searchTextDefault = "Search...";
     public  static final String greenColor = "\"1px solid rgba(89, 155, 161, 1)\"";
     public  static final String blueColor = "\"1px solid rgba(43, 72, 117, 1)\"";
+    public  static final String greyColor = "\"1px solid rgba(151, 147, 147, 1)\"";
+    public  static final String whiteColor = "\"1px solid rgba(255, 255, 255, 1)\"";
+    public  static final String color = "color";
     public static  final String categoryNameAllText = "category name all text";
     public static final  String notValidNameMessage = "Not a valid name.";
     public  static  final String specialCharacter = "~!@#$%^&*+?><,.";
@@ -150,6 +153,8 @@ public class AbstractPage {
     private WebElement xpathRequiredDataCategoryName;
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement xpathAllCategoryColor;
+    @FindBy(xpath = "//p[contains(text(),'Category name already existed')]")
+    private WebElement xpathCategoryExistedText;
 
     public void verifyFooter()
     {
@@ -644,6 +649,7 @@ public class AbstractPage {
     public void sendKeyTextBox(WebElement element, String text,String elementName){
         getLogger().info("Try to sendKey on : "+elementName);
         try {
+            element.click();
             element.clear();
             element.sendKeys(text);
             NXGReports.addStep("Send text: "+text+ "on element: "+ elementName, LogAs.PASSED, null);
@@ -1435,6 +1441,8 @@ public class AbstractPage {
         try {
             // blue color
             waitForVisibleElement(eleIdCategoryColor, "wait for eleIdCategoryColor");
+            clickElement(eleIdCategoryColor, "click to eleIdCategoryColor");
+
             isCheckChoosedColor = validateCSSValueElement(eleIdCategoryColor, background, blueColor);
             if(isCheckChoosedColor) {
                 NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
@@ -1454,4 +1462,147 @@ public class AbstractPage {
             return isCheckChoosedColor;
         }
     }
+
+    public boolean verifyColorCategoryCancelButton()
+    {
+        boolean isCheckColorCancelButton = false;
+        getLogger().info("Verify color of Category cancel button");
+        try {
+            waitForVisibleElement(eleEditCategoryCancelBtn, "wait for visible eleEditCategoryCancelBtn");
+            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, backgroundColor, greyColor);
+            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, color, whiteColor);
+            if(isCheckColorCancelButton) {
+                NXGReports.addStep("Verify color of Category cancel button", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify color of Category cancel button", LogAs.FAILED, null);
+            }
+            return isCheckColorCancelButton;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify color of Category cancel button", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckColorCancelButton;
+        }
+    }
+
+    public boolean verifyColorCategoryCreateButton()
+    {
+        boolean isCheckColorCreateButton = false;
+        getLogger().info("Verify color of Category create button");
+        try {
+            waitForVisibleElement(eleIdBtnAddCategory, "wait for visible eleIdBtnAddCategory");
+            isCheckColorCreateButton = validateCSSValueElement(eleIdBtnAddCategory, backgroundColor, greenColor);
+            isCheckColorCreateButton = validateCSSValueElement(eleIdBtnAddCategory, color, whiteColor);
+            if(isCheckColorCreateButton) {
+                NXGReports.addStep("Verify color of Category create button", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify color of Category create button", LogAs.FAILED, null);
+            }
+            return isCheckColorCreateButton;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify color of Category create button", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckColorCreateButton;
+        }
+    }
+
+    public boolean verifyClickCategoryCancelButton()
+    {
+        boolean isCheckCancelClick = false;
+        getLogger().info("Verify to click Category cancel button");
+        try {
+            // blue color
+            waitForClickableOfElement(eleEditCategoryCancelBtn, "wait for click to eleEditCategoryCancelBtn");
+            clickElement(eleEditCategoryCancelBtn, "click to eleEditCategoryCancelBtn");
+            isCheckCancelClick = waitForInvisibleElement(eleIdBtnAddCategory, "wait for invisible eleIdBtnAddCategory");
+            if(isCheckCancelClick) {
+                NXGReports.addStep("Verify to click Category cancel button", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to click Category cancel button", LogAs.FAILED, null);
+            }
+            return isCheckCancelClick;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to click Category cancel button", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckCancelClick;
+        }
+    }
+
+    public boolean verifyNotCompleteCreateCategory()
+    {
+        boolean isCheckCreateCateFail = false;
+        getLogger().info("Verify not complete to create category");
+        try {
+           clickElement(eleIdCategoryName, "click to eleIdCategoryName");
+           clearTextBox(eleIdCategoryName, "clear text eleIdCategoryName");
+           clickElement(eleIdBtnAddCategory, "click to eleIdBtnAddCategory");
+           isCheckCreateCateFail = waitForVisibleElement(eleIdBtnAddCategory, "wait for visible eleIdBtnAddCategory");
+            if(isCheckCreateCateFail) {
+                NXGReports.addStep("Verify not complete to create category", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify not complete to create category", LogAs.FAILED, null);
+            }
+            return isCheckCreateCateFail;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify not complete to create category", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckCreateCateFail;
+        }
+    }
+
+
+
+    public boolean verifyExistedCategory()
+    {
+        boolean isCheckExistedCategory = false;
+        getLogger().info("Verify existed category");
+        try {
+            String categoryName = "Existed category " + randomNumber();
+            sendKeyTextBox(eleIdCategoryName, categoryName, "send key to eleIdCategoryName");
+            // Choose category color
+            // Click to create category
+            //
+            if(isCheckExistedCategory) {
+                NXGReports.addStep("Verify not complete to create category", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify not complete to create category", LogAs.FAILED, null);
+            }
+            return isCheckExistedCategory;
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify not complete to create category", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+            return isCheckExistedCategory;
+        }
+    }
+
+    //xpathCategoryExistedText
 }

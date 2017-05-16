@@ -3,6 +3,7 @@ package com.auvenir.ui.pages.auditor;
 //import library
 import java.util.List;
 
+import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -326,33 +327,61 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		}
 	}
 
-	public boolean verifyCheckMaxLength()throws Exception {
-		boolean isSearchText = false;
-		waitForClickableOfElement(eleToDoSearchInput,"wait for txtIdTodoSearch");
-		clickElement(eleToDoSearchInput, "click to txtIdTodoSearch");
-        clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-		Thread.sleep(smallerTimeOut);
-		eleToDoSearchInput.sendKeys(maxLenghtString);
-		Thread.sleep(smallerTimeOut);
-		eleToDoSearchInput.sendKeys(numberSequence);
-		// Get the text from eleToDoSearchInput
-		Thread.sleep(smallerTimeOut);
-		String txtSearchText = getTextByJavaScripts(eleToDoSearchInput);
-		getLogger().info("The input txtSearchText = " + txtSearchText);
-		if(txtSearchText.equals(maxLenghtString))
-		{
-			isSearchText = true;
+	public void verifyCheckMaxLength() {
+		try {
+			boolean isCheckMaxLength = false;
+			waitForClickableOfElement(eleToDoSearchInput,"wait for txtIdTodoSearch");
+			clickElement(eleToDoSearchInput, "click to txtIdTodoSearch");
+			clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
+			Thread.sleep(smallerTimeOut);
+			eleToDoSearchInput.sendKeys(maxLenghtString);
+			Thread.sleep(smallerTimeOut);
+			eleToDoSearchInput.sendKeys(numberSequence);
+			// Get the text from eleToDoSearchInput
+			Thread.sleep(smallerTimeOut);
+			String txtSearchText = getTextByJavaScripts(eleToDoSearchInput);
+			getLogger().info("The input txtSearchText = " + txtSearchText);
+			if(txtSearchText.equals(maxLenghtString))
+			{
+				isCheckMaxLength = true;
+			}
+			else
+			{
+				isCheckMaxLength = false;
+			}
+			getLogger().info("The result after comparing text search isSearchText = " + isCheckMaxLength);
+
+			if (isCheckMaxLength) {
+				NXGReports.addStep("Verify check max length of search textbox", LogAs.PASSED, null);
+
+			} else {
+				NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED, null);
+
+				AbstractService.sStatusCnt++;
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
-		else
-		{
-			isSearchText = false;
-		}
-		getLogger().info("The result after comparing text search isSearchText = " + isSearchText);
-		return isSearchText;
 	}
 
-	public  boolean verifyCreateNewCategory() throws Exception {
-		return createNewCategory(categoryIndiMode);
+	public void verifyCreateNewCategory() {
+		try {
+			boolean isCheckCategory = createNewCategory(categoryIndiMode);
+			if(isCheckCategory) {
+				NXGReports.addStep("Create new category", LogAs.PASSED, null);
+			}
+			else
+			{
+				AbstractRefactorService.sStatusCnt++;
+				NXGReports.addStep("Create new category", LogAs.FAILED, null);
+			}
+		} catch (Exception e) {
+			AbstractRefactorService.sStatusCnt++;
+			NXGReports.addStep("Create new category", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
     public void createToDoTask(String toDoName)throws Exception {
@@ -474,21 +503,66 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		}
 	}
 
-	public void verifySearchDefault()throws Exception {
-		this.validateAttributeElement(this.eleToDoSearchInput,"placeholder",searchTextDefault);
+	public void verifySearchDefault() {
+		try {
+			boolean isCheckSearchDefault = validateAttributeElement(this.eleToDoSearchInput,"placeholder",searchTextDefault);
+			if(isCheckSearchDefault) {
+				NXGReports.addStep("verify default value(Search...) of this Search", LogAs.PASSED, null);
+			}
+			else
+			{
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("verify default value(Search...) of this Search", LogAs.FAILED,
+						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("verify default value(Search...) of this Search", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
-	public void verifySearchHover()throws Exception {
-	    waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
-		clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
-		this.validateCssValueElement(this.eleToDoSearchInput,borderColor,"rgb(89, 155, 161)");
+	public void verifySearchHover() {
+		try {
+			waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
+			clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+			boolean isCheckSearchHover = validateCssValueElement(this.eleToDoSearchInput,borderColor,"rgb(89, 155, 161)");
+			if(isCheckSearchHover) {
+				NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.PASSED, null);
+			}
+			else
+			{
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.FAILED,
+						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
-	public void verifySearchInputText()throws Exception {
-		clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
-		sendKeyTextBox(eleToDoSearchInput, searchTextToDoListPage, "send key to searchTextToDoListPage");
-		System.out.println(this.eleToDoSearchInput.getText());
-		this.validateAttributeElement(this.eleToDoSearchInput, "value",  searchTextToDoListPage);
+	public void verifySearchInputText() {
+		try {
+			clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+			sendKeyTextBox(eleToDoSearchInput, searchTextToDoListPage, "send key to searchTextToDoListPage");
+			System.out.println(this.eleToDoSearchInput.getText());
+			boolean isCheckSearchInput = validateAttributeElement(this.eleToDoSearchInput, "value",  searchTextToDoListPage);
+			if(isCheckSearchInput) {
+				NXGReports.addStep("verify input text.", LogAs.PASSED, null);
+			}
+			else
+			{
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("verify input text.", LogAs.FAILED,
+						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("verify input text.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
 	public void verifySearchLimit255()throws Exception {
@@ -498,11 +572,26 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		validateMaxlenght(this.eleToDoSearchInput, "To Do Search Input", maxLenght);
 	}
 
-	public void verifySearchInputNumber()throws Exception {
-	    waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
-	    clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
-		sendKeyTextBox(eleToDoSearchInput, numberSequence, "send key to numberSequence");
-		this.validateAttributeElement(this.eleToDoSearchInput, "value", numberSequence);
+	public void verifySearchInputNumber() {
+		try {
+			waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
+			clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+			sendKeyTextBox(eleToDoSearchInput, numberSequence, "send key to numberSequence");
+			boolean isCheckSearchNumber = validateAttributeElement(this.eleToDoSearchInput, "value", numberSequence);
+			if(isCheckSearchNumber) {
+				NXGReports.addStep("verify input number to field search.", LogAs.PASSED, null);
+			}
+			else
+			{
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("verify input number to field search.", LogAs.FAILED,
+						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("verify input number to field search.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 	}
 
 	public void verifyCheckOnCheckBox()throws Exception {
@@ -531,77 +620,104 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		eleToDoLnk.click();
 	}
 
-	public boolean checkSearchData() throws InterruptedException {
+	public void checkSearchData() {
 		getLogger().info("Run checkSearchData()");
-		boolean isCheckData = false;
-		waitForVisibleElement(eleToDoSearchInput,"txtIdTodoSearch");
-		Thread.sleep(smallTimeOut);
-		clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-		Thread.sleep(smallTimeOut);
-		sendKeyTextBox(eleToDoSearchInput, todoNamePage, "sendkey to txtIdTodoSearch");
-		waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")),"");
-		// Check the result in the list data
-		List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
-		for (WebElement trElement : tr_collection) {
-			List<WebElement> td_collection = trElement.findElements(By.xpath("td"));
-			for (WebElement tdElement : td_collection) {
-				String strSearchValue = "";
-				try {
-					strSearchValue = tdElement.findElement(By.tagName("input")).getAttribute("value");
+		try {
+			boolean isCheckData = false;
+			waitForVisibleElement(eleToDoSearchInput,"txtIdTodoSearch");
+			Thread.sleep(smallTimeOut);
+			clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
+			Thread.sleep(smallTimeOut);
+			sendKeyTextBox(eleToDoSearchInput, todoNamePage, "sendkey to txtIdTodoSearch");
+			waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")),"");
+			// Check the result in the list data
+			List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
+			for (WebElement trElement : tr_collection) {
+				List<WebElement> td_collection = trElement.findElements(By.xpath("td"));
+				for (WebElement tdElement : td_collection) {
+					String strSearchValue = "";
+					try {
+						strSearchValue = tdElement.findElement(By.tagName("input")).getAttribute("value");
+					}
+					catch(Exception ex)
+					{}
+					getLogger().info("SearchValue = " + strSearchValue);
+					if(strSearchValue.equals(todoNamePage))
+					{
+						isCheckData = true;
+						break;
+					}
 				}
-				catch(Exception ex)
-				{}
-				getLogger().info("SearchValue = " + strSearchValue);
-				if(strSearchValue.equals(todoNamePage))
+				if(isCheckData)
 				{
-					isCheckData = true;
 					break;
 				}
 			}
-			if(isCheckData)
-			{
-				break;
+			if(isCheckData) {
+				NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
 			}
+			else
+			{
+				AbstractRefactorService.sStatusCnt++;
+				NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
+			}
+			getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
+		} catch (Exception e) {
+			AbstractRefactorService.sStatusCnt++;
+			NXGReports.addStep("Verify realtime search", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
-		return isCheckData;
 	}
 
-	public boolean checkContentTextSearch() throws InterruptedException {
+	public void checkContentTextSearch() {
 		getLogger().info("Run checkContentTextSearch()");
-		boolean isCheckData = false;
-		waitForVisibleElement(eleToDoSearchInput,"");
-		Thread.sleep(smallTimeOut);
-        clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-		Thread.sleep(smallTimeOut);
-		sendKeyTextBox(eleToDoSearchInput, todoContentTextSearch,"sendkey to todoContentTextSearch");
-		waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")),"");
-		// Check the result in the list data
-		List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
-		for (WebElement trElement : tr_collection) {
-			List<WebElement> td_collection = trElement.findElements(By.xpath("td"));
-			for (WebElement tdElement : td_collection) {
-				String strSearchValue = "";
-				try {
-					strSearchValue = tdElement.findElement(By.tagName("input")).getAttribute("value");
+		try {
+			//boolean isCheckData = createToDoPage.checkContentTextSearch();
+			boolean isCheckData = false;
+			waitForVisibleElement(eleToDoSearchInput,"");
+			Thread.sleep(smallTimeOut);
+			clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
+			Thread.sleep(smallTimeOut);
+			sendKeyTextBox(eleToDoSearchInput, todoContentTextSearch,"sendkey to todoContentTextSearch");
+			waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")),"");
+			// Check the result in the list data
+			List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
+			for (WebElement trElement : tr_collection) {
+				List<WebElement> td_collection = trElement.findElements(By.xpath("td"));
+				for (WebElement tdElement : td_collection) {
+					String strSearchValue = "";
+					try {
+						strSearchValue = tdElement.findElement(By.tagName("input")).getAttribute("value");
+					}
+					catch(Exception ex)
+					{}
+					getLogger().info("Search contain text = " + strSearchValue);
+					if(strSearchValue.contains(todoContentTextSearch))
+					{
+						isCheckData = true;
+						break;
+					}
 				}
-				catch(Exception ex)
-				{}
-				getLogger().info("Search contain text = " + strSearchValue);
-				if(strSearchValue.contains(todoContentTextSearch))
+				if(isCheckData)
 				{
-					isCheckData = true;
 					break;
 				}
 			}
-			if(isCheckData)
-			{
-				break;
+			if(isCheckData) {
+				NXGReports.addStep("Verify content of text search", LogAs.PASSED, null);
 			}
+			else
+			{
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("Verify content of text search", LogAs.FAILED, null);
+			}
+			getLogger().info("verifyContentTextSearch() isCheckContentText = " + isCheckData);
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("Verify content of text search", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
-		return isCheckData;
 	}
-
-
 
 	public void verifySortToDoTaskOnName(){
 		getLogger().info("Verify Sort ToDo Task On Name");
