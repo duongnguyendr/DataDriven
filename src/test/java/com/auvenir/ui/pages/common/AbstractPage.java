@@ -149,8 +149,10 @@ public class AbstractPage {
 
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement categoryColors;
-    @FindBy(id="m-ce-systemContainer")
+
+    @FindBy(xpath="//div[contains(@class,'ce-parent todo-modal-container')]/div/h3")
     private WebElement idTitleCategory;
+
     @FindBy(xpath = "//*[@id=\"setup-component-body\"]/div/div[1]/p[2]")
     private WebElement xpathRequiredDataCategoryName;
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
