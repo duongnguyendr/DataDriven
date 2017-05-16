@@ -102,7 +102,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		validateDisPlayedElement(eleImgEmtyToDo,"EmptyTodoImage");
 	}
 
-	@FindBy(xpath="//div[@id='divName']/div/input[@id='todo-name']")
+	//@FindBy(xpath="//div[@id='divName']/div/input[@id='todo-name']")
+	@FindBy(id = "todo-name")
 	private WebElement toDoNameInputEle;
 
 	@FindBy(xpath="//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
