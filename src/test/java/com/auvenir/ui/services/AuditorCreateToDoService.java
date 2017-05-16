@@ -552,22 +552,22 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Hover item in date picker
      */
-    public void hoverItemInDatePikcer() {
-        createToDoPage.hoverDateItemInDatePicker();
+    public void hoverItemInDatePikcer(boolean isNewToDoPage) {
+        createToDoPage.hoverDateItemInDatePicker(isNewToDoPage);
     }
 
     /**
      * Choose date item in date picker
      */
-    public void chooseDateItemInDatePicker() throws Exception {
-        boolean result = createToDoPage.chooseDateItemInDataPicker(true);
+    public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
+        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
     }
 
     /**
      * Verify previous date picker link is click
      */
-    public void verifyPreviousDatePickerLink(){
-        boolean result = createToDoPage.checkDatePickerChangeMonth("prev",false, true);
+    public void verifyPreviousDatePickerLink(boolean isNewToDoPage){
+        boolean result = createToDoPage.checkDatePickerChangeMonth("prev",false, isNewToDoPage);
         if(!result)
             AbstractService.sStatusCnt ++;
     }
@@ -575,8 +575,8 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Verify next date picker link is click
      */
-    public void verifyNextDatePickerLink(){
-        boolean result = createToDoPage.checkDatePickerChangeMonth("next",true, true);
+    public void verifyNextDatePickerLink(boolean isNewToDoPage){
+        boolean result = createToDoPage.checkDatePickerChangeMonth("next",true, isNewToDoPage);
         if(!result)
             AbstractService.sStatusCnt ++;
     }
@@ -584,16 +584,16 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Verify input correct format date in due date text box
      */
-    public void verifyInputCorrectFormatDate(){
-        boolean result = createToDoPage.verifyInputCorrectFormatDate("05/20/2017",true);
+    public void verifyInputCorrectFormatDate(boolean isNewToDoPage){
+        boolean result = createToDoPage.verifyInputCorrectFormatDate("05/20/2017",isNewToDoPage);
         if(!result)
             AbstractService.sStatusCnt ++;
     }
     /**
      * Verify input wrong format date in due date text box
      */
-    public void verifyInputWrongFormatDate(){
-        boolean result = createToDoPage.verifyInputWrongValue("055/20/2017",true);
+    public void verifyInputWrongFormatDate(boolean isNewToDoPage){
+        boolean result = createToDoPage.verifyInputWrongValue("055/20/2017",isNewToDoPage);
         if(!result)
             AbstractService.sStatusCnt ++;
     }
@@ -601,8 +601,8 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Verify input text in due date text box
      */
-    public void verifyInputTextValue(){
-        boolean result = createToDoPage.verifyInputWrongValue("dadasdasdad",true);
+    public void verifyInputTextValue(boolean isNewToDoPage){
+        boolean result = createToDoPage.verifyInputWrongValue("dadasdasdad",isNewToDoPage);
         if(!result)
             AbstractService.sStatusCnt ++;
     }
@@ -610,10 +610,13 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Verify input text in due date text box
      */
-    public void verifyInputSpecialCharacterValue(){
-        boolean result = createToDoPage.verifyInputWrongValue("~!@#$%^&*+?><,. ",true);
+    public void verifyInputSpecialCharacterValue(boolean isNewToDoPage){
+        boolean result = createToDoPage.verifyInputWrongValue("~!@#$%^&*+?><,. ",isNewToDoPage);
         if(!result)
             AbstractService.sStatusCnt ++;
     }
+
+    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
+
 }
 
