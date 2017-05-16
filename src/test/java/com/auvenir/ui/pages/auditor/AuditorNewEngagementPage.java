@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -149,6 +150,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
         getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
         clickNoMemberBtn();
+        getDriver().findElement(By.id("team-continue-btn")).click();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
         waitForVisibleElement(createNewTodoListTextEle,"Create new todo list text");
 

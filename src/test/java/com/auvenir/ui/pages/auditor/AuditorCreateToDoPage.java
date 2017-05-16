@@ -2,14 +2,19 @@ package com.auvenir.ui.pages.auditor;
 
 //import library
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
+import com.auvenir.utilities.extentionLibraries.MongoDB;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -173,8 +178,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//button[contains(text(),'Mark as complete')]")
     WebElement optionMarkAsComplete;
 
+    @FindBy(xpath = "//button[contains(text(),'Delete')][@class='item']")
+    WebElement optionDelete;
+
+    @FindBy(xpath = "//div[contains(text(),'Assign to')]")
+    WebElement optionAssignTo;
+
+    //TODO hard until redo new list
+    @FindBy(xpath = "//button[contains(text(),'client 01 so (client)')]")
+    WebElement optionAssignee;
+
     @FindBy(xpath = "//button[contains(text(),'Archive')]")
     private WebElement btnArchive;
+
+    @FindBy(xpath = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Delete')]")
+    private WebElement btnDelete;
+
+    @FindBy(id = "btn-todo-undo")
+    private WebElement btnToDoUndo;
 
     public void verifyButtonCreateToDo() throws Exception {
         validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
@@ -346,7 +367,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
     }
 
-    public void createToDoPage(String toDoName, String dueDate) throws Exception {
+    public void createToDoPageWithNameAndDate(String toDoName, String dueDate) throws Exception {
         getLogger().info("Run createToDoPage(string, string)");
         Thread.sleep(smallTimeOut);
         clickCreateToDoTask();
@@ -366,12 +387,58 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + name + "']/ancestor::tr[@class='newRow']//input[@type='checkbox']")).click();
     }
 
+    public String getAssignToAtRowName(String name) {
+        return getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + name + "']/ancestor::tr[@class='newRow']//div[@class='text'][1]")).getText();
+    }
+
     public void clickBulkActions() {
         btnBulkActions.click();
     }
 
     public void chooseOptionMarkAsCompleteOnBulkActionsDropDownWithName() {
         optionMarkAsComplete.click();
+    }
+
+    public void chooseOptionDeleteOnBulkActionsDropDownWithName() {
+        optionDelete.click();
+    }
+
+    public void chooseOptionAssignToOnBulkActionsDropDownWithName() {
+        optionAssignTo.click();
+    }
+
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName() {
+        optionAssignee.click();
+    }
+
+    public DBCollection getEngagementCollection() {
+        DBCollection dbCollection = null;
+        try {
+            //TODO move db config to properties file
+            MongoDB db = new MongoDB("34.200.249.134", 27017, "TestDB");
+            dbCollection = db.getCollection("auvenir", "engagements");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return dbCollection;
+    }
+
+    public boolean verifyToDoCompleteStatus(String engagementField, String engagementName, String todoName, String status) {
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementName, todoName);
+        //TODO get from properties file
+        if (jsonObject.get("completed").toString().equals(status)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean verifyToDoDeteteStatus(String engagementField, String engagementName, String todoName, String status) {
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementName, todoName);
+        //TODO get from properties file
+        if (jsonObject.get("status").toString().equals(status)) {
+            return true;
+        }
+        return false;
     }
 
     public void clickComfirmArchive() {
@@ -381,7 +448,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
+    public void clickComfirmDelete() {
+        try {
+            Thread.sleep(smallTimeOut);
+            btnDelete.click();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clickBtnUndo() {
+        try {
+            Thread.sleep(smallTimeOut);
+            btnToDoUndo.click();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void verifyToDoNameInputLimitCharacter(int maxLength) throws Exception {

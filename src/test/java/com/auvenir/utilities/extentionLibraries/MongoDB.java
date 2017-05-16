@@ -1,45 +1,44 @@
 package com.auvenir.utilities.extentionLibraries;
 
 import com.mongodb.*;
+import com.mongodb.util.JSON;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.net.UnknownHostException;
 
 /**
  * Created by huy.huynh on 15/05/2017.
  * a tempory mongodb library
+ * move db config to properties file
  */
 public class MongoDB {
     private String serverHost;
     private int portNo;
-    private String dBName;
-    MongoClient mongoClient;
-    DB dB;
-    DBCollection table;
 
     public MongoDB(String serverHost, int portNo, String dB) {
         this.serverHost = serverHost;
         this.portNo = portNo;
-        this.dBName = dB;
     }
 
-    public void connectDBServer() throws UnknownHostException {
-        mongoClient = new MongoClient(serverHost, portNo);
+    public MongoClient connectDBServer() throws UnknownHostException {
+        return new MongoClient(serverHost, portNo);
     }
 
-    public void getDatabase(String dbName) {
-        dB = mongoClient.getDB(dbName);
+    public DB getDatabase(String dbName) throws UnknownHostException {
+        MongoClient mongoClient = connectDBServer();
+        return mongoClient.getDB(dbName);
     }
 
-    public void getCollection(String collectionName) {
-        table = dB.getCollection(collectionName);
+    public DBCollection getCollection(String dbName, String collectionName) throws UnknownHostException {
+        DB dB = getDatabase(dbName);
+        return dB.getCollection(collectionName);
     }
 
-    public DBObject getObject(String dbName, String collectionName, String field, String value) {
+    public DBObject getDBObject(String dbName, String collectionName, String field, String value) {
         DBObject object = null;
         try {
-            MongoClient mongoClient = new MongoClient(serverHost, portNo);
-            DB dB = mongoClient.getDB(dbName);
-            DBCollection table = dB.getCollection(collectionName);
+            DBCollection table = getCollection(dbName, collectionName);
 
             BasicDBObject searchQuery = new BasicDBObject();
             searchQuery.put(field, value);
@@ -52,4 +51,32 @@ public class MongoDB {
         return object;
     }
 
+    public static JSONObject getToDoObjectByName(DBObject dBbject, String name) {
+        JSONObject output = new JSONObject(new JSON().serialize(dBbject));
+        JSONArray jsonArray = output.getJSONArray("todos");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            if (object.get("name").toString().equals(name)) {
+                return object;
+            }
+        }
+        return null;
+    }
+
+    public static JSONObject getToDoObject(DBCollection dBCollection, String field, String value, String name) {
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put(field, value);
+        DBCursor cursor = dBCollection.find(searchQuery);
+        DBObject dBbject = cursor.next();
+
+        JSONObject output = new JSONObject(new JSON().serialize(dBbject));
+        JSONArray jsonArray = output.getJSONArray("todos");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            if (object.get("name").toString().equals(name)) {
+                return object;
+            }
+        }
+        return null;
+    }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 public class GeneralUtilities {
 
     public static String getTimeStampForNameSuffix(){
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy_HHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss_ddMMyy");
         Date date = new Date();
         return sdf.format(date);
     }

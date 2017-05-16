@@ -170,4 +170,13 @@ public class AuditorEngagementPage extends AbstractPage {
 		clickAndHold(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 	}
 
+	public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception{
+		WebElement webElement= getDriver().findElement(By.xpath("//p[contains(text(),'"+engagementTitle+"')]/ancestor::div[@id='cpa-main']//input"));
+		System.out.println("+++++++++++++++++++++++++++++  " + engagementTitle);
+		//current we cannot view engagement by name we test with first engagment
+		//TODO bug here, fix later
+		hoverElement(webElement,engagementName);
+		waitForClickableOfElement(webElement,engagementName);
+		clickAndHold(webElement,engagementName);
+	}
 }

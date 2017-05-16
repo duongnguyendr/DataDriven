@@ -41,10 +41,13 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     		clickElement(eleToDoListLnk,"Todo List");
     }
     public void navigateToTodoListPage() throws Exception {
-
         waitForVisibleElement(eleToDoListLnk,"Todo link text");
         //waitForClickableOfElement(eleToDoListLnk,"Todo Link");
         clickElement(eleToDoListLnk,"Todo Link");
+    }
+
+    public void navigateToEngagementDetailPage(){
+        waitForVisibleElement(eleToDoListLnk,"Todo link text");
     }
 }
 
