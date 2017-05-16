@@ -274,4 +274,7 @@ public class AuditorTodoListPage  extends AbstractPage{
 		waitForClickableOfElement(eleOutstandingBTN,"eleOutstandingBTN");
 		waitForClickableOfElement(eleFlaggedForRequest,"eleFlaggedForRequest");
 	}
+	public void verifyDefaultValueFilterDropDownList(){
+		validateElementText(eleFilterDropDownList,"Filter");
+	}
 }

@@ -49,7 +49,7 @@ public class CreateToDoTest extends AbstractTest {
 			auditorCreateToDoService.verifyDataSearch();
 			auditorCreateToDoService.verifyCheckMaxLength();
 			auditorCreateToDoService.verifyContentTextSearch();
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
 			NXGReports.addStep("Verify to create To-Do page, category and search data.", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("Verify to create To-Do page, category and search data.", LogAs.FAILED,
@@ -68,6 +68,7 @@ public class CreateToDoTest extends AbstractTest {
 			auditorCreateToDoService.loginWithUserRole(userId);
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifySearchPlaceholder();
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
 			NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.FAILED,
@@ -86,6 +87,7 @@ public class CreateToDoTest extends AbstractTest {
 			auditorCreateToDoService.loginWithUserRole(userId);
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifySearchHover();
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
 			NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.FAILED,
@@ -104,6 +106,7 @@ public class CreateToDoTest extends AbstractTest {
 			auditorCreateToDoService.loginWithUserRole(userId);
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifySearchInputText();
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
 			NXGReports.addStep("verify input text.", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("verify input text.", LogAs.FAILED,
@@ -122,6 +125,7 @@ public class CreateToDoTest extends AbstractTest {
 			auditorCreateToDoService.loginWithUserRole(userId);
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifySearchInputNumber();
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
 			NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.FAILED,
@@ -139,7 +143,7 @@ public class CreateToDoTest extends AbstractTest {
 			auditorCreateToDoService.loginWithUserRole(userId);
 			auditorCreateToDoService.navigatetoCreateToDoTab();
 			auditorCreateToDoService.verifyCreateNewCategory();
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
 			NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
 		} catch (Exception e) {
 			NXGReports.addStep("Verify to create new Category", LogAs.FAILED,

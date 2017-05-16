@@ -78,6 +78,10 @@ public class AuditorTodoListService extends AbstractService {
         getLogger().info("Verify Filter DropDown List.");
         auditorTodoListPage.verifyFilterDropDownList();
     }
+    public void verifyDefaultValueFilterDropDownList(){
+        getLogger().info("Verify default value on Filter dropdown list.");
+        auditorTodoListPage.verifyDefaultValueFilterDropDownList();
+    }
 }
 
 
