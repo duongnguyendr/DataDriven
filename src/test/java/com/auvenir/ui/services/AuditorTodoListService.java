@@ -82,6 +82,51 @@ public class AuditorTodoListService extends AbstractService {
         getLogger().info("Verify default value on Filter dropdown list.");
         auditorTodoListPage.verifyDefaultValueFilterDropDownList();
     }
+    public void verifyHoverFilterDropDownList(){
+        getLogger().info("Verify Border on Filter dropdown list.");
+        auditorTodoListPage.verifyHoverFilterDropDownList();
+    }
+    public void verifySelectShowAllDropDownList(){
+        getLogger().info("Select Show All on Filter dropdown list.");
+        auditorTodoListPage.selectShowAllFilterDropDownList();
+        getLogger().info("Verify Show All text on Filter dropdown list.");
+        auditorTodoListPage.verifySelectShowAllFilterDropDownList();
+    }
+    public void verifySelectDueDateDropDownList(){
+        getLogger().info("Select Due Date on Filter dropdown list.");
+        auditorTodoListPage.selectDueDateFilterDropDownList();
+        getLogger().info("Verify Due Date text on Filter dropdown list.");
+        auditorTodoListPage.verifySelectDueDateFilterDropDownList();
+    }
+    public void selectAndVerifyFirstAssignFilterDropDownList(){
+        auditorTodoListPage.selectAndVerifyFirstAssignFilterDropDownList();
+    }
+    public void verifySelectWithCommentsDropDownList(){
+        getLogger().info("Select With Comments on Filter dropdown list.");
+        auditorTodoListPage.selectWithCommentsFilterDropDownList();
+        getLogger().info("Verify With Comments text on Filter dropdown list.");
+        auditorTodoListPage.verifySelectWithCommentsFilterDropDownList();
+    }
+    public void verifySelectCompleteDropDownList(){
+        getLogger().info("Select Complete on Filter dropdown list.");
+        auditorTodoListPage.selectCompleteFilterDropDownList();
+        getLogger().info("Verify Complete text on Filter dropdown list.");
+        auditorTodoListPage.verifySelectCompleteFilterDropDownList();
+    }
+    public void verifySelectFlaggedForRequestDropDownList(){
+        getLogger().info("Select Flagged For Request on Filter dropdown list.");
+        auditorTodoListPage.selectFlaggedForRequestFilterDropDownList();
+        getLogger().info("Verify Flagged For Request text on Filter dropdown list.");
+        auditorTodoListPage.verifySelectFlaggedForRequestFilterDropDownList();
+    }
+    public void verifyUnableAddMoreOptionFilterDropDownList(){
+        getLogger().info("verify Unable Add More Option Filter DropDownList");
+        auditorTodoListPage.verifyUnableAddMoreOptionFilterDropDownList();
+    }
+    public void verifyClickAndDoNotSelectValue(){
+        getLogger().info("verify verify Click And Do Not Select Value Filter DropDownList");
+        auditorTodoListPage.verifyClickAndDoNotSelectValue();
+    }
 }
 
 
