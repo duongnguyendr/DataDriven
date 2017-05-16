@@ -90,16 +90,9 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifySearchPlaceholder(){
-
-        try {
-            createToDoPage.verifySearchDefault();
-            NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-06: verify default value(Search...) of this Search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("Todo page verify default value(Search...)");
+        createToDoPage.verifySearchDefault();
     }
-
 
     public void verifyInputDataToDoNameTextBox(String toDoNameValue){
 		getLogger().info("Input data into ToDo name Textbox.");
@@ -107,36 +100,18 @@ public class AuditorCreateToDoService extends AbstractService {
 	}
 
     public void verifySearchHover(){
-		try {
-			createToDoPage.verifySearchHover(); 
-			NXGReports.addStep("[PLAT 2288]-07: verify when hover on Search change bounary color to green.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("[PLAT 2288]-07: verify when hover on Search change bounary color to green.", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+        getLogger().info("Todo page search hover");
+        createToDoPage.verifySearchHover();
 	}
-	
 	
 	public void verifySearchInputText(){
-
-		try {
-			createToDoPage.verifySearchInputText(); 
-			NXGReports.addStep("[PLAT 2288]-08: verify input text.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("[PLAT 2288]-08: verify input text.", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+        getLogger().info("Todo page search to input text");
+        createToDoPage.verifySearchInputText();
 	}
-
 	
 	public void verifySearchInputNumber(){
-		try {			
-			createToDoPage.verifySearchInputNumber(); 
-			NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.PASSED, null);
-		} catch (Exception e) {
-			NXGReports.addStep("[PLAT 2288]-10: verify input number to field search.", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+        getLogger().info("Todo page search to input number");
+        createToDoPage.verifySearchInputNumber();
 	}
 
 	
@@ -357,99 +332,41 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyCreateNewCategory(){
-
-        try {
-            boolean isCheckCategory = createToDoPage.verifyCreateNewCategory();
-            if(isCheckCategory) {
-                NXGReports.addStep("Create new category", LogAs.PASSED, null);
-            }
-            else
-            {
-                AbstractRefactorService.sStatusCnt++;
-                NXGReports.addStep("Create new category", LogAs.FAILED, null);
-            }
-        } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep("Create new category", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("Verify create new Category");
+        createToDoPage.verifyCreateNewCategory();
     }
 
-    public void verifyDataSearch() throws Exception {
-        try {
-            boolean isCheckData = createToDoPage.checkSearchData();
-            if(isCheckData) {
-                NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
-            }
-            else
-            {
-                AbstractRefactorService.sStatusCnt++;
-                NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
-            }
-            getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
-        } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifyDataSearch() {
+        getLogger().info("Verify the search data");
+        createToDoPage.checkSearchData();
     }
 
     public void verifyCheckMaxLength() {
-
-        try {
-            boolean isCheckMaxLength = createToDoPage.verifyCheckMaxLength();
-
-            if (isCheckMaxLength) {
-                NXGReports.addStep("Verify check max length of search textbox", LogAs.PASSED, null);
-
-            } else {
-                NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED, null);
-
-                AbstractService.sStatusCnt++;
-            }
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED,
-
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("Verify to check max length");
+        createToDoPage.verifyCheckMaxLength();
     }
 
-    public void verifyContentTextSearch() throws Exception {
-        try {
-            boolean isCheckData = createToDoPage.checkContentTextSearch();
-            if(isCheckData) {
-                NXGReports.addStep("Verify content of text search", LogAs.PASSED, null);
-            }
-            else
-            {
-                AbstractRefactorService.sStatusCnt++;
-                NXGReports.addStep("Verify content of text search", LogAs.FAILED, null);
-            }
-            getLogger().info("verifyContentTextSearch() isCheckContentText = " + isCheckData);
-        } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep("Verify content of text search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifyContentTextSearch() {
+        getLogger().info("Verify the content text search");
+        createToDoPage.checkContentTextSearch();
     }
 
-    public void createFailedTodoPage() throws Exception {
-        try {
-            boolean isCheckData = createToDoPage.checkSearchData();
-            if(isCheckData) {
-                NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
-            }
-            else
-            {
-                NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
-            }
-            getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
+//    public void createFailedTodoPage() throws Exception {
+//        try {
+//            boolean isCheckData = createToDoPage.checkSearchData();
+//            if(isCheckData) {
+//                NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
+//            }
+//            else
+//            {
+//                NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
+//            }
+//            getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
+//        } catch (Exception e) {
+//            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
+//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//        }
+//    }
 
     public void createToDoTaskWithCategoryName(String toDoNameTask, String categoryName) throws Exception {
         createToDoPage.createToDoTaskWithCategoryName(toDoNameTask, categoryName);
