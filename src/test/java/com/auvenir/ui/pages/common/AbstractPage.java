@@ -55,6 +55,7 @@ public class AbstractPage {
     public static  final String categoryNameAllText = "category name all text";
     public static final  String notValidNameMessage = "Not a valid name.";
     public  static  final String specialCharacter = "~!@#$%^&*+?><,.";
+    public static  final  String existedCategoryName = "Category name already existed";
     public  static  final int maxLenght = 255;
 
     public AbstractPage(Logger logger,WebDriver driver){
@@ -142,8 +143,10 @@ public class AbstractPage {
     private WebElement tblXpathTodoTable;
     @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/button")
     private WebElement eleCategoryText;
-    @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/a")
+
+    @FindBy(xpath="//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div")
     private WebElement eleIndiCategoryText;
+
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement categoryColors;
     @FindBy(id="m-ce-systemContainer")
@@ -894,22 +897,19 @@ public class AbstractPage {
         }
     }
 
-    public boolean createNewCategory (String categoryMode) throws Exception
+    public void clickToNewCategoryDllInList() throws Exception
     {
-        boolean isCheckCategory = false;
-        String categoryName = "Category " + randomNumber();
-        // Create new Category
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
+        //Will be removed.
         Thread.sleep(smallerTimeOut);
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
         Thread.sleep(smallerTimeOut);
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
-        waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
-        Thread.sleep(smallerTimeOut);
-        clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-        sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
-        //Will be removed.
+    }
+
+    public void chooseCategoryColorInPopup () throws Exception
+    {
         hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
         waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
         Thread.sleep(smallerTimeOut);
@@ -917,9 +917,31 @@ public class AbstractPage {
         waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
         Thread.sleep(smallerTimeOut);
         clickElement(detailCateColorEle, "click to detailCateColorEle");
+    }
+
+    public void clickNewCategoryCreateButton() throws Exception
+    {
         waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
         Thread.sleep(smallerTimeOut);
         clickElement(eleIdBtnAddCategory, "click to eleIdBtnAddCategory");
+    }
+
+
+    public boolean createNewCategory (String categoryMode) throws Exception
+    {
+        boolean isCheckCategory = false;
+        String categoryName = "Category " + randomNumber();
+        // Create new Category
+        clickToNewCategoryDllInList();
+        waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
+        Thread.sleep(smallerTimeOut);
+        clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
+        sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
+
+        chooseCategoryColorInPopup();
+
+        clickNewCategoryCreateButton();
+
         // Verify the category that has just created
         waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
         List<WebElement> td_collection = new ArrayList<>();
@@ -931,13 +953,12 @@ public class AbstractPage {
             Thread.sleep(smallerTimeOut);
             clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
-            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
-            //td_collection = tblXpathTodoTable.findElements((By) eleIndiCategoryText);
+            td_collection = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
             for (WebElement tdElement : td_collection) {
                 String strSearchValue = "";
                 try {
-                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
-                    strSearchValue = eleIndiCategoryText.getText();
+                    waitForVisibleElement(tdElement,"eleIndiCategoryText Get category name in list");
+                    strSearchValue = tdElement.getText();
                 } catch (Exception ex) {
                 }
                 getLogger().info("SearchValue = " + strSearchValue);
@@ -950,6 +971,7 @@ public class AbstractPage {
         else {
             isCheckCategory = true;
         }
+        getLogger().info("isCheckCategory = " + isCheckCategory);
         return isCheckCategory;
     }
 
@@ -1161,6 +1183,7 @@ public class AbstractPage {
         boolean isCheckTitle = false;
         getLogger().info("Verify category title");
         try {
+            clickToNewCategoryDllInList();
             waitForVisibleElement(idTitleCategory, "wait idTitleCategory");
             String strCategoryTitle = idTitleCategory.getText();
             if (categoryTitleOfAddNew.equals(strCategoryTitle)) {
@@ -1572,8 +1595,6 @@ public class AbstractPage {
         }
     }
 
-
-
     public boolean verifyExistedCategory()
     {
         boolean isCheckExistedCategory = false;
@@ -1581,9 +1602,20 @@ public class AbstractPage {
         try {
             String categoryName = "Existed category " + randomNumber();
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
-            // Choose category color
-            // Click to create category
-            //
+            chooseCategoryColorInPopup();
+            clickNewCategoryCreateButton();
+
+            clickToNewCategoryDllInList();
+            sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
+            chooseCategoryColorInPopup();
+            clickNewCategoryCreateButton();
+
+            waitForVisibleElement(xpathCategoryExistedText, "wait for xpathCategoryExistedText");
+            String strGetExistedMessage = xpathCategoryExistedText.getText();
+            if(strGetExistedMessage.equals(existedCategoryName))
+            {
+                isCheckExistedCategory = true;
+            }
             if(isCheckExistedCategory) {
                 NXGReports.addStep("Verify not complete to create category", LogAs.PASSED, null);
             }
@@ -1602,6 +1634,4 @@ public class AbstractPage {
             return isCheckExistedCategory;
         }
     }
-
-    //xpathCategoryExistedText
 }

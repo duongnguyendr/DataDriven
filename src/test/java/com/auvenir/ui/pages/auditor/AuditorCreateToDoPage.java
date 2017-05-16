@@ -374,14 +374,41 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			}
 			else
 			{
-				AbstractRefactorService.sStatusCnt++;
+				AbstractService.sStatusCnt++;
 				NXGReports.addStep("Create new category", LogAs.FAILED, null);
 			}
 		} catch (Exception e) {
-			AbstractRefactorService.sStatusCnt++;
+			AbstractService.sStatusCnt++;
 			NXGReports.addStep("Create new category", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
+	}
+
+	public void verifyAddNewCategoryPopupTitle() {
+		 verifyCategoryTitle();
+	}
+
+	public void verifyNewCategoryNameTextbox() {
+		verifyCategoryDefaultValue();
+		verifyHoverClickCategoryName();
+		verifyShowAllTextCategoryName();
+		verifyCategoryNameRequiredData();
+		verifyCategoryNameMaxLength();
+		verifyCategoryNameInputNumber();
+		verifyCategoryNameSpecialCharacter();
+	}
+
+	public void verifyNewCategoryColorCombobox() {
+		verifyCategoryColorAllQuantityColor();
+		verifyChoosedCategoryColor();
+	}
+
+	public void verifyNewCategoryCreateCancelButton() {
+		verifyColorCategoryCancelButton();
+		verifyColorCategoryCreateButton();
+		verifyClickCategoryCancelButton();
+		verifyNotCompleteCreateCategory();
+		verifyExistedCategory();
 	}
 
     public void createToDoTask(String toDoName)throws Exception {
@@ -658,12 +685,12 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			}
 			else
 			{
-				AbstractRefactorService.sStatusCnt++;
+				AbstractService.sStatusCnt++;
 				NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
 			}
 			getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
 		} catch (Exception e) {
-			AbstractRefactorService.sStatusCnt++;
+			AbstractService.sStatusCnt++;
 			NXGReports.addStep("Verify realtime search", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}

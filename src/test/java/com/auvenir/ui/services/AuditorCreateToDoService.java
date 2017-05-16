@@ -335,6 +335,25 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCreateNewCategory();
     }
 
+    public void verifyAddNewCategoryPopupTitle(){
+        getLogger().info("Verify title of add new category popup");
+        createToDoPage.verifyAddNewCategoryPopupTitle();
+    }
+    public void verifyNewCategoryNameTextbox(){
+        getLogger().info("Verify new category name textbox");
+        createToDoPage.verifyNewCategoryNameTextbox();
+    }
+
+    public void verifyNewCategoryColorCombobox(){
+        getLogger().info("Verify new category color combobox");
+        createToDoPage.verifyNewCategoryColorCombobox();
+    }
+
+    public void verifyNewCategoryCreateCancelButton(){
+        getLogger().info("Verify new category create/cancel button");
+        createToDoPage.verifyNewCategoryCreateCancelButton();
+    }
+
     public void verifyDataSearch() {
         getLogger().info("Verify the search data");
         createToDoPage.checkSearchData();
