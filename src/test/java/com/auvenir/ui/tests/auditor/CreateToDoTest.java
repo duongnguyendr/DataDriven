@@ -383,7 +383,7 @@ public class CreateToDoTest extends AbstractTest {
 		try {
 			auditorCreateToDoService.loginWithUserRole(userId);
 			auditorCreateToDoService.navigatetoCreateToDoTab();
-			auditorCreateToDoService.verifyAddNewDataGridIcon("ZAToDo PLAT 2282");
+			auditorCreateToDoService.verifyAddNewToDoTask("ZAToDo PLAT 2282");
 			ArrayList<String> names = new ArrayList<String>();
 			names.add("416 To Do Task02");
 			names.add("a To Do Task02");

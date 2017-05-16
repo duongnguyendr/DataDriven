@@ -233,7 +233,7 @@ public class AuditorTodoListTest extends AbstractTest {
     }
 
 
-    @Test(  priority = 9,enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
+    @Test(  priority = 9,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
     public void verifyGUIToDoSaveIcon() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -304,7 +304,7 @@ public class AuditorTodoListTest extends AbstractTest {
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
 
-            auditorCreateToDoService.verifyAddNewDataGridIcon("ZAToDo PLAT 2282");
+            auditorCreateToDoService.verifyAddNewToDoTask("ZAToDo PLAT 2282");
             ArrayList<String> toDoListNames = new ArrayList<String>();
             toDoListNames.add("416 To Do Task02");
             toDoListNames.add("a To Do Task02");
@@ -401,6 +401,33 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
+
+    @Test(  priority = 14,enabled = true, description = "[PLAT 2284]-Verify Add Bulk Actions")
+    public void verifyToDoAddBulkActions() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorTodoListService.verifyTodoListPage();
+
+            auditorCreateToDoService.verifyAddNewToDoTask("Task 01 2284");
+            auditorCreateToDoService.clickCheckboxNewToDoTask();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
 }
 
 

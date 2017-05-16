@@ -12,7 +12,6 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by hai.nguyen on 05/04/2017.
@@ -308,7 +307,7 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 */
-    public void verifyAddNewDataGridIcon(String toDoName) throws Exception {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -412,6 +411,10 @@ public class AuditorCreateToDoService extends AbstractService {
         for (int i = 0; i < toDoTaskNames.size(); i++) {
             createToDoPage.createToDoTask(toDoTaskNames.get(i));
         }
+    }
+
+    public void clickCheckboxNewToDoTask(){
+        createToDoPage.clickCheckboxNewToDoTask();
     }
 }
 
