@@ -27,24 +27,27 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     private WebElement dashBoardLinkEle;
     @FindBy(xpath = "//div[contains(text(),'Dashboard')]")
     private WebElement dashboardTextEle;
-    @FindBy(xpath = "//*[@id=\"auv-todo-createToDo\"]")
+    //@FindBy(xpath = "//*[@id=\"auv-todo-createToDo\"]")
+    @FindBy(id = "engagementTodoLink")
     private WebElement toDoLinkTextEle;
 
     public void verifyDetailsEngagementPage(String engagement01) {
         //we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
         //waitForClickableOfElement(dashBoardLinkEle,"DashBoard Link");
-        waitForVisibleElement(dashboardTextEle,"dashboard text");
+        waitForVisibleElement(toDoLinkTextEle,"To Do Link");
 
     }
 
     public void navigateToTaskList() throws Exception { 
     		clickElement(eleToDoListLnk,"Todo List");
     }
+    //Remove this function due to Element dashboard is removed.
+    /*
     public void navigateToTodoListPage() throws Exception {
 
         waitForVisibleElement(toDoLinkTextEle,"Todo link text");
-        //waitForClickableOfElement(eleToDoListLnk,"Todo Link");
+        waitForClickableOfElement(eleToDoListLnk,"Todo Link");
         clickElement(toDoLinkTextEle,"Todo Link");
-    }
+    }*/
 }
 
