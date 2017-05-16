@@ -136,7 +136,6 @@ public class AddSelectDateDropDownTest extends AbstractTest {
             //auditorCreateToDoService.verifyInputTextValue(isNewToDoPage);
             // Verify input text in due date text box
             //auditorCreateToDoService.verifyInputSpecialCharacterValue(isNewToDoPage);
-            getLogger().info(AbstractService.sStatusCnt);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
         } catch (Exception e) {
             NXGReports.addStep("Verify due date date picker on to-do list page.", LogAs.FAILED,

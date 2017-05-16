@@ -764,7 +764,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	/**
 	 * check default value of due date text box
-	 * @return
+	 * @return true | false
 	 */
 	public boolean checkDefaultDueDateValue(){
 		waitForVisibleElement(eleDueDateValue,"Engagement Due date");
@@ -807,7 +807,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	/**
 	 * choose date item in date picker
-	 * @return
+	 * @return true | false
 	 */
 	public boolean chooseDateItemInDataPicker(boolean isNewToDoPage) throws Exception {
 		boolean result = true;
@@ -843,7 +843,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	/**
 	 * Check date picker is move next or previous month when click Prev or Next link.
 	 * @param actionLink : prev | next
-	 * @return
+	 * @return true | false
 	 */
 	public boolean checkDatePickerChangeMonth(String actionLink, boolean isNextMonth, boolean isNewToDoPage){
 		boolean result = true;
@@ -888,7 +888,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	/**
 	 * Verify input correct format date into due date text box
 	 * @param dateValue
-	 * @return
+	 * @return true | false
 	 */
 	public boolean verifyInputCorrectFormatDate(String dateValue, boolean isNewToDoPage){
 		boolean result = true;
@@ -923,7 +923,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	/**
 	 * Verify input wrong format date into due date text box
 	 * @param dateValue
-	 * @return
+	 * @return true | false
 	 */
 	public boolean verifyInputWrongValue(String dateValue,boolean isNewToDoPage){
 		boolean result = true;
@@ -953,5 +953,6 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		}
 		return result;
 	}
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 }
 
