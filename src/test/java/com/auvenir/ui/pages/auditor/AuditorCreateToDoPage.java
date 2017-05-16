@@ -89,10 +89,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath="//tr[@id='empty-todo']//..//..//div")
 	private WebElement eleNotesEmtyToDo;
 
-	@FindBy(id="category-dropdown")
+	@FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
 	private WebElement categoryDropdownEle;
-	@FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div[3]")
-	private WebElement categoryOptionItemEle;
+	@FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']//button")
+	private List<WebElement> categoryOptionItemEle;
 	@FindBy(id="due-date")
 	private WebElement dueDateFieldEle;
 	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody/tr[2]/td[5]/a")
@@ -119,7 +119,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	private WebElement eleToDoCloseIcon;
 
 	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']")
-	private List<WebElement> eleToDoNewRow;
+	private List<WebElement> toDoTaskRowEle;
 
 	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
 	private List<WebElement> eleToDoCheckboxRow;
@@ -374,14 +374,41 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			}
 			else
 			{
-				AbstractRefactorService.sStatusCnt++;
+				AbstractService.sStatusCnt++;
 				NXGReports.addStep("Create new category", LogAs.FAILED, null);
 			}
 		} catch (Exception e) {
-			AbstractRefactorService.sStatusCnt++;
+			AbstractService.sStatusCnt++;
 			NXGReports.addStep("Create new category", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
+	}
+
+	public void verifyAddNewCategoryPopupTitle() {
+		 verifyCategoryTitle();
+	}
+
+	public void verifyNewCategoryNameTextbox() {
+		verifyCategoryDefaultValue();
+		verifyHoverClickCategoryName();
+		verifyShowAllTextCategoryName();
+		verifyCategoryNameRequiredData();
+		verifyCategoryNameMaxLength();
+		verifyCategoryNameInputNumber();
+		verifyCategoryNameSpecialCharacter();
+	}
+
+	public void verifyNewCategoryColorCombobox() {
+		verifyCategoryColorAllQuantityColor();
+		verifyChoosedCategoryColor();
+	}
+
+	public void verifyNewCategoryCreateCancelButton() {
+		verifyColorCategoryCancelButton();
+		verifyColorCategoryCreateButton();
+		verifyClickCategoryCancelButton();
+		verifyNotCompleteCreateCategory();
+		verifyExistedCategory();
 	}
 
     public void createToDoTask(String toDoName)throws Exception {
@@ -394,8 +421,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			Thread.sleep(smallTimeOut);
 			waitForClickableOfElement(categoryDropdownEle,"Category Dropdown");
 			categoryDropdownEle.click();
-			waitForClickableOfElement(categoryOptionItemEle,"Category Option Item");
-			categoryOptionItemEle.click();
+			waitForClickableOfElement(categoryOptionItemEle.get(0),"Category Option Item");
+			categoryOptionItemEle.get(0).click();
 			waitForClickableOfElement(dueDateFieldEle,"Due Date field");
 			dueDateFieldEle.click();
 			waitForClickableOfElement(dateItemonCalendarEle,"Date value");
@@ -418,8 +445,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		waitForClickableOfElement(categoryDropdownEle,"eleDdlCategory");
         Thread.sleep(smallTimeOut);
 		clickElement(categoryDropdownEle, "click to eleDdlCategory");
-		waitForClickableOfElement(categoryOptionItemEle,"eleXpathCategoryItem");
-		clickElement(categoryOptionItemEle, "click to eleXpathCategoryItem");
+		waitForClickableOfElement(categoryOptionItemEle.get(0),"eleXpathCategoryItem");
+		clickElement(categoryOptionItemEle.get(0), "click to eleXpathCategoryItem");
 		waitForClickableOfElement(dueDateFieldEle,"eleIdDueDate");
 		Thread.sleep(smallerTimeOut);
 		clickElement(dueDateFieldEle, "click to eleIdDueDate");
@@ -479,15 +506,15 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	public void verifyToDoCloseIcon(){
 		int count = -1;
-		if(eleToDoNewRow.isEmpty())
+		if(toDoTaskRowEle.isEmpty())
 			count = 0;
-		else count = eleToDoNewRow.size();
+		else count = toDoTaskRowEle.size();
 		clickCreateToDoTask();
 		waitForVisibleElement(eleToDoCloseIcon,"To Do Close Icon");
 		eleToDoCloseIcon.click();
 		getLogger().info("Verify new To Do Task is not created.");
 		try {
-			if (count == eleToDoNewRow.size()) {
+			if (count == toDoTaskRowEle.size()) {
 				NXGReports.addStep("New To Do Task is not created", LogAs.PASSED, null);
 				NXGReports.addStep("Close Icon is working", LogAs.PASSED, null);
 			}
@@ -658,12 +685,12 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			}
 			else
 			{
-				AbstractRefactorService.sStatusCnt++;
+				AbstractService.sStatusCnt++;
 				NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
 			}
 			getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
 		} catch (Exception e) {
-			AbstractRefactorService.sStatusCnt++;
+			AbstractService.sStatusCnt++;
 			NXGReports.addStep("Verify realtime search", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
@@ -821,8 +848,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
         Thread.sleep(smallTimeOut);
         waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
         categoryDropdownEle.click();
-        waitForClickableOfElement(categoryOptionItemEle,"Category Option Item");
-        categoryOptionItemEle.click();
+        waitForClickableOfElement(categoryOptionItemEle.get(0),"Category Option Item");
+        categoryOptionItemEle.get(0).click();
         waitForClickableOfElement(dueDateFieldEle,"Due Date field");
 		dueDateFieldEle.click();
         waitForClickableOfElement(dateItemonCalendarEle,"Date value");
@@ -945,5 +972,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		categoryComboBoxEle.get(0).click();
 		editCategoryEle.click();
 	}
+
+	public void clickCheckboxNewToDoTask(){
+		waitForClickableOfElement(eleToDoCheckboxRow.get(0),"CheckBox New ToDo Task");
+		clickElement(eleToDoCheckboxRow.get(0),"CheckBox New ToDo Task");
+    }
 }
 

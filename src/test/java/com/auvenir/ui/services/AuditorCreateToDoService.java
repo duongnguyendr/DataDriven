@@ -12,7 +12,6 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by hai.nguyen on 05/04/2017.
@@ -308,7 +307,7 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 */
-    public void verifyAddNewDataGridIcon(String toDoName) throws Exception {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -334,6 +333,25 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCreateNewCategory(){
         getLogger().info("Verify create new Category");
         createToDoPage.verifyCreateNewCategory();
+    }
+
+    public void verifyAddNewCategoryPopupTitle(){
+        getLogger().info("Verify title of add new category popup");
+        createToDoPage.verifyAddNewCategoryPopupTitle();
+    }
+    public void verifyNewCategoryNameTextbox(){
+        getLogger().info("Verify new category name textbox");
+        createToDoPage.verifyNewCategoryNameTextbox();
+    }
+
+    public void verifyNewCategoryColorCombobox(){
+        getLogger().info("Verify new category color combobox");
+        createToDoPage.verifyNewCategoryColorCombobox();
+    }
+
+    public void verifyNewCategoryCreateCancelButton(){
+        getLogger().info("Verify new category create/cancel button");
+        createToDoPage.verifyNewCategoryCreateCancelButton();
     }
 
     public void verifyDataSearch() {
@@ -412,6 +430,10 @@ public class AuditorCreateToDoService extends AbstractService {
         for (int i = 0; i < toDoTaskNames.size(); i++) {
             createToDoPage.createToDoTask(toDoTaskNames.get(i));
         }
+    }
+
+    public void clickCheckboxNewToDoTask(){
+        createToDoPage.clickCheckboxNewToDoTask();
     }
 }
 
