@@ -414,11 +414,13 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     public void createToDoTask(String toDoName)throws Exception {
 			waitForClickableOfElement(createToDoBtnEle,"Create To Do Button");
 			createToDoBtnEle.click();
-			Thread.sleep(smallTimeOut);
+			//Thread.sleep(smallTimeOut);
+			waitForJSandJQueryToLoad();
 			createToDoNameTextBoxEle.sendKeys(toDoName);
 			// Create new category
 			createNewCategory("");
-			Thread.sleep(smallTimeOut);
+			//Thread.sleep(smallTimeOut);
+			waitForPopupToClose();
 			waitForClickableOfElement(categoryDropdownEle,"Category Dropdown");
 			categoryDropdownEle.click();
 			waitForClickableOfElement(categoryOptionItemEle.get(0),"Category Option Item");

@@ -17,6 +17,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -929,14 +930,15 @@ public class AbstractPage {
     }
 
 
-    public boolean createNewCategory (String categoryMode) throws Exception
+    public boolean  createNewCategory (String categoryMode) throws Exception
     {
         boolean isCheckCategory = false;
         String categoryName = "Category " + randomNumber();
         // Create new Category
         clickToNewCategoryDllInList();
         waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
-        Thread.sleep(smallerTimeOut);
+        //Thread.sleep(smallerTimeOut);
+        waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
         sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
 
@@ -952,7 +954,8 @@ public class AbstractPage {
             hoverElement(dropdownCategoryEle, "dropdownCategoryEle");
             waitForClickableOfElement(dropdownCategoryEle,"dropdownCategoryEle");
             // Wait dropdownCategoryEle but can not click to dropdownCategoryEle
-            Thread.sleep(smallerTimeOut);
+            //Thread.sleep(smallerTimeOut);
+            waitForJSandJQueryToLoad();
             clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
             td_collection = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
@@ -1636,4 +1639,33 @@ public class AbstractPage {
             return isCheckExistedCategory;
         }
     }
+    /*
+    Method to wait Ajax function on Site be loaded successfully.
+     */
+    public boolean waitForJSandJQueryToLoad() {
+        WebDriverWait wait = new WebDriverWait(driver, 60);
+        // wait for jQuery to load
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                try {
+                    return ((Long)((JavascriptExecutor)getDriver()).executeScript("return jQuery.active") == 0);
+                }
+                catch (Exception e) {
+                    // no jQuery present
+                    return true;
+                }
+            }
+        };
+        // wait for Javascript to load
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor)getDriver()).executeScript("return document.readyState")
+                        .toString().equals("complete");
+            }
+        };
+        return wait.until(jQueryLoad) && wait.until(jsLoad);
+    }
+
 }
