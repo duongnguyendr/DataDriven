@@ -35,18 +35,30 @@ public class AuditorUndoOptionService extends AbstractService {
         }
     }
 
-    public void createToDoRecord(String name, String dueDate) {
-        try {
-            auditorCreateToDoPage.createToDoPageWithNameAndDate(name, dueDate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    /**
+     * create a record with name and date(of this month- implement choose month and year later)
+     *
+     * @param toDoName name of To-Do to create
+     * @param dueDate  date of this month which chosen as dueDate
+     */
+    public void createToDoRecord(String toDoName, String dueDate) {
+        auditorCreateToDoPage.createToDoPageWithNameAndDate(toDoName, dueDate);
     }
 
-    public void chooseARowWithName(String name) {
-        auditorCreateToDoPage.clickCheckBoxAtRowName(name);
+    /**
+     * choose given name To-Do
+     *
+     * @param toDoName name of To-Do to choose
+     */
+    public void chooseARowWithName(String toDoName) {
+        auditorCreateToDoPage.clickCheckBoxAtRowName(toDoName);
     }
 
+    /**
+     * choose an action as actionName
+     *
+     * @param actionName kind of action to choose(Mark as complete,Delete,Assign to...)
+     */
     public void selectOnBulkActions(String actionName) {
         auditorCreateToDoPage.clickBulkActions();
         if (actionName.equals("Mark as complete")) {
@@ -61,60 +73,84 @@ public class AuditorUndoOptionService extends AbstractService {
         }
     }
 
-    //TODO group these functions
-    public void completeAToDoWithName(String name) {
-        chooseARowWithName(name);
-        selectOnBulkActions("Mark as complete");
+    /**
+     * choose given name To-Do and cho an action for it
+     *
+     * @param toDoName name of To-Do to choose
+     * @param action   kind of action(Mark as complete,Delete,Assign to...)
+     */
+    public void chooseAndActAToDoWithName(String toDoName, String action) {
+        chooseARowWithName(toDoName);
+        selectOnBulkActions(action);
     }
 
-    public void deleteAToDoWithName(String name) {
-        chooseARowWithName(name);
-        selectOnBulkActions("Delete");
+    /**
+     * verify complete status of a To-Do
+     *
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param status          status complete expected
+     */
+    public void verifyToDoComleteStatusByName(String engagementValue, String todoName, String status) {
+        auditorCreateToDoPage.verifyToDoCompleteStatus("name", engagementValue, todoName, status);
     }
 
-    public void assignAToDoWithName(String name) {
-        chooseARowWithName(name);
-        selectOnBulkActions("Assign to");
+    /**
+     * verify delete status of a To-Do
+     *
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param status          status complete expected
+     */
+    public void verifyToDoDeleteStatusByName(String engagementValue, String todoName, String status) {
+        auditorCreateToDoPage.verifyToDoDeteteStatus("name", engagementValue, todoName, status);
     }
 
-    public void verifyToDoComleteStatus(String engagementName, String todoName, String status) {
-        boolean result = auditorCreateToDoPage.verifyToDoCompleteStatus("name", engagementName, todoName, status);
-        if (result) {
-            System.out.println("+++++++++++++++++++++++++++++ result" + result);
-        }
+    /**
+     * verify name of assignee appear on Client Assignee after assign
+     *
+     * @param todoName name of To-Do to check name
+     * @param text     name of assignee
+     */
+    public void verifyAssigneeNameOnUI(String todoName, String text) {
+        auditorCreateToDoPage.verifyAssigneeNameOnUI(todoName, text);
     }
 
-    public void verifyToDoDeleteStatus(String engagementName, String todoName, String status) {
-        boolean result = auditorCreateToDoPage.verifyToDoDeteteStatus("name", engagementName, todoName, status);
-        if (result) {
-            System.out.println("+++++++++++++++++++++++++++++ result" + result);
-        }
-    }
-
-    public void verifyToDoAssignToUI(String todoName, String text) {
-        if (auditorCreateToDoPage.getAssignToAtRowName(todoName).equals(text)) {
-            System.out.println("+++++++++++++++++++++++++++++ result" + auditorCreateToDoPage.getAssignToAtRowName(todoName));
-        }
-    }
-
-    public void verifyDownloadAttachmentsDisable(String name) {
-        chooseARowWithName(name);
+    /**
+     * verify name of assignee appear on Client Assignee after assign
+     *
+     * @param todoName name of To-Do to check status
+     */
+    public void verifyDownloadAttachmentsDisable(String todoName) {
+        chooseARowWithName(todoName);
         auditorCreateToDoPage.clickBulkActions();
         auditorCreateToDoPage.verifyOptionDownloadAttachmentsOnBulkActionsDropDown();
     }
 
+    /**
+     * click button(icon) Undo
+     */
     public void undoAction() {
         auditorCreateToDoPage.clickBtnUndo();
     }
 
+    /**
+     * verify button Undo exist
+     */
     public void uiVerifyButtonUndoExist() {
         auditorDetailsEngagementPage.uiVerifyButtonUndoExist();
     }
 
+    /**
+     * verify button Undo disable
+     */
     public void uiVerifyButtonUndoDisable() {
         auditorDetailsEngagementPage.uiVerifyButtonUndoDisable();
     }
 
+    /**
+     * verify button Undo enable
+     */
     public void uiVerifyButtonUndoEnable() {
         auditorDetailsEngagementPage.uiVerifyButtonUndoEnable();
     }

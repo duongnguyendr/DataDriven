@@ -25,6 +25,10 @@ public class UndoOptionTest extends AbstractTest {
     String userId;
     String timeStamp;
 
+    /**
+     * (precondition)init value for variables
+     * dependsOnMethods: setUp on AbstractTest
+     */
     @BeforeMethod(dependsOnMethods = {"setUp"})
     public void initVariable() {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -37,6 +41,11 @@ public class UndoOptionTest extends AbstractTest {
         timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
     }
 
+    /**
+     * (precondition)flow to Needed-To-Test page
+     * dependsOnMethods: initVariable
+     * TODO: remove throws Exception when finished catching all exceptions on Page
+     */
     @BeforeMethod(dependsOnMethods = {"initVariable"})
     public void navigationPreconditions() throws Exception {
         auditorEngagementService.loginWithUserRole(userId);
@@ -45,16 +54,80 @@ public class UndoOptionTest extends AbstractTest {
         auditorNewEngagementService.verifyNewEngagementPage();
     }
 
-    @Test(priority = 10, enabled = true, testName = "Undo successfully", description = "undo_4", groups = "workflow")
-    public void verifyUndoActionWithCompleteCase() throws Exception {
+    /**
+     * (case)verify button Undo action exist
+     */
+    @Test(priority = 5, enabled = true, testName = "Verify GUI.", description = "undo_1", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void uiVerifyButtonUndoExist() throws Exception {
         //TODO move to precondition later
         auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
 
         auditorEngagementService.verifyAuditorEngagementPage();
-        //TODO temporary code, remove later
-        String firstEngagement = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-//        System.out.println("###################################a = " + a);
-//        Thread.sleep(10000);
+        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
+        auditorDetailsEngagementService.navigateToTodoListPage();
+        /* end of block should be on precondition, wait bug fix*/
+
+        auditorUndoOptionService.uiVerifyButtonUndoExist();
+    }
+
+    /**
+     * (case)verify button Undo action disable
+     */
+    @Test(priority = 7, enabled = true, testName = "Undo arrow.", description = "undo_3", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void uiVerifyButtonUndoStatus() throws Exception {
+        //TODO move to precondition later
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
+        auditorDetailsEngagementService.navigateToTodoListPage();
+        /* end of block should be on precondition, wait bug fix*/
+
+        auditorUndoOptionService.uiVerifyButtonUndoDisable();
+
+        auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorUndoOptionService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete");
+
+        auditorUndoOptionService.uiVerifyButtonUndoEnable();
+    }
+
+    /**
+     * (case)verify Undo action Complete a To-Do, verified change on database but UI
+     */
+    @Test(priority = 10, enabled = true, testName = "Undo successfully", description = "undo_4", groups = "workflow")
+    public void verifyUndoActionWithCompleteCase() {
+        //TODO move to precondition later
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        String firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
+        auditorDetailsEngagementService.navigateToTodoListPage();
+        /* end of block should be on precondition, wait bug fix*/
+
+        auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorUndoOptionService.createToDoRecord("toDoName02" + timeStamp, "26");
+
+        auditorUndoOptionService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete");
+        auditorUndoOptionService.verifyToDoComleteStatusByName(firstEngagementTitleOnWeb, "toDoName01" + timeStamp, "true");
+
+        auditorUndoOptionService.undoAction();
+        auditorUndoOptionService.verifyToDoComleteStatusByName(firstEngagementTitleOnWeb, "toDoName01" + timeStamp, "false");
+
+        NXGReports.addStep("Verify Undo action with complete case", LogAs.PASSED, null);
+    }
+
+    /**
+     * (case)verify Undo action Assign to a To-Do, verified change on UI but database
+     */
+    @Test(priority = 15, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void verifyUndoActionWithAssignToCase() throws Exception {
+        //TODO move to precondition later
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+
+        auditorEngagementService.verifyAuditorEngagementPage();
         auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
 
         auditorDetailsEngagementService.navigateToTodoListPage();
@@ -63,15 +136,18 @@ public class UndoOptionTest extends AbstractTest {
         auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
         auditorUndoOptionService.createToDoRecord("toDoName02" + timeStamp, "26");
 
-        auditorUndoOptionService.completeAToDoWithName("toDoName01" + timeStamp);
-        auditorUndoOptionService.verifyToDoComleteStatus(firstEngagement, "toDoName01" + timeStamp, "true");
-
+        auditorUndoOptionService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Assign to");
+        auditorUndoOptionService.verifyAssigneeNameOnUI("toDoName01" + timeStamp, "client 01 so (client)");
+        Thread.sleep(2000);
         auditorUndoOptionService.undoAction();
-        auditorUndoOptionService.verifyToDoComleteStatus(firstEngagement, "toDoName01" + timeStamp, "false");
+        auditorUndoOptionService.verifyAssigneeNameOnUI("toDoName01" + timeStamp, "Unassigned");
 
         NXGReports.addStep("Verify Undo action with complete case", LogAs.PASSED, null);
     }
 
+    /**
+     * (case)verify Undo action Delete a To-Do, verified change on database but UI
+     */
     @Test(priority = 20, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithDeleteCase() throws Exception {
         //TODO move to precondition later
@@ -90,38 +166,18 @@ public class UndoOptionTest extends AbstractTest {
         auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
         auditorUndoOptionService.createToDoRecord("toDoName02" + timeStamp, "26");
 
-        auditorUndoOptionService.deleteAToDoWithName("toDoName02" + timeStamp);
-        auditorUndoOptionService.verifyToDoDeleteStatus(firstEngagement, "toDoName02" + timeStamp, "INACTIVE");
+        auditorUndoOptionService.chooseAndActAToDoWithName("toDoName02" + timeStamp, "Delete");
+        auditorUndoOptionService.verifyToDoDeleteStatusByName(firstEngagement, "toDoName02" + timeStamp, "INACTIVE");
 
         auditorUndoOptionService.undoAction();
-        auditorUndoOptionService.verifyToDoDeleteStatus(firstEngagement, "toDoName02" + timeStamp, "ACTIVE");
+        auditorUndoOptionService.verifyToDoDeleteStatusByName(firstEngagement, "toDoName02" + timeStamp, "ACTIVE");
 
         NXGReports.addStep("Verify Undo action with complete case", LogAs.PASSED, null);
     }
 
-    @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
-    public void verifyUndoActionWithAssignToCase() throws Exception {
-        //TODO move to precondition later
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
-
-        auditorDetailsEngagementService.navigateToTodoListPage();
-        /* end of block should be on precondition, wait bug fix*/
-
-        auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
-        auditorUndoOptionService.createToDoRecord("toDoName02" + timeStamp, "26");
-
-        auditorUndoOptionService.assignAToDoWithName("toDoName01" + timeStamp);
-        auditorUndoOptionService.verifyToDoAssignToUI("toDoName01" + timeStamp, "client 01 so (client)");
-        Thread.sleep(2000);
-        auditorUndoOptionService.undoAction();
-        auditorUndoOptionService.verifyToDoAssignToUI("toDoName01" + timeStamp, "Unassigned");
-
-        NXGReports.addStep("Verify Undo action with complete case", LogAs.PASSED, null);
-    }
-
+    /**
+     * (case)verify Undo action Download Attachments disable
+     */
     @Test(priority = 40, enabled = true, testName = "Undo fail", description = "undo_1", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyDownloadAttachmentsDisable() throws Exception {
         //TODO move to precondition later
@@ -134,50 +190,5 @@ public class UndoOptionTest extends AbstractTest {
 
         auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
         auditorUndoOptionService.verifyDownloadAttachmentsDisable("toDoName01" + timeStamp);
-    }
-
-    @Test(priority = 5, enabled = true, testName = "Verify GUI.", description = "undo_1", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
-    public void uiVerifyButtonUndoExist() throws Exception {
-        //TODO move to precondition later
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
-        auditorDetailsEngagementService.navigateToTodoListPage();
-        /* end of block should be on precondition, wait bug fix*/
-
-        auditorUndoOptionService.uiVerifyButtonUndoExist();
-    }
-
-    @Test(priority = 7, enabled = true, testName = "Undo arrow.", description = "undo_3", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
-    public void uiVerifyButtonUndoDisable() throws Exception {
-        //TODO move to precondition later
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
-        auditorDetailsEngagementService.navigateToTodoListPage();
-        /* end of block should be on precondition, wait bug fix*/
-
-        auditorUndoOptionService.uiVerifyButtonUndoDisable();
-
-        auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
-        auditorUndoOptionService.completeAToDoWithName("toDoName01" + timeStamp);
-
-        auditorUndoOptionService.uiVerifyButtonUndoEnable();
-    }
-
-
-
-    //@AfterMethod
-    public void tearDownTodo() throws Exception {
-        //TODO use tempory, delete later
-        getDriver().findElement(By.xpath("//th/input[@type='checkbox']")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//div[contains(text(),'Bulk Actions')]")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//button[contains(text(),'Delete')]")).click();
-        Thread.sleep(2000);
-        getDriver().findElement(By.xpath("//button[contains(text(),'Delete')]")).click();
     }
 }
