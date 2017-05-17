@@ -181,6 +181,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath="//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
 	private List<WebElement> eleToDoNewRowDueDateText;
 
+	@FindBy(id="due-date")
+	private WebElement eleIdDueDate;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody/tr[2]/td[5]/a")
+	private WebElement eleXpathChooseDate;
+
 	@FindBy(xpath="//*/span[@class='ui-datepicker-month']")
 	private WebElement eleDataPickerTitleTest;
 	@FindBy(xpath="//td[@class=' ui-datepicker-days-cell-over  ui-datepicker-today']")
@@ -189,9 +194,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	private WebElement eleDataPickerToDay;
 
 	public void verifyButtonCreateToDo()throws Exception {
-		validateCssValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
-		validateCssValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
-		validateDisPlayedElement(eleCreateToDoBtn,"Create Todo Button");
+		validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
+		validateCssValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
+		validateDisPlayedElement(eleCreateToDoBtn, "Create Todo Button");
+	}
 
     @FindBy(xpath = "//div[@class='ui dropdown']")
 	WebElement bulkActionsDropdownEle;
