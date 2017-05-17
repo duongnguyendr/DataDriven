@@ -25,7 +25,7 @@ public class AuditorTodoListTest extends AbstractTest {
     private AuditorCreateToDoService auditorCreateToDoService;
 
 
-    @Test(priority=1,enabled= true, description="Verify Auditor empty Todo List page.")
+    @Test(priority=1,enabled= false, description="Verify Auditor empty Todo List page.")
     public void verifyAuditorEmptyTodoListPage() throws Exception
     {
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -65,7 +65,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 2,enabled = true, description = "Verify to create To-Do page and search data.")
+    @Test(  priority = 2,enabled = false, description = "Verify to create To-Do page and search data.")
     public void verifyCreateToDoPageCategorySearchData() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -92,7 +92,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 3,enabled = true, description = "Verify to create new Category")
+    @Test(  priority = 3,enabled = false, description = "Verify to create new Category")
     public void verifyCreateNewCategory() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -114,7 +114,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 22,enabled = true, description = "Verify new Category popup")
+    @Test(  priority = 22,enabled = false, description = "Verify new Category popup")
     public void verifyNewCategoryPopup() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -322,7 +322,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(  priority = 11,enabled = true, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
+    @Test(  priority = 11,enabled = false, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
     public void verifyDataGridToDoTaskPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -357,7 +357,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 12,enabled = false, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
+    @Test(  priority = 12,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
     public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -574,7 +574,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 14,enabled = true, description = "[PLAT 2284]-Verify Add Bulk Actions")
+    @Test(  priority = 14,enabled = false, description = "[PLAT 2284]-Verify Add Bulk Actions")
     public void verifyToDoAddBulkActions() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -590,11 +590,19 @@ public class AuditorTodoListTest extends AbstractTest {
 
             auditorCreateToDoService.verifyAddNewToDoTask("Task 01 2284");
             auditorCreateToDoService.clickCheckboxNewToDoTask();
+            auditorCreateToDoService.verifyDefaultValueofBulkActionsDropdown("Bulk Actions");
+            auditorCreateToDoService.verifyHoverBulkActionsDropdown();
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyListValueofBulkActionsDropdown();
+            auditorCreateToDoService.clickDeleteToDoBulkActions();
+            auditorCreateToDoService.verifyListValueofBulkActionsDropdown();
+
+            //auditorCreateToDoService.
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-            NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Add Bulk Actions on To do page.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify GUI auditor create to do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Add Bulk Actions on To do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }

@@ -17,6 +17,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -1636,4 +1637,35 @@ public class AbstractPage {
             return isCheckExistedCategory;
         }
     }
+
+    /**
+     @Description In order to wait element to be visible.
+     @param element element defined on page class
+     @param elementName Name of element that we want to verify
+     */
+    public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
+        getLogger().info("Try to waitForCssValueChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    String actualcssValue = element.getCssValue(cssName);
+                    System.out.println("Actual Displayed Value: " + actualcssValue);
+                    if (actualcssValue.equals(cssValue))
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("CSS '%s' of element '%s' is changed to '%s'", cssName, elementName, cssValue), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("CSS Value is not changed");
+            NXGReports.addStep(String.format("CSS '%s' of element '%s' is NOT changed", cssName, elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    //xpathCategoryExistedText
 }

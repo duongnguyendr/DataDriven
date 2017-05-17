@@ -136,21 +136,21 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		return toDoNameTextColumnEle;
 	}
 
-    @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
-    private List<WebElement> eleCategoryComboBoxText;
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class='text']")
+    private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
-    @FindBy(id ="category-dropdown")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
     private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
-    @FindBy(id = "category-dropdown-menu")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class = 'menu']")
     private List<WebElement> categoryComboBoxMenuEle;
 
-    @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[1]")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuItemEle;
 
-    @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[2]")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[2]")
     WebElement editCategoryEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
@@ -161,7 +161,31 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
     WebElement editCategoryCancelBtnEle;
-	
+
+    @FindBy(xpath = "//div[@class='ui dropdown']")
+	WebElement bulkActionsDropdownEle;
+
+	@FindBy(xpath = "//div[@id='todo-bulk-dropdown']/div[@class='menu']")
+	WebElement bulkActionsDropdownMenuEle;
+
+    @FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/button[contains(text(),'Download Attachments')]")
+	WebElement downloadAttachBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/button[contains(text(),'Mark as complete')]")
+	WebElement markAsCompleteBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/div[contains(text(),'Assign to')]")
+	WebElement assignToBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/button[contains(text(),'Delete')]")
+	WebElement deletedBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Cancel')]")
+	WebElement cancelDeletedToDoButtonEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]")
+	WebElement popUpWindows;
+
 	public void verifyGUIButtonCreateToDo(){
 		try{
 			boolean result;
@@ -821,9 +845,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox) {
             boolean result = false;
             getLogger().info("Verify Default Value Of Category ComboBox");
-            //System.out.println("First Option in Dropdown box: " + selectEleCategoryComboBox.getFirstSelectedOption());
-            System.out.println("Default Value in Dropdown box: " + eleCategoryComboBoxText.get(0).getText());
-            result  = validateElementText(eleCategoryComboBoxText.get(0), defaultValueComboBox);
+            System.out.println("Default Value in Dropdown box: " + categoryComboBoxTextEle.get(0).getText());
+            result  = validateElementText(categoryComboBoxTextEle.get(0), defaultValueComboBox);
             if(result){
                 NXGReports.addStep("Verify Default Value Of Category ComboBox successfully.", LogAs.PASSED, null);
             }else{
@@ -888,11 +911,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             Assert.assertTrue(result, "Add New Category popup is not displayed");
             hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
             waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
-			//Will be change to wait Ajax change function
-            Thread.sleep(smallTimeOut);
-            editCategoryCancelBtnEle.click();
-            //Will be change to wait Ajax change function
-            Thread.sleep(smallTimeOut);
+			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+			editCategoryCancelBtnEle.click();
+			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify New Category popup is displayed", LogAs.PASSED,null);
         }catch (AssertionError e){
             AbstractService.sStatusCnt++;
@@ -908,9 +929,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             Assert.assertTrue(result, "Edit Categories popup is not displayed");
             hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
             waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Edit Category Button");
+			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
             editCategoryCancelBtnEle.click();
-            //Will be change to wait Ajax change function
-            Thread.sleep(smallTimeOut);
+			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify Edit Categories popup is displayed", LogAs.PASSED,null);
         }catch (AssertionError e){
             AbstractService.sStatusCnt++;
@@ -977,5 +998,61 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		waitForClickableOfElement(eleToDoCheckboxRow.get(0),"CheckBox New ToDo Task");
 		clickElement(eleToDoCheckboxRow.get(0),"CheckBox New ToDo Task");
     }
+
+    public  void clickBulkActionsDropdown(){
+		//waitForClickableOfElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
+		//hoverElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
+		clickElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
+	}
+
+	public void verifyDefaultValueofBulkActionsDropdown(String defaultValueComboBox) {
+		boolean result = false;
+		getLogger().info("Verify Default value of Bulk Actions Dropdown.");
+		System.out.println("Default Value in Dropdown box: " + bulkActionsDropdownEle.getText());
+		result  = validateElementText(bulkActionsDropdownEle, defaultValueComboBox);
+		if(result){
+			NXGReports.addStep("Verify Default value of Bulk Actions Dropdown successfully.", LogAs.PASSED, null);
+		}else{
+			NXGReports.addStep("Failed: Verify Default value of Bulk Actions Dropdown.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void verifyHoverBulkActionsDropdown(){
+		getLogger().info("Verify Default Value Of Bulk Actions Dropdown.");
+		verifyHoverElement(bulkActionsDropdownEle,"border","1px solid rgb(92, 155, 160)");
+	}
+
+	public void verifyListValueofBulkActionsDropdown() {
+		try{
+			getLogger().info("Verify List Value of Bulk Actions Dropdown.");
+			boolean result;
+			List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+			result = validateElementText(menuBulkActionsDropdown.get(0), "Download Attachments");
+			Assert.assertTrue(result, "Download Attachments option is not displayed");
+			validateElementText(menuBulkActionsDropdown.get(1), "Mark as complete");
+			Assert.assertTrue(result, "Mark as complete option is not displayed");
+			validateElementText(menuBulkActionsDropdown.get(2), "Delete");
+			Assert.assertTrue(result, "Delete option is not displayed");
+			WebElement assginToSubMenuEle =  bulkActionsDropdownMenuEle.findElement(By.tagName("div"));
+			validateElementText(assginToSubMenuEle, "Assign to");
+			Assert.assertTrue(result, "Assign to sub Menu is not displayed");
+			NXGReports.addStep("Verify List Value of Bulk Actions Dropdown", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify List Value of Bulk Actions Dropdown", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void clickDeleteToDoBulkActions(){
+		List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+		clickElement(menuBulkActionsDropdown.get(2),"Deleted ToDo Button");
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//hoverElement()
+		clickElement(cancelDeletedToDoButtonEle,"Cancel Deleted ToDo button");
+	}
 }
 

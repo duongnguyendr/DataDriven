@@ -435,5 +435,24 @@ public class AuditorCreateToDoService extends AbstractService {
     public void clickCheckboxNewToDoTask(){
         createToDoPage.clickCheckboxNewToDoTask();
     }
+
+    public void clickBulkActionsDropdown(){
+        createToDoPage.clickBulkActionsDropdown();
+    }
+
+    public void verifyDefaultValueofBulkActionsDropdown(String defaultValueBulkActions){
+        createToDoPage.verifyDefaultValueofBulkActionsDropdown(defaultValueBulkActions);
+    }
+
+    public void verifyHoverBulkActionsDropdown(){
+        createToDoPage.verifyHoverBulkActionsDropdown();
+    }
+
+    public void verifyListValueofBulkActionsDropdown(){
+        createToDoPage.verifyListValueofBulkActionsDropdown();
+    }
+    public void clickDeleteToDoBulkActions(){
+        createToDoPage.clickDeleteToDoBulkActions();
+    }
 }
 
