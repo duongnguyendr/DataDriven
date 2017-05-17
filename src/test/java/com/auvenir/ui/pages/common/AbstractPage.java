@@ -917,6 +917,7 @@ public class AbstractPage {
     public void clickToNewCategoryDllInList() throws Exception
     {
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
+        Thread.sleep(smallerTimeOut);
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
@@ -1576,14 +1577,16 @@ public class AbstractPage {
         getLogger().info("Verify existed category");
         try {
             String categoryName = "Existed category " + randomNumber();
-            Thread.sleep(smallerTimeOut);
+            //Thread.sleep(smallerTimeOut);
+            waitForJSandJQueryToLoad();
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             clearTextBox(categoryNameFieldOnFormEle, "clear categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
             chooseCategoryColorInPopup();
             clickNewCategoryCreateButton();
             clickToNewCategoryDllInList();
-            Thread.sleep(smallerTimeOut);
+            //Thread.sleep(smallerTimeOut);
+            waitForJSandJQueryToLoad();
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
             chooseCategoryColorInPopup();
