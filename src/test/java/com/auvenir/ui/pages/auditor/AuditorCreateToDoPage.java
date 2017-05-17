@@ -1100,7 +1100,6 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 */
 	public void verifySelectDateDropDown()throws Exception {
 		try{
-			boolean result;
 			waitForClickableOfElement(eleIdDueDate,"Select date drop down");
 			eleIdDueDate.click();
 			NXGReports.addStep("Verify Select date drop down is displayed", LogAs.PASSED,null);
@@ -1154,6 +1153,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			int focusDay = 0;
 			int focusMonth = 0;
 			int focusYear= 0;
+			// If isNewToDoPage = true, verify in add new to-do page
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date text box");
 				eleIdDueDate.click();
@@ -1167,6 +1167,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 				getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") +  "Month :" + eleDataPickerToDate.getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
 
 			}
+			// Compare focus day, month, year with current day, month, year
 			if(focusDay != currentDay || focusMonth != currentMonth || focusYear != currentYear){
 				NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 				return false;
@@ -1185,6 +1186,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 */
 	public void hoverDateItemInDatePicker(boolean isNewToDoPage){
 		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date text box");
 				eleIdDueDate.click();
@@ -1208,6 +1210,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public boolean chooseDateItemInDataPicker(boolean isNewToDoPage) throws Exception {
 		boolean result = true;
 		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date tex box");
 				eleIdDueDate.click();
@@ -1221,7 +1224,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 				eleXpathChooseDate.click();
 				result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
 			}
-
+			//If result = true : before and after value as same --> data picker not work
 			if(result){
 				NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 				return false;
@@ -1246,6 +1249,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		String beforeTitle = "";
 		String afterTitle = "";
 		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
 			if(isNewToDoPage) {
 				waitForClickableOfElement(eleIdDueDate,"Due date text box");
 				eleIdDueDate.click();
@@ -1255,8 +1259,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			}
 
 			waitForVisibleElement(eleDataPickerTitle, "Date picker title");
+			//Get tile date picker before click next or previous link
 			beforeTitle = eleDataPickerTitle.getText();
 
+			// If isNextMonth = true : click on Next link in date picker |
+			//    isNextMonth = false, click on Prev link in date picker
 			if (!isNextMonth) {
 				waitForClickableOfElement(elePrevDataPickerLink, "Previous date picker link");
 				elePrevDataPickerLink.click();
@@ -1264,9 +1271,12 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 				waitForClickableOfElement(eleNextDataPickerLink, "Next date picker link");
 				eleNextDataPickerLink.click();
 			}
+
+			//Get tile date picker after click next or previous link
 			afterTitle = eleDataPickerTitle.getText();
 			result = beforeTitle.equals(afterTitle);
 
+			//If result = true : before and after value as same --> data picker not work
 			if(result){
 				NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 				return false;
@@ -1289,6 +1299,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public boolean verifyInputCorrectFormatDate(String dateValue, boolean isNewToDoPage){
 		boolean result = true;
 		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date text box");
 				clickElement(eleIdDueDate, "Due date text box");
@@ -1301,7 +1312,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 				result = validateAttributeElement(eleToDoNewRowDueDateText.get(0),"value","");
 
 			}
-
+			//If result = false : before and after value as not same --> can not input correct data into due date control
 			if(!result){
 				NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 				return false;
@@ -1323,6 +1334,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public boolean verifyInputWrongValue(String dateValue,boolean isNewToDoPage){
 		boolean result = true;
 		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date text box");
 				clickElement(eleIdDueDate, "Due date text box");
@@ -1335,6 +1347,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 				result = eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(dateValue);
 
 			}
+			//If result = true : before and after value as same --> can input wrong data into due date control
 			if(result){
 				NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 				return false;
