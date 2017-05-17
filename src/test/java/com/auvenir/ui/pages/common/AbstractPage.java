@@ -28,6 +28,10 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by hungcuong1105 on 4/15/2017.
  * Updated by Doai.Tran on 5/9/2017.
@@ -1668,4 +1672,24 @@ public class AbstractPage {
     }
 
     //xpathCategoryExistedText
+
+    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+    public boolean isThisDateValid(String dateToValidate, String dateFromat){
+
+        if(dateToValidate == null || "".equals(dateToValidate)){
+            return false;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);
+        sdf.setLenient(false);
+        try {
+            //if not valid, it will throw ParseException
+            Date date = sdf.parse(dateToValidate);
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

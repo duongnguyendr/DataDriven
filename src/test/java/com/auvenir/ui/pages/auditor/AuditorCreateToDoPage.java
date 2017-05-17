@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.auditor;
 
 //import library
+import java.util.Calendar;
 import java.util.List;
 
 import com.auvenir.ui.services.AbstractRefactorService;
@@ -9,7 +10,9 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.apache.xalan.lib.ExsltDatetime;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -160,7 +163,35 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     WebElement eleEditCategoryCloseBtn;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
-    WebElement editCategoryCancelBtnEle;
+    WebElement eleEditCategoryCancelBtn;
+
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+	@FindBy(xpath="//div[@class='auvicon-calendar']")
+	private WebElement eleDueDateValue;
+
+	@FindBy(xpath="//a[@class='ui-datepicker-prev ui-corner-all']")
+	private WebElement elePrevDataPickerLink;
+
+	@FindBy(xpath="//a[@class='ui-datepicker-next ui-corner-all']")
+	private WebElement eleNextDataPickerLink;
+
+	@FindBy(xpath="//div[@class='ui-datepicker-title']")
+	private WebElement eleDataPickerTitle;
+
+	@FindBy(xpath="//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
+	private List<WebElement> eleToDoNewRowDueDateText;
+
+	@FindBy(xpath="//*/span[@class='ui-datepicker-month']")
+	private WebElement eleDataPickerTitleTest;
+	@FindBy(xpath="//td[@class=' ui-datepicker-days-cell-over  ui-datepicker-today']")
+	private WebElement eleDataPickerToDate;
+	@FindBy(xpath="//td[@class=' ui-datepicker-days-cell-over  ui-datepicker-today']//a[@class='ui-state-default ui-state-highlight']")
+	private WebElement eleDataPickerToDay;
+
+	public void verifyButtonCreateToDo()throws Exception {
+		validateCssValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
+		validateCssValueElement(eleCreateToDoBtn,"color","rgba(255, 255, 255, 1)");
+		validateDisPlayedElement(eleCreateToDoBtn,"Create Todo Button");
 
     @FindBy(xpath = "//div[@class='ui dropdown']")
 	WebElement bulkActionsDropdownEle;
@@ -1054,5 +1085,262 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		//hoverElement()
 		clickElement(cancelDeletedToDoButtonEle,"Cancel Deleted ToDo button");
 	}
+
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+
+	/**
+	 * check select data drop down is show when click
+	 * @throws Exception
+	 */
+	public void verifySelectDateDropDown()throws Exception {
+		try{
+			boolean result;
+			waitForClickableOfElement(eleIdDueDate,"Select date drop down");
+			eleIdDueDate.click();
+			NXGReports.addStep("Verify Select date drop down is displayed", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify Select date drop down is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * move to add new To-do page
+	 * @throws Exception
+	 */
+	public void navigateAddNewToDoPage()throws Exception {
+		getLogger().info("Run createToDoPage()");
+		waitForClickableOfElement(eleCreateToDoBtn,"create todo button.");
+		this.eleCreateToDoBtn.click();
+	}
+
+	/**
+	 * check default value of due date text box
+	 * @return true | false
+	 */
+	public boolean checkDefaultDueDateValue(){
+		waitForVisibleElement(eleDueDateValue,"Engagement Due date");
+		waitForVisibleElement(eleIdDueDate,"Default Due date");
+		String engagementDueDate = eleDueDateValue.getText().substring(5,eleDueDateValue.getText().length());
+		String defaultDueDate = eleIdDueDate.getText();
+		getLogger().info(engagementDueDate);
+		getLogger().info(defaultDueDate);
+		return engagementDueDate.equals(defaultDueDate);
+	}
+
+	/**
+	 * check default format
+	 */
+	public boolean checkFormatDueDate(){
+		waitForVisibleElement(eleIdDueDate,"Due date");
+		return isThisDateValid(eleIdDueDate.getAttribute("value").trim(),"mm/dd/yyyy");
+	}
+
+	/**
+	 * Verify data on date picker
+	 */
+	public boolean verifyDataOfDatePicker(boolean isNewToDoPage){
+		try{
+			Calendar cal = Calendar.getInstance();
+			int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+			int currentMonth = cal.get(Calendar.MONTH);
+			int currentYear = cal.get(Calendar.YEAR);
+			int focusDay = 0;
+			int focusMonth = 0;
+			int focusYear= 0;
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				waitForVisibleElement(eleDataPickerToDate,"Date picker to date");
+				waitForVisibleElement(eleDataPickerToDay,"Date picker to day");
+
+				focusDay = Integer.parseInt( eleDataPickerToDay.getAttribute("text").trim());
+				focusMonth = Integer.parseInt( eleDataPickerToDate.getAttribute("data-month").trim());
+				focusYear = Integer.parseInt(eleDataPickerToDate.getAttribute("data-year").trim());
+				getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") +  "Month :" + eleDataPickerToDate.getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
+
+			}
+			if(focusDay != currentDay || focusMonth != currentMonth || focusYear != currentYear){
+				NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Verify data in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+		return true;
+	}
+
+
+	/**
+	 * Hover on date picker
+	 */
+	public void hoverDateItemInDatePicker(boolean isNewToDoPage){
+		try{
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+			}
+			waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+			hoverElement(eleXpathChooseDate,"Date picker");
+			NXGReports.addStep("Verify hover select date in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify hover select date in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * choose date item in date picker
+	 * @return true | false
+	 */
+	public boolean chooseDateItemInDataPicker(boolean isNewToDoPage) throws Exception {
+		boolean result = true;
+		try{
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date tex box");
+				eleIdDueDate.click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				eleXpathChooseDate.click();
+				result = "".equals(eleIdDueDate.getAttribute("value").trim());
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				eleXpathChooseDate.click();
+				result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
+			}
+
+			if(result){
+				NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+
+			NXGReports.addStep("Choose date in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check date picker is move next or previous month when click Prev or Next link.
+	 * @param actionLink : prev | next
+	 * @return true | false
+	 */
+	public boolean checkDatePickerChangeMonth(String actionLink, boolean isNextMonth, boolean isNewToDoPage){
+		boolean result = true;
+		String beforeTitle = "";
+		String afterTitle = "";
+		try{
+			if(isNewToDoPage) {
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+			}
+
+			waitForVisibleElement(eleDataPickerTitle, "Date picker title");
+			beforeTitle = eleDataPickerTitle.getText();
+
+			if (!isNextMonth) {
+				waitForClickableOfElement(elePrevDataPickerLink, "Previous date picker link");
+				elePrevDataPickerLink.click();
+			} else {
+				waitForClickableOfElement(eleNextDataPickerLink, "Next date picker link");
+				eleNextDataPickerLink.click();
+			}
+			afterTitle = eleDataPickerTitle.getText();
+			result = beforeTitle.equals(afterTitle);
+
+			if(result){
+				NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+
+			NXGReports.addStep("Date picker is change " + actionLink + " month", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Verify input correct format date into due date text box
+	 * @param dateValue
+	 * @return true | false
+	 */
+	public boolean verifyInputCorrectFormatDate(String dateValue, boolean isNewToDoPage){
+		boolean result = true;
+		try{
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = validateAttributeElement(eleIdDueDate,"value","");
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = validateAttributeElement(eleToDoNewRowDueDateText.get(0),"value","");
+
+			}
+
+			if(!result){
+				NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Input correct date format in due date text box ", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return result;
+	}
+
+	/**
+	 * Verify input wrong format date into due date text box
+	 * @param dateValue
+	 * @return true | false
+	 */
+	public boolean verifyInputWrongValue(String dateValue,boolean isNewToDoPage){
+		boolean result = true;
+		try{
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = eleIdDueDate.getAttribute("value").equals(dateValue);
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(dateValue);
+
+			}
+			if(result){
+				NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Input wrong date format in due date text box ", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 }
 
