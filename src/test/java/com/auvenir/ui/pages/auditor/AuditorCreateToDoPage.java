@@ -245,9 +245,6 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		validateDisPlayedElement(eleFilterBtn,"Filer Button");
 	}
 
-
-
-
 	public void verifyColumnsInGrid()throws Exception {
 		validateElementText(eleNameToDoTitleLabel, "To-Dos");
 		validateElementText(eleCategoryTitleLabel, "Category");
@@ -429,7 +426,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	public void verifyCreateNewCategory() {
 		try {
-			boolean isCheckCategory = createNewCategory(categoryIndiMode);
+			boolean isCheckCategory = createNewCategory(categoryIndiMode,"");
 			if(isCheckCategory) {
 				NXGReports.addStep("Create new category", LogAs.PASSED, null);
 			}
@@ -467,7 +464,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyNewCategoryCreateCancelButton() {
 		verifyColorCategoryCancelButton();
 		verifyColorCategoryCreateButton();
-		verifyClickCategoryCancelButton();
+		//verifyClickCategoryCancelButton();
 		verifyNotCompleteCreateCategory();
 		verifyExistedCategory();
 	}
@@ -478,7 +475,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			Thread.sleep(smallTimeOut);
 			createToDoNameTextBoxEle.sendKeys(toDoName);
 			// Create new category
-			createNewCategory("");
+			createNewCategory("","");
 			Thread.sleep(smallTimeOut);
 			waitForClickableOfElement(categoryDropdownEle,"Category Dropdown");
 			categoryDropdownEle.click();
@@ -501,7 +498,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
 		clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
         createToDoNameTextBoxEle.sendKeys(todoNamePage);
-		createNewCategory("");
+		createNewCategory("","");
 		hoverElement(categoryDropdownEle,"eleDdlCategory");
 		waitForClickableOfElement(categoryDropdownEle,"eleDdlCategory");
         Thread.sleep(smallTimeOut);
