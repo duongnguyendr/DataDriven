@@ -6,6 +6,7 @@
 	 </listeners>
 	 <test name="Regression" preserve-order="true">    
 		<classes>
+			<class name="com.auvenir.ui.tests.auditor.AddSelectDateDropDownTest"/>
 			<!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
 
