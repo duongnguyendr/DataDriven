@@ -133,7 +133,13 @@ public class AuditorEngagementPage extends AbstractPage {
 	public WebElement getEleAddNewBtn(){
 		return eleAddNewBtn;
 	}
-	
+
+
+	@FindBy(xpath="//div[@class='e-widget-content']//div[@class='e-widget-options']//input[@type='button']")
+	private List<WebElement> eleViewEngagementLink;
+	public List<WebElement> getEleViewEngagementLink(){return eleViewEngagementLink;}
+
+
 	public void auditorPageHeaderContent()
 	{
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
@@ -169,5 +175,4 @@ public class AuditorEngagementPage extends AbstractPage {
 		waitForClickableOfElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 		clickAndHold(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 	}
-
 }

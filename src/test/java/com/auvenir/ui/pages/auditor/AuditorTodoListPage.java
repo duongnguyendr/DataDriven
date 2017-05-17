@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.auditor;
 
 //import library
+import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -276,5 +277,98 @@ public class AuditorTodoListPage  extends AbstractPage{
 	}
 	public void verifyDefaultValueFilterDropDownList(){
 		validateElementText(eleFilterDropDownList,"Filter");
+	}
+	public boolean verifyHoverFilterDropDownList()
+	{
+		boolean isCheckBorderColor = false;
+		getLogger().info("Verify hover on Filter DropDown list.");
+		try {
+			// Green color
+			hoverElement(eleFilterDropDownList,"eleFilterDropDownList");
+			isCheckBorderColor = validateCSSValueElement(eleFilterDropDownList, "border-bottom-color", "rgba(117, 117, 117, 1)");
+			if(isCheckBorderColor) {
+				NXGReports.addStep("Verify  hover on Filter DropDown list: PASSED", LogAs.PASSED, null);
+			}
+			else
+			{
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("Verify  hover on Filter DropDown list: FAILED", LogAs.FAILED, null);
+			}
+			return isCheckBorderColor;
+		}
+		catch (Exception ex)
+		{
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("Verify  hover on Filter DropDown list: FAILED", LogAs.FAILED, null);
+			getLogger().info(ex.getMessage());
+			return isCheckBorderColor;
+		}
+	}
+	public void selectShowAllFilterDropDownList(){
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
+		waitForClickableOfElement(eleShowAllBTN,"eleShowAllBTN");
+		clickElement(eleShowAllBTN,"eleShowAllBTN");
+	}
+	public void verifySelectShowAllFilterDropDownList(){
+		validateElementText(eleFilterDropDownList,"Show All");
+	}
+	public void selectDueDateFilterDropDownList(){
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
+		waitForClickableOfElement(eleDueDateBTN,"eleDueDateBTN");
+		clickElement(eleDueDateBTN,"eleDueDateBTN");
+	}
+	public void verifySelectDueDateFilterDropDownList(){
+		validateElementText(eleFilterDropDownList,"Due Date");
+	}
+	public void selectAndVerifyFirstAssignFilterDropDownList(){
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
+		hoverElement(eleAssignedBTN,"eleAssignedBTN");
+		getLogger().info("Select the first value on  Assign.");
+		String firstTextValue = AssignValue.get(0).getText().trim();
+		clickElement(AssignValue.get(0),"AssignValue");
+		validateElementText(eleFilterDropDownList,firstTextValue);
+	}
+	public void selectWithCommentsFilterDropDownList(){
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
+		waitForClickableOfElement(eleWithCommentBTN,"eleWithCommentBTN");
+		clickElement(eleWithCommentBTN,"eleWithCommentBTN");
+	}
+	public void verifySelectWithCommentsFilterDropDownList(){
+		validateElementText(eleFilterDropDownList,"With Comments");
+	}
+	public void selectCompleteFilterDropDownList(){
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
+		waitForClickableOfElement(eleCompleteBTN,"eleCompleteBTN");
+		clickElement(eleCompleteBTN,"eleCompleteBTN");
+	}
+	public void verifySelectCompleteFilterDropDownList(){
+		validateElementText(eleFilterDropDownList,"Complete");
+	}
+	public void selectFlaggedForRequestFilterDropDownList(){
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
+		waitForClickableOfElement(eleCompleteBTN,"eleCompleteBTN");
+		clickElement(eleFlaggedForRequest,"eleFlaggedForRequest");
+	}
+	public void verifySelectFlaggedForRequestFilterDropDownList(){
+		validateElementText(eleFilterDropDownList,"Flagged For Request");
+	}
+	public void verifyUnableAddMoreOptionFilterDropDownList() {
+		waitForVisibleElement(eleFilterDropDownList, "eleFilterDropDownList");
+		hoverElement(eleFilterDropDownList, "eleFilterDropDownList");
+		clickElement(eleFilterDropDownList, "eleFilterDropDownList");
+		waitForVisibleElement(eleShowAllBTN, "eleShowAllBTN");
+		waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
+		waitForVisibleElement(eleAssignedBTN, "eleAssignedBTN");
+		waitForVisibleElement(eleWithCommentBTN, "eleWithCommentBTN");
+		waitForVisibleElement(eleCompleteBTN, "eleCompleteBTN");
+		waitForVisibleElement(eleOutstandingBTN, "eleOutstandingBTN");
+		waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+		NXGReports.addStep("Dropdown list have only above options.", LogAs.PASSED, null);
+	}
+	public void verifyClickAndDoNotSelectValue(){
+		waitForVisibleElement(eleFilterDropDownList, "eleFilterDropDownList");
+		hoverElement(eleFilterDropDownList, "eleFilterDropDownList");
+		clickElement(eleFilterDropDownList, "eleFilterDropDownList");
+		clickElement(eleFilterDropDownList,"eleFilterDropDownList");
 	}
 }
