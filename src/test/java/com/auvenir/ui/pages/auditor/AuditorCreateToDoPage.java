@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.auditor;
 
 //import library
+import java.util.Calendar;
 import java.util.List;
 
 import com.auvenir.ui.services.AbstractRefactorService;
@@ -9,7 +10,9 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.apache.xalan.lib.ExsltDatetime;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -136,21 +139,21 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		return toDoNameTextColumnEle;
 	}
 
-    @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
-    private List<WebElement> eleCategoryComboBoxText;
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class='text']")
+    private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
-    @FindBy(id ="category-dropdown")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
     private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
-    @FindBy(id = "category-dropdown-menu")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class = 'menu']")
     private List<WebElement> categoryComboBoxMenuEle;
 
-    @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[1]")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuItemEle;
 
-    @FindBy(xpath = "//*[@id='category-dropdown-menu']/div[2]")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[2]")
     WebElement editCategoryEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
@@ -161,7 +164,65 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
     WebElement editCategoryCancelBtnEle;
-	
+
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+	@FindBy(xpath="//div[@class='auvicon-calendar']")
+	private WebElement eleDueDateValue;
+
+	@FindBy(xpath="//a[@class='ui-datepicker-prev ui-corner-all']")
+	private WebElement elePrevDataPickerLink;
+
+	@FindBy(xpath="//a[@class='ui-datepicker-next ui-corner-all']")
+	private WebElement eleNextDataPickerLink;
+
+	@FindBy(xpath="//div[@class='ui-datepicker-title']")
+	private WebElement eleDataPickerTitle;
+
+	@FindBy(xpath="//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
+	private List<WebElement> eleToDoNewRowDueDateText;
+
+	@FindBy(id="due-date")
+	private WebElement eleIdDueDate;
+	@FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody/tr[2]/td[5]/a")
+	private WebElement eleXpathChooseDate;
+
+	@FindBy(xpath="//*/span[@class='ui-datepicker-month']")
+	private WebElement eleDataPickerTitleTest;
+	@FindBy(xpath="//td[@class=' ui-datepicker-days-cell-over  ui-datepicker-today']")
+	private WebElement eleDataPickerToDate;
+	@FindBy(xpath="//td[@class=' ui-datepicker-days-cell-over  ui-datepicker-today']//a[@class='ui-state-default ui-state-highlight']")
+	private WebElement eleDataPickerToDay;
+
+	public void verifyButtonCreateToDo()throws Exception {
+		validateCssValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
+		validateCssValueElement(createToDoBtnEle, "color", "rgba(255, 255, 255, 1)");
+		validateDisPlayedElement(createToDoBtnEle, "Create Todo Button");
+	}
+
+    @FindBy(xpath = "//div[@class='ui dropdown']")
+	WebElement bulkActionsDropdownEle;
+
+	@FindBy(xpath = "//div[@id='todo-bulk-dropdown']/div[@class='menu']")
+	WebElement bulkActionsDropdownMenuEle;
+
+    @FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/button[contains(text(),'Download Attachments')]")
+	WebElement downloadAttachBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/button[contains(text(),'Mark as complete')]")
+	WebElement markAsCompleteBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/div[contains(text(),'Assign to')]")
+	WebElement assignToBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[@class='ui dropdown']/div[@class='menu']/button[contains(text(),'Delete')]")
+	WebElement deletedBulkActionsMenuEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Cancel')]")
+	WebElement cancelDeletedToDoButtonEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]")
+	WebElement popUpWindows;
+
 	public void verifyGUIButtonCreateToDo(){
 		try{
 			boolean result;
@@ -183,9 +244,6 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyButtonFilter()throws Exception {
 		validateDisPlayedElement(eleFilterBtn,"Filer Button");
 	}
-
-
-
 
 	public void verifyColumnsInGrid()throws Exception {
 		validateElementText(eleNameToDoTitleLabel, "To-Dos");
@@ -368,7 +426,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	public void verifyCreateNewCategory() {
 		try {
-			boolean isCheckCategory = createNewCategory(categoryIndiMode);
+			boolean isCheckCategory = createNewCategory(categoryIndiMode,"");
 			if(isCheckCategory) {
 				NXGReports.addStep("Create new category", LogAs.PASSED, null);
 			}
@@ -406,7 +464,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyNewCategoryCreateCancelButton() {
 		verifyColorCategoryCancelButton();
 		verifyColorCategoryCreateButton();
-		verifyClickCategoryCancelButton();
+		//verifyClickCategoryCancelButton();
 		verifyNotCompleteCreateCategory();
 		verifyExistedCategory();
 	}
@@ -418,7 +476,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			waitForJSandJQueryToLoad();
 			createToDoNameTextBoxEle.sendKeys(toDoName);
 			// Create new category
-			createNewCategory("");
+			createNewCategory("","");
 			//Thread.sleep(smallTimeOut);
 			waitForPopupToClose();
 			waitForClickableOfElement(categoryDropdownEle,"Category Dropdown");
@@ -442,7 +500,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
 		clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
         createToDoNameTextBoxEle.sendKeys(todoNamePage);
-		createNewCategory("");
+		createNewCategory("","");
 		hoverElement(categoryDropdownEle,"eleDdlCategory");
 		waitForClickableOfElement(categoryDropdownEle,"eleDdlCategory");
         Thread.sleep(smallTimeOut);
@@ -823,9 +881,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox) {
             boolean result = false;
             getLogger().info("Verify Default Value Of Category ComboBox");
-            //System.out.println("First Option in Dropdown box: " + selectEleCategoryComboBox.getFirstSelectedOption());
-            System.out.println("Default Value in Dropdown box: " + eleCategoryComboBoxText.get(0).getText());
-            result  = validateElementText(eleCategoryComboBoxText.get(0), defaultValueComboBox);
+            System.out.println("Default Value in Dropdown box: " + categoryComboBoxTextEle.get(0).getText());
+            result  = validateElementText(categoryComboBoxTextEle.get(0), defaultValueComboBox);
             if(result){
                 NXGReports.addStep("Verify Default Value Of Category ComboBox successfully.", LogAs.PASSED, null);
             }else{
@@ -890,11 +947,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             Assert.assertTrue(result, "Add New Category popup is not displayed");
             hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
             waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
-			//Will be change to wait Ajax change function
-            Thread.sleep(smallTimeOut);
-            editCategoryCancelBtnEle.click();
-            //Will be change to wait Ajax change function
-            Thread.sleep(smallTimeOut);
+			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+			editCategoryCancelBtnEle.click();
+			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify New Category popup is displayed", LogAs.PASSED,null);
         }catch (AssertionError e){
             AbstractService.sStatusCnt++;
@@ -910,9 +965,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             Assert.assertTrue(result, "Edit Categories popup is not displayed");
             hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
             waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Edit Category Button");
+			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
             editCategoryCancelBtnEle.click();
-            //Will be change to wait Ajax change function
-            Thread.sleep(smallTimeOut);
+			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify Edit Categories popup is displayed", LogAs.PASSED,null);
         }catch (AssertionError e){
             AbstractService.sStatusCnt++;
@@ -979,5 +1034,331 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		waitForClickableOfElement(eleToDoCheckboxRow.get(0),"CheckBox New ToDo Task");
 		clickElement(eleToDoCheckboxRow.get(0),"CheckBox New ToDo Task");
     }
+
+    public  void clickBulkActionsDropdown(){
+		//waitForClickableOfElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
+		//hoverElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
+		clickElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
+	}
+
+	public void verifyDefaultValueofBulkActionsDropdown(String defaultValueComboBox) {
+		boolean result = false;
+		getLogger().info("Verify Default value of Bulk Actions Dropdown.");
+		System.out.println("Default Value in Dropdown box: " + bulkActionsDropdownEle.getText());
+		result  = validateElementText(bulkActionsDropdownEle, defaultValueComboBox);
+		if(result){
+			NXGReports.addStep("Verify Default value of Bulk Actions Dropdown successfully.", LogAs.PASSED, null);
+		}else{
+			NXGReports.addStep("Failed: Verify Default value of Bulk Actions Dropdown.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void verifyHoverBulkActionsDropdown(){
+		getLogger().info("Verify Default Value Of Bulk Actions Dropdown.");
+		verifyHoverElement(bulkActionsDropdownEle,"border","1px solid rgb(92, 155, 160)");
+	}
+
+	public void verifyListValueofBulkActionsDropdown() {
+		try{
+			getLogger().info("Verify List Value of Bulk Actions Dropdown.");
+			boolean result;
+			List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+			result = validateElementText(menuBulkActionsDropdown.get(0), "Download Attachments");
+			Assert.assertTrue(result, "Download Attachments option is not displayed");
+			validateElementText(menuBulkActionsDropdown.get(1), "Mark as complete");
+			Assert.assertTrue(result, "Mark as complete option is not displayed");
+			validateElementText(menuBulkActionsDropdown.get(2), "Delete");
+			Assert.assertTrue(result, "Delete option is not displayed");
+			WebElement assginToSubMenuEle =  bulkActionsDropdownMenuEle.findElement(By.tagName("div"));
+			validateElementText(assginToSubMenuEle, "Assign to");
+			Assert.assertTrue(result, "Assign to sub Menu is not displayed");
+			NXGReports.addStep("Verify List Value of Bulk Actions Dropdown", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify List Value of Bulk Actions Dropdown", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public void clickDeleteToDoBulkActions(){
+		List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+		clickElement(menuBulkActionsDropdown.get(2),"Deleted ToDo Button");
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//hoverElement()
+		clickElement(cancelDeletedToDoButtonEle,"Cancel Deleted ToDo button");
+	}
+
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+
+	/**
+	 * check select data drop down is show when click
+	 * @throws Exception
+	 */
+	public void verifySelectDateDropDown()throws Exception {
+		try{
+			waitForClickableOfElement(eleIdDueDate,"Select date drop down");
+			eleIdDueDate.click();
+			NXGReports.addStep("Verify Select date drop down is displayed", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify Select date drop down is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * move to add new To-do page
+	 * @throws Exception
+	 */
+	public void navigateAddNewToDoPage()throws Exception {
+		getLogger().info("Run createToDoPage()");
+		waitForClickableOfElement(createToDoBtnEle,"create todo button.");
+		this.createToDoBtnEle.click();
+	}
+
+	/**
+	 * check default value of due date text box
+	 * @return true | false
+	 */
+	public boolean checkDefaultDueDateValue(){
+		waitForVisibleElement(eleDueDateValue,"Engagement Due date");
+		waitForVisibleElement(eleIdDueDate,"Default Due date");
+		String engagementDueDate = eleDueDateValue.getText().substring(5,eleDueDateValue.getText().length());
+		String defaultDueDate = eleIdDueDate.getText();
+		getLogger().info(engagementDueDate);
+		getLogger().info(defaultDueDate);
+		return engagementDueDate.equals(defaultDueDate);
+	}
+
+	/**
+	 * check default format
+	 */
+	public boolean checkFormatDueDate(){
+		waitForVisibleElement(eleIdDueDate,"Due date");
+		return isThisDateValid(eleIdDueDate.getAttribute("value").trim(),"mm/dd/yyyy");
+	}
+
+	/**
+	 * Verify data on date picker
+	 */
+	public boolean verifyDataOfDatePicker(boolean isNewToDoPage){
+		try{
+			Calendar cal = Calendar.getInstance();
+			int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+			int currentMonth = cal.get(Calendar.MONTH);
+			int currentYear = cal.get(Calendar.YEAR);
+			int focusDay = 0;
+			int focusMonth = 0;
+			int focusYear= 0;
+			// If isNewToDoPage = true, verify in add new to-do page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				waitForVisibleElement(eleDataPickerToDate,"Date picker to date");
+				waitForVisibleElement(eleDataPickerToDay,"Date picker to day");
+
+				focusDay = Integer.parseInt( eleDataPickerToDay.getAttribute("text").trim());
+				focusMonth = Integer.parseInt( eleDataPickerToDate.getAttribute("data-month").trim());
+				focusYear = Integer.parseInt(eleDataPickerToDate.getAttribute("data-year").trim());
+				getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") +  "Month :" + eleDataPickerToDate.getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
+
+			}
+			// Compare focus day, month, year with current day, month, year
+			if(focusDay != currentDay || focusMonth != currentMonth || focusYear != currentYear){
+				NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Verify data in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+		return true;
+	}
+
+
+	/**
+	 * Hover on date picker
+	 */
+	public void hoverDateItemInDatePicker(boolean isNewToDoPage){
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+			}
+			waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+			hoverElement(eleXpathChooseDate,"Date picker");
+			NXGReports.addStep("Verify hover select date in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify hover select date in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * choose date item in date picker
+	 * @return true | false
+	 */
+	public boolean chooseDateItemInDataPicker(boolean isNewToDoPage) throws Exception {
+		boolean result = true;
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date tex box");
+				eleIdDueDate.click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				eleXpathChooseDate.click();
+				result = "".equals(eleIdDueDate.getAttribute("value").trim());
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				eleXpathChooseDate.click();
+				result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
+			}
+			//If result = true : before and after value as same --> data picker not work
+			if(result){
+				NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+
+			NXGReports.addStep("Choose date in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check date picker is move next or previous month when click Prev or Next link.
+	 * @param actionLink : prev | next
+	 * @return true | false
+	 */
+	public boolean checkDatePickerChangeMonth(String actionLink, boolean isNextMonth, boolean isNewToDoPage){
+		boolean result = true;
+		String beforeTitle = "";
+		String afterTitle = "";
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage) {
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+			}
+
+			waitForVisibleElement(eleDataPickerTitle, "Date picker title");
+			//Get tile date picker before click next or previous link
+			beforeTitle = eleDataPickerTitle.getText();
+
+			// If isNextMonth = true : click on Next link in date picker |
+			//    isNextMonth = false, click on Prev link in date picker
+			if (!isNextMonth) {
+				waitForClickableOfElement(elePrevDataPickerLink, "Previous date picker link");
+				elePrevDataPickerLink.click();
+			} else {
+				waitForClickableOfElement(eleNextDataPickerLink, "Next date picker link");
+				eleNextDataPickerLink.click();
+			}
+
+			//Get tile date picker after click next or previous link
+			afterTitle = eleDataPickerTitle.getText();
+			result = beforeTitle.equals(afterTitle);
+
+			//If result = true : before and after value as same --> data picker not work
+			if(result){
+				NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+
+			NXGReports.addStep("Date picker is change " + actionLink + " month", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Verify input correct format date into due date text box
+	 * @param dateValue
+	 * @return true | false
+	 */
+	public boolean verifyInputCorrectFormatDate(String dateValue, boolean isNewToDoPage){
+		boolean result = true;
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = validateAttributeElement(eleIdDueDate,"value","");
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = validateAttributeElement(eleToDoNewRowDueDateText.get(0),"value","");
+
+			}
+			//If result = false : before and after value as not same --> can not input correct data into due date control
+			if(!result){
+				NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Input correct date format in due date text box ", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return result;
+	}
+
+	/**
+	 * Verify input wrong format date into due date text box
+	 * @param dateValue
+	 * @return true | false
+	 */
+	public boolean verifyInputWrongValue(String dateValue,boolean isNewToDoPage){
+		boolean result = true;
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = eleIdDueDate.getAttribute("value").equals(dateValue);
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(dateValue);
+
+			}
+			//If result = true : before and after value as same --> can input wrong data into due date control
+			if(result){
+				NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Input wrong date format in due date text box ", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 }
 
