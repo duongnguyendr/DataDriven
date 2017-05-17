@@ -39,6 +39,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(id="auv-todo-createToDo")
 	private WebElement createToDoBtnEle;
 
+	@FindBy(id="auv-todo-createToDo")
+	private WebElement eleCreateToDoBtn;
+
 	@FindBy(id="auv-todo-filter")
 	private WebElement eleFilterBtn;
 
@@ -163,7 +166,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     WebElement eleEditCategoryCloseBtn;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
-    WebElement eleEditCategoryCancelBtn;
+    WebElement editCategoryCancelBtnEle;
 
 	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 	@FindBy(xpath="//div[@class='auvicon-calendar']")
