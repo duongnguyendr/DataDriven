@@ -989,6 +989,7 @@ public class AbstractPage {
         else {
             isCheckCategory = true;
         }
+        waitForDisappearElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
         getLogger().info("isCheckCategory = " + isCheckCategory);
         return isCheckCategory;
     }
@@ -1695,5 +1696,18 @@ public class AbstractPage {
         };
         return wait.until(jQueryLoad) && wait.until(jsLoad);
     }
-
+    public boolean waitForDisappearElement(WebElement element, String elementName){
+        getLogger().info("Try to waitForVisibleElement: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
+            NXGReports.addStep("Element: "+ elementName + " is visible.", LogAs.PASSED, null);
+            return true;
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element: " + element.getText() +"is not visible.");
+            NXGReports.addStep("Element: "+ elementName +" is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
 }
