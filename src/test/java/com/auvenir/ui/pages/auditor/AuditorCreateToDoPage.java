@@ -478,7 +478,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			// Create new category
 			createNewCategory("","");
 			//Thread.sleep(smallTimeOut);
-			waitForPopupToClose();
+			//waitForPopupToClose();
 			waitForClickableOfElement(categoryDropdownEle,"Category Dropdown");
 			categoryDropdownEle.click();
 			waitForClickableOfElement(categoryOptionItemEle.get(0),"Category Option Item");
