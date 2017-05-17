@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.auditor;
 
 //import library
+import java.util.Calendar;
 import java.util.List;
 
 import com.auvenir.ui.services.AbstractService;
@@ -181,11 +182,15 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath="//div[@class='ui-datepicker-title']")
 	private WebElement eleDataPickerTitle;
 
-	@FindBy(xpath="//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input datepicker hasDatepicker']")
+	@FindBy(xpath="//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
 	private List<WebElement> eleToDoNewRowDueDateText;
 
 	@FindBy(xpath="//*/span[@class='ui-datepicker-month']")
 	private WebElement eleDataPickerTitleTest;
+	@FindBy(xpath="//td[@class=' ui-datepicker-days-cell-over  ui-datepicker-today']")
+	private WebElement eleDataPickerToDate;
+	@FindBy(xpath="//td[@class=' ui-datepicker-days-cell-over  ui-datepicker-today']//a[@class='ui-state-default ui-state-highlight']")
+	private WebElement eleDataPickerToDay;
 
 	public void verifyButtonCreateToDo()throws Exception {
 		validateCssValueElement(eleCreateToDoBtn,"background-color","rgba(89, 155, 161, 1)");
@@ -780,9 +785,47 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 * check default format
 	 */
 	public boolean checkFormatDueDate(){
-		waitForVisibleElement(eleIdDueDate,"Default Due date");
+		waitForVisibleElement(eleIdDueDate,"Due date");
 		return isThisDateValid(eleIdDueDate.getAttribute("value").trim(),"mm/dd/yyyy");
 	}
+
+	/**
+	 * Verify data on date picker
+	 */
+	public boolean verifyDataOfDatePicker(boolean isNewToDoPage){
+		try{
+			Calendar cal = Calendar.getInstance();
+			int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+			int currentMonth = cal.get(Calendar.MONTH);
+			int currentYear = cal.get(Calendar.YEAR);
+			int focusDay = 0;
+			int focusMonth = 0;
+			int focusYear= 0;
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				waitForVisibleElement(eleDataPickerToDate,"Date picker to date");
+				waitForVisibleElement(eleDataPickerToDay,"Date picker to day");
+
+				focusDay = Integer.parseInt( eleDataPickerToDay.getAttribute("text").trim());
+				focusMonth = Integer.parseInt( eleDataPickerToDate.getAttribute("data-month").trim());
+				focusYear = Integer.parseInt(eleDataPickerToDate.getAttribute("data-year").trim());
+				getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") +  "Month :" + eleDataPickerToDate.getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
+
+			}
+			if(focusDay != currentDay || focusMonth != currentMonth || focusYear != currentYear){
+				NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Verify data in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+		return true;
+	}
+
 
 	/**
 	 * Hover on date picker
@@ -790,14 +833,14 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void hoverDateItemInDatePicker(boolean isNewToDoPage){
 		try{
 			if(isNewToDoPage){
-				waitForClickableOfElement(eleIdDueDate,"due date text box");
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
 				eleIdDueDate.click();
 			}else{
 				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
 				eleToDoNewRowDueDateText.get(0).click();
 			}
-			waitForClickableOfElement(eleXpathChooseDate,"Date value");
-			hoverElement(eleXpathChooseDate,"Date value");
+			waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+			hoverElement(eleXpathChooseDate,"Date picker");
 			NXGReports.addStep("Verify hover select date in date picker", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
@@ -815,15 +858,15 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date tex box");
 				eleIdDueDate.click();
-				waitForClickableOfElement(eleXpathChooseDate,"Date value");
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
 				eleXpathChooseDate.click();
-				result = "".equals(this.eleIdDueDate.getAttribute("value").trim());
+				result = "".equals(eleIdDueDate.getAttribute("value").trim());
 			}else{
 				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
 				eleToDoNewRowDueDateText.get(0).click();
-				waitForClickableOfElement(eleXpathChooseDate,"Date value");
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
 				eleXpathChooseDate.click();
-				result = "".equals(this.eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
+				result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
 			}
 
 			if(result){
@@ -895,16 +938,15 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		try{
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date text box");
-				eleIdDueDate.click();
-				eleIdDueDate.clear();
-				eleIdDueDate.sendKeys(dateValue);
-				result = this.validateAttributeElement(this.eleIdDueDate,"value",dateValue);
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = validateAttributeElement(eleIdDueDate,"value","");
 			}else{
 				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
-				eleToDoNewRowDueDateText.get(0).click();
-				eleToDoNewRowDueDateText.get(0).clear();
-				eleToDoNewRowDueDateText.get(0).sendKeys(dateValue);
-				result = this.validateAttributeElement(this.eleToDoNewRowDueDateText.get(0),"value",dateValue);
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = validateAttributeElement(eleToDoNewRowDueDateText.get(0),"value","");
+
 			}
 
 			if(!result){
@@ -930,18 +972,17 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		try{
 			if(isNewToDoPage){
 				waitForClickableOfElement(eleIdDueDate,"Due date text box");
-				eleIdDueDate.click();
-				eleIdDueDate.clear();
-				eleIdDueDate.sendKeys(dateValue);
-				result = this.validateAttributeElement(this.eleIdDueDate,"value","");
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = eleIdDueDate.getAttribute("value").equals(dateValue);
 			}else{
 				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
-				eleToDoNewRowDueDateText.get(0).click();
-				eleToDoNewRowDueDateText.get(0).clear();
-				eleToDoNewRowDueDateText.get(0).sendKeys(dateValue);
-				result = this.validateAttributeElement(eleToDoNewRowDueDateText.get(0),"value","");
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(dateValue);
+
 			}
-			if(!result){
+			if(result){
 				NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 				return false;
 			}
@@ -951,7 +992,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 			return false;
 		}
-		return result;
+		return true;
 	}
 	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 }

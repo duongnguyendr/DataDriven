@@ -1137,7 +1137,7 @@ public class AbstractPage {
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
     public boolean isThisDateValid(String dateToValidate, String dateFromat){
 
-        if(dateToValidate == null){
+        if(dateToValidate == null || "".equals(dateToValidate)){
             return false;
         }
 

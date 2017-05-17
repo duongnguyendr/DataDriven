@@ -550,6 +550,16 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
+     * Verify data in date picker
+     */
+    public void verifyDataOfDatePicker(boolean isNewToDoPage) {
+        boolean result = createToDoPage.verifyDataOfDatePicker(isNewToDoPage);
+        if(!result)
+            AbstractService.sStatusCnt ++;
+    }
+
+
+    /**
      * Hover item in date picker
      */
     public void hoverItemInDatePikcer(boolean isNewToDoPage) {
@@ -561,6 +571,8 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
         boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
+        if(!result)
+            AbstractService.sStatusCnt ++;
     }
 
     /**
