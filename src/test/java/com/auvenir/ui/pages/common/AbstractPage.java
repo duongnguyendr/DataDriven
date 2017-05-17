@@ -4,10 +4,9 @@ package com.auvenir.ui.pages.common;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 //import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
@@ -17,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -158,7 +158,18 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement xpathAllCategoryColor;
     @FindBy(xpath = "//p[contains(text(),'Category name already existed')]")
+
     private WebElement xpathCategoryExistedText;
+
+
+    @FindBy(xpath = "//input[contains(@id,'forge-InputBox')]")
+    List<WebElement> listOfCategoriesItemEle;
+
+    @FindBy(xpath = "//img[contains(@id,\"cat-trash-btn\")]")
+    List<WebElement> listOfEditTrashEle;
+
+    @FindBy(xpath = "//img[contains(@id,\"cat-edit-btn\")]")
+    List<WebElement> listOfEditPenEle;
 
     public void verifyFooter()
     {
@@ -1650,35 +1661,22 @@ public class AbstractPage {
     }
 
 
-    public void editCategories(String newValue1, String newValue2, String newValue3, int numberOfItems) throws Exception {
 
+
+    public void editCategories(String newValue, int numberOfItems) throws Exception {
+         int i;
         try {
-            if (numberOfItems >= 1) {
-                waitForVisibleElement(eleCategoryItem1, "Category Item 1");
-                hoverElementAndClickToOtherElement(eleCategoryItem1, "Category Item 1", eleEditCategoryFirstPen, "Edit Pen 1");
-                eleCategoryItem1.click();
-                eleCategoryItem1.clear();
-                eleCategoryItem1.sendKeys(newValue1);
-                Thread.sleep(smallerTimeOut);
-                if (numberOfItems >= 2) {
-                    waitForVisibleElement(eleCategoryItem2, "Category Item 1");
-                    hoverElementAndClickToOtherElement(eleCategoryItem2, "Category Item 2", eleEditCategorySecondPen, "Edit Pen 2");
-                    eleCategoryItem2.click();
-                    eleCategoryItem2.clear();
-                    eleCategoryItem2.sendKeys(newValue2);
-                    Thread.sleep(smallerTimeOut);
-                    if (numberOfItems >= 3) {
-                        waitForVisibleElement(eleCategoryItem2, "Category Item 1");
-                        hoverElementAndClickToOtherElement(eleCategoryItem3, "Category Item 3", eleEditCategoryThirdPen, "Edit Pen 3");
-                        eleCategoryItem3.click();
-                        eleCategoryItem3.clear();
-                        eleCategoryItem3.sendKeys(newValue3);
-                        Thread.sleep(smallerTimeOut);
+           for (i=0;i<numberOfItems;i++) {
+               waitForVisibleElement(listOfCategoriesItemEle.get(i), "Category Item "+ i);
+               hoverElementAndClickToOtherElement(listOfCategoriesItemEle.get(i), "Category Item "+i, listOfEditPenEle.get(i), "Edit Pen "+ i);
+               listOfCategoriesItemEle.get(i).click();
+               listOfCategoriesItemEle.get(i).clear();
+               listOfCategoriesItemEle.get(i).sendKeys(newValue);
+               Thread.sleep(smallTimeOut);
+           }
 
-                    }
-                }
 
-            }
+
 
 
             NXGReports.addStep("Enter new value", LogAs.PASSED, null);

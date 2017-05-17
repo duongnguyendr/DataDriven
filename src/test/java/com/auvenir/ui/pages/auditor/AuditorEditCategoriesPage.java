@@ -256,7 +256,7 @@ public class AuditorEditCategoriesPage extends AbstractPage {
             getLogger().info("Trying to edit with 1 new valid value...");
             String newValue = "NewCategory " + randomNumber();
             scrollPageUp();
-            editCategories(newValue,"","",1);
+            editCategories(newValue,1);
             scrollPageDown();
             verifyActiveSaveBtn();
             Thread.sleep(smallTimeOut);
@@ -272,10 +272,10 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         try {
             getLogger().info("Trying to edit with 3 new valid values...");
             String newValue1= "NewCategory " + randomNumber();
-            String newValue2= "NewCategory " + randomNumber();
-            String newValue3= "NewCategory " + randomNumber();
+//            String newValue2= "NewCategory " + randomNumber();
+//            String newValue3= "NewCategory " + randomNumber();
             scrollPageUp();
-            editCategories(newValue1,newValue2,newValue3,3);
+            editCategories(newValue1,3);
             scrollPageDown();
             verifyActiveSaveBtn();
             Thread.sleep(smallTimeOut);
@@ -290,9 +290,9 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     public void editInValidMultiItems() throws Exception {
         try {
             getLogger().info("Trying to edit with valid and invalid values...");
-            String newValue = "NewCategory " + randomNumber();
+//            String newValue = "NewCategory " + randomNumber();
             scrollPageUp();
-            editCategories(newValue,"@#$%^&*","",3);
+            editCategories("@#$%^&*",3);
             eleEditCategoryGuide.click();
             scrollPageDown();
             verifyUnActiveSaveBtn();
@@ -313,7 +313,7 @@ public class AuditorEditCategoriesPage extends AbstractPage {
             getLogger().info("Trying to edit with new Only number...");
 //            scrollPageUp();
             String newValue = Integer.toString(randomNumber());
-            editCategories(newValue,"","",1);
+            editCategories(newValue,1);
             scrollPageDown();
             verifyActiveSaveBtn();
             Thread.sleep(smallTimeOut);
@@ -330,7 +330,7 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         try {
             getLogger().info("Trying to edit with null value...");
             scrollPageUp();
-            editCategories("","","",1);
+            editCategories("",1);
             eleEditCategoryGuide.click();
             validateDisPlayedElement(notAValidNameEle, "Warning");
             scrollPageDown();
@@ -348,7 +348,7 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         try {
             getLogger().info("Trying to edit with special value...");
             scrollPageUp();
-            editCategories("~!@#$%^&*+?><,.","","",1);
+            editCategories("~!@#$%^&*+?>",1);
             validateDisPlayedElement(notAValidNameEle, "Warning");
             scrollPageDown();
             verifyUnActiveSaveBtn();

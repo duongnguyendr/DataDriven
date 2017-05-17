@@ -56,30 +56,29 @@ public class AuditorEditCategoryService extends AbstractService {
 
     public void editValidValue() throws Exception {
         auditorEditCategoryPage.editCategoryItem();
-//        auditorEditCategoryPage.verifyDataSaved();
-//        navigateToEditCategoriesOption();
+
     }
 
     public void editValidMultiItems() throws Exception {
         auditorEditCategoryPage.editValidMultiItems();
-//        navigateToEditCategoriesOption();
+
     }
 
     public void editUnvalidMultiItems() throws Exception {
         auditorEditCategoryPage.editInValidMultiItems();
-//        navigateToEditCategoriesOption();
+
 
     }
 
     public void editOnlyNumber() throws Exception {
 
         auditorEditCategoryPage.editOnlyNumber();
-//        navigateToEditCategoriesOption();
+
     }
 
     public void editNullChars() throws Exception {
         auditorEditCategoryPage.editNullChar();
-//        navigateToEditCategoriesOption();
+
     }
 
     public void editSpecialChars() throws Exception {
