@@ -172,6 +172,8 @@ public class AbstractPage {
     private WebElement xpathCategoryExistedText;
     @FindBy(xpath="//div[contains(text(),'Select Category')]")
     private WebElement containsSelectCategoryText;
+    @FindBy(xpath="//*[@id='todo-table']/tbody/tr[1]/td[7]/img")
+    private WebElement imgListTodoPage;
 
     public void verifyFooter()
     {
@@ -915,11 +917,8 @@ public class AbstractPage {
     public void clickToNewCategoryDllInList() throws Exception
     {
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        //Will be removed.
-        Thread.sleep(smallerTimeOut);
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
-        Thread.sleep(smallerTimeOut);
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
     }
 
@@ -927,20 +926,19 @@ public class AbstractPage {
     {
         hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
         waitForClickableOfElement(categoryColorFieldOnFromEle,"wait categoryColorFieldOnFromEle");
-        Thread.sleep(smallerTimeOut);
         clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
         waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
-        Thread.sleep(smallerTimeOut);
         clickElement(detailCateColorEle, "click to detailCateColorEle");
     }
 
     public void clickNewCategoryCreateButton() throws Exception
     {
         waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
-        Thread.sleep(smallerTimeOut);
+        waitForJSandJQueryToLoad();
+        WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
         clickElement(eleIdBtnAddCategory, "click to eleIdBtnAddCategory");
+        waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
     }
-
 
     public boolean createNewCategory (String categoryMode, String categoryNameInput) throws Exception
     {
@@ -957,26 +955,19 @@ public class AbstractPage {
         clickToNewCategoryDllInList();
 
         waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
-        //Thread.sleep(smallerTimeOut);
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
         sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
-
         chooseCategoryColorInPopup();
-
         clickNewCategoryCreateButton();
-
         // Verify the category that has just created
         waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
         List<WebElement> td_collection = new ArrayList<>();
-
         if(categoryMode.equals(categoryIndiMode)) {
             hoverElement(dropdownCategoryEle, "dropdownCategoryEle");
             waitForClickableOfElement(dropdownCategoryEle,"dropdownCategoryEle");
-            // Wait dropdownCategoryEle but can not click to dropdownCategoryEle
-            //Thread.sleep(smallerTimeOut);
             waitForJSandJQueryToLoad();
-            //waitForVisibleElement(containsSelectCategoryText, "wait for visible element containsSelectCategoryText");
+            waitForVisibleElement(imgListTodoPage, "wait for imgListTodoPage");
             clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
             td_collection = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
@@ -1154,56 +1145,6 @@ public class AbstractPage {
             return false;
         }
     }
-
-//    public boolean createNewCategory (String categoryMode, String categoryName) throws Exception
-//    {
-//        boolean isCheckCategory = false;
-//        // Create new Category
-//        waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-//        dropdownCategoryEle.click();
-//        waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
-//        addNewCategoryMenuEle.click();
-//        waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
-//        categoryNameFieldOnFormEle.sendKeys(categoryName);
-//        // Will changed after finding new solution for waiting Element
-//        Thread.sleep(smallTimeOut);
-//        hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-//        waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-//        categoryColorFieldOnFromEle.click();
-//        waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
-//        detailCateColorEle.click();
-//        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
-//        eleIdBtnAddCategory.click();
-//        // Verify the category that has just created
-//        waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
-//        List<WebElement> td_collection = new ArrayList<>();
-//
-//        if(categoryMode.equals(categoryIndiMode)) {
-//            waitForClickableOfElement(dropdownCategoryEle,"dropdownCategoryEle");
-//            // Wait dropdownCategoryEle but can not click to dropdownCategoryEle
-//            Thread.sleep(smallerTimeOut);
-//            dropdownCategoryEle.click();
-//            waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
-//            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
-//            for (WebElement tdElement : td_collection) {
-//                String strSearchValue = "";
-//                try {
-//                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
-//                    strSearchValue = eleIndiCategoryText.getText();
-//                } catch (Exception ex) {
-//                }
-//                getLogger().info("SearchValue = " + strSearchValue);
-//                if (strSearchValue.equals(categoryName)) {
-//                    isCheckCategory = true;
-//                    break;
-//                }
-//            }
-//        }
-//        else {
-//            isCheckCategory = true;
-//        }
-//        return isCheckCategory;
-//    }
 
     public boolean verifyCategoryTitle()
     {
