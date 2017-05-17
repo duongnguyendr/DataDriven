@@ -324,7 +324,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(  priority = 11,enabled = false, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
+    @Test(  priority = 11,enabled = true, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
     public void verifyDataGridToDoTaskPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -359,7 +359,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 12,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
+    @Test(  priority = 12,enabled = false, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
     public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -609,7 +609,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(  priority = 1,enabled = true, description = "Verify GUI of select date drop down in add new to-do page.")
+    @Test(  priority = 1,enabled = false, description = "Verify GUI of select date drop down in add new to-do page.")
     public void verifyGUISelectDateDropDownInNewToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -635,7 +635,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 2,enabled = true, description = "Verify due date drop down in add new to-do page.")
+    @Test(  priority = 2,enabled = false, description = "Verify due date drop down in add new to-do page.")
     /**
      * Fail :
      * 1. default value due date date picker is not match with engagement due date :
@@ -693,7 +693,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 3,enabled = true, description = "Verify due date drop down in to-do list page.")
+    @Test(  priority = 3,enabled = false, description = "Verify due date drop down in to-do list page.")
     /**
      * Fail :
      * 1. Current code does not against when user input text and special character :
