@@ -50,14 +50,14 @@ public class AuditorUndoOptionService extends AbstractService {
     public void selectOnBulkActions(String actionName) {
         auditorCreateToDoPage.clickBulkActions();
         if (actionName.equals("Mark as complete")) {
-            auditorCreateToDoPage.chooseOptionMarkAsCompleteOnBulkActionsDropDownWithName();
+            auditorCreateToDoPage.chooseOptionMarkAsCompleteOnBulkActionsDropDown();
             auditorCreateToDoPage.clickComfirmArchive();
         } else if (actionName.equals("Delete")) {
-            auditorCreateToDoPage.chooseOptionDeleteOnBulkActionsDropDownWithName();
+            auditorCreateToDoPage.chooseOptionDeleteOnBulkActionsDropDown();
             auditorCreateToDoPage.clickComfirmDelete();
         } else if (actionName.equals("Assign to")) {
-            auditorCreateToDoPage.chooseOptionAssignToOnBulkActionsDropDownWithName();
-            auditorCreateToDoPage.chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName();
+            auditorCreateToDoPage.chooseOptionAssignToOnBulkActionsDropDown();
+            auditorCreateToDoPage.chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName("");
         }
     }
 
@@ -92,13 +92,31 @@ public class AuditorUndoOptionService extends AbstractService {
     }
 
     public void verifyToDoAssignToUI(String todoName, String text) {
-        if(auditorCreateToDoPage.getAssignToAtRowName(todoName).equals(text)){
+        if (auditorCreateToDoPage.getAssignToAtRowName(todoName).equals(text)) {
             System.out.println("+++++++++++++++++++++++++++++ result" + auditorCreateToDoPage.getAssignToAtRowName(todoName));
         }
     }
 
+    public void verifyDownloadAttachmentsDisable(String name) {
+        chooseARowWithName(name);
+        auditorCreateToDoPage.clickBulkActions();
+        auditorCreateToDoPage.verifyOptionDownloadAttachmentsOnBulkActionsDropDown();
+    }
+
     public void undoAction() {
         auditorCreateToDoPage.clickBtnUndo();
+    }
+
+    public void uiVerifyButtonUndoExist() {
+        auditorDetailsEngagementPage.uiVerifyButtonUndoExist();
+    }
+
+    public void uiVerifyButtonUndoDisable() {
+        auditorDetailsEngagementPage.uiVerifyButtonUndoDisable();
+    }
+
+    public void uiVerifyButtonUndoEnable() {
+        auditorDetailsEngagementPage.uiVerifyButtonUndoEnable();
     }
 
     public void navigateToEngagementDetailPage() {

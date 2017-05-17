@@ -175,6 +175,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "bulk-container")
     private WebElement btnBulkActions;
 
+    @FindBy(xpath = "//button[contains(text(),'Download Attachments')]")
+    WebElement optionDownloadAttachments;
+
     @FindBy(xpath = "//button[contains(text(),'Mark as complete')]")
     WebElement optionMarkAsComplete;
 
@@ -395,19 +398,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
         btnBulkActions.click();
     }
 
-    public void chooseOptionMarkAsCompleteOnBulkActionsDropDownWithName() {
+    public void chooseOptionMarkAsCompleteOnBulkActionsDropDown() {
         optionMarkAsComplete.click();
     }
 
-    public void chooseOptionDeleteOnBulkActionsDropDownWithName() {
+    public void chooseOptionDeleteOnBulkActionsDropDown() {
         optionDelete.click();
     }
 
-    public void chooseOptionAssignToOnBulkActionsDropDownWithName() {
+    public void chooseOptionAssignToOnBulkActionsDropDown() {
         optionAssignTo.click();
     }
 
-    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName() {
+    public void verifyOptionDownloadAttachmentsOnBulkActionsDropDown() {
+        if (optionDownloadAttachments.getAttribute("class").equals("item disabled")) {
+            NXGReports.addStep("Bulk Actions option Dowload Attachments disable", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Bulk Actions option Dowload Attachments disable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
+        //TODO hardcoding, rewrite later, list assignee not stable now
         optionAssignee.click();
     }
 

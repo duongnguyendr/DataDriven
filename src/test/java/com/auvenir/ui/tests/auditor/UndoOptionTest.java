@@ -45,7 +45,7 @@ public class UndoOptionTest extends AbstractTest {
         auditorNewEngagementService.verifyNewEngagementPage();
     }
 
-    @Test(priority = 10, enabled = true, testName = "Verify GUI.", description = "undo_4")
+    @Test(priority = 10, enabled = true, testName = "Undo successfully", description = "undo_4", groups = "workflow")
     public void verifyUndoActionWithCompleteCase() throws Exception {
         //TODO move to precondition later
         auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
@@ -72,7 +72,7 @@ public class UndoOptionTest extends AbstractTest {
         NXGReports.addStep("Verify Undo action with complete case", LogAs.PASSED, null);
     }
 
-    @Test(priority = 20, enabled = true, testName = "Verify GUI.", description = "undo_4"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 20, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithDeleteCase() throws Exception {
         //TODO move to precondition later
         auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
@@ -99,7 +99,7 @@ public class UndoOptionTest extends AbstractTest {
         NXGReports.addStep("Verify Undo action with complete case", LogAs.PASSED, null);
     }
 
-    @Test(priority = 30, enabled = true, testName = "Verify GUI.", description = "undo_4"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithAssignToCase() throws Exception {
         //TODO move to precondition later
         auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
@@ -121,6 +121,53 @@ public class UndoOptionTest extends AbstractTest {
 
         NXGReports.addStep("Verify Undo action with complete case", LogAs.PASSED, null);
     }
+
+    @Test(priority = 40, enabled = true, testName = "Undo fail", description = "undo_1", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void verifyDownloadAttachmentsDisable() throws Exception {
+        //TODO move to precondition later
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
+        auditorDetailsEngagementService.navigateToTodoListPage();
+        /* end of block should be on precondition, wait bug fix*/
+
+        auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorUndoOptionService.verifyDownloadAttachmentsDisable("toDoName01" + timeStamp);
+    }
+
+    @Test(priority = 5, enabled = true, testName = "Verify GUI.", description = "undo_1", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void uiVerifyButtonUndoExist() throws Exception {
+        //TODO move to precondition later
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
+        auditorDetailsEngagementService.navigateToTodoListPage();
+        /* end of block should be on precondition, wait bug fix*/
+
+        auditorUndoOptionService.uiVerifyButtonUndoExist();
+    }
+
+    @Test(priority = 7, enabled = true, testName = "Undo arrow.", description = "undo_3", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void uiVerifyButtonUndoDisable() throws Exception {
+        //TODO move to precondition later
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
+        auditorDetailsEngagementService.navigateToTodoListPage();
+        /* end of block should be on precondition, wait bug fix*/
+
+        auditorUndoOptionService.uiVerifyButtonUndoDisable();
+
+        auditorUndoOptionService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorUndoOptionService.completeAToDoWithName("toDoName01" + timeStamp);
+
+        auditorUndoOptionService.uiVerifyButtonUndoEnable();
+    }
+
+
 
     //@AfterMethod
     public void tearDownTodo() throws Exception {
