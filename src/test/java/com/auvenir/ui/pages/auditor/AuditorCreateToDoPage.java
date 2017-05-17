@@ -39,9 +39,6 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(id="auv-todo-createToDo")
 	private WebElement createToDoBtnEle;
 
-	@FindBy(id="auv-todo-createToDo")
-	private WebElement eleCreateToDoBtn;
-
 	@FindBy(id="auv-todo-filter")
 	private WebElement eleFilterBtn;
 
@@ -197,9 +194,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	private WebElement eleDataPickerToDay;
 
 	public void verifyButtonCreateToDo()throws Exception {
-		validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
-		validateCssValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
-		validateDisPlayedElement(eleCreateToDoBtn, "Create Todo Button");
+		validateCssValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
+		validateCssValueElement(createToDoBtnEle, "color", "rgba(255, 255, 255, 1)");
+		validateDisPlayedElement(createToDoBtnEle, "Create Todo Button");
 	}
 
     @FindBy(xpath = "//div[@class='ui dropdown']")
@@ -1119,8 +1116,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 */
 	public void navigateAddNewToDoPage()throws Exception {
 		getLogger().info("Run createToDoPage()");
-		waitForClickableOfElement(eleCreateToDoBtn,"create todo button.");
-		this.eleCreateToDoBtn.click();
+		waitForClickableOfElement(createToDoBtnEle,"create todo button.");
+		this.createToDoBtnEle.click();
 	}
 
 	/**
