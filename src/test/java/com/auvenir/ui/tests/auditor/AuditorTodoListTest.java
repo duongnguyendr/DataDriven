@@ -50,10 +50,10 @@ public class AuditorTodoListTest extends AbstractTest {
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
-            //auditorTodoListService.verifyEmptyTodoList();
-            //auditorTodoListService.verifyTodoListPageColumnHeader();
+            auditorTodoListService.verifyEmptyTodoList();
+            auditorTodoListService.verifyTodoListPageColumnHeader();
             // verifyFooter error due to change of footer locator from build to build
-            //auditorEngagementService.verifyAuditorFooter();
+            auditorEngagementService.verifyAuditorFooter();
             NXGReports.addStep("Verify Auditor empty Todo List page.", LogAs.PASSED,null);
         }
 
@@ -65,7 +65,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 2,enabled = false, description = "Verify to create To-Do page and search data.")
+    @Test(  priority = 2,enabled = true, description = "Verify to create To-Do page and search data.")
     public void verifyCreateToDoPageCategorySearchData() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -92,7 +92,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 3,enabled = false, description = "Verify to create new Category")
+    @Test(  priority = 3,enabled = true, description = "Verify to create new Category")
     public void verifyCreateNewCategory() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -103,6 +103,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyCreateNewCategory();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
@@ -114,7 +115,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 22,enabled = false, description = "Verify new Category popup")
+    @Test(  priority = 4,enabled = true, description = "Verify new Category popup")
     public void verifyNewCategoryPopup() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -125,6 +126,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyAddNewCategoryPopupTitle();
             auditorCreateToDoService.verifyNewCategoryNameTextbox();
             auditorCreateToDoService.verifyNewCategoryColorCombobox();
@@ -139,7 +141,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 4,enabled = false, description = "verify displayed of this button filter")
+    @Test(  priority = 5,enabled = false, description = "verify displayed of this button filter")
     public void verifyButtonFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -163,7 +165,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 5,enabled = false, description = "verify default value(Search...) of this Search")
+    @Test(  priority = 6,enabled = false, description = "verify default value(Search...) of this Search")
     public void verifySearchPlaceholder() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -187,7 +189,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 6,enabled = false, description = "verify when hover on Search change bounary color to green.")
+    @Test(  priority = 7,enabled = false, description = "verify when hover on Search change bounary color to green.")
     public void verifySearchHover() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -212,7 +214,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 7,enabled = false, description = "verify input text.")
+    @Test(  priority = 8,enabled = false, description = "verify input text.")
     public void verifySearchInputText() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -237,7 +239,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 8,enabled = false, description = "verify input number to field search.")
+    @Test(  priority = 9,enabled = false, description = "verify input number to field search.")
     public void verifySearchInputNumber() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -263,7 +265,7 @@ public class AuditorTodoListTest extends AbstractTest {
     }
 
 
-    @Test(  priority = 9,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
+    @Test(  priority = 10,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
     public void verifyGUIToDoSaveIcon() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -295,7 +297,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
 
 
-    @Test(  priority = 10,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
+    @Test(  priority = 11,enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
 
     public void verifyGUIToDoCloseIcon() throws Exception {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
@@ -322,7 +324,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(  priority = 11,enabled = false, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
+    @Test(  priority = 12,enabled = true, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task")
     public void verifyDataGridToDoTaskPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -357,7 +359,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 12,enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
+    @Test(  priority = 13,enabled = false, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do")
     public void verifyCategoryComboxBoxOnCreateToDo() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -378,7 +380,9 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.verifyHoverCategoryComboBox();
             auditorCreateToDoService.verifyValueofCategoryComboBox("Category1");
             auditorCreateToDoService.verifyNewCategoryPopUpDisplayed();
+            auditorCreateToDoService.clickCloseButtonOnPopup();
             auditorCreateToDoService.verifyEditCategoryPopUpDisplayed();
+            auditorCreateToDoService.clickCloseButtonOnPopup();
             auditorCreateToDoService.verifyCreateToDoTaskWithoutCategory("Task01 2289 without Category");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify 'Category' combo box on Create to-do", LogAs.PASSED, null);
@@ -389,7 +393,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     TestCase to cover ticket: PLAT 2283
      */
-    @Test(priority = 20,enabled = false, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
+    @Test(priority = 14,enabled = false, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
     public void verifyFilterButton() throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -408,7 +412,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 21,enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
+    @Test(priority = 15,enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
     public void verifyDefaultValueFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -430,7 +434,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 22,enabled = false, description = "[PLAT 2283]: Verify border on Filter dropdown.")
+    @Test(priority = 16,enabled = false, description = "[PLAT 2283]: Verify border on Filter dropdown.")
     public void verifyBorderOnFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -451,7 +455,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(priority = 23,enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
+    @Test(priority = 17,enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
     public void verifyChooseAnOptionFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -479,7 +483,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
 
     }
-    @Test(priority = 24,enabled = false, description = "[PLAT 2283]: verify Unable Add More Option Filter DropDownList")
+    @Test(priority = 18,enabled = false, description = "[PLAT 2283]: verify Unable Add More Option Filter DropDownList")
     public void verifyUnableAddMoreOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -501,7 +505,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
 
     }
-    @Test(priority = 25,enabled = false, description = "[PLAT 2283]: verify select An VaLue On Assign Option Filter")
+    @Test(priority = 19,enabled = false, description = "[PLAT 2283]: verify select An VaLue On Assign Option Filter")
     public void selectAnVaLueOnAssignOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -522,7 +526,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(priority = 26,enabled = false, description = "[PLAT 2283]: verify click And Do Not Select Option Filter")
+    @Test(priority = 20,enabled = false, description = "[PLAT 2283]: verify click And Do Not Select Option Filter")
     public void clickAndDoNotSelectOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -544,7 +548,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    @Test(  priority = 13,enabled = false, description = "[PLAT 2282]-Verify To Do Name TextBox when Add new To Do")
+    @Test(  priority = 21,enabled = false, description = "[PLAT 2282]-Verify To Do Name TextBox when Add new To Do")
     public void verifyGUIToDoTextBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -574,8 +578,8 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 14,enabled = false, description = "[PLAT 2284]-Verify Add Bulk Actions")
-    public void verifyToDoAddBulkActions() throws Exception {
+    @Test(  priority = 22,enabled = true, description = "[PLAT 2284]-Verify GUI Add Bulk Actions on To Do Page")
+    public void verifyGUIToDoAddBulkActions() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
@@ -595,10 +599,9 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyListValueofBulkActionsDropdown();
             auditorCreateToDoService.clickDeleteToDoBulkActions();
-            auditorCreateToDoService.verifyListValueofBulkActionsDropdown();
-
-            //auditorCreateToDoService.
-
+            auditorCreateToDoService.verifyDeleteToDoPopUpDisplayed();
+            auditorCreateToDoService.clickCloseButtonOnPopup();
+            auditorCreateToDoService.verifyBulkActionsDropdownIsClosed();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify Add Bulk Actions on To do page.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -607,7 +610,170 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
+    @Test(  priority = 23,enabled = false, description = "Verify GUI of select date drop down in add new to-do page.")
+    public void verifyGUISelectDateDropDownInNewToDoPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            // Login
+            auditorCreateToDoService.loginWithUserRole(userId);
+            // Move to engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            // Move to add new To-do page
+            auditorCreateToDoService.navigateAddNewToDoPage();
+            //Show Select date drop down
+            auditorCreateToDoService.verifySelectDateDropDown();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify GUI of select date drop down on add new to-do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify GUI of select date drop down on add new to-do page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
 
+    @Test(  priority = 24,enabled = false, description = "Verify due date drop down in add new to-do page.")
+    /**
+     * Fail :
+     * 1. default value due date date picker is not match with engagement due date :
+                                auditorCreateToDoService.checkDefaultValueDueDate()
+     *  2. default format of engagement due date is not correct (dd/mm/yyyy) --> expected is mm/dd/yyyy :
+                                auditorCreateToDoService.checkFormatDueDate()
+     * Note
+     * Current date picker has not ">" and "<" link, so will check "prev" and "next" replaced
+     *                          auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
+     *                          auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
+     */
+    public void verifyDueDateDropDownInNewToDoPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            boolean isNewToDoPage = true; // true : verify in add new to-do page, false : verify in add to-do list page
+            // Login
+            auditorCreateToDoService.loginWithUserRole(userId);
+            // Move to engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            // Move to add new To-do page
+            auditorCreateToDoService.navigateAddNewToDoPage();
+            //Check default value of due date
+            //auditorCreateToDoService.checkDefaultValueDueDate();
+            //Check format of due date
+            //auditorCreateToDoService.checkFormatDueDate();
+            //Check hove item in data picker
+            auditorCreateToDoService.hoverItemInDatePikcer(isNewToDoPage);
+            // Verify data of data picker
+            auditorCreateToDoService.verifyDataOfDatePicker(isNewToDoPage);
+            //Choose date item in date picker
+            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
+            //Click on previous date picker link
+            auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
+            //Click on next date picker link
+            auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
+            // Verify input correct format date value
+            auditorCreateToDoService.verifyInputCorrectFormatDate(isNewToDoPage);
+            // Verify input wrong format date value
+            auditorCreateToDoService.verifyInputWrongFormatDate(isNewToDoPage);
+            // Verify input text in due date text box
+            auditorCreateToDoService.verifyInputTextValue(isNewToDoPage);
+            // Verify input text in due date text box
+            auditorCreateToDoService.verifyInputSpecialCharacterValue(isNewToDoPage);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify due date date picker on add new to-do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify due date date picker on add new to-do page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(  priority = 25,enabled = false, description = "Verify due date drop down in to-do list page.")
+    /**
+     * Fail :
+     * 1. Current code does not against when user input text and special character :
+     *                        auditorCreateToDoService.verifyInputSpecialCharacterValue(isNewToDoPage);
+     *                        auditorCreateToDoService.verifyInputTextValue(isNewToDoPage)
+     *
+     * Note
+     * Current date picker has not ">" and "<" link, so will check "prev" and "next" replaced
+     *                          auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
+     *                          auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
+     */
+    public void verifyDueDateDropDownInToDoListPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            boolean isNewToDoPage = false;// true : verify in add new to-do page, false : verify in add to-do list page
+            // Login
+            auditorCreateToDoService.loginWithUserRole(userId);
+            // Move to engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            //Check hove item in data picker
+            auditorCreateToDoService.hoverItemInDatePikcer(isNewToDoPage);
+            //Click on previous date picker link
+            auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
+            //Click on next date picker link
+            auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
+            //Choose date item in date picker
+            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
+            // Verify input correct format date value
+            auditorCreateToDoService.verifyInputCorrectFormatDate(isNewToDoPage);
+            // Verify input wrong format date value
+            auditorCreateToDoService.verifyInputWrongFormatDate(isNewToDoPage);
+            // Verify input text in due date text box
+            //auditorCreateToDoService.verifyInputTextValue(isNewToDoPage);
+            //getLogger().info(AbstractService.sStatusCnt);
+            // Verify input text in due date text box
+            //auditorCreateToDoService.verifyInputSpecialCharacterValue(isNewToDoPage);
+            //getLogger().info(AbstractService.sStatusCnt);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+        } catch (Exception e) {
+            NXGReports.addStep("Verify due date date picker on to-do list page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(  priority = 26,enabled = true, description = "[PLAT 2284]-Verify Action of Add Bulk Actions on To Do Page")
+    public void verifyActionToDoAddBulkActions() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorTodoListService.verifyTodoListPage();
+
+            ArrayList<String> toDoListNames = new ArrayList<String>();
+            toDoListNames.add("416 To Do Task02");
+            toDoListNames.add("a To Do Task02");
+            toDoListNames.add("b To Do Task02");
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            auditorCreateToDoService.selectToDoTaskName("b To Do Task02");
+            auditorCreateToDoService.selectToDoTaskName("416 To Do Task02");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify Action of Add Bulk Actions on To do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify Action of Add Bulk Actions on To do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
 }
 
 

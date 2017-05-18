@@ -576,5 +576,25 @@ public class AuditorCreateToDoService extends AbstractService {
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
 
+
+    public void verifyDeleteToDoPopUpDisplayed(){
+        createToDoPage.verifyGUIDeleteToDoPopUp();
+    }
+
+    public void clickCloseButtonOnPopup(){
+        createToDoPage.clickCloseButtonOnPopup();
+    }
+
+    public void clickCancelButtonOnPopup(){
+        createToDoPage.clickCancelButtonOnPopup();
+    }
+
+    public void verifyBulkActionsDropdownIsClosed(){
+        createToDoPage.verifyBulkActionsDropdownIsClosed();
+    }
+
+    public void selectToDoTaskName(String toDoName){
+        createToDoPage.selectToTaskName(toDoName);
+    }
 }
 
