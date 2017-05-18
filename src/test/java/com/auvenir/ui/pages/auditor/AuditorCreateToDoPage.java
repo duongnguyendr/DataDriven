@@ -200,7 +200,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(id = "bulk-container")
     private WebElement btnBulkActions;
-    // huy edit
+
     @FindBy(xpath = "//button[contains(text(),'Download Attachments')]")
     WebElement optionDownloadAttachments;
 
