@@ -115,7 +115,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 4,enabled = true, description = "Verify new Category popup")
+    @Test(  priority = 4,enabled = false, description = "Verify new Category popup")
     public void verifyNewCategoryPopup() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -578,7 +578,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 22,enabled = false, description = "[PLAT 2284]-Verify GUI Add Bulk Actions on To Do Page")
+    @Test(  priority = 22,enabled = true, description = "[PLAT 2284]-Verify GUI Add Bulk Actions on To Do Page")
     public void verifyGUIToDoAddBulkActions() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -593,6 +593,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorTodoListService.verifyTodoListPage();
 
             auditorCreateToDoService.verifyAddNewToDoTask("Task 01 2284");
+            auditorCreateToDoService.waitMessageIsDisappear();
             auditorCreateToDoService.clickCheckboxNewToDoTask();
             auditorCreateToDoService.verifyDefaultValueofBulkActionsDropdown("Bulk Actions");
             auditorCreateToDoService.verifyHoverBulkActionsDropdown();

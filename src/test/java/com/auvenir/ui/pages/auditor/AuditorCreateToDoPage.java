@@ -1448,5 +1448,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		return true;
 	}
 	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+
+	public void waitMessageIsDisappear(){
+		waitForDisappearElement(toastMessageSucessEle,"toastMessageSucessEle");
+	}
 }
 

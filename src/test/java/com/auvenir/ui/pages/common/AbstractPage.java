@@ -856,7 +856,7 @@ public class AbstractPage {
     }
 
     // EditCategory method
-    public void EditCategories() throws Exception {
+    public void editCategories() throws Exception {
         waitForClickableOfElement(eleCategoryCombobox, "eleCategoryCombobox");
         eleCategoryCombobox.click();
         //Verify Category_Dropdown GUI
