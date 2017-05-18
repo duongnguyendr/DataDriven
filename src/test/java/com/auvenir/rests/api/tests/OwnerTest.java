@@ -32,7 +32,7 @@ public class OwnerTest extends AbstractAPIService {
     public void getRestBaseUrl() throws UnknownHostException {
         //RestAssured.basePath=restBaseUrl;
         //MongoDBService.connectDBServer("34.205.90.145",27017,database);
-        MongoDBService.connectDBServer(dataBaseServer,27017,database);
+        MongoDBService.connectDBServer(dataBaseServer,port,database);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");

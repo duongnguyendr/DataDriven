@@ -1536,7 +1536,7 @@ public class AbstractPage {
             // blue color
             waitForClickableOfElement(eleEditCategoryCancelBtn, "wait for click to eleEditCategoryCancelBtn");
             clickElement(eleEditCategoryCancelBtn, "click to eleEditCategoryCancelBtn");
-            isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
+            //isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             //isCheckCancelClick = waitForInvisibleElement(eleIdBtnAddCategory, "wait for invisible eleIdBtnAddCategory");
             if(isCheckCancelClick) {
                 NXGReports.addStep("Verify to click Category cancel button", LogAs.PASSED, null);
