@@ -145,8 +145,7 @@ public class AbstractPage {
     private WebElement detailCateColorEle;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
-
-    @FindBy(xpath="//*[@id='todo-table']//tbody/tr[1]/td[3]/div")
+    @FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement dropdownCategoryEle;
 
     @FindBy(id="todo-table")
@@ -612,7 +611,7 @@ public class AbstractPage {
     public void clickElement(WebElement element,String elementName){
         getLogger().info("Try to ClickElement: " + elementName);
         try{
-            waitForClickableOfElement(element, "click to " + element);
+            waitForClickableOfElement(element, "click to " + elementName);
             element.click();
             NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -926,18 +925,20 @@ public class AbstractPage {
     public void chooseCategoryColorInPopup () throws Exception
     {
         hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        waitForClickableOfElement(categoryColorFieldOnFromEle,"wait categoryColorFieldOnFromEle");
+        waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
+        Thread.sleep(smallerTimeOut);
         clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
         waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
+        Thread.sleep(smallerTimeOut);
         clickElement(detailCateColorEle, "click to detailCateColorEle");
     }
 
     public void clickNewCategoryCreateButton() throws Exception
     {
-        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
+        waitForClickableOfElement(eleIdBtnAddCategory,"Add Category Button");
         waitForJSandJQueryToLoad();
         WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
-        clickElement(eleIdBtnAddCategory, "click to eleIdBtnAddCategory");
+        clickElement(eleIdBtnAddCategory, "Add Category Button");
         waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
     }
 
@@ -1647,7 +1648,42 @@ public class AbstractPage {
         }
     }
 
-    //xpathCategoryExistedText
+    /**
+     *
+     * @param webElement  WebElement
+     * @param elementText Text of Element not be presented.
+     */
+    public boolean validateElementTextNotDisplayed(WebElement webElement, String elementText) {
+        try {
+            getLogger().info("Check renderd of text: " + elementText);
+            getLogger().info("Actual Text is displayed: " + webElement.getText().trim());
+            Assert.assertNotEquals(webElement.getText().trim(),elementText);
+            NXGReports.addStep(elementText + " did not rendered", LogAs.PASSED,null);
+            return true;
+        }catch (AssertionError error) {
+            getLogger().info(error);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     * Find the index(position) of Web Element in the list Web Element by text
+     * @param listElement List WebElement
+     * @param  textValue String text which is compared with each WebElements.
+     * @return i if the WebElement is matched, otherwise return -1.
+     *
+     */
+    public int findElementByValue(List<WebElement> listElement, String textValue){
+        for(int i = 0; i<listElement.size();i++){
+            if(validateAttributeElement(listElement.get(i),"value", textValue)){
+                getLogger().info("Element is found at " + i);
+                return i;
+            }
+        }
+        return -1;
+    }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
     public boolean isThisDateValid(String dateToValidate, String dateFromat){

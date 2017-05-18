@@ -380,7 +380,9 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.verifyHoverCategoryComboBox();
             auditorCreateToDoService.verifyValueofCategoryComboBox("Category1");
             auditorCreateToDoService.verifyNewCategoryPopUpDisplayed();
+            auditorCreateToDoService.clickCloseButtonOnPopup();
             auditorCreateToDoService.verifyEditCategoryPopUpDisplayed();
+            auditorCreateToDoService.clickCloseButtonOnPopup();
             auditorCreateToDoService.verifyCreateToDoTaskWithoutCategory("Task01 2289 without Category");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify 'Category' combo box on Create to-do", LogAs.PASSED, null);
@@ -576,8 +578,8 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 22,enabled = false, description = "[PLAT 2284]-Verify Add Bulk Actions")
-    public void verifyToDoAddBulkActions() throws Exception {
+    @Test(  priority = 22,enabled = true, description = "[PLAT 2284]-Verify GUI Add Bulk Actions on To Do Page")
+    public void verifyGUIToDoAddBulkActions() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
@@ -597,10 +599,9 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyListValueofBulkActionsDropdown();
             auditorCreateToDoService.clickDeleteToDoBulkActions();
-            auditorCreateToDoService.verifyListValueofBulkActionsDropdown();
-
-            //auditorCreateToDoService.
-
+            auditorCreateToDoService.verifyDeleteToDoPopUpDisplayed();
+            auditorCreateToDoService.clickCloseButtonOnPopup();
+            auditorCreateToDoService.verifyBulkActionsDropdownIsClosed();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify Add Bulk Actions on To do page.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -740,6 +741,36 @@ public class AuditorTodoListTest extends AbstractTest {
         } catch (Exception e) {
             NXGReports.addStep("Verify due date date picker on to-do list page.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(  priority = 26,enabled = true, description = "[PLAT 2284]-Verify Action of Add Bulk Actions on To Do Page")
+    public void verifyActionToDoAddBulkActions() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorTodoListService.verifyTodoListPage();
+
+            ArrayList<String> toDoListNames = new ArrayList<String>();
+            toDoListNames.add("416 To Do Task02");
+            toDoListNames.add("a To Do Task02");
+            toDoListNames.add("b To Do Task02");
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            auditorCreateToDoService.selectToDoTaskName("b To Do Task02");
+            auditorCreateToDoService.selectToDoTaskName("416 To Do Task02");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify Action of Add Bulk Actions on To do page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify Action of Add Bulk Actions on To do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
             throw e;
         }
     }

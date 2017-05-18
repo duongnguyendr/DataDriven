@@ -109,7 +109,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(id = "todo-name")
 	private WebElement toDoNameInputEle;
 
-	@FindBy(xpath="//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
+	@FindBy(xpath="//*table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
 	private WebElement toDoNameErrorLabelEle;
 
 	@FindBy(xpath="//*[@id='todo-add-btn']")
@@ -126,6 +126,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
 	private List<WebElement> eleToDoCheckboxRow;
+
+	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='text']")
+	private List<WebElement> eleToDoNameRow;
+
 	@FindBy(id="todo-table")
 	private WebElement tblIdTodoTable;
 	@FindBy(id="todo-name")
@@ -159,8 +163,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement categoryTitleEle;
 
-    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[starts-with(@id,'modal-close-categoryModel')]")
-    WebElement eleEditCategoryCloseBtn;
+    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
+    WebElement closePopupBtnEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
     WebElement editCategoryCancelBtnEle;
@@ -220,8 +224,14 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Cancel')]")
 	WebElement cancelDeletedToDoButtonEle;
 
-	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]")
-	WebElement popUpWindows;
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//div[@class='center']/div[@class='des-delete-modal']")
+	WebElement centerDeleteToDoDescriptionEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Delete')]")
+	WebElement deletedToDoButtonEle;
+
+	@FindBy(xpath = "//div[contains(@id,'flashAlert')]//div[@class='send-message-success-alert']")
+	private WebElement toastMessageSucessEle;
 
 	public void verifyGUIButtonCreateToDo(){
 		try{
@@ -489,6 +499,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			dateItemonCalendarEle.click();
 			waitForVisibleElement(toDoSaveIconEle,"Save Icon");
 			toDoSaveIconEle.click();
+//			waitForVisibleElement(toastMessageSucessEle,"Toast Message Successful");
+//			waitForCssValueChanged(toastMessageSucessEle,"Toast Message Successful","class")
 			verifyAddNewToDoTask(toDoName);
     }
 
@@ -945,11 +957,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             waitForVisibleElement(categoryTitleEle,"Category Title");
             result = validateElementText(categoryTitleEle,"Add New Category");
             Assert.assertTrue(result, "Add New Category popup is not displayed");
-            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
-            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
-			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
-			editCategoryCancelBtnEle.click();
-			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
+//            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
+//            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
+//			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+//			clickElement(editCategoryCancelBtnEle, "Cancel Add New Category Button");
+//			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify New Category popup is displayed", LogAs.PASSED,null);
         }catch (AssertionError e){
             AbstractService.sStatusCnt++;
@@ -963,11 +975,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             waitForVisibleElement(categoryTitleEle,"Category Title");
             result = validateElementText(categoryTitleEle,"Edit Categories");
             Assert.assertTrue(result, "Edit Categories popup is not displayed");
-            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
-            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Edit Category Button");
-			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
-            editCategoryCancelBtnEle.click();
-			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
+//            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
+//            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Edit Category Button");
+//			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+//			clickElement(editCategoryCancelBtnEle, "Cancel Add New Category Button");
+//			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify Edit Categories popup is displayed", LogAs.PASSED,null);
         }catch (AssertionError e){
             AbstractService.sStatusCnt++;
@@ -1074,6 +1086,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			Assert.assertTrue(result, "Assign to sub Menu is not displayed");
 			NXGReports.addStep("Verify List Value of Bulk Actions Dropdown", LogAs.PASSED,null);
 		}catch (AssertionError e){
+			getLogger().info(e);
 			AbstractService.sStatusCnt++;
 			NXGReports.addStep("TestScript Failed: Verify List Value of Bulk Actions Dropdown", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
@@ -1082,13 +1095,82 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void clickDeleteToDoBulkActions(){
 		List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
 		clickElement(menuBulkActionsDropdown.get(2),"Deleted ToDo Button");
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	}
+
+	public void verifyGUIDeleteToDoPopUp(){
+		try{
+			final String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? Once deleted, you " +
+					"will not be able to retrieve any documents uploaded to the selected To-Dos.";
+			getLogger().info("Verify GUI Delete To-Dos popup.");
+			boolean result;
+			waitForVisibleElement(categoryTitleEle,"Delete To-Do Title");
+			result = validateElementText(categoryTitleEle,"Delete To-Do?");
+			Assert.assertTrue(result, "Delete To Do popup is not displayed");
+			waitForVisibleElement(centerDeleteToDoDescriptionEle,"Guide Sentence Description Delete ToDo");
+			result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
+			Assert.assertTrue(result, "Guide Sentence Description Delete ToDo is not displayed");
+			waitForVisibleElement(deletedToDoButtonEle,"Delete To-Do button");
+			result = validateCSSValueElement(deletedToDoButtonEle,"background-color","rgba(241, 103, 57, 1)");
+			Assert.assertTrue(result, "Background color of Delete To-Do button is NOT orange");
+			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of Delete To-Do button is NOT white");
+			waitForVisibleElement(cancelDeletedToDoButtonEle,"Cancel delete To-Do button");
+			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"background-color","rgba(151, 147, 147, 1)");
+			Assert.assertTrue(result, "Background color of Cancel delete To-Do button is NOT gray");
+			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of Cancel delete To-Do button is NOT white");
+			NXGReports.addStep("Verify GUI Delete To-Dos popup is displayed successfully", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify GUI Delete To-Dos popup is displayed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
-		//hoverElement()
-		clickElement(cancelDeletedToDoButtonEle,"Cancel Deleted ToDo button");
+	}
+
+	public void clickCancelButtonOnPopup() {
+		getLogger().info("Click Cancel Button on PopUp windows.");
+		WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+		hoverElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
+		waitForClickableOfElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo Button");
+		clickElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
+		waitForCssValueChanged(popUpDiv, "PopUp Windows", "display", "none");
+	}
+
+	public void clickCloseButtonOnPopup() {
+		getLogger().info("Click Close Button on PopUp windows.");
+		WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+		//Will remove after finding solution for checking the toast message is closed.
+		try{
+			Thread.sleep(2000);
+		}catch (Exception e){
+		}
+		hoverElement(closePopupBtnEle, "Close Delete ToDo button");
+		waitForClickableOfElement(closePopupBtnEle, "Close Delete ToDo Button");
+		clickElement(closePopupBtnEle, "Close Delete ToDo button");
+		waitForCssValueChanged(popUpDiv, "PopUp Windows", "display", "none");
+	}
+
+	public void verifyBulkActionsDropdownIsClosed() {
+		try{
+			getLogger().info("Verify Bulk Actions Dropdown Is Closed.");
+			boolean result;
+			List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+			result = validateElementTextNotDisplayed(menuBulkActionsDropdown.get(0), "Download Attachments");
+			Assert.assertTrue(result, "Bulk Actions Dropdown should be closed");
+			NXGReports.addStep("Verify Bulk Actions Dropdown Is Closed.", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			getLogger().info(e);
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify Bulk Actions Dropdown Is Closed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	public int findToDoTaskName(String toDoName){
+		return findElementByValue(eleToDoNameRow, toDoName);
+	}
+
+	public void selectToTaskName(String todoName){
+		int index = findToDoTaskName(todoName);
+		eleToDoCheckboxRow.get(index).click();
 	}
 
 	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
