@@ -7,6 +7,7 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,6 +25,9 @@ public class AuditorTodoListTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private AuditorCreateToDoService auditorCreateToDoService;
 
+    String auditorId;
+    String timeStamp;
+    String firstEngagementTitleOnWeb;
 
     @Test(priority = 1, enabled = true, description = "Verify Auditor empty Todo List page.")
     public void verifyAuditorEmptyTodoListPage() throws Exception {
@@ -348,6 +352,150 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
+    /**
+     * Added by huy.huynh on 18/05/2017.
+     * Scenarios : PLAT 2285 - Add undo option
+     */
+
+    /**
+     * (precondition)init value for variables
+     * dependsOnMethods: setUp on AbstractTest
+     */
+    //@BeforeMethod(dependsOnMethods = {"setUp"})
+    public void initVariable() {
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        auditorId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+    }
+
+    /**
+     * (precondition)flow to Needed-To-Test page
+     * dependsOnMethods: initVariable
+     */
+    //@BeforeMethod(dependsOnMethods = {"initVariable"})
+    public void navigationPreconditions() {
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("ViewEngagementButton");
+        auditorDetailsEngagementService.navigateToTodoListPage();
+    }
+
+    /**
+     * (case)verify button Undo action exist
+     */
+    @Test(priority = 15, enabled = true, testName = "Verify GUI.", description = "undo_1", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void uiVerifyButtonUndoExist() throws Exception {
+        initVariable();
+        navigationPreconditions();
+
+        auditorTodoListService.uiVerifyButtonUndoExist();
+
+        NXGReports.addStep("Verify button Undo exist", LogAs.PASSED, null);
+    }
+
+    /**
+     * (case)verify button Undo action disable
+     */
+    @Test(priority = 20, enabled = true, testName = "Undo arrow.", description = "undo_3", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void uiVerifyButtonUndoStatus() throws Exception {
+        initVariable();
+        navigationPreconditions();
+
+        auditorTodoListService.uiVerifyButtonUndoDisable();
+
+        auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete");
+        auditorTodoListService.uiVerifyButtonUndoEnable();
+
+        NXGReports.addStep("Verify button Undo status", LogAs.PASSED, null);
+    }
+
+    /**
+     * (case)verify Undo action Complete a To-Do, verified change on database but UI
+     */
+    @Test(priority = 25, enabled = true, testName = "Undo successfully", description = "undo_4", groups = "workflow")
+    public void verifyUndoActionWithCompleteCase() {
+        initVariable();
+        navigationPreconditions();
+
+        auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
+
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete");
+        auditorTodoListService.verifyToDoComleteStatusByName(firstEngagementTitleOnWeb, "toDoName01" + timeStamp, "true");
+
+        auditorTodoListService.undoAction();
+        auditorTodoListService.verifyToDoComleteStatusByName(firstEngagementTitleOnWeb, "toDoName01" + timeStamp, "false");
+
+        NXGReports.addStep("Verify Undo action with Complete case", LogAs.PASSED, null);
+    }
+
+    /**
+     * (case)verify Undo action Assign to a To-Do, verified change on UI but database
+     */
+    @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void verifyUndoActionWithAssignToCase() throws Exception {
+        initVariable();
+        navigationPreconditions();
+
+        auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
+
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Assign to");
+        auditorTodoListService.verifyAssigneeNameOnUI("toDoName01" + timeStamp, "client 01 so");
+        Thread.sleep(2000);
+        auditorTodoListService.undoAction();
+        auditorTodoListService.verifyAssigneeNameOnUI("toDoName01" + timeStamp, "Unassigned");
+
+        NXGReports.addStep("Verify Undo action with Assign to case", LogAs.PASSED, null);
+    }
+
+    /**
+     * (case)verify Undo action Delete a To-Do, verified change on database but UI
+     */
+    @Test(priority = 35, enabled = true, testName = "Undo successfully", description = "undo_6", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void verifyUndoActionWithDeleteCase() {
+        initVariable();
+        navigationPreconditions();
+
+        auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
+
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName02" + timeStamp, "Delete");
+        auditorTodoListService.verifyToDoDeleteStatusByName(firstEngagementTitleOnWeb, "toDoName02" + timeStamp, "INACTIVE");
+
+        auditorTodoListService.undoAction();
+        auditorTodoListService.verifyToDoDeleteStatusByName(firstEngagementTitleOnWeb, "toDoName02" + timeStamp, "ACTIVE");
+
+        NXGReports.addStep("Verify Undo action with Delete case", LogAs.PASSED, null);
+    }
+
+    /**
+     * (case)verify Undo action Download Attachments disable
+     */
+    @Test(priority = 40, enabled = true, testName = "Undo fail", description = "undo_8", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    public void verifyDownloadAttachmentsDisable() {
+        initVariable();
+        navigationPreconditions();
+
+        auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
+        auditorTodoListService.verifyDownloadAttachmentsDisable("toDoName01" + timeStamp);
+
+        NXGReports.addStep("Verify Download Attachments disable", LogAs.PASSED, null);
+    }
 }
 
 

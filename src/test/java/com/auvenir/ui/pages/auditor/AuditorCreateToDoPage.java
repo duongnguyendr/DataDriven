@@ -422,13 +422,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param text name of assignee
      */
     public void verifyAssigneeNameOnUI(String toDoName, String text) {
-        getLogger().info("Verify name of assignee on UI after assign.");
-        String assigneeName= getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[@class='text'][1]")).getText();
+        getLogger().info("Verify name of assignee on UI after assign. Expected: "+ text);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String assigneeName= getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown client')]/div[@class='text']")).getText();
+        System.out.println("++++++++++++++++++++++++++++++++++++++++assigneeName - text " + assigneeName + " - " + text);
         if (text.equals(assigneeName)) {
-            NXGReports.addStep("Verify name of assignee on UI after assign.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: "+ text, LogAs.PASSED, null);
         } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify name of assignee on UI after assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: "+ text, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
