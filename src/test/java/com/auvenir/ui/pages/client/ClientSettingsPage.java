@@ -18,12 +18,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class ClientSettingsPage extends AbstractPage {
     private static final int waitTime = 60;
-    public ClientSettingsPage(Logger logger, WebDriver driver){
-        super(logger,driver);
+
+    public ClientSettingsPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
         //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
     }
 
-    @FindBy(id ="link-setting-account")
+    @FindBy(id = "link-setting-account")
     private WebElement accountSettingsTabEle;
 
     @FindBy(xpath = "//div[@id='settingsPage']//..//div[@id='navSystem']//..//div[@id='link-setting-integrations']")
@@ -37,18 +38,17 @@ public class ClientSettingsPage extends AbstractPage {
     private WebElement notificationsSettingsTabEle;
 
 
-
     public void navigateToAccountTab() {
-        waitForClickableOfElement(accountSettingsTabEle,"accountSettingsTabEle");
+        waitForClickableOfElement(accountSettingsTabEle, "accountSettingsTabEle");
         accountSettingsTabEle.click();
     }
 
     public void navigatToIntegrationTab() {
 
         try {
-            waitForClickableOfElement(integrationSettingsLinkEle,"integrationSettingsLinkEle");
+            waitForClickableOfElement(integrationSettingsLinkEle, "integrationSettingsLinkEle");
             integrationSettingsLinkEle.click();
-        }catch (Exception e){
+        } catch (Exception e) {
             getLogger().info(e);
         }
 
@@ -56,15 +56,15 @@ public class ClientSettingsPage extends AbstractPage {
     }
 
     public void navigateToDevicesTab() {
-        waitForClickableOfElement(devicesSettingsTabEle,"devicesSettingsTabEle");
+        waitForClickableOfElement(devicesSettingsTabEle, "devicesSettingsTabEle");
         devicesSettingsTabEle.click();
     }
 
     public void navigateToNotificationsTab() {
         try {
-            waitForClickableOfElement(notificationsSettingsTabEle,"notificationsSettingsTabEle");
+            waitForClickableOfElement(notificationsSettingsTabEle, "notificationsSettingsTabEle");
             notificationsSettingsTabEle.click();
-        }catch (Exception e) {
+        } catch (Exception e) {
             getLogger().info(e);
         }
 

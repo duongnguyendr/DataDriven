@@ -15,9 +15,9 @@ public class AuditorNotificationsSettingsService extends AbstractService {
 
     AuditorNotificationsSettingsPage auditorNotificationsSettingsPage;
 
-/*
- * contructor
- */
+    /*
+     * contructor
+     */
     public AuditorNotificationsSettingsService(Logger logger, WebDriver driver) {
 
         super(logger, driver);
@@ -46,8 +46,6 @@ public class AuditorNotificationsSettingsService extends AbstractService {
     }
 
 
-
-
     public void verifyAuditorNotificationSettingsPage() {
 
         try {
@@ -58,8 +56,6 @@ public class AuditorNotificationsSettingsService extends AbstractService {
             NXGReports.addStep("verify Auditor Notifications Settings page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
-
 
 
 }

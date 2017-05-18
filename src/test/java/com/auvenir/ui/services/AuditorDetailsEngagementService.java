@@ -27,9 +27,6 @@ public class AuditorDetailsEngagementService extends AbstractService {
     }
 
 
-
-
-
     public void navigateToClientSettingsPage() {
 
         try {
@@ -61,6 +58,7 @@ public class AuditorDetailsEngagementService extends AbstractService {
             NXGReports.addStep("navigate to task list tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     public void navigateToTodoListPage() {
         try {
             getLogger().info("navigate to To Do list page.");

@@ -1,4 +1,5 @@
 package com.auvenir.ui.pages.client;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,366 +16,460 @@ import org.apache.log4j.Logger;
 
 public class ClientOnBoardingPage extends AbstractPage {
 
-	public ClientOnBoardingPage(Logger logger,WebDriver driver)
-	{
-		super(logger,driver);
-		PageFactory.initElements(driver, this);
-	}
-			
-	@FindBy(xpath="//img[@class='header-auvenirLogo']")
-	private WebElement eleAuvenirLogoImg;
-	public WebElement getEleAuvenirLogoImg(){
-		return eleAuvenirLogoImg;
-	}
-	
-	@FindBy(xpath="//input[@id='onboardCompanyName']")
-	private WebElement eleCompanyNameTxtFld;
-	public WebElement getEleCompanyNameTxtFld(){
-		return eleCompanyNameTxtFld;
-	}
-	
-	@FindBy(id="link-onboarding-personaltitle")
-	private WebElement elePERSONALTxt;
-	public WebElement getElePERSONALTxt(){
-		return elePERSONALTxt;
-	}
-	@FindBy(id="link-onboarding-personalcircle")
-	private WebElement elePERSONALImg;
-	public WebElement getElePERSONALImg(){
-		return elePERSONALImg;
-	}
-	@FindBy(id="link-onboarding-businesstitle")
-	private WebElement eleBUISNESSTxt;
-	public WebElement getEleBUISNESSTxt(){
-		return eleBUISNESSTxt;
-	}
-	@FindBy(id="link-onboarding-businesscircle")
-	private WebElement eleBUISNESSImg;
-	public WebElement getEleBUISNESSImg(){
-		return eleBUISNESSImg;
-	}
-	@FindBy(id="link-onboarding-filestitle")
-	private WebElement eleFILESTxt;
-	public WebElement getEleFILESTxt(){
-		return eleFILESTxt;
-	}
-	@FindBy(id="link-onboarding-filescircle")
-	private WebElement eleFILESImg;
-	public WebElement getEleFILESImg(){
-		return eleFILESImg;
-	}
-	@FindBy(id="link-onboarding-securitytitle")
-	private WebElement eleSECURITYTxt;
-	public WebElement getEleSECURITYTxt(){
-		return eleSECURITYTxt;
-	}
-	@FindBy(id="link-onboarding-securitycircle")
-	private WebElement eleSECURITYImg;
-	public WebElement getEleSECURITYImg(){
-		return eleSECURITYImg;
-	}
-	@FindBy(xpath="//h3[contains(text(),'Please Confirm your Information')]")
-	private WebElement elePleaseConfirmYourInfoTxt;
-	public WebElement getElePleaseConfirmYourInfoTxt(){
-		return elePleaseConfirmYourInfoTxt;
-	}
-	@FindBy(xpath="//p[@class='auv-inputTitle'][contains(text(),'First and Last Name *')]")
-	private WebElement eleFirstLastNameTxt;
-	public WebElement getEleFirstLastNameTxt(){
-		return eleFirstLastNameTxt;
-	}
-			
-	@FindBy(xpath="//input[@id='personal-name']")
-	private WebElement eleFirstLastNameTxtFld;
-	public WebElement getEleFirstLastNameTxtFld(){
-		return eleFirstLastNameTxtFld;
-	}
-	@FindBy(xpath="//p[@class='auv-inputTitle'][contains(text(),'Email Address *')]")
-	private WebElement eleEmailAddressTxt;
-	public WebElement getEleEmailAddressTxt(){
-		return eleEmailAddressTxt;
-	}
-	@FindBy(xpath="//input[@id='personal-email']")
-	private WebElement eleEmailAddressTxtFld;
-	public WebElement getEleEmailAddressTxtFld(){
-		return eleEmailAddressTxtFld;
-	}
-	@FindBy(xpath="//p[@class='auv-inputTitle'][contains(text(),'Phone Number *')]")
-	private WebElement elePhoneNumberTxt;
-	public WebElement getElePhoneNumberTxt(){
-		return elePhoneNumberTxt;
-	}
-	@FindBy(xpath="//input[@id='personal-phoneNumber']")
-	private WebElement elePhoneNumberTxtFld;
-	public WebElement getElePhoneNumberTxtFld(){
-		return elePhoneNumberTxtFld;
-	}
-	@FindBy(xpath="//img[@id='agreement-personal']")
-	private WebElement eleIAgreeImg;
-	public WebElement getEleIAgreeImg(){
-		return eleIAgreeImg;
-	}
-	@FindBy(xpath="//label[text()='I agree to the ']")
-	private WebElement eleIAgreeTxt;
-	public WebElement getEleIAgreeTxt(){
-		return eleIAgreeTxt;
-	}
-	@FindBy(xpath="//a[text()='privacy statement']")
-	private WebElement elePrivacyStatementLnk;
-	public WebElement getElePrivacyStatementLnk(){
-		return elePrivacyStatementLnk;
-	}
-	@FindBy(xpath="//a[text()='terms of service']")
-	private WebElement eleTOSLnk;
-	public WebElement getEleTOSLnk(){
-		return eleTOSLnk;
-	}
-	@FindBy(xpath="//button[@id='personal-coninueBtn']")
-	private WebElement eleContinueBtn;
-	public WebElement getEleContinueBtn(){
-		return eleContinueBtn;
-	}
-	@FindBy(xpath="//div[@id='personal-emptyPic']")
-	private WebElement eleCameraImg;
-	public WebElement getEleCameraImg(){
-		return eleCameraImg;
-	}
-	@FindBy(xpath="//button[@id='uploadCoverBtn']")
-	private WebElement eleUploadPhotoBtn;
-	public WebElement getEleUploadPhotoBtn(){
-		return eleUploadPhotoBtn;
-	}
-	
-	@FindBy(xpath="//h3[contains(text(),'Please Confirm your Business Information')]")
-	private WebElement elePleaseConfirmBuisnessTxt;
-	public WebElement getElePleaseConfirmBuisnessTxt(){
-		return elePleaseConfirmBuisnessTxt;
-	}
-	
-	@FindBy(xpath="//p[contains(text(),'Business Name *')]")
-	private WebElement eleBuisnessNameTxt;
-	public WebElement getEleBuisnessNameTxt(){
-		return eleBuisnessNameTxt;
-	}
-	
-	@FindBy(id="business-name")
-	private WebElement eleBuisnessNameTxtFld;
-	public WebElement getEleBuisnessNameTxtFld(){
-		return eleBuisnessNameTxtFld;
-	}
-	
-	@FindBy(xpath="//p[contains(text(),'Fiscal Year End *')]")
-	private WebElement eleFiscalYearTxt;
-	public WebElement getEleFiscalYearTxt(){
-		return eleFiscalYearTxt;
-	}
-	@FindBy(id="fiscal-year-end")
-	private WebElement eleFiscalYearTxtFld;
-	public WebElement getEleFiscalYearTxtFld(){
-		return eleFiscalYearTxtFld;
-	}
-	
-	@FindBy(xpath="//p[contains(text(),'Accounting Framework *')]")
-	private WebElement eleAccountingFrameTxt;
-	public WebElement getEleAccountingFrameTxt(){
-		return eleAccountingFrameTxt;
-	}
-	@FindBy(id="accounting-framework")
-	private WebElement eleAccountingFrameTxtFld;
-	public WebElement getEleAccountingFrameTxtFld(){
-		return eleAccountingFrameTxtFld;
-	}
-	
-	@FindBy(xpath="//div[@id='onboarding-business-container']//button[text()='Continue']")
-	private WebElement eleBuisnessContinueBtn;
-	public WebElement getEleBuisnessContinueBtn(){
-		return eleBuisnessContinueBtn;
-	}
-	
-	@FindBy(id="business-emptyPic")
-	private WebElement eleBuisnessCameraImg;
-	public WebElement getEleBuisnessCameraImg(){
-		return eleBuisnessCameraImg;
-	}
-	@FindBy(xpath="//button[text()='Update Photo']")
-	private WebElement eleBuisnessUploadBtn;
-	public WebElement getEleBuisnessUploadBtn(){
-		return eleBuisnessUploadBtn;
-	}
-	
-	@FindBy(xpath="//p[contains(text(),'Integrate with your File Storage')]")
-	private WebElement eleIntegrateFileTxt;
-	public WebElement getEleIntegrateFileTxt(){
-		return eleIntegrateFileTxt;
-	}
-	@FindBy(xpath="//p[contains(text(),'Please select the directory where you keep your financial audit doucments and we will automatically sort them for you!')]")
-	private WebElement elePleaseSelectTxt;
-	public WebElement getElePleaseSelectTxt(){
-		return elePleaseSelectTxt;
-	}
-	@FindBy(xpath="//a[@class='files-storage-container']/div[text()='Google Drive']")
-	private WebElement eleGoogleDriveTxt;
-	public WebElement getEleGoogleDriveTxt(){
-		return eleGoogleDriveTxt;
-	}
-	@FindBy(xpath="//a[@class='files-storage-container']/img[@src='utilities/components/files/img/google-drive-logo-black.svg']")
-	private WebElement eleGoogleDriveImg;
-	public WebElement getEleGoogleDriveImg(){
-		return eleGoogleDriveImg;
-	}
-	
-	@FindBy(xpath="//a[@class='files-storage-container']/div[text()='Local']")
-	private WebElement eleLocalTxt;
-	public WebElement getEleLocalTxt(){
-		return eleLocalTxt;
-	}
-	@FindBy(xpath="//input[@type='file']")
-	private WebElement eleLocalImg;
-	public WebElement getEleLocalImg(){
-		return eleLocalImg;
-	}
-	@FindBy(xpath="//button[text()='Skip']")
-	private WebElement eleSkipBtn;
-	public WebElement getEleSkipBtn(){
-		return eleSkipBtn;
-	}
-	@FindBy(xpath="//div[@id='onboarding-security-container']//button[text()='Skip']")
-	private WebElement eleSecuritySkipBtn;
-	public WebElement getEleSecuritySkipBtn(){
-		return eleSecuritySkipBtn;
-	}
-	@FindBy(xpath="//p[text()='Not ready to integrate right now?']")
-	private WebElement eleNotReadyTxt;
-	public WebElement getEleNotReadyTxt(){
-		return eleNotReadyTxt;
-	}
-	@FindBy(xpath="//p[text()='You can skip and find it in your settings later.']")
-	private WebElement eleYouCanSkipTxt;
-	public WebElement getEleYouCanSkipTxt(){
-		return eleYouCanSkipTxt;
-	}
-	
-	@FindBy(xpath="//p[contains(text(),'Set Up')]")
-	private WebElement eleSetUpTxt;
-	public WebElement getEleSetUpTxt(){
-		return eleSetUpTxt;
-	}
-		
-	@FindBy(xpath="//p[contains(text(),'Download the Auvenir')]")
-	private WebElement eleDownloadtheAuvenirTxt;
-	public WebElement getEleDownloadtheAuvenirTxt(){
-		return eleDownloadtheAuvenirTxt;
-	}
-	
-	@FindBy(xpath="//button[contains(text(),'Text App Link')]")
-	private WebElement eleTextAppLinkBtn;
-	public WebElement getEleTextAppLinkBtn(){
-		return eleTextAppLinkBtn;
-	}
-		
-	@FindBy(id="smsInputBox")
-	private WebElement elePhoneNumberSmsInputTxtFld;
-	public WebElement getElePhoneNumberSmsInputTxtFld(){
-		return elePhoneNumberSmsInputTxtFld;
-	}
-	
-	@FindBy(css="img[class='register-mb-img']")
-	private WebElement elePhoneImg;
-	public WebElement getElePhoneImg(){
-		return elePhoneImg;
-	}
-	
-	@FindBy(css="img[src='images/components/applestore.png']")
-	private WebElement eleAppStoreImg;
-	public WebElement getEleAppStoreImg(){
-		return eleAppStoreImg;
-	}
-	
-	@FindBy(css="img[src='images/components/googlestore.png']")
-	private WebElement eleGooglePlayImg;
-	public WebElement getEleGooglePlayImg(){
-		return eleGooglePlayImg;
-	}
-	
-	
-	@FindBy(xpath="//label[contains(text(),'Skip Security')]//..//img[@src='images/icons/warning.svg']")
-	private WebElement eleWarningImg;
-	public WebElement getEleWarningImg(){
-		return eleWarningImg;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'Skip Security')]//..//..//img[@src='images/icons/x-small.svg']")
-	private WebElement eleCloseImg;
-	public WebElement getEleCloseImg(){
-		return eleCloseImg;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'Skip Security')]")
-	private WebElement eleSkipSecurityTxt;
-	public WebElement getEleSkipSecurityTxt(){
-		return eleSkipSecurityTxt;
-	}
-	
-	@FindBy(xpath="//p[contains(text(),'By choosing')]")
-	private WebElement eleByChoosingTxt;
-	public WebElement getEleByChoosingTxt(){
-		return eleByChoosingTxt;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'defaulting to email')]//..//img")
-	private WebElement eleIAmDefaultingChkBox;
-	public WebElement getEleIAmDefaultingChkBox(){
-		return eleIAmDefaultingChkBox;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'defaulting to email')]")
-	private WebElement eleIAmDefaultingTxt;
-	public WebElement getEleIAmDefaultingTxt(){
-		return eleIAmDefaultingTxt;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'I take responsibility')]//..//img")
-	private WebElement eleITakeResponsibilityChkBox;
-	public WebElement getEleITakeResponsibilityChkBox(){
-		return eleITakeResponsibilityChkBox;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'I take responsibility')]")
-	private WebElement eleITakeResponsibilityTxt;
-	public WebElement getEleITakeResponsibilityTxt(){
-		return eleITakeResponsibilityTxt;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'I agree to Auvenir')]//..//img")
-	private WebElement eleIAgreeToAuvenirChkBox;
-	public WebElement getEleIAgreeToAuvenirChkBox(){
-		return eleIAgreeToAuvenirChkBox;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'I agree to Auvenir')]")
-	private WebElement eleIAgreeToAuvenirTxt;
-	public WebElement getEleIAgreeToAuvenirTxt(){
-		return eleIAgreeToAuvenirTxt;
-	}
-	
-	@FindBy(className="skip-security-link")
-	private WebElement eleTermsAndConditionsSkipSecurityLnk;
-	public WebElement getEleTermsAndConditionsSkipSecurityLnk(){
-		return eleTermsAndConditionsSkipSecurityLnk;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'Skip Security')]//..//..//input[@value='Cancel']")
-	private WebElement eleCancelSkipSecurityBtn;
-	public WebElement getEleCancelSkipSecurityBtn(){
-		return eleCancelSkipSecurityBtn;
-	}
-	
-	@FindBy(xpath="//label[contains(text(),'Skip Security')]//..//..//input[@value='Agree']")
-	private WebElement eleAgreeSkipSecurityBtn;
-	public WebElement getEleAgreeSkipSecurityBtn(){
-		return eleAgreeSkipSecurityBtn;
-	}
-	/*@FindBy(xpath="//p[@id='onboard-introTitle']")
+    public ClientOnBoardingPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(xpath = "//img[@class='header-auvenirLogo']")
+    private WebElement eleAuvenirLogoImg;
+
+    public WebElement getEleAuvenirLogoImg() {
+        return eleAuvenirLogoImg;
+    }
+
+    @FindBy(xpath = "//input[@id='onboardCompanyName']")
+    private WebElement eleCompanyNameTxtFld;
+
+    public WebElement getEleCompanyNameTxtFld() {
+        return eleCompanyNameTxtFld;
+    }
+
+    @FindBy(id = "link-onboarding-personaltitle")
+    private WebElement elePERSONALTxt;
+
+    public WebElement getElePERSONALTxt() {
+        return elePERSONALTxt;
+    }
+
+    @FindBy(id = "link-onboarding-personalcircle")
+    private WebElement elePERSONALImg;
+
+    public WebElement getElePERSONALImg() {
+        return elePERSONALImg;
+    }
+
+    @FindBy(id = "link-onboarding-businesstitle")
+    private WebElement eleBUISNESSTxt;
+
+    public WebElement getEleBUISNESSTxt() {
+        return eleBUISNESSTxt;
+    }
+
+    @FindBy(id = "link-onboarding-businesscircle")
+    private WebElement eleBUISNESSImg;
+
+    public WebElement getEleBUISNESSImg() {
+        return eleBUISNESSImg;
+    }
+
+    @FindBy(id = "link-onboarding-filestitle")
+    private WebElement eleFILESTxt;
+
+    public WebElement getEleFILESTxt() {
+        return eleFILESTxt;
+    }
+
+    @FindBy(id = "link-onboarding-filescircle")
+    private WebElement eleFILESImg;
+
+    public WebElement getEleFILESImg() {
+        return eleFILESImg;
+    }
+
+    @FindBy(id = "link-onboarding-securitytitle")
+    private WebElement eleSECURITYTxt;
+
+    public WebElement getEleSECURITYTxt() {
+        return eleSECURITYTxt;
+    }
+
+    @FindBy(id = "link-onboarding-securitycircle")
+    private WebElement eleSECURITYImg;
+
+    public WebElement getEleSECURITYImg() {
+        return eleSECURITYImg;
+    }
+
+    @FindBy(xpath = "//h3[contains(text(),'Please Confirm your Information')]")
+    private WebElement elePleaseConfirmYourInfoTxt;
+
+    public WebElement getElePleaseConfirmYourInfoTxt() {
+        return elePleaseConfirmYourInfoTxt;
+    }
+
+    @FindBy(xpath = "//p[@class='auv-inputTitle'][contains(text(),'First and Last Name *')]")
+    private WebElement eleFirstLastNameTxt;
+
+    public WebElement getEleFirstLastNameTxt() {
+        return eleFirstLastNameTxt;
+    }
+
+    @FindBy(xpath = "//input[@id='personal-name']")
+    private WebElement eleFirstLastNameTxtFld;
+
+    public WebElement getEleFirstLastNameTxtFld() {
+        return eleFirstLastNameTxtFld;
+    }
+
+    @FindBy(xpath = "//p[@class='auv-inputTitle'][contains(text(),'Email Address *')]")
+    private WebElement eleEmailAddressTxt;
+
+    public WebElement getEleEmailAddressTxt() {
+        return eleEmailAddressTxt;
+    }
+
+    @FindBy(xpath = "//input[@id='personal-email']")
+    private WebElement eleEmailAddressTxtFld;
+
+    public WebElement getEleEmailAddressTxtFld() {
+        return eleEmailAddressTxtFld;
+    }
+
+    @FindBy(xpath = "//p[@class='auv-inputTitle'][contains(text(),'Phone Number *')]")
+    private WebElement elePhoneNumberTxt;
+
+    public WebElement getElePhoneNumberTxt() {
+        return elePhoneNumberTxt;
+    }
+
+    @FindBy(xpath = "//input[@id='personal-phoneNumber']")
+    private WebElement elePhoneNumberTxtFld;
+
+    public WebElement getElePhoneNumberTxtFld() {
+        return elePhoneNumberTxtFld;
+    }
+
+    @FindBy(xpath = "//img[@id='agreement-personal']")
+    private WebElement eleIAgreeImg;
+
+    public WebElement getEleIAgreeImg() {
+        return eleIAgreeImg;
+    }
+
+    @FindBy(xpath = "//label[text()='I agree to the ']")
+    private WebElement eleIAgreeTxt;
+
+    public WebElement getEleIAgreeTxt() {
+        return eleIAgreeTxt;
+    }
+
+    @FindBy(xpath = "//a[text()='privacy statement']")
+    private WebElement elePrivacyStatementLnk;
+
+    public WebElement getElePrivacyStatementLnk() {
+        return elePrivacyStatementLnk;
+    }
+
+    @FindBy(xpath = "//a[text()='terms of service']")
+    private WebElement eleTOSLnk;
+
+    public WebElement getEleTOSLnk() {
+        return eleTOSLnk;
+    }
+
+    @FindBy(xpath = "//button[@id='personal-coninueBtn']")
+    private WebElement eleContinueBtn;
+
+    public WebElement getEleContinueBtn() {
+        return eleContinueBtn;
+    }
+
+    @FindBy(xpath = "//div[@id='personal-emptyPic']")
+    private WebElement eleCameraImg;
+
+    public WebElement getEleCameraImg() {
+        return eleCameraImg;
+    }
+
+    @FindBy(xpath = "//button[@id='uploadCoverBtn']")
+    private WebElement eleUploadPhotoBtn;
+
+    public WebElement getEleUploadPhotoBtn() {
+        return eleUploadPhotoBtn;
+    }
+
+    @FindBy(xpath = "//h3[contains(text(),'Please Confirm your Business Information')]")
+    private WebElement elePleaseConfirmBuisnessTxt;
+
+    public WebElement getElePleaseConfirmBuisnessTxt() {
+        return elePleaseConfirmBuisnessTxt;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Business Name *')]")
+    private WebElement eleBuisnessNameTxt;
+
+    public WebElement getEleBuisnessNameTxt() {
+        return eleBuisnessNameTxt;
+    }
+
+    @FindBy(id = "business-name")
+    private WebElement eleBuisnessNameTxtFld;
+
+    public WebElement getEleBuisnessNameTxtFld() {
+        return eleBuisnessNameTxtFld;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Fiscal Year End *')]")
+    private WebElement eleFiscalYearTxt;
+
+    public WebElement getEleFiscalYearTxt() {
+        return eleFiscalYearTxt;
+    }
+
+    @FindBy(id = "fiscal-year-end")
+    private WebElement eleFiscalYearTxtFld;
+
+    public WebElement getEleFiscalYearTxtFld() {
+        return eleFiscalYearTxtFld;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Accounting Framework *')]")
+    private WebElement eleAccountingFrameTxt;
+
+    public WebElement getEleAccountingFrameTxt() {
+        return eleAccountingFrameTxt;
+    }
+
+    @FindBy(id = "accounting-framework")
+    private WebElement eleAccountingFrameTxtFld;
+
+    public WebElement getEleAccountingFrameTxtFld() {
+        return eleAccountingFrameTxtFld;
+    }
+
+    @FindBy(xpath = "//div[@id='onboarding-business-container']//button[text()='Continue']")
+    private WebElement eleBuisnessContinueBtn;
+
+    public WebElement getEleBuisnessContinueBtn() {
+        return eleBuisnessContinueBtn;
+    }
+
+    @FindBy(id = "business-emptyPic")
+    private WebElement eleBuisnessCameraImg;
+
+    public WebElement getEleBuisnessCameraImg() {
+        return eleBuisnessCameraImg;
+    }
+
+    @FindBy(xpath = "//button[text()='Update Photo']")
+    private WebElement eleBuisnessUploadBtn;
+
+    public WebElement getEleBuisnessUploadBtn() {
+        return eleBuisnessUploadBtn;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Integrate with your File Storage')]")
+    private WebElement eleIntegrateFileTxt;
+
+    public WebElement getEleIntegrateFileTxt() {
+        return eleIntegrateFileTxt;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Please select the directory where you keep your financial audit doucments and we will automatically sort them for you!')]")
+    private WebElement elePleaseSelectTxt;
+
+    public WebElement getElePleaseSelectTxt() {
+        return elePleaseSelectTxt;
+    }
+
+    @FindBy(xpath = "//a[@class='files-storage-container']/div[text()='Google Drive']")
+    private WebElement eleGoogleDriveTxt;
+
+    public WebElement getEleGoogleDriveTxt() {
+        return eleGoogleDriveTxt;
+    }
+
+    @FindBy(xpath = "//a[@class='files-storage-container']/img[@src='utilities/components/files/img/google-drive-logo-black.svg']")
+    private WebElement eleGoogleDriveImg;
+
+    public WebElement getEleGoogleDriveImg() {
+        return eleGoogleDriveImg;
+    }
+
+    @FindBy(xpath = "//a[@class='files-storage-container']/div[text()='Local']")
+    private WebElement eleLocalTxt;
+
+    public WebElement getEleLocalTxt() {
+        return eleLocalTxt;
+    }
+
+    @FindBy(xpath = "//input[@type='file']")
+    private WebElement eleLocalImg;
+
+    public WebElement getEleLocalImg() {
+        return eleLocalImg;
+    }
+
+    @FindBy(xpath = "//button[text()='Skip']")
+    private WebElement eleSkipBtn;
+
+    public WebElement getEleSkipBtn() {
+        return eleSkipBtn;
+    }
+
+    @FindBy(xpath = "//div[@id='onboarding-security-container']//button[text()='Skip']")
+    private WebElement eleSecuritySkipBtn;
+
+    public WebElement getEleSecuritySkipBtn() {
+        return eleSecuritySkipBtn;
+    }
+
+    @FindBy(xpath = "//p[text()='Not ready to integrate right now?']")
+    private WebElement eleNotReadyTxt;
+
+    public WebElement getEleNotReadyTxt() {
+        return eleNotReadyTxt;
+    }
+
+    @FindBy(xpath = "//p[text()='You can skip and find it in your settings later.']")
+    private WebElement eleYouCanSkipTxt;
+
+    public WebElement getEleYouCanSkipTxt() {
+        return eleYouCanSkipTxt;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Set Up')]")
+    private WebElement eleSetUpTxt;
+
+    public WebElement getEleSetUpTxt() {
+        return eleSetUpTxt;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Download the Auvenir')]")
+    private WebElement eleDownloadtheAuvenirTxt;
+
+    public WebElement getEleDownloadtheAuvenirTxt() {
+        return eleDownloadtheAuvenirTxt;
+    }
+
+    @FindBy(xpath = "//button[contains(text(),'Text App Link')]")
+    private WebElement eleTextAppLinkBtn;
+
+    public WebElement getEleTextAppLinkBtn() {
+        return eleTextAppLinkBtn;
+    }
+
+    @FindBy(id = "smsInputBox")
+    private WebElement elePhoneNumberSmsInputTxtFld;
+
+    public WebElement getElePhoneNumberSmsInputTxtFld() {
+        return elePhoneNumberSmsInputTxtFld;
+    }
+
+    @FindBy(css = "img[class='register-mb-img']")
+    private WebElement elePhoneImg;
+
+    public WebElement getElePhoneImg() {
+        return elePhoneImg;
+    }
+
+    @FindBy(css = "img[src='images/components/applestore.png']")
+    private WebElement eleAppStoreImg;
+
+    public WebElement getEleAppStoreImg() {
+        return eleAppStoreImg;
+    }
+
+    @FindBy(css = "img[src='images/components/googlestore.png']")
+    private WebElement eleGooglePlayImg;
+
+    public WebElement getEleGooglePlayImg() {
+        return eleGooglePlayImg;
+    }
+
+
+    @FindBy(xpath = "//label[contains(text(),'Skip Security')]//..//img[@src='images/icons/warning.svg']")
+    private WebElement eleWarningImg;
+
+    public WebElement getEleWarningImg() {
+        return eleWarningImg;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'Skip Security')]//..//..//img[@src='images/icons/x-small.svg']")
+    private WebElement eleCloseImg;
+
+    public WebElement getEleCloseImg() {
+        return eleCloseImg;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'Skip Security')]")
+    private WebElement eleSkipSecurityTxt;
+
+    public WebElement getEleSkipSecurityTxt() {
+        return eleSkipSecurityTxt;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'By choosing')]")
+    private WebElement eleByChoosingTxt;
+
+    public WebElement getEleByChoosingTxt() {
+        return eleByChoosingTxt;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'defaulting to email')]//..//img")
+    private WebElement eleIAmDefaultingChkBox;
+
+    public WebElement getEleIAmDefaultingChkBox() {
+        return eleIAmDefaultingChkBox;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'defaulting to email')]")
+    private WebElement eleIAmDefaultingTxt;
+
+    public WebElement getEleIAmDefaultingTxt() {
+        return eleIAmDefaultingTxt;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'I take responsibility')]//..//img")
+    private WebElement eleITakeResponsibilityChkBox;
+
+    public WebElement getEleITakeResponsibilityChkBox() {
+        return eleITakeResponsibilityChkBox;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'I take responsibility')]")
+    private WebElement eleITakeResponsibilityTxt;
+
+    public WebElement getEleITakeResponsibilityTxt() {
+        return eleITakeResponsibilityTxt;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'I agree to Auvenir')]//..//img")
+    private WebElement eleIAgreeToAuvenirChkBox;
+
+    public WebElement getEleIAgreeToAuvenirChkBox() {
+        return eleIAgreeToAuvenirChkBox;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'I agree to Auvenir')]")
+    private WebElement eleIAgreeToAuvenirTxt;
+
+    public WebElement getEleIAgreeToAuvenirTxt() {
+        return eleIAgreeToAuvenirTxt;
+    }
+
+    @FindBy(className = "skip-security-link")
+    private WebElement eleTermsAndConditionsSkipSecurityLnk;
+
+    public WebElement getEleTermsAndConditionsSkipSecurityLnk() {
+        return eleTermsAndConditionsSkipSecurityLnk;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'Skip Security')]//..//..//input[@value='Cancel']")
+    private WebElement eleCancelSkipSecurityBtn;
+
+    public WebElement getEleCancelSkipSecurityBtn() {
+        return eleCancelSkipSecurityBtn;
+    }
+
+    @FindBy(xpath = "//label[contains(text(),'Skip Security')]//..//..//input[@value='Agree']")
+    private WebElement eleAgreeSkipSecurityBtn;
+
+    public WebElement getEleAgreeSkipSecurityBtn() {
+        return eleAgreeSkipSecurityBtn;
+    }
+    /*@FindBy(xpath="//p[@id='onboard-introTitle']")
 	private WebElement eleAuditSmarterTxt;
 	public WebElement getEleAuditSmarterTxt(){
 		return eleAuditSmarterTxt;
@@ -576,114 +671,106 @@ public class ClientOnBoardingPage extends AbstractPage {
 	public WebElement getEleSelFirstFlag(){
 		return eleSelFirstFlag;
 	}*/
-	
-	
-	@FindBy(xpath = "//p[text()='Your client has been sent']")
-	private WebElement eleYourClientHasBeenSentTxt;
-	public WebElement getElYourClientHasBeenSentTxt() {
-		return eleYourClientHasBeenSentTxt;
-	}                           
 
-	@FindBy(xpath="//p[contains(text(),'Welcome to your Dashboard.')]")
-	private WebElement eleWelcomeToDashboardTxt;
-	public WebElement getEleWelcomeToDashboardTxt(){
-		return eleWelcomeToDashboardTxt;
-	}
-	public String getCountryCode()
-	{
-		String countryCodeXP=getDriver().findElement(By.xpath("//p[contains(text(),'Setup Security')]/parent::div[@class='onboard-largeBG']/..//input[@id='numberToText_linkTexting_1']")).getAttribute("placeholder");
-		return countryCodeXP;
-	}
-	
-	
-	public String getFlagDropDown()
-	{
-		String flagDropDownXP=getDriver().findElement(By.xpath("//div[@id='onboardDlApp']//div[@class='flag-dropdown']//ul")).getAttribute("class");
-		return flagDropDownXP;
-	}
-	
-	public String getCompanyNameText()
-	{
-		String companyNameText=getEleCompanyNameTxtFld().getText();
-		return companyNameText;
-	}
-	public String getFiscalYearEndCalendar()
-	{		
-		String fiscalEndYearCalendar=getDriver().findElement(By.xpath("//div[@class='onboard-inputContain']//div[@class='clear calendar onboardCompanyYear-tag']/div")).getAttribute("style");
-		return fiscalEndYearCalendar;
-	}
-		
-	public String getFiscalDate()
-	{
-		String fiscalDate= getDriver().findElement(By.xpath("//div[@class='cal-column cal-cell cal-currentMonth cal-slctd cal-today']")).getText();
-		return fiscalDate;
-	}
-		
-	public String getFiscalYearEndMonth()
-	{
-		String fiscalEndMonth= getDriver().findElement(By.xpath("//div[@class='clear calendar onboardCompanyYear-tag']//div[@class='cal-title']/span[@class='cal-month']")).getText();
-		return fiscalEndMonth;
-	}
-		
-	
-	public String getFiscalYearEndYear()
-	{
-		String fiscalEndYear = getDriver().findElement(By.xpath("//div[@class='clear calendar onboardCompanyYear-tag']//div[@class='cal-title']/span[@class='cal-year']")).getText();
-		return fiscalEndYear;
-	}
-	
-	public WebElement getFinanceDay(int financeday)
-	{
-		WebElement financeDay = getDriver().findElement(By.xpath("(//div[@class='clear calendar onboardCompanyYear-tag']//div[text()='"+financeday+"'])[position()=1]"));
-		return financeDay;
-	}
-	
-	
-	public int differenceInMonths(Date d1, Date d2) {
-		Calendar futureDate = Calendar.getInstance();
-	    futureDate.setTime(d1);
-	    Calendar currentDate = Calendar.getInstance();
-	    currentDate.setTime(d2);
-	    int difference = 0;
-	    if (currentDate.after(futureDate)) {
-	        while (currentDate.after(futureDate)) {
-	        	
-	            futureDate.add(Calendar.MONTH, 1);
-	            if (currentDate.after(futureDate)) {
-	            	difference++;
-	            }
-	        }
-	    } else if (currentDate.before(futureDate)) {
-	        while (currentDate.before(futureDate)) {
-	            futureDate.add(Calendar.MONTH, -1);
-	            if (futureDate.before(currentDate)) {
-	            	difference--;
-	            }
-	        }
-	    }
-	    return difference;
-	}
-	
-	
-	public String getMonthShortName(int monthNumber)
-	{
-		 String monthName="";
-		 if(monthNumber>=0 && monthNumber<12)
-		 try
-		 {
-			 Calendar setCalendarMonth = Calendar.getInstance();
-			 setCalendarMonth.set(Calendar.MONTH, monthNumber); 
-			 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMMMMMMMM");
-			 simpleDateFormat.setCalendar(setCalendarMonth);
-			 monthName = simpleDateFormat.format(setCalendarMonth.getTime());
-		 }
-		 catch (Exception e)
-		 {
-			 if(e!=null)
-			 e.printStackTrace();
-		 }
-		 return monthName;
-	}
+
+    @FindBy(xpath = "//p[text()='Your client has been sent']")
+    private WebElement eleYourClientHasBeenSentTxt;
+
+    public WebElement getElYourClientHasBeenSentTxt() {
+        return eleYourClientHasBeenSentTxt;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Welcome to your Dashboard.')]")
+    private WebElement eleWelcomeToDashboardTxt;
+
+    public WebElement getEleWelcomeToDashboardTxt() {
+        return eleWelcomeToDashboardTxt;
+    }
+
+    public String getCountryCode() {
+        String countryCodeXP = getDriver().findElement(By.xpath("//p[contains(text(),'Setup Security')]/parent::div[@class='onboard-largeBG']/..//input[@id='numberToText_linkTexting_1']")).getAttribute("placeholder");
+        return countryCodeXP;
+    }
+
+
+    public String getFlagDropDown() {
+        String flagDropDownXP = getDriver().findElement(By.xpath("//div[@id='onboardDlApp']//div[@class='flag-dropdown']//ul")).getAttribute("class");
+        return flagDropDownXP;
+    }
+
+    public String getCompanyNameText() {
+        String companyNameText = getEleCompanyNameTxtFld().getText();
+        return companyNameText;
+    }
+
+    public String getFiscalYearEndCalendar() {
+        String fiscalEndYearCalendar = getDriver().findElement(By.xpath("//div[@class='onboard-inputContain']//div[@class='clear calendar onboardCompanyYear-tag']/div")).getAttribute("style");
+        return fiscalEndYearCalendar;
+    }
+
+    public String getFiscalDate() {
+        String fiscalDate = getDriver().findElement(By.xpath("//div[@class='cal-column cal-cell cal-currentMonth cal-slctd cal-today']")).getText();
+        return fiscalDate;
+    }
+
+    public String getFiscalYearEndMonth() {
+        String fiscalEndMonth = getDriver().findElement(By.xpath("//div[@class='clear calendar onboardCompanyYear-tag']//div[@class='cal-title']/span[@class='cal-month']")).getText();
+        return fiscalEndMonth;
+    }
+
+
+    public String getFiscalYearEndYear() {
+        String fiscalEndYear = getDriver().findElement(By.xpath("//div[@class='clear calendar onboardCompanyYear-tag']//div[@class='cal-title']/span[@class='cal-year']")).getText();
+        return fiscalEndYear;
+    }
+
+    public WebElement getFinanceDay(int financeday) {
+        WebElement financeDay = getDriver().findElement(By.xpath("(//div[@class='clear calendar onboardCompanyYear-tag']//div[text()='" + financeday + "'])[position()=1]"));
+        return financeDay;
+    }
+
+
+    public int differenceInMonths(Date d1, Date d2) {
+        Calendar futureDate = Calendar.getInstance();
+        futureDate.setTime(d1);
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.setTime(d2);
+        int difference = 0;
+        if (currentDate.after(futureDate)) {
+            while (currentDate.after(futureDate)) {
+
+                futureDate.add(Calendar.MONTH, 1);
+                if (currentDate.after(futureDate)) {
+                    difference++;
+                }
+            }
+        } else if (currentDate.before(futureDate)) {
+            while (currentDate.before(futureDate)) {
+                futureDate.add(Calendar.MONTH, -1);
+                if (futureDate.before(currentDate)) {
+                    difference--;
+                }
+            }
+        }
+        return difference;
+    }
+
+
+    public String getMonthShortName(int monthNumber) {
+        String monthName = "";
+        if (monthNumber >= 0 && monthNumber < 12)
+            try {
+                Calendar setCalendarMonth = Calendar.getInstance();
+                setCalendarMonth.set(Calendar.MONTH, monthNumber);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMMMMMMMM");
+                simpleDateFormat.setCalendar(setCalendarMonth);
+                monthName = simpleDateFormat.format(setCalendarMonth.getTime());
+            } catch (Exception e) {
+                if (e != null)
+                    e.printStackTrace();
+            }
+        return monthName;
+    }
 }
 	
 

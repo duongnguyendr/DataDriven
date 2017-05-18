@@ -12,12 +12,14 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
  * Created by doai.tran on 4/27/2017.
  * Updated by doai.tran on 5/201/2017
  */
-public class AdminAccountSettingsService extends AbstractService{
+public class AdminAccountSettingsService extends AbstractService {
     AdminAccountSettingsPage adminAccountSettingsPage;
-    public AdminAccountSettingsService(Logger logger, WebDriver driver){
-        super(logger,driver);
+
+    public AdminAccountSettingsService(Logger logger, WebDriver driver) {
+        super(logger, driver);
         adminAccountSettingsPage = new AdminAccountSettingsPage(getLogger(), getDriver());
     }
+
     public void verifyHeaderAdminSettingPage() {
         getLogger().info("Start verify Elements on Admin Setting page.");
         adminAccountSettingsPage.verifyElementsHeader();
@@ -60,13 +62,13 @@ public class AdminAccountSettingsService extends AbstractService{
         adminAccountSettingsPage.validateTextMessagePhoneTxtbox();
     }
 
-    public void clickUpdateImageBTN()  {
+    public void clickUpdateImageBTN() {
         getLogger().info("Try to click on Update Image button.");
-      //  try {
-            adminAccountSettingsPage.clickUpdateImageBTN();
-      //  } catch (InterruptedException e) {
-     //       getLogger().info(e);
-    //    }
+        //  try {
+        adminAccountSettingsPage.clickUpdateImageBTN();
+        //  } catch (InterruptedException e) {
+        //       getLogger().info(e);
+        //    }
     }
 
     public void clickUpdateBTN() {
@@ -93,15 +95,18 @@ public class AdminAccountSettingsService extends AbstractService{
         getLogger().info("Try to verifyUpdateButtonDisableDefault.");
         adminAccountSettingsPage.verifyUpdateButtonDisableDefault();
     }
+
     public void verifyUpdateButtonEnable() {
         getLogger().info("Try to verifyUpdateButtonEnable.");
         adminAccountSettingsPage.verifyUpdateButtonEnable();
     }
-    public void sendTabkeyFullNametxt(){
+
+    public void sendTabkeyFullNametxt() {
         getLogger().info("Try to sendTabkeyFullNametxt");
         adminAccountSettingsPage.sendTabkeyFullNameTxt();
     }
-    public void sendTabkeyPhoneNumbertxt(){
+
+    public void sendTabkeyPhoneNumbertxt() {
         getLogger().info("Try to sendTabkeyPhoneNumbertxt");
         adminAccountSettingsPage.sendTabkeyPhoneNumberTxt();
     }

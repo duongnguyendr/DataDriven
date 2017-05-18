@@ -94,7 +94,6 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     }
 
 
-
     public void returnToCreateNewTodoPage() {
         getLogger().info("Return to Create new todo page");
         waitForVisibleElement(createToDoBtnEle, "Create Todo Button");
@@ -112,13 +111,12 @@ public class AuditorEditCategoriesPage extends AbstractPage {
 
     }
 
-    public void verifyListOfCategories() throws Exception{
+    public void verifyListOfCategories() throws Exception {
         getLogger().info("Verify list of Current Catagory items...");
         try {
 
 
-
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -333,7 +331,6 @@ public class AuditorEditCategoriesPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
 
 
     public void remove1Item() throws Exception {

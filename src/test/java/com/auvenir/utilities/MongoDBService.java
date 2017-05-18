@@ -31,25 +31,27 @@ public class MongoDBService {
     private static String testCaseId;
     static String[] sData = null;
 
-    public MongoDBService(String ServerHost, int portNo, String DB){
+    public MongoDBService(String ServerHost, int portNo, String DB) {
         MongoDBService.ServerHost = ServerHost;
         MongoDBService.portNo = portNo;
         MongoDBService.DB = DB;
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 24-Apr-2017 -
     In order to create a connection to DB server.
 
      =================================================================== */
     public static void connectDBServer(String ServerHost, int portNo, String DB) throws UnknownHostException {
-        try{
-            new MongoDBService(ServerHost,portNo,DB);
-            MongoClient mongo = new MongoClient( ServerHost , portNo);
+        try {
+            new MongoDBService(ServerHost, portNo, DB);
+            MongoClient mongo = new MongoClient(ServerHost, portNo);
             com.mongodb.DB db = mongo.getDB(DB);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 24-Apr-2017 -
     In order to insert a new owner to DB server.
@@ -77,15 +79,16 @@ public class MongoDBService {
             document.put("finCustomer", array);
             table.insert(document);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 24-Apr-2017 -
     In order to delete a new owner to DB server.
      =================================================================== */
-    public static void deleteOwner(String valueId)throws UnknownHostException{
+    public static void deleteOwner(String valueId) throws UnknownHostException {
         try {
             sData = toReadExcelData(valueId, "owners");
             new MongoDBService(ServerHost, portNo, DB);
@@ -95,10 +98,11 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("ownerUID", sData[2]);
             table.remove(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: DoaiTran    - 24-Apr-2017 -
     In order to insert a new Customer to DB server.
@@ -122,15 +126,16 @@ public class MongoDBService {
             document.put("finLoginID", sData[10]);
             table.insert(document);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 24-Apr-2017 -
     In order to delete a customer to DB server.
      =================================================================== */
-    public static void deleteConsumer(String valueId)throws UnknownHostException{
+    public static void deleteConsumer(String valueId) throws UnknownHostException {
         try {
             sData = toReadExcelData(valueId, "consumers");
             new MongoDBService(ServerHost, portNo, DB);
@@ -140,10 +145,11 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("consumerUID", sData[4]);
             table.remove(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: DoaiTran    - 25-Apr-2017 -
     In order to insert a new institution to DB server.
@@ -173,15 +179,16 @@ public class MongoDBService {
             document.put("address", sData[14]);
             document.put("raw", sData[15]);
             table.insert(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 25-Apr-2017 -
     In order to delete a customer to DB server.
      =================================================================== */
-    public static void deleteInstitution(String valueId)throws UnknownHostException{
+    public static void deleteInstitution(String valueId) throws UnknownHostException {
         try {
             sData = toReadExcelData(valueId, "institutions");
             new MongoDBService(ServerHost, portNo, DB);
@@ -191,10 +198,11 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("_id", sData[1]);
             table.remove(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: DoaiTran    - 25-Apr-2017 -
     In order to insert a new ConsumerAccount to DB server.
@@ -212,7 +220,7 @@ public class MongoDBService {
             document.put("consumerID", new ObjectId(sData[2]));
             document.put("status", sData[3]);
             document.put("dateCreated", sData[4]);
-            document.put("selected", new Boolean(sData[5]) );
+            document.put("selected", new Boolean(sData[5]));
             document.put("dateSelected", sData[6]);
             document.put("finAccountID", sData[7]);
             document.put("number", sData[8]);
@@ -224,15 +232,16 @@ public class MongoDBService {
             document.put("txnFromDate", sData[14]);
             document.put("txnToDate", sData[15]);
             table.insert(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 25-Apr-2017 -
     In order to delete a ConsumerAccount to DB server.
      =================================================================== */
-    public static void deleteConsumerAccount(String valueId)throws UnknownHostException{
+    public static void deleteConsumerAccount(String valueId) throws UnknownHostException {
         try {
             sData = toReadExcelData(valueId, "consumerAccounts");
             new MongoDBService(ServerHost, portNo, DB);
@@ -242,10 +251,11 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("_id", sData[1]);
             table.remove(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: DoaiTran    - 25-Apr-2017 -
     In order to insert a new Account to DB server.
@@ -278,15 +288,16 @@ public class MongoDBService {
             document.put("lastTransactionDate", sData[18]);
             document.put("raw", sData[19]);
             table.insert(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 25-Apr-2017 -
     In order to delete a Account to DB server.
      =================================================================== */
-    public static void deleteAccount(String valueId)throws UnknownHostException{
+    public static void deleteAccount(String valueId) throws UnknownHostException {
         try {
             sData = toReadExcelData(valueId, "accounts");
             new MongoDBService(ServerHost, portNo, DB);
@@ -296,10 +307,11 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("_id", sData[1]);
             table.remove(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: DoaiTran    - 26-Apr-2017 -
     In order to insert a new AuthSession to DB server.
@@ -357,17 +369,18 @@ public class MongoDBService {
             arrayInstitution.add(documentInstitution);
             document.put("institution", arrayInstitution);
 
-            document.put("accounts",sData[26]);
+            document.put("accounts", sData[26]);
             table.insert(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
     Created by: Doai.Tran    - 26-Apr-2017 -
     In order to delete a AuthSession to DB server.
      =================================================================== */
-    public static void deleteAuthSession(String valueId)throws UnknownHostException{
+    public static void deleteAuthSession(String valueId) throws UnknownHostException {
         try {
             sData = toReadExcelData(valueId, "authSessions");
             new MongoDBService(ServerHost, portNo, DB);
@@ -377,12 +390,13 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("_id", sData[1]);
             table.remove(document);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /* ===================================================================
-	 * @author: LAKSHMI BS Description: To read tests data from excel sheet
+     * @author: LAKSHMI BS Description: To read tests data from excel sheet
 	 * Edited by Doai.Tran
 	 =================================================================== */
     public static String[] toReadExcelData(String sTestCaseID, String SheetName) {
@@ -401,7 +415,7 @@ public class MongoDBService {
                     sData = new String[iCellNum];
                     System.out.println("Dong: " + i);
                     System.out.println("So Cot:" + iCellNum);
-                    for (int j = 1; j <=iCellNum; j++) {
+                    for (int j = 1; j <= iCellNum; j++) {
                         sData[j] = sht.getRow(i).getCell(j).getStringCellValue();
                         System.out.println(sData[j]);
                     }

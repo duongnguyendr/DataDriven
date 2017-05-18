@@ -75,56 +75,67 @@ public class AuditorTodoListService extends AbstractService {
             NXGReports.addStep("verify todo List Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    public void verifyFilterDropDownList(){
+
+    public void verifyFilterDropDownList() {
         getLogger().info("Verify Filter DropDown List.");
         auditorTodoListPage.verifyFilterDropDownList();
     }
-    public void verifyDefaultValueFilterDropDownList(){
+
+    public void verifyDefaultValueFilterDropDownList() {
         getLogger().info("Verify default value on Filter dropdown list.");
         auditorTodoListPage.verifyDefaultValueFilterDropDownList();
     }
-    public void verifyHoverFilterDropDownList(){
+
+    public void verifyHoverFilterDropDownList() {
         getLogger().info("Verify Border on Filter dropdown list.");
         auditorTodoListPage.verifyHoverFilterDropDownList();
     }
-    public void verifySelectShowAllDropDownList(){
+
+    public void verifySelectShowAllDropDownList() {
         getLogger().info("Select Show All on Filter dropdown list.");
         auditorTodoListPage.selectShowAllFilterDropDownList();
         getLogger().info("Verify Show All text on Filter dropdown list.");
         auditorTodoListPage.verifySelectShowAllFilterDropDownList();
     }
-    public void verifySelectDueDateDropDownList(){
+
+    public void verifySelectDueDateDropDownList() {
         getLogger().info("Select Due Date on Filter dropdown list.");
         auditorTodoListPage.selectDueDateFilterDropDownList();
         getLogger().info("Verify Due Date text on Filter dropdown list.");
         auditorTodoListPage.verifySelectDueDateFilterDropDownList();
     }
-    public void selectAndVerifyFirstAssignFilterDropDownList(){
+
+    public void selectAndVerifyFirstAssignFilterDropDownList() {
         auditorTodoListPage.selectAndVerifyFirstAssignFilterDropDownList();
     }
-    public void verifySelectWithCommentsDropDownList(){
+
+    public void verifySelectWithCommentsDropDownList() {
         getLogger().info("Select With Comments on Filter dropdown list.");
         auditorTodoListPage.selectWithCommentsFilterDropDownList();
         getLogger().info("Verify With Comments text on Filter dropdown list.");
         auditorTodoListPage.verifySelectWithCommentsFilterDropDownList();
     }
-    public void verifySelectCompleteDropDownList(){
+
+    public void verifySelectCompleteDropDownList() {
         getLogger().info("Select Complete on Filter dropdown list.");
         auditorTodoListPage.selectCompleteFilterDropDownList();
         getLogger().info("Verify Complete text on Filter dropdown list.");
         auditorTodoListPage.verifySelectCompleteFilterDropDownList();
     }
-    public void verifySelectFlaggedForRequestDropDownList(){
+
+    public void verifySelectFlaggedForRequestDropDownList() {
         getLogger().info("Select Flagged For Request on Filter dropdown list.");
         auditorTodoListPage.selectFlaggedForRequestFilterDropDownList();
         getLogger().info("Verify Flagged For Request text on Filter dropdown list.");
         auditorTodoListPage.verifySelectFlaggedForRequestFilterDropDownList();
     }
-    public void verifyUnableAddMoreOptionFilterDropDownList(){
+
+    public void verifyUnableAddMoreOptionFilterDropDownList() {
         getLogger().info("verify Unable Add More Option Filter DropDownList");
         auditorTodoListPage.verifyUnableAddMoreOptionFilterDropDownList();
     }
-    public void verifyClickAndDoNotSelectValue(){
+
+    public void verifyClickAndDoNotSelectValue() {
         getLogger().info("verify verify Click And Do Not Select Value Filter DropDownList");
         auditorTodoListPage.verifyClickAndDoNotSelectValue();
     }

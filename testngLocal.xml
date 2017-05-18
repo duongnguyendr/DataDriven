@@ -1,41 +1,41 @@
-<suite name="Suite" verbose="1">  
-	 <listeners>
-	     <parameter name="server" value="local"/>
-	   	 <listener class-name="com.auvenir.utilities.listeners.TestngListener" />
-	     <listener class-name="com.kirwa.nxgreport.listners.NXGTestListner"></listener>
-	 </listeners>
-	 <test name="Regression" preserve-order="true">    
-		<classes>
-			<!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
-			<class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
+<suite name="Suite" verbose="1">
+    <listeners>
+        <parameter name="server" value="local"/>
+        <listener class-name="com.auvenir.utilities.listeners.TestngListener"/>
+        <listener class-name="com.kirwa.nxgreport.listners.NXGTestListner"></listener>
+    </listeners>
+    <test name="Regression" preserve-order="true">
+        <classes>
+            <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
+            <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
 
-			<!--
-     		<class name="com.auvenir.ui.tests.SmokeTest"/>
-			<class name="com.auvenir.ui.tests.AdminTest"/>
-			<class name="com.auvenir.ui.tests.SupportTest"/>
-    		<class name="com.auvenir.ui.tests.CareerTest"/>
-    		<class name="com.auvenir.ui.tests.AuditorTest"/>
-    		<class name="com.auvenir.ui.tests.ClientTest"/>
-         	-->
-			<!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
-			<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>
-			<!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
-			<class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
-			<class name="com.auvenir.ui.tests.auditor.NotificationsSettingsTest"/>
-			<class name="com.auvenir.ui.tests.auditor.DevicesSettingsTest"/>
+            <!--
+             <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <class name="com.auvenir.ui.tests.AdminTest"/>
+            <class name="com.auvenir.ui.tests.SupportTest"/>
+            <class name="com.auvenir.ui.tests.CareerTest"/>
+            <class name="com.auvenir.ui.tests.AuditorTest"/>
+            <class name="com.auvenir.ui.tests.ClientTest"/>
+             -->
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
+            <class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
+            <class name="com.auvenir.ui.tests.auditor.NotificationsSettingsTest"/>
+            <class name="com.auvenir.ui.tests.auditor.DevicesSettingsTest"/>
 
-		    <class name="com.auvenir.ui.tests.client.HomeTest"/>
-			<class name="com.auvenir.ui.tests.client.AccountSettingsTest"/>
-			<class name="com.auvenir.ui.tests.client.NotificationsSettingsTest"/>
-			<class name="com.auvenir.ui.tests.client.IntegrationsSettingsTest"/>
-			<class name="com.auvenir.ui.tests.client.DevicesSettingsTest"/>-->
-			<!--<class name="com.auvenir.rests.api.tests.OwnerTest"/>
-			<class name="com.auvenir.rests.api.tests.ConsumerTest"/>
-			<class name="com.auvenir.rests.api.tests.AccountTest"/>
-			<class name="com.auvenir.rests.api.tests.InstitutionTest"/>
-			<class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
+            <class name="com.auvenir.ui.tests.client.HomeTest"/>
+            <class name="com.auvenir.ui.tests.client.AccountSettingsTest"/>
+            <class name="com.auvenir.ui.tests.client.NotificationsSettingsTest"/>
+            <class name="com.auvenir.ui.tests.client.IntegrationsSettingsTest"/>
+            <class name="com.auvenir.ui.tests.client.DevicesSettingsTest"/>-->
+            <!--<class name="com.auvenir.rests.api.tests.OwnerTest"/>
+            <class name="com.auvenir.rests.api.tests.ConsumerTest"/>
+            <class name="com.auvenir.rests.api.tests.AccountTest"/>
+            <class name="com.auvenir.rests.api.tests.InstitutionTest"/>
+            <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
 
 
-	    </classes>
-	 </test>  	
+        </classes>
+    </test>
 </suite>
