@@ -13,6 +13,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -47,22 +48,6 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     @FindBy(xpath = "//div[27]//div[@class=\"todo-modal-component\"]//*[@id=\"setup-component-body\"]/div/div[1]")
     WebElement eleEditCategoryGuide;
 
-    //list of Pen
-
-    @FindBy(xpath = "//div[starts-with(@class,\"setup-inputContainer\")]/div[2]/img[@id=\"cat-edit-btn\"]")
-    WebElement eleEditCategoryFirstPen;
-
-    @FindBy(xpath = "//div[starts-with(@class,\"setup-inputContainer\")]/div[3]/img[@id=\"cat-edit-btn\"]")
-    WebElement eleEditCategorySecondPen;
-
-    @FindBy(xpath = "//div[starts-with(@class,\"setup-inputContainer\")]/div[4]/img[@id=\"cat-edit-btn\"]")
-    WebElement eleEditCategoryThirdPen;
-
-    @FindBy(xpath = "//img[contains(@id,\"cat-edit-btn\")]")
-    WebElement listOfEditPenEle;
-
-
-    //=================
 
     @FindBy(xpath = "//div[27][starts-with(@id,\"categoryModel\")]//button[@id=\"m-ce-cancelBtn\"]")
     WebElement eleEditCategoryCancelBtn;
@@ -70,40 +55,20 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     @FindBy(xpath = "//div[@class=\"ce-footerBtnHolder\"]/button[@id=\"category-updateBtn\"]")
     WebElement eleEditCategorySaveBtn;
 
-//    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[starts-with(@id,'modal-close-categoryModel')]")
-//    WebElement eleEditCategoryCloseBtn;
 
     @FindBy(xpath = "//*[@id=\"todo-cancel-btn\"]")
     WebElement eleEditCategoryCloseBtn;
-    //list of Categories Items
-    @FindBy(xpath = "//div[starts-with(@class,\"setup-inputContainer\")]/div[2]/div/input")
-    WebElement eleCategoryItem1;
-    @FindBy(xpath = "//div[starts-with(@class,\"setup-inputContainer\")]/div[3]/div/input")
-    WebElement eleCategoryItem2;
-    @FindBy(xpath = "//div[starts-with(@class,\"setup-inputContainer\")]/div[4]/div/input")
-    WebElement eleCategoryItem3;
 
     @FindBy(xpath = "//input[contains(@id,'forge-InputBox')]")
-    WebElement listOfCategoriesItemEle;
-
-
-    //list of Trash
-
-    @FindBy(xpath = "//div[@id=\"edit-category-container\"]/div[2]/img[@id='cat-trash-btn']")
-    WebElement eleEditCategoryFirstTrash;
-    @FindBy(xpath = "//div[@id=\"edit-category-container\"]/div[3]/img[@id='cat-trash-btn']")
-    WebElement eleEditCategorySecondTrash;
-    @FindBy(xpath = "//div[@id=\"edit-category-container\"]/div[4]/img[@id='cat-trash-btn']")
-    WebElement eleEditCategoryThirdTrash;
+    List<WebElement> listOfCategoriesItemEle;
 
     @FindBy(xpath = "//div[@class=\"auv-cat-error\"]/p[@class=\"auv-inputError\"]")
     WebElement notAValidNameEle;
     @FindBy(id = "auv-todo-createToDo")
     WebElement createToDoBtnEle;
 
-
-    @FindBy(xpath = "//img[contains(@id,\"cat-trash-btn\")]")
-    WebElement listOfEditTrashEle;
+    @FindBy(xpath = "//div[contains(@class,\"setup-input\")]/div[@class=\"item\"]")
+    List<WebElement> listOfCategoriesItems;
 
 
     public void selectEditCategories() throws Exception {
@@ -147,9 +112,15 @@ public class AuditorEditCategoriesPage extends AbstractPage {
 
     }
 
-    public void verifyListOfCategoriesBeforeEditOrRemove(){
+    public void verifyListOfCategories() throws Exception{
+        getLogger().info("Verify list of Current Catagory items...");
+        try {
 
 
+
+        }catch (Exception e){
+
+        }
     }
 
 
@@ -364,22 +335,6 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     }
 
 
-    public void verifyNewValueIsEffective() throws Exception {
-
-        getLogger().info("Verify New value is effective...");
-
-        try {
-            selectEditCategories();
-            waitForVisibleElement(eleCategoryItem1, "Category Item 1");
-            Assert.assertEquals(eleCategoryItem1.getAttribute("data-dbdata"), "33333333");
-            NXGReports.addStep("Verify New value is effective", LogAs.PASSED, null);
-
-        } catch (Exception e) {
-            NXGReports.addStep("Verify New value is effective", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
 
     public void remove1Item() throws Exception {
         try {

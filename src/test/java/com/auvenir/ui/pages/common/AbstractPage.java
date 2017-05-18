@@ -864,16 +864,6 @@ public class AbstractPage {
 
     }
 
-    // EditCategory method
-    public void EditCategories() throws Exception {
-        waitForClickableOfElement(eleCategoryCombobox, "eleCategoryCombobox");
-        eleCategoryCombobox.click();
-        //Verify Category_Dropdown GUI
-        //=========
-        //Click EditCategories option
-        waitForClickableOfElement(eleEditCategory, "eleEditCategory");
-        eleEditCategory.click();
-    }
 
     public String getTextByJavaScripts(WebElement eleGetText)
     {
@@ -1157,55 +1147,7 @@ public class AbstractPage {
         }
     }
 
-    public boolean createNewCategory (String categoryMode, String categoryName) throws Exception
-    {
-        boolean isCheckCategory = false;
-        // Create new Category
-        waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        dropdownCategoryEle.click();
-        waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
-        addNewCategoryMenuEle.click();
-        waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
-        categoryNameFieldOnFormEle.sendKeys(categoryName);
-        // Will changed after finding new solution for waiting Element
-        Thread.sleep(smallTimeOut);
-        hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        categoryColorFieldOnFromEle.click();
-        waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
-        detailCateColorEle.click();
-        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
-        eleIdBtnAddCategory.click();
-        // Verify the category that has just created
-        waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
-        List<WebElement> td_collection = new ArrayList<>();
 
-        if(categoryMode.equals(categoryIndiMode)) {
-            waitForClickableOfElement(dropdownCategoryEle,"dropdownCategoryEle");
-            // Wait dropdownCategoryEle but can not click to dropdownCategoryEle
-            Thread.sleep(smallerTimeOut);
-            dropdownCategoryEle.click();
-            waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
-            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
-            for (WebElement tdElement : td_collection) {
-                String strSearchValue = "";
-                try {
-                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
-                    strSearchValue = eleIndiCategoryText.getText();
-                } catch (Exception ex) {
-                }
-                getLogger().info("SearchValue = " + strSearchValue);
-                if (strSearchValue.equals(categoryName)) {
-                    isCheckCategory = true;
-                    break;
-                }
-            }
-        }
-        else {
-            isCheckCategory = true;
-        }
-        return isCheckCategory;
-    }
 
     public boolean verifyCategoryTitle()
     {
@@ -1584,7 +1526,7 @@ public class AbstractPage {
             // blue color
             waitForClickableOfElement(eleEditCategoryCancelBtn, "wait for click to eleEditCategoryCancelBtn");
             clickElement(eleEditCategoryCancelBtn, "click to eleEditCategoryCancelBtn");
-            isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
+//            isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             //isCheckCancelClick = waitForInvisibleElement(eleIdBtnAddCategory, "wait for invisible eleIdBtnAddCategory");
             if(isCheckCancelClick) {
                 NXGReports.addStep("Verify to click Category cancel button", LogAs.PASSED, null);
