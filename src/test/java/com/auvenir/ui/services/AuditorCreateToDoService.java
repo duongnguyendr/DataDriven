@@ -576,5 +576,25 @@ public class AuditorCreateToDoService extends AbstractService {
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
 
+    //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- Start
+    /**
+     * Verify trash to do icon
+     */
+    public void verifyTrashToDoIcon(){
+        createToDoPage.verifyTrashToDoIcon();
+    }
+
+    /**
+     * Verify default status trash to do icon
+     */
+    public void verifyDefaultStatusTrashToDoIcon(){
+        createToDoPage.verifyDefaultStatusTrashToDoIcon();
+    }
+
+    public void verifyGUIDeleteConfirmPopup(){
+        createToDoPage.verifyGUIDeleteConfirmPopup();
+    }
+
+    //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 }
 

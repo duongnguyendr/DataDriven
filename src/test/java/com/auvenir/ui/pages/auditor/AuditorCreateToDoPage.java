@@ -1358,5 +1358,64 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		return true;
 	}
 	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+
+	//[PLAT-2286] Add delete icon TanPH 2017/05/17 -- Start
+	@FindBy(id="btn-todo-trash")
+	private WebElement trashToDoBtnEle;
+
+	@FindBy(xpath = "//div[@id='CategoryModel']//h3[@class='setup-header']")
+	private WebElement eleDeleteConfrimPopupTitle;
+
+	@FindBy(xpath = "//div[@id='CategoryModel']//h3[@class='setup-header']")
+	private WebElement eleDeleteConfrimPopupDescription;
+	/**
+	 * Verify trash to do icon.
+	 */
+	public void verifyTrashToDoIcon(){
+		try{
+			waitForVisibleElement(trashToDoBtnEle, "Trash to do icon");
+			NXGReports.addStep("Verify trash to do icon", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify trash to do icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * Verify default status trash to do icon.
+	 */
+	public void verifyDefaultStatusTrashToDoIcon(){
+		try{
+			waitForVisibleElement(trashToDoBtnEle, "Trash to do icon");
+			validateAttributeElement(trashToDoBtnEle,"class","fa fa-trash disabled");
+			NXGReports.addStep("Verify default status trash to do icon", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify default status trash to do icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * Verify gui of delete confirm popup
+	 */
+	public void verifyGUIDeleteConfirmPopup(){
+		try{
+			if(eleToDoNewRowDueDateText.size() == 0){
+				NXGReports.addStep("Can not test verify gui of delete confirm popup because to-do list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of to-do item");
+			if(!eleToDoCheckboxRow.get(0).isSelected()){
+				eleToDoCheckboxRow.get(0).click();
+			}
+			waitForClickableOfElement(trashToDoBtnEle, "Trash to-do button");
+			trashToDoBtnEle.click();
+			NXGReports.addStep("Verify gui of delete confirm popup", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+	//[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 }
 
