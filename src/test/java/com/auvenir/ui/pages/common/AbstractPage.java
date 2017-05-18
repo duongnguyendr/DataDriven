@@ -140,6 +140,7 @@ public class AbstractPage {
 
     @FindBy(xpath="//*[@id='category-color']")
     private WebElement categoryColorFieldOnFromEle;
+
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li[4]")
     private WebElement detailCateColorEle;
     @FindBy(id="category-addBtn")
@@ -1006,6 +1007,43 @@ public class AbstractPage {
         return isCheckCategory;
     }
 
+    public boolean chooseCategoryByNameFromDll(String categoryName)
+    {
+        boolean isCheckCategoryName = false;
+        getLogger().info("Choose category by name from dropdownlist");
+        try {
+            List<WebElement> listCategoryName = new ArrayList<>();
+            hoverElement(dropdownCategoryEle, "dropdownCategoryEle");
+            waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
+            waitForJSandJQueryToLoad();
+            waitForVisibleElement(imgListTodoPage, "wait for imgListTodoPage");
+            clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
+            waitForVisibleElement(eleIndiCategoryText, "eleIndiCategoryText");
+            listCategoryName = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
+            for (WebElement categoryNameEle : listCategoryName) {
+                String strSearchValue = "";
+                try {
+                    waitForVisibleElement(categoryNameEle, "eleIndiCategoryText Get category name in list");
+                    strSearchValue = categoryNameEle.getText();
+                } catch (Exception ex) {
+                }
+                getLogger().info("SearchValue = " + strSearchValue);
+                if (strSearchValue.equals(categoryName)) {
+                    clickElement(categoryNameEle, "click to " + categoryNameEle);
+                    isCheckCategoryName = true;
+                    NXGReports.addStep("Choose category by name from dropdownlist", LogAs.PASSED, null);
+                    break;
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Choose category by name from dropdownlist", LogAs.FAILED, null);
+        }
+        return isCheckCategoryName;
+    }
+
     public boolean countCategoryColor()
     {
         boolean isCountColor = false;
@@ -1228,19 +1266,19 @@ public class AbstractPage {
             isCheckBorderColor = validateCSSValueElement(categoryNameFieldOnFormEle, border, greenColor);
             getLogger().info("isCheckBorderColor = " + isCheckBorderColor);
             if(isCheckBorderColor) {
-                NXGReports.addStep("Verify category default value", LogAs.PASSED, null);
+                NXGReports.addStep("Verify hover and click to category name", LogAs.PASSED, null);
             }
             else
             {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+                NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
             }
             return isCheckBorderColor;
         }
         catch (Exception ex)
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return isCheckBorderColor;
         }
@@ -1446,29 +1484,62 @@ public class AbstractPage {
     public boolean verifyChoosedCategoryColor()
     {
         boolean isCheckChoosedColor = false;
-        getLogger().info("Verify hover and click to category name");
+        getLogger().info("Verify to choose the category color");
         try {
             // blue color
-            waitForVisibleElement(categoryColorFieldOnFromEle, "wait for categoryColorFieldOnFromEle");
-            clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
-
+            chooseCategoryColorByColorName("#2b4875");
             isCheckChoosedColor = validateCSSValueElement(categoryColorFieldOnFromEle, background, blueColor);
             if(isCheckChoosedColor) {
-                NXGReports.addStep("Verify choose category color", LogAs.PASSED, null);
+                NXGReports.addStep("Verify to choose the category color", LogAs.PASSED, null);
             }
             else
             {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+                NXGReports.addStep("Verify to choose the category color", LogAs.FAILED, null);
             }
             return isCheckChoosedColor;
         }
         catch (Exception ex)
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            NXGReports.addStep("Verify to choose the category color", LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return isCheckChoosedColor;
+        }
+    }
+
+    public void chooseCategoryColorByColorName(String colorName)
+    {
+        boolean isCheckAllQuantityColor = false;
+        getLogger().info("Choose category color by color name");
+        try
+        {
+            waitForVisibleElement(xpathAllCategoryColor, "wait for visible xpathAllCategoryColor");
+            List<WebElement> listCategoryColor = getDriver().findElements(By.xpath("//*[@id=\"category-color-container\"]/ul/li/a"));
+            for(WebElement colorNameEle : listCategoryColor)
+            {
+                if(colorNameEle.getText().equals(colorName))
+                {
+                    clickElement(colorNameEle, "click to colorNameEle");
+                    isCheckAllQuantityColor = true;
+                    break;
+                }
+            }
+            if(isCheckAllQuantityColor)
+            {
+                NXGReports.addStep("Choose category color by color name", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Choose category color by color name", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Choose category color by color name", LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
         }
     }
 
