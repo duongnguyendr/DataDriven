@@ -1,6 +1,6 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.auditor.AuditorEditCategoriesPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -10,59 +10,108 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by vien.pham on 5/10/2017.
  */
-public class AuditorEditCategoryService extends AbstractService{
+public class AuditorEditCategoryService extends AbstractService {
 
-    AbstractPage auditorEditCategories = new AbstractPage(getLogger(),getDriver()) ;
+    AuditorEditCategoriesPage auditorEditCategoryPage;
 
-        /*
-     * contructor
-     */
+    /*
+ * contructor
+ */
     public AuditorEditCategoryService(Logger logger, WebDriver driver) {
 
         super(logger, driver);
+        auditorEditCategoryPage = new AuditorEditCategoriesPage(getLogger(), getDriver());
+    }
+
+    public void navigateToEditAtCreateTodoPage() throws Exception {
+
+        auditorEditCategoryPage.selectEditCategories();
+
+    }
+    public void navigateToEditAtTodoListPage() throws Exception {
+
+        auditorEditCategoryPage.selectEditCategoriesAtTodoPage();
+    }
+
+    public void returnToCreateNewTodoPage() {
+        auditorEditCategoryPage.returnToCreateNewTodoPage();
+    }
+
+    public void verifyEditCategoriesTitle() {
+
+        auditorEditCategoryPage.verifyEditCategoriesPopupTitle();
+    }
+
+    public void verifyEditCategoriesGuide() {
+
+        auditorEditCategoryPage.verifyEditCategoriesPopupGuide();
+    }
+
+    public void verifyListOfCategoriesBeforeEditOrRemove(){
+        auditorEditCategoryPage.verifyListOfCategoriesBeforeEditOrRemove();
 
     }
 
-    public void navigateToEditCategoriesOption(){
-    getLogger().info("Navigate to EditCategories ");
-          try {
-            auditorEditCategories.EditCategories();
-           // auditorEditCategories.navigateToEditCategory();
 
-            NXGReports.addStep(" Access Edit Categories window.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep(" Access Edit Categories window.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    public void verifyDefaultCancelButton() throws Exception {
 
-        }
+        auditorEditCategoryPage.verifyCancelBtn();
     }
 
-//    public void verifyEditCategoriesGUI (){
-//        getLogger().info("Verify EditCategories GUI");
-//        try {
-//
-//            verify the elements of Edit Categories are displayed correctly
-//            auditorEditCategories.verifyEditCategoriesElements();
-//
-//            NXGReports.addStep("Verify EditCategories GUI", LogAs.PASSED,null
-//        }catch (Exception e)(
-//                NXGReports.addStep("Verify EditCategories GUI", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//                )
-//
-//    }
+
+    public void verifyDefaultSaveButton() throws Exception {
+        auditorEditCategoryPage.verifyDefaultSaveBtn();
+    }
+
+    public void editValidValue() throws Exception {
+        auditorEditCategoryPage.editCategoryItem();
+
+    }
+
+    public void editValidMultiItems() throws Exception {
+        auditorEditCategoryPage.editValidMultiItems();
+
+    }
+
+    public void editUnvalidMultiItems() throws Exception {
+        auditorEditCategoryPage.editInValidMultiItems();
 
 
-//    public void verifyListOfCategories (){
-//        getLogger().info("Verify EditCategories GUI");
-//        try {
-//
-//
-//            NXGReports.addStep("Verify EditCategories GUI", LogAs.PASSED,null
-//        }catch (Exception e) (
-//                NXGReports.addStep("Verify EditCategories GUI", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//                )
-//
-//    }
+    }
+
+    public void editOnlyNumber() throws Exception {
+
+        auditorEditCategoryPage.editOnlyNumber();
+
+    }
+
+    public void editNullChars() throws Exception {
+        auditorEditCategoryPage.editNullChar();
+
+    }
+
+    public void editSpecialChars() throws Exception {
+        auditorEditCategoryPage.editSpecialChars();
+
+    }
 
 
+    public void remove1Item() throws Exception {
+        auditorEditCategoryPage.remove1Item();
+
+    }
+
+    public void removeMultiItems() throws Exception {
+        auditorEditCategoryPage.removeMultiItems();
+
+
+    }
 }
+
+
+
+
+
+
+
+

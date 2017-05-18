@@ -109,7 +109,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(id = "todo-name")
 	private WebElement toDoNameInputEle;
 
-	@FindBy(xpath="//*table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
+	@FindBy(xpath="//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
 	private WebElement toDoNameErrorLabelEle;
 
 	@FindBy(xpath="//*[@id='todo-add-btn']")
@@ -254,6 +254,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyButtonFilter()throws Exception {
 		validateDisPlayedElement(eleFilterBtn,"Filer Button");
 	}
+
+
+
 
 	public void verifyColumnsInGrid()throws Exception {
 		validateElementText(eleNameToDoTitleLabel, "To-Dos");
@@ -526,6 +529,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 		clickElement(dateItemonCalendarEle, "click to eleXpathChooseDate");
 		waitForClickableOfElement(eleBtnToDoAdd,"eleBtnToDoAdd");
 		clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
+
+		Thread.sleep(smallTimeOut);
 	}
 
 	public void verifyToDoNameInputLimitCharacter(int maxLength)throws Exception {
@@ -1181,6 +1186,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 */
 	public void verifySelectDateDropDown()throws Exception {
 		try{
+			boolean result;
 			waitForClickableOfElement(eleIdDueDate,"Select date drop down");
 			eleIdDueDate.click();
 			NXGReports.addStep("Verify Select date drop down is displayed", LogAs.PASSED,null);
