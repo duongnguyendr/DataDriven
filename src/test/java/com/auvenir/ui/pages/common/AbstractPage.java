@@ -140,12 +140,14 @@ public class AbstractPage {
 
     @FindBy(xpath="//*[@id='category-color']")
     private WebElement categoryColorFieldOnFromEle;
+
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li[4]")
     private WebElement detailCateColorEle;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
     @FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement dropdownCategoryEle;
+
     @FindBy(id="todo-table")
     private WebElement tblXpathTodoTable;
     @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/button")
@@ -172,17 +174,8 @@ public class AbstractPage {
     @FindBy(xpath="//*[@id='todo-table']/tbody/tr[1]/td[7]/img")
     private WebElement imgListTodoPage;
 
-
-    @FindBy(xpath = "//input[contains(@id,'forge-InputBox')]")
-    List<WebElement> listOfCategoriesItemEle;
-
-    @FindBy(xpath = "//img[contains(@id,\"cat-trash-btn\")]")
-    List<WebElement> listOfEditTrashEle;
-
-    @FindBy(xpath = "//img[contains(@id,\"cat-edit-btn\")]")
-    List<WebElement> listOfEditPenEle;
-
-    public void verifyFooter() {
+    public void verifyFooter()
+    {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
         validateDisPlayedElement(eleTermsOfServiceLnk,"eleAuvenirIncTxt");
         validateDisPlayedElement(eleTermsOfServiceDotTxt,"eleAuvenirIncTxt");
@@ -190,8 +183,7 @@ public class AbstractPage {
         validateDisPlayedElement(elePrivacyStatementDotTxt,"eleAuvenirIncTxt");
         validateDisPlayedElement(eleCookieNoticeLnk,"eleAuvenirIncTxt");
     }
-
-    public void verifyTermsOfServiceLink() throws AWTException {
+    public void verifyTermsOfServiceLink() throws AWTException{
         getLogger().info("Verify Terms of service link.");
         eleTermsOfServiceLnk.click();
         waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
@@ -210,7 +202,6 @@ public class AbstractPage {
         getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
 
     }
-
     public void verifyPrivacyStateLink() {
         getLogger().info("Verify Pricacy statement link.");
         elePrivacyStatementLnk.click();
@@ -930,7 +921,6 @@ public class AbstractPage {
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitPageLoad();
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
-        Thread.sleep(smallerTimeOut);
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
         waitForJSandJQueryToLoad();
 
@@ -1005,6 +995,7 @@ public class AbstractPage {
         else {
             isCheckCategory = true;
         }
+        waitForDisappearElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
         getLogger().info("isCheckCategory = " + isCheckCategory);
         return isCheckCategory;
     }
@@ -1160,56 +1151,6 @@ public class AbstractPage {
             NXGReports.addStep("Element: "+ elementName+" is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
-    }
-
-    public boolean createNewCategory (String categoryMode, String categoryName) throws Exception
-    {
-        boolean isCheckCategory = false;
-        // Create new Category
-        waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        dropdownCategoryEle.click();
-        waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
-        addNewCategoryMenuEle.click();
-        waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
-        categoryNameFieldOnFormEle.sendKeys(categoryName);
-        // Will changed after finding new solution for waiting Element
-        Thread.sleep(smallTimeOut);
-        hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        categoryColorFieldOnFromEle.click();
-        waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
-        detailCateColorEle.click();
-        waitForClickableOfElement(eleIdBtnAddCategory,"eleIdBtnAddCategory");
-        eleIdBtnAddCategory.click();
-        // Verify the category that has just created
-        waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
-        List<WebElement> td_collection = new ArrayList<>();
-
-        if(categoryMode.equals(categoryIndiMode)) {
-            waitForClickableOfElement(dropdownCategoryEle,"dropdownCategoryEle");
-            // Wait dropdownCategoryEle but can not click to dropdownCategoryEle
-            Thread.sleep(smallerTimeOut);
-            dropdownCategoryEle.click();
-            waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
-            td_collection = tblXpathTodoTable.findElements(By.xpath("//*[@id=\"category-dropdown-menu\"]/div/a"));
-            for (WebElement tdElement : td_collection) {
-                String strSearchValue = "";
-                try {
-                    waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText Get category name in list");
-                    strSearchValue = eleIndiCategoryText.getText();
-                } catch (Exception ex) {
-                }
-                getLogger().info("SearchValue = " + strSearchValue);
-                if (strSearchValue.equals(categoryName)) {
-                    isCheckCategory = true;
-                    break;
-                }
-            }
-        }
-        else {
-            isCheckCategory = true;
-        }
-        return isCheckCategory;
     }
 
     public boolean verifyCategoryTitle()
@@ -1499,12 +1440,10 @@ public class AbstractPage {
     public boolean verifyChoosedCategoryColor()
     {
         boolean isCheckChoosedColor = false;
-        getLogger().info("Verify hover and click to category name");
+        getLogger().info("Verify choose category color");
         try {
             // blue color
-            waitForVisibleElement(categoryColorFieldOnFromEle, "wait for categoryColorFieldOnFromEle");
-            clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
-
+            clickElement(detailCateColorEle, "click to color detailCateColorEle");
             isCheckChoosedColor = validateCSSValueElement(categoryColorFieldOnFromEle, background, blueColor);
             if(isCheckChoosedColor) {
                 NXGReports.addStep("Verify choose category color", LogAs.PASSED, null);
@@ -1512,14 +1451,14 @@ public class AbstractPage {
             else
             {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+                NXGReports.addStep("Verify choose category color", LogAs.FAILED, null);
             }
             return isCheckChoosedColor;
         }
         catch (Exception ex)
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify category default value", LogAs.FAILED, null);
+            NXGReports.addStep("Verify choose category color", LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return isCheckChoosedColor;
         }
@@ -1586,8 +1525,8 @@ public class AbstractPage {
         boolean isCheckCancelClick = false;
         getLogger().info("Verify to click Category cancel button");
         try {
-            // blue color
-            waitForClickableOfElement(eleEditCategoryCancelBtn, "wait for click to eleEditCategoryCancelBtn");
+
+            WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
             clickElement(eleEditCategoryCancelBtn, "click to eleEditCategoryCancelBtn");
             isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             //isCheckCancelClick = waitForInvisibleElement(eleIdBtnAddCategory, "wait for invisible eleIdBtnAddCategory");
@@ -1683,57 +1622,6 @@ public class AbstractPage {
             getLogger().info(ex.getMessage());
             return isCheckExistedCategory;
         }
-    }
-
-    public void hoverElementAndClickToOtherElement(WebElement element1, String elementName1, WebElement element2, String elementName2) {
-        getLogger().info("Try to hoverElement: " + elementName1 + " and click to " + elementName2);
-        try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element1).moveToElement(element2).click(element2);
-            actions.build().perform();
-            NXGReports.addStep("Hover and click", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Hover and click", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-
-    public void editCategories(String newValue, int numberOfItems) throws Exception {
-        int i;
-        try {
-            for (i = 0; i < numberOfItems; i++) {
-                waitForVisibleElement(listOfCategoriesItemEle.get(i), "Category Item " + i);
-                hoverElementAndClickToOtherElement(listOfCategoriesItemEle.get(i), "Category Item " + i, listOfEditPenEle.get(i), "Edit Pen " + i);
-                sendKeyTextBox(listOfCategoriesItemEle.get(i), newValue, String.format("Category Item %d", i));
-                Thread.sleep(smallTimeOut);
-            }
-            NXGReports.addStep("Enter new value", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Enter new value", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
-
-    public void removeCategories(int numberOfItems) throws Exception {
-        int i;
-        try {
-            for (i = 0; i < numberOfItems; i++) {
-                waitForVisibleElement(listOfCategoriesItemEle.get(i), "Category Item " + i);
-                hoverElementAndClickToOtherElement(listOfCategoriesItemEle.get(i), "Category Item " + i, listOfEditTrashEle.get(i), "Trash " + i);
-                Thread.sleep(smallTimeOut);
-            }
-            NXGReports.addStep("Temporary Remove categories", LogAs.PASSED, null);
-
-
-        } catch (Exception e) {
-            NXGReports.addStep("Temporary Remove categories", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-
-        }
-
-
     }
 
     /**
