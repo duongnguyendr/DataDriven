@@ -1746,4 +1746,8 @@ public class AbstractPage {
             return false;
         }
     }
+    public void waitPageLoad() throws InterruptedException {
+        getLogger().info("Just a moment. Page is loading.");
+        Thread.sleep(smallerTimeOut);
+    }
 }
