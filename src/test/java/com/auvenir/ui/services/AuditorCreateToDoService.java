@@ -598,6 +598,25 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyGUIDeleteConfirmPopup();
     }
 
+    /**
+     * Verify work flow of "CheckAll" check box
+     */
+    public void verifyCheckAllCheckBox(){
+        createToDoPage.verifyCheckAllCheckBox();
+    }
+    /**
+     * Verify work flow of delete button
+     */
+    public void verifyWorkFlowOfDeleteButton(){
+        createToDoPage.verifyWorkFlowOfDeleteButton();
+    }
+
+    /**
+     * Verify work flow of cancel button
+     */
+    public void verifyWorkFlowOfCancelButton(){
+        createToDoPage.verifyWorkFlowOfCancelButton();
+    }
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 }
 

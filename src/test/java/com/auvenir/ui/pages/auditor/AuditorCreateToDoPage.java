@@ -1377,6 +1377,9 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	@FindBy(xpath = "//div[@id='CategoryModel']//h3[@class='setup-header']")
 	private WebElement eleDeleteConfrimPopupDescription;
+
+	@FindBy(xpath = "//*[@class='newRow']")
+	private List<WebElement> eleToDoRowList;
 	/**
 	 * Verify trash to do icon.
 	 */
@@ -1386,7 +1389,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			NXGReports.addStep("Verify trash ToDo icon", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
-			NXGReports.addStep("TestScript Failed: Verify trash ToDo icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 
@@ -1400,7 +1403,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			NXGReports.addStep("Verify default status trash ToDo icon", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
-			NXGReports.addStep("TestScript Failed: Verify default status trash ToDo icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify default status trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 
@@ -1419,11 +1422,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			}
 			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
 			if(!eleToDoCheckboxRow.get(0).isSelected()){
-				eleToDoCheckboxRow.get(0).click();
+				clickElement(eleToDoCheckboxRow.get(0),"Check on select check box");
 			}
-			//verify delete confirm
-			waitForClickableOfElement(trashToDoBtnEle, "Trash ToDo button");
-			trashToDoBtnEle.click();
+			//verify delete confirm icon
+			clickElement(trashToDoBtnEle,"Trash icon click");
 			// verify popup title
 			waitForVisibleElement(categoryTitleEle,"Delete ToDo title");
 			result = validateElementText(categoryTitleEle,"Delete To-Do?");
@@ -1433,7 +1435,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
 			Assert.assertTrue(result, "Guide sentence description delete ToDo is not displayed correct");
 			// verify back-ground and text of delete button
-			waitForVisibleElement(deletedToDoButtonEle,"delete ToDo button");
+			waitForVisibleElement(deletedToDoButtonEle,"Delete ToDo button");
 			result = validateCSSValueElement(deletedToDoButtonEle,"background-color","rgba(241, 103, 57, 1)");
 			Assert.assertTrue(result, "Background color of delete ToDo button is not orange");
 			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
@@ -1450,12 +1452,150 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			int afterTotalRows = eleToDoNewRowDueDateText.size();
 			result = beforeTotalRows == afterTotalRows;
 			Assert.assertTrue(result, "Close popup icon working do not correct");
-			NXGReports.addStep("Verify gui of delete confirm popup", LogAs.PASSED,null);
+			NXGReports.addStep("Verify gui of delete confirm popup in ToDo page", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
-			NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
+
+	/**
+	 * Check all check box of ToDo list is check/uncheck
+	 * @param isCheck true : check | false : uncheck
+	 * @return true | false
+	 */
+	public boolean checkAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
+		int totalRows = eleToDoCheckboxRow.size();
+		for(int i=0;i<totalRows;i++){
+			if(isCheck){
+				if(!eleToDoCheckboxRow.get(i).isSelected())
+					return false;
+			}else{
+				if(eleToDoCheckboxRow.get(i).isSelected())
+					return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Check row is delete out ToDo list
+	 * @param idRow : id delete row
+	 * @return true | false
+	 */
+	public boolean checkRowIsDeleteOutOfToDoList(String idRow){
+		int totalRows = eleToDoRowList.size();
+		for(int i=0;i<totalRows;i++){
+			if(eleToDoRowList.get(i).getAttribute("data-id").equals(idRow))
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * verify check all check box
+	 */
+	public void verifyCheckAllCheckBox(){
+		try{
+			boolean result = true;
+			if(eleToDoNewRowDueDateText.size() == 0){
+				NXGReports.addStep("Can not test verify check all check box in ToDo page because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			// verify all check box are checked when check all checkbox is check
+			result = checkAllCheckBoxIsCheckOrUnCheck(true);
+			Assert.assertTrue(result, "All checkbox do not check");
+
+			//verify all check box are checked when check all checkbox is un check
+			result = checkAllCheckBoxIsCheckOrUnCheck(false);
+			Assert.assertTrue(result, "All checkbox do not uncheck");
+
+			// verify "CheckAll" check box is checked when all check box are check
+			//// check all check box in ToDo page
+			int totalRows = eleToDoCheckboxRow.size();
+			for(int i=0;i<totalRows;i++){
+				if(!eleToDoCheckboxRow.get(i).isSelected())
+					eleToDoCheckboxRow.get(i).click();
+			}
+			//// verify "CheckAll" check box is checked
+
+
+			// verify "CheckAll" check box is unchecked when have any check box is un check
+			//// un check any check box in ToDo page
+			if(eleToDoCheckboxRow.get(0).isSelected()){
+				eleToDoCheckboxRow.get(0).click();
+			}
+			//// verify "CheckAll" check box is unchecked
+
+			NXGReports.addStep("Verify check all check box in ToDo page", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify check all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 *  verify work flow of delete button
+	 */
+	public void verifyWorkFlowOfDeleteButton(){
+		try{
+			boolean result = true;
+			if(eleToDoNewRowDueDateText.size() == 0){
+				NXGReports.addStep("Can not test work flow of delete button in ToDo page because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
+			if(!eleToDoCheckboxRow.get(0).isSelected()){
+				clickElement(eleToDoCheckboxRow.get(0),"Check on select check box");
+			}
+			//verify delete confirm icon
+			clickElement(trashToDoBtnEle, "Trash icon delete");
+			String idRow = eleToDoRowList.get(0).getAttribute("data-id");
+			getLogger().info("id delete row : " + idRow);
+			//verify delete button
+			// Hard code will update later
+			Thread.sleep(10000);
+			clickElement(deletedToDoButtonEle, "Delete button click");
+			result = checkRowIsDeleteOutOfToDoList(idRow);
+			getLogger().info(result);
+			Assert.assertTrue( result, "Delete button does not work");
+			NXGReports.addStep("Verify work flow of delete button in ToDo page", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify work flow of delete button in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *  verify work flow of cancel button
+	 */
+	public void verifyWorkFlowOfCancelButton(){
+		try{
+			boolean result = true;
+			if(eleToDoNewRowDueDateText.size() == 0){
+				NXGReports.addStep("Can not test work flow of cancel button in ToDo page because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
+			if(!eleToDoCheckboxRow.get(0).isSelected()){
+				eleToDoCheckboxRow.get(0).click();
+			}
+			//verify delete confirm icon
+			clickElement(trashToDoBtnEle, "Trash icon delete");
+			String idRow = eleToDoNewRowDueDateText.get(0).getAttribute("data-id");
+			//verify delete button
+			clickElement(cancelDeletedToDoButtonEle,"Cancel button click");
+			result = checkRowIsDeleteOutOfToDoList(idRow);
+			Assert.assertFalse( result, "Cancel button does not work");
+			NXGReports.addStep("Verify work flow of cancel button in ToDo page", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify work flow of cancel button in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
 	//[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 }
 
