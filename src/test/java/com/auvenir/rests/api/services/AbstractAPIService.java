@@ -61,6 +61,19 @@ public class AbstractAPIService {
         return dataBaseServer;
     }
     public  String database ="serviceFinicity";
+    /*
+    Refactor to implement parameter on maven: port
+    Updated by: Doai.Tran on 18/5/2017
+     */
+    public int port= 27017;
+    public void setPort(String portNo){
+        port= Integer.parseInt(portNo);
+        getLogger().info("Connection Port: " + port);
+    }
+    public int getPort(){
+        setPort(System.getProperty("portNo"));
+        return port;
+    }
     /**
     @param actual The actual value that you want to assert.
     @param expected The expected value that you want to assert.
