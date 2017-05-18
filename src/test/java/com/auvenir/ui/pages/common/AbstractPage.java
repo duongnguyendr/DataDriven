@@ -915,11 +915,15 @@ public class AbstractPage {
 
     public void clickToNewCategoryDllInList() throws Exception
     {
+        HoverAndWaitForClickableOfElement(dropdownCategoryEle,"dropdownCategoryEle");
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        Thread.sleep(smallerTimeOut);
+        //Thread.sleep(smallerTimeOut);
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
+        waitPageLoad();
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
+        waitForJSandJQueryToLoad();
+
     }
 
     public void chooseCategoryColorInPopup () throws Exception
@@ -955,6 +959,7 @@ public class AbstractPage {
         }
         // Create new Category
         clickToNewCategoryDllInList();
+
 
         waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
@@ -1748,6 +1753,6 @@ public class AbstractPage {
     }
     public void waitPageLoad() throws InterruptedException {
         getLogger().info("Just a moment. Page is loading.");
-        Thread.sleep(smallerTimeOut);
+        Thread.sleep(smallTimeOut);
     }
 }
