@@ -864,6 +864,16 @@ public class AbstractPage {
 
     }
 
+    // EditCategory method
+    public void EditCategories() throws Exception {
+        waitForClickableOfElement(eleCategoryCombobox, "eleCategoryCombobox");
+        eleCategoryCombobox.click();
+        //Verify Category_Dropdown GUI
+        //=========
+        //Click EditCategories option
+        waitForClickableOfElement(eleEditCategory, "eleEditCategory");
+        eleEditCategory.click();
+    }
 
     public String getTextByJavaScripts(WebElement eleGetText)
     {
@@ -956,6 +966,7 @@ public class AbstractPage {
         // Create new Category
         clickToNewCategoryDllInList();
 
+
         waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
@@ -990,6 +1001,7 @@ public class AbstractPage {
         else {
             isCheckCategory = true;
         }
+        waitForDisappearElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
         getLogger().info("isCheckCategory = " + isCheckCategory);
         return isCheckCategory;
     }
@@ -1146,8 +1158,6 @@ public class AbstractPage {
             return false;
         }
     }
-
-
 
     public boolean verifyCategoryTitle()
     {
@@ -1526,7 +1536,7 @@ public class AbstractPage {
             // blue color
             waitForClickableOfElement(eleEditCategoryCancelBtn, "wait for click to eleEditCategoryCancelBtn");
             clickElement(eleEditCategoryCancelBtn, "click to eleEditCategoryCancelBtn");
-//            isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
+            isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             //isCheckCancelClick = waitForInvisibleElement(eleIdBtnAddCategory, "wait for invisible eleIdBtnAddCategory");
             if(isCheckCancelClick) {
                 NXGReports.addStep("Verify to click Category cancel button", LogAs.PASSED, null);
