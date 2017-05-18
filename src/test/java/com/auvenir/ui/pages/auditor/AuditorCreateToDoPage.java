@@ -1486,6 +1486,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 
+    public void waitMessageIsDisappear(){
+        waitForDisappearElement(toastMessageSucessEle,"toastMessageSucessEle");
+    }
+
 	/**
 	 * create a record with name and date(of this month- implement choose month and year later)
 	 *

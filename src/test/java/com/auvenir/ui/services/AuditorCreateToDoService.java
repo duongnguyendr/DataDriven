@@ -596,5 +596,8 @@ public class AuditorCreateToDoService extends AbstractService {
     public void selectToDoTaskName(String toDoName){
         createToDoPage.selectToTaskName(toDoName);
     }
+    public void waitMessageIsDisappear(){
+        createToDoPage.waitMessageIsDisappear();
+    }
 }
 

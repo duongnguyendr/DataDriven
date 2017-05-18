@@ -26,14 +26,14 @@ import java.util.Map;
  */
 
 public class AuthSessionTest extends AbstractAPIService {
-    public static final String restBaseUrl = "http://finicity-qa-334.com";
-    public static final String database = "serviceFinicity";
+    //public static final String restBaseUrl = "http://finicity-qa-334.com";
+    //public static final String database = "serviceFinicity";
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException {
-        RestAssured.basePath = "http://finicity-qa-334.com";
-        MongoDBService.connectDBServer("34.205.90.145", 27017, "serviceFinicity");
+        //RestAssured.basePath = "http://finicity-qa-334.com";
+        MongoDBService.connectDBServer(dataBaseServer,port, database);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
@@ -50,11 +50,7 @@ public class AuthSessionTest extends AbstractAPIService {
     /*
     TestCase1: Get AuthSession with valid sessionID
      */
-    @Test(
-            priority = 1,
-            enabled = true,
-            description = "Get AuthSession with valid sessionID"
-    )
+    @Test(priority = 1,enabled = true,description = "Get AuthSession with valid sessionID")
     public void GetAuthSession() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
@@ -87,11 +83,7 @@ public class AuthSessionTest extends AbstractAPIService {
     /*
     TestCase 2: Get AuthSession with wrong sessionID
      */
-    @Test(
-            priority = 1,
-            enabled = true,
-            description = "Get AuthSession with wrong sessionID"
-    )
+    @Test(priority = 1,enabled = true,description = "Get AuthSession with wrong sessionID")
     public void GetAuthSessionWrongSessionID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
@@ -120,11 +112,7 @@ public class AuthSessionTest extends AbstractAPIService {
     /*
         TestCase: Get AuthSession without sessionID
     */
-    @Test(
-            priority = 1,
-            enabled = true,
-            description = "Get AuthSession without sessionID"
-    )
+    @Test(priority = 1,enabled = true,description = "Get AuthSession without sessionID")
     public void GetAuthSessionWithoutSessionID() throws Exception {
         try {
             sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
