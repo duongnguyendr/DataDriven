@@ -825,7 +825,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify button Undo action exist
      */
-    @Test(priority = 15, enabled = true, testName = "Verify GUI.", description = "undo_1", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 150, enabled = true, testName = "Verify GUI.", description = "undo_1", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoExist() throws Exception {
         initVariable();
         navigationPreconditions();
@@ -838,7 +838,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify button Undo action disable
      */
-    @Test(priority = 20, enabled = true, testName = "Undo arrow.", description = "undo_3", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 200, enabled = true, testName = "Undo arrow.", description = "undo_3", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoStatus() throws Exception {
         initVariable();
         navigationPreconditions();
@@ -855,7 +855,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Complete a To-Do, verified change on database but UI
      */
-    @Test(priority = 25, enabled = true, testName = "Undo successfully", description = "undo_4", groups = "workflow")
+    @Test(priority = 250, enabled = true, testName = "Undo successfully", description = "undo_4", groups = "workflow")
     public void verifyUndoActionWithCompleteCase() {
         initVariable();
         navigationPreconditions();
@@ -875,7 +875,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Assign to a To-Do, verified change on UI but database
      */
-    @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 300, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithAssignToCase() throws Exception {
         initVariable();
         navigationPreconditions();
@@ -895,7 +895,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Delete a To-Do, verified change on database but UI
      */
-    @Test(priority = 35, enabled = true, testName = "Undo successfully", description = "undo_6", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 350, enabled = true, testName = "Undo successfully", description = "undo_6", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithDeleteCase() {
         initVariable();
         navigationPreconditions();
@@ -915,7 +915,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Download Attachments disable
      */
-    @Test(priority = 40, enabled = true, testName = "Undo fail", description = "undo_8", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 400, enabled = true, testName = "Undo fail", description = "undo_8", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyDownloadAttachmentsDisable() {
         initVariable();
         navigationPreconditions();
