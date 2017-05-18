@@ -30,26 +30,19 @@ public class EditCategoryTest extends AbstractTest {
         auditorCreateToDoService.navigateToDoListPage();
         auditorCreateToDoService.navigatetoCreateToDoTab();
         auditorCreateToDoService.createToDoPage();
-//        auditorCreateToDoService.verifyCreateNewCategory();
-//        auditorEditCategoryService.returnToCreateNewTodoPage();
-//        auditorEditCategoryService.navigateToEditCategoriesOption();
     }
 
 
-    @Test(priority = 1, enabled = false, description = "Verify EditCategories_PopUp GUI at Create New Todo Page")
-    public void verifyDefaultPopUpGuiAtCreateNewTodoPage() throws Exception {
+    @Test(priority = 1, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
+    public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
         auditorEditCategoryService.returnToCreateNewTodoPage();
         auditorEditCategoryService.navigateToEditAtCreateTodoPage();
         try {
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
-            auditorEditCategoryService.verifyListOfCategoriesBeforeEditOrRemove();
+            auditorEditCategoryService.verifyListOfCategories();
             auditorEditCategoryService.verifyDefaultSaveButton();
             auditorEditCategoryService.verifyDefaultCancelButton();
-
-//            auditorEditCategoryService.verifyListOfCategories();
-
-
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -57,20 +50,16 @@ public class EditCategoryTest extends AbstractTest {
     }
 
 
-    @Test(priority = 2, enabled = false, description = "Verify EditCategories_PopUp GUI at Todo list Page")
-    public void verifyDefaultPopUpGuiAtTodoListPage() throws Exception {
+    @Test(priority = 2, enabled = false, description = "Verify EditCategories GUI at Todo list Page")
+    public void verifyDefaultEditCategoryGuiAtTodoListPage() throws Exception {
         auditorEditCategoryService.returnToCreateNewTodoPage();
         auditorEditCategoryService.navigateToEditAtTodoListPage();
         try {
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
-            auditorEditCategoryService.verifyListOfCategoriesBeforeEditOrRemove();
+            auditorEditCategoryService.verifyListOfCategories();
             auditorEditCategoryService.verifyDefaultSaveButton();
             auditorEditCategoryService.verifyDefaultCancelButton();
-
-//            auditorEditCategoryService.verifyListOfCategories();
-
-
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -132,8 +121,6 @@ public class EditCategoryTest extends AbstractTest {
             auditorEditCategoryService.remove1Item();
             auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.removeMultiItems();
-
-
             NXGReports.addStep("Verify Remove function.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Remove Function.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

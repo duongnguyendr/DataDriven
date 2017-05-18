@@ -47,8 +47,8 @@ public class AuditorEditCategoryService extends AbstractService {
         auditorEditCategoryPage.verifyEditCategoriesPopupGuide();
     }
 
-    public void verifyListOfCategoriesBeforeEditOrRemove(){
-        auditorEditCategoryPage.verifyListOfCategoriesBeforeEditOrRemove();
+    public void verifyListOfCategories() throws Exception {
+        auditorEditCategoryPage.verifyListOfCategories();
 
     }
 
@@ -65,45 +65,48 @@ public class AuditorEditCategoryService extends AbstractService {
 
     public void editValidValue() throws Exception {
         auditorEditCategoryPage.editCategoryItem();
+        auditorEditCategoryPage.verifyListOfCategories();
 
     }
 
     public void editValidMultiItems() throws Exception {
         auditorEditCategoryPage.editValidMultiItems();
-
+        auditorEditCategoryPage.verifyListOfCategories();
     }
 
     public void editUnvalidMultiItems() throws Exception {
         auditorEditCategoryPage.editInValidMultiItems();
-
+        auditorEditCategoryPage.verifyListOfCategories();
 
     }
 
     public void editOnlyNumber() throws Exception {
-
         auditorEditCategoryPage.editOnlyNumber();
+        auditorEditCategoryPage.verifyListOfCategories();
 
     }
 
     public void editNullChars() throws Exception {
         auditorEditCategoryPage.editNullChar();
-
+        auditorEditCategoryPage.verifyListOfCategories();
     }
 
     public void editSpecialChars() throws Exception {
         auditorEditCategoryPage.editSpecialChars();
+        auditorEditCategoryPage.verifyListOfCategories();
 
     }
 
 
     public void remove1Item() throws Exception {
         auditorEditCategoryPage.remove1Item();
+        auditorEditCategoryPage.verifyListOfCategories();
 
     }
 
     public void removeMultiItems() throws Exception {
         auditorEditCategoryPage.removeMultiItems();
-
+        auditorEditCategoryPage.verifyListOfCategories();
 
     }
 }
