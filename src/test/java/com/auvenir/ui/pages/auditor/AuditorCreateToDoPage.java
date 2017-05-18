@@ -162,7 +162,10 @@ public class AuditorCreateToDoPage  extends AbstractPage{
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[starts-with(@id,'modal-close-categoryModel')]")
     WebElement eleEditCategoryCloseBtn;
 
-    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
+	WebElement closePopupBtnEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
     WebElement editCategoryCancelBtnEle;
 
 	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
@@ -219,6 +222,12 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Cancel')]")
 	WebElement cancelDeletedToDoButtonEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//div[@class='center']/div[@class='des-delete-modal']")
+	WebElement centerDeleteToDoDescriptionEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Delete')]")
+	WebElement deletedToDoButtonEle;
 
 	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]")
 	WebElement popUpWindows;
@@ -1373,11 +1382,11 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 */
 	public void verifyTrashToDoIcon(){
 		try{
-			waitForVisibleElement(trashToDoBtnEle, "Trash to do icon");
-			NXGReports.addStep("Verify trash to do icon", LogAs.PASSED,null);
+			waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
+			NXGReports.addStep("Verify trash ToDo icon", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
-			NXGReports.addStep("TestScript Failed: Verify trash to do icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify trash ToDo icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 
@@ -1386,12 +1395,12 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 */
 	public void verifyDefaultStatusTrashToDoIcon(){
 		try{
-			waitForVisibleElement(trashToDoBtnEle, "Trash to do icon");
+			waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
 			validateAttributeElement(trashToDoBtnEle,"class","fa fa-trash disabled");
-			NXGReports.addStep("Verify default status trash to do icon", LogAs.PASSED,null);
+			NXGReports.addStep("Verify default status trash ToDo icon", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
-			NXGReports.addStep("TestScript Failed: Verify default status trash to do icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify default status trash ToDo icon ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 
@@ -1400,16 +1409,47 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 */
 	public void verifyGUIDeleteConfirmPopup(){
 		try{
+			String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? " +
+					                  "Once deleted, you will not be able to retrieve any documents uploaded to the selected To-Dos.";
+			boolean result = true;
+			getLogger().info("Verify GUI Delete ToDo popup when click trash ToDo icon.");
 			if(eleToDoNewRowDueDateText.size() == 0){
-				NXGReports.addStep("Can not test verify gui of delete confirm popup because to-do list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				NXGReports.addStep("Can not test verify gui of delete confirm popup because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 				return;
 			}
-			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of to-do item");
+			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
 			if(!eleToDoCheckboxRow.get(0).isSelected()){
 				eleToDoCheckboxRow.get(0).click();
 			}
-			waitForClickableOfElement(trashToDoBtnEle, "Trash to-do button");
+			//verify delete confirm
+			waitForClickableOfElement(trashToDoBtnEle, "Trash ToDo button");
 			trashToDoBtnEle.click();
+			// verify popup title
+			waitForVisibleElement(categoryTitleEle,"Delete ToDo title");
+			result = validateElementText(categoryTitleEle,"Delete To-Do?");
+			Assert.assertTrue(result, "Delete ToDo popup title is not displayed correct");
+			// verify guide sentence
+			waitForVisibleElement(centerDeleteToDoDescriptionEle,"Guide sentence description delete to-do");
+			result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
+			Assert.assertTrue(result, "Guide sentence description delete ToDo is not displayed correct");
+			// verify back-ground and text of delete button
+			waitForVisibleElement(deletedToDoButtonEle,"delete ToDo button");
+			result = validateCSSValueElement(deletedToDoButtonEle,"background-color","rgba(241, 103, 57, 1)");
+			Assert.assertTrue(result, "Background color of delete ToDo button is not orange");
+			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of delete ToDo button is not white");
+			// verify back-ground and text of cancel button
+			waitForVisibleElement(cancelDeletedToDoButtonEle,"Cancel to-do button");
+			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"background-color","rgba(151, 147, 147, 1)");
+			Assert.assertTrue(result, "Background color of cancel ToDo button is not gray");
+			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of cancel to-do button is not white");
+			//verify close popup icon
+			int beforeTotalRows = eleToDoNewRowDueDateText.size();
+			waitForVisibleElement(closePopupBtnEle,"Close popup icon");
+			int afterTotalRows = eleToDoNewRowDueDateText.size();
+			result = beforeTotalRows == afterTotalRows;
+			Assert.assertTrue(result, "Close popup icon working do not correct");
 			NXGReports.addStep("Verify gui of delete confirm popup", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;

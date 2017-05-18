@@ -591,6 +591,9 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyDefaultStatusTrashToDoIcon();
     }
 
+    /**
+     * Verify GUI and Close icon of delete confirm popup
+     */
     public void verifyGUIDeleteConfirmPopup(){
         createToDoPage.verifyGUIDeleteConfirmPopup();
     }
