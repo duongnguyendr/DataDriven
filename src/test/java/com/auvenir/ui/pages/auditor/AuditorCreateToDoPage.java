@@ -701,8 +701,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	public void navigateToEngagementPage() throws Exception{
 		getLogger().info("Click view button open Engagement Page");
-		waitForClickableOfElement(eleWidgetContent.get(0),"eleWidgetContent");
-		clickAndHold(eleWidgetContent.get(0),"eleWidgetContent");
+		waitForClickableOfElement(eleWidgetContent.get(eleWidgetContent.size()-1),"eleWidgetContent");
+		clickAndHold(eleWidgetContent.get(eleWidgetContent.size()-1),"eleWidgetContent");
 	}
 
 	public void navigateToToDoList() throws Exception{
@@ -948,7 +948,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
             waitForVisibleElement(categoryTitleEle,"Category Title");
             result = validateElementText(categoryTitleEle,"Add New Category");
             Assert.assertTrue(result, "Add New Category popup is not displayed");
-//            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
+//            hoverElement(editCategoryCancelBtn,"Cancel Catergory button");
 //            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
 //			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
 //			editCategoryCancelBtnEle.click();

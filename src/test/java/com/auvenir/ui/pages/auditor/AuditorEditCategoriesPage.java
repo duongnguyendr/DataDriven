@@ -32,8 +32,14 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"form-todo\"]/td[3]/div/div[1]")
     private WebElement eleIdDdlCategory;
 
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]/td[3]//div[@class='text']")
+    WebElement dropdownCategoryTodoPageEle;
+
     @FindBy(xpath = "//*[@id=\"form-todo\"]/td[3]/div/div[2]/div[2]")
     WebElement eleEditCategory;
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]/td[3]//div[@class=\"menu\"]/div[2]")
+    WebElement editCategoryTodoPage;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement eleEditCategoryTitle;
@@ -54,7 +60,6 @@ public class AuditorEditCategoriesPage extends AbstractPage {
 
     @FindBy(xpath = "//img[contains(@id,\"cat-edit-btn\")]")
     WebElement listOfEditPenEle;
-
 
 
     //=================
@@ -94,13 +99,13 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     @FindBy(xpath = "//div[@class=\"auv-cat-error\"]/p[@class=\"auv-inputError\"]")
     WebElement notAValidNameEle;
     @FindBy(id = "auv-todo-createToDo")
-     WebElement createToDoBtnEle;
+    WebElement createToDoBtnEle;
 
 
     @FindBy(xpath = "//img[contains(@id,\"cat-trash-btn\")]")
     WebElement listOfEditTrashEle;
 
-    // Verify Edit Categories popup is presented successfully
+
     public void selectEditCategories() throws Exception {
         getLogger().info("Select Category DropDown menu");
         waitForVisibleElement(eleIdDdlCategory, "SelectCategory menu");
@@ -112,9 +117,22 @@ public class AuditorEditCategoriesPage extends AbstractPage {
 
     }
 
-    public void returnToCreateNewTodoPage(){
+    public void selectEditCategoriesAtTodoPage() throws Exception {
+        getLogger().info("Select Category DropDown menu");
+        waitForVisibleElement(dropdownCategoryTodoPageEle, "SelectCategory menu");
+        dropdownCategoryTodoPageEle.click();
+        getLogger().info("Select Edit Categories option");
+        waitForVisibleElement(editCategoryTodoPage, "Edit Categories option");
+        editCategoryTodoPage.click();
+        Thread.sleep(smallTimeOut);
+
+    }
+
+
+
+    public void returnToCreateNewTodoPage() {
         getLogger().info("Return to Create new todo page");
-        waitForVisibleElement(createToDoBtnEle,"Create Todo Button");
+        waitForVisibleElement(createToDoBtnEle, "Create Todo Button");
         createToDoBtnEle.click();
 
     }
@@ -129,39 +147,9 @@ public class AuditorEditCategoriesPage extends AbstractPage {
 
     }
 
-
-    public void verifyRemove1Category() throws Exception {
-        getLogger().info("Verify click 1remove button");
-        try {
-            hoverElementAndClickToOtherElement(eleCategoryItem1, "", eleEditCategoryFirstTrash, "");
-            System.out.println("hover okey vien pham");
-//            validateDisPlayedElement(eleEditCategoryFirstTrash,"First trash icon element");
-//            eleEditCategoryFirstTrash.click();
-//            this.verifyEleAddBtn();
+    public void verifyListOfCategoriesBeforeEditOrRemove(){
 
 
-//            System.out.println("click Add btn okey vien pham");
-            NXGReports.addStep("Verify to remove 1 Category", LogAs.PASSED, null);
-
-        } catch (Exception e) {
-            NXGReports.addStep("Verify to remove 1 Category", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-
-    }
-
-    public void verifyRemoveMultiCategories() throws Exception {
-
-        getLogger().info("Verify click Multy remove button");
-        try {
-//    hoverAndClick1Element(eleCategoryItem1,eleEditCategoryFirstTrash);
-//    hoverAndClick1Element(eleCategoryItem2,eleEditCategorySecondTrash);
-//    hoverAndClick1Element(eleCategoryItem3, eleEditCategoryThirdTrash);
-//            this.verifyEleAddBtn();
-
-        } catch (Exception e) {
-
-        }
     }
 
 
@@ -191,6 +179,18 @@ public class AuditorEditCategoriesPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
+    }
+
+    public void selectSaveBtn() throws Exception {
+        getLogger().info("Trying to click Save button");
+        try {
+            waitForVisibleElement(eleEditCategorySaveBtn, "Cancel button");
+            eleEditCategorySaveBtn.click();
+            NXGReports.addStep("Trying to click Cancel button", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Trying to click Cancel button", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void verifyReturnToCreateNewTodoPage() throws Exception {
@@ -256,7 +256,7 @@ public class AuditorEditCategoriesPage extends AbstractPage {
             getLogger().info("Trying to edit with 1 new valid value...");
             String newValue = "NewCategory " + randomNumber();
             scrollPageUp();
-            editCategories(newValue,1);
+            editCategories(newValue, 1);
             scrollPageDown();
             verifyActiveSaveBtn();
             Thread.sleep(smallTimeOut);
@@ -271,11 +271,10 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     public void editValidMultiItems() throws Exception {
         try {
             getLogger().info("Trying to edit with 3 new valid values...");
-            String newValue1= "NewCategory " + randomNumber();
-//            String newValue2= "NewCategory " + randomNumber();
-//            String newValue3= "NewCategory " + randomNumber();
+            String newValue1 = "NewCategory " + randomNumber();
             scrollPageUp();
-            editCategories(newValue1,3);
+            Thread.sleep(2000);
+            editCategories(newValue1, 3);
             scrollPageDown();
             verifyActiveSaveBtn();
             Thread.sleep(smallTimeOut);
@@ -292,7 +291,8 @@ public class AuditorEditCategoriesPage extends AbstractPage {
             getLogger().info("Trying to edit with valid and invalid values...");
 //            String newValue = "NewCategory " + randomNumber();
             scrollPageUp();
-            editCategories("@#$%^&*",3);
+            Thread.sleep(2000);
+            editCategories("@#$%^&*", 3);
             eleEditCategoryGuide.click();
             scrollPageDown();
             verifyUnActiveSaveBtn();
@@ -307,13 +307,13 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     }
 
 
-
     public void editOnlyNumber() throws Exception {
         try {
             getLogger().info("Trying to edit with new Only number...");
-//            scrollPageUp();
+            scrollPageUp();
+            Thread.sleep(2000);
             String newValue = Integer.toString(randomNumber());
-            editCategories(newValue,1);
+            editCategories(newValue, 1);
             scrollPageDown();
             verifyActiveSaveBtn();
             Thread.sleep(smallTimeOut);
@@ -330,7 +330,8 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         try {
             getLogger().info("Trying to edit with null value...");
             scrollPageUp();
-            editCategories("",1);
+            Thread.sleep(2000);
+            editCategories("", 1);
             eleEditCategoryGuide.click();
             validateDisPlayedElement(notAValidNameEle, "Warning");
             scrollPageDown();
@@ -348,7 +349,8 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         try {
             getLogger().info("Trying to edit with special value...");
             scrollPageUp();
-            editCategories("~!@#$%^&*+?>",1);
+            Thread.sleep(2000);
+            editCategories("~!@#$%^&*+?>", 1);
             validateDisPlayedElement(notAValidNameEle, "Warning");
             scrollPageDown();
             verifyUnActiveSaveBtn();
@@ -378,6 +380,40 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         }
 
     }
+
+    public void remove1Item() throws Exception {
+        try {
+            getLogger().info("Trying remove 1 category...");
+            scrollPageUp();
+            Thread.sleep(2000);
+            removeCategories(1);
+            scrollPageDown();
+            verifyActiveSaveBtn();
+            Thread.sleep(smallTimeOut);
+            NXGReports.addStep("Verify User can not save null value", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify User can not save null value", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void removeMultiItems() throws Exception {
+        try {
+            getLogger().info("Trying remove 3 categories...");
+            scrollPageUp();
+            Thread.sleep(2000);
+            removeCategories(3);
+            scrollPageDown();
+            verifyActiveSaveBtn();
+            selectSaveBtn();
+            Thread.sleep(smallTimeOut);
+            NXGReports.addStep("Verify User can not save null value", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify User can not save null value", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
 
     public int randomNumberForCategoryItems() {
         Random randNum = new Random();

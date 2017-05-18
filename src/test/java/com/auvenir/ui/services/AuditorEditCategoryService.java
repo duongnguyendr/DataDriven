@@ -23,30 +23,39 @@ public class AuditorEditCategoryService extends AbstractService {
         auditorEditCategoryPage = new AuditorEditCategoriesPage(getLogger(), getDriver());
     }
 
-    public void navigateToEditCategoriesOption() throws Exception {
+    public void navigateToEditAtCreateTodoPage() throws Exception {
 
         auditorEditCategoryPage.selectEditCategories();
 
     }
+    public void navigateToEditAtTodoListPage() throws Exception {
 
-    public void returnToCreateNewTodoPage(){
+        auditorEditCategoryPage.selectEditCategoriesAtTodoPage();
+    }
+
+    public void returnToCreateNewTodoPage() {
         auditorEditCategoryPage.returnToCreateNewTodoPage();
     }
 
     public void verifyEditCategoriesTitle() {
+
         auditorEditCategoryPage.verifyEditCategoriesPopupTitle();
     }
 
     public void verifyEditCategoriesGuide() {
+
         auditorEditCategoryPage.verifyEditCategoriesPopupGuide();
+    }
+
+    public void verifyListOfCategoriesBeforeEditOrRemove(){
+        auditorEditCategoryPage.verifyListOfCategoriesBeforeEditOrRemove();
+
     }
 
 
     public void verifyDefaultCancelButton() throws Exception {
 
         auditorEditCategoryPage.verifyCancelBtn();
-//        auditorEditCategoryPage.selectCancelBtn();
-//        auditorEditCategoryPage.verifyReturnToCreateNewTodoPage();
     }
 
 
@@ -87,6 +96,16 @@ public class AuditorEditCategoryService extends AbstractService {
     }
 
 
+    public void remove1Item() throws Exception {
+        auditorEditCategoryPage.remove1Item();
+
+    }
+
+    public void removeMultiItems() throws Exception {
+        auditorEditCategoryPage.removeMultiItems();
+
+
+    }
 }
 
 
