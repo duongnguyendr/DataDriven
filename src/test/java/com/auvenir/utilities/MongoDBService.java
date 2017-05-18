@@ -44,7 +44,7 @@ public class MongoDBService {
     public static void connectDBServer(String ServerHost, int portNo, String DB) throws UnknownHostException {
         try{
             new MongoDBService(ServerHost,portNo,DB);
-            MongoClient mongo = new MongoClient( ServerHost , portNo );
+            MongoClient mongo = new MongoClient( ServerHost , portNo);
             com.mongodb.DB db = mongo.getDB(DB);
         }catch (Exception e){
             e.printStackTrace();
