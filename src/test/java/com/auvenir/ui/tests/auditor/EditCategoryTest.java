@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 public class EditCategoryTest extends AbstractTest {
     AuditorCreateToDoService auditorCreateToDoService;
     AuditorEditCategoryService auditorEditCategoryService;
-    AuditorEngagementService auditorEngagementService;
 
     @BeforeMethod
     public void preCondition() throws Exception {
@@ -40,7 +39,6 @@ public class EditCategoryTest extends AbstractTest {
         try {
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
-            auditorEditCategoryService.verifyListOfCategories();
             auditorEditCategoryService.verifyDefaultSaveButton();
             auditorEditCategoryService.verifyDefaultCancelButton();
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.PASSED, null);
@@ -57,7 +55,6 @@ public class EditCategoryTest extends AbstractTest {
         try {
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
-            auditorEditCategoryService.verifyListOfCategories();
             auditorEditCategoryService.verifyDefaultSaveButton();
             auditorEditCategoryService.verifyDefaultCancelButton();
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.PASSED, null);
@@ -74,15 +71,10 @@ public class EditCategoryTest extends AbstractTest {
         try {
             getLogger().info("Verifying Edit cases..");
             auditorEditCategoryService.editValidValue();
-            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.editValidMultiItems();
-            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.editOnlyNumber();
-            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.editNullChars();
-            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.editSpecialChars();
-            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.editUnvalidMultiItems();
             NXGReports.addStep("Verify Edit Fuction.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -90,22 +82,17 @@ public class EditCategoryTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify Edit Function at todo list page")
+    @Test(priority = 4, enabled = false, description = "Verify Edit Function at todo list page")
     public void verifyEditFunctionAtTodoListPage() throws Exception {
 
         auditorEditCategoryService.navigateToEditAtTodoListPage();
         try {
             getLogger().info("Verifying Edit cases..");
             auditorEditCategoryService.editValidValue();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.editValidMultiItems();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.editOnlyNumber();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.editNullChars();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.editSpecialChars();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.editUnvalidMultiItems();
             NXGReports.addStep("Verify Edit Fuction.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -113,14 +100,13 @@ public class EditCategoryTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = false, description = "Verify Remove function at Todo list Page")
+    @Test(priority = 6, enabled = true, description = "Verify Remove function at Todo list Page")
     public void verifyRemoveFunctionAtTodoListPage() throws Exception {
-        auditorEditCategoryService.navigateToEditAtTodoListPage();
         try {
             getLogger().info("Verifying Remove case..");
             auditorEditCategoryService.remove1Item();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.removeMultiItems();
+
             NXGReports.addStep("Verify Remove function.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Remove Function.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
