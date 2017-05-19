@@ -175,19 +175,18 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(contactsLinkEle, "contactsLinkEle");
         contactsLinkEle.click();
 
-    }
-
-    public void clickNewEnagementButton() {
-        waitForClickableOfElement(newEngagementButtonEle, "New Engagement Button");
-        newEngagementButtonEle.click();
-    }
-
-    public void viewEngagementDetailsPage(String engagementName) throws Exception {
-        //current we cannot view engagement by name we test with first engagment
-        hoverElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), engagementName);
-        waitForClickableOfElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), engagementName);
-        clickAndHold(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), engagementName);
-    }
+	}
+	public void clickNewEnagementButton() {
+		waitForVisibleElement(newEngagementButtonEle,"New Engagement Button");
+		waitForClickableOfElement(newEngagementButtonEle,"New Engagement Button");
+		newEngagementButtonEle.click();
+	}
+	public void viewEngagementDetailsPage(String engagementName) throws Exception{
+		//current we cannot view engagement by name we test with first engagment
+		hoverElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+		waitForClickableOfElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+		clickAndHold(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+	}
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
         WebElement webElement = getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));

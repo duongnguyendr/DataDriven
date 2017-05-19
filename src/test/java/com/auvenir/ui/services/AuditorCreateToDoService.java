@@ -37,13 +37,13 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
 
-    public void verifyGUIAddNewToDoNameTextBox() {
-        getLogger().info("Verify GUI Add New To Do Text Box");
-        createToDoPage.verifyDefaultValueToDoNameTextBox();
-        createToDoPage.verifyHoverCssValueToDoNameTextBox();
-        createToDoPage.verifyWarningCssValueToDoNameTextBox();
-        createToDoPage.verifyGUIButtonCreateToDo();
-    }
+	public void verifyGUIAddNewToDoNameTextBox(int numberOfTask){
+		    getLogger().info("Verify GUI Add New To Do Text Box");
+			createToDoPage.verifyDefaultValueToDoNameTextBox(numberOfTask);
+			createToDoPage.verifyHoverCssValueToDoNameTextBox();
+			createToDoPage.verifyWarningCssValueToDoNameTextBox();
+			createToDoPage.verifyGUIButtonCreateToDo();
+	}
 
     public void verifyAuditorCreateToDo() {
 
@@ -598,8 +598,16 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBulkActionsDropdownIsClosed();
     }
 
-    public void selectToDoTaskName(String toDoName) {
-        createToDoPage.selectToTaskName(toDoName);
+    public void selectToDoTaskName(String toDoName){
+        createToDoPage.selectToDoCheckboxByName(toDoName);
+    }
+
+    public void unselectToDoTaskName(String toDoName){
+        createToDoPage.unSelectToDoCheckboxByName(toDoName);
+    }
+
+    public int getNumberofToDoTask(){
+        return createToDoPage.getNumberofToDoTask();
     }
 
     public void waitMessageIsDisappear() {

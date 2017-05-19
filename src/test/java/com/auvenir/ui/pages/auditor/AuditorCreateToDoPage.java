@@ -25,6 +25,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.net.UnknownHostException;
@@ -116,8 +118,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-name")
     private WebElement toDoNameInputEle;
 
-    @FindBy(xpath = "//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
-    private WebElement toDoNameErrorLabelEle;
+	@FindBy(xpath = "//div[@class='inputMargin div-name-container']//p[@class='auv-inputError']")
+	private WebElement toDoNameErrorLabelEle;
 
     @FindBy(xpath = "//*[@id='todo-add-btn']")
     private WebElement toDoSaveIconEle;
@@ -141,22 +143,22 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='newTodoInput']")
-    private List<WebElement> toDoNameTextColumnEle;
+	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='newTodoInput']")
+	private List<WebElement> toDoNameTextColumnEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class='text']")
     private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
-    private List<WebElement> categoryComboBoxEle;
+	private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class = 'menu']")
     private List<WebElement> categoryComboBoxMenuEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
-    private WebElement addNewCategoryMenuItemEle;
+	private WebElement addNewCategoryMenuItemEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[2]")
     WebElement editCategoryEle;
@@ -344,21 +346,27 @@ public class AuditorCreateToDoPage extends AbstractPage {
         createToDoBtnEle.click();
     }
 
-    public void verifyDefaultValueToDoNameTextBox() {
-        try {
-            boolean result;
-            getLogger().info("Verify Default Value To Do Text Box");
-            waitForVisibleElement(toDoNameInputEle, "Todo name input field.");
-            validateDisPlayedElement(toDoNameInputEle, "Todo name input field.");
-            result = validateAttributeElement(toDoNameInputEle, "placeholder", "Write your to do here");
-            Assert.assertTrue(result, "Default Value To Do TextBox is displayed unsuccessfully");
-            NXGReports.addStep("Verify Default Value To Do Text Box", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            getLogger().info("Default Value To Do TextBox is displayed unsuccessfully");
-            NXGReports.addStep("TestScript Failed: Verify Default Value To Do Text Box", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+	public void verifyDefaultValueToDoNameTextBox(int numberOfTask) {
+		try{
+			boolean result;
+			String defaultValueToDoNameText;
+			if(numberOfTask>0){
+				defaultValueToDoNameText = "Write your to do here";
+			} else {
+				defaultValueToDoNameText = "Write your first to do here";
+			}
+			getLogger().info("Verify Default Value To Do Text Box");
+			waitForVisibleElement(toDoNameInputEle,"Todo name input field.");
+			validateDisPlayedElement(toDoNameInputEle,"Todo name input field.");
+			result = validateAttributeElement(toDoNameInputEle,"placeholder", defaultValueToDoNameText);
+			Assert.assertTrue(result, "Default Value To Do TextBox is displayed unsuccessfully");
+			NXGReports.addStep("Verify Default Value To Do Text Box", LogAs.PASSED, null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			getLogger().info("Default Value To Do TextBox is displayed unsuccessfully");
+			NXGReports.addStep("TestScript Failed: Verify Default Value To Do Text Box", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
 
     }
 
@@ -560,7 +568,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(dateItemonCalendarEle, "click to eleXpathChooseDate");
         waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
         clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
-
+        //Wait for new task is displayed.
         Thread.sleep(smallTimeOut);
     }
 
@@ -933,7 +941,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         // Create new category
         createNewCategory("", categoryName);
         // Will changed after finding new solution for waiting Element
-        Thread.sleep(smallTimeOut);
+        //Thread.sleep(smallTimeOut);
         waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
         categoryDropdownEle.click();
         waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
@@ -1044,13 +1052,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(dateItemonCalendarEle, "Date value on Calendar");
     }
 
-    public void clickAddNewCategory() {
-        waitForClickableOfElement(createToDoNameTextBoxEle, "To Task name Textbox");
-        createToDoNameTextBoxEle.click();
-        waitForClickableOfElement(categoryComboBoxEle.get(0), "Category Combo box");
-        categoryComboBoxEle.get(0).click();
-        addNewCategoryMenuItemEle.click();
-    }
+	public void clickAddNewCategory() {
+		try {
+			Thread.sleep(smallerTimeOut);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		waitForClickableOfElement(createToDoNameTextBoxEle,"To Task name Textbox");
+		createToDoNameTextBoxEle.click();
+		waitForClickableOfElement(categoryComboBoxEle.get(0),"Category Combo box");
+		categoryComboBoxEle.get(0).click();
+		addNewCategoryMenuItemEle.click();
+	}
 
     public void clickEditCategory() {
         waitForClickableOfElement(createToDoNameTextBoxEle, "To Task name Textbox");
@@ -1115,34 +1128,34 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(menuBulkActionsDropdown.get(2), "Deleted ToDo Button");
     }
 
-    public void verifyGUIDeleteToDoPopUp() {
-        try {
-            final String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? Once deleted, you " +
-                    "will not be able to retrieve any documents uploaded to the selected To-Dos.";
-            getLogger().info("Verify GUI Delete To-Dos popup.");
-            boolean result;
-            waitForVisibleElement(categoryTitleEle, "Delete To-Do Title");
-            result = validateElementText(categoryTitleEle, "Delete To-Do?");
-            Assert.assertTrue(result, "Delete To Do popup is not displayed");
-            waitForVisibleElement(centerDeleteToDoDescriptionEle, "Guide Sentence Description Delete ToDo");
-            result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
-            Assert.assertTrue(result, "Guide Sentence Description Delete ToDo is not displayed");
-            waitForVisibleElement(deletedToDoButtonEle, "Delete To-Do button");
-            result = validateCSSValueElement(deletedToDoButtonEle, "background-color", "rgba(241, 103, 57, 1)");
-            Assert.assertTrue(result, "Background color of Delete To-Do button is NOT orange");
-            result = validateCSSValueElement(deletedToDoButtonEle, "color", "rgba(255, 255, 255, 1)");
-            Assert.assertTrue(result, "Text color of Delete To-Do button is NOT white");
-            waitForVisibleElement(cancelDeletedToDoButtonEle, "Cancel delete To-Do button");
-            result = validateCSSValueElement(cancelDeletedToDoButtonEle, "background-color", "rgba(151, 147, 147, 1)");
-            Assert.assertTrue(result, "Background color of Cancel delete To-Do button is NOT gray");
-            result = validateCSSValueElement(deletedToDoButtonEle, "color", "rgba(255, 255, 255, 1)");
-            Assert.assertTrue(result, "Text color of Cancel delete To-Do button is NOT white");
-            NXGReports.addStep("Verify GUI Delete To-Dos popup is displayed successfully", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify GUI Delete To-Dos popup is displayed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
+	public void verifyGUIDeleteToDoPopUp() {
+		try {
+			final String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? Once deleted, you " +
+					"will not be able to retrieve any documents uploaded to the selected To-Dos.";
+			getLogger().info("Verify GUI Delete To-Dos popup.");
+			boolean result;
+			waitForVisibleElement(categoryTitleEle,"Delete To-Do Title");
+			result = validateElementText(categoryTitleEle,"Delete To-Do?");
+			Assert.assertTrue(result, "Delete To Do popup is not displayed");
+			waitForVisibleElement(centerDeleteToDoDescriptionEle,"Guide Sentence Description Delete ToDo");
+			result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
+			Assert.assertTrue(result, "Guide Sentence Description Delete ToDo is not displayed");
+			waitForVisibleElement(deletedToDoButtonEle,"Delete To-Do button");
+			result = validateCSSValueElement(deletedToDoButtonEle,"background-color","rgba(241, 103, 57, 1)");
+			Assert.assertTrue(result, "Background color of Delete To-Do button is NOT orange");
+			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of Delete To-Do button is NOT white");
+			waitForVisibleElement(cancelDeletedToDoButtonEle,"Cancel delete To-Do button");
+			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"background-color","rgba(151, 147, 147, 1)");
+			Assert.assertTrue(result, "Background color of Cancel delete To-Do button is NOT gray");
+			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of Cancel delete To-Do button is NOT white");
+			NXGReports.addStep("Verify GUI Delete To-Dos popup is displayed successfully", LogAs.PASSED,null);
+		} catch (AssertionError e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify GUI Delete To-Dos popup is displayed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
 
     public void clickCancelButtonOnPopup() {
         getLogger().info("Click Cancel Button on PopUp windows.");
@@ -1182,14 +1195,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public int findToDoTaskName(String toDoName) {
-        return findElementByValue(eleToDoNameRow, toDoName);
-    }
+	public int findToDoTaskName(String toDoName) {
+		getLogger().info("Find Position of To Do Task Name");
+		return findElementByValue(eleToDoNameRow, toDoName);
+	}
 
-    public void selectToTaskName(String todoName) {
-        int index = findToDoTaskName(todoName);
-        eleToDoCheckboxRow.get(index).click();
-    }
+	public void selectToDoCheckboxByName(String todoName) {
+		getLogger().info("Select To Do Task Check Box by Name");
+		int index = findToDoTaskName(todoName);
+		if(!eleToDoCheckboxRow.get(index).isSelected())
+			clickElement(eleToDoCheckboxRow.get(index),String.format("Check box of Task Name: %s",todoName));
+	}
+
+	public void unSelectToDoCheckboxByName(String todoName){
+		getLogger().info("Un Select To Do Task Check Box by Name");
+		int index = findToDoTaskName(todoName);
+		if(eleToDoCheckboxRow.get(index).isSelected())
+			clickElement(eleToDoCheckboxRow.get(index),String.format("Check box of Task Name: %s",todoName));
+	}
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 
@@ -1785,5 +1808,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
     /**-----end of huy.huynh PLAT-2285-----*/
+
+	public int getNumberofToDoTask() {
+		getLogger().info("Get the number of To Do task in To Do list page.");
+		int count;
+		if(toDoTaskRowEle.isEmpty())
+			count = 0;
+		else count = toDoTaskRowEle.size();
+		return count;
+	}
 }
 
