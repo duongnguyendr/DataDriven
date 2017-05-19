@@ -114,7 +114,7 @@ public class AddDeleteIconTest extends AbstractTest
         }
     }
 
-    @Test(  priority = 5,enabled = true, description = "Verify work flow of delete button in ToDo page.")
+    @Test(  priority = 5,enabled = false, description = "Verify work flow of delete button in ToDo page.")
     public void verifyWorkFlowOfDeleteButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -138,7 +138,7 @@ public class AddDeleteIconTest extends AbstractTest
         }
     }
 
-    @Test(  priority = 6,enabled = false, description = "Verify work flow of cancel button in ToDo page.")
+    @Test(  priority = 6,enabled = true, description = "Verify work flow of cancel button in ToDo page.")
     public void verifyWorkFlowOfCancelButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());

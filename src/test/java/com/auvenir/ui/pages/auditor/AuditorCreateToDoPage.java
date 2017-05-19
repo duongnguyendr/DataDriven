@@ -1380,6 +1380,13 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 
 	@FindBy(xpath = "//*[@class='newRow']")
 	private List<WebElement> eleToDoRowList;
+
+	@FindBy(xpath = "//*[@class='newRow todoCompleted']")
+	private List<WebElement> eleToDoCompleteRowList;
+
+	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow todoCompleted']//input[@type='checkbox']")
+	private List<WebElement> eleToDoCompleteCheckboxRow;
+
 	/**
 	 * Verify trash to do icon.
 	 */
@@ -1408,16 +1415,35 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	}
 
 	/**
+	 * Check list row is empty
+	 * @param eleList : list row need check
+	 * @param errorMessage : message when list empty
+	 * @param isAddStep : add error in to step
+	 * @return true : list empty | false : list not empty
+	 */
+	public boolean checkListIsEmpty(List<WebElement> eleList, String errorMessage, boolean isAddStep){
+		if(eleList.size() == 0){
+			if(isAddStep){
+				NXGReports.addStep("TestScript Failed: " + errorMessage, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
 	 * Verify gui of delete confirm popup
 	 */
 	public void verifyGUIDeleteConfirmPopup(){
 		try{
 			String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? " +
 					                  "Once deleted, you will not be able to retrieve any documents uploaded to the selected To-Dos.";
+			String errorMessage = "Can not test verify gui of delete confirm popup because ToDo list is empty ";
 			boolean result = true;
 			getLogger().info("Verify GUI Delete ToDo popup when click trash ToDo icon.");
-			if(eleToDoNewRowDueDateText.size() == 0){
-				NXGReports.addStep("Can not test verify gui of delete confirm popup because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			if(checkListIsEmpty(eleToDoRowList,errorMessage,true)){
+				AbstractService.sStatusCnt++;
 				return;
 			}
 			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
@@ -1483,13 +1509,13 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	 * @param idRow : id delete row
 	 * @return true | false
 	 */
-	public boolean checkRowIsDeleteOutOfToDoList(String idRow){
-		int totalRows = eleToDoRowList.size();
+	public boolean checkRowIsDeleteOutOfToDoList(List<WebElement> eleList,String idRow){
+		int totalRows = eleList.size();
 		for(int i=0;i<totalRows;i++){
-			if(eleToDoRowList.get(i).getAttribute("data-id").equals(idRow))
-				return false;
+			if(eleList.get(i).getAttribute("data-id").equals(idRow))
+				return true;
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -1540,9 +1566,14 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyWorkFlowOfDeleteButton(){
 		try{
 			boolean result = true;
-			if(eleToDoNewRowDueDateText.size() == 0){
-				NXGReports.addStep("Can not test work flow of delete button in ToDo page because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			String errorMessage = "Can not test work flow of delete button in confirm popup because ToDo list is empty ";
+			if(checkListIsEmpty(eleToDoRowList,errorMessage,true)){
+				AbstractService.sStatusCnt++;
 				return;
+			}
+			if(!checkListIsEmpty(eleToDoCompleteRowList,"",false)){
+				waitForVisibleElement(eleToDoCompleteCheckboxRow.get(0), "Check select row has status complete");
+				clickElement(eleToDoCompleteCheckboxRow.get(0),"Un check complete status");
 			}
 			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
 			if(!eleToDoCheckboxRow.get(0).isSelected()){
@@ -1556,7 +1587,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			// Hard code will update later
 			Thread.sleep(10000);
 			clickElement(deletedToDoButtonEle, "Delete button click");
-			result = checkRowIsDeleteOutOfToDoList(idRow);
+			result = checkRowIsDeleteOutOfToDoList(eleToDoRowList,idRow);
 			getLogger().info(result);
 			Assert.assertTrue( result, "Delete button does not work");
 			NXGReports.addStep("Verify work flow of delete button in ToDo page", LogAs.PASSED,null);
@@ -1574,25 +1605,57 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyWorkFlowOfCancelButton(){
 		try{
 			boolean result = true;
-			if(eleToDoNewRowDueDateText.size() == 0){
-				NXGReports.addStep("Can not test work flow of cancel button in ToDo page because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-				return;
+			String errorMessage = "Can not test work flow of cancel button in confirm popup because ToDo list is empty ";
+			boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList,errorMessage,true);
+			boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList,"",false);
+			// Check ToDo row list is empty
+			if(checkEmptyToDoListRow && checkEmptyToDoCompleteListRow){
+				if(checkEmptyToDoListRow){
+					AbstractService.sStatusCnt++;
+					return;
+				}
 			}
-			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
-			if(!eleToDoCheckboxRow.get(0).isSelected()){
-				eleToDoCheckboxRow.get(0).click();
+			String idRow = "";
+			// Check have row has complete satatus
+			if(!checkEmptyToDoCompleteListRow){
+				waitForVisibleElement(eleToDoCompleteCheckboxRow.get(0), "Select row has status complete");
+				if(!eleToDoCompleteCheckboxRow.get(0).isSelected()){
+					eleToDoCompleteCheckboxRow.get(0).click();
+				}
+				idRow = eleToDoCompleteRowList.get(0).getAttribute("data-id");
+			}else if(!checkEmptyToDoListRow){
+				waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
+				if(!eleToDoCheckboxRow.get(0).isSelected()){
+					eleToDoCheckboxRow.get(0).click();
+				}
+				idRow = eleToDoNewRowDueDateText.get(0).getAttribute("data-id");
 			}
+
 			//verify delete confirm icon
 			clickElement(trashToDoBtnEle, "Trash icon delete");
-			String idRow = eleToDoNewRowDueDateText.get(0).getAttribute("data-id");
-			//verify delete button
+			getLogger().info(AbstractService.sStatusCnt++);
+			getLogger().info("List todo empty :" + checkEmptyToDoListRow);
+			getLogger().info("List todo complete empty :" + checkEmptyToDoCompleteListRow);
+			// Hard code will update later
+			Thread.sleep(5000);
+			//verify cancel button
 			clickElement(cancelDeletedToDoButtonEle,"Cancel button click");
-			result = checkRowIsDeleteOutOfToDoList(idRow);
+			getLogger().info(AbstractService.sStatusCnt++);
+			getLogger().info("List todo empty :" + checkEmptyToDoListRow);
+			getLogger().info("List todo complete empty :" + checkEmptyToDoCompleteListRow);
+			if(!checkEmptyToDoListRow){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoRowList,idRow);
+			}else if(!checkEmptyToDoCompleteListRow){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoCompleteRowList,idRow);
+			}
+
 			Assert.assertFalse( result, "Cancel button does not work");
 			NXGReports.addStep("Verify work flow of cancel button in ToDo page", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
 			NXGReports.addStep("TestScript Failed: Verify work flow of cancel button in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
