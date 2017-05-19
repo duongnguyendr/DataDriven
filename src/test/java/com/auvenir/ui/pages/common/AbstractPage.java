@@ -135,8 +135,10 @@ public class AbstractPage {
     // Create Category
     @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
     private WebElement eleCategoryComboBox;
+
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuEle;
+
     @FindBy(id="category-name")
     private WebElement categoryNameFieldOnFormEle;
 
@@ -147,8 +149,10 @@ public class AbstractPage {
     private WebElement detailCateColorEle;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
+
     @FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement dropdownCategoryEle;
+
     @FindBy(id="todo-table")
     private WebElement tblXpathTodoTable;
     @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/button")
@@ -940,21 +944,24 @@ public class AbstractPage {
     public void clickToNewCategoryDllInList() throws Exception
     {
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        Thread.sleep(smallerTimeOut);
+        waitForClickableOfLocator(By.xpath("//*[@class='ui dropdown category todo-bulkDdl ']"));
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
-        Thread.sleep(smallerTimeOut);
+        waitForClickableOfLocator(By.xpath("//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]"));
+
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
     }
 
     public void chooseCategoryColorInPopup () throws Exception
     {
         hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
+        waitForClickableOfLocator(By.xpath("//*[@id='category-color']"));
         waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        Thread.sleep(smallerTimeOut);
+        //Thread.sleep(smallerTimeOut);
         clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
+        waitForClickableOfLocator(By.xpath("//*[@id=\"category-color-container\"]/ul/li[4]"));
         waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
-        Thread.sleep(smallerTimeOut);
+        //Thread.sleep(smallerTimeOut);
         clickElement(detailCateColorEle, "click to detailCateColorEle");
     }
 
@@ -1684,6 +1691,7 @@ public class AbstractPage {
             String categoryName = "Existed category " + randomNumber();
             //Thread.sleep(smallerTimeOut);
             waitForJSandJQueryToLoad();
+            waitForClickableOfLocator(By.id("category-name"));
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             clearTextBox(categoryNameFieldOnFormEle, "clear categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
@@ -1692,6 +1700,7 @@ public class AbstractPage {
             clickToNewCategoryDllInList();
             //Thread.sleep(smallerTimeOut);
             waitForJSandJQueryToLoad();
+            waitForClickableOfLocator(By.id("category-name"));
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
             chooseCategoryColorInPopup();
