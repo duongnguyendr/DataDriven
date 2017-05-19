@@ -79,4 +79,19 @@ public class MongoDB {
         }
         return null;
     }
+
+    /**
+     * add more 18/05/2017
+     */
+
+    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) {
+        String[] assignee = value.split(" ");
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("firstName", assignee[0]);
+        searchQuery.put("lastName", assignee[1]);
+        DBCursor cursor = dBCollection.find(searchQuery);
+        DBObject dBbject = cursor.next();
+
+        return dBbject.get("_id").toString();
+    }
 }

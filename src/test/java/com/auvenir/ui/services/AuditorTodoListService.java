@@ -153,6 +153,8 @@ public class AuditorTodoListService extends AbstractService {
     /**
      * Added by huy.huynh on 18/05/2017.
      * Scenarios : PLAT 2285 - Add undo option
+     * Modified by huy.huynh on 19/05/2017.
+     * Merge with PLAT 2303(merge frontend and backend)
      */
 
     public void uiVerifyButtonUndoExist() {
@@ -197,7 +199,7 @@ public class AuditorTodoListService extends AbstractService {
      *
      * @param actionName kind of action to choose(Mark as complete,Delete,Assign to...)
      */
-    public void selectOnBulkActions(String actionName) {
+    public void selectOnBulkActions(String actionName, String assigneeNameAndRole) {
         auditorCreateToDoPage.clickBulkActions();
         if (actionName.equals("Mark as complete")) {
             auditorCreateToDoPage.chooseOptionMarkAsCompleteOnBulkActionsDropDown();
@@ -207,7 +209,7 @@ public class AuditorTodoListService extends AbstractService {
             auditorCreateToDoPage.clickComfirmDelete();
         } else if (actionName.equals("Assign to")) {
             auditorCreateToDoPage.chooseOptionAssignToOnBulkActionsDropDown();
-            auditorCreateToDoPage.chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName("");
+            auditorCreateToDoPage.chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(assigneeNameAndRole);
         }
     }
 
@@ -217,41 +219,45 @@ public class AuditorTodoListService extends AbstractService {
      * @param toDoName name of To-Do to choose
      * @param action   kind of action(Mark as complete,Delete,Assign to...)
      */
-    public void chooseAndActAToDoWithName(String toDoName, String action) {
+    public void chooseAndActAToDoWithName(String toDoName, String action, String assigneeNameAndRole) {
         chooseARowWithName(toDoName);
-        selectOnBulkActions(action);
+        selectOnBulkActions(action, assigneeNameAndRole);
     }
 
     /**
-     * verify complete status of a To-Do
+     * verify frontend and backend of Complete To-Do feature
      *
      * @param engagementValue engagement value chosen as value
      * @param todoName        name of To-Do to check status
      * @param status          status complete expected
      */
     public void verifyToDoComleteStatusByName(String engagementValue, String todoName, String status) {
-        auditorCreateToDoPage.verifyToDoCompleteStatus("name", engagementValue, todoName, status);
+        auditorCreateToDoPage.verifyTodoCompleteFrontend(todoName, status);
+        auditorCreateToDoPage.verifyToDoCompleteBackend("name", engagementValue, todoName, status);
     }
 
     /**
-     * verify delete status of a To-Do
+     * verify frontend and backend of Delete To-Do feature
      *
      * @param engagementValue engagement value chosen as value
      * @param todoName        name of To-Do to check status
      * @param status          status complete expected
      */
     public void verifyToDoDeleteStatusByName(String engagementValue, String todoName, String status) {
-        auditorCreateToDoPage.verifyToDoDeteteStatus("name", engagementValue, todoName, status);
+        auditorCreateToDoPage.verifyTodoDeletedFrontend(todoName, status);
+        auditorCreateToDoPage.verifyToDoDeteteBackend("name", engagementValue, todoName, status);
     }
 
     /**
-     * verify name of assignee appear on Client Assignee after assign
+     * verify frontend and backend of Assign to To-Do feature
      *
-     * @param todoName name of To-Do to check name
-     * @param text     name of assignee
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param assigneeName    name of assignee
      */
-    public void verifyAssigneeNameOnUI(String todoName, String text) {
-        auditorCreateToDoPage.verifyAssigneeNameOnUI(todoName, text);
+    public void verifyToDoAssigneeToName(String engagementValue, String todoName, String assigneeName) {
+        auditorCreateToDoPage.verifyTodoAssignToFrontend(todoName, assigneeName);
+        auditorCreateToDoPage.verifyToDoAssignToBackend("name", engagementValue, todoName, assigneeName);
     }
 
     /**
@@ -259,7 +265,7 @@ public class AuditorTodoListService extends AbstractService {
      *
      * @param todoName name of To-Do to check status
      */
-    public void verifyDownloadAttachmentsDisable(String todoName) {
+    public void verifyToDoDownloadAttachmentsDisable(String todoName) {
         chooseARowWithName(todoName);
         auditorCreateToDoPage.clickBulkActions();
         auditorCreateToDoPage.verifyOptionDownloadAttachmentsOnBulkActionsDropDown();

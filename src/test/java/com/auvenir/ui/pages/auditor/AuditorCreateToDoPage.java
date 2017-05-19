@@ -13,8 +13,10 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
 import org.apache.log4j.Logger;
 import org.apache.xalan.lib.ExsltDatetime;
+import org.bson.types.ObjectId;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -28,6 +30,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import org.testng.Assert;
 
 import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 
 public class AuditorCreateToDoPage extends AbstractPage {
 
@@ -1578,29 +1581,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
-     * create a record with name and date(of this month- implement choose month and year later)
-     *
-     * @param toDoName name of To-Do to choose
-     * @param text     name of assignee
-     */
-    public void verifyAssigneeNameOnUI(String toDoName, String text) {
-        getLogger().info("Verify name of assignee on UI after assign. Expected: " + text);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        String assigneeName = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown client')]/div[@class='text']")).getText();
-        System.out.println("++++++++++++++++++++++++++++++++++++++++assigneeName - text " + assigneeName + " - " + text);
-        if (text.equals(assigneeName)) {
-            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + text, LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + text, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
      * click button Bulk Actions
      */
     public void clickBulkActions() {
@@ -1673,7 +1653,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
         try {
             getLogger().info("Choose first assignee(any) to assign.");
-            optionAssignee.click();
+            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
+            //optionAssignee.click();
             NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
         } catch (Exception ex) {
             getLogger().info(ex);
@@ -1683,57 +1664,93 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
-     * get 'engagements' collection(table on mongo)
+     * verify 'completed'  a To-Do in frontend
+     *
+     * @param toDoName name of To-Do to choose
      */
-    public DBCollection getEngagementCollection() {
-        DBCollection dbCollection = null;
+    public void verifyTodoCompleteFrontend(String toDoName, String status) {
         try {
-            //TODO move db config to properties file
-            MongoDB db = new MongoDB("34.200.249.134", 27017, "TestDB");
-            dbCollection = db.getCollection("auvenir", "engagements");
-        } catch (UnknownHostException e) {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return dbCollection;
-    }
+        //TODO move xpath to properties file
+        WebElement toDoRow = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]"));
+        WebElement toDoCategory = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown category')]"));
+        WebElement toDoClient = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]"));
+        WebElement toDoAuditor = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown auditor')]"));
 
-    /**
-     * verify 'completed' field of a To-Do
-     *
-     * @param engagementField engagement field chosen as key
-     * @param engagementValue engagement value chosen as value
-     * @param todoName        name of To-Do to check status
-     * @param status          status complete expected
-     */
-    public void verifyToDoCompleteStatus(String engagementField, String engagementValue, String todoName, String status) {
-        getLogger().info("Verify To-Do complete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("completed").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+        if (status.equals("true")) {
+            getLogger().info("Verify Completed To-Do front-end");
+            if ((toDoRow.getAttribute("class").endsWith("todoCompleted")) && (toDoCategory.getAttribute("class").endsWith("disabled")) && (toDoClient.getAttribute("class").endsWith("disabled")) && (toDoAuditor.getAttribute("class").endsWith("disabled"))) {
+                NXGReports.addStep("Verify Completed To-Do front-end", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify Completed To-Do front-end", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
         } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Verify not Completed To-Do front-end");
+            if ((!toDoRow.getAttribute("class").endsWith("todoCompleted")) && (!toDoCategory.getAttribute("class").endsWith("disabled")) && (!toDoClient.getAttribute("class").endsWith("disabled")) && (!toDoAuditor.getAttribute("class").endsWith("disabled"))) {
+                NXGReports.addStep("Verify not Completed To-Do front-end", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify not Completed To-Do front-end", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
         }
     }
 
     /**
-     * verify 'status' field of a To-Do
+     * create a record with name and date(of this month- implement choose month and year later)
+     * TODO split into 2 cases: Assign to-> Auditor || Client . So insane!
      *
-     * @param engagementField engagement field chosen as key
-     * @param engagementValue engagement value chosen as value
-     * @param todoName        name of To-Do to check status
-     * @param status          status delete expected
+     * @param toDoName     name of To-Do to choose
+     * @param assigneeName name of assignee
      */
-    public void verifyToDoDeteteStatus(String engagementField, String engagementValue, String todoName, String status) {
-        getLogger().info("Verify To-Do delete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("status").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
+    public void verifyTodoAssignToFrontend(String toDoName, String assigneeName) {
+        getLogger().info("Verify name of assignee on UI after assign. Expected: " + assigneeName);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String assignee = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']")).getText();
+        //System.out.println("++++++++++++++++++++++++++++++++++++++++assigneeName - text " + assignee + " - " + assigneeName);
+        if (assigneeName.equals(assignee)) {
+            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + assigneeName, LogAs.PASSED, null);
         } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + assigneeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify deleted To-Do(not exist) in frontend
+     *
+     * @param toDoName name of To-Do to choose
+     */
+    public void verifyTodoDeletedFrontend(String toDoName, String status) {
+        try {
+            getLogger().info("Verify a Todo not exist. Name: " + toDoName);
+            //Thread.sleep(1000);
+            //TODO move xpath to properties file, very low peformance
+            getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']"));
+            if (status.equals("INACTIVE")) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify a Todo not exist. Name: " + toDoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            } else {
+                NXGReports.addStep("Verify a Todo exist. Name: " + toDoName, LogAs.PASSED, null);
+            }
+        } catch (NoSuchElementException ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            if (status.equals("INACTIVE")) {
+                NXGReports.addStep("Verify a Todo not exist. Name: " + toDoName, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify a Todo exist. Name: " + toDoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            getLogger().info(ex.getStackTrace());
         }
     }
 
@@ -1761,6 +1778,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verify click button Delete.");
             Thread.sleep(smallTimeOut);
             btnDelete.click();
+            Thread.sleep(smallTimeOut);
             NXGReports.addStep("Verify click button Delete.", LogAs.PASSED, null);
         } catch (Exception ex) {
             getLogger().info(ex);
@@ -1785,5 +1803,107 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
     /**-----end of huy.huynh PLAT-2285-----*/
+
+    /**
+     * Added by huy.huynh on 19/05/2017.
+     * Scenarios : PLAT 2303 - Backend Undo
+     */
+
+    /**
+     * get 'engagements' collection(table on mongo)
+     */
+    public DBCollection getEngagementCollection() {
+        DBCollection dbCollection = null;
+        try {
+            //TODO move db config to properties file
+            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
+            dbCollection = db.getCollection("auvenir", "engagements");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return dbCollection;
+    }
+
+    /**
+     * get 'engagements' collection(table on mongo)
+     */
+    public DBCollection getUserCollection() {
+        DBCollection dbCollection = null;
+        try {
+            //TODO move db config to properties file
+            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
+            dbCollection = db.getCollection("auvenir", "users");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return dbCollection;
+    }
+
+    /**
+     * verify 'completed' field of a To-Do in backend
+     *
+     * @param engagementField engagement field chosen as key
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param status          status complete expected
+     */
+    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
+        getLogger().info("Verify To-Do complete status on database.");
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        //TODO get from properties file
+        if (jsonObject.get("completed").toString().equals(status)) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify 'status' field of a To-Do
+     *
+     * @param engagementField engagement field chosen as key
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param assigneeName    name of assignee
+     */
+    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
+        getLogger().info("Verify To-Do delete status on database.");
+        String idAssignee = MongoDB.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
+        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
+
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
+
+        //TODO get from properties file
+        if (jsonObject.get("auditorAssignee").toString().contains(idAssignee)) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify 'status' field of a To-Do
+     *
+     * @param engagementField engagement field chosen as key
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param status          status delete expected
+     */
+    public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) {
+        getLogger().info("Verify To-Do delete status on database.");
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
+        //TODO get from properties file
+        if (jsonObject.get("status").toString().equals(status)) {
+            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**-----end of huy.huynh PLAT-2303-----*/
 }
 
