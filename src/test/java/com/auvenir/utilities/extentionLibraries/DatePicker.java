@@ -98,20 +98,21 @@ public class DatePicker {
      * @param year  year AD
      */
     private boolean timeValidation(String date, String month, String year) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         try {
+            simpleDateFormat.setLenient(false);
             simpleDateFormat.parse(date + "-" + month + "-" + year);
             return true;
-        } catch (ParseException e) {
+        } catch (Exception e) {
             return false;
         }
     }
 //    public static void main(String[] args) {
 //
 //        System.out.println("yearDif*12+monthDif = " + timeValidation("10", "September", "1"));
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("10", "Octorbe", "2000"));
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("30", "July", "2017"));
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("32", "Octorber", "2017"));
+//        System.out.println("yearDif*12+monthDif = " + timeValidation("29", "2", "2011"));
+//        System.out.println("yearDif*12+monthDif = " + timeValidation("30", "12", "2017"));
+//        System.out.println("yearDif*12+monthDif = " + timeValidation("32", "July", "2017"));
 //        System.out.println("yearDif*12+monthDif = " + timeValidation("-1", "a", ""));
 //    }
 }
