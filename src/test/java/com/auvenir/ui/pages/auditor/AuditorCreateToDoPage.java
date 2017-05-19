@@ -15,6 +15,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.apache.xalan.lib.ExsltDatetime;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -118,8 +119,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-name")
     private WebElement toDoNameInputEle;
 
-	@FindBy(xpath = "//div[@class='inputMargin div-name-container']//p[@class='auv-inputError']")
-	private WebElement toDoNameErrorLabelEle;
+    @FindBy(xpath = "//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
+    private WebElement toDoNameErrorLabelEle;
 
     @FindBy(xpath = "//*[@id='todo-add-btn']")
     private WebElement toDoSaveIconEle;
@@ -143,22 +144,22 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
 
-	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='newTodoInput']")
-	private List<WebElement> toDoNameTextColumnEle;
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='newTodoInput']")
+    private List<WebElement> toDoNameTextColumnEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class='text']")
     private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
-	private List<WebElement> categoryComboBoxEle;
+    private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class = 'menu']")
     private List<WebElement> categoryComboBoxMenuEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
-	private WebElement addNewCategoryMenuItemEle;
+    private WebElement addNewCategoryMenuItemEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[2]")
     WebElement editCategoryEle;
@@ -257,6 +258,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//div[contains(@id,'flashAlert')]//div[@class='send-message-success-alert']")
     private WebElement toastMessageSucessEle;
+
+    @FindBy(xpath="//*[@id='m-ce-systemContainer']//h3[contains(text(),'Mark As Complete?')]")
+    private WebElement markAsCompleteTitle;
+
+    @FindBy(xpath = "//img[@class='au-modal-closeBtn']")
+    private WebElement markPopupCloseBtn;
+
+    @FindBy(xpath = "//div[@class='ce-footerBtnHolder']//button[contains(text(),'Cancel')]")
+    private WebElement cancelMarkPopupBtn;
+    @FindBy(xpath = "//div[@class='ce-footerBtnHolder']//button[contains(text(),'Archive')]")
+    private WebElement archiveMarkPopupBtn;
+
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='text']")
+    private List<WebElement> textToDoName;
+
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow todoCompleted']")
+    private WebElement textToDoNameArchiveComplete;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -1072,10 +1090,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
         categoryComboBoxEle.get(0).click();
         editCategoryEle.click();
     }
-
+    private String checkMarkToDoName = "";
     public void clickCheckboxNewToDoTask() {
         waitForClickableOfElement(eleToDoCheckboxRow.get(0), "CheckBox New ToDo Task");
         clickElement(eleToDoCheckboxRow.get(0), "CheckBox New ToDo Task");
+        checkMarkToDoName = textToDoName.get(0).getAttribute("value").toString();
+        getLogger().info("checkMarkToDoName first = " + checkMarkToDoName);
     }
 
     public void clickBulkActionsDropdown() {
@@ -1126,6 +1146,166 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void clickDeleteToDoBulkActions() {
         List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
         clickElement(menuBulkActionsDropdown.get(2), "Deleted ToDo Button");
+    }
+
+    public void verifyCompleteMarkPopup() {
+        verifyShowConfirmPopupAndMarkTitle();
+        verifyDisplayImageInPopup();
+        verifyMarkPopupColorCancelBtn();
+        verifyMarkPopupColorArchiveBtn();
+        //verifyClickClosePopup();
+        verifyMarkCompleteArchive();
+    }
+
+    public void verifyShowConfirmPopupAndMarkTitle()
+    {
+        getLogger().info("Verify complete mark popup");
+        try {
+            List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+            clickElement(menuBulkActionsDropdown.get(1), "Bulk complete button");
+            waitForVisibleElement(markAsCompleteTitle, "wait for visible markAsCompleteTitle");
+            String markCompleteTitle = markAsCompleteTitle.getText();
+            getLogger().info("markCompleteTitle = " + markCompleteTitle);
+            if(markCompleteTitle.equals("Mark As Complete?"))
+            {
+                NXGReports.addStep("Verify complete mark popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify complete mark popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            getLogger().info(ex.getMessage());
+            NXGReports.addStep("Verify complete mark popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyDisplayImageInPopup()
+    {
+        getLogger().info("Verify to display image in popup");
+        try
+        {
+            waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            WebElement imageInPopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            waitForVisibleElement(imageInPopup, "visible " + imageInPopup);
+            NXGReports.addStep("Verify to display image in popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        catch(Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to display image in popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyMarkPopupColorCancelBtn()
+    {
+        boolean isCheckColorCancelButton = false;
+        getLogger().info("Verify the cancel button in Mark as complete popup");
+        try
+        {
+            waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]"));
+            isCheckColorCancelButton = validateCSSValueElement(cancelMarkPopupBtn, backgroundColor, "rgba(151, 147, 147, 1)");
+            isCheckColorCancelButton = validateCSSValueElement(cancelMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
+            if(isCheckColorCancelButton) {
+                NXGReports.addStep("Verify the cancel button in Mark as complete popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the cancel button in Mark as complete popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch(Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the cancel button in Mark as complete popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyMarkPopupColorArchiveBtn()
+    {
+        boolean isCheckColorCancelButton = false;
+        getLogger().info("Verify the archive button in Mark as complete popup");
+        try
+        {
+            waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]"));
+            isCheckColorCancelButton = validateCSSValueElement(archiveMarkPopupBtn, backgroundColor, "rgba(89, 155, 161, 1)");
+            isCheckColorCancelButton = validateCSSValueElement(archiveMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
+            clickElement(archiveMarkPopupBtn, "click to archiveMarkPopupBtn");
+            if(isCheckColorCancelButton) {
+                NXGReports.addStep("Verify the archive button in Mark as complete popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the archive button in Mark as complete popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch(Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the archive button in Mark as complete popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyClickClosePopup()
+    {
+        getLogger().info("Verify to click to close complete mark popup");
+        try {
+            waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            WebElement closePopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            waitForClickableOfElement(closePopup, "wait for click to closePopup");
+            boolean isClickClose = clickElement(closePopup, "click to closePopup");
+            if (isClickClose) {
+                NXGReports.addStep("Verify to click to close complete mark popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to click to close complete mark popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to click to close complete mark popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyMarkCompleteArchive()
+    {
+        getLogger().info("Verify mark ToDo page complete archive");
+        boolean isMarkCompleteArchive = false;
+        try {
+            for (WebElement markToDoPageMark : textToDoName) {
+                if (checkMarkToDoName.equals(markToDoPageMark.getAttribute("value").toString())) {
+                    getLogger().info("checkMarkToDoName = " + checkMarkToDoName);
+                    waitForVisibleElement(textToDoNameArchiveComplete, "wait for " + textToDoNameArchiveComplete);
+                    String dataComplete = textToDoNameArchiveComplete.getAttribute("data-completed").toString();
+                    getLogger().info("dataComplete = " + dataComplete);
+                    if (dataComplete.equals("true")) {
+                        isMarkCompleteArchive = true;
+                    }
+                    break;
+                }
+            }
+            if(isMarkCompleteArchive)
+            {
+                NXGReports.addStep("Verify mark ToDo page complete archive", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify mark ToDo page complete archive", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch(Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify mark ToDo page complete archive", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
 	public void verifyGUIDeleteToDoPopUp() {

@@ -263,7 +263,6 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-
     @Test(priority = 10, enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
     public void verifyGUIToDoSaveIcon() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -293,7 +292,6 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
 
     @Test(priority = 11, enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
 
@@ -778,6 +776,34 @@ public class AuditorTodoListTest extends AbstractTest {
             NXGReports.addStep("Verify Action of Add Bulk Actions on To do page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Verify Action of Add Bulk Actions on To do page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    /**
+     * Added by minh.nguyen on 19/05/2017.
+     */
+    @Test(priority = 27, enabled = true, description = "Verify mark as complete")
+    public void verifyMarkAsComplete() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorCreateToDoService.createToDoPage();
+            auditorCreateToDoService.clickCheckboxNewToDoTask();
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify new Category popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
