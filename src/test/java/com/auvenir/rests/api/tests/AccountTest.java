@@ -2,12 +2,8 @@ package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
 import com.auvenir.utilities.MongoDBService;
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Response;
-import static com.jayway.restassured.RestAssured.given;
-import static org.testng.AssertJUnit.assertEquals;
-
 import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import io.restassured.module.jsv.JsonSchemaValidator;
@@ -19,6 +15,8 @@ import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
 import java.util.Map;
+
+import static com.jayway.restassured.RestAssured.given;
 
 /**
  * Created by doai.tran on 4/21/2017.
@@ -36,11 +34,12 @@ public class AccountTest extends AbstractAPIService {
     @BeforeMethod
     public void preCondition(){
         getBaseUrl();
+        AbstractAPIService.sStatusCnt=0;
     }
     @BeforeClass
     public void getRestBaseUrl()throws UnknownHostException {
         //RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer(dataBaseServer,port,database);
+        MongoDBService.connectDBServer(dataBaseServer,port,dataBaseServer,userName,password,ssl);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
