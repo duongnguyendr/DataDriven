@@ -1,25 +1,20 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
-import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Response;
-import static com.jayway.restassured.RestAssured.given;
-import static org.testng.AssertJUnit.assertEquals;
-
 import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
-import java.util.Map;
 
 /**
  * Created by doai.tran on 4/26/2017.
@@ -33,7 +28,8 @@ public class AuthSessionTest extends AbstractAPIService {
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException {
         //RestAssured.basePath = "http://finicity-qa-334.com";
-        MongoDBService.connectDBServer(dataBaseServer,port, database);
+        //MongoDBService.connectDBServer(dataBaseServer,port, database);
+        MongoDBService.connectDBServer(dataBaseServer,port,dataBaseServer,userName,password,ssl);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
@@ -46,6 +42,11 @@ public class AuthSessionTest extends AbstractAPIService {
         MongoDBService.insertAccount("Account1");
         MongoDBService.deleteAuthSession("AuthSession1");
         MongoDBService.insertAuthSession("AuthSession1");
+    }
+    @BeforeMethod
+    public void preCondition(){
+        getBaseUrl();
+        AbstractAPIService.sStatusCnt=0;
     }
     /*
     TestCase1: Get AuthSession with valid sessionID

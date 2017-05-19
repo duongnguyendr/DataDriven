@@ -1,28 +1,16 @@
 package com.auvenir.rests.api.services;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.WebService;
-import com.auvenir.ui.pages.common.GmailPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.*;
-
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
-//import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
+
+//import org.testng.log4testng.Logger;
 
 /*
     This service for API Rest Assert
@@ -40,7 +28,8 @@ public class AbstractAPIService {
      */
     public String baseUrl="ariel.auvenir.com";
     public void setBaseUrl(String serverDomainName){
-        baseUrl="http://" + serverDomainName;
+        baseUrl=serverDomainName;
+
         getLogger().info("Url of testing server is: " + baseUrl);
     }
     public String getBaseUrl(){
@@ -52,15 +41,27 @@ public class AbstractAPIService {
     Updated by: Doai.Tran on 9/5/2017
      */
     public String dataBaseServer="34.205.90.145";
-    public void setDataBase(String serverDataBase){
+    public void setDataBaseSer(String serverDataBase){
         dataBaseServer= serverDataBase;
         getLogger().info("DataBase server: " + dataBaseServer);
     }
-    public String getDataBase(){
-        setDataBase(System.getProperty("serverDataBase"));
+    public String getDataBaseSer(){
+        setDataBaseSer(System.getProperty("serverDataBase"));
         return dataBaseServer;
     }
-    public  String database ="serviceFinicity";
+    /*
+    Refactor to implement parameter on maven: database
+    Updated by: Doai.Tran on 19/5/2017
+     */
+    public String dataBase ="finicity";
+    public void setDataBase(String sDataBase){
+        dataBase= sDataBase;
+        getLogger().info("DataBase: " + dataBase);
+    }
+    public String getDataBase(){
+        setDataBase(System.getProperty("dataBase"));
+        return dataBase;
+    }
     /*
     Refactor to implement parameter on maven: port
     Updated by: Doai.Tran on 18/5/2017
@@ -74,6 +75,41 @@ public class AbstractAPIService {
         setPort(System.getProperty("portNo"));
         return port;
     }
+    /*
+    Refactor to implement parameter on maven: userNameDB
+    Updated by: Doai.Tran on 18/5/2017
+     */
+    public void setUserName(String userNameDB){
+        userName= userNameDB;
+        getLogger().info("UserName: " + userName);
+    }
+    public String getUserName(){
+        setUserName(System.getProperty("userNameDB"));
+        return userName;
+    }
+    public  String userName ="auvqadb";
+    /*
+    Refactor to implement parameter on maven: PasswordDB
+    Updated by: Doai.Tran on 18/5/2017
+     */
+    public void setPassword(String PasswordDB){
+        password= PasswordDB;
+        getLogger().info("Password: " + password);
+    }
+    public String getPassword(){
+        setPassword(System.getProperty("PasswordDB"));
+        return password;
+    }
+    public  String password ="rE7IrgSfjnSjP9Pr08MQNhcXpezZp3d7SzfWreRVhW1zpU6f4gHnca0CNOLH9wvKewslvb5mfXDd3vsds76UhQ==";
+    public void setSSL(String SSL){
+        ssl= SSL;
+        getLogger().info("SSL: " + ssl);
+    }
+    public String getSSL(){
+        setSSL(System.getProperty("SSL"));
+        return ssl;
+    }
+    public  String ssl ="No";
     /**
     @param actual The actual value that you want to assert.
     @param expected The expected value that you want to assert.
