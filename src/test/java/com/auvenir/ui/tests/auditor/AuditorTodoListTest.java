@@ -101,7 +101,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + GeneralUtilities.getTimeStampForNameSuffix());
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyCreateNewCategory();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
