@@ -28,6 +28,7 @@ public class AuditorEditCategoryService extends AbstractService {
         auditorEditCategoryPage.selectEditCategories();
 
     }
+
     public void navigateToEditAtTodoListPage() throws Exception {
 
         auditorEditCategoryPage.selectEditCategoriesAtTodoPage();

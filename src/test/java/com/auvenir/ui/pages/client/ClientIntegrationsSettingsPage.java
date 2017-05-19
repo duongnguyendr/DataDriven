@@ -13,16 +13,17 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
  */
 public class ClientIntegrationsSettingsPage extends AbstractPage {
     private final static int waitTime = 60;
-    public ClientIntegrationsSettingsPage(Logger logger, WebDriver driver)
-    {
-        super(logger,driver);
+
+    public ClientIntegrationsSettingsPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
         //PageFactory.initElements(driver, this);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
     }
+
     @FindBy(xpath = "//div[contains(text(),'Google Drive')]")
     private WebElement googleDriveTextEle;
 
     public void verifyIntegrationsSettingsPage() {
-        waitForVisibleElement(googleDriveTextEle,"googleDriveTextEle");
+        waitForVisibleElement(googleDriveTextEle, "googleDriveTextEle");
     }
 }

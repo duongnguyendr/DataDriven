@@ -15,9 +15,9 @@ public class ContactsService extends AbstractService {
 
     AuditorContactsPage auditorContactsPage;
 
-/*
- * contructor
- */
+    /*
+     * contructor
+     */
     public ContactsService(Logger logger, WebDriver driver) {
 
         super(logger, driver);
@@ -44,10 +44,6 @@ public class ContactsService extends AbstractService {
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
-
-
-
 
 
     public void verifyAuditorContactsPage() {

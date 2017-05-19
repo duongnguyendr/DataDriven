@@ -11,19 +11,20 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 /**
  * Created by cuong.nguyen on 4/26/2017.
  */
-public class ClientNotificationsSettingsPage extends AbstractPage{
+public class ClientNotificationsSettingsPage extends AbstractPage {
     private final static int waitTime = 60;
-    public ClientNotificationsSettingsPage(Logger logger, WebDriver driver)
-    {
-        super(logger,driver);
+
+    public ClientNotificationsSettingsPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
         //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
     }
+
     @FindBy(xpath = "//div[contains(text(),'Notifications Settings')]")
     WebElement notificationsSettingsHeaderEle;
 
 
     public void verifyNotificationsSettingsPage() {
-        waitForVisibleElement(notificationsSettingsHeaderEle,"notificationsSettingsHeaderEle");
+        waitForVisibleElement(notificationsSettingsHeaderEle, "notificationsSettingsHeaderEle");
 
     }
 }

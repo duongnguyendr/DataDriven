@@ -9,36 +9,39 @@ import org.openqa.selenium.support.PageFactory;
 import org.apache.log4j.Logger;
 
 public class AuditorClientPage extends AbstractPage {
-	
 
 
+    public AuditorClientPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        PageFactory.initElements(driver, this);
+    }
 
-	public AuditorClientPage(Logger logger,WebDriver driver) {
-		super(logger,driver);
-		PageFactory.initElements(driver, this);
-	}
-	
-	@FindBy(xpath="//span[contains(text(),'My Clients')]")
-	private WebElement eleMyClientTxt;
-	public WebElement getEleMyClientTxt(){
-		return eleMyClientTxt;
-	}	
-	
-	@FindBy(xpath="//div[@id='clientList-noClients']/img")
-	private WebElement eleNoClientsImg;
-	public WebElement getEleNoClientsImg(){
-		return eleNoClientsImg;
-	}	
-	@FindBy(xpath="//h2[@class='noEngagement-txt']")
-	private WebElement eleYouDontHaveTxt;
-	public WebElement getEleYouDontHaveTxt(){
-		return eleYouDontHaveTxt;
-	}	
-	
-	@FindBy(xpath="//button[contains(text(),'Add New')]")
-	private WebElement eleAddNewBtn;
-	public WebElement getEleAddNewBtn(){
-		return eleAddNewBtn;
-	}
+    @FindBy(xpath = "//span[contains(text(),'My Clients')]")
+    private WebElement eleMyClientTxt;
+
+    public WebElement getEleMyClientTxt() {
+        return eleMyClientTxt;
+    }
+
+    @FindBy(xpath = "//div[@id='clientList-noClients']/img")
+    private WebElement eleNoClientsImg;
+
+    public WebElement getEleNoClientsImg() {
+        return eleNoClientsImg;
+    }
+
+    @FindBy(xpath = "//h2[@class='noEngagement-txt']")
+    private WebElement eleYouDontHaveTxt;
+
+    public WebElement getEleYouDontHaveTxt() {
+        return eleYouDontHaveTxt;
+    }
+
+    @FindBy(xpath = "//button[contains(text(),'Add New')]")
+    private WebElement eleAddNewBtn;
+
+    public WebElement getEleAddNewBtn() {
+        return eleAddNewBtn;
+    }
 
 }
