@@ -1214,64 +1214,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
-     * Added by huy.huynh on 18/05/2017.
-     * Scenarios : PLAT 2285 - Add undo option
-     */
-
-    /**
-     * verify button Undo exist
-     */
-    public void uiVerifyButtonUndoExist() {
-        try {
-            getLogger().info("Verify button Undo Todo exist.");
-            btnToDoUndo.getAttribute("class");
-            NXGReports.addStep("Verify button Undo Todo exist.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify button Undo Todo exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * verify button Undo disable
-     */
-    public void uiVerifyButtonUndoDisable() {
-        try {
-            getLogger().info("Verify button Undo Todo disable.");
-            Thread.sleep(2000);
-
-            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo disabled")) {
-                NXGReports.addStep("Verify button Undo Todo disable.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify button Undo Todo disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * verify button Undo enable
-     */
-    public void uiVerifyButtonUndoEnable() {
-        try {
-            getLogger().info("Verify button Undo Todo enable.");
-            Thread.sleep(2000);
-
-            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo")) {
-                NXGReports.addStep("Verify button Undo Todo enable.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify button Undo Todo enable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * move to add new To-do page
      *
      * @throws Exception
@@ -1532,6 +1474,64 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void waitMessageIsDisappear() {
         waitForDisappearElement(toastMessageSucessEle, "toastMessageSucessEle");
+    }
+
+    /**
+     * Added by huy.huynh on 18/05/2017.
+     * Scenarios : PLAT 2285 - Add undo option
+     */
+
+    /**
+     * verify button Undo exist
+     */
+    public void uiVerifyButtonUndoExist() {
+        try {
+            getLogger().info("Verify button Undo Todo exist.");
+            btnToDoUndo.getAttribute("class");
+            NXGReports.addStep("Verify button Undo Todo exist.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify button Undo Todo exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify button Undo disable
+     */
+    public void uiVerifyButtonUndoDisable() {
+        try {
+            getLogger().info("Verify button Undo Todo disable.");
+            Thread.sleep(2000);
+
+            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo disabled")) {
+                NXGReports.addStep("Verify button Undo Todo disable.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify button Undo Todo disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * verify button Undo enable
+     */
+    public void uiVerifyButtonUndoEnable() {
+        try {
+            getLogger().info("Verify button Undo Todo enable.");
+            Thread.sleep(2000);
+
+            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo")) {
+                NXGReports.addStep("Verify button Undo Todo enable.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify button Undo Todo enable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
