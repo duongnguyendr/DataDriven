@@ -167,10 +167,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement categoryTitleEle;
 
-    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
-    WebElement closePopupBtnEle;
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
+	WebElement closePopupBtnEle;
 
-    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
     WebElement editCategoryCancelBtnEle;
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
@@ -250,8 +250,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Cancel')]")
     WebElement cancelDeletedToDoButtonEle;
 
-    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//div[@class='center']/div[@class='des-delete-modal']")
-    WebElement centerDeleteToDoDescriptionEle;
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//div[@class='center']/div[@class='des-delete-modal']")
+	WebElement centerDeleteToDoDescriptionEle;
+
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]")
+	WebElement popUpWindows;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[contains(text(),'Delete')]")
     WebElement deletedToDoButtonEle;
@@ -483,16 +486,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
             if (isCheckMaxLength) {
                 NXGReports.addStep("Verify check max length of search textbox", LogAs.PASSED, null);
-
-            } else {
-                NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED, null);
-
-                AbstractService.sStatusCnt++;
             }
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify check max length of search textbox", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -1395,25 +1391,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 			clickElement(eleToDoCheckboxRow.get(index),String.format("Check box of Task Name: %s",todoName));
 	}
 
-    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
-
-    /**
-     * check select data drop down is show when click
-     *
-     * @throws Exception
-     */
-    public void verifySelectDateDropDown() throws Exception {
-        try {
-            boolean result;
-            waitForClickableOfElement(eleIdDueDate, "Select date drop down");
-            eleIdDueDate.click();
-            NXGReports.addStep("Verify Select date drop down is displayed", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify Select date drop down is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
     /**
      * Added by huy.huynh on 18/05/2017.
      * Scenarios : PLAT 2285 - Add undo option
@@ -1472,264 +1449,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    /**
-     * move to add new To-do page
-     *
-     * @throws Exception
-     */
-    public void navigateAddNewToDoPage() throws Exception {
-        getLogger().info("Run createToDoPage()");
-        waitForClickableOfElement(createToDoBtnEle, "create todo button.");
-        this.createToDoBtnEle.click();
-    }
-
-    /**
-     * check default value of due date text box
-     *
-     * @return true | false
-     */
-    public boolean checkDefaultDueDateValue() {
-        waitForVisibleElement(eleDueDateValue, "Engagement Due date");
-        waitForVisibleElement(eleIdDueDate, "Default Due date");
-        String engagementDueDate = eleDueDateValue.getText().substring(5, eleDueDateValue.getText().length());
-        String defaultDueDate = eleIdDueDate.getText();
-        getLogger().info(engagementDueDate);
-        getLogger().info(defaultDueDate);
-        return engagementDueDate.equals(defaultDueDate);
-    }
-
-    /**
-     * check default format
-     */
-    public boolean checkFormatDueDate() {
-        waitForVisibleElement(eleIdDueDate, "Due date");
-        return isThisDateValid(eleIdDueDate.getAttribute("value").trim(), "mm/dd/yyyy");
-    }
-
-    /**
-     * Verify data on date picker
-     */
-    public boolean verifyDataOfDatePicker(boolean isNewToDoPage) {
-        try {
-            Calendar cal = Calendar.getInstance();
-            int currentDay = cal.get(Calendar.DAY_OF_MONTH);
-            int currentMonth = cal.get(Calendar.MONTH);
-            int currentYear = cal.get(Calendar.YEAR);
-            int focusDay = 0;
-            int focusMonth = 0;
-            int focusYear = 0;
-            // If isNewToDoPage = true, verify in add new to-do page
-            if (isNewToDoPage) {
-                waitForClickableOfElement(eleIdDueDate, "Due date text box");
-                eleIdDueDate.click();
-                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
-                waitForVisibleElement(eleDataPickerToDate, "Date picker to date");
-                waitForVisibleElement(eleDataPickerToDay, "Date picker to day");
-
-                focusDay = Integer.parseInt(eleDataPickerToDay.getAttribute("text").trim());
-                focusMonth = Integer.parseInt(eleDataPickerToDate.getAttribute("data-month").trim());
-                focusYear = Integer.parseInt(eleDataPickerToDate.getAttribute("data-year").trim());
-                getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") + "Month :" + eleDataPickerToDate.getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
-
-            }
-            // Compare focus day, month, year with current day, month, year
-            if (focusDay != currentDay || focusMonth != currentMonth || focusYear != currentYear) {
-                NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                return false;
-            }
-            NXGReports.addStep("Verify data in date picker", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-        return true;
-    }
-
-
-    /**
-     * Hover on date picker
-     */
-    public void hoverDateItemInDatePicker(boolean isNewToDoPage) {
-        try {
-            // If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
-            if (isNewToDoPage) {
-                waitForClickableOfElement(eleIdDueDate, "Due date text box");
-                eleIdDueDate.click();
-            } else {
-                waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
-                eleToDoNewRowDueDateText.get(0).click();
-            }
-            waitForClickableOfElement(eleXpathChooseDate, "Date picker");
-            hoverElement(eleXpathChooseDate, "Date picker");
-            NXGReports.addStep("Verify hover select date in date picker", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify hover select date in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * choose date item in date picker
-     *
-     * @return true | false
-     */
-    public boolean chooseDateItemInDataPicker(boolean isNewToDoPage) throws Exception {
-        boolean result = true;
-        try {
-            // If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
-            if (isNewToDoPage) {
-                waitForClickableOfElement(eleIdDueDate, "Due date tex box");
-                eleIdDueDate.click();
-                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
-                eleXpathChooseDate.click();
-                result = "".equals(eleIdDueDate.getAttribute("value").trim());
-            } else {
-                waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
-                eleToDoNewRowDueDateText.get(0).click();
-                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
-                eleXpathChooseDate.click();
-                result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
-            }
-            //If result = true : before and after value as same --> data picker not work
-            if (result) {
-                NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                return false;
-            }
-
-            NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Check date picker is move next or previous month when click Prev or Next link.
-     *
-     * @param actionLink : prev | next
-     * @return true | false
-     */
-    public boolean checkDatePickerChangeMonth(String actionLink, boolean isNextMonth, boolean isNewToDoPage) {
-        boolean result = true;
-        String beforeTitle = "";
-        String afterTitle = "";
-        try {
-            // If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
-            if (isNewToDoPage) {
-                waitForClickableOfElement(eleIdDueDate, "Due date text box");
-                eleIdDueDate.click();
-            } else {
-                waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
-                eleToDoNewRowDueDateText.get(0).click();
-            }
-
-            waitForVisibleElement(eleDataPickerTitle, "Date picker title");
-            //Get tile date picker before click next or previous link
-            beforeTitle = eleDataPickerTitle.getText();
-
-            // If isNextMonth = true : click on Next link in date picker |
-            //    isNextMonth = false, click on Prev link in date picker
-            if (!isNextMonth) {
-                waitForClickableOfElement(elePrevDataPickerLink, "Previous date picker link");
-                elePrevDataPickerLink.click();
-            } else {
-                waitForClickableOfElement(eleNextDataPickerLink, "Next date picker link");
-                eleNextDataPickerLink.click();
-            }
-
-            //Get tile date picker after click next or previous link
-            afterTitle = eleDataPickerTitle.getText();
-            result = beforeTitle.equals(afterTitle);
-
-            //If result = true : before and after value as same --> data picker not work
-            if (result) {
-                NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                return false;
-            }
-
-            NXGReports.addStep("Date picker is change " + actionLink + " month", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Verify input correct format date into due date text box
-     *
-     * @param dateValue
-     * @return true | false
-     */
-    public boolean verifyInputCorrectFormatDate(String dateValue, boolean isNewToDoPage) {
-        boolean result = true;
-        try {
-            // If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
-            if (isNewToDoPage) {
-                waitForClickableOfElement(eleIdDueDate, "Due date text box");
-                clickElement(eleIdDueDate, "Due date text box");
-                sendKeyTextBox(eleIdDueDate, dateValue, "Due date text box");
-                result = validateAttributeElement(eleIdDueDate, "value", "");
-            } else {
-                waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
-                clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
-                sendKeyTextBox(eleToDoNewRowDueDateText.get(0), dateValue, "Select due date text box");
-                result = validateAttributeElement(eleToDoNewRowDueDateText.get(0), "value", "");
-
-            }
-            //If result = false : before and after value as not same --> can not input correct data into due date control
-            if (!result) {
-                NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                return false;
-            }
-            NXGReports.addStep("Input correct date format in due date text box ", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return false;
-        }
-        return result;
-    }
-
-    /**
-     * Verify input wrong format date into due date text box
-     *
-     * @param dateValue
-     * @return true | false
-     */
-    public boolean verifyInputWrongValue(String dateValue, boolean isNewToDoPage) {
-        boolean result = true;
-        try {
-            // If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
-            if (isNewToDoPage) {
-                waitForClickableOfElement(eleIdDueDate, "Due date text box");
-                clickElement(eleIdDueDate, "Due date text box");
-                sendKeyTextBox(eleIdDueDate, dateValue, "Due date text box");
-                result = eleIdDueDate.getAttribute("value").equals(dateValue);
-            } else {
-                waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
-                clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
-                sendKeyTextBox(eleToDoNewRowDueDateText.get(0), dateValue, "Select due date text box");
-                result = eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(dateValue);
-
-            }
-            //If result = true : before and after value as same --> can input wrong data into due date control
-            if (result) {
-                NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                return false;
-            }
-            NXGReports.addStep("Input wrong date format in due date text box ", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return false;
-        }
-        return true;
-    }
-    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
 
     public void waitMessageIsDisappear() {
         waitForDisappearElement(toastMessageSucessEle, "toastMessageSucessEle");
@@ -1998,5 +1718,698 @@ public class AuditorCreateToDoPage extends AbstractPage {
 		else count = toDoTaskRowEle.size();
 		return count;
 	}
+
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+
+	/**
+	 * check select data drop down is show when click
+	 * @throws Exception
+	 */
+	public void verifySelectDateDropDown()throws Exception {
+		try{
+			waitForClickableOfElement(eleIdDueDate,"Select date drop down");
+			eleIdDueDate.click();
+			NXGReports.addStep("Verify Select date drop down is displayed", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify Select date drop down is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * move to add new To-do page
+	 * @throws Exception
+	 */
+	public void navigateAddNewToDoPage()throws Exception {
+		getLogger().info("Run createToDoPage()");
+		waitForClickableOfElement(createToDoBtnEle,"create todo button.");
+		this.createToDoBtnEle.click();
+	}
+
+	/**
+	 * check default value of due date text box
+	 * @return true | false
+	 */
+	public boolean checkDefaultDueDateValue(){
+		waitForVisibleElement(eleDueDateValue,"Engagement Due date");
+		waitForVisibleElement(eleIdDueDate,"Default Due date");
+		String engagementDueDate = eleDueDateValue.getText().substring(5,eleDueDateValue.getText().length());
+		String defaultDueDate = eleIdDueDate.getText();
+		getLogger().info(engagementDueDate);
+		getLogger().info(defaultDueDate);
+		return engagementDueDate.equals(defaultDueDate);
+	}
+
+	/**
+	 * check default format
+	 */
+	public boolean checkFormatDueDate(){
+		waitForVisibleElement(eleIdDueDate,"Due date");
+		return isThisDateValid(eleIdDueDate.getAttribute("value").trim(),"mm/dd/yyyy");
+	}
+
+	/**
+	 * Verify data on date picker
+	 */
+	public boolean verifyDataOfDatePicker(boolean isNewToDoPage){
+		try{
+			Calendar cal = Calendar.getInstance();
+			int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+			int currentMonth = cal.get(Calendar.MONTH);
+			int currentYear = cal.get(Calendar.YEAR);
+			int focusDay = 0;
+			int focusMonth = 0;
+			int focusYear= 0;
+			// If isNewToDoPage = true, verify in add new to-do page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				waitForVisibleElement(eleDataPickerToDate,"Date picker to date");
+				waitForVisibleElement(eleDataPickerToDay,"Date picker to day");
+
+				focusDay = Integer.parseInt( eleDataPickerToDay.getAttribute("text").trim());
+				focusMonth = Integer.parseInt( eleDataPickerToDate.getAttribute("data-month").trim());
+				focusYear = Integer.parseInt(eleDataPickerToDate.getAttribute("data-year").trim());
+				getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") +  "Month :" + eleDataPickerToDate.getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
+
+			}
+			// Compare focus day, month, year with current day, month, year
+			if(focusDay != currentDay || focusMonth != currentMonth || focusYear != currentYear){
+				NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Verify data in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+		return true;
+	}
+
+
+	/**
+	 * Hover on date picker
+	 */
+	public void hoverDateItemInDatePicker(boolean isNewToDoPage){
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+			}
+			waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+			hoverElement(eleXpathChooseDate,"Date picker");
+			NXGReports.addStep("Verify hover select date in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify hover select date in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * choose date item in date picker
+	 * @return true | false
+	 */
+	public boolean chooseDateItemInDataPicker(boolean isNewToDoPage) throws Exception {
+		boolean result = true;
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date tex box");
+				eleIdDueDate.click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				eleXpathChooseDate.click();
+				result = "".equals(eleIdDueDate.getAttribute("value").trim());
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+				waitForClickableOfElement(eleXpathChooseDate,"Date picker");
+				eleXpathChooseDate.click();
+				result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
+			}
+			//If result = true : before and after value as same --> data picker not work
+			if(result){
+				NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+
+			NXGReports.addStep("Choose date in date picker", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check date picker is move next or previous month when click Prev or Next link.
+	 * @param actionLink : prev | next
+	 * @return true | false
+	 */
+	public boolean checkDatePickerChangeMonth(String actionLink, boolean isNextMonth, boolean isNewToDoPage){
+		boolean result = true;
+		String beforeTitle = "";
+		String afterTitle = "";
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage) {
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				eleIdDueDate.click();
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				eleToDoNewRowDueDateText.get(0).click();
+			}
+
+			waitForVisibleElement(eleDataPickerTitle, "Date picker title");
+			//Get tile date picker before click next or previous link
+			beforeTitle = eleDataPickerTitle.getText();
+
+			// If isNextMonth = true : click on Next link in date picker |
+			//    isNextMonth = false, click on Prev link in date picker
+			if (!isNextMonth) {
+				waitForClickableOfElement(elePrevDataPickerLink, "Previous date picker link");
+				elePrevDataPickerLink.click();
+			} else {
+				waitForClickableOfElement(eleNextDataPickerLink, "Next date picker link");
+				eleNextDataPickerLink.click();
+			}
+
+			//Get tile date picker after click next or previous link
+			afterTitle = eleDataPickerTitle.getText();
+			result = beforeTitle.equals(afterTitle);
+
+			//If result = true : before and after value as same --> data picker not work
+			if(result){
+				NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+
+			NXGReports.addStep("Date picker is change " + actionLink + " month", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Verify input correct format date into due date text box
+	 * @param dateValue
+	 * @return true | false
+	 */
+	public boolean verifyInputCorrectFormatDate(String dateValue, boolean isNewToDoPage){
+		boolean result = true;
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = validateAttributeElement(eleIdDueDate,"value","");
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = validateAttributeElement(eleToDoNewRowDueDateText.get(0),"value","");
+
+			}
+			//If result = false : before and after value as not same --> can not input correct data into due date control
+			if(!result){
+				NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Input correct date format in due date text box ", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return result;
+	}
+
+	/**
+	 * Verify input wrong format date into due date text box
+	 * @param dateValue
+	 * @return true | false
+	 */
+	public boolean verifyInputWrongValue(String dateValue,boolean isNewToDoPage){
+		boolean result = true;
+		try{
+			// If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+			if(isNewToDoPage){
+				waitForClickableOfElement(eleIdDueDate,"Due date text box");
+				clickElement(eleIdDueDate, "Due date text box");
+				sendKeyTextBox(eleIdDueDate,dateValue, "Due date text box");
+				result = eleIdDueDate.getAttribute("value").equals(dateValue);
+			}else{
+				waitForClickableOfElement(eleToDoNewRowDueDateText.get(0),"Select due date text box");
+				clickElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+				sendKeyTextBox(eleToDoNewRowDueDateText.get(0),dateValue, "Select due date text box");
+				result = eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(dateValue);
+
+			}
+			//If result = true : before and after value as same --> can input wrong data into due date control
+			if(result){
+				NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return false;
+			}
+			NXGReports.addStep("Input wrong date format in due date text box ", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			return false;
+		}
+		return true;
+	}
+	//[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
+
+	//[PLAT-2286] Add delete icon TanPH 2017/05/17 -- Start
+	@FindBy(id="btn-todo-trash")
+	private WebElement trashToDoBtnEle;
+
+	@FindBy(xpath = "//div[@id='CategoryModel']//h3[@class='setup-header']")
+	private WebElement eleDeleteConfrimPopupTitle;
+
+	@FindBy(xpath = "//div[@id='CategoryModel']//h3[@class='setup-header']")
+	private WebElement eleDeleteConfrimPopupDescription;
+
+	@FindBy(xpath = "//*[@class='newRow']")
+	private List<WebElement> eleToDoRowList;
+
+	@FindBy(xpath = "//*[@class='newRow todoCompleted']")
+	private List<WebElement> eleToDoCompleteRowList;
+
+	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow todoCompleted']//input[@type='checkbox']")
+	private List<WebElement> eleToDoCompleteCheckboxRow;
+
+	@FindBy(id="cb-select-all-todo")
+	private WebElement eleCheckAllCheckBox;
+	/**
+	 * Verify trash to do icon.
+	 */
+	public void verifyTrashToDoIcon(){
+		try{
+			waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
+			NXGReports.addStep("Verify trash ToDo icon", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * Verify default status trash to do icon.
+	 */
+	public void verifyDefaultStatusTrashToDoIcon(){
+		try{
+			waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
+			validateAttributeElement(trashToDoBtnEle,"class","fa fa-trash disabled");
+			NXGReports.addStep("Verify default status trash ToDo icon", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify default status trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * Check list row is empty
+	 * @param eleList : list row need check
+	 * @return true : list empty | false : list not empty
+	 */
+	public boolean checkListIsEmpty(List<WebElement> eleList){
+		if(eleList.size() == 0){
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Verify gui of delete confirm popup
+	 */
+	public void verifyGUIDeleteConfirmPopup(){
+		try{
+			String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? " +
+					                  "Once deleted, you will not be able to retrieve any documents uploaded to the selected To-Dos.";
+			String errorMessage = "Can not test verify gui of delete confirm popup because ToDo list is empty ";
+			boolean result = true;
+			getLogger().info("Verify GUI Delete ToDo popup when click trash ToDo icon.");
+            boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+            boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+            // Check ToDo row list is empty
+            if(checkEmptyToDoListRow && checkEmptyToDoCompleteListRow){
+                NXGReports.addStep("TestScript Failed: " + errorMessage, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                AbstractService.sStatusCnt++;
+                return;
+            }
+            if(!checkEmptyToDoListRow){
+				waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo row has not complete");
+				hoverElement(eleToDoCheckboxRow.get(0), "Hover check box in to do row has not complete");
+				if(!eleToDoCheckboxRow.get(0).isSelected()){
+					clickElement(eleToDoCheckboxRow.get(0),"Check on select check box");
+				}
+			}else{
+				waitForVisibleElement(eleToDoCompleteCheckboxRow.get(0), "Select check box of ToDo row has complete");
+				hoverElement(eleToDoCompleteCheckboxRow.get(0), "Hover check box in to do row has complete");
+				if(!eleToDoCompleteCheckboxRow.get(0).isSelected()){
+					clickElement(eleToDoCompleteCheckboxRow.get(0),"Check on select check box");
+				}
+			}
+
+
+			//verify delete confirm icon
+			clickElement(trashToDoBtnEle,"Trash icon click");
+			// verify popup title
+			waitForVisibleElement(categoryTitleEle,"Delete ToDo title");
+			result = validateElementText(categoryTitleEle,"Delete To-Do?");
+			Assert.assertTrue(result, "Delete ToDo popup title is not displayed correct");
+			NXGReports.addStep("Popup title is show correct", LogAs.PASSED, null);
+
+			// verify guide sentence
+			waitForVisibleElement(centerDeleteToDoDescriptionEle,"Guide sentence description delete to-do");
+			result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
+			Assert.assertTrue(result, "Guide sentence description delete ToDo is not displayed correct");
+			NXGReports.addStep("Popup Guide sentence is show correct", LogAs.PASSED, null);
+
+			// verify back-ground and text of delete button
+			waitForVisibleElement(deletedToDoButtonEle,"Delete ToDo button");
+			result = validateCSSValueElement(deletedToDoButtonEle,"background-color","rgba(241, 103, 57, 1)");
+			Assert.assertTrue(result, "Background color of delete ToDo button is not orange");
+			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of delete ToDo button is not white");
+			NXGReports.addStep("Popup delete button is show correct", LogAs.PASSED, null);
+
+			// verify back-ground and text of cancel button
+			waitForVisibleElement(cancelDeletedToDoButtonEle,"Cancel to-do button");
+			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"background-color","rgba(151, 147, 147, 1)");
+			Assert.assertTrue(result, "Background color of cancel ToDo button is not gray");
+			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
+			Assert.assertTrue(result, "Text color of cancel to-do button is not white");
+			NXGReports.addStep("Popup cancel button is show correct", LogAs.PASSED, null);
+
+			//verify close popup icon
+			int beforeTotalRows = eleToDoNewRowDueDateText.size();
+			waitForVisibleElement(closePopupBtnEle,"Close popup icon");
+			int afterTotalRows = eleToDoNewRowDueDateText.size();
+			result = beforeTotalRows == afterTotalRows;
+			Assert.assertTrue(result, "Close popup icon working do not correct");
+			NXGReports.addStep("Close popup icon working correct", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+	/**
+	 * Check all check box of ToDo list is check/uncheck
+	 * @param isCheck true : check | false : uncheck
+	 * @param checkBoxList check box list need check
+	 * @return true | false
+	 */
+	public boolean checkAllCheckBoxIsCheckOrUnCheck(List<WebElement> checkBoxList, boolean isCheck){
+		int totalRows = checkBoxList.size();
+		for(int i=0;i<totalRows;i++){
+			if(isCheck){
+				if(!checkBoxList.get(i).isSelected())
+					return false;
+			}else{
+				if(checkBoxList.get(i).isSelected())
+					return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Check/Uncheck check box of row list
+	 * @param checkBoxList : check box row list need check/uncheck
+	 * @param isCheck : true : check | false
+ 	 * @return : true : check/un check all check box | can not check/un check all check box
+	 */
+	public boolean checkAllCheckBox(List<WebElement> checkBoxList, boolean isCheck){
+		int beforeError = AbstractService.sStatusCnt;
+		int totalRows = checkBoxList.size();
+		for(int i=0;i<totalRows;i++){
+			if(isCheck){
+				if(!checkBoxList.get(i).isSelected()) {
+					hoverElement(checkBoxList.get(i), "Hover check box");
+					clickElement(checkBoxList.get(i), "Check on check box");
+
+				}
+			}else{
+				if(checkBoxList.get(i).isSelected()){
+					hoverElement(checkBoxList.get(i), "Hover check box");
+					clickElement(checkBoxList.get(i),"Un check on check box");
+				}
+
+			}
+			int afterError = AbstractService.sStatusCnt;
+			if(beforeError != afterError)
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check row is delete out ToDo list
+	 * @param idRow : id delete row
+	 * @return true  : already delete | false : not yet delete
+	 */
+	public boolean checkRowIsDeleteOutOfToDoList(List<WebElement> eleList,String idRow){
+		int totalRows = eleList.size();
+		for(int i=0;i<totalRows;i++){
+			if(eleList.get(i).getAttribute("data-id").equals(idRow))
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * verify check all check box
+	 */
+	public void verifyCheckAllCheckBox(){
+		try{
+			boolean result = true;
+			String errorMessage = "Can not test verify check all check box in ToDo page because ToDo list is empty ";
+			boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+			boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+			// Check ToDo row list is empty
+			if(checkEmptyToDoListRow && checkEmptyToDoCompleteListRow){
+				NXGReports.addStep("TestScript Failed: " + errorMessage, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				AbstractService.sStatusCnt++;
+				return;
+			}
+			//verify "CheckAll" check box
+			waitForClickableOfElement(eleCheckAllCheckBox, "Check all check box");
+			clickElement(eleCheckAllCheckBox,"Click 'CheckALL' check box");
+			// verify all check box are checked when check all checkbox is check
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBoxIsCheckOrUnCheck(eleToDoCheckboxRow,true);
+			}
+			if(!checkEmptyToDoCompleteListRow){
+				if(result)
+					checkAllCheckBoxIsCheckOrUnCheck(eleToDoCompleteCheckboxRow,true);
+			}
+			Assert.assertTrue(result, "All checkbox do not check");
+			NXGReports.addStep("Verify when check on 'CheckAll' check box in ToDo page", LogAs.PASSED,null);
+
+			//verify all check box are checked when check all checkbox is un check
+			waitForClickableOfElement(eleCheckAllCheckBox, "Check all check box");
+			clickElement(eleCheckAllCheckBox,"Click 'CheckALL' check box");
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBoxIsCheckOrUnCheck(eleToDoCheckboxRow,false);
+			}
+			if(!checkEmptyToDoCompleteListRow) {
+				if (result)
+					checkAllCheckBoxIsCheckOrUnCheck(eleToDoCompleteCheckboxRow, false);
+			}
+			Assert.assertTrue(result, "All checkbox do not uncheck");
+			NXGReports.addStep("Verify when un check on 'CheckAll' check box in ToDo page", LogAs.PASSED,null);
+
+			// verify "CheckAll" check box is checked when all check box are check
+			//// check all check box in ToDo page
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBox(eleToDoCheckboxRow,true);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not check on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
+			}
+
+			if(!checkEmptyToDoCompleteListRow){
+				result = checkAllCheckBox(eleToDoCompleteCheckboxRow,true);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not check on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
+			}
+			//// verify "CheckAll" check box is checked
+			waitForVisibleElement(eleCheckAllCheckBox, "CheckAll check box");
+			if(!eleCheckAllCheckBox.isSelected()){
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("TestScript Failed: CheckAll do not auto check in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			NXGReports.addStep("Verify 'CheckAll' check box is check when check all check box in ToDo page", LogAs.PASSED,null);
+
+			// verify "CheckAll" check box is unchecked when have any check box is un check
+			//// un check any check box in ToDo page
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBox(eleToDoCheckboxRow,false);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not uncheck on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
+			}
+
+			if(!checkEmptyToDoCompleteListRow){
+				result = checkAllCheckBox(eleToDoCompleteCheckboxRow,false);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not uncheck on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
+			}
+			//// verify "CheckAll" check box is unchecked
+			waitForVisibleElement(eleCheckAllCheckBox, "CheckAll check box");
+			if(eleCheckAllCheckBox.isSelected()){
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("TestScript Failed: CheckAll do not auto uncheck in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			NXGReports.addStep("Verify 'CheckAll' check box is un check when un check all check box in ToDo page", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify 'CheckAll' check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
+    /**
+     * get id delete row
+     * @param checkToDoList : todoList is empty or not empty
+     * @param checkToDoCompleteList : todoComplete is empty or not empty
+     * @return id delete row value
+     */
+	public String getIdRowDelete(boolean checkToDoList, boolean checkToDoCompleteList,
+                                 List<WebElement> eleToDoCheckBoxList, List<WebElement> eleToDoCompleteCheckBoxList,
+                                 List<WebElement> eleToDoList, List<WebElement> eleToDoCompleteList){
+        String idRow = "";
+        // Check have row has complete satatus
+        if(!checkToDoList && "".equals(idRow)){
+            waitForVisibleElement(eleToDoCheckBoxList.get(0), "Select check box of ToDo item has not status complete");
+            if(!eleToDoCheckBoxList.get(0).isSelected()){
+                eleToDoCheckBoxList.get(0).click();
+            }
+            idRow = eleToDoList.get(0).getAttribute("data-id");
+            getLogger().info("Lay id cua list todo not complete");
+        }else if(!checkToDoCompleteList && "".equals(idRow)){
+            waitForVisibleElement(eleToDoCompleteCheckBoxList.get(0), "Select check box of ToDo item has status complete");
+            if(!eleToDoCompleteCheckBoxList.get(0).isSelected()){
+                eleToDoCompleteCheckBoxList.get(0).click();
+            }
+            idRow = eleToDoCompleteList.get(0).getAttribute("data-id");
+            getLogger().info("Lay id cua list todo complete");
+        }
+        return idRow;
+    }
+	/**
+	 *  verify work flow of delete button
+	 */
+	public void verifyWorkFlowOfDeleteButton(){
+		try{
+			boolean result = true;
+			String errorMessage = "Can not test work flow of delete button in confirm popup because ToDo list is empty ";
+            boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+            boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+            // Check ToDo row list is empty
+            if(checkEmptyToDoListRow && checkEmptyToDoCompleteListRow){
+                NXGReports.addStep("TestScript Failed: " + errorMessage, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                AbstractService.sStatusCnt++;
+                return;
+            }
+            // Get id delete row
+            String idRow = getIdRowDelete(checkEmptyToDoListRow,checkEmptyToDoCompleteListRow,
+                                          eleToDoCheckboxRow,eleToDoCompleteCheckboxRow,
+                                          eleToDoRowList,eleToDoCompleteRowList);
+			//verify delete confirm icon
+			clickElement(trashToDoBtnEle, "Trash icon delete");
+			//verify delete button
+			// Hard code wait delete button enable
+			Thread.sleep(5000);
+            hoverElement(deletedToDoButtonEle, "Hover delete button");
+            clickElement(deletedToDoButtonEle,"Delete button click");
+            // Hard code wait ajax load done
+			Thread.sleep(5000);
+			// Check list again
+			checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+			checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+			// Check in todo list
+			if(!checkEmptyToDoListRow){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoRowList,idRow);
+
+			}
+			// Check in to do complete list
+			if(!checkEmptyToDoCompleteListRow && result){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoCompleteRowList,idRow);
+			}
+
+			Assert.assertTrue( result, "Delete button does not work");
+			NXGReports.addStep("Verify work flow of delete button in ToDo page", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify work flow of delete button in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *  verify work flow of cancel button
+	 */
+	public void verifyWorkFlowOfCancelButton(){
+		try{
+			boolean result = true;
+			String errorMessage = "Can not test work flow of cancel button in confirm popup because ToDo list is empty ";
+			boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+			boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+			// Check ToDo row list is empty
+			if(checkEmptyToDoListRow && checkEmptyToDoCompleteListRow){
+				NXGReports.addStep("TestScript Failed: " + errorMessage, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				AbstractService.sStatusCnt++;
+				return;
+			}
+            // Get id delete row
+            String idRow = getIdRowDelete(checkEmptyToDoListRow,checkEmptyToDoCompleteListRow,
+                                            eleToDoCheckboxRow,eleToDoCompleteCheckboxRow,
+                                            eleToDoRowList,eleToDoCompleteRowList);
+			//verify delete confirm icon
+			clickElement(trashToDoBtnEle, "Trash icon delete");
+			//Hard code wait cancel button enable
+            Thread.sleep(5000);
+            hoverElement(cancelDeletedToDoButtonEle, "Hover cancel button");
+			clickElement(cancelDeletedToDoButtonEle,"Cancel button click");
+            // Check row is delete out of list
+			if(!checkEmptyToDoListRow){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoRowList,idRow);
+			}
+            if(!checkEmptyToDoCompleteListRow && result){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoCompleteRowList,idRow);
+			}
+			Assert.assertFalse( result, "Cancel button does not work");
+			NXGReports.addStep("Verify work flow of cancel button in ToDo page", LogAs.PASSED,null);
+		}catch (AssertionError e){
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("TestScript Failed: Verify work flow of cancel button in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		} catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+	//[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 }
 
