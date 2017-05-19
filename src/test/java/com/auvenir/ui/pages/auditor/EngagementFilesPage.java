@@ -10,28 +10,30 @@ import org.apache.log4j.Logger;
 
 public class EngagementFilesPage extends AbstractPage {
 
-	public EngagementFilesPage(Logger logger,WebDriver driver)
-	{
-		super(logger,driver);
-		PageFactory.initElements(driver, this);
-	}
-	
-	@FindBy(id="module-filemanager-titleSpan")
-	private WebElement eleFilesTxt;
-	public WebElement getEleFilesTxt(){
-		return eleFilesTxt;
-	}
-	
-	@FindBy(xpath="//img[@class='module-fm-emptyClipboard']")
-	private WebElement eleEmptyClipbrdImg;
-	public WebElement getEleEmptyClipbrdImg(){
-		return eleEmptyClipbrdImg;
-	}
-	
-	@FindBy(xpath="//p[@class='module-fm-emptyText']")
-	private WebElement eleNoFilesTxt;
-	public WebElement getEleNoFilesTxt(){
-		return eleNoFilesTxt;
-	}
-	
+    public EngagementFilesPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(id = "module-filemanager-titleSpan")
+    private WebElement eleFilesTxt;
+
+    public WebElement getEleFilesTxt() {
+        return eleFilesTxt;
+    }
+
+    @FindBy(xpath = "//img[@class='module-fm-emptyClipboard']")
+    private WebElement eleEmptyClipbrdImg;
+
+    public WebElement getEleEmptyClipbrdImg() {
+        return eleEmptyClipbrdImg;
+    }
+
+    @FindBy(xpath = "//p[@class='module-fm-emptyText']")
+    private WebElement eleNoFilesTxt;
+
+    public WebElement getEleNoFilesTxt() {
+        return eleNoFilesTxt;
+    }
+
 }

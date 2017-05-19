@@ -18,17 +18,15 @@ public class AccountSettingsTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
 
 
-    @Test(priority=1,enabled=true, description="Verify Footer in Auditor Account Settings page.")
-    public void verifyFooterAuditorAccountSettingsPage() throws Exception
-    {
-        auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl =   GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+    @Test(priority = 1, enabled = true, description = "Verify Footer in Auditor Account Settings page.")
+    public void verifyFooterAuditorAccountSettingsPage() throws Exception {
+        auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
         String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
-        try
-        {
+        try {
             //logCurrentStepStart();
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -36,12 +34,9 @@ public class AccountSettingsTest extends AbstractTest {
             auditorAccountSettingsService.verifyAccountSettingsPage();
             auditorAccountSettingsService.verifyFooter();
             NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
-           // logCurrentStepEnd();
+            // logCurrentStepEnd();
 
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Verify Footer in Auditor Account Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

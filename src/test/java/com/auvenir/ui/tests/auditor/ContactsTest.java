@@ -19,17 +19,15 @@ public class ContactsTest extends AbstractTest {
     private ContactsService contactsService;
     private AuditorEngagementService auditorEngagementService;
 
-    @Test(priority=1,enabled=true, description="Verify Footer in Auditor Contacts page.")
-    public void verifyFooterAuditorContactsPage() throws Exception
-    {
-        contactsService = new ContactsService(getLogger(),getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl =   GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+    @Test(priority = 1, enabled = true, description = "Verify Footer in Auditor Contacts page.")
+    public void verifyFooterAuditorContactsPage() throws Exception {
+        contactsService = new ContactsService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
         String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
-        try
-        {
+        try {
             //logCurrentStepStart();
             contactsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -37,13 +35,10 @@ public class ContactsTest extends AbstractTest {
             contactsService.verifyAuditorContactsPage();
             contactsService.verifyAuditorFooter();
             NXGReports.addStep("Verify Footer in Auditor Contacts page: PASSED", LogAs.PASSED, null);
-           // logCurrentStepEnd();
+            // logCurrentStepEnd();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify GUI auditor create to do page.", LogAs.PASSED, null);
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Verify footer in Auditor Contacts page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

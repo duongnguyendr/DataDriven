@@ -15,9 +15,9 @@ public class AuditorDevicesSettingsService extends AbstractService {
 
     AuditorDevicesSettingsPage auditorDevicesSettingsPage;
 
-/*
- * contructor
- */
+    /*
+     * contructor
+     */
     public AuditorDevicesSettingsService(Logger logger, WebDriver driver) {
 
         super(logger, driver);
@@ -44,8 +44,6 @@ public class AuditorDevicesSettingsService extends AbstractService {
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
-
 
 
     public void verifyAuditorDevicesSettingsPage() {

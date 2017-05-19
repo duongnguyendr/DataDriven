@@ -14,21 +14,21 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 public class AuditorContactsPage extends AbstractPage {
 
 
-	private final static int waitTime =60;
+    private final static int waitTime = 60;
 
-	public AuditorContactsPage(Logger logger, WebDriver driver)
-	{
-		super(logger,driver);
-		//PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
-	}
-	@FindBy(xpath= "//span[contains(text(),'My Clients')]")
-	private WebElement myClientsTextEle;
+    public AuditorContactsPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+    }
+
+    @FindBy(xpath = "//span[contains(text(),'My Clients')]")
+    private WebElement myClientsTextEle;
 
 
-	public void verifyAuditorContactsPage() {
-		waitForVisibleElement(myClientsTextEle,"myClientsTextEle");
+    public void verifyAuditorContactsPage() {
+        waitForVisibleElement(myClientsTextEle, "myClientsTextEle");
 
-	}
-	
-	
+    }
+
+
 }

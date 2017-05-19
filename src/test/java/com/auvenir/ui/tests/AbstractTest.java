@@ -33,9 +33,8 @@ import java.util.concurrent.TimeUnit;
  * Created by cuong.nguyen on 4/24/2017.
  */
 
-public class AbstractTest
-{
-    private Logger logger = Logger.getLogger(AbstractTest.class) ;
+public class AbstractTest {
+    private Logger logger = Logger.getLogger(AbstractTest.class);
     private WebDriver driver;
     protected static final String SD_START = "start";
     /**
@@ -47,61 +46,57 @@ public class AbstractTest
      */
     protected static final String SD_FAILURE = "failure";
     private String testName = "initial";
+
     @Parameters({"server"})
 
     @BeforeSuite
-    public void setConfig(String server){
-        if(server.equalsIgnoreCase("cadet")){
-            GenericService.sConfigFile = GenericService.sDirPath+"/cadet.properties";
-        }else if(server.equalsIgnoreCase("local")){
+    public void setConfig(String server) {
+        if (server.equalsIgnoreCase("cadet")) {
+            GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
+        } else if (server.equalsIgnoreCase("local")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
-        }else{
-            GenericService.sConfigFile = GenericService.sDirPath+"/ariel.properties";
+        } else {
+            GenericService.sConfigFile = GenericService.sDirPath + "/ariel.properties";
         }
     }
 
     @BeforeMethod
-    public void setUp(Method method)
-    {
-    	System.out.println("setUp");
+    public void setUp(Method method) {
+        System.out.println("setUp");
         testName = method.getName();
         logCurrentStepStart();
-        AbstractService.sStatusCnt=0;
-        try
-        {
-            if(GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")){
-                System.setProperty("webdriver.chrome.driver", GenericService.sDirPath+"/src/test/resources/chromedriver.exe");
+        AbstractService.sStatusCnt = 0;
+        try {
+            if (GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
+                System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                 System.out.println("Chrome is set");
                 driver = new ChromeDriver();
-            }
-            else
-            {
+            } else {
                 System.out.println("Firefox is set");
-                System.setProperty("webdriver.gecko.driver", GenericService.sDirPath+"/src/test/resources/geckodriver.exe");
+                System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
 
                 driver = new FirefoxDriver();
             }
             NXGReports.setWebDriver(driver);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Problem in launching driver");
             e.printStackTrace();
         }
     }
 
     @AfterMethod
-    public void tearDown(Method method)
-    {
+    public void tearDown(Method method) {
         testName = method.getName();
         logger.info("Close the browser.");
         driver.close();
         logCurrentStepEnd();
     }
-    public WebDriver getDriver(){
+
+    public WebDriver getDriver() {
         return driver;
     }
-    public Logger getLogger(){
+
+    public Logger getLogger() {
         return logger;
     }
 
@@ -110,7 +105,7 @@ public class AbstractTest
      */
     @SuppressWarnings("deprecation")
     protected void logCurrentStepStart() {
-    	System.out.println("logCurrentStepStart");
+        System.out.println("logCurrentStepStart");
         logForCurrentStep(Priority.INFO, SD_START);
 
     }
@@ -138,7 +133,7 @@ public class AbstractTest
     /**
      * Logs a message related to the current step.
      *
-     * @param priority priority of the message
+     * @param priority       priority of the message
      * @param differentiator message differentiator
      */
     protected void logForCurrentStep(Priority priority, String differentiator) {
@@ -148,9 +143,9 @@ public class AbstractTest
     /**
      * Logs a message related to the current step.
      *
-     * @param priority priority of the message
+     * @param priority       priority of the message
      * @param differentiator message differentiator
-     * @param t exception/error that happened (if any)
+     * @param t              exception/error that happened (if any)
      */
     protected void logForCurrentStep(Priority priority, String differentiator, Throwable t) {
         if (t == null) {
@@ -159,8 +154,6 @@ public class AbstractTest
             logger.log(priority, "STEP INFO - " + testName + " - " + differentiator, t);
         }
     }
-
-
 
 
 }

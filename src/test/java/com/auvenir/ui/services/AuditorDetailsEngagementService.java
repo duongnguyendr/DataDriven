@@ -27,9 +27,6 @@ public class AuditorDetailsEngagementService extends AbstractService {
     }
 
 
-
-
-
     public void navigateToClientSettingsPage() {
 
         try {
@@ -62,8 +59,6 @@ public class AuditorDetailsEngagementService extends AbstractService {
         }
     }
 
-    //Remove this function due to Element dashboard is removed.
-    /*
     public void navigateToTodoListPage() {
         try {
             getLogger().info("navigate to To Do list page.");
@@ -72,7 +67,8 @@ public class AuditorDetailsEngagementService extends AbstractService {
         } catch (Exception e) {
             NXGReports.addStep("navigate to To Do list tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }*/
+    }
+
 }
 
 
