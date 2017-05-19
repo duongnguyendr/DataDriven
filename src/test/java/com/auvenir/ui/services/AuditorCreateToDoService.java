@@ -478,7 +478,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBulkActionsDropdownIsClosed();
     }
 
-    public void selectToDoTaskName(String toDoName){
+    public void selectToDoTaskName(String toDoName) {
         createToDoPage.selectToDoCheckboxByName(toDoName);
     }
 
@@ -657,5 +657,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyWorkFlowOfCancelButton();
     }
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
+
+    public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
 }
 

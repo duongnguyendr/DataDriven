@@ -119,8 +119,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-name")
     private WebElement toDoNameInputEle;
 
-    @FindBy(xpath = "//*/table[@id='todo-table']//div[@id='divName']//p[@class='auv-inputError']")
-    private WebElement toDoNameErrorLabelEle;
+	@FindBy(xpath = "//div[@class='inputMargin div-name-container']//p[@class='auv-inputError']")
+	private WebElement toDoNameErrorLabelEle;
 
     @FindBy(xpath = "//*[@id='todo-add-btn']")
     private WebElement toDoSaveIconEle;
@@ -278,6 +278,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow todoCompleted']")
     private WebElement textToDoNameArchiveComplete;
+
+    @FindBy(xpath =  "//tr[@class='newRow']/td[7]/img")
+    private List<WebElement> commentIconToDoListEle;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -2411,5 +2414,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 	//[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
+
+    public void selectToDoCommentIconByName(String toDoTaskName) {
+        getLogger().info("Select To Do Comment Icon by Name");
+        int index = findToDoTaskName(toDoTaskName);
+        clickElement(commentIconToDoListEle.get(index),String.format("Comment Icon on Task Name: %s",toDoTaskName));
+    }
 }
 

@@ -770,8 +770,8 @@ public class AuditorTodoListTest extends AbstractTest {
             toDoListNames.add("b To Do Task02");
             auditorCreateToDoService.createListToDoTask(toDoListNames);
             auditorCreateToDoService.selectToDoTaskName("b To Do Task02");
-            auditorCreateToDoService.unselectToDoTaskName("b To Do Task02");
             auditorCreateToDoService.selectToDoTaskName("416 To Do Task02");
+            auditorCreateToDoService.clickCommentIconPerTaskName("416 To Do Task02");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify Action of Add Bulk Actions on To do page.", LogAs.PASSED, null);
         } catch (Exception e) {

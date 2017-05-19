@@ -210,7 +210,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     
     public void clickNoMemberBtn() {
         waitForVisibleElement(eleContinueNoMemberBtn, "Continue No Member button");
-        clickAndHold(eleContinueNoMemberBtn, "Continue No member button");
+        clickElement(eleContinueNoMemberBtn, "Continue No member button");
     }
 
 
