@@ -1388,6 +1388,8 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow todoCompleted']//input[@type='checkbox']")
 	private List<WebElement> eleToDoCompleteCheckboxRow;
 
+	@FindBy(id="cb-select-all-todo")
+	private WebElement eleCheckAllCheckBox;
 	/**
 	 * Verify trash to do icon.
 	 */
@@ -1446,39 +1448,58 @@ public class AuditorCreateToDoPage  extends AbstractPage{
                 AbstractService.sStatusCnt++;
                 return;
             }
-			waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo item");
-			if(!eleToDoCheckboxRow.get(0).isSelected()){
-				clickElement(eleToDoCheckboxRow.get(0),"Check on select check box");
+            if(!checkEmptyToDoListRow){
+				waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo row has not complete");
+				hoverElement(eleToDoCheckboxRow.get(0), "Hover check box in to do row has not complete");
+				if(!eleToDoCheckboxRow.get(0).isSelected()){
+					clickElement(eleToDoCheckboxRow.get(0),"Check on select check box");
+				}
+			}else{
+				waitForVisibleElement(eleToDoCompleteCheckboxRow.get(0), "Select check box of ToDo row has complete");
+				hoverElement(eleToDoCompleteCheckboxRow.get(0), "Hover check box in to do row has complete");
+				if(!eleToDoCompleteCheckboxRow.get(0).isSelected()){
+					clickElement(eleToDoCompleteCheckboxRow.get(0),"Check on select check box");
+				}
 			}
+
+
 			//verify delete confirm icon
 			clickElement(trashToDoBtnEle,"Trash icon click");
 			// verify popup title
 			waitForVisibleElement(categoryTitleEle,"Delete ToDo title");
 			result = validateElementText(categoryTitleEle,"Delete To-Do?");
 			Assert.assertTrue(result, "Delete ToDo popup title is not displayed correct");
+			NXGReports.addStep("Popup title is show correct", LogAs.PASSED, null);
+
 			// verify guide sentence
 			waitForVisibleElement(centerDeleteToDoDescriptionEle,"Guide sentence description delete to-do");
 			result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
 			Assert.assertTrue(result, "Guide sentence description delete ToDo is not displayed correct");
+			NXGReports.addStep("Popup Guide sentence is show correct", LogAs.PASSED, null);
+
 			// verify back-ground and text of delete button
 			waitForVisibleElement(deletedToDoButtonEle,"Delete ToDo button");
 			result = validateCSSValueElement(deletedToDoButtonEle,"background-color","rgba(241, 103, 57, 1)");
 			Assert.assertTrue(result, "Background color of delete ToDo button is not orange");
 			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
 			Assert.assertTrue(result, "Text color of delete ToDo button is not white");
+			NXGReports.addStep("Popup delete button is show correct", LogAs.PASSED, null);
+
 			// verify back-ground and text of cancel button
 			waitForVisibleElement(cancelDeletedToDoButtonEle,"Cancel to-do button");
 			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"background-color","rgba(151, 147, 147, 1)");
 			Assert.assertTrue(result, "Background color of cancel ToDo button is not gray");
 			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
 			Assert.assertTrue(result, "Text color of cancel to-do button is not white");
+			NXGReports.addStep("Popup cancel button is show correct", LogAs.PASSED, null);
+
 			//verify close popup icon
 			int beforeTotalRows = eleToDoNewRowDueDateText.size();
 			waitForVisibleElement(closePopupBtnEle,"Close popup icon");
 			int afterTotalRows = eleToDoNewRowDueDateText.size();
 			result = beforeTotalRows == afterTotalRows;
 			Assert.assertTrue(result, "Close popup icon working do not correct");
-			NXGReports.addStep("Verify gui of delete confirm popup in ToDo page", LogAs.PASSED,null);
+			NXGReports.addStep("Close popup icon working correct", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
 			NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -1488,18 +1509,49 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	/**
 	 * Check all check box of ToDo list is check/uncheck
 	 * @param isCheck true : check | false : uncheck
+	 * @param checkBoxList check box list need check
 	 * @return true | false
 	 */
-	public boolean checkAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
-		int totalRows = eleToDoCheckboxRow.size();
+	public boolean checkAllCheckBoxIsCheckOrUnCheck(List<WebElement> checkBoxList, boolean isCheck){
+		int totalRows = checkBoxList.size();
 		for(int i=0;i<totalRows;i++){
 			if(isCheck){
-				if(!eleToDoCheckboxRow.get(i).isSelected())
+				if(!checkBoxList.get(i).isSelected())
 					return false;
 			}else{
-				if(eleToDoCheckboxRow.get(i).isSelected())
+				if(checkBoxList.get(i).isSelected())
 					return false;
 			}
+		}
+		return true;
+	}
+
+	/**
+	 * Check/Uncheck check box of row list
+	 * @param checkBoxList : check box row list need check/uncheck
+	 * @param isCheck : true : check | false
+ 	 * @return : true : check/un check all check box | can not check/un check all check box
+	 */
+	public boolean checkAllCheckBox(List<WebElement> checkBoxList, boolean isCheck){
+		int beforeError = AbstractService.sStatusCnt;
+		int totalRows = checkBoxList.size();
+		for(int i=0;i<totalRows;i++){
+			if(isCheck){
+				if(!checkBoxList.get(i).isSelected()) {
+					hoverElement(checkBoxList.get(i), "Hover check box");
+					clickElement(checkBoxList.get(i), "Check on check box");
+
+				}
+			}else{
+				if(checkBoxList.get(i).isSelected()){
+					hoverElement(checkBoxList.get(i), "Hover check box");
+					clickElement(checkBoxList.get(i),"Un check on check box");
+				}
+
+			}
+			int afterError = AbstractService.sStatusCnt;
+			if(beforeError != afterError)
+				return false;
 		}
 		return true;
 	}
@@ -1524,39 +1576,96 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 	public void verifyCheckAllCheckBox(){
 		try{
 			boolean result = true;
-			if(eleToDoNewRowDueDateText.size() == 0){
-				NXGReports.addStep("Can not test verify check all check box in ToDo page because ToDo list is empty  ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			String errorMessage = "Can not test verify check all check box in ToDo page because ToDo list is empty ";
+			boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+			boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+			// Check ToDo row list is empty
+			if(checkEmptyToDoListRow && checkEmptyToDoCompleteListRow){
+				NXGReports.addStep("TestScript Failed: " + errorMessage, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				AbstractService.sStatusCnt++;
 				return;
 			}
+			//verify "CheckAll" check box
+			waitForClickableOfElement(eleCheckAllCheckBox, "Check all check box");
+			clickElement(eleCheckAllCheckBox,"Click 'CheckALL' check box");
 			// verify all check box are checked when check all checkbox is check
-			result = checkAllCheckBoxIsCheckOrUnCheck(true);
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBoxIsCheckOrUnCheck(eleToDoCheckboxRow,true);
+			}
+			if(!checkEmptyToDoCompleteListRow){
+				if(result)
+					checkAllCheckBoxIsCheckOrUnCheck(eleToDoCompleteCheckboxRow,true);
+			}
 			Assert.assertTrue(result, "All checkbox do not check");
+			NXGReports.addStep("Verify when check on 'CheckAll' check box in ToDo page", LogAs.PASSED,null);
 
 			//verify all check box are checked when check all checkbox is un check
-			result = checkAllCheckBoxIsCheckOrUnCheck(false);
+			waitForClickableOfElement(eleCheckAllCheckBox, "Check all check box");
+			clickElement(eleCheckAllCheckBox,"Click 'CheckALL' check box");
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBoxIsCheckOrUnCheck(eleToDoCheckboxRow,false);
+			}
+			if(!checkEmptyToDoCompleteListRow) {
+				if (result)
+					checkAllCheckBoxIsCheckOrUnCheck(eleToDoCompleteCheckboxRow, false);
+			}
 			Assert.assertTrue(result, "All checkbox do not uncheck");
+			NXGReports.addStep("Verify when un check on 'CheckAll' check box in ToDo page", LogAs.PASSED,null);
 
 			// verify "CheckAll" check box is checked when all check box are check
 			//// check all check box in ToDo page
-			int totalRows = eleToDoCheckboxRow.size();
-			for(int i=0;i<totalRows;i++){
-				if(!eleToDoCheckboxRow.get(i).isSelected())
-					eleToDoCheckboxRow.get(i).click();
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBox(eleToDoCheckboxRow,true);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not check on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
+			}
+
+			if(!checkEmptyToDoCompleteListRow){
+				result = checkAllCheckBox(eleToDoCompleteCheckboxRow,true);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not check on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
 			}
 			//// verify "CheckAll" check box is checked
-
+			waitForVisibleElement(eleCheckAllCheckBox, "CheckAll check box");
+			if(!eleCheckAllCheckBox.isSelected()){
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("TestScript Failed: CheckAll do not auto check in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			NXGReports.addStep("Verify 'CheckAll' check box is check when check all check box in ToDo page", LogAs.PASSED,null);
 
 			// verify "CheckAll" check box is unchecked when have any check box is un check
 			//// un check any check box in ToDo page
-			if(eleToDoCheckboxRow.get(0).isSelected()){
-				eleToDoCheckboxRow.get(0).click();
+			if(!checkEmptyToDoListRow){
+				result = checkAllCheckBox(eleToDoCheckboxRow,false);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not uncheck on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
+			}
+
+			if(!checkEmptyToDoCompleteListRow){
+				result = checkAllCheckBox(eleToDoCompleteCheckboxRow,false);
+				if(result == false){
+					NXGReports.addStep("TestScript Failed: can not uncheck on all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+					return;
+				}
 			}
 			//// verify "CheckAll" check box is unchecked
-
-			NXGReports.addStep("Verify check all check box in ToDo page", LogAs.PASSED,null);
+			waitForVisibleElement(eleCheckAllCheckBox, "CheckAll check box");
+			if(eleCheckAllCheckBox.isSelected()){
+				AbstractService.sStatusCnt++;
+				NXGReports.addStep("TestScript Failed: CheckAll do not auto uncheck in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+				return;
+			}
+			NXGReports.addStep("Verify 'CheckAll' check box is un check when un check all check box in ToDo page", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
-			NXGReports.addStep("TestScript Failed: Verify check all check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			NXGReports.addStep("TestScript Failed: Verify 'CheckAll' check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
 
@@ -1610,43 +1719,25 @@ public class AuditorCreateToDoPage  extends AbstractPage{
 			//verify delete confirm icon
 			clickElement(trashToDoBtnEle, "Trash icon delete");
 			//verify delete button
-			// Hard code will update later
+			// Hard code wait delete button enable
 			Thread.sleep(5000);
             hoverElement(deletedToDoButtonEle, "Hover delete button");
             clickElement(deletedToDoButtonEle,"Delete button click");
-            // Update list element
-            List<WebElement> updateList = new ArrayList<WebElement>();
-            if(!checkEmptyToDoListRow){
-                for(int i=1;i<eleToDoRowList.size();i++){
-                    updateList.add(eleToDoRowList.get(i));
-                }
-				getLogger().info("update list todo");
-                eleToDoRowList = updateList;
-            }else{
-                for(int i=1;i<eleToDoCompleteRowList.size();i++){
-                    updateList.add(eleToDoCompleteRowList.get(i));
-                }
-				getLogger().info("update list todo complete");
-                eleToDoCompleteRowList = updateList;
-            }
+            // Hard code wait ajax load done
+			Thread.sleep(5000);
+			// Check list again
+			checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+			checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+			// Check in todo list
+			if(!checkEmptyToDoListRow){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoRowList,idRow);
 
+			}
+			// Check in to do complete list
+			if(!checkEmptyToDoCompleteListRow && result){
+				result = checkRowIsDeleteOutOfToDoList(eleToDoCompleteRowList,idRow);
+			}
 
-            // Check list again
-            checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
-            checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
-            // Check row is delete out of list
-
-            if(!checkEmptyToDoListRow){
-                result = checkRowIsDeleteOutOfToDoList(eleToDoRowList,idRow);
-            }
-            getLogger().info("check trong list to do not complete : " + result);
-            getLogger().info("check taskid list to do complete : " + eleToDoCompleteRowList.size());
-            /*if(!checkEmptyToDoCompleteListRow && result){
-                result = checkRowIsDeleteOutOfToDoList(eleToDoCompleteRowList,idRow);
-                getLogger().info("Check trong list todo complete: " + result);
-            }*/
-
-			getLogger().info("check trong list to do not complete : " + result);
 			Assert.assertTrue( result, "Delete button does not work");
 			NXGReports.addStep("Verify work flow of delete button in ToDo page", LogAs.PASSED,null);
 		}catch (AssertionError e){
@@ -1678,7 +1769,7 @@ public class AuditorCreateToDoPage  extends AbstractPage{
                                             eleToDoRowList,eleToDoCompleteRowList);
 			//verify delete confirm icon
 			clickElement(trashToDoBtnEle, "Trash icon delete");
-			//verify cancel button
+			//Hard code wait cancel button enable
             Thread.sleep(5000);
             hoverElement(cancelDeletedToDoButtonEle, "Hover cancel button");
 			clickElement(cancelDeletedToDoButtonEle,"Cancel button click");
