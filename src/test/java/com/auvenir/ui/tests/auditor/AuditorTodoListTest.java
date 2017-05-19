@@ -925,6 +925,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
         NXGReports.addStep("Verify Download Attachments disable", LogAs.PASSED, null);
     }
+    /**-----end of huy.huynh PLAT-2285-----*/
 }
 
 

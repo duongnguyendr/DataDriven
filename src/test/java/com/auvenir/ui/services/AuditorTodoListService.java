@@ -140,10 +140,38 @@ public class AuditorTodoListService extends AbstractService {
         auditorTodoListPage.verifyClickAndDoNotSelectValue();
     }
 
+    public void navigateToEngagementDetailPage() {
+        try {
+            getLogger().info("navigate to Engagement Detail page.");
+            auditorDetailsEngagementPage.navigateToTodoListPage();
+            NXGReports.addStep("navigate to To Do list tab.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("navigate to To Do list tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
     /**
      * Added by huy.huynh on 18/05/2017.
      * Scenarios : PLAT 2285 - Add undo option
      */
+
+    public void uiVerifyButtonUndoExist() {
+        auditorCreateToDoPage.uiVerifyButtonUndoExist();
+    }
+
+    /**
+     * verify button Undo disable
+     */
+    public void uiVerifyButtonUndoDisable() {
+        auditorCreateToDoPage.uiVerifyButtonUndoDisable();
+    }
+
+    /**
+     * verify button Undo enable
+     */
+    public void uiVerifyButtonUndoEnable() {
+        auditorCreateToDoPage.uiVerifyButtonUndoEnable();
+    }
 
     /**
      * create a record with name and date(of this month- implement choose month and year later)
@@ -247,33 +275,9 @@ public class AuditorTodoListService extends AbstractService {
     /**
      * verify button Undo exist
      */
-    public void uiVerifyButtonUndoExist() {
-        auditorDetailsEngagementPage.uiVerifyButtonUndoExist();
-    }
 
-    /**
-     * verify button Undo disable
-     */
-    public void uiVerifyButtonUndoDisable() {
-        auditorDetailsEngagementPage.uiVerifyButtonUndoDisable();
-    }
+    /**-----end of huy.huynh PLAT-2285-----*/
 
-    /**
-     * verify button Undo enable
-     */
-    public void uiVerifyButtonUndoEnable() {
-        auditorDetailsEngagementPage.uiVerifyButtonUndoEnable();
-    }
-
-    public void navigateToEngagementDetailPage() {
-        try {
-            getLogger().info("navigate to Engagement Detail page.");
-            auditorDetailsEngagementPage.navigateToTodoListPage();
-            NXGReports.addStep("navigate to To Do list tab.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("navigate to To Do list tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
 }
 
 

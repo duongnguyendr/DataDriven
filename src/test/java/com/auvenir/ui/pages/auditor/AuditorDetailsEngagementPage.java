@@ -35,8 +35,6 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     private WebElement dashboardTextEle;
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
-    @FindBy(id = "btn-todo-undo")
-    private WebElement btnUndoTodo;
 
     public void verifyDetailsEngagementPage(String engagement01) {
         //we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
@@ -53,59 +51,6 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
         waitForVisibleElement(eleToDoListLnk, "Todo link text");
         //waitForClickableOfElement(eleToDoListLnk,"Todo Link");
         clickElement(eleToDoListLnk, "Todo Link");
-    }
-
-    /**
-     * verify button Undo exist
-     */
-    public void uiVerifyButtonUndoExist() {
-        try {
-            getLogger().info("Verify button Undo Todo exist.");
-            btnUndoTodo.getAttribute("class");
-            NXGReports.addStep("Verify button Undo Todo exist.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify button Undo Todo exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * verify button Undo disable
-     */
-    public void uiVerifyButtonUndoDisable() {
-        try {
-            getLogger().info("Verify button Undo Todo disable.");
-            Thread.sleep(2000);
-
-            if (btnUndoTodo.getAttribute("class").toString().equals("fa fa-undo disabled")) {
-                NXGReports.addStep("Verify button Undo Todo disable.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify button Undo Todo disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * verify button Undo enable
-     */
-    public void uiVerifyButtonUndoEnable() {
-        try {
-            getLogger().info("Verify button Undo Todo enable.");
-            Thread.sleep(2000);
-
-            if (btnUndoTodo.getAttribute("class").toString().equals("fa fa-undo")) {
-                NXGReports.addStep("Verify button Undo Todo enable.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify button Undo Todo enable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void navigateToEngagementDetailPage() {

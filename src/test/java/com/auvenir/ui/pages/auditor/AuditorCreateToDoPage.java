@@ -1194,11 +1194,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
 
     /**
-     * Added by huy.huynh on 18/05/2017.
-     * Scenarios : PLAT 2285 - Add undo option
-     */
-
-    /**
      * check select data drop down is show when click
      *
      * @throws Exception
@@ -1212,6 +1207,64 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("TestScript Failed: Verify Select date drop down is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Added by huy.huynh on 18/05/2017.
+     * Scenarios : PLAT 2285 - Add undo option
+     */
+
+    /**
+     * verify button Undo exist
+     */
+    public void uiVerifyButtonUndoExist() {
+        try {
+            getLogger().info("Verify button Undo Todo exist.");
+            btnToDoUndo.getAttribute("class");
+            NXGReports.addStep("Verify button Undo Todo exist.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify button Undo Todo exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify button Undo disable
+     */
+    public void uiVerifyButtonUndoDisable() {
+        try {
+            getLogger().info("Verify button Undo Todo disable.");
+            Thread.sleep(2000);
+
+            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo disabled")) {
+                NXGReports.addStep("Verify button Undo Todo disable.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify button Undo Todo disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * verify button Undo enable
+     */
+    public void uiVerifyButtonUndoEnable() {
+        try {
+            getLogger().info("Verify button Undo Todo enable.");
+            Thread.sleep(2000);
+
+            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo")) {
+                NXGReports.addStep("Verify button Undo Todo enable.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify button Undo Todo enable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -1731,5 +1784,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify click button(icon) Undo.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    /**-----end of huy.huynh PLAT-2285-----*/
 }
 
