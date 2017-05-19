@@ -967,6 +967,10 @@ public class AbstractPage {
         waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
     }
 
+    /**
+     * categoryMode = categoryIndiMode: create new category from list ToDoPage
+     * categoryMode = "": create new category in a ToDoPage
+     */
     public boolean createNewCategory (String categoryMode, String categoryNameInput) throws Exception
     {
         boolean isCheckCategory = false;

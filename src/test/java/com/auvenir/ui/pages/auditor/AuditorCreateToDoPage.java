@@ -498,6 +498,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyCreateNewCategory() {
         try {
+            getLogger().info("Verify create new category");
             boolean isCheckCategory = createNewCategory(categoryIndiMode, "");
             if (isCheckCategory) {
                 NXGReports.addStep("Create new category", LogAs.PASSED, null);
