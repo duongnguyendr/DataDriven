@@ -1175,8 +1175,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyDisplayImageInPopup();
         verifyMarkPopupColorCancelBtn();
         verifyMarkPopupColorArchiveBtn();
-        //verifyClickClosePopup();
         verifyMarkCompleteArchive();
+    }
+
+    public void verifyClickCloseMarkPopup()
+    {
+        verifyClickClosePopup();
     }
 
     public void verifyShowConfirmPopupAndMarkTitle() {
@@ -1255,6 +1259,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyClickClosePopup() {
         getLogger().info("Verify to click to close complete mark popup");
         try {
+            verifyShowConfirmPopupAndMarkTitle();
             waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
             WebElement closePopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
             waitForClickableOfElement(closePopup, "wait for click to closePopup");
