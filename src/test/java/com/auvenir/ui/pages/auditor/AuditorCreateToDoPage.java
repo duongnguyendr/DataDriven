@@ -529,9 +529,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyNewCategoryCreateCancelButton() {
         verifyColorCategoryCancelButton();
         verifyColorCategoryCreateButton();
-        //verifyClickCategoryCancelButton();
         verifyNotCompleteCreateCategory();
         verifyExistedCategory();
+        verifyClickCategoryCancelButton();
     }
 
     public void createToDoTask(String toDoName) throws Exception {

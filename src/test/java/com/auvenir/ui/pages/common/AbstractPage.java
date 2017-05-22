@@ -11,6 +11,7 @@ import java.util.Random;
 
 //import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
+import javafx.scene.control.Tab;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -197,6 +198,9 @@ public class AbstractPage {
 
     @FindBy(xpath = "//div[@id=\"category-dropdown-menu\"]/div[@class=\"\"]")
     List<WebDriver> listOfCategoriesDropdownTableEle;
+
+    @FindBy(xpath = "//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]")
+    WebElement cancelDeletedToDoButtonEle;
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
@@ -939,11 +943,11 @@ public class AbstractPage {
 
     public void clickToNewCategoryDllInList() throws Exception
     {
-        waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
         waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdl));
+        waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
-        waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
         waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdlDiv1));
+        waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
     }
 
@@ -1620,11 +1624,14 @@ public class AbstractPage {
         boolean isCheckCancelClick = false;
         getLogger().info("Verify to click Category cancel button");
         try {
-            // blue color
-            waitForClickableOfElement(eleEditCategoryCancelBtn, "wait for click to eleEditCategoryCancelBtn");
-            clickElement(eleEditCategoryCancelBtn, "click to eleEditCategoryCancelBtn");
-            //isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
-            //isCheckCancelClick = waitForInvisibleElement(eleIdBtnAddCategory, "wait for invisible eleIdBtnAddCategory");
+            // click to cancel button
+            clickToNewCategoryDllInList();
+            hoverElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
+            waitForClickableOfLocator(By.xpath("//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]"));
+            waitForClickableOfElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo Button");
+            isCheckCancelClick = clickElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
+
+            getLogger().info("isCheckCancelClick = " + isCheckCancelClick);
             if(isCheckCancelClick) {
                 NXGReports.addStep("Verify to click Category cancel button", LogAs.PASSED, null);
             }
@@ -1688,7 +1695,6 @@ public class AbstractPage {
             chooseCategoryColorInPopup();
             clickNewCategoryCreateButton();
             clickToNewCategoryDllInList();
-            //Thread.sleep(smallerTimeOut);
             waitForJSandJQueryToLoad();
             waitForClickableOfLocator(By.id("category-name"));
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
