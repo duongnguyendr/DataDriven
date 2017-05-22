@@ -32,7 +32,7 @@ public class EditCategoryTest extends AbstractTest {
     }
 
 
-    @Test(priority = 1, enabled = true, description = "Verify EditCategories GUI at Create New Todo Page")
+    @Test(priority = 1, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
     public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
         auditorEditCategoryService.returnToCreateNewTodoPage();
         auditorEditCategoryService.navigateToEditAtCreateTodoPage();
@@ -56,6 +56,7 @@ public class EditCategoryTest extends AbstractTest {
         try {
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
+            auditorEditCategoryService.hoverOnCategoryItem_TodoListPage();
             auditorEditCategoryService.verifyDefaultSaveButton();
             auditorEditCategoryService.verifyDefaultCancelButton();
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.PASSED, null);
@@ -64,7 +65,7 @@ public class EditCategoryTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = false, description = "Verify Edit Function at Create new todo page")
+    @Test(priority = 3, enabled = true, description = "Verify Edit Function at Create new todo page")
     public void verifyEditFunctionAtCreateNewTodoPage() throws Exception {
         auditorEditCategoryService.returnToCreateNewTodoPage();
         auditorEditCategoryService.navigateToEditAtCreateTodoPage();
@@ -75,7 +76,6 @@ public class EditCategoryTest extends AbstractTest {
             auditorEditCategoryService.editOnlyNumber();
             auditorEditCategoryService.editNullChars();
             auditorEditCategoryService.editSpecialChars();
-//            auditorEditCategoryService.editUnvalidMultiItems();
             auditorEditCategoryService.editSameMultiValidItems();
 
             NXGReports.addStep("Verify Edit Fuction.", LogAs.PASSED, null);
@@ -90,12 +90,11 @@ public class EditCategoryTest extends AbstractTest {
         auditorEditCategoryService.navigateToEditAtTodoListPage();
         try {
             getLogger().info("Verifying Edit cases..");
-            auditorEditCategoryService.editValidValue();
-            auditorEditCategoryService.editOnlyNumber();
-            auditorEditCategoryService.editNullChars();
-            auditorEditCategoryService.editSpecialChars();
-            auditorEditCategoryService.editUnvalidMultiItems();
-//            auditorEditCategoryService.editSameMultiItems();
+            auditorEditCategoryService.editValidValue_TodoListPage();
+            auditorEditCategoryService.editOnlyNumber_TodoListPage();
+            auditorEditCategoryService.editNullChars_TodoListPage();
+            auditorEditCategoryService.editSpecialChars_TodoListPage();
+            auditorEditCategoryService.editSameMultiValidItems_TodoListPage();
             NXGReports.addStep("Verify Edit Fuction.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Edit Fuction.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
