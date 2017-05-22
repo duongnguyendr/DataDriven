@@ -2055,6 +2055,21 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
+     * Click on trash icon
+     */
+    public void clickOnTrashIcon(){
+        try {
+            waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
+            hoverElement(trashToDoBtnEle,"Hover trash icon ");
+            clickElement(trashToDoBtnEle,"Click on trash icon");
+            NXGReports.addStep("Click on trash ToDo icon", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Can not click on trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
      * Check list row is empty
      *
      * @param eleList : list row need check
