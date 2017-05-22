@@ -9,6 +9,7 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -24,18 +25,19 @@ public class AuditorTodoListTest extends AbstractTest {
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
     private AuditorTodoListService auditorTodoListService;
     private AuditorCreateToDoService auditorCreateToDoService;
+    private AuditorEditCategoryService auditorEditCategoryService;
 
     String auditorId;
     String timeStamp;
     String firstEngagementTitleOnWeb;
 
-    @Test(priority=1,enabled= true, description="Verify Auditor empty Todo List page.")
+    @Test(priority = 1, enabled = true, description = "Verify Auditor empty Todo List page.")
     public void verifyAuditorEmptyTodoListPage() throws Exception {
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(),getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(),getDriver());
-        String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
 
         try {
 
@@ -43,7 +45,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
-            auditorNewEngagementService.enterDataForNewEngagementPage("engagement01","","Company Auvenir");
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement01", "", "Company Auvenir");
             //will implement later, current we can not navigate engagment by name
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
@@ -64,7 +66,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 2,enabled = true, description = "Verify to create To-Do page and search data.")
+    @Test(priority = 2, enabled = true, description = "Verify to create To-Do page and search data.")
     public void verifyCreateToDoPageCategorySearchData() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -91,7 +93,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 3,enabled = true, description = "Verify to create new Category")
+    @Test(priority = 3, enabled = true, description = "Verify to create new Category")
     public void verifyCreateNewCategory() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -959,13 +961,16 @@ public class AuditorTodoListTest extends AbstractTest {
 
         NXGReports.addStep("Verify Download Attachments disable", LogAs.PASSED, null);
     }
-    /**-----end of huy.huynh PLAT-2285-----*/
 
-    @Test(  priority = 1,enabled = true, description = "Verify GUI of delete icon in ToDo page.")
+    /**
+     * -----end of huy.huynh PLAT-2285-----
+     */
+
+    @Test(priority = 1, enabled = true, description = "Verify GUI of delete icon in ToDo page.")
     public void verifyGUIDeleteIconInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -989,11 +994,11 @@ public class AuditorTodoListTest extends AbstractTest {
      * Added by tan.pham on 19/05/2017.
      * Scenarios : PLAT 2286 - Add delete icon
      */
-    @Test(  priority = 2,enabled = true, description = "Verify default status of delete icon in ToDo page.")
+    @Test(priority = 2, enabled = true, description = "Verify default status of delete icon in ToDo page.")
     public void verifyDefaultStatusDeleteIconInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1013,11 +1018,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 3,enabled = true, description = "Verify gui of delete confirm popup in ToDo page.")
+    @Test(priority = 3, enabled = true, description = "Verify gui of delete confirm popup in ToDo page.")
     public void verifyGUIDeleteConfirmPopupInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1037,11 +1042,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 4,enabled = true, description = "Verify work flow of 'CheckAll' check box in ToDo page.")
+    @Test(priority = 4, enabled = true, description = "Verify work flow of 'CheckAll' check box in ToDo page.")
     public void verifyCheckAllCheckBoxInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1061,11 +1066,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 5,enabled = true, description = "Verify work flow of delete button in ToDo page.")
+    @Test(priority = 5, enabled = true, description = "Verify work flow of delete button in ToDo page.")
     public void verifyWorkFlowOfDeleteButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1085,11 +1090,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 6,enabled = true, description = "Verify work flow of cancel button in ToDo page.")
+    @Test(priority = 6, enabled = true, description = "Verify work flow of cancel button in ToDo page.")
     public void verifyWorkFlowOfCancelButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1108,7 +1113,139 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-    /**-----end of tan.pham PLAT-2286-----*/
+
+    /**
+     * -----end of tan.pham PLAT-2286-----
+     */
+
+    /*
+    Vien Pham merged editCategoriesTEst into this page
+     */
+    @Test(priority = 25, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
+    public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        //Login User
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorCreateToDoService.loginWithUserRole(userId);
+        auditorCreateToDoService.navigateToDoListPage();
+        auditorCreateToDoService.navigatetoCreateToDoTab();
+        auditorCreateToDoService.createMultiCategories();
+        auditorEditCategoryService.returnToCreateNewTodoPage();
+        auditorEditCategoryService.navigateToEditAtCreateTodoPage();
+        try {
+            auditorEditCategoryService.verifyEditCategoriesTitle();
+            auditorEditCategoryService.verifyEditCategoriesGuide();
+            auditorEditCategoryService.hoverOnCategoryItem();
+            auditorEditCategoryService.verifyDefaultSaveButton();
+            auditorEditCategoryService.verifyDefaultCancelButton();
+            NXGReports.addStep("Verify Default PopUp GUI.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Default PopUp GUI.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    @Test(priority = 26, enabled = false, description = "Verify EditCategories GUI at Todo list Page")
+    public void verifyDefaultEditCategoryGuiAtTodoListPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        //Login User
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorCreateToDoService.loginWithUserRole(userId);
+        auditorCreateToDoService.navigateToDoListPage();
+        auditorCreateToDoService.navigatetoCreateToDoTab();
+        auditorCreateToDoService.createMultiCategories();
+        auditorEditCategoryService.navigateToEditAtTodoListPage();
+        try {
+            auditorEditCategoryService.verifyEditCategoriesTitle();
+            auditorEditCategoryService.verifyEditCategoriesGuide();
+            auditorEditCategoryService.hoverOnCategoryItem_TodoListPage();
+            auditorEditCategoryService.verifyDefaultSaveButton();
+            auditorEditCategoryService.verifyDefaultCancelButton();
+            NXGReports.addStep("Verify Default PopUp GUI.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Default PopUp GUI.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @Test(priority = 27, enabled = true, description = "Verify Edit Function at Create new todo page")
+    public void verifyEditFunctionAtCreateNewTodoPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        //Login User
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorCreateToDoService.loginWithUserRole(userId);
+        auditorCreateToDoService.navigateToDoListPage();
+        auditorCreateToDoService.navigatetoCreateToDoTab();
+        auditorCreateToDoService.createMultiCategories();
+        auditorEditCategoryService.returnToCreateNewTodoPage();
+        auditorEditCategoryService.navigateToEditAtCreateTodoPage();
+
+        try {
+            getLogger().info("Verifying Edit cases..");
+            auditorEditCategoryService.editValidValue();
+            auditorEditCategoryService.editOnlyNumber();
+            auditorEditCategoryService.editNullChars();
+            auditorEditCategoryService.editSpecialChars();
+            auditorEditCategoryService.editSameMultiValidItems();
+
+            NXGReports.addStep("Verify Edit Fuction.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Edit Fuction.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @Test(priority = 28, enabled = false, description = "Verify Edit Function at todo list page")
+    public void verifyEditFunctionAtTodoListPage() throws Exception {
+
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        //Login User
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorCreateToDoService.loginWithUserRole(userId);
+        auditorCreateToDoService.navigateToDoListPage();
+        auditorCreateToDoService.navigatetoCreateToDoTab();
+        auditorCreateToDoService.createMultiCategories();
+        auditorEditCategoryService.navigateToEditAtTodoListPage();
+        try {
+            getLogger().info("Verifying Edit cases..");
+            auditorEditCategoryService.editValidValue_TodoListPage();
+            auditorEditCategoryService.editOnlyNumber_TodoListPage();
+            auditorEditCategoryService.editNullChars_TodoListPage();
+            auditorEditCategoryService.editSpecialChars_TodoListPage();
+            auditorEditCategoryService.editSameMultiValidItems_TodoListPage();
+            NXGReports.addStep("Verify Edit Fuction.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Edit Fuction.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @Test(priority = 29, enabled = false, description = "Verify Remove function at Todo list Page")
+    public void verifyRemoveFunctionAtTodoListPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        //Login User
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorCreateToDoService.loginWithUserRole(userId);
+        auditorCreateToDoService.navigateToDoListPage();
+        auditorCreateToDoService.navigatetoCreateToDoTab();
+        auditorCreateToDoService.createMultiCategories();
+        auditorEditCategoryService.navigateToEditAtTodoListPage();
+        try {
+            getLogger().info("Verifying Remove case..");
+            auditorEditCategoryService.remove1Item();
+            auditorEditCategoryService.removeMultiItems();
+
+            NXGReports.addStep("Verify Remove function.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Remove Function.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+/*
+End of merged from vienPham 22/5/2017
+ */
 }
 
 
