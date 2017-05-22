@@ -149,7 +149,6 @@ public class AbstractPage {
     private WebElement detailCateColorEle;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
 
     @FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement dropdownCategoryEle;
@@ -1743,7 +1742,7 @@ public class AbstractPage {
                 waitForVisibleElement(listOfCategoriesItemEle.get(i), "Category Item " + i);
                 hoverElementAndClickToOtherElement(listOfCategoriesItemEle.get(i), "Category Item " + i, listOfEditPenEle.get(i), "Edit Pen " + i);
                 sendKeyTextBox(listOfCategoriesItemEle.get(i), newValue, String.format("Category Item %d", i));
-                Thread.sleep(smallTimeOut);
+                Thread.sleep(smallerTimeOut);
             }
             NXGReports.addStep("Enter new value", LogAs.PASSED, null);
         } catch (Exception e) {

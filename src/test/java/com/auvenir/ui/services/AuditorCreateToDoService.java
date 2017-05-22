@@ -300,7 +300,7 @@ public class AuditorCreateToDoService extends AbstractService {
     //Vien.Pham add new Create Multicategories
     public void createMultiCategories(){
         try {
-            createToDoPage.createToDoTask(2);
+            createToDoPage.createToDoTask(4);
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -504,9 +504,9 @@ public class AuditorCreateToDoService extends AbstractService {
         return createToDoPage.getNumberofToDoTask();
     }
 
-    public void waitMessageIsDisappear() {
-        createToDoPage.waitMessageIsDisappear();
-    }
+//    public void waitMessageIsDisappear() {
+//        createToDoPage.waitMessageIsDisappear();
+//    }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
     /**
