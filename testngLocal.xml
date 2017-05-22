@@ -6,7 +6,7 @@
 	 </listeners>
 	 <test name="Regression" preserve-order="true">    
 		<classes>
-			<class name="com.auvenir.ui.tests.auditor.AddSelectDateDropDownTest"/>
+			<!--<class name="com.auvenir.ui.tests.auditor.AddSelectDateDropDownTest"/>-->
 			<!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
 			<class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
 
@@ -19,6 +19,10 @@
     		<class name="com.auvenir.ui.tests.ClientTest"/>
          	-->
 			<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
+			<methods>
+				<!--<include name="verifyCreateNewCategory"></include>-->
+				<include name="verifyCompletedFieldUpdateWhenSelectMarkAsCompleted"></include>
+			</methods>
 			<!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
 			<class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
 			<class name="com.auvenir.ui.tests.auditor.NotificationsSettingsTest"/>
