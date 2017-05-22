@@ -12,6 +12,8 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.apache.xalan.lib.ExsltDatetime;
+//import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -557,7 +559,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyAddNewToDoTask(toDoName);
     }
 
-    public void createToDoTask() throws Exception {
+
+    //Vien.Pham added new: Switch many cases.
+
+    public void createToDoTask(int numberCategories) throws Exception {
         getLogger().info("Run createToDoTask()");
         todoNamePage = "To-do name " + randomNumber();
         waitForClickableOfElement(createToDoBtnEle, "create todo button.");
@@ -565,7 +570,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
         clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
         createToDoNameTextBoxEle.sendKeys(todoNamePage);
-        createNewCategory("", "");
+        switch (numberCategories) {
+            case 1:
+                createNewCategory("", "");
+                break;
+
+            case 2:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+
+            case 3:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+
+            case 4:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+        }
         hoverElement(categoryDropdownEle, "eleDdlCategory");
         waitForClickableOfElement(categoryDropdownEle, "eleDdlCategory");
         Thread.sleep(smallTimeOut);

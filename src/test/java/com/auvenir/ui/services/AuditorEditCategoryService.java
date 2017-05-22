@@ -48,6 +48,10 @@ public class AuditorEditCategoryService extends AbstractService {
         auditorEditCategoryPage.verifyEditCategoriesPopupGuide();
     }
 
+    public void hoverOnCategoryItem() {
+        auditorEditCategoryPage.verifyHoverOnCategoryItem();
+    }
+
 
     public void verifyDefaultCancelButton() throws Exception {
 
@@ -65,8 +69,8 @@ public class AuditorEditCategoryService extends AbstractService {
 
     }
 
-    public void editValidMultiItems() throws Exception {
-        auditorEditCategoryPage.editValidMultiItems();
+    public void editSameMultiValidItems() throws Exception {
+        auditorEditCategoryPage.editSameMultiItems();
 
     }
 
