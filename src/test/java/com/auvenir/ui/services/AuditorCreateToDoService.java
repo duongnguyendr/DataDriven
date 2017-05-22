@@ -1,5 +1,6 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -649,6 +650,13 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
+     * Click on trash delete icon
+     */
+    public void clickOnTrashIcon(){
+        createToDoPage.clickOnTrashIcon();
+    }
+
+    /**
      * Verify GUI and Close icon of delete confirm popup
      */
     public void verifyGUIDeleteConfirmPopup(){
@@ -656,23 +664,46 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
-     * Verify work flow of "CheckAll" check box
+     * Check or Uncheck CheckAll check box control
+     * @param isCheck : true check | false is un check
      */
-    public void verifyCheckAllCheckBox(){
-        createToDoPage.verifyCheckAllCheckBox();
-    }
-    /**
-     * Verify work flow of delete button
-     */
-    public void verifyWorkFlowOfDeleteButton(){
-        createToDoPage.verifyWorkFlowOfDeleteButton();
+    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
     }
 
     /**
-     * Verify work flow of cancel button
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
      */
-    public void verifyWorkFlowOfCancelButton(){
-        createToDoPage.verifyWorkFlowOfCancelButton();
+    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
+    }
+
+    /**
+     * Check or Uncheck all check box control
+     * @param isCheck : true check | false is un check
+     */
+    public void checkOrUnCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
+    }
+    /**
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
+     */
+     public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
+     }
+    /**
+     * Click on delete button popup
+     */
+    public void clickOnDeleteButtonOnPopup(){
+        createToDoPage.clickOnDeleteButtonOnPopup();
+    }
+
+    public void checkToDoIsExists(boolean isExists, String ToDoName){
+        if(!createToDoPage.checkToDoIsExists(isExists,ToDoName)){
+            AbstractService.sStatusCnt++;
+        }
     }
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
