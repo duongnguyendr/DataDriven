@@ -948,6 +948,7 @@ public class AbstractPage {
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdlDiv1));
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
+        Thread.sleep(smallerTimeOut);
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
     }
 

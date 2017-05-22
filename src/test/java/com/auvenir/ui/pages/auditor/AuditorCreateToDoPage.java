@@ -102,10 +102,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement categoryDropdownEle;
+
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']//button")
     private List<WebElement> categoryOptionItemEle;
     @FindBy(id = "due-date")
     private WebElement dueDateFieldEle;
+
     @FindBy(xpath = "//*[@id=\"ui-datepicker-div\"]/table/tbody/tr[2]/td[5]/a")
     private WebElement dateItemonCalendarEle;
 
@@ -470,12 +472,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForClickableOfElement(eleToDoSearchInput, "wait for txtIdTodoSearch");
             clickElement(eleToDoSearchInput, "click to txtIdTodoSearch");
             clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-            Thread.sleep(smallerTimeOut);
+            clickElement(eleToDoSearchInput, "cick to eleToDoSearchInput");
             eleToDoSearchInput.sendKeys(maxLenghtString);
-            Thread.sleep(smallerTimeOut);
             eleToDoSearchInput.sendKeys(numberSequence);
             // Get the text from eleToDoSearchInput
-            Thread.sleep(smallerTimeOut);
             String txtSearchText = getTextByJavaScripts(eleToDoSearchInput);
             getLogger().info("The input txtSearchText = " + txtSearchText);
             if (txtSearchText.equals(maxLenghtString)) {
@@ -488,7 +488,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             if (isCheckMaxLength) {
                 NXGReports.addStep("Verify check max length of search textbox", LogAs.PASSED, null);
             }
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -540,13 +540,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void createToDoTask(String toDoName) throws Exception {
         waitForClickableOfElement(createToDoBtnEle, "Create To Do Button");
         createToDoBtnEle.click();
-        //Thread.sleep(smallTimeOut);
         waitForJSandJQueryToLoad();
         createToDoNameTextBoxEle.sendKeys(toDoName);
         // Create new category
         createNewCategory("", "");
-        //Thread.sleep(smallTimeOut);
-        //waitForPopupToClose();
         waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
         categoryDropdownEle.click();
         waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
@@ -597,15 +594,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 break;
 
         }
-        createNewCategory("", "");
-        hoverElement(categoryDropdownEle, "eleDdlCategory");
-        waitForClickableOfElement(categoryDropdownEle, "eleDdlCategory");
-        Thread.sleep(smallTimeOut);
-        clickElement(categoryDropdownEle, "click to eleDdlCategory");
-        waitForClickableOfElement(categoryOptionItemEle.get(0), "eleXpathCategoryItem");
-        clickElement(categoryOptionItemEle.get(0), "click to eleXpathCategoryItem");
+
+        waitForClickableOfLocator(By.id("due-date"));
         waitForClickableOfElement(dueDateFieldEle, "eleIdDueDate");
-        Thread.sleep(smallerTimeOut);
         clickElement(dueDateFieldEle, "click to eleIdDueDate");
         waitForClickableOfElement(dateItemonCalendarEle, "eleXpathChooseDate");
         clickElement(dateItemonCalendarEle, "click to eleXpathChooseDate");
