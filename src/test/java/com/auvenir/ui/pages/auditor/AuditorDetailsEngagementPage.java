@@ -31,7 +31,7 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
 
     @FindBy(id = "engagementDashboardLink")
     private WebElement dashBoardLinkEle;
-    @FindBy(xpath = "//div[contains(text(),'Dashboard')]")
+    @FindBy(xpath = "//p[contains(text(),'Engagement Overview')]")
     private WebElement dashboardTextEle;
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
