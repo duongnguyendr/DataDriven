@@ -1127,13 +1127,14 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         //Login User
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorCreateToDoService.loginWithUserRole(userId);
-        auditorCreateToDoService.navigateToDoListPage();
-        auditorCreateToDoService.navigatetoCreateToDoTab();
-        auditorCreateToDoService.createMultiCategories();
-        auditorEditCategoryService.returnToCreateNewTodoPage();
-        auditorEditCategoryService.navigateToEditAtCreateTodoPage();
+
         try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.navigateToDoListPage();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.createMultiCategories();
+            auditorEditCategoryService.returnToCreateNewTodoPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
             auditorEditCategoryService.hoverOnCategoryItem();
@@ -1152,12 +1153,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         //Login User
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorCreateToDoService.loginWithUserRole(userId);
-        auditorCreateToDoService.navigateToDoListPage();
-        auditorCreateToDoService.navigatetoCreateToDoTab();
-        auditorCreateToDoService.createMultiCategories();
-        auditorEditCategoryService.navigateToEditAtTodoListPage();
+
         try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.navigateToDoListPage();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.createMultiCategories();
+            auditorEditCategoryService.navigateToEditAtTodoListPage();
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
             auditorEditCategoryService.hoverOnCategoryItem_TodoListPage();
@@ -1175,14 +1177,15 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         //Login User
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorCreateToDoService.loginWithUserRole(userId);
-        auditorCreateToDoService.navigateToDoListPage();
-        auditorCreateToDoService.navigatetoCreateToDoTab();
-        auditorCreateToDoService.createMultiCategories();
-        auditorEditCategoryService.returnToCreateNewTodoPage();
-        auditorEditCategoryService.navigateToEditAtCreateTodoPage();
+
 
         try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.navigateToDoListPage();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.createMultiCategories();
+            auditorEditCategoryService.returnToCreateNewTodoPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             getLogger().info("Verifying Edit cases..");
             auditorEditCategoryService.editValidValue();
             auditorEditCategoryService.editOnlyNumber();
@@ -1203,12 +1206,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         //Login User
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorCreateToDoService.loginWithUserRole(userId);
-        auditorCreateToDoService.navigateToDoListPage();
-        auditorCreateToDoService.navigatetoCreateToDoTab();
-        auditorCreateToDoService.createMultiCategories();
-        auditorEditCategoryService.navigateToEditAtTodoListPage();
+
         try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.navigateToDoListPage();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.createMultiCategories();
+            auditorEditCategoryService.navigateToEditAtTodoListPage();
             getLogger().info("Verifying Edit cases..");
             auditorEditCategoryService.editValidValue_TodoListPage();
             auditorEditCategoryService.editOnlyNumber_TodoListPage();
@@ -1227,12 +1231,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         //Login User
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorCreateToDoService.loginWithUserRole(userId);
-        auditorCreateToDoService.navigateToDoListPage();
-        auditorCreateToDoService.navigatetoCreateToDoTab();
-        auditorCreateToDoService.createMultiCategories();
-        auditorEditCategoryService.navigateToEditAtTodoListPage();
+
         try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.navigateToDoListPage();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.createMultiCategories();
+            auditorEditCategoryService.navigateToEditAtTodoListPage();
             getLogger().info("Verifying Remove case..");
             auditorEditCategoryService.remove1Item();
             auditorEditCategoryService.removeMultiItems();
@@ -1244,7 +1249,7 @@ public class AuditorTodoListTest extends AbstractTest {
     }
 
 /*
-End of merged from vienPham 22/5/2017
+End of merged VienPham.
  */
 }
 
