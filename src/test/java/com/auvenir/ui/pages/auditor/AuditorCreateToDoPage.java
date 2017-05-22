@@ -8,8 +8,8 @@ import java.util.List;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
-import com.auvenir.utilities.extentionLibraries.MongoDB;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -2438,15 +2438,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * get 'engagements' collection(table on mongo)
      */
     public DBCollection getEngagementCollection() {
-        DBCollection dbCollection = null;
         try {
             //TODO move db config to properties file
-            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
-            dbCollection = db.getCollection("auvenir", "engagements");
+            return MongoDBService.getCollection("auvenir", "engagements");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return dbCollection;
+        return null;
     }
 
     /**
@@ -2456,8 +2454,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         DBCollection dbCollection = null;
         try {
             //TODO move db config to properties file
-            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
-            dbCollection = db.getCollection("auvenir", "users");
+            return MongoDBService.getCollection("auvenir", "users");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -2474,7 +2471,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
         getLogger().info("Verify To-Do complete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         //TODO get from properties file
         if (jsonObject.get("completed").toString().equals(status)) {
             NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
@@ -2494,10 +2491,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
         getLogger().info("Verify To-Do delete status on database.");
-        String idAssignee = MongoDB.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
+        String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
 
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
 
         //TODO get from properties file
@@ -2519,7 +2516,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) {
         getLogger().info("Verify To-Do delete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
         //TODO get from properties file
         if (jsonObject.get("status").toString().equals(status)) {

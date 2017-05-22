@@ -1,20 +1,22 @@
 package com.auvenir.utilities.extentionLibraries;
 
-import com.mongodb.DBCollection;
+import com.auvenir.utilities.MongoDBService;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.mongodb.*;
+import com.mongodb.util.JSON;
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
-import org.joda.time.Months;
+import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.net.UnknownHostException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by huy.huynh on 15/05/2017.
@@ -110,22 +112,35 @@ public class DatePicker {
         }
     }
 
-//    public static void main(String[] args) {
-//
-////        System.out.println("yearDif*12+monthDif = " + timeValidation("10", "September", "1"));
-////        System.out.println("yearDif*12+monthDif = " + timeValidation("29", "2", "2011"));
-////        System.out.println("yearDif*12+monthDif = " + timeValidation("30", "12", "2017"));
-////        System.out.println("yearDif*12+monthDif = " + timeValidation("32", "July", "2017"));
-////        System.out.println("yearDif*12+monthDif = " + timeValidation("-1", "a", ""));
-//
-//
-//        try {
-//            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
-//            DBCollection dbCollection = db.getCollection("auvenir", "users");
-//            MongoDB.getUserObjectByFirstNameLastName(dbCollection, "", "huy assignee", "");
-//
-//        } catch (UnknownHostException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static void main(String[] args) {
+        String data[][] = MongoDBService.readExcelSheetData("usersRegression");
+        String json = data[0][5];
+        //JSONObject jsonObject= new JSONObject(json);
+        //System.out.println("jsonObject.get(\"_id\") = " + jsonObject.get("_id"));
+
+
+        try {
+            DBObject basicDBObject = (DBObject) JSON.parse(json);
+            MongoClient mongoClient = new MongoClient("34.205.90.145", 27017);
+            DB dB = mongoClient.getDB("huytest");
+            DBCollection dbCollection = dB.getCollection("users");
+            basicDBObject.put("_id",new ObjectId("591eacec7d63f54b5a017608"));
+
+            ISO8601DateFormat df = new ISO8601DateFormat();
+            basicDBObject.put("lastLogin", df.parse("2017-05-22T08:39:36.797Z"));
+            basicDBObject.put("dateCreated", df.parse("2017-05-19T08:20:14.720Z"));
+
+            BasicDBObject access = new BasicDBObject();
+            access.put("expires", df.parse("2017-05-22T10:14:11.447Z"));
+            BasicDBObject auth = new BasicDBObject();
+            auth.put("id","DwaPhuT7HzBo-dc4D8v7QjP3G");
+            auth.put("access", access);
+            basicDBObject.put("auth", auth);
+
+            dbCollection.insert(basicDBObject);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
