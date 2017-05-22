@@ -285,7 +285,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
 
-    // Vien.Pham added numberCategories
+    // Vien.Pham added new numberCategories
     public void createToDoPage() {
 
         try {
