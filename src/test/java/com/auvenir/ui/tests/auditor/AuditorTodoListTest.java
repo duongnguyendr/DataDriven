@@ -803,6 +803,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.clickCheckboxNewToDoTask();
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyClickCloseMarkPopup();
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
         } catch (Exception e) {

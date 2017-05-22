@@ -837,10 +837,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             //boolean isCheckData = createToDoPage.checkContentTextSearch();
             boolean isCheckData = false;
-            waitForVisibleElement(eleToDoSearchInput, "");
-            Thread.sleep(smallTimeOut);
+            waitForVisibleOfLocator(By.id("todo-search"));
+            //Thread.sleep(smallTimeOut);
+            clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
             clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-            Thread.sleep(smallTimeOut);
+            //Thread.sleep(smallTimeOut);
             sendKeyTextBox(eleToDoSearchInput, todoContentTextSearch, "sendkey to todoContentTextSearch");
             waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")), "");
             // Check the result in the list data
@@ -976,16 +977,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
         createNewCategory("", categoryName);
         // Will changed after finding new solution for waiting Element
         //Thread.sleep(smallTimeOut);
-        waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
-        categoryDropdownEle.click();
+        waitForClickableOfLocator(By.xpath("//*[@class='ui dropdown category todo-bulkDdl ']"));
+        clickElement(categoryDropdownEle, "click to categoryDropdownEle");
         waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
-        categoryOptionItemEle.get(0).click();
+        clickElement(categoryOptionItemEle.get(0), "click to categoryOptionItemEle.get(0)");
         waitForClickableOfElement(dueDateFieldEle, "Due Date field");
-        dueDateFieldEle.click();
+        clickElement(dueDateFieldEle, "click to dueDateFieldEle");
         waitForClickableOfElement(dateItemonCalendarEle, "Date value");
-        dateItemonCalendarEle.click();
+        clickElement(dateItemonCalendarEle, "click to dateItemonCalendarEle");
         waitForVisibleElement(toDoSaveIconEle, "Save Icon");
-        toDoSaveIconEle.click();
+        clickElement(toDoSaveIconEle, "click to toDoSaveIconEle");
         verifyAddNewToDoTask(toDoName);
     }
 
@@ -1119,6 +1120,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void clickBulkActionsDropdown() {
         //waitForClickableOfElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
         //hoverElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
+
         clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown List");
     }
 
@@ -1175,11 +1177,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyMarkCompleteArchive();
     }
 
+    public void clickToBulkCompleteButton()
+    {
+        List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+        clickElement(menuBulkActionsDropdown.get(1), "Bulk complete button");
+    }
+
     public void verifyShowConfirmPopupAndMarkTitle() {
         getLogger().info("Verify complete mark popup");
         try {
-            List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
-            clickElement(menuBulkActionsDropdown.get(1), "Bulk complete button");
+            clickToBulkCompleteButton();
             waitForVisibleElement(markAsCompleteTitle, "wait for visible markAsCompleteTitle");
             String markCompleteTitle = markAsCompleteTitle.getText();
             getLogger().info("markCompleteTitle = " + markCompleteTitle);
@@ -1251,6 +1258,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyClickClosePopup() {
         getLogger().info("Verify to click to close complete mark popup");
         try {
+            clickToBulkCompleteButton();
             waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
             WebElement closePopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
             waitForClickableOfElement(closePopup, "wait for click to closePopup");
