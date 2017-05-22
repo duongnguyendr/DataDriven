@@ -230,7 +230,7 @@ public class AuditorTodoListService extends AbstractService {
      * @param status          status complete expected
      */
     public void verifyToDoComleteStatusByName(String engagementValue, String todoName, String status) {
-        auditorCreateToDoPage.verifyToDoCompleteStatus("name", engagementValue, todoName, status);
+//        auditorCreateToDoPage.verifyToDoCompleteStatus("name", engagementValue, todoName, status);
     }
 
     /**
@@ -241,7 +241,7 @@ public class AuditorTodoListService extends AbstractService {
      * @param status          status complete expected
      */
     public void verifyToDoDeleteStatusByName(String engagementValue, String todoName, String status) {
-        auditorCreateToDoPage.verifyToDoDeteteStatus("name", engagementValue, todoName, status);
+//        auditorCreateToDoPage.verifyToDoDeteteStatus("name", engagementValue, todoName, status);
     }
 
     /**

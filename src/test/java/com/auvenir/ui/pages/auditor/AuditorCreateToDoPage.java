@@ -15,7 +15,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.apache.xalan.lib.ExsltDatetime;
-import org.json.JSONObject;
+//import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -538,7 +538,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyAddNewToDoTask(toDoName);
     }
 
-    public void createToDoTask() throws Exception {
+
+    //Vien.Pham added new: Switch many cases.
+
+    public void createToDoTask(int numberCategories) throws Exception {
         getLogger().info("Run createToDoTask()");
         todoNamePage = "To-do name " + randomNumber();
         waitForClickableOfElement(createToDoBtnEle, "create todo button.");
@@ -546,7 +549,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
         clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
         createToDoNameTextBoxEle.sendKeys(todoNamePage);
-        createNewCategory("", "");
+        switch (numberCategories) {
+            case 1:
+                createNewCategory("", "");
+                break;
+
+            case 2:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+
+            case 3:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+
+            case 4:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+        }
         hoverElement(categoryDropdownEle, "eleDdlCategory");
         waitForClickableOfElement(categoryDropdownEle, "eleDdlCategory");
         Thread.sleep(smallTimeOut);
@@ -1705,17 +1730,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status complete expected
      */
-    public void verifyToDoCompleteStatus(String engagementField, String engagementValue, String todoName, String status) {
-        getLogger().info("Verify To-Do complete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("completed").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
+//    public void verifyToDoCompleteStatus(String engagementField, String engagementValue, String todoName, String status) {
+//        getLogger().info("Verify To-Do complete status on database.");
+//        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+//        TODO get from properties file
+//        if (jsonObject.get("completed").toString().equals(status)) {
+//            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+//        } else {
+//            AbstractService.sStatusCnt++;
+//            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//        }
+//    }
 
     /**
      * verify 'status' field of a To-Do
@@ -1725,17 +1750,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status delete expected
      */
-    public void verifyToDoDeteteStatus(String engagementField, String engagementValue, String todoName, String status) {
-        getLogger().info("Verify To-Do delete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("status").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
+//    public void verifyToDoDeteteStatus(String engagementField, String engagementValue, String todoName, String status) {
+//        getLogger().info("Verify To-Do delete status on database.");
+//        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+//        TODO get from properties file
+//        if (jsonObject.get("status").toString().equals(status)) {
+//            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
+//        } else {
+//            AbstractService.sStatusCnt++;
+//            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//        }
+//    }
 
     /**
      * click button Archive
