@@ -35,7 +35,7 @@ public class AddDeleteIconTest extends AbstractTest
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.createAndSelectNewEnagement("Engagement 01","","AAA");
             // Verify trash to do icon
             auditorCreateToDoService.verifyTrashToDoIcon();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -84,7 +84,17 @@ public class AddDeleteIconTest extends AbstractTest
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
-            // Verify trash to do icon
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String todoName = "ToDo" + dateFormat.format(date);
+            // Add one ToDo name
+            ArrayList<String> toDoListNames = new ArrayList<String>();
+            toDoListNames.add(todoName);
+            // Create ToDo follow name
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            // Select ToDo has just created
+            auditorCreateToDoService.selectToDoTaskName(todoName);
+            // verify GUI delete confirm popup
             auditorCreateToDoService.verifyGUIDeleteConfirmPopup();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify gui of delete confirm popup in ToDo page.", LogAs.PASSED, null);

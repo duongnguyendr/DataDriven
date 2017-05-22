@@ -46,12 +46,11 @@ public class AuditorTodoListTest extends AbstractTest {
 
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-//            auditorEngagementService.createAndSelectNewEnagement("engagement01","","Company Auvenir");
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement01", "", "Company Auvenir");
             //will implement later, current we can not navigate engagment by name
-//            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
 
             auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
@@ -754,7 +753,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 26, enabled = true, description = "[PLAT 2299]-Verify To-do Details Commenting")
+    @Test(priority = 26, enabled = true, description = "[PLAT 2284]-Verify Action of Add Bulk Actions on To Do Page")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -764,20 +763,18 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("testEngagementEnhance");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("testEngagementEnhance");
+            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
             //auditorTodoListService.verifyTodoListPage();
 
             ArrayList<String> toDoListNames = new ArrayList<String>();
             toDoListNames.add("416 To Do Task02");
             toDoListNames.add("a To Do Task02");
             toDoListNames.add("b To Do Task02");
-            //auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.createListToDoTask(toDoListNames);
             auditorCreateToDoService.selectToDoTaskName("b To Do Task02");
             auditorCreateToDoService.selectToDoTaskName("416 To Do Task02");
             auditorCreateToDoService.clickCommentIconPerTaskName("416 To Do Task02");
-            auditorCreateToDoService.verifyDefaultHintValueInputComment();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify Action of Add Bulk Actions on To do page.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -971,11 +968,15 @@ public class AuditorTodoListTest extends AbstractTest {
      * -----end of huy.huynh PLAT-2285-----
      */
 
-    @Test(priority = 1, enabled = true, description = "Verify GUI of delete icon in ToDo page.")
+    /**
+     * Added by tan.pham on 19/05/2017.
+     * Scenarios : PLAT 2286 - Add delete icon
+     */
+    @Test(  priority = 1,enabled = true, description = "Verify GUI of delete icon in ToDo page.")
     public void verifyGUIDeleteIconInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -983,7 +984,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.createAndSelectNewEnagement("Engagement 01","","AAA");
             // Verify trash to do icon
             auditorCreateToDoService.verifyTrashToDoIcon();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -995,15 +996,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    /**
-     * Added by tan.pham on 19/05/2017.
-     * Scenarios : PLAT 2286 - Add delete icon
-     */
-    @Test(priority = 2, enabled = true, description = "Verify default status of delete icon in ToDo page.")
+    @Test(  priority = 2,enabled = true, description = "Verify default status of delete icon in ToDo page.")
     public void verifyDefaultStatusDeleteIconInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1023,11 +1020,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify gui of delete confirm popup in ToDo page.")
+    @Test(  priority = 3,enabled = true, description = "Verify gui of delete confirm popup in ToDo page.")
     public void verifyGUIDeleteConfirmPopupInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1036,7 +1033,17 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
-            // Verify trash to do icon
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String todoName = "ToDo" + dateFormat.format(date);
+            // Add one ToDo name
+            ArrayList<String> toDoListNames = new ArrayList<String>();
+            toDoListNames.add(todoName);
+            // Create ToDo follow name
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            // Select ToDo has just created
+            auditorCreateToDoService.selectToDoTaskName(todoName);
+            // verify GUI delete confirm popup
             auditorCreateToDoService.verifyGUIDeleteConfirmPopup();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify gui of delete confirm popup in ToDo page.", LogAs.PASSED, null);
@@ -1047,11 +1054,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify work flow of 'CheckAll' check box in ToDo page.")
+    @Test(  priority = 4,enabled = true, description = "Verify work flow of 'CheckAll' check box in ToDo page.")
     public void verifyCheckAllCheckBoxInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1085,11 +1092,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify work flow of delete button in ToDo page.")
+    @Test(  priority = 5,enabled = true, description = "Verify work flow of delete button in ToDo page.")
     public void verifyWorkFlowOfDeleteButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1124,11 +1131,11 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 6,enabled = false, description = "Verify work flow of cancel button in ToDo page.")
+    @Test(  priority = 6,enabled = true, description = "Verify work flow of cancel button in ToDo page.")
     public void verifyWorkFlowOfCancelButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             // Login
@@ -1139,7 +1146,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-            String todoName = "ToDoDelete" + dateFormat.format(date);
+            String todoName = "ToDoCancel" + dateFormat.format(date);
             // Add one ToDo name
             ArrayList<String> toDoListNames = new ArrayList<String>();
             toDoListNames.add(todoName);
@@ -1151,7 +1158,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.clickOnTrashIcon();
             // Verify work flow of delete button
             auditorCreateToDoService.clickCancelButtonOnPopup();
-            // Check ToDo has not exists
+            // Check ToDo has exists
             auditorCreateToDoService.checkToDoIsExists(true,todoName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify work flow of cancel button in ToDo page.", LogAs.PASSED, null);
