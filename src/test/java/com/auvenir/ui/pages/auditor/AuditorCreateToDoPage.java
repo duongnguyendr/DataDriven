@@ -2069,6 +2069,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void clickOnDeleteButtonOnPopup() {
         getLogger().info("Click Delete Button on PopUp windows.");
+        closeSuccessToastMes();
         WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
         hoverElement(deletedToDoButtonEle, "Delete ToDo button");
         waitForClickableOfElement(deletedToDoButtonEle, "Delete ToDo Button");
