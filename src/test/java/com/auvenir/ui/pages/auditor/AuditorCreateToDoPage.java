@@ -1361,6 +1361,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForCssValueChanged(popUpDiv, "PopUp Windows", "display", "none");
     }
 
+    public void verifyClickCloseMarkPopup()
+    {
+        verifyClickClosePopup();
+    }
+
     public void verifyBulkActionsDropdownIsClosed() {
         try {
             getLogger().info("Verify Bulk Actions Dropdown Is Closed.");
