@@ -46,11 +46,12 @@ public class AuditorTodoListTest extends AbstractTest {
 
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
+//            auditorEngagementService.createAndSelectNewEnagement("engagement01","","Company Auvenir");
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement01", "", "Company Auvenir");
             //will implement later, current we can not navigate engagment by name
-            auditorEngagementService.verifyAuditorEngagementPage();
+//            auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
 
             auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
@@ -753,7 +754,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 26, enabled = true, description = "[PLAT 2284]-Verify Action of Add Bulk Actions on To Do Page")
+    @Test(priority = 26, enabled = true, description = "[PLAT 2299]-Verify To-do Details Commenting")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -763,18 +764,20 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage("testEngagementEnhance");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("testEngagementEnhance");
             //auditorTodoListService.verifyTodoListPage();
 
             ArrayList<String> toDoListNames = new ArrayList<String>();
             toDoListNames.add("416 To Do Task02");
             toDoListNames.add("a To Do Task02");
             toDoListNames.add("b To Do Task02");
+            //auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.createListToDoTask(toDoListNames);
             auditorCreateToDoService.selectToDoTaskName("b To Do Task02");
             auditorCreateToDoService.selectToDoTaskName("416 To Do Task02");
             auditorCreateToDoService.clickCommentIconPerTaskName("416 To Do Task02");
+            auditorCreateToDoService.verifyDefaultHintValueInputComment();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify Action of Add Bulk Actions on To do page.", LogAs.PASSED, null);
         } catch (Exception e) {

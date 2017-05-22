@@ -119,8 +119,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-name")
     private WebElement toDoNameInputEle;
 
-    @FindBy(xpath = "//div[@class='inputMargin div-name-container']//p[@class='auv-inputError']")
-    private WebElement toDoNameErrorLabelEle;
+	@FindBy(xpath = "//div[@class='inputMargin div-name-container']//p[@class='auv-inputError']")
+	private WebElement toDoNameErrorLabelEle;
 
     @FindBy(xpath = "//*[@id='todo-add-btn']")
     private WebElement toDoSaveIconEle;
@@ -167,10 +167,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement categoryTitleEle;
 
-    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
-    WebElement closePopupBtnEle;
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
+	WebElement closePopupBtnEle;
 
-    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
+	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
     WebElement editCategoryCancelBtnEle;
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
@@ -282,6 +282,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@class='newRow']/td[7]/img")
     private List<WebElement> commentIconToDoListEle;
 
+    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
+    private WebElement typeCommentFieldEle;
+
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
     }
@@ -289,6 +292,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public List<WebElement> getToDoNameTextColumnEle() {
         return toDoNameTextColumnEle;
     }
+
 
     public void verifyButtonCreateToDo() throws Exception {
         validateCssValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
@@ -559,10 +563,35 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyAddNewToDoTask(toDoName);
     }
 
+    public void createToDoTask() throws Exception {
+        getLogger().info("Run createToDoTask()");
+        todoNamePage = "To-do name " + randomNumber();
+        waitForClickableOfElement(createToDoBtnEle, "create todo button.");
+        clickElement(createToDoBtnEle, "click to createToDoBtnEle");
+        waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
+        clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
+        createToDoNameTextBoxEle.sendKeys(todoNamePage);
+        createNewCategory("", "");
+        hoverElement(categoryDropdownEle, "eleDdlCategory");
+        waitForClickableOfElement(categoryDropdownEle, "eleDdlCategory");
+        Thread.sleep(smallTimeOut);
+        clickElement(categoryDropdownEle, "click to eleDdlCategory");
+        waitForClickableOfElement(categoryOptionItemEle.get(0), "eleXpathCategoryItem");
+        clickElement(categoryOptionItemEle.get(0), "click to eleXpathCategoryItem");
+        waitForClickableOfElement(dueDateFieldEle, "eleIdDueDate");
+        Thread.sleep(smallerTimeOut);
+        clickElement(dueDateFieldEle, "click to eleIdDueDate");
+        waitForClickableOfElement(dateItemonCalendarEle, "eleXpathChooseDate");
+        clickElement(dateItemonCalendarEle, "click to eleXpathChooseDate");
+        waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
+        clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
+        //Wait for new task is displayed.
+        Thread.sleep(smallTimeOut);
+    }
 
     /*
-    Vien added new switch case 22/5/2017
-     */
+Vien added new switch case 22/5/2017
+ */
     public void createToDoTask(int numberOfNewCategories) throws Exception {
         getLogger().info("Run createToDoTask()");
         todoNamePage = "To-do name " + randomNumber();
@@ -613,9 +642,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyToDoNameInputSpecialCharacter(String value) throws Exception {
         waitForVisibleElement(toDoNameInputEle, "eleToDoNameInput");
-        toDoNameInputEle.clear();
-        toDoNameInputEle.sendKeys(value);
-        dueDateFieldEle.click();
+        sendKeyTextBox(toDoNameInputEle, value, "To Do Name Input");
+        clickElement(dueDateFieldEle, "Due Date Field");
         waitForVisibleElement(toDoNameErrorLabelEle, "toDoNameErrorLabelEle");
         validateElementText(toDoNameErrorLabelEle, "Not a valid name.");
     }
@@ -624,7 +652,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean result;
             waitForVisibleElement(toDoNameInputEle, "To Do Name Input");
-            toDoNameInputEle.clear();
+            clearTextBox(toDoNameInputEle, "To Do Name Input");
             waitForVisibleElement(toDoSaveIconEle, "To Do Save Icon");
             result = validateAttributeElement(toDoSaveIconEle, "class", "fa fa-floppy-o disabled");
             Assert.assertTrue(result, "To Do Save Icon is not disabled");
@@ -641,7 +669,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean result;
             waitForVisibleElement(toDoNameInputEle, "To Do Name Input");
-            toDoNameInputEle.sendKeys("Task01");
+            sendKeyTextBox(toDoNameInputEle,"Task01", "To Do Name Input");
             waitForVisibleElement(toDoSaveIconEle, "To Do Save Icon");
             result = validateAttributeElement(toDoSaveIconEle, "class", "fa fa-floppy-o");
             Assert.assertTrue(result, "To Do Save Icon is not enabled");
@@ -784,7 +812,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public void navigateToToDoList() throws Exception {
-        waitForClickableOfElement(eleToDoLnk, "");
+        waitForClickableOfElement(eleToDoLnk, "To Do Link menu");
         eleToDoLnk.click();
     }
 
@@ -1343,12 +1371,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void clickCloseButtonOnPopup() {
         getLogger().info("Click Close Button on PopUp windows.");
+        closeSuccessToastMes();
         WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
-        //Will remove after finding solution for checking the toast message is closed.
-        try {
-            Thread.sleep(2000);
-        } catch (Exception e) {
-        }
         hoverElement(closePopupBtnEle, "Close Delete ToDo button");
         waitForClickableOfElement(closePopupBtnEle, "Close Delete ToDo Button");
         clickElement(closePopupBtnEle, "Close Delete ToDo button");
@@ -1374,10 +1398,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public int findToDoTaskName(String toDoName) {
-        getLogger().info("Find Position of To Do Task Name");
-        return findElementByValue(eleToDoNameRow, toDoName);
-    }
+	public int findToDoTaskName(String toDoName) {
+		getLogger().info("Find Position of To Do Task Name");
+		return findElementByAttributeValue(eleToDoNameRow, toDoName);
+	}
 
     public void selectToDoCheckboxByName(String todoName) {
         getLogger().info("Select To Do Task Check Box by Name");
@@ -2086,6 +2110,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
     }
 
+
     /**
      * Added by huy.huynh on 18/05/2017.
      * Scenarios : PLAT 2285 - Add undo option
@@ -2515,5 +2540,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
     /**-----end of huy.huynh PLAT-2303-----*/
+
+    public void verifyDefaultHintValueInputComment() {
+        try{
+            boolean result;
+            final String defaultValueInputComment = "Type a comment";
+            getLogger().info("Verify Default Hint Value Input Comment");
+            waitForVisibleElement(typeCommentFieldEle,"Input Comment field.");
+            validateDisPlayedElement(typeCommentFieldEle,"Input Comment field.");
+            result = validateAttributeElement(typeCommentFieldEle,"placeholder", defaultValueInputComment);
+            Assert.assertTrue(result, "Default Hint Value Input Comment is displayed unsuccessfully");
+            NXGReports.addStep("Verify Default Hint Value Input Comment", LogAs.PASSED, null);
+        }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Default Hint Value Input Comment is displayed unsuccessfully");
+            NXGReports.addStep("TestScript Failed: Verify Default Hint Value Input Comment", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 }
 

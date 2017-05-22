@@ -186,7 +186,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //	}
 
     public void navigateToDoListPage() throws Exception {
-        this.createToDoPage.navigateToEngagementPage();
+        //this.createToDoPage.navigateToEngagementPage();
         this.createToDoPage.navigateToToDoList();
     }
 
@@ -708,5 +708,9 @@ public class AuditorCreateToDoService extends AbstractService {
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
+
+    public void verifyDefaultHintValueInputComment() {
+        createToDoPage.verifyDefaultHintValueInputComment();
+    }
 }
 
