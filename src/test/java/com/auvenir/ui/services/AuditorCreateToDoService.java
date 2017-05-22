@@ -491,7 +491,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void waitMessageIsDisappear() {
-        createToDoPage.waitMessageIsDisappear();
+        //createToDoPage.waitMessageIsDisappear();
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start

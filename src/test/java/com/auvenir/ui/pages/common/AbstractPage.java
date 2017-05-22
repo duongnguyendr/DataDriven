@@ -65,6 +65,12 @@ public class AbstractPage {
     public static final int maxLenght = 255;
     public static final int maxLenghtOneHundred = 100;
     public static final String nullChars = "";
+    public static final String categoryColor = "//*[@id='category-color']";
+    public static final String categoryColorContainer = "//*[@id='category-color-container']/ul/li[4]";
+    public static final String dropdownCategoryToDoBulkDdl = "//*[@class='ui dropdown category todo-bulkDdl ']";
+    public static final String dropdownCategoryToDoBulkDdlDiv1 = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]";
+    public static final String popUpDivCategoryModel ="//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
+    public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
 
     public AbstractPage(Logger logger,WebDriver driver){
         this.driver = driver;
@@ -944,24 +950,21 @@ public class AbstractPage {
     public void clickToNewCategoryDllInList() throws Exception
     {
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        waitForClickableOfLocator(By.xpath("//*[@class='ui dropdown category todo-bulkDdl ']"));
+        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdl));
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
-        waitForClickableOfLocator(By.xpath("//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]"));
-
+        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdlDiv1));
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
     }
 
     public void chooseCategoryColorInPopup () throws Exception
     {
         hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        waitForClickableOfLocator(By.xpath("//*[@id='category-color']"));
+        waitForClickableOfLocator(By.xpath(categoryColor));
         waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        //Thread.sleep(smallerTimeOut);
         clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
-        waitForClickableOfLocator(By.xpath("//*[@id=\"category-color-container\"]/ul/li[4]"));
+        waitForClickableOfLocator(By.xpath(categoryColorContainer));
         waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
-        //Thread.sleep(smallerTimeOut);
         clickElement(detailCateColorEle, "click to detailCateColorEle");
     }
 
@@ -969,7 +972,7 @@ public class AbstractPage {
     {
         waitForClickableOfElement(eleIdBtnAddCategory,"Add Category Button");
         waitForJSandJQueryToLoad();
-        WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+        WebElement popUpDiv = getDriver().findElement(By.xpath(popUpDivCategoryModel));
         clickElement(eleIdBtnAddCategory, "Add Category Button");
         waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
     }
@@ -991,8 +994,6 @@ public class AbstractPage {
         }
         // Create new Category
         clickToNewCategoryDllInList();
-
-
         waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
@@ -1009,7 +1010,7 @@ public class AbstractPage {
             waitForVisibleElement(imgListTodoPage, "wait for imgListTodoPage");
             clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
-            td_collection = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
+            td_collection = tblXpathTodoTable.findElements(By.xpath(dropdownCategoryToDoBulkDllDivDiv));
             for (WebElement tdElement : td_collection) {
                 String strSearchValue = "";
                 try {
@@ -1044,7 +1045,7 @@ public class AbstractPage {
             waitForVisibleElement(imgListTodoPage, "wait for imgListTodoPage");
             clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
             waitForVisibleElement(eleIndiCategoryText, "eleIndiCategoryText");
-            listCategoryName = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
+            listCategoryName = tblXpathTodoTable.findElements(By.xpath(dropdownCategoryToDoBulkDllDivDiv));
             for (WebElement categoryNameEle : listCategoryName) {
                 String strSearchValue = "";
                 try {
