@@ -99,3 +99,10 @@ src/test/test.iml
 .idea/libraries/Maven__org_json_json_20160810.xml
 src/test/resources/images/BarChart.png
 src/test/resources/images/PieChart.png
+.idea/libraries/Maven__com_google_code_gson_gson_2_2_4.xml
+.idea/libraries/Maven__com_rhcloud_mongodb_mongo_api_0_2_1.xml
+.idea/libraries/Maven__junit_junit_4_11.xml
+.idea/libraries/Maven__org_mongodb_bson_3_2_2.xml
+.idea/libraries/Maven__org_mongodb_mongo_java_driver_3_2_2.xml
+.idea/libraries/Maven__org_mongodb_mongodb_driver_3_2_2.xml
+.idea/libraries/Maven__org_mongodb_mongodb_driver_core_3_2_2.xml
