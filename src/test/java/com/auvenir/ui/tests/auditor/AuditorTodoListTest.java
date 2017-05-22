@@ -60,7 +60,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorTodoListService.verifyEmptyTodoList();
             auditorTodoListService.verifyTodoListPageColumnHeader();
             // verifyFooter error due to change of footer locator from build to build
-            //auditorEngagementService.verifyAuditorFooter();
+            auditorEngagementService.verifyAuditorFooter();
             NXGReports.addStep("Verify Auditor empty Todo List page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Auditor empty Todo List page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -585,7 +585,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 22, enabled = true, description = "[PLAT 2284]-Verify GUI Add Bulk Actions on To Do Page")
+    @Test(priority = 22, enabled = true, description = "Verify GUI Add Bulk Actions on To Do Page")
     public void verifyGUIToDoAddBulkActions() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -863,7 +863,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify button Undo action exist
      */
-    @Test(priority = 150, enabled = true, testName = "Verify GUI.", description = "undo_1", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 28, enabled = true, testName = "Verify GUI.", description = "verify Undo Button exist ", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoExist() throws Exception {
         initVariable();
         navigationPreconditions();
@@ -876,7 +876,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify button Undo action disable
      */
-    @Test(priority = 200, enabled = true, testName = "Undo arrow.", description = "undo_3", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 29, enabled = true, testName = "Undo arrow.", description = "verify button Undo action disable", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoStatus() throws Exception {
         initVariable();
         navigationPreconditions();
@@ -893,7 +893,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Complete a To-Do, verified change on database but UI
      */
-    @Test(priority = 250, enabled = true, testName = "Undo successfully", description = "undo_4", groups = "workflow")
+    @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "verify Undo action Complete a To-Do, verified change on database but UI", groups = "workflow")
     public void verifyUndoActionWithCompleteCase() {
         initVariable();
         navigationPreconditions();
@@ -913,7 +913,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Assign to a To-Do, verified change on UI but database
      */
-    @Test(priority = 300, enabled = true, testName = "Undo successfully", description = "undo_5", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 31, enabled = true, testName = "Undo successfully", description = "verify Undo action Assign to a To-Do, verified change on UI but database", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithAssignToCase() throws Exception {
         initVariable();
         navigationPreconditions();
@@ -933,7 +933,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Delete a To-Do, verified change on database but UI
      */
-    @Test(priority = 350, enabled = true, testName = "Undo successfully", description = "undo_6", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 32, enabled = true, testName = "Undo successfully", description = "verify Undo action Delete a To-Do, verified change on database but UI", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithDeleteCase() {
         initVariable();
         navigationPreconditions();
@@ -953,7 +953,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Download Attachments disable
      */
-    @Test(priority = 400, enabled = true, testName = "Undo fail", description = "undo_8", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
+    @Test(priority = 33, enabled = true, testName = "Undo fail", description = "verify Undo action Download Attachments disable", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyDownloadAttachmentsDisable() {
         initVariable();
         navigationPreconditions();
@@ -972,7 +972,7 @@ public class AuditorTodoListTest extends AbstractTest {
      * Added by tan.pham on 19/05/2017.
      * Scenarios : PLAT 2286 - Add delete icon
      */
-    @Test(  priority = 1,enabled = true, description = "Verify GUI of delete icon in ToDo page.")
+    @Test(  priority = 34,enabled = true, description = "Verify GUI of delete icon in ToDo page.")
     public void verifyGUIDeleteIconInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -996,7 +996,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 2,enabled = true, description = "Verify default status of delete icon in ToDo page.")
+    @Test(  priority = 35,enabled = true, description = "Verify default status of delete icon in ToDo page.")
     public void verifyDefaultStatusDeleteIconInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -1020,7 +1020,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 3,enabled = true, description = "Verify gui of delete confirm popup in ToDo page.")
+    @Test(  priority = 36,enabled = true, description = "Verify gui of delete confirm popup in ToDo page.")
     public void verifyGUIDeleteConfirmPopupInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -1054,7 +1054,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 4,enabled = true, description = "Verify work flow of 'CheckAll' check box in ToDo page.")
+    @Test(  priority = 37,enabled = true, description = "Verify work flow of 'CheckAll' check box in ToDo page.")
     public void verifyCheckAllCheckBoxInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -1092,7 +1092,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 5,enabled = true, description = "Verify work flow of delete button in ToDo page.")
+    @Test(  priority = 38,enabled = true, description = "Verify work flow of delete button in ToDo page.")
     public void verifyWorkFlowOfDeleteButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -1131,7 +1131,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(  priority = 6,enabled = true, description = "Verify work flow of cancel button in ToDo page.")
+    @Test(  priority = 39,enabled = true, description = "Verify work flow of cancel button in ToDo page.")
     public void verifyWorkFlowOfCancelButtonInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
@@ -1176,7 +1176,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     Vien Pham merged editCategoriesTEst into this page
      */
-    @Test(priority = 25, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
+    @Test(priority = 40, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
     public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -1202,7 +1202,7 @@ public class AuditorTodoListTest extends AbstractTest {
     }
 
 
-    @Test(priority = 26, enabled = false, description = "Verify EditCategories GUI at Todo list Page")
+    @Test(priority = 41, enabled = false, description = "Verify EditCategories GUI at Todo list Page")
     public void verifyDefaultEditCategoryGuiAtTodoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -1226,7 +1226,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 27, enabled = true, description = "Verify Edit Function at Create new todo page")
+    @Test(priority = 42, enabled = true, description = "Verify Edit Function at Create new todo page")
     public void verifyEditFunctionAtCreateNewTodoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -1254,7 +1254,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 28, enabled = false, description = "Verify Edit Function at todo list page")
+    @Test(priority = 43, enabled = false, description = "Verify Edit Function at todo list page")
     public void verifyEditFunctionAtTodoListPage() throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1280,7 +1280,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 29, enabled = false, description = "Verify Remove function at Todo list Page")
+    @Test(priority = 44, enabled = false, description = "Verify Remove function at Todo list Page")
     public void verifyRemoveFunctionAtTodoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
