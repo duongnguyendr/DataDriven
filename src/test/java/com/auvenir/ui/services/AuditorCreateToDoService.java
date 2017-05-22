@@ -476,6 +476,10 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCompleteMarkPopup();
     }
 
+    public void verifyClickCloseMarkPopup() {
+        createToDoPage.verifyClickCloseMarkPopup();
+    }
+
     public void verifyDeleteToDoPopUpDisplayed() {
         createToDoPage.verifyGUIDeleteToDoPopUp();
     }

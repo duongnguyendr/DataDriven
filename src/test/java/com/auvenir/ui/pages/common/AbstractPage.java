@@ -155,7 +155,6 @@ public class AbstractPage {
     private WebElement detailCateColorEle;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
 
     @FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement dropdownCategoryEle;
