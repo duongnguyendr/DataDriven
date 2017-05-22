@@ -18,10 +18,7 @@ import org.apache.log4j.Logger;
 import org.apache.xalan.lib.ExsltDatetime;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.json.JSONObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -1397,328 +1394,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             clickElement(eleToDoCheckboxRow.get(index), String.format("Check box of Task Name: %s", todoName));
     }
 
-    /**
-     * Added by huy.huynh on 18/05/2017.
-     * Scenarios : PLAT 2285 - Add undo option
-     */
-
-    /**
-     * verify button Undo exist
-     */
-    public void uiVerifyButtonUndoExist() {
-        try {
-            getLogger().info("Verify button Undo Todo exist.");
-            btnToDoUndo.getAttribute("class");
-            NXGReports.addStep("Verify button Undo Todo exist.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify button Undo Todo exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * verify button Undo disable
-     */
-    public void uiVerifyButtonUndoDisable() {
-        try {
-            getLogger().info("Verify button Undo Todo disable.");
-            Thread.sleep(2000);
-
-            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo disabled")) {
-                NXGReports.addStep("Verify button Undo Todo disable.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify button Undo Todo disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * verify button Undo enable
-     */
-    public void uiVerifyButtonUndoEnable() {
-        try {
-            getLogger().info("Verify button Undo Todo enable.");
-            Thread.sleep(2000);
-
-            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo")) {
-                NXGReports.addStep("Verify button Undo Todo enable.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify button Undo Todo enable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
-
-    public void waitMessageIsDisappear() {
-        waitForDisappearElement(toastMessageSucessEle, "toastMessageSucessEle");
-    }
-
-    /**
-     * create a record with name and date(of this month- implement choose month and year later)
-     *
-     * @param toDoName name of To-Do to create
-     * @param dueDate  date of this month which chosen as dueDate
-     */
-    public void createToDoPageWithNameAndDate(String toDoName, String dueDate) {
-        try {
-            getLogger().info("Run createToDoPageWithNameAndDate(String toDoName, String dueDate)");
-            Thread.sleep(smallTimeOut);
-            clickCreateToDoTask();
-            Thread.sleep(smallTimeOut);
-
-            sendKeyTextBox(createToDoNameTextBoxEle, toDoName, "To Do Name Input");
-
-            clickElement(eleIdDueDate, "Due Date Input");
-            DatePicker datePicker = new DatePicker(getDriver(), eleXpathChooseDate);
-            datePicker.pickADate(dueDate);
-
-            clickElement(toDoSaveIconEle, "Save New Todo Icon");
-            NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.PASSED, null);
-        } catch (InterruptedException e) {
-            getLogger().info(e);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * create a record with name and date(of this month- implement choose month and year later)
-     *
-     * @param toDoName name of To-Do to choose
-     */
-    public void clickCheckBoxAtRowName(String toDoName) {
-        try {
-            getLogger().info("Chose a row with given name(which just created).");
-            getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//input[@type='checkbox']")).click();
-            NXGReports.addStep("Chose a row with given name(which just created).", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Chose a row with given name(which just created).", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
-
-    /**
-     * create a record with name and date(of this month- implement choose month and year later)
-     *
-     * @param toDoName name of To-Do to choose
-     * @param text     name of assignee
-     */
-    public void verifyAssigneeNameOnUI(String toDoName, String text) {
-        getLogger().info("Verify name of assignee on UI after assign. Expected: " + text);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        String assigneeName = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown client')]/div[@class='text']")).getText();
-        System.out.println("++++++++++++++++++++++++++++++++++++++++assigneeName - text " + assigneeName + " - " + text);
-        if (text.equals(assigneeName)) {
-            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + text, LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + text, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * click button Bulk Actions
-     */
-    public void clickBulkActions() {
-        btnBulkActions.click();
-    }
-
-    /**
-     * choose Mark as complete option
-     */
-    public void chooseOptionMarkAsCompleteOnBulkActionsDropDown() {
-        try {
-            getLogger().info("Choose option: Mark as complete");
-            optionMarkAsComplete.click();
-            NXGReports.addStep("Choose option: Mark as complete.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose option: Mark as complete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
-
-    /**
-     * choose Delete option
-     */
-    public void chooseOptionDeleteOnBulkActionsDropDown() {
-        try {
-            getLogger().info("Choose option: Delete.");
-            optionDelete.click();
-            NXGReports.addStep("Choose option: Delete.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose option: Delete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * choose Assign to option
-     */
-    public void chooseOptionAssignToOnBulkActionsDropDown() {
-        try {
-            getLogger().info("Choose option: Assign to.");
-            optionAssignTo.click();
-            NXGReports.addStep("Choose option: Assign to.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose option: Assign to.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * choose Download Attachments option
-     */
-    public void verifyOptionDownloadAttachmentsOnBulkActionsDropDown() {
-        getLogger().info("Bulk Actions option Download Attachments disable.");
-        if (optionDownloadAttachments.getAttribute("class").equals("item disabled")) {
-            NXGReports.addStep("Bulk Actions option Download Attachments disable.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Bulk Actions option Download Attachments disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * choose an assignee on list Assign to
-     * TODO hardcoding, rewrite later, list assignee not stable now
-     */
-    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
-        try {
-            getLogger().info("Choose first assignee(any) to assign.");
-            optionAssignee.click();
-            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * get 'engagements' collection(table on mongo)
-     */
-    public DBCollection getEngagementCollection() {
-        DBCollection dbCollection = null;
-        try {
-            //TODO move db config to properties file
-            MongoDB db = new MongoDB("34.200.249.134", 27017, "TestDB");
-            dbCollection = db.getCollection("auvenir", "engagements");
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return dbCollection;
-    }
-
-    /**
-     * verify 'completed' field of a To-Do
-     *
-     * @param engagementField engagement field chosen as key
-     * @param engagementValue engagement value chosen as value
-     * @param todoName        name of To-Do to check status
-     * @param status          status complete expected
-     */
-    public void verifyToDoCompleteStatus(String engagementField, String engagementValue, String todoName, String status) {
-        getLogger().info("Verify To-Do complete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("completed").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * verify 'status' field of a To-Do
-     *
-     * @param engagementField engagement field chosen as key
-     * @param engagementValue engagement value chosen as value
-     * @param todoName        name of To-Do to check status
-     * @param status          status delete expected
-     */
-    public void verifyToDoDeteteStatus(String engagementField, String engagementValue, String todoName, String status) {
-        getLogger().info("Verify To-Do delete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("status").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * click button Archive
-     */
-    public void clickComfirmArchive() {
-        try {
-            getLogger().info("Verify click button Archive.");
-            Thread.sleep(smallTimeOut);
-            btnArchive.click();
-            NXGReports.addStep("Verify click button Archive.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify click button Archive.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * click button Delete
-     */
-    public void clickComfirmDelete() {
-        try {
-            getLogger().info("Verify click button Delete.");
-            Thread.sleep(smallTimeOut);
-            btnDelete.click();
-            NXGReports.addStep("Verify click button Delete.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify click button Delete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * click button(icon) Undo
-     */
-    public void clickBtnUndo() {
-        try {
-            getLogger().info("Verify click button(icon) Undo.");
-            Thread.sleep(smallTimeOut);
-            btnToDoUndo.click();
-            NXGReports.addStep("Verify click button(icon) Undo.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify click button(icon) Undo.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /**
-     * -----end of huy.huynh PLAT-2285-----
-     */
-
     public int getNumberofToDoTask() {
         getLogger().info("Get the number of To Do task in To Do list page.");
         int count;
@@ -2051,6 +1726,21 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("TestScript Failed: Verify default status trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Click on trash icon
+     */
+    public void clickOnTrashIcon(){
+        try {
+            waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
+            hoverElement(trashToDoBtnEle,"Hover trash icon ");
+            clickElement(trashToDoBtnEle,"Click on trash icon");
+            NXGReports.addStep("Click on trash ToDo icon", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Can not click on trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2410,5 +2100,435 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int index = findToDoTaskName(toDoTaskName);
         clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
     }
+
+    /**
+     * Added by huy.huynh on 18/05/2017.
+     * Scenarios : PLAT 2285 - Add undo option
+     */
+
+    /**
+     * verify button Undo exist
+     */
+    public void uiVerifyButtonUndoExist() {
+        try {
+            getLogger().info("Verify button Undo Todo exist.");
+            btnToDoUndo.getAttribute("class");
+            NXGReports.addStep("Verify button Undo Todo exist.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify button Undo Todo exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify button Undo disable
+     */
+    public void uiVerifyButtonUndoDisable() {
+        try {
+            getLogger().info("Verify button Undo Todo disable.");
+            Thread.sleep(2000);
+
+            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo disabled")) {
+                NXGReports.addStep("Verify button Undo Todo disable.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify button Undo Todo disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * verify button Undo enable
+     */
+    public void uiVerifyButtonUndoEnable() {
+        try {
+            getLogger().info("Verify button Undo Todo enable.");
+            Thread.sleep(2000);
+
+            if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo")) {
+                NXGReports.addStep("Verify button Undo Todo enable.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify button Undo Todo enable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * create a record with name and date(of this month- implement choose month and year later)
+     *
+     * @param toDoName name of To-Do to create
+     * @param dueDate  date of this month which chosen as dueDate
+     */
+    public void createToDoPageWithNameAndDate(String toDoName, String dueDate) {
+        try {
+            getLogger().info("Run createToDoPageWithNameAndDate(String toDoName, String dueDate)");
+            Thread.sleep(smallTimeOut);
+            clickCreateToDoTask();
+            Thread.sleep(smallTimeOut);
+
+            sendKeyTextBox(createToDoNameTextBoxEle, toDoName, "To Do Name Input");
+
+            clickElement(eleIdDueDate, "Due Date Input");
+            DatePicker datePicker = new DatePicker(getDriver(), eleXpathChooseDate);
+            datePicker.pickADate(dueDate);
+
+            clickElement(toDoSaveIconEle, "Save New Todo Icon");
+            NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.PASSED, null);
+        } catch (InterruptedException e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * create a record with name and date(of this month- implement choose month and year later)
+     *
+     * @param toDoName name of To-Do to choose
+     */
+    public void clickCheckBoxAtRowName(String toDoName) {
+        try {
+            getLogger().info("Chose a row with given name(which just created).");
+            getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//input[@type='checkbox']")).click();
+            NXGReports.addStep("Chose a row with given name(which just created).", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Chose a row with given name(which just created).", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    /**
+     * click button Bulk Actions
+     */
+    public void clickBulkActions() {
+        btnBulkActions.click();
+    }
+
+    /**
+     * choose Mark as complete option
+     */
+    public void chooseOptionMarkAsCompleteOnBulkActionsDropDown() {
+        try {
+            getLogger().info("Choose option: Mark as complete");
+            optionMarkAsComplete.click();
+            NXGReports.addStep("Choose option: Mark as complete.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Choose option: Mark as complete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    /**
+     * choose Delete option
+     */
+    public void chooseOptionDeleteOnBulkActionsDropDown() {
+        try {
+            getLogger().info("Choose option: Delete.");
+            optionDelete.click();
+            NXGReports.addStep("Choose option: Delete.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Choose option: Delete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * choose Assign to option
+     */
+    public void chooseOptionAssignToOnBulkActionsDropDown() {
+        try {
+            getLogger().info("Choose option: Assign to.");
+            optionAssignTo.click();
+            NXGReports.addStep("Choose option: Assign to.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Choose option: Assign to.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * choose Download Attachments option
+     */
+    public void verifyOptionDownloadAttachmentsOnBulkActionsDropDown() {
+        getLogger().info("Bulk Actions option Download Attachments disable.");
+        if (optionDownloadAttachments.getAttribute("class").equals("item disabled")) {
+            NXGReports.addStep("Bulk Actions option Download Attachments disable.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Bulk Actions option Download Attachments disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * choose an assignee on list Assign to
+     * TODO hardcoding, rewrite later, list assignee not stable now
+     */
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
+        try {
+            getLogger().info("Choose first assignee(any) to assign.");
+            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
+            //optionAssignee.click();
+            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify 'completed'  a To-Do in frontend
+     *
+     * @param toDoName name of To-Do to choose
+     */
+    public void verifyTodoCompleteFrontend(String toDoName, String status) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //TODO move xpath to properties file
+        WebElement toDoRow = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]"));
+        WebElement toDoCategory = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown category')]"));
+        WebElement toDoClient = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]"));
+        WebElement toDoAuditor = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown auditor')]"));
+
+        if (status.equals("true")) {
+            getLogger().info("Verify Completed To-Do front-end");
+            if ((toDoRow.getAttribute("class").endsWith("todoCompleted")) && (toDoCategory.getAttribute("class").endsWith("disabled")) && (toDoClient.getAttribute("class").endsWith("disabled")) && (toDoAuditor.getAttribute("class").endsWith("disabled"))) {
+                NXGReports.addStep("Verify Completed To-Do front-end", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify Completed To-Do front-end", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } else {
+            getLogger().info("Verify not Completed To-Do front-end");
+            if ((!toDoRow.getAttribute("class").endsWith("todoCompleted")) && (!toDoCategory.getAttribute("class").endsWith("disabled")) && (!toDoClient.getAttribute("class").endsWith("disabled")) && (!toDoAuditor.getAttribute("class").endsWith("disabled"))) {
+                NXGReports.addStep("Verify not Completed To-Do front-end", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify not Completed To-Do front-end", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+    }
+
+    /**
+     * create a record with name and date(of this month- implement choose month and year later)
+     * TODO split into 2 cases: Assign to-> Auditor || Client . So insane!
+     *
+     * @param toDoName     name of To-Do to choose
+     * @param assigneeName name of assignee
+     */
+    public void verifyTodoAssignToFrontend(String toDoName, String assigneeName) {
+        getLogger().info("Verify name of assignee on UI after assign. Expected: " + assigneeName);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String assignee = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']")).getText();
+        //System.out.println("++++++++++++++++++++++++++++++++++++++++assigneeName - text " + assignee + " - " + assigneeName);
+        if (assigneeName.equals(assignee)) {
+            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + assigneeName, LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + assigneeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify deleted To-Do(not exist) in frontend
+     *
+     * @param toDoName name of To-Do to choose
+     */
+    public void verifyTodoDeletedFrontend(String toDoName, String status) {
+        try {
+            getLogger().info("Verify a Todo not exist. Name: " + toDoName);
+            //Thread.sleep(1000);
+            //TODO move xpath to properties file, very low peformance
+            getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']"));
+            if (status.equals("INACTIVE")) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify a Todo not exist. Name: " + toDoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            } else {
+                NXGReports.addStep("Verify a Todo exist. Name: " + toDoName, LogAs.PASSED, null);
+            }
+        } catch (NoSuchElementException ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            if (status.equals("INACTIVE")) {
+                NXGReports.addStep("Verify a Todo not exist. Name: " + toDoName, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify a Todo exist. Name: " + toDoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            getLogger().info(ex.getStackTrace());
+        }
+    }
+
+    /**
+     * click button Archive
+     */
+    public void clickComfirmArchive() {
+        try {
+            getLogger().info("Verify click button Archive.");
+            Thread.sleep(smallTimeOut);
+            btnArchive.click();
+            NXGReports.addStep("Verify click button Archive.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify click button Archive.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * click button Delete
+     */
+    public void clickComfirmDelete() {
+        try {
+            getLogger().info("Verify click button Delete.");
+            Thread.sleep(smallTimeOut);
+            btnDelete.click();
+            Thread.sleep(smallTimeOut);
+            NXGReports.addStep("Verify click button Delete.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify click button Delete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * click button(icon) Undo
+     */
+    public void clickBtnUndo() {
+        try {
+            getLogger().info("Verify click button(icon) Undo.");
+            Thread.sleep(smallTimeOut);
+            btnToDoUndo.click();
+            NXGReports.addStep("Verify click button(icon) Undo.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify click button(icon) Undo.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**-----end of huy.huynh PLAT-2285-----*/
+
+    /**
+     * Added by huy.huynh on 19/05/2017.
+     * Scenarios : PLAT 2303 - Backend Undo
+     */
+
+    /**
+     * get 'engagements' collection(table on mongo)
+     */
+    public DBCollection getEngagementCollection() {
+        DBCollection dbCollection = null;
+        try {
+            //TODO move db config to properties file
+            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
+            dbCollection = db.getCollection("auvenir", "engagements");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return dbCollection;
+    }
+
+    /**
+     * get 'engagements' collection(table on mongo)
+     */
+    public DBCollection getUserCollection() {
+        DBCollection dbCollection = null;
+        try {
+            //TODO move db config to properties file
+            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
+            dbCollection = db.getCollection("auvenir", "users");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return dbCollection;
+    }
+
+    /**
+     * verify 'completed' field of a To-Do in backend
+     *
+     * @param engagementField engagement field chosen as key
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param status          status complete expected
+     */
+    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
+        getLogger().info("Verify To-Do complete status on database.");
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        //TODO get from properties file
+        if (jsonObject.get("completed").toString().equals(status)) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify 'status' field of a To-Do
+     *
+     * @param engagementField engagement field chosen as key
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param assigneeName    name of assignee
+     */
+    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
+        getLogger().info("Verify To-Do delete status on database.");
+        String idAssignee = MongoDB.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
+        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
+
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
+
+        //TODO get from properties file
+        if (jsonObject.get("auditorAssignee").toString().contains(idAssignee)) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verify 'status' field of a To-Do
+     *
+     * @param engagementField engagement field chosen as key
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param status          status delete expected
+     */
+    public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) {
+        getLogger().info("Verify To-Do delete status on database.");
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
+        //TODO get from properties file
+        if (jsonObject.get("status").toString().equals(status)) {
+            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**-----end of huy.huynh PLAT-2303-----*/
 }
 
