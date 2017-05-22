@@ -5,6 +5,7 @@ package com.auvenir.ui.pages.auditor;
 import java.util.Calendar;
 import java.util.List;
 
+import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
@@ -2058,8 +2059,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 	 */
 	public void verifyGUIDeleteConfirmPopup(){
 		try{
-			String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? " +
-					                  "Once deleted, you will not be able to retrieve any documents uploaded to the selected To-Dos.";
 			String errorMessage = "Can not test verify gui of delete confirm popup because ToDo list is empty ";
 			boolean result = true;
 			getLogger().info("Verify GUI Delete ToDo popup when click trash ToDo icon.");
@@ -2071,57 +2070,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 AbstractService.sStatusCnt++;
                 return;
             }
-            if(!checkEmptyToDoListRow){
-				waitForVisibleElement(eleToDoCheckboxRow.get(0), "Select check box of ToDo row has not complete");
-				hoverElement(eleToDoCheckboxRow.get(0), "Hover check box in to do row has not complete");
-				if(!eleToDoCheckboxRow.get(0).isSelected()){
-					clickElement(eleToDoCheckboxRow.get(0),"Check on select check box");
-				}
-			}else{
-				waitForVisibleElement(eleToDoCompleteCheckboxRow.get(0), "Select check box of ToDo row has complete");
-				hoverElement(eleToDoCompleteCheckboxRow.get(0), "Hover check box in to do row has complete");
-				if(!eleToDoCompleteCheckboxRow.get(0).isSelected()){
-					clickElement(eleToDoCompleteCheckboxRow.get(0),"Check on select check box");
-				}
-			}
-
-
+            // Get id delete row
+            String idRow = getIdRowDelete(checkEmptyToDoListRow,checkEmptyToDoCompleteListRow,
+                                            eleToDoCheckboxRow,eleToDoCompleteCheckboxRow,
+                                            eleToDoRowList,eleToDoCompleteRowList);
 			//verify delete confirm icon
 			clickElement(trashToDoBtnEle,"Trash icon click");
-			// verify popup title
-			waitForVisibleElement(categoryTitleEle,"Delete ToDo title");
-			result = validateElementText(categoryTitleEle,"Delete To-Do?");
-			Assert.assertTrue(result, "Delete ToDo popup title is not displayed correct");
-			NXGReports.addStep("Popup title is show correct", LogAs.PASSED, null);
-
-			// verify guide sentence
-			waitForVisibleElement(centerDeleteToDoDescriptionEle,"Guide sentence description delete to-do");
-			result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
-			Assert.assertTrue(result, "Guide sentence description delete ToDo is not displayed correct");
-			NXGReports.addStep("Popup Guide sentence is show correct", LogAs.PASSED, null);
-
-			// verify back-ground and text of delete button
-			waitForVisibleElement(deletedToDoButtonEle,"Delete ToDo button");
-			result = validateCSSValueElement(deletedToDoButtonEle,"background-color","rgba(241, 103, 57, 1)");
-			Assert.assertTrue(result, "Background color of delete ToDo button is not orange");
-			result = validateCSSValueElement(deletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
-			Assert.assertTrue(result, "Text color of delete ToDo button is not white");
-			NXGReports.addStep("Popup delete button is show correct", LogAs.PASSED, null);
-
-			// verify back-ground and text of cancel button
-			waitForVisibleElement(cancelDeletedToDoButtonEle,"Cancel to-do button");
-			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"background-color","rgba(151, 147, 147, 1)");
-			Assert.assertTrue(result, "Background color of cancel ToDo button is not gray");
-			result = validateCSSValueElement(cancelDeletedToDoButtonEle,"color","rgba(255, 255, 255, 1)");
-			Assert.assertTrue(result, "Text color of cancel to-do button is not white");
-			NXGReports.addStep("Popup cancel button is show correct", LogAs.PASSED, null);
-
+            //verify popup
+            PopUpPage popUpPage = new PopUpPage(getLogger(),getDriver());
+            result = popUpPage.verifyGUIPopUpDelete(categoryTitleEle,centerDeleteToDoDescriptionEle,
+                        cancelDeletedToDoButtonEle,deletedToDoButtonEle);
+            if(!result){
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
 			//verify close popup icon
-			int beforeTotalRows = eleToDoNewRowDueDateText.size();
-			waitForVisibleElement(closePopupBtnEle,"Close popup icon");
-			int afterTotalRows = eleToDoNewRowDueDateText.size();
-			result = beforeTotalRows == afterTotalRows;
-			Assert.assertTrue(result, "Close popup icon working do not correct");
+            // Check row is delete out of list
+            if(!checkEmptyToDoListRow){
+                result = checkRowIsDeleteOutOfToDoList(eleToDoRowList,idRow);
+            }
+            if(!checkEmptyToDoCompleteListRow && result){
+                result = checkRowIsDeleteOutOfToDoList(eleToDoCompleteRowList,idRow);
+            }
+            Assert.assertFalse( result, "Popup icon close does not work");
 			NXGReports.addStep("Close popup icon working correct", LogAs.PASSED,null);
 		}catch (AssertionError e){
 			AbstractService.sStatusCnt++;
@@ -2306,17 +2277,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         if(!checkToDoList && "".equals(idRow)){
             waitForVisibleElement(eleToDoCheckBoxList.get(0), "Select check box of ToDo item has not status complete");
             if(!eleToDoCheckBoxList.get(0).isSelected()){
-                eleToDoCheckBoxList.get(0).click();
+                hoverElement(eleToDoCheckBoxList.get(0),"Hover on check box of ToDo has status not complete");
+                clickElement(eleToDoCheckBoxList.get(0),"Click on check box of ToDo has status not complete");
             }
             idRow = eleToDoList.get(0).getAttribute("data-id");
-            getLogger().info("Lay id cua list todo not complete");
         }else if(!checkToDoCompleteList && "".equals(idRow)){
             waitForVisibleElement(eleToDoCompleteCheckBoxList.get(0), "Select check box of ToDo item has status complete");
             if(!eleToDoCompleteCheckBoxList.get(0).isSelected()){
-                eleToDoCompleteCheckBoxList.get(0).click();
+                hoverElement(eleToDoCompleteCheckBoxList.get(0),"Hover on check box of ToDo has status complete");
+                clickElement(eleToDoCompleteCheckBoxList.get(0),"Click on check box of ToDo has status complete");
             }
             idRow = eleToDoCompleteList.get(0).getAttribute("data-id");
-            getLogger().info("Lay id cua list todo complete");
         }
         return idRow;
     }
