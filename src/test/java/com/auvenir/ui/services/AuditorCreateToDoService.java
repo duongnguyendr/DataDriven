@@ -284,10 +284,12 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+
+    // Vien.Pham added numberCategories
     public void createToDoPage() {
 
         try {
-            createToDoPage.createToDoTask();
+            createToDoPage.createToDoTask(1);
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -295,6 +297,18 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+    //Vien.Pham add new Create Multicategories
+    public void createMultiCategories(){
+        try {
+            createToDoPage.createToDoTask(2);
+            NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Create To-Do page", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
     /*
         public void verifyGUIAddNewToDoNameTextBox() {
             try {
@@ -308,7 +322,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception  {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -462,6 +476,10 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCompleteMarkPopup();
     }
 
+    public void verifyClickCloseMarkPopup() {
+        createToDoPage.verifyClickCloseMarkPopup();
+    }
+
     public void verifyDeleteToDoPopUpDisplayed() {
         createToDoPage.verifyGUIDeleteToDoPopUp();
     }
@@ -491,7 +509,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void waitMessageIsDisappear() {
-        createToDoPage.waitMessageIsDisappear();
+        //createToDoPage.waitMessageIsDisappear();
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start

@@ -799,6 +799,10 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.clickCheckboxNewToDoTask();
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.createToDoPage();
+            auditorCreateToDoService.clickCheckboxNewToDoTask();
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyClickCloseMarkPopup();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -812,6 +816,8 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * Added by huy.huynh on 18/05/2017.
      * Scenarios : PLAT 2285 - Add undo option
+     * Modified by huy.huynh on 19/05/2017.
+     * Merge with PLAT 2303(merge frontend and backend)
      */
 
     /**
@@ -874,7 +880,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService.uiVerifyButtonUndoDisable();
 
         auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
-        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete");
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete", "");
         auditorTodoListService.uiVerifyButtonUndoEnable();
 
         NXGReports.addStep("Verify button Undo status", LogAs.PASSED, null);
@@ -891,7 +897,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
         auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
 
-        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete");
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Mark as complete", "");
         auditorTodoListService.verifyToDoComleteStatusByName(firstEngagementTitleOnWeb, "toDoName01" + timeStamp, "true");
 
         auditorTodoListService.undoAction();
@@ -911,11 +917,11 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
         auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
 
-        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Assign to");
-        auditorTodoListService.verifyAssigneeNameOnUI("toDoName01" + timeStamp, "client 01 so");
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName01" + timeStamp, "Assign to", "huy assignee (auditor)");
+        auditorTodoListService.verifyToDoAssigneeToName(firstEngagementTitleOnWeb, "toDoName01" + timeStamp, "huy assignee");
         Thread.sleep(2000);
         auditorTodoListService.undoAction();
-        auditorTodoListService.verifyAssigneeNameOnUI("toDoName01" + timeStamp, "Unassigned");
+        auditorTodoListService.verifyToDoAssigneeToName(firstEngagementTitleOnWeb, "toDoName01" + timeStamp, "huy huynh");
 
         NXGReports.addStep("Verify Undo action with Assign to case", LogAs.PASSED, null);
     }
@@ -931,7 +937,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
         auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
 
-        auditorTodoListService.chooseAndActAToDoWithName("toDoName02" + timeStamp, "Delete");
+        auditorTodoListService.chooseAndActAToDoWithName("toDoName02" + timeStamp, "Delete", "huy assignee (auditor)");
         auditorTodoListService.verifyToDoDeleteStatusByName(firstEngagementTitleOnWeb, "toDoName02" + timeStamp, "INACTIVE");
 
         auditorTodoListService.undoAction();
@@ -949,7 +955,7 @@ public class AuditorTodoListTest extends AbstractTest {
         navigationPreconditions();
 
         auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
-        auditorTodoListService.verifyDownloadAttachmentsDisable("toDoName01" + timeStamp);
+        auditorTodoListService.verifyToDoDownloadAttachmentsDisable("toDoName01" + timeStamp);
 
         NXGReports.addStep("Verify Download Attachments disable", LogAs.PASSED, null);
     }

@@ -1,5 +1,6 @@
 package com.auvenir.utilities.extentionLibraries;
 
+import com.mongodb.DBCollection;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
 import org.openqa.selenium.By;
@@ -7,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
@@ -107,12 +109,23 @@ public class DatePicker {
             return false;
         }
     }
+
 //    public static void main(String[] args) {
 //
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("10", "September", "1"));
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("29", "2", "2011"));
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("30", "12", "2017"));
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("32", "July", "2017"));
-//        System.out.println("yearDif*12+monthDif = " + timeValidation("-1", "a", ""));
+////        System.out.println("yearDif*12+monthDif = " + timeValidation("10", "September", "1"));
+////        System.out.println("yearDif*12+monthDif = " + timeValidation("29", "2", "2011"));
+////        System.out.println("yearDif*12+monthDif = " + timeValidation("30", "12", "2017"));
+////        System.out.println("yearDif*12+monthDif = " + timeValidation("32", "July", "2017"));
+////        System.out.println("yearDif*12+monthDif = " + timeValidation("-1", "a", ""));
+//
+//
+//        try {
+//            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
+//            DBCollection dbCollection = db.getCollection("auvenir", "users");
+//            MongoDB.getUserObjectByFirstNameLastName(dbCollection, "", "huy assignee", "");
+//
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        }
 //    }
 }

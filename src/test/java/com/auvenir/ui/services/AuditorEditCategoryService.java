@@ -48,6 +48,14 @@ public class AuditorEditCategoryService extends AbstractService {
         auditorEditCategoryPage.verifyEditCategoriesPopupGuide();
     }
 
+    public void hoverOnCategoryItem() {
+        auditorEditCategoryPage.verifyHoverOnCategoryItem();
+    }
+
+    public void hoverOnCategoryItem_TodoListPage(){
+        auditorEditCategoryPage.verifyHoverOnCategoryItem_TodoListPage();
+    }
+
 
     public void verifyDefaultCancelButton() throws Exception {
 
@@ -62,19 +70,20 @@ public class AuditorEditCategoryService extends AbstractService {
     public void editValidValue() throws Exception {
         auditorEditCategoryPage.editCategoryItem();
 
-
     }
 
-    public void editValidMultiItems() throws Exception {
-        auditorEditCategoryPage.editValidMultiItems();
-
+    public void editValidValue_TodoListPage() throws Exception {
+        auditorEditCategoryPage.editCategoryItem_TodoListPage();
     }
 
-    public void editUnvalidMultiItems() throws Exception {
-        auditorEditCategoryPage.editInValidMultiItems();
-
+    public void editSameMultiValidItems() throws Exception {
+        auditorEditCategoryPage.editSameMultiItems();
 
     }
+    public void editSameMultiValidItems_TodoListPage() throws Exception {
+        auditorEditCategoryPage.editSameMultiItems_TodoListPage();
+    }
+
 
     public void editOnlyNumber() throws Exception {
         auditorEditCategoryPage.editOnlyNumber();
@@ -82,15 +91,26 @@ public class AuditorEditCategoryService extends AbstractService {
 
     }
 
+    public void editOnlyNumber_TodoListPage() throws Exception {
+        auditorEditCategoryPage.editOnlyNumber_TodoListPage();
+    }
+
     public void editNullChars() throws Exception {
         auditorEditCategoryPage.editNullChar();
 
+    }
+    public void editNullChars_TodoListPage() throws Exception {
+        auditorEditCategoryPage.editNullChar_TodoListPage();
     }
 
     public void editSpecialChars() throws Exception {
         auditorEditCategoryPage.editSpecialChars();
 
 
+    }
+
+    public void editSpecialChars_TodoListPage() throws Exception {
+        auditorEditCategoryPage.editSpecialChars_TodoListPage();
     }
 
 
