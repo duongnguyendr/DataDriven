@@ -1313,7 +1313,7 @@ End of merged VienPham.
      * Added by duong.nguyen on 22/05/2017.
      * Scenarios : PLAT 2305 - Backend Mark To-Do as complete
      */
-    @Test(priority = 26, enabled = true, description = "PLAT-2305: Verify DB update completed field is true when archive mart as completed.")
+    @Test(priority = 45, enabled = true, description = "PLAT-2305: Verify DB update completed field is true when archive mart as completed.")
     public void verifyCompletedFieldUpdateSuccessful() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1353,7 +1353,7 @@ End of merged VienPham.
         }
     }
 
-    @Test(priority = 27, enabled = true, description = "PLAT-2305: Verify DB not update field completed is true when cancel mart as completed.")
+    @Test(priority = 46, enabled = true, description = "PLAT-2305: Verify DB not update field completed is true when cancel mart as completed.")
     public void verifyCancelCompleteAction() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
