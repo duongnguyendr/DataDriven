@@ -202,6 +202,9 @@ public class AbstractPage {
     @FindBy(xpath = "//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]")
     WebElement cancelDeletedToDoButtonEle;
 
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show']/div[@class = 'fl-a-dismiss auvicon-line-circle-ex'] ")
+    WebElement successToastMesCloseIconEle;
+
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
         validateDisPlayedElement(eleTermsOfServiceLnk,"eleAuvenirIncTxt");
@@ -1831,13 +1834,13 @@ public class AbstractPage {
     }
 
     /**
-     * Find the index(position) of Web Element in the list Web Element by text
+     * Find the index(position) of Web Element in the list Web Element by attribute value
      * @param listElement List WebElement
-     * @param  textValue String text which is compared with each WebElements.
+     * @param textValue   String text which is compared with each WebElements.
      * @return i if the WebElement is matched, otherwise return -1.
      *
      */
-    public int findElementByValue(List<WebElement> listElement, String textValue) {
+    public int findElementByAttributeValue(List<WebElement> listElement, String textValue) {
         try {
             String actualAttributeValue;
             for (int i = 0; i < listElement.size(); i++) {
@@ -1972,4 +1975,86 @@ public class AbstractPage {
         }
 
     }
+
+    /**
+     * Find the index(position) of Web Element in the list Web Element by text value
+     *
+     * @param listElement List WebElement
+     * @param textValue   String text which is compared with each WebElements.
+     * @return i if the WebElement is matched, otherwise return -1.
+     */
+    public int findElementByText(List<WebElement> listElement, String textValue) {
+        try {
+            String actualTextValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualTextValue = listElement.get(i).getText().trim();
+                if (actualTextValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
+                }
+            }
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+        }
+    }
+
+    /**
+     * Find the index(position) of Web Element in the list Web Element by attribute value
+     *
+     * @param listElement List WebElement
+     * @param textValue   String text which is compared with each WebElements.
+     * @param attributeName   String attributeName which attribute will be found with get Attribute method.
+     * @return i if the WebElement is matched, otherwise return -1.
+     */
+    public int findElementByAttribute(List<WebElement> listElement, String textValue, String attributeName) {
+        try {
+            String actualAttributeValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualAttributeValue = listElement.get(i).getAttribute(attributeName).trim();
+                if (actualAttributeValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
+                }
+            }
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+        }
+    }
+
+    public boolean closeSuccessToastMes(){
+        try {
+            getLogger().info("Close the Success Toast Message.");
+            boolean result;
+            waitForClickableOfElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+            result = clickElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+            Assert.assertTrue(result, "The Toast Message should be closed.");
+            NXGReports.addStep("The Toast Message is closed successfully", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return true;
+
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Cannot close the Success Toast Message.");
+            NXGReports.addStep("The Toast Message is closed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
 }

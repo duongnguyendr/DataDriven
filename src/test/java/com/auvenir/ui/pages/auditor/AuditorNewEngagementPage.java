@@ -209,7 +209,8 @@ public class AuditorNewEngagementPage extends AbstractPage {
     }
     
     public void clickNoMemberBtn() {
-        waitForVisibleElement(eleContinueNoMemberBtn, "Continue No Member button");
+        //waitForVisibleElement(eleContinueNoMemberBtn, "Continue No Member button");
+//        waitForClickableOfLocator(By.xpath("//*[@id='team-continue-btn']"));
         clickElement(eleContinueNoMemberBtn, "Continue No member button");
     }
 

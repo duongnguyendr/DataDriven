@@ -284,6 +284,10 @@ public class AuditorTodoListService extends AbstractService {
 
     /**-----end of huy.huynh PLAT-2285-----*/
 
+    public void verifyCompletedFieldUpdated(String engagementValue, String todoName, String status){
+        auditorCreateToDoPage.verifyMarkAsCompleteBackend("name", engagementValue, todoName, status);
+    }
+
 }
 
 
