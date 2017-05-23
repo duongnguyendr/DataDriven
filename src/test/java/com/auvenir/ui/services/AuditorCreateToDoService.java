@@ -712,5 +712,8 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyDefaultHintValueInputComment() {
         createToDoPage.verifyDefaultHintValueInputComment();
     }
+    public void verifyCancelCompleteMarkPopup() {
+        createToDoPage.verifyCancelCompleteMarkPopup();
+    }
 }
 

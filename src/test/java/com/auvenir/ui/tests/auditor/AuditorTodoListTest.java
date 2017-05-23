@@ -1,5 +1,6 @@
 package com.auvenir.ui.tests.auditor;
 
+import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
@@ -16,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
@@ -1306,6 +1308,92 @@ public class AuditorTodoListTest extends AbstractTest {
 /*
 End of merged VienPham.
  */
+
+    /**
+     * Added by duong.nguyen on 22/05/2017.
+     * Scenarios : PLAT 2305 - Backend Mark To-Do as complete
+     */
+    @Test(priority = 26, enabled = true, description = "PLAT-2305: Verify DB update completed field is true when archive mart as completed.")
+    public void verifyCompletedFieldUpdateSuccessful() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        Random r = new Random();
+        String engagementName = "Engagement-PLAT-2350" + r.nextInt(1000);
+        String taskName = "Task-2305" + r.nextInt();
+        try{
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
+            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName,"","Company Auvenir");
+            //will implement later, current we can not navigate engagment by name
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPageWithName(engagementName, engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorTodoListService.verifyTodoListPage();
+            auditorCreateToDoService.createToDoTaskWithCategoryName(taskName, "Category1");
+            //Check status of completed field before mark as completed. Expected: false
+            auditorTodoListService.verifyCompletedFieldUpdated(engagementName, taskName, "false");
+            auditorCreateToDoService.clickCheckboxNewToDoTask();
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            //Check status of completed field after archive mark as completed. Expected: true
+            auditorTodoListService.verifyCompletedFieldUpdated(engagementName, taskName, "true");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify DB update field completed is true when archive mart as completed.",
+                    LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Verify DB update field completed is true when archive mart as completed.",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @Test(priority = 27, enabled = true, description = "PLAT-2305: Verify DB not update field completed is true when cancel mart as completed.")
+    public void verifyCancelCompleteAction() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        Random r = new Random();
+        String engagementName = "Engagement-PLAT-2350" + r.nextInt(1000);
+        String taskName = "Task-2305" + r.nextInt();
+        try{
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
+            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName,"","Company Auvenir");
+            //will implement later, current we can not navigate engagment by name
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPageWithName(engagementName, engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorTodoListService.verifyTodoListPage();
+            auditorCreateToDoService.createToDoTaskWithCategoryName(taskName, "Category1");
+            //Check status of completed field before mark as completed. Expected: false
+            auditorTodoListService.verifyCompletedFieldUpdated(engagementName, taskName, "false");
+            auditorCreateToDoService.clickCheckboxNewToDoTask();
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCancelCompleteMarkPopup();
+            auditorTodoListService.verifyTodoListPage();
+            //Check status of completed field after cancel mark as completed. Expected: false
+            auditorTodoListService.verifyCompletedFieldUpdated(engagementName, taskName, "false");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify DB not update field completed is true when cancel mart as completed.",
+                    LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Verify DB not update field completed is true when cancel mart as completed.",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**-----end of duong.nguyen PLAT-2305-----*/
 }
 
 

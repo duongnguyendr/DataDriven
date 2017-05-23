@@ -2559,5 +2559,33 @@ Vien added new switch case 22/5/2017
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    /**
+     * Added by duong.nguyen on 22/05/2017.
+     * Scenarios : PLAT 2305 - Backend Mark as complete
+     * verify 'completed' field of a To-Do
+     *
+     * @param engagementField engagement field chosen as key
+     * @param engagementValue engagement value chosen as value
+     * @param todoName        name of To-Do to check status
+     * @param status          status update expected
+     */
+    public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status){
+        getLogger().info("Verify Completed field updated on database.");
+        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        if (jsonObject.get("completed").toString().equals(status)){
+            NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void verifyCancelCompleteMarkPopup() {
+        verifyShowConfirmPopupAndMarkTitle();
+        verifyDisplayImageInPopup();
+        verifyMarkPopupColorCancelBtn();
+        clickCancelButtonOnPopup();
+    }
+    /**-----end of duong.nguyen PLAT-2305-----*/
 }
 

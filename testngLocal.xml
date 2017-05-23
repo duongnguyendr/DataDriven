@@ -36,6 +36,6 @@
             <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
 			<class name="com.auvenir.ui.tests.auditor.AddDeleteIconTest"/>
 
-        </classes>
-    </test>
+	    </classes>
+	 </test>  	
 </suite>

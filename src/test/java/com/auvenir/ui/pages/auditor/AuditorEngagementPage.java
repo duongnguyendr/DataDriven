@@ -263,4 +263,11 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
         clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
     }
+    public void viewEngagementDetailsPageWithName(String engagementName) throws Exception{
+        String xpath = "//div[@id='cpa-main']/div//p[text()='%s']/parent::*/parent::div//div[@class='e-widget-content']//input";
+        WebElement engagementEle = getDriver().findElement(By.xpath(String.format(xpath, engagementName)));
+        hoverElement(engagementEle, engagementName);
+        waitForClickableOfElement(engagementEle, engagementName);
+        clickAndHold(engagementEle, engagementName);
+    }
 }
