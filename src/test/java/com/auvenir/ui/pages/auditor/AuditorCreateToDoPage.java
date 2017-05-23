@@ -532,9 +532,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyNewCategoryCreateCancelButton() {
         verifyColorCategoryCancelButton();
         verifyColorCategoryCreateButton();
-        //verifyClickCategoryCancelButton();
         verifyNotCompleteCreateCategory();
         verifyExistedCategory();
+        verifyClickCategoryCancelButton();
     }
 
     public void createToDoTask(String toDoName) throws Exception {
@@ -603,7 +603,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
         clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
         //Wait for new task is displayed.
-        Thread.sleep(smallTimeOut);
+        waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
     }
 
     public void verifyToDoNameInputLimitCharacter(int maxLength) throws Exception {
