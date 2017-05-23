@@ -1,5 +1,6 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -185,7 +186,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //	}
 
     public void navigateToDoListPage() throws Exception {
-        this.createToDoPage.navigateToEngagementPage();
+        //this.createToDoPage.navigateToEngagementPage();
         this.createToDoPage.navigateToToDoList();
     }
 
@@ -284,10 +285,12 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+
+    // Vien.Pham added new numberCategories
     public void createToDoPage() {
 
         try {
-            createToDoPage.createToDoTask();
+            createToDoPage.createToDoTask(1);
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -295,6 +298,18 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+    //Vien.Pham add new Create Multicategories
+    public void createMultiCategories(){
+        try {
+            createToDoPage.createToDoTask(2);
+            NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Create To-Do page", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
     /*
         public void verifyGUIAddNewToDoNameTextBox() {
             try {
@@ -308,7 +323,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception  {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -462,6 +477,10 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCompleteMarkPopup();
     }
 
+    public void verifyClickCloseMarkPopup() {
+        createToDoPage.verifyClickCloseMarkPopup();
+    }
+
     public void verifyDeleteToDoPopUpDisplayed() {
         createToDoPage.verifyGUIDeleteToDoPopUp();
     }
@@ -491,7 +510,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void waitMessageIsDisappear() {
-    //    createToDoPage.waitMessageIsDisappear();
+        //createToDoPage.waitMessageIsDisappear();
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
@@ -631,6 +650,13 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
+     * Click on trash delete icon
+     */
+    public void clickOnTrashIcon(){
+        createToDoPage.clickOnTrashIcon();
+    }
+
+    /**
      * Verify GUI and Close icon of delete confirm popup
      */
     public void verifyGUIDeleteConfirmPopup(){
@@ -638,27 +664,88 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
-     * Verify work flow of "CheckAll" check box
+     * Check or Uncheck CheckAll check box control
+     * @param isCheck : true check | false is un check
      */
-    public void verifyCheckAllCheckBox(){
-        createToDoPage.verifyCheckAllCheckBox();
-    }
-    /**
-     * Verify work flow of delete button
-     */
-    public void verifyWorkFlowOfDeleteButton(){
-        createToDoPage.verifyWorkFlowOfDeleteButton();
+    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
     }
 
     /**
-     * Verify work flow of cancel button
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
      */
-    public void verifyWorkFlowOfCancelButton(){
-        createToDoPage.verifyWorkFlowOfCancelButton();
+    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
     }
+
+    /**
+     * Check or Uncheck all check box control
+     * @param isCheck : true check | false is un check
+     */
+    public void checkOrUnCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
+    }
+    /**
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
+     */
+     public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
+     }
+    /**
+     * Click on delete button popup
+     */
+    public void clickOnDeleteButtonOnPopup(){
+        createToDoPage.clickOnDeleteButtonOnPopup();
+    }
+
+    /**
+     * Click on cancel button popup
+     */
+    public void clickOnCancelButtonOnPopup(){
+        createToDoPage.clickOnCancelButtonOnPopup();
+    }
+
+    /**
+     * Check ToDo item is exist
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoName : ToDo name need check
+     */
+    public void checkToDoIsExists(boolean isExists, String ToDoName){
+        if(!createToDoPage.checkToDoIsExists(isExists,ToDoName)){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+    /**
+     * Check ToDo item list is exists
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoNames : ToDo name list need check
+     */
+    public void checkToDoListIsExists(boolean isExists, List<String> ToDoNames){
+        if(!createToDoPage.checkToDoListIsExists(isExists,ToDoNames)){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+    /**
+     * Check all ToDo item is delete
+     */
+    public void checkAllToDoIsDelete(){
+        if(!createToDoPage.checkAllToDoIsDelete()){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
+
+    public void verifyDefaultHintValueInputComment() {
+        createToDoPage.verifyDefaultHintValueInputComment();
+    }
     public void verifyCancelCompleteMarkPopup() {
         createToDoPage.verifyCancelCompleteMarkPopup();
     }

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AuditorEngagementPage extends AbstractPage {
@@ -148,6 +149,9 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//button[contains(text(),'Add New')]")
     private WebElement eleAddNewBtn;
 
+    @FindBy(xpath = "//div[@id='cpa-main']//p[@class='e-widget-auditTitle']")
+    private List<WebElement> engagementTitleListEle;
+
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
     }
@@ -181,11 +185,17 @@ public class AuditorEngagementPage extends AbstractPage {
 		waitForClickableOfElement(newEngagementButtonEle,"New Engagement Button");
 		newEngagementButtonEle.click();
 	}
+
+    /**
+     * Click on the Engagement with the engagement Name.
+     * @param engagementName The Engagement Name which be found on Engagement page.
+     */
 	public void viewEngagementDetailsPage(String engagementName) throws Exception{
-		//current we cannot view engagement by name we test with first engagment
-		hoverElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
-		waitForClickableOfElement(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
-		clickAndHold(engagementListEle.get(0).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+        int index = findEngagementName(engagementName);
+        System.out.println("Position: " + index);
+		hoverElement(engagementListEle.get(index).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+		waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+		clickAndHold(engagementListEle.get(index).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
 	}
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
         WebElement webElement = getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
@@ -196,7 +206,65 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(webElement, engagementName);
         clickAndHold(webElement, engagementName);
     }
+
+    /*
+     * Find the index(position) of Engagement in the list Engagement by Engagement Name
+     *
+     * @param engagementName String Engagement Name
+     * @return the number of the position if the WebElement is matched, otherwise return -1.
+     */
+    public int findEngagementName(String engagementName) {
+        getLogger().info("Find Position of Engagement Name");
+        return findElementByText(engagementTitleListEle, engagementName);
+    }
+
+    /**
+     * Get the list ID of Engagement on Engagement Page.
+     * @return List<String> the list ID of Engagement on Engagement Page.
+     */
+    public List<String> getListIdOfEngagement(){
+        List<String> listIdOfEngagement = new ArrayList<String>();
+        for (int i = 0; i < engagementTitleListEle.size(); i++) {
+            listIdOfEngagement.add(engagementTitleListEle.get(i).getAttribute("id"));
+        }
+        return listIdOfEngagement;
+    }
+
+    /**
+     * Find the new engagement which is just created.
+     *
+     * @param listIdOfEngagementBeforeCreate List Engagement ID before creating new one.
+     * @param listIdOfEngagementAfterCreate List Engagement ID after creating new one.
+     * @return position of Engagement on Engagement page base on ID.
+     */
+    public int findNewEngagement(List<String> listIdOfEngagementBeforeCreate, List<String> listIdOfEngagementAfterCreate) {
+        listIdOfEngagementAfterCreate.remove(listIdOfEngagementAfterCreate);
+        for (int i = 0; i < listIdOfEngagementBeforeCreate.size(); i++) {
+            String idOfEngagement = listIdOfEngagementBeforeCreate.get(i);
+            for (int j = 0; j < listIdOfEngagementAfterCreate.size(); j++) {
+                if (idOfEngagement.equals(listIdOfEngagementAfterCreate.get(j))) {
+                    listIdOfEngagementAfterCreate.remove(j);
+                    break;
+                }
+            }
+        }
+        int sizeOflistIdOfEngagementAfterCreate = listIdOfEngagementAfterCreate.size();
+        String idOfNewEngegement = listIdOfEngagementAfterCreate.get(sizeOflistIdOfEngagementAfterCreate - 1).toString();
+        return findElementByAttribute(engagementTitleListEle, idOfNewEngegement, "id");
+    }
+
+
+    /**
+     * Click Engagement on Engagement Page with the position of Engagement
+     * @param engagementPosition int the Engagement position which is clicked.
+     */
+    public void clickEngagementByPosition(int engagementPosition){
+        hoverElement(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
+        waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
+        clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
+    }
     public void viewEngagementDetailsPageWithName(String engagementName) throws Exception{
+        //Hard code, we enhance later.
         String xpath = "//div[@id='cpa-main']/div//p[text()='%s']/parent::*/parent::div//div[@class='e-widget-content']//input";
         WebElement engagementEle = getDriver().findElement(By.xpath(String.format(xpath, engagementName)));
         hoverElement(engagementEle, engagementName);
