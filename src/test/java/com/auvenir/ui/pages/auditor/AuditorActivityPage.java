@@ -10,17 +10,17 @@ import org.apache.log4j.Logger;
 
 public class AuditorActivityPage extends AbstractPage {
 
-	
-	public AuditorActivityPage(Logger logger,WebDriver driver)
-	{
-		super(logger,driver);
-		PageFactory.initElements(driver, this);
-	}
-	
-	@FindBy(xpath="//h4[text()='Activity Feed']")
-	private WebElement eleActivityFeedTxt;
-	public WebElement getEleActivityFeedTxt(){
-		return eleActivityFeedTxt;
-	}
-	
+
+    public AuditorActivityPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(xpath = "//h4[text()='Activity Feed']")
+    private WebElement eleActivityFeedTxt;
+
+    public WebElement getEleActivityFeedTxt() {
+        return eleActivityFeedTxt;
+    }
+
 }

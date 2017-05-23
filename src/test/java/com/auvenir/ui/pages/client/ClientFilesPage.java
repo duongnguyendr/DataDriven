@@ -10,27 +10,29 @@ import org.apache.log4j.Logger;
 
 public class ClientFilesPage extends AbstractPage {
 
-	public ClientFilesPage(Logger logger,WebDriver driver)
-	{
-		super(logger,driver);
-		PageFactory.initElements(driver, this);
-	}
-	
-	@FindBy(xpath = "//img[@src='images/views/docsEmpty.svg']//..//..//span[contains(text(),'Files')]")
-	private WebElement eleFilesHeaderTxt;
-	public WebElement getEleFilesHeaderTxt() {
-		return eleFilesHeaderTxt;
-	}
-	
-	@FindBy(xpath = "//img[@src='images/views/docsEmpty.svg']")
-	private WebElement eleEmptyFilesImg;
-	public WebElement getEleEmptyFilesImg() {
-		return eleEmptyFilesImg;
-	}
-	
-	@FindBy(xpath = "//p[contains(text(),'added any files yet')]")
-	private WebElement eleYouHaventAddedTxt;
-	public WebElement getEleYouHaventAddedTxt() {
-		return eleYouHaventAddedTxt;
-	}
+    public ClientFilesPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(xpath = "//img[@src='images/views/docsEmpty.svg']//..//..//span[contains(text(),'Files')]")
+    private WebElement eleFilesHeaderTxt;
+
+    public WebElement getEleFilesHeaderTxt() {
+        return eleFilesHeaderTxt;
+    }
+
+    @FindBy(xpath = "//img[@src='images/views/docsEmpty.svg']")
+    private WebElement eleEmptyFilesImg;
+
+    public WebElement getEleEmptyFilesImg() {
+        return eleEmptyFilesImg;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'added any files yet')]")
+    private WebElement eleYouHaventAddedTxt;
+
+    public WebElement getEleYouHaventAddedTxt() {
+        return eleYouHaventAddedTxt;
+    }
 }

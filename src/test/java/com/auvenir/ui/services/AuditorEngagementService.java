@@ -16,9 +16,9 @@ public class AuditorEngagementService extends AbstractService {
 
     AuditorEngagementPage auditorEngagementPage;
 
-/*
- * contructor
- */
+    /*
+     * contructor
+     */
     public AuditorEngagementService(Logger logger, WebDriver driver) {
 
         super(logger, driver);
@@ -45,7 +45,6 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
 
 
     public void navigateToClientSettingsPage() {
@@ -104,6 +103,7 @@ public class AuditorEngagementService extends AbstractService {
         }
 
     }
+
     public void viewEngagementDetailsPage(String engagementName) {
         try {
             getLogger().info("navigate to Engagement detail page.(Hard code)");
@@ -113,20 +113,17 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    /*
-    public void navigateToEngagementTask(String engagementName) {
-    	try {
-            getLogger().info("navigate to Engagement detail page.(Hard code)");
-            auditorEngagementPage.navigateToEngagementTask(engagementName);
-            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
+
+    public void viewEngagementDetailsPage(String engagementTitle, String engagementName) {
+        try {
+            getLogger().info("navigate to Engagement detail page with name");
+            auditorEngagementPage.enterEngagementDetailWithName(engagementTitle, engagementName);
+            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    */
 
-  
-    
-    
+
 }
 

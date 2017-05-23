@@ -17,28 +17,23 @@ import org.testng.annotations.Test;
 public class EngagementTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
 
-    @Test(priority=1,enabled=true, description="Verify Footer in Auditor Engagements page.")
-    public void verifyFooterAuditorEngagementPage() throws Exception
-    {
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl =   GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+    @Test(priority = 1, enabled = true, description = "Verify Footer in Auditor Engagements page.")
+    public void verifyFooterAuditorEngagementPage() throws Exception {
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
         String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
-        try
-        {
+        try {
             //logCurrentStepStart();
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifyAuditorFooter();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify footer in Auditor Engagement page.", LogAs.PASSED, null);
-           // logCurrentStepEnd();
+            // logCurrentStepEnd();
 
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Verify footer in Auditor Engagement page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

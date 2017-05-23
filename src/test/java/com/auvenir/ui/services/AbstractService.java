@@ -17,41 +17,42 @@ import java.util.concurrent.TimeUnit;
  * Created by cuong.nguyen on 4/25/2017.
  * Updated by Doai.Tran
  */
-public class AbstractService  {
+public class AbstractService {
     private WebDriver driver;
     private Logger logger;
     private static final int waitTime = 60;
     /*
     Variable to validate Passed - Failed of a TestCases
      */
-    public static int sStatusCnt=0;
+    public static int sStatusCnt = 0;
 
     /**
      * Base url this value is set at runtime.
-     *
      */
-    private String baseUrl="https://ariel.auvenir.com";
+    private String baseUrl = "https://ariel.auvenir.com";
 
-    public AbstractService(Logger logger,WebDriver driver){
+    public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
     }
-    public WebDriver getDriver(){
+
+    public WebDriver getDriver() {
         return driver;
     }
-    public Logger getLogger(){
+
+    public Logger getLogger() {
         return logger;
     }
 
 
-
-    public String getBaseUrl(){
+    public String getBaseUrl() {
         return baseUrl;
     }
-    public void setBaseUrl(String serverDomainName){
 
-        baseUrl="https://" + serverDomainName;
+    public void setBaseUrl(String serverDomainName) {
+
+        baseUrl = "https://" + serverDomainName;
         getLogger().info("Url of testing server is: " + baseUrl);
     }
 
@@ -69,12 +70,12 @@ public class AbstractService  {
             driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             NXGReports.addStep("Login with userid: " + userId, LogAs.PASSED, null);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Login with userid: " + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
+
     public void loginWithUserRole(String userId) {
         try {
             getLogger().info("Login with user role: " + userId);
@@ -94,19 +95,19 @@ public class AbstractService  {
             driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             NXGReports.addStep("Login with userid: " + userId, LogAs.PASSED, null);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Login with userid: " + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
 
     }
+
     public void executeAutoITScriptUploadImage(String AutoITScripDirectory, String fileDirectory) throws IOException {
-        try{
+        try {
             String[] cmdRun = new String[]{AutoITScripDirectory, fileDirectory};
             Runtime.getRuntime().exec(cmdRun);
             NXGReports.addStep("Execute AutoITScriptUploadImage successfully", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Execute AutoITScriptUploadImage successfully", LogAs.FAILED, null);
             throw e;
         }

@@ -22,18 +22,16 @@ public class NotificationsSettingsTest extends AbstractTest {
     private AuditorAccountSettingsService auditorAccountSettingsService;
 
 
-    @Test(priority=1,enabled=true, description="Verify Footer in Auditor Notifications Settings page.")
-    public void verifyFooterAuditorNotificationsSettingsPage() throws Exception
-    {
-        auditorNotificationsSettingsService = new AuditorNotificationsSettingsService(getLogger(),getDriver());
-        auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(),getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
-        String userId= GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl =   GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
+    @Test(priority = 1, enabled = true, description = "Verify Footer in Auditor Notifications Settings page.")
+    public void verifyFooterAuditorNotificationsSettingsPage() throws Exception {
+        auditorNotificationsSettingsService = new AuditorNotificationsSettingsService(getLogger(), getDriver());
+        auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
         String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
-        try
-        {
+        try {
             //logCurrentStepStart();
             auditorNotificationsSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -46,10 +44,7 @@ public class NotificationsSettingsTest extends AbstractTest {
             NXGReports.addStep("Verify Footer in Auditor Notifications Settings page.", LogAs.PASSED, null);
             //logCurrentStepEnd();
 
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Verify Footer in Auditor Notifications Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

@@ -11,12 +11,13 @@ import org.openqa.selenium.WebDriver;
  * Created by doai.tran on 4/28/2017.
  * Refactor code and implement for PLAT 2273
  */
-public class AdminService extends AbstractService{
+public class AdminService extends AbstractService {
 
-    public AdminService(Logger logger, WebDriver driver){
-        super(logger,driver);
+    public AdminService(Logger logger, WebDriver driver) {
+        super(logger, driver);
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
     }
+
     AdminLoginPage adminLoginPage;
 
 
@@ -34,7 +35,7 @@ public class AdminService extends AbstractService{
         try {
             getLogger().info("verify Admin Login page.");
             adminLoginPage.verifyAdminLoginPage();
-            NXGReports.addStep("verify Admin Login Page.", LogAs.PASSED, (CaptureScreen)null);
+            NXGReports.addStep("verify Admin Login Page.", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
             NXGReports.addStep("verify Admin Login Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
