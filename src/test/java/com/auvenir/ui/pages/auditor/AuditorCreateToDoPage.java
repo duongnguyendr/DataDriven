@@ -1725,6 +1725,9 @@ Vien added new switch case 22/5/2017
     @FindBy(id = "cb-select-all-todo")
     private WebElement eleCheckAllCheckBox;
 
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show']/div[@class = 'fl-a-dismiss auvicon-line-circle-ex'] ")
+    WebElement successToastMesCloseIconEle;
+
     /**
      * Verify trash to do icon.
      */
@@ -2077,7 +2080,6 @@ Vien added new switch case 22/5/2017
     public boolean checkToDoIsExists(boolean isExists, String todoName){
         getLogger().info("Select To Do Task Check Box by Name");
         int index = getIndexOfToDoItem(eleToDoNameRow,todoName);
-        getLogger().info("Index : " + index);
         if(!isExists && index!= -1)
             return false;
 
@@ -2089,11 +2091,48 @@ Vien added new switch case 22/5/2017
     }
 
     /**
-     * Click on delete button in popup
+     * Check ToDo item list delete is exists in ToDo list
+     * @param isExists : true : exists | false : not exists
+     * @param todoNameList : ToDo name list need check
+     * @return
+     */
+    public boolean checkToDoListIsExists(boolean isExists, List<String> todoNameList){
+        getLogger().info("Select To Do Task List Check Box by Name");
+        for(int i=0; i<todoNameList.size(); i++){
+            int index = getIndexOfToDoItem(eleToDoNameRow,todoNameList.get(i));
+            if(!isExists && index!= -1)
+                return false;
+
+            if(isExists && index == -1)
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Click on delete button in popup delete
      */
     public void clickOnDeleteButtonOnPopup() {
+        waitForClickableOfElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+        clickElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+        clickDeleteButtonOnPopUp();
+    }
+
+    /**
+     * Click on cancel button in popup delete
+     */
+    public void clickOnCancelButtonOnPopup() {
+        waitForClickableOfElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+        clickElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+        clickCancelButtonOnPopup();
+
+    }
+
+    /**
+     * Click on delete button in pop up
+     */
+    public void clickDeleteButtonOnPopUp(){
         getLogger().info("Click Delete Button on PopUp windows.");
-        closeSuccessToastMes();
         WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
         hoverElement(deletedToDoButtonEle, "Delete ToDo button");
         waitForClickableOfElement(deletedToDoButtonEle, "Delete ToDo Button");
@@ -2101,7 +2140,16 @@ Vien added new switch case 22/5/2017
         waitForCssValueChanged(popUpDiv, "PopUp Windows", "display", "none");
     }
 
-
+    /**
+     * Check all ToDo item is delete
+     * @return true : all is deleted | false : not delete all
+     */
+    public boolean checkAllToDoIsDelete(){
+        if(!checkListIsEmpty(eleToDoRowList) || !checkListIsEmpty(eleToDoCompleteRowList)){
+            return false;
+        }
+        return true;
+    }
 
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 

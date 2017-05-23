@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+import java.util.List;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
@@ -1308,12 +1309,187 @@ public class AuditorTodoListTest extends AbstractTest {
 /*
 End of merged VienPham.
  */
+    /**
+     * PLAT-2286 : Add new test suite : delete and cancel when user select multi ToDo item - Start
+     */
+    int ToDoItemNumber = 4;
+    @Test(  priority = 45,enabled = true, description = "Verify work flow of delete multi ToDo item in ToDo page.")
+    public void verifyWorkFlowOfDeleteMultiToDoInToDoListPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            // Login
+            auditorCreateToDoService.loginWithUserRole(userId);
+            // Move to engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String todoName = "ToDoDelete";
+            // Add one ToDo name
+            List<String> toDoListNames = new ArrayList<String>();
+            for(int i=0 ; i < ToDoItemNumber; i++){
+                toDoListNames.add(todoName + i + dateFormat.format(date));
+            }
+            // Create ToDo follow name
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            // Select ToDo has just created
+            for(int i=0 ; i< toDoListNames.size(); i++){
+                auditorCreateToDoService.selectToDoTaskName(toDoListNames.get(i));
+            }
+            // Click on trash delete icon
+            auditorCreateToDoService.clickOnTrashIcon();
+            // Verify work flow of delete button
+            auditorCreateToDoService.clickOnDeleteButtonOnPopup();
+            // Check ToDo has not exists
+            auditorCreateToDoService.checkToDoListIsExists(false,toDoListNames);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify work flow of delete multi ToDo in ToDo page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify work flow of delete multi ToDo in ToDo page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(  priority = 46,enabled = true, description = "Verify work flow of delete all ToDo item in ToDo page.")
+    public void verifyWorkFlowOfDeleteAllToDoInToDoListPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            // Login
+            auditorCreateToDoService.loginWithUserRole(userId);
+            // Move to engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String todoName = "ToDoDelete";
+            // Add one ToDo name
+            List<String> toDoListNames = new ArrayList<String>();
+            for(int i=0 ; i < ToDoItemNumber; i++){
+                toDoListNames.add(todoName + i + dateFormat.format(date));
+            }
+            // Create ToDo follow name
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            // Check on 'CheckAll' check box
+            auditorCreateToDoService.checkOrUnCheckCheckAllCheckBox(true);
+            // Click on trash delete icon
+            auditorCreateToDoService.clickOnTrashIcon();
+            // Verify work flow of delete button
+            auditorCreateToDoService.clickOnDeleteButtonOnPopup();
+            // Check ToDo has not exists
+            auditorCreateToDoService.checkAllToDoIsDelete();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify work flow of delete all ToDo in ToDo page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify work flow of delete all ToDo in ToDo page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(  priority = 47,enabled = true, description = "Verify work flow of cancel multi ToDo item in ToDo page.")
+    public void verifyWorkFlowOfCancelMultiToDoInToDoListPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            // Login
+            auditorCreateToDoService.loginWithUserRole(userId);
+            // Move to engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String todoName = "ToDoCancel";
+            // Add one ToDo name
+            List<String> toDoListNames = new ArrayList<String>();
+            for(int i=0 ; i < ToDoItemNumber; i++){
+                toDoListNames.add(todoName + i + dateFormat.format(date));
+            }
+            // Create ToDo follow name
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            // Select ToDo has just created
+            for(int i=0 ; i< toDoListNames.size(); i++){
+                auditorCreateToDoService.selectToDoTaskName(toDoListNames.get(i));
+            }
+            // Click on trash delete icon
+            auditorCreateToDoService.clickOnTrashIcon();
+            // Verify work flow of delete button
+            auditorCreateToDoService.clickOnCancelButtonOnPopup();
+            // Check ToDo has not exists
+            auditorCreateToDoService.checkToDoListIsExists(true,toDoListNames);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify work flow of cancel multi ToDo in ToDo page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify work flow of cancel multi ToDo in ToDo page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(  priority = 48,enabled = true, description = "Verify work flow of cancel all ToDo item in ToDo page.")
+    public void verifyWorkFlowOfCancelAllToDoInToDoListPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(),getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            // Login
+            auditorCreateToDoService.loginWithUserRole(userId);
+            // Move to engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String todoName = "ToDoCancel";
+            // Add one ToDo name
+            List<String> toDoListNames = new ArrayList<String>();
+            for(int i=0 ; i < ToDoItemNumber; i++){
+                toDoListNames.add(todoName + i + dateFormat.format(date));
+            }
+            // Create ToDo follow name
+            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            // Check on 'CheckAll' check box
+            auditorCreateToDoService.checkOrUnCheckCheckAllCheckBox(true);
+            // Click on trash delete icon
+            auditorCreateToDoService.clickOnTrashIcon();
+            // Verify work flow of delete button
+            auditorCreateToDoService.clickOnCancelButtonOnPopup();
+            // Check ToDo has not exists
+            auditorCreateToDoService.checkAllToDoIsDelete();
+
+            Assert.assertFalse(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify work flow of cancel all ToDo in ToDo page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify work flow of cancel all ToDo in ToDo page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    /**
+     * PLAT-2286 : Add new test suite : delete and cancel when user select multi ToDo item - End
+     */
 
     /**
      * Added by duong.nguyen on 22/05/2017.
      * Scenarios : PLAT 2305 - Backend Mark To-Do as complete
      */
-    @Test(priority = 45, enabled = true, description = "PLAT-2305: Verify DB update completed field is true when archive mart as completed.")
+    @Test(priority = 49, enabled = true, description = "PLAT-2305: Verify DB update completed field is true when archive mart as completed.")
     public void verifyCompletedFieldUpdateSuccessful() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1353,7 +1529,7 @@ End of merged VienPham.
         }
     }
 
-    @Test(priority = 46, enabled = true, description = "PLAT-2305: Verify DB not update field completed is true when cancel mart as completed.")
+    @Test(priority = 50, enabled = true, description = "PLAT-2305: Verify DB not update field completed is true when cancel mart as completed.")
     public void verifyCancelCompleteAction() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
