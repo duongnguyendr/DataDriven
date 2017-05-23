@@ -123,6 +123,15 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    public void viewEngagementDetailsPageWithName(String engagementTitle, String engagementName) {
+        try {
+            getLogger().info("navigate to Engagement detail page with name");
+            auditorEngagementPage.viewEngagementDetailsPageWithName(engagementTitle);
+            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
 
 }

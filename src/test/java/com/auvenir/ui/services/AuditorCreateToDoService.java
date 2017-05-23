@@ -491,7 +491,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void waitMessageIsDisappear() {
-        createToDoPage.waitMessageIsDisappear();
+    //    createToDoPage.waitMessageIsDisappear();
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
@@ -659,5 +659,8 @@ public class AuditorCreateToDoService extends AbstractService {
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
+    public void verifyCancelCompleteMarkPopup() {
+        createToDoPage.verifyCancelCompleteMarkPopup();
+    }
 }
 
