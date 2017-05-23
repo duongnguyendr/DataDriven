@@ -22,7 +22,6 @@ public class AuvenirPage extends AbstractPage {
 
     public AuvenirPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//img[@class='header-auvenirLogo']")

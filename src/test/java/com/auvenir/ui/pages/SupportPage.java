@@ -12,7 +12,6 @@ public class SupportPage extends AbstractPage {
 
     public SupportPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//img[@src='images/full-dark-logo.svg']")
