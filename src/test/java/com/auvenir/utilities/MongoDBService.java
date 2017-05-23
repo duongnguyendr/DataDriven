@@ -1,6 +1,7 @@
 package com.auvenir.utilities;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.apache.poi.ss.usermodel.Row;
@@ -514,36 +515,64 @@ public class MongoDBService {
     }
 
     /**
-     * create some users for init regresstion test
+     * create some users for init regresstion test with multiple roles
      */
-    public static void insertUsers(String valueId) throws UnknownHostException {
+    public static void insertUserAndMappingWithFirm() throws UnknownHostException {
         try {
-            String[][] data= readExcelSheetData("usersRegression");
+            String[][] data = readExcelSheetData("usersRegression");
 
-            configurateDatabase();
-            MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
-            com.mongodb.DB db = MongoClient.getDB(DB);
-            DBCollection table = db.getCollection("users");
-            BasicDBObject document = new BasicDBObject();
+//            configurateDatabase();
+//            MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
+//            DB db = MongoClient.getDB(DB);
 
-            document.put("_id", new ObjectId(sData[1]));
-            document.put("ownerUID", sData[2]);
-            document.put("uid", sData[3]);
-            document.put("status", sData[4]);
-            document.put("dateCreated", sData[5]);
+            MongoClient mongoClient = new MongoClient("34.205.90.145", 27017);
+            DB db = mongoClient.getDB("huytest");
+            DBCollection usersCollection = db.getCollection("users");
+            DBCollection firmsCollection = db.getCollection("firms");
+            DBCollection businessesCollection = db.getCollection("businesses");
 
-            List<DBObject> array = new ArrayList<DBObject>();
-            BasicDBObject documentfin = new BasicDBObject();
-            documentfin.put("consumerID", sData[6]);
-            documentfin.put("institutionID", sData[7]);
-            documentfin.put("status", sData[8]);
-            array.add(documentfin);
-            document.put("finCustomer", array);
-            table.insert(document);
+            //code to drop all records of collection
+            {
+                usersCollection.drop();
+                firmsCollection.drop();
+                businessesCollection.drop();
+            }
 
+            for (int i = 0; i < data.length; i++) {
+                DBObject usersDBObject = (DBObject) JSON.parse(data[i][9]);
+                DBObject mappingDBObject = (DBObject) JSON.parse(data[i][10]);
+
+                usersDBObject.put("_id", new ObjectId(data[i][4]));
+
+                ISO8601DateFormat df = new ISO8601DateFormat();
+                usersDBObject.put("lastLogin", df.parse(data[i][5]));
+                usersDBObject.put("dateCreated", df.parse(data[i][6]));
+
+                BasicDBObject access = new BasicDBObject();
+                access.put("expires", df.parse(data[i][8]));
+                BasicDBObject auth = new BasicDBObject();
+                auth.put("id", data[i][7]);
+                auth.put("access", access);
+                usersDBObject.put("auth", auth);
+                usersCollection.insert(usersDBObject);
+
+                BasicDBObject userInMapping = new BasicDBObject();
+                userInMapping.put("id", new ObjectId(data[i][4]));
+                userInMapping.put("admin", true);
+                List<BasicDBObject> usersInMapping = new ArrayList<>();
+                usersInMapping.add(userInMapping);
+                mappingDBObject.put("acl", usersInMapping);
+
+                if (data[i][1].toString().equals("AUDITOR")) {
+                    firmsCollection.insert(mappingDBObject);
+                } else if (data[i][1].toString().equals("CLIENT")) {
+                    businessesCollection.insert(mappingDBObject);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public static String[][] readExcelSheetData(String sheetName) {
@@ -555,11 +584,11 @@ public class MongoDBService {
 
             System.out.println("sheetName = " + sheetName);
             int rowCount = sheet.getLastRowNum();
-            data= new String[rowCount][sheet.getRow(0).getLastCellNum()];
+            data = new String[rowCount][sheet.getRow(0).getLastCellNum()];
             for (int i = 1; i <= rowCount; i++) {
                 Row row = sheet.getRow(i);
                 for (int j = 0; j < row.getLastCellNum(); j++) {
-                    data[i-1][j]=row.getCell(j).getStringCellValue();
+                    data[i - 1][j] = row.getCell(j).getStringCellValue();
                     System.out.print(row.getCell(j).getStringCellValue() + "/");
                 }
                 System.out.println("");
@@ -569,4 +598,6 @@ public class MongoDBService {
         }
         return data;
     }
+
+
 }

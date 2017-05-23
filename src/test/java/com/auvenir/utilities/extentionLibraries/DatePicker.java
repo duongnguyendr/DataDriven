@@ -16,7 +16,9 @@ import org.openqa.selenium.support.FindBy;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by huy.huynh on 15/05/2017.
@@ -113,34 +115,53 @@ public class DatePicker {
     }
 
     public static void main(String[] args) {
-        String data[][] = MongoDBService.readExcelSheetData("usersRegression");
-        String json = data[0][5];
-        //JSONObject jsonObject= new JSONObject(json);
-        //System.out.println("jsonObject.get(\"_id\") = " + jsonObject.get("_id"));
-
-
         try {
-            DBObject basicDBObject = (DBObject) JSON.parse(json);
-            MongoClient mongoClient = new MongoClient("34.205.90.145", 27017);
-            DB dB = mongoClient.getDB("huytest");
-            DBCollection dbCollection = dB.getCollection("users");
-            basicDBObject.put("_id",new ObjectId("591eacec7d63f54b5a017608"));
-
-            ISO8601DateFormat df = new ISO8601DateFormat();
-            basicDBObject.put("lastLogin", df.parse("2017-05-22T08:39:36.797Z"));
-            basicDBObject.put("dateCreated", df.parse("2017-05-19T08:20:14.720Z"));
-
-            BasicDBObject access = new BasicDBObject();
-            access.put("expires", df.parse("2017-05-22T10:14:11.447Z"));
-            BasicDBObject auth = new BasicDBObject();
-            auth.put("id","DwaPhuT7HzBo-dc4D8v7QjP3G");
-            auth.put("access", access);
-            basicDBObject.put("auth", auth);
-
-            dbCollection.insert(basicDBObject);
-
-        } catch (Exception e) {
+            MongoDBService.insertUserAndMappingWithFirm();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+//        String data[][] = MongoDBService.readExcelSheetData("usersRegression");
+//        String jsonUser = data[0][8];
+//        String jsonFirm = data[0][9];
+//        //JSONObject jsonObject= new JSONObject(json);
+//        //System.out.println("jsonObject.get(\"_id\") = " + jsonObject.get("_id"));
+//
+//
+//        try {
+//            DBObject usersDBObject = (DBObject) JSON.parse(jsonUser);
+//            MongoClient mongoClient = new MongoClient("34.205.90.145", 27017);
+//            DB dB = mongoClient.getDB("auvenir");
+//            DBCollection dbCollection = dB.getCollection("users");
+//            usersDBObject.put("_id",new ObjectId(data[0][0]));
+//
+//            ISO8601DateFormat df = new ISO8601DateFormat();
+//            usersDBObject.put("lastLogin", df.parse(data[0][5]));
+//            usersDBObject.put("dateCreated", df.parse(data[0][6]));
+//
+//            BasicDBObject access = new BasicDBObject();
+//            access.put("expires", df.parse(data[0][7]));
+//            BasicDBObject auth = new BasicDBObject();
+//            auth.put("id","DwaPhuT7HzBo-dc4D8v7QjP3G");
+//            auth.put("access", access);
+//            usersDBObject.put("auth", auth);
+//
+//            dbCollection.insert(usersDBObject);
+//
+//            DBObject firmDBObject = (DBObject) JSON.parse(data[0][9]);
+//            MongoClient mongoClient2 = new MongoClient("34.205.90.145", 27017);
+//            DB dB2 = mongoClient2.getDB("auvenir");
+//            DBCollection dbCollection2 = dB2.getCollection("firms");
+//            BasicDBObject obj = new BasicDBObject();
+//            obj.put("id",new ObjectId(data[0][0]) );
+//            obj.put("admin", true);
+//            List<BasicDBObject> milestones = new ArrayList<>();
+//            milestones.add(obj);
+//            firmDBObject.put("acl",milestones);
+//
+//            dbCollection2.insert(firmDBObject);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }
