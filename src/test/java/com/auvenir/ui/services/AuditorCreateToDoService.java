@@ -700,11 +700,45 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.clickOnDeleteButtonOnPopup();
     }
 
+    /**
+     * Click on cancel button popup
+     */
+    public void clickOnCancelButtonOnPopup(){
+        createToDoPage.clickOnCancelButtonOnPopup();
+    }
+
+    /**
+     * Check ToDo item is exist
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoName : ToDo name need check
+     */
     public void checkToDoIsExists(boolean isExists, String ToDoName){
         if(!createToDoPage.checkToDoIsExists(isExists,ToDoName)){
             AbstractService.sStatusCnt++;
         }
     }
+
+    /**
+     * Check ToDo item list is exists
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoNames : ToDo name list need check
+     */
+    public void checkToDoListIsExists(boolean isExists, List<String> ToDoNames){
+        if(!createToDoPage.checkToDoListIsExists(isExists,ToDoNames)){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+    /**
+     * Check all ToDo item is delete
+     */
+    public void checkAllToDoIsDelete(){
+        if(!createToDoPage.checkAllToDoIsDelete()){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }

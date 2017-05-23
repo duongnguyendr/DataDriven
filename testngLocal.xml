@@ -17,7 +17,7 @@
             <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
+            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
             <class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
@@ -34,7 +34,6 @@
             <class name="com.auvenir.rests.api.tests.AccountTest"/>
             <class name="com.auvenir.rests.api.tests.InstitutionTest"/>
             <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
-			<class name="com.auvenir.ui.tests.auditor.AddDeleteIconTest"/>
 
         </classes>
     </test>
