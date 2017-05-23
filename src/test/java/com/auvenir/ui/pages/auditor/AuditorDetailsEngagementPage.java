@@ -31,16 +31,15 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
 
     @FindBy(id = "engagementDashboardLink")
     private WebElement dashBoardLinkEle;
-    @FindBy(xpath = "//p[contains(text(),'Engagement Overview')]")
+    //@FindBy(xpath = "//p[contains(text(),'Engagement Overview')]")
+    @FindBy(xpath = "//div[@class='pageHeader-leftContainer']//input[@id='a-header-title']")
     private WebElement dashboardTextEle;
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
 
-    public void verifyDetailsEngagementPage(String engagement01) {
-        //we can not navigae engagement by name now, will improve letter, just check detail page is rendered.
-        //waitForClickableOfElement(dashBoardLinkEle,"DashBoard Link");
+    public void verifyDetailsEngagementPage(String engagementName){
         waitForVisibleElement(dashboardTextEle, "dashboard text");
-
+        validateAttributeElement(dashboardTextEle, "value", engagementName);
     }
 
     public void navigateToTaskList() throws Exception {

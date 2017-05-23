@@ -1,6 +1,5 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.common.AbstractPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -749,5 +748,13 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCancelCompleteMarkPopup() {
         createToDoPage.verifyCancelCompleteMarkPopup();
     }
+
+    public void closeSuccessToastMes() { createToDoPage.closeSuccessToastMes(); }
+    public void verifyBoxTitleComment() { createToDoPage.verifyGUIBoxTitleComment(); }
+    public void verifyGUICommentList(String commentContent) { createToDoPage.verifyGUICommentList(commentContent); }
+    public void verifyInputAComment(String commentContent) { createToDoPage.verifyInputAComment(commentContent); }
+    public void clickPostComment() { createToDoPage.clickPostComment(); }
+
+
 }
 
