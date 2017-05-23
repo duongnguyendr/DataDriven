@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.jfree.data.time.Second;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -209,7 +210,8 @@ public class AuditorNewEngagementPage extends AbstractPage {
     }
     
     public void clickNoMemberBtn() {
-        waitForVisibleElement(eleContinueNoMemberBtn, "Continue No Member button");
+        //waitForVisibleElement(eleContinueNoMemberBtn, "Continue No Member button");
+//        waitForClickableOfLocator(By.xpath("//*[@id='team-continue-btn']"));
         clickElement(eleContinueNoMemberBtn, "Continue No member button");
     }
 
@@ -217,11 +219,5 @@ public class AuditorNewEngagementPage extends AbstractPage {
     public void clickCreateToDoBtn() {
         clickElement(eleCustomizeCreateBtn, "Customize Create Button");
     }
-
-    public String getDate(int day) {
-        Calendar date = Calendar.getInstance();
-        date.add(Calendar.DATE, day);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        return simpleDateFormat.format(date.getTime());
-    }
+    
 }

@@ -1,5 +1,6 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -112,6 +113,4 @@ public class AbstractService {
             throw e;
         }
     }
-
-
 }

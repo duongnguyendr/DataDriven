@@ -1,5 +1,6 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -8,6 +9,8 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
+import java.util.List;
+
 /**
  * Created by cuong.nguyen on 4/27/2017.
  */
@@ -15,6 +18,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 public class AuditorEngagementService extends AbstractService {
 
     AuditorEngagementPage auditorEngagementPage;
+    AuditorNewEngagementPage auditorNewEngagementPage;
 
     /*
      * contructor
@@ -23,6 +27,7 @@ public class AuditorEngagementService extends AbstractService {
 
         super(logger, driver);
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
+        auditorNewEngagementPage = new AuditorNewEngagementPage(getLogger(), getDriver());
 
     }
 
@@ -123,7 +128,36 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    public void viewEngagementDetailsPageWithName(String engagementTitle, String engagementName) {
+        try {
+            getLogger().info("navigate to Engagement detail page with name");
+            auditorEngagementPage.viewEngagementDetailsPageWithName(engagementTitle);
+            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
+    /**
+     *  Create New Engagement with the specific Name and Navigate to new engagement which is just created.
+     *
+     * @param engagementName The name of engagement
+     * @param engagementType The type of engagement
+     * @param company The company of engagement
+     *
+     */
+    public void createAndSelectNewEnagement(String engagementName, String engagementType, String company) throws Exception {
+        getLogger().info("Create And Select New Enagement.");
+        List<String> listIdEngagementBefore;
+        listIdEngagementBefore = auditorEngagementPage.getListIdOfEngagement();
+        auditorEngagementPage.clickNewEnagementButton();
+        auditorNewEngagementPage.verifyNewEngagementPage();
+        auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company);
+        List<String> listIdEngagementAfter;
+        listIdEngagementAfter = auditorEngagementPage.getListIdOfEngagement();
+        int index = auditorEngagementPage.findNewEngagement(listIdEngagementBefore, listIdEngagementAfter);
+        auditorEngagementPage.clickEngagementByPosition(index);
+    }
 
 }
 
