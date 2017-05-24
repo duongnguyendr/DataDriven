@@ -1591,7 +1591,7 @@ End of merged VienPham.
     /**
      * Added by minh.nguyen on 24/05/2017.
      */
-    @Test(priority = 51, enabled = true, description = "Verify mark as complete")
+    @Test(priority = 51, enabled = true, description = "Verify to create new request on ToDo page")
     public void verifyAddNewRequestOnToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
