@@ -37,13 +37,13 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
 
-	public void verifyGUIAddNewToDoNameTextBox(int numberOfTask){
-		    getLogger().info("Verify GUI Add New To Do Text Box");
-			createToDoPage.verifyDefaultValueToDoNameTextBox(numberOfTask);
-			createToDoPage.verifyHoverCssValueToDoNameTextBox();
-			createToDoPage.verifyWarningCssValueToDoNameTextBox();
-			createToDoPage.verifyGUIButtonCreateToDo();
-	}
+    public void verifyGUIAddNewToDoNameTextBox(int numberOfTask) {
+        getLogger().info("Verify GUI Add New To Do Text Box");
+        createToDoPage.verifyDefaultValueToDoNameTextBox(numberOfTask);
+        createToDoPage.verifyHoverCssValueToDoNameTextBox();
+        createToDoPage.verifyWarningCssValueToDoNameTextBox();
+        createToDoPage.verifyGUIButtonCreateToDo();
+    }
 
     public void verifyAuditorCreateToDo() {
 
@@ -186,7 +186,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void navigateToDoListPage() throws Exception {
         this.createToDoPage.navigateToEngagementPage();
-        this.createToDoPage.navigateToToDoList();
+//        this.createToDoPage.navigateToToDoList();
     }
 
 
@@ -298,9 +298,9 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     //Vien.Pham add new Create Multicategories
-    public void createMultiCategories(){
+    public void createMultiCategories() {
         try {
-            createToDoPage.createToDoTask(2);
+            createToDoPage.createNewToDoTask(1);
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -309,6 +309,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
 
     }
+
     /*
         public void verifyGUIAddNewToDoNameTextBox() {
             try {
@@ -322,7 +323,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception  {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -500,11 +501,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.selectToDoCheckboxByName(toDoName);
     }
 
-    public void unselectToDoTaskName(String toDoName){
+    public void unselectToDoTaskName(String toDoName) {
         createToDoPage.unSelectToDoCheckboxByName(toDoName);
     }
 
-    public int getNumberofToDoTask(){
+    public int getNumberofToDoTask() {
         return createToDoPage.getNumberofToDoTask();
     }
 
@@ -513,6 +514,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+
     /**
      * Move add new to do page
      */
@@ -530,7 +532,7 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Verify select data drop down
      */
-    public void verifySelectDateDropDown() throws  Exception {
+    public void verifySelectDateDropDown() throws Exception {
         createToDoPage.verifySelectDateDropDown();
     }
 
@@ -539,8 +541,8 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void checkDefaultValueDueDate() {
         boolean result = createToDoPage.checkDefaultDueDateValue();
-        if(!result)
-            AbstractService.sStatusCnt ++;
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     /**
@@ -548,8 +550,8 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void checkFormatDueDate() {
         boolean result = createToDoPage.checkFormatDueDate();
-        if(!result)
-            AbstractService.sStatusCnt ++;
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     /**
@@ -557,8 +559,8 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void verifyDataOfDatePicker(boolean isNewToDoPage) {
         boolean result = createToDoPage.verifyDataOfDatePicker(isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
 
@@ -574,108 +576,144 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
         boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     /**
      * Verify previous date picker link is click
      */
-    public void verifyPreviousDatePickerLink(boolean isNewToDoPage){
-        boolean result = createToDoPage.checkDatePickerChangeMonth("prev",false, isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+    public void verifyPreviousDatePickerLink(boolean isNewToDoPage) {
+        boolean result = createToDoPage.checkDatePickerChangeMonth("prev", false, isNewToDoPage);
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     /**
      * Verify next date picker link is click
      */
-    public void verifyNextDatePickerLink(boolean isNewToDoPage){
-        boolean result = createToDoPage.checkDatePickerChangeMonth("next",true, isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+    public void verifyNextDatePickerLink(boolean isNewToDoPage) {
+        boolean result = createToDoPage.checkDatePickerChangeMonth("next", true, isNewToDoPage);
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     /**
      * Verify input correct format date in due date text box
      */
-    public void verifyInputCorrectFormatDate(boolean isNewToDoPage){
-        boolean result = createToDoPage.verifyInputCorrectFormatDate("05/20/2017",isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+    public void verifyInputCorrectFormatDate(boolean isNewToDoPage) {
+        boolean result = createToDoPage.verifyInputCorrectFormatDate("05/20/2017", isNewToDoPage);
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
+
     /**
      * Verify input wrong format date in due date text box
      */
-    public void verifyInputWrongFormatDate(boolean isNewToDoPage){
-        boolean result = createToDoPage.verifyInputWrongValue("055/20/2017",isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+    public void verifyInputWrongFormatDate(boolean isNewToDoPage) {
+        boolean result = createToDoPage.verifyInputWrongValue("055/20/2017", isNewToDoPage);
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     /**
      * Verify input text in due date text box
      */
-    public void verifyInputTextValue(boolean isNewToDoPage){
-        boolean result = createToDoPage.verifyInputWrongValue("dadasdasdad",isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+    public void verifyInputTextValue(boolean isNewToDoPage) {
+        boolean result = createToDoPage.verifyInputWrongValue("dadasdasdad", isNewToDoPage);
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     /**
      * Verify input text in due date text box
      */
-    public void verifyInputSpecialCharacterValue(boolean isNewToDoPage){
-        boolean result = createToDoPage.verifyInputWrongValue("~!@#$%^&*+?><,. ",isNewToDoPage);
-        if(!result)
-            AbstractService.sStatusCnt ++;
+    public void verifyInputSpecialCharacterValue(boolean isNewToDoPage) {
+        boolean result = createToDoPage.verifyInputWrongValue("~!@#$%^&*+?><,. ", isNewToDoPage);
+        if (!result)
+            AbstractService.sStatusCnt++;
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
 
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- Start
+
     /**
      * Verify trash to do icon
      */
-    public void verifyTrashToDoIcon(){
+    public void verifyTrashToDoIcon() {
         createToDoPage.verifyTrashToDoIcon();
     }
 
     /**
      * Verify default status trash to do icon
      */
-    public void verifyDefaultStatusTrashToDoIcon(){
+    public void verifyDefaultStatusTrashToDoIcon() {
         createToDoPage.verifyDefaultStatusTrashToDoIcon();
     }
 
     /**
      * Verify GUI and Close icon of delete confirm popup
      */
-    public void verifyGUIDeleteConfirmPopup(){
+    public void verifyGUIDeleteConfirmPopup() {
         createToDoPage.verifyGUIDeleteConfirmPopup();
     }
 
     /**
      * Verify work flow of "CheckAll" check box
      */
-    public void verifyCheckAllCheckBox(){
+    public void verifyCheckAllCheckBox() {
         createToDoPage.verifyCheckAllCheckBox();
     }
+
     /**
      * Verify work flow of delete button
      */
-    public void verifyWorkFlowOfDeleteButton(){
+    public void verifyWorkFlowOfDeleteButton() {
         createToDoPage.verifyWorkFlowOfDeleteButton();
     }
 
     /**
      * Verify work flow of cancel button
      */
-    public void verifyWorkFlowOfCancelButton(){
+    public void verifyWorkFlowOfCancelButton() {
         createToDoPage.verifyWorkFlowOfCancelButton();
     }
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
-    public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
+    public void clickCommentIconPerTaskName(String toDoTaskName) {
+        createToDoPage.selectToDoCommentIconByName(toDoTaskName);
+    }
+
+
+    /*
+    Vien add new method for PLAT 2326-2301 TO verify To-dos textbox
+     */
+    public void verifyTodosTextBox() throws InterruptedException {
+        getLogger().info("Verifying Todos Textbox...");
+        createToDoPage.verifyTodoTextbox_DefaultValue();
+        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifyTodoTextboxBorder_Default();
+        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
+        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
+        createToDoPage.verifyTodoTextbox_InputText();
+        createToDoPage.verifyTodoTextbox_MissingInput();
+        createToDoPage.verifyTodoTextbox_InputNumber();
+        createToDoPage.verifyTodoTextbox_InputSpecialChars();
+
+    }
+
+    public void verifyCategoryComboBox(){
+        getLogger().info("Verifying Category ComboBox...");
+        createToDoPage.verifyCategoryBox_DefaultValue();
+        createToDoPage.verifyBorderCategoryBox_WhileHovered();
+        getLogger().info("Trying to create some category items...");
+        createMultiCategories();
+
+
+
+    }
+
 }
 

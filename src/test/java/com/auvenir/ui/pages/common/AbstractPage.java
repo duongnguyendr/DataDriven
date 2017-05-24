@@ -67,7 +67,7 @@ public class AbstractPage {
     public static final String nullChars = "";
     public static final String categoryColor = "//*[@id='category-color']";
     public static final String categoryColorContainer = "//*[@id='category-color-container']/ul/li[4]";
-    public static final String dropdownCategoryToDoBulkDdl = "//*[@class='ui dropdown category todo-bulkDdl ']";
+    public static final String dropdownCategoryToDoBulkDdl = "//*[@class='ui dropdown category todo-bulkDdl']";
     public static final String dropdownCategoryToDoBulkDdlDiv1 = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]";
     public static final String popUpDivCategoryModel ="//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
@@ -705,7 +705,7 @@ public class AbstractPage {
             element.click();
             element.clear();
             element.sendKeys(text);
-            NXGReports.addStep("Send text: "+text+ "on element: "+ elementName, LogAs.PASSED, null);
+            NXGReports.addStep("Send text: "+text+ "on element: "+ elementName, LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " +elementName);
@@ -943,7 +943,7 @@ public class AbstractPage {
 
     public void clickToNewCategoryDllInList() throws Exception
     {
-        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdl));
+//        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdl));
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
         waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdlDiv1));
