@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.admin;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.utilities.GeneralUtilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -742,15 +743,15 @@ public class AdminLoginPage extends AbstractPage {
         Thread.sleep(10000);
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         WebElement getEleClientTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]"));
-        auvenirPage.toValidate(getEleClientTxt, "Client Text", "Displayed");
+        GeneralUtilities.toValidate(getEleClientTxt, "Client Text", "Displayed");
         WebElement getEleClientNameTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + ClientName + "')]"));
-        auvenirPage.toValidate(getEleClientNameTxt, "Client Name Text", "Displayed");
+        GeneralUtilities.toValidate(getEleClientNameTxt, "Client Name Text", "Displayed");
         WebElement getEleClientEmailTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]"));
-        auvenirPage.toValidate(getEleClientEmailTxt, "Client Email Text", "Displayed");
+        GeneralUtilities.toValidate(getEleClientEmailTxt, "Client Email Text", "Displayed");
         WebElement getEleClientDateCreatedTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + DateCreated + "')]"));
-        auvenirPage.toValidate(getEleClientDateCreatedTxt, "Client Date Created Text", "Displayed");
+        GeneralUtilities.toValidate(getEleClientDateCreatedTxt, "Client Date Created Text", "Displayed");
         WebElement getEleClientStatusDrpDwn = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + DateCreated + "')]//..//select"));
-        auvenirPage.toValidate(getEleClientStatusDrpDwn, "Client Status Drop Down", "Displayed");
+        GeneralUtilities.toValidate(getEleClientStatusDrpDwn, "Client Status Drop Down", "Displayed");
     }
 
 
@@ -816,5 +817,37 @@ public class AdminLoginPage extends AbstractPage {
     public void verifyAdminLoginPage() {
         waitForVisibleElement(eleAdminHdrTxt, "eleAdminHdrTxt");
         validateElementText(eleAdminHdrTxt, "Admin");
+    }
+
+    public void verifyAdminHeaderText() {
+        GeneralUtilities.toValidate(getEleAdminHdrTxt(), "Auvenir Header Text", "Displayed");
+    }
+
+    public void verifyAdminDashBoard() {
+        GeneralUtilities.toValidate(getEleViewCredentialsBtn(), "View Credentials Button", "Enabled");
+        GeneralUtilities.toValidate(getEleAuvenirUserCountTxt(), "Auvenir User Count Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuvenirUserTxt(), "Auvenir User Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuvenirUserImg(), "Auvenir User Image", "Displayed");
+        GeneralUtilities.toValidate(getEleAuditorsCountTxt(), "Auvenir Count Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuditorsTxt(), "Auditor Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuditorsImg(), "Auditor Image", "Displayed");
+        GeneralUtilities.toValidate(getEleBusinessesCountTxt(), "Businesses Count Text", "Displayed");
+        GeneralUtilities.toValidate(getEleBusinessesTxt(), "Businesses Text", "Displayed");
+        GeneralUtilities.toValidate(getEleBusinessesImg(), "Businesses Image", "Displayed");
+        GeneralUtilities.toValidate(getEleEngagementsCountTxt(), "Engagements Count Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEngagementsTxt(), "Engagements Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEngagementsImg(), "Engagements Image", "Displayed");
+    }
+
+    public void verifyUserTable() {
+        GeneralUtilities.toValidate(getEleNameTxt(), "Name Text", "Displayed");
+        GeneralUtilities.toValidate(getEleUserTypeTxt(), "User Type Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEmailTxt(), "Email Text", "Displayed");
+        GeneralUtilities.toValidate(getEleDateCreatedTxt(), "Date Created Text", "Displayed");
+        GeneralUtilities.toValidate(getEleStatusTxt(), "Status Text", "Displayed");
+    }
+
+    public void viewCredentials(){
+        getEleViewCredentialsBtn().click();
     }
 }

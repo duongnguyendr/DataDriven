@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.utilities.GeneralUtilities;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -396,7 +397,7 @@ public class AuvenirPage extends AbstractPage {
         return eleBySigningUpTxt;
     }
     /*@FindBy(xpath="//p[@class='audLand-jb-footTxt']//a[@href='/termsandconditions']")
-	private WebElement eleTermsofUseLnk;
+    private WebElement eleTermsofUseLnk;
 	public WebElement getEleTermsofUseLnk(){
 		return eleTermsofUseLnk;
 	}
@@ -516,7 +517,7 @@ public class AuvenirPage extends AbstractPage {
     public WebElement getEleAuvenirFooterImg() {
         return eleAuvenirFooterImg;
     }
-	
+
 	/*@FindBy(xpath="//a[contains(text(),'Join as a business')]")
 	private WebElement eleJoinAsABusinessLnk;
 	public WebElement getEleJoinAsABusinessLnk(){
@@ -616,97 +617,50 @@ public class AuvenirPage extends AbstractPage {
         return eleGoBtn;
     }
 
-
-    public void toValidate(WebElement element, String sExpectedText, String checkType) throws InvalidElementStateException {
-        getLogger().info("verify present of: " + sExpectedText);
-        getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        switch (checkType) {
-            case "Displayed":
-                try {
-                    element.isDisplayed();
-                    NXGReports.addStep(sExpectedText + " is displayed", LogAs.PASSED, null);
-                } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
-                    NXGReports.addStep(sExpectedText + " is not displayed", LogAs.FAILED, null);
-                }
-
-                break;
-            case "Enabled":
-                try {
-                    element.isEnabled();
-                    NXGReports.addStep(sExpectedText + " is enabled", LogAs.PASSED, null);
-                } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
-                    NXGReports.addStep(sExpectedText + " is not enabled", LogAs.FAILED, null);
-                }
-
-                break;
-            case "Selected":
-                try {
-                    element.isSelected();
-                    NXGReports.addStep(sExpectedText + " is selected", LogAs.PASSED, null);
-                } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
-                    NXGReports.addStep(sExpectedText + " is not selected", LogAs.FAILED, null);
-                }
-
-            case "ElementText":
-                try {
-                    element.getText().equals(sExpectedText);
-                    NXGReports.addStep(sExpectedText + " text is displayed", LogAs.PASSED, null);
-                } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
-                    NXGReports.addStep(sExpectedText + " text is displayed", LogAs.FAILED, null);
-                }
-                break;
-        }
-    }
-
-
     public void verifyHeader() {
         actions = new Actions(getDriver());
-        toValidate(getEleAuvenirLogoImg(), "Auvenir Logo Image", "Displayed");
-        toValidate(getEleUserNameTxt(), "User Name Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuvenirLogoImg(), "Auvenir Logo Image", "Displayed");
+        GeneralUtilities.toValidate(getEleUserNameTxt(), "User Name Text", "Displayed");
         actions.moveToElement(getEleUserNameDropDownImg()).release().perform();
-        toValidate(getEleUserNameDropDownImg(), "User Name Drop Down Image", "Displayed");
-        toValidate(getEleInboxImg(), "Inbox Image", "Displayed");
-        toValidate(getEleNotificationImg(), "Notification Image", "Displayed");
-        toValidate(getEleInitialsTxt(), "Initials Text", "Displayed");
-        toValidate(getEleUsernameDropDownTxt(), "User Name Drop Down Text", "Displayed");
-        toValidate(getEleSettingsLnk(), "Settings Link", "Displayed");
-        toValidate(getEleSignOutLnk(), "Sign Out Link", "Displayed");
+        GeneralUtilities.toValidate(getEleUserNameDropDownImg(), "User Name Drop Down Image", "Displayed");
+        GeneralUtilities.toValidate(getEleInboxImg(), "Inbox Image", "Displayed");
+        GeneralUtilities.toValidate(getEleNotificationImg(), "Notification Image", "Displayed");
+        GeneralUtilities.toValidate(getEleInitialsTxt(), "Initials Text", "Displayed");
+        GeneralUtilities.toValidate(getEleUsernameDropDownTxt(), "User Name Drop Down Text", "Displayed");
+        GeneralUtilities.toValidate(getEleSettingsLnk(), "Settings Link", "Displayed");
+        GeneralUtilities.toValidate(getEleSignOutLnk(), "Sign Out Link", "Displayed");
         actions.moveToElement(getEleAuvenirLogoImg()).release().perform();
     }
 
     public void verifyFooter() {
         try {
             if (getEleCareersImg().isDisplayed()) {
-                toValidate(getEleCareersImg(), "Careers Image", "Displayed");
-                toValidate(getEleCareersLnk(), "Careers link", "Displayed");
-                toValidate(getEleSupportImg(), "Support Image", "Displayed");
-                toValidate(getEleSupportLnk(), "Support Link", "Displayed");
-                toValidate(getEleLocatorImg(), "Locator Image", "Displayed");
-                toValidate(getEleTorontoCanadaLnk(), "Toronto Canada location Link", "Displayed");
-                toValidate(getElePhoneImg(), "Phone Image", "Displayed");
-                toValidate(getElePhoneNumberLnk(), "Phone number Link", "Displayed");
-                toValidate(getEleTermsOfServiceFtrLnk(), "Terms of Service - Link", "Displayed");
-                toValidate(getElePrivacyStatementFtrLnk(), "Privacy Statement - Link", "Displayed");
-                toValidate(getEleCookieFtrLnk(), "Cookie Notice footer - Link", "Displayed");
+                GeneralUtilities.toValidate(getEleCareersImg(), "Careers Image", "Displayed");
+                GeneralUtilities.toValidate(getEleCareersLnk(), "Careers link", "Displayed");
+                GeneralUtilities.toValidate(getEleSupportImg(), "Support Image", "Displayed");
+                GeneralUtilities.toValidate(getEleSupportLnk(), "Support Link", "Displayed");
+                GeneralUtilities.toValidate(getEleLocatorImg(), "Locator Image", "Displayed");
+                GeneralUtilities.toValidate(getEleTorontoCanadaLnk(), "Toronto Canada location Link", "Displayed");
+                GeneralUtilities.toValidate(getElePhoneImg(), "Phone Image", "Displayed");
+                GeneralUtilities.toValidate(getElePhoneNumberLnk(), "Phone number Link", "Displayed");
+                GeneralUtilities.toValidate(getEleTermsOfServiceFtrLnk(), "Terms of Service - Link", "Displayed");
+                GeneralUtilities.toValidate(getElePrivacyStatementFtrLnk(), "Privacy Statement - Link", "Displayed");
+                GeneralUtilities.toValidate(getEleCookieFtrLnk(), "Cookie Notice footer - Link", "Displayed");
 
 
-                toValidate(getEleFacebookImg(), "Facebook Image", "Displayed");
-                toValidate(getEleTwitterImg(), "Twitter Image", "Displayed");
-                toValidate(getEleLinkedinImg(), "Linkedin Image", "Displayed");
+                GeneralUtilities.toValidate(getEleFacebookImg(), "Facebook Image", "Displayed");
+                GeneralUtilities.toValidate(getEleTwitterImg(), "Twitter Image", "Displayed");
+                GeneralUtilities.toValidate(getEleLinkedinImg(), "Linkedin Image", "Displayed");
 
             }
         } catch (Exception e) {
-            toValidate(getEleTermsOfUserFtrLnk(), "Terms of Use footer - Link", "Displayed");
-            toValidate(getElePrivacyPolicyFtrLnk(), "Privacy Policy footer - Link", "Displayed");
-            toValidate(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - link", "Displayed");
+            GeneralUtilities.toValidate(getEleTermsOfUserFtrLnk(), "Terms of Use footer - Link", "Displayed");
+            GeneralUtilities.toValidate(getElePrivacyPolicyFtrLnk(), "Privacy Policy footer - Link", "Displayed");
+            GeneralUtilities.toValidate(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - link", "Displayed");
 
         }
 
-        toValidate(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
 
     }
 }

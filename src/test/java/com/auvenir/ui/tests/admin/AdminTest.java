@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.admin;
 
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
@@ -48,36 +49,42 @@ public class AdminTest extends AbstractRefactorService {
                     GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", 15);
             getLogger().info("Verify Admin logged in header.");
+
+
             auvenirPage.verifyHeader();
-            auvenirPage.toValidate(adminLoginPage.getEleAdminHdrTxt(), "Auvenir Header Text", "Displayed");
+            //
+            GeneralUtilities.toValidate(adminLoginPage.getEleAdminHdrTxt(), "Auvenir Header Text", "Displayed");
+            //
             getLogger().info("Verify View Credential Button.");
-            auvenirPage.toValidate(adminLoginPage.getEleViewCredentialsBtn(), "View Credentials Button", "Enabled");
-            auvenirPage.toValidate(adminLoginPage.getEleAuvenirUserCountTxt(), "Auvenir User Count Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAuvenirUserTxt(), "Auvenir User Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAuvenirUserImg(), "Auvenir User Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAuditorsCountTxt(), "Auvenir Count Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAuditorsTxt(), "Auditor Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAuditorsImg(), "Auditor Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleBusinessesCountTxt(), "Businesses Count Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleBusinessesTxt(), "Businesses Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleBusinessesImg(), "Businesses Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEngagementsCountTxt(), "Engagements Count Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEngagementsTxt(), "Engagements Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEngagementsImg(), "Engagements Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleNameTxt(), "Name Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleUserTypeTxt(), "User Type Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEmailTxt(), "Email Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDateCreatedTxt(), "Date Created Text", "Displayed");
-            //auvenirPage.toValidate(adminLoginPage.getEleAuvenirRepTxt(),"Auvenir Rep Text","Displayed");
-            //auvenirPage.toValidate(adminLoginPage.getEleCurrentCPATxt(),"Current CPA Text","Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleStatusTxt(), "Status Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleViewCredentialsBtn(), "View Credentials Button", "Enabled");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAuvenirUserCountTxt(), "Auvenir User Count Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAuvenirUserTxt(), "Auvenir User Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAuvenirUserImg(), "Auvenir User Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAuditorsCountTxt(), "Auvenir Count Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAuditorsTxt(), "Auditor Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAuditorsImg(), "Auditor Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleBusinessesCountTxt(), "Businesses Count Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleBusinessesTxt(), "Businesses Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleBusinessesImg(), "Businesses Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEngagementsCountTxt(), "Engagements Count Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEngagementsTxt(), "Engagements Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEngagementsImg(), "Engagements Image", "Displayed");
+            //
+            GeneralUtilities.toValidate(adminLoginPage.getEleNameTxt(), "Name Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleUserTypeTxt(), "User Type Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEmailTxt(), "Email Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDateCreatedTxt(), "Date Created Text", "Displayed");
+            //GeneralUtilities.toValidate(adminLoginPage.getEleAuvenirRepTxt(),"Auvenir Rep Text","Displayed");
+            //GeneralUtilities.toValidate(adminLoginPage.getEleCurrentCPATxt(),"Current CPA Text","Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleStatusTxt(), "Status Text", "Displayed");
             getLogger().info("Scroll down to see page footer.");
             actions.sendKeys(Keys.PAGE_DOWN);
+            //
             getLogger().info("Verify page footer.");
             auvenirPage.verifyFooter();
             adminLoginPage.getEleViewCredentialsBtn().click();
-            auvenirPage.toValidate(adminLoginPage.getEleAuthIDTxt(), "Auth ID key", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAPIKeyTxt(), "API Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAuthIDTxt(), "Auth ID key", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAPIKeyTxt(), "API Text", "Displayed");
             //adminLoginPage.getEleCredentialsCloseIcn().click(); //- Need to update
             Thread.sleep(5000);
 
@@ -117,26 +124,26 @@ public class AdminTest extends AbstractRefactorService {
             auvenirPage.getEleInboxImg().click();
             visibilityOfElementWait(adminLoginPage.getEleThereNoEmailsTxt(), "Inbox Icon", 15);
             getLogger().info("Check mail box.");
-            auvenirPage.toValidate(adminLoginPage.getEleThereNoEmailsTxt(), "There are no Emails - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleThereNoEmailsTxt(), "There are no Emails - Text", "Displayed");
             getLogger().info("Check View message button.");
-            auvenirPage.toValidate(adminLoginPage.getEleViewMessagesBtn(), "View Messages - Button", "Enabled");
+            GeneralUtilities.toValidate(adminLoginPage.getEleViewMessagesBtn(), "View Messages - Button", "Enabled");
             getLogger().info("Check My message text is displayed.");
-            auvenirPage.toValidate(adminLoginPage.getEleMyMessagesTxt(), "My Messages - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleMyMessagesTxt(), "My Messages - Text", "Displayed");
             adminLoginPage.getEleMyMessagesTxt().click();
             visibilityOfElementWait(adminLoginPage.getEleNewMessageBtn(), "New Messages", 15);
-            auvenirPage.toValidate(adminLoginPage.getEleNewMessageBtn(), "New Messages - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleInboxMsgImg(), "Inbox Messages - Images", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleYouDontHaveTxt(), "You dont have - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleNewMessageBtn(), "New Messages - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleInboxMsgImg(), "Inbox Messages - Images", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleYouDontHaveTxt(), "You dont have - Text", "Displayed");
             adminLoginPage.getEleNewMessageBtn().click();
-            auvenirPage.toValidate(adminLoginPage.getEleNewMessageTxt(), "New Message - Title", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEmailToTxt(), "To: - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEmailToTxtFld(), "Email To: - Text Field", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleSubjectTxt(), "Subject: - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleSubjectTxtFld(), "Subject - Text Field", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEmailBodyTxtFld(), "Email body - Text Field", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleSendBtn(), "Send - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAttachmentIcn(), "Attachment - Icon", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleMailCloseIcn(), "Mail Close - Icon", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleNewMessageTxt(), "New Message - Title", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEmailToTxt(), "To: - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEmailToTxtFld(), "Email To: - Text Field", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleSubjectTxt(), "Subject: - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleSubjectTxtFld(), "Subject - Text Field", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEmailBodyTxtFld(), "Email body - Text Field", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleSendBtn(), "Send - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAttachmentIcn(), "Attachment - Icon", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleMailCloseIcn(), "Mail Close - Icon", "Displayed");
             adminLoginPage.getEleMailCloseIcn().click();
 
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
@@ -170,13 +177,13 @@ public class AdminTest extends AbstractRefactorService {
             Thread.sleep(20000);
             auvenirPage.getEleNotificationImg().click();
             visibilityOfElementWait(adminLoginPage.getEleYouHaveNoNotificationTxt(), "You have no new - Text", 8);
-            auvenirPage.toValidate(adminLoginPage.getEleYouHaveNoNotificationTxt(), "you have no Notifications - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleViewAllLnk(), "View All - Link", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleYouHaveNoNotificationTxt(), "you have no Notifications - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleViewAllLnk(), "View All - Link", "Displayed");
             adminLoginPage.getEleViewAllLnk().click();
-            auvenirPage.toValidate(adminLoginPage.getEleMyNotificationsTxt(), "My Notification - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleNotificationsIcn(), "Notification - Icon", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleYouDontHaveNotificationTxt(), "My Messages - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleClickHereLnk(), "View Messages - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleMyNotificationsTxt(), "My Notification - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleNotificationsIcn(), "Notification - Icon", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleYouDontHaveNotificationTxt(), "My Messages - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleClickHereLnk(), "View Messages - Button", "Displayed");
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -208,26 +215,26 @@ public class AdminTest extends AbstractRefactorService {
             visibilityOfElementWait(adminLoginPage.getEleClickHereLnk(), "Click Here - Link", 20);
             adminLoginPage.getEleClickHereLnk().click();
             visibilityOfElementWait(adminLoginPage.getEleSettingsTxt(), "Settings Title", 20);
-            auvenirPage.toValidate(adminLoginPage.getEleSettingsTxt(), "Settings  - Title", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAccountLnk(), "Account  - Link", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDevicesLnk(), "Devices  - Link", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAccountSettingsTxt(), "Account Settings  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleFirstLastNameTxt(), "First and Last Name  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleFirstLastNameTxtFld(), "First and Last Name  - Text Field", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEmailAddressTxt(), "Email Address  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleEmailAddressTxtFld(), "Email Address  - Text Field", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getElePhomeNumberTxt(), "Phone Number  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getElePhoneNumberTxtFld(), "Phone Number  - Text Field", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getElePhotoImg(), "Photo  - Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleYourPhotoTxt(), "your Photo  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleUpdateBtn(), "Update   - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDeactivateLnk(), "Deactivate My Account - Link", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleSettingsTxt(), "Settings  - Title", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAccountLnk(), "Account  - Link", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDevicesLnk(), "Devices  - Link", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAccountSettingsTxt(), "Account Settings  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleFirstLastNameTxt(), "First and Last Name  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleFirstLastNameTxtFld(), "First and Last Name  - Text Field", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEmailAddressTxt(), "Email Address  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleEmailAddressTxtFld(), "Email Address  - Text Field", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getElePhomeNumberTxt(), "Phone Number  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getElePhoneNumberTxtFld(), "Phone Number  - Text Field", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getElePhotoImg(), "Photo  - Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleYourPhotoTxt(), "your Photo  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleUpdateBtn(), "Update   - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeactivateLnk(), "Deactivate My Account - Link", "Displayed");
             adminLoginPage.getEleDeactivateLnk().click();
-            auvenirPage.toValidate(adminLoginPage.getEleDeactivatAccTxt(), "Deactivate Account - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAlertIcn(), "Alert - Icon", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleYouareAboutTxt(), "You are about to - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleCancelBtn(), "Cancel   - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDeactivateBtn(), "Deactivate   - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeactivatAccTxt(), "Deactivate Account - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAlertIcn(), "Alert - Icon", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleYouareAboutTxt(), "You are about to - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleCancelBtn(), "Cancel   - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeactivateBtn(), "Deactivate   - Button", "Displayed");
             adminLoginPage.getEleCloseIcn().click();
             Thread.sleep(10000);
             //To verify settings page via clicking on user dropdown profile
@@ -236,9 +243,9 @@ public class AdminTest extends AbstractRefactorService {
 			auvenirPage.getEleUserNameDropDownImg().click();
 			auvenirPage.getEleSettingsLnk().click();
 			visibilityOfElementWait(adminLoginPage.getEleSettingsTxt(), "Settings Title",20);
-			auvenirPage.toValidate(adminLoginPage.getEleSettingsTxt(), "Settings  - Title","Displayed");
-			auvenirPage.toValidate(adminLoginPage.getEleAccountLnk(), "Account  - Link","Displayed");
-			auvenirPage.toValidate(adminLoginPage.getEleDevicesLnk(), "Devices  - Link","Displayed");*/
+			GeneralUtilities.toValidate(adminLoginPage.getEleSettingsTxt(), "Settings  - Title","Displayed");
+			GeneralUtilities.toValidate(adminLoginPage.getEleAccountLnk(), "Account  - Link","Displayed");
+			GeneralUtilities.toValidate(adminLoginPage.getEleDevicesLnk(), "Devices  - Link","Displayed");*/
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -274,22 +281,22 @@ public class AdminTest extends AbstractRefactorService {
             visibilityOfElementWait(adminLoginPage.getEleSettingsTxt(), "Settings Title", 10);
             adminLoginPage.getEleDevicesLnk().click();
             //visibilityOfElementWait(adminLoginPage.getEleMyDevicesTxt(), "My Devices",8);
-            auvenirPage.toValidate(adminLoginPage.getEleMyDevicesTxt(), "MyDevices  - Title", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleYouRegisteredTxt(), "You Have Registered  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDeviceImg(), "Devices  - Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDeviceCustomerNmTxt(), "Customer Name  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDeviceNameTxt(), "Device Type  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleViewBtn(), "View  - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleAddAnotherLnk(), "Add Another - Link", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleMyDevicesTxt(), "MyDevices  - Title", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleYouRegisteredTxt(), "You Have Registered  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeviceImg(), "Devices  - Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeviceCustomerNmTxt(), "Customer Name  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeviceNameTxt(), "Device Type  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleViewBtn(), "View  - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleAddAnotherLnk(), "Add Another - Link", "Displayed");
             adminLoginPage.getEleAddAnotherLnk().click();
             visibilityOfElementWait(adminLoginPage.getEleRegisterDeviceTxt(), "Settings Title", 20);
-            auvenirPage.toValidate(adminLoginPage.getEleRegisterDeviceTxt(), "Register a New Device  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDownloadAuvenirTxt(), "Download the Auvenir  - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleTextMeBtn(), "Text me a Link  - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleRegisterMobileImg(), "Register Mobile  - Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDownloadAppStoreImg(), "Download App store - Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleGetItGooglePlayImg(), "Google Play - Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getElePopupCloseIcn(), "Register Device Close - Icn", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleRegisterDeviceTxt(), "Register a New Device  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDownloadAuvenirTxt(), "Download the Auvenir  - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleTextMeBtn(), "Text me a Link  - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleRegisterMobileImg(), "Register Mobile  - Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDownloadAppStoreImg(), "Download App store - Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleGetItGooglePlayImg(), "Google Play - Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getElePopupCloseIcn(), "Register Device Close - Icn", "Displayed");
 
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
@@ -326,17 +333,17 @@ public class AdminTest extends AbstractRefactorService {
             visibilityOfElementWait(adminLoginPage.getEleSettingsTxt(), "Settings Title", 10);
             adminLoginPage.getEleDevicesLnk().click();
             adminLoginPage.getEleViewBtn().click();
-            auvenirPage.toValidate(adminLoginPage.getEleCustomerNameTxt(), "Customer Name - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDeviceViewImg(), "Device - Image", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDeviceNameTxt(), "Device Name - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleOSTxt(), "Device OS - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleBrowserTxt(), "Browser - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleLastUsedTxt(), "Last Used: - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDisconnectDeviceBtn(), "Disconnect Devices - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDisconnectthisDeviceTxt(), "Disconnect this device - Text", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleCancelDisconnectBtn(), "Cancel - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleDisconnectBtn(), "Disconnect - Button", "Displayed");
-            auvenirPage.toValidate(adminLoginPage.getEleCloseIcn(), "Disconnect this device Close - Icon", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleCustomerNameTxt(), "Customer Name - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeviceViewImg(), "Device - Image", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDeviceNameTxt(), "Device Name - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleOSTxt(), "Device OS - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleBrowserTxt(), "Browser - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleLastUsedTxt(), "Last Used: - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDisconnectDeviceBtn(), "Disconnect Devices - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDisconnectthisDeviceTxt(), "Disconnect this device - Text", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleCancelDisconnectBtn(), "Cancel - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleDisconnectBtn(), "Disconnect - Button", "Displayed");
+            GeneralUtilities.toValidate(adminLoginPage.getEleCloseIcn(), "Disconnect this device Close - Icon", "Displayed");
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -370,13 +377,13 @@ public class AdminTest extends AbstractRefactorService {
             switchToWindow();
             Thread.sleep(5000);
             Assert.assertTrue(getDriver().getCurrentUrl().equals(sTOSurl), "Terms of Service page is not displayed");
-            auvenirPage.toValidate(auvenirPage.getEleTOSTitleTxt(), "Terms of Service - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleEffectiveTxt(), "Effective: 16th Jan  - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleTheseTermsTxt(), "These terms of service  - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleVisitDeloitteLnk(), "Visit DEloitte - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleTOSTitleTxt(), "Terms of Service - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleEffectiveTxt(), "Effective: 16th Jan  - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleTheseTermsTxt(), "These terms of service  - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleVisitDeloitteLnk(), "Visit DEloitte - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
 
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -408,12 +415,12 @@ public class AdminTest extends AbstractRefactorService {
             Thread.sleep(5000);
             switchToWindow();
             Assert.assertTrue(getDriver().getCurrentUrl().equals(sPrivacyurl), "Privacy Statement page is not displayed");
-            auvenirPage.toValidate(auvenirPage.getElePrivacyTitleTxt(), "Privacy Statement - Title", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getElePrivacyTOSLnk(), "Privacy - TOS - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getElePrivacyCookiesLnk(), "Privacy Cookies - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getElePrivacyTitleTxt(), "Privacy Statement - Title", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getElePrivacyTOSLnk(), "Privacy - TOS - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getElePrivacyCookiesLnk(), "Privacy Cookies - Link", "Displayed");
             //driver.switchTo().window(AbstractRefactorService.newWin).close();
 
         } catch (AssertionError e) {
@@ -444,13 +451,13 @@ public class AdminTest extends AbstractRefactorService {
             auvenirPage.getEleCookieNoticeFtrLnk().click();
             switchToWindow();
             Assert.assertTrue(getDriver().getCurrentUrl().equals(sCookieurl), "Cookie Notice page page is not displayed");
-            auvenirPage.toValidate(auvenirPage.getEleCookieNoticeTitleTxt(), "Cookie Notice - Title", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleAuvenirUsesTxt(), "Last Revised - Text", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleAboutCookiesLnk(), "About Cookies - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleCookieNoticeTitleTxt(), "Cookie Notice - Title", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleAuvenirUsesTxt(), "Last Revised - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleAboutCookiesLnk(), "About Cookies - Link", "Displayed");
             //driver.switchTo().window(AbstractRefactorService.newWin).close();
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
