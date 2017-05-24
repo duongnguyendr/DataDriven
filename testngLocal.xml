@@ -6,11 +6,14 @@
     </listeners>
     <test name="Regression" preserve-order="true">
         <classes>
+            <!-- Init data -->
+            <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
+
             <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
             <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
 
             <!--
-             <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <class name="com.auvenir.ui.tests.SmokeTest"/>
             <class name="com.auvenir.ui.tests.AdminTest"/>
             <class name="com.auvenir.ui.tests.SupportTest"/>
             <class name="com.auvenir.ui.tests.CareerTest"/>
@@ -38,8 +41,8 @@
             <class name="com.auvenir.rests.api.tests.AccountTest"/>
             <class name="com.auvenir.rests.api.tests.InstitutionTest"/>
             <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
-			<!--<class name="com.auvenir.ui.tests.auditor.AddDeleteIconTest"/>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.AddDeleteIconTest"/>-->
 
-	    </classes>
-	 </test>  	
+        </classes>
+    </test>
 </suite>
