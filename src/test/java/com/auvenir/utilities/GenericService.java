@@ -61,6 +61,7 @@ public class GenericService {
     public static int iSkippedCount = 0;
     static public String sDirPath = System.getProperty("user.dir");
     public static String sTestDataFile = sDirPath + "\\TestData.xlsx";
+    public final static String MONGODBPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\MongoDB.properties";
     public static String sConfigFile = null;
     public static String sExecutionDate = null;
 

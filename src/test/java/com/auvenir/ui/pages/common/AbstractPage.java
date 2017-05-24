@@ -4,10 +4,7 @@ package com.auvenir.ui.pages.common;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 //import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
@@ -31,7 +28,6 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
@@ -201,6 +197,15 @@ public class AbstractPage {
 
     @FindBy(xpath = "//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]")
     WebElement cancelDeletedToDoButtonEle;
+
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show']/div[@class = 'fl-a-dismiss auvicon-line-circle-ex'] ")
+    WebElement successToastMesCloseIconEle;
+
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-orange fl-a-container-show']//p[@class = 'fl-a-text']")
+    WebElement warningToastMesDescriptionEle;
+
+    @FindBy(xpath = "//*[@class = 'header-userName']")
+    WebElement userNameHeaderEle;
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
@@ -396,24 +401,6 @@ public class AbstractPage {
             NXGReports.addStep("Element : " + elementName +"is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
-    }
-
-    public boolean validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
-    {
-        getLogger().info("verify style with "+ attributeName);
-        try
-        {
-        	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
-            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
-            return true;
-        }
-        catch (Exception e)
-        {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep(element + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return false;
-        }
-
     }
 
     public boolean validateMaxlenght(WebElement webElement, String webElementName, int maxLength) {
@@ -1831,13 +1818,13 @@ public class AbstractPage {
     }
 
     /**
-     * Find the index(position) of Web Element in the list Web Element by text
+     * Find the index(position) of Web Element in the list Web Element by attribute value
      * @param listElement List WebElement
-     * @param  textValue String text which is compared with each WebElements.
+     * @param textValue   String text which is compared with each WebElements.
      * @return i if the WebElement is matched, otherwise return -1.
      *
      */
-    public int findElementByValue(List<WebElement> listElement, String textValue) {
+    public int findElementByAttributeValue(List<WebElement> listElement, String textValue) {
         try {
             String actualAttributeValue;
             for (int i = 0; i < listElement.size(); i++) {
@@ -1972,4 +1959,218 @@ public class AbstractPage {
         }
 
     }
+
+    /**
+     * Find the index(position) of Web Element in the list Web Element by text value
+     *
+     * @param listElement List WebElement
+     * @param textValue   String text which is compared with each WebElements.
+     * @return i if the WebElement is matched, otherwise return -1.
+     */
+    public int findElementByText(List<WebElement> listElement, String textValue) {
+        try {
+            String actualTextValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualTextValue = listElement.get(i).getText().trim();
+                if (actualTextValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
+                }
+            }
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+        }
+    }
+
+    /**
+     * Find the index(position) of Web Element in the list Web Element by attribute value
+     *
+     * @param listElement List WebElement
+     * @param textValue   String text which is compared with each WebElements.
+     * @param attributeName   String attributeName which attribute will be found with get Attribute method.
+     * @return i if the WebElement is matched, otherwise return -1.
+     */
+    public int findElementByAttribute(List<WebElement> listElement, String textValue, String attributeName) {
+        try {
+            String actualAttributeValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualAttributeValue = listElement.get(i).getAttribute(attributeName).trim();
+                if (actualAttributeValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
+                }
+            }
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+        }
+    }
+
+    public boolean closeSuccessToastMes(){
+        try {
+            getLogger().info("Close the Success Toast Message.");
+            boolean result;
+            waitForClickableOfElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+            result = clickElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+            Assert.assertTrue(result, "The Toast Message should be closed.");
+            NXGReports.addStep("The Toast Message is closed successfully", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return true;
+
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Cannot close the Success Toast Message.");
+            NXGReports.addStep("The Toast Message is closed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    public String getDate(int day) {
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DATE, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return simpleDateFormat.format(date.getTime());
+    }
+
+    public String getDate(int day, String formatDate) {
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DATE, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate);
+        return simpleDateFormat.format(date.getTime());
+    }
+
+    public String getCurrentDayNumberSuffix() {
+        Date date = new Date();
+        SimpleDateFormat formatDayOfMonth  = new SimpleDateFormat("d");
+        int day = Integer.parseInt(formatDayOfMonth.format(date));
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to wait text value of Element is changed.
+     */
+    public boolean waitForTextValueChanged(WebElement element, String elementName, String textValue) {
+        getLogger().info("Try to waitForTextValueChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    String actualTextValue = element.getText().trim();
+                    System.out.println("Actual Displayed Value: " + actualTextValue);
+                    System.out.println("Expected Displayed Value: " + textValue);
+                    if (actualTextValue.equals(textValue))
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("Text Value of element '%s' is changed to '%s'", elementName, textValue), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("CSS Value is not changed");
+            NXGReports.addStep(String.format("Text Value of element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to wait the size of Element is changed.
+     */
+    public boolean waitForSizeListElementChanged(List<WebElement> element, String elementName, int sizeListElement) {
+        getLogger().info("Try to waitForSizeListElementChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    int actualSizeListElement = element.size();
+                    System.out.println("Actual Size of List Element: " + actualSizeListElement);
+                    System.out.println("Expected Size of List Element: " + sizeListElement);
+                    if (actualSizeListElement == sizeListElement)
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("Size of list element '%s' is changed to '%d'", elementName, sizeListElement), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            getLogger().info("Size of Element is not changed");
+            NXGReports.addStep(String.format("Size of list element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to verify the content of Toast Message.
+     */
+    public boolean verifyContentOfToastMessage(WebElement element, String elementName, String expectedContent) {
+        getLogger().info("Try to Verify Content Of Toast Message: " + elementName);
+        try {
+            boolean result;
+            waitForVisibleElement(element, elementName);
+            result = validateElementText(element, expectedContent);
+            Assert.assertTrue(result, "The content of toast message is displayed unsuccessfully.");
+            return true;
+        } catch (Exception e) {
+            getLogger().info("The content of toast message is displayed unsuccessfully.");
+            return false;
+        }
+    }
+
+    /**
+     * Verify the content of warning toast message is displayed.
+     * @param expectedContent The content is expected to displayed on Warning Message.
+     * @return true if the content is displayed, otherwise it returns false.
+     */
+    public boolean verifyContentOfWarningToastMessage(String expectedContent) {
+        getLogger().info("Try to Verify Content Of Warning Toast Message ");
+        return  verifyContentOfToastMessage(warningToastMesDescriptionEle, "Warning Toast Message Content", expectedContent);
+    }
+
+    /**
+     * Get the Current Username Logged on.
+     * @return String UserName of Current User Logged on.
+     */
+    public String getCurrentUserNameLogOn() {
+        getLogger().info("Get the Current Username Logged on. ");
+        validateDisPlayedElement(userNameHeaderEle, "User Name Header.");
+        return userNameHeaderEle.getText();
+    }
+
+
 }

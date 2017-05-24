@@ -30,7 +30,7 @@ public class AuditorEditCategoriesPage extends AbstractPage {
 
     public AuditorEditCategoriesPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
 
@@ -125,8 +125,8 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     public void verifyCancelBtn() throws Exception {
         getLogger().info("Verifying Cancel button..");
         try {
-            validateCssValueElement(eleEditCategoryCancelBtn, "background-color", "rgba(151, 147, 147, 1)");
-            validateCssValueElement(eleEditCategoryCancelBtn, "color", "rgba(255, 255, 255, 1)");
+            validateCSSValueElement(eleEditCategoryCancelBtn, "background-color", "rgba(151, 147, 147, 1)");
+            validateCSSValueElement(eleEditCategoryCancelBtn, "color", "rgba(255, 255, 255, 1)");
             validateEnabledElement(eleEditCategoryCancelBtn, "Cancel Button");
 
             NXGReports.addStep("Cancel displayed correctly", LogAs.PASSED, null);
@@ -166,8 +166,8 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         try {
             getLogger().info("Verifying Default Save button...");
             validateDisPlayedElement(eleEditCategorySaveBtn, "Save");
-            validateCssValueElement(eleEditCategorySaveBtn, "background-color", "rgba(89, 155, 161, 1)");
-            validateCssValueElement(eleEditCategorySaveBtn, "color", "rgba(255, 255, 255, 1)");
+            validateCSSValueElement(eleEditCategorySaveBtn, "background-color", "rgba(89, 155, 161, 1)");
+            validateCSSValueElement(eleEditCategorySaveBtn, "color", "rgba(255, 255, 255, 1)");
             getLogger().info("Verifying Default Save button is disable...");
             Assert.assertEquals(eleEditCategorySaveBtn.getAttribute("disabled"), "true");
             NXGReports.addStep("Default Save button displayed correctly", LogAs.PASSED, null);

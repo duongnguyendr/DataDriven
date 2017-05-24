@@ -185,8 +185,8 @@ public class AuditorCreateToDoService extends AbstractService {
 //	}
 
     public void navigateToDoListPage() throws Exception {
-        this.createToDoPage.navigateToEngagementPage();
-//        this.createToDoPage.navigateToToDoList();
+        //this.createToDoPage.navigateToEngagementPage();
+        this.createToDoPage.navigateToToDoList();
     }
 
 
@@ -653,6 +653,13 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
+     * Click on trash delete icon
+     */
+    public void clickOnTrashIcon(){
+        createToDoPage.clickOnTrashIcon();
+    }
+
+    /**
      * Verify GUI and Close icon of delete confirm popup
      */
     public void verifyGUIDeleteConfirmPopup() {
@@ -660,31 +667,111 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
-     * Verify work flow of "CheckAll" check box
+     * Check or Uncheck CheckAll check box control
+     * @param isCheck : true check | false is un check
      */
-    public void verifyCheckAllCheckBox() {
-        createToDoPage.verifyCheckAllCheckBox();
+    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
+    }
+    /**
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
+     */
+    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
     }
 
     /**
-     * Verify work flow of delete button
+     * Check or Uncheck all check box control
+     * @param isCheck : true check | false is un check
      */
-    public void verifyWorkFlowOfDeleteButton() {
-        createToDoPage.verifyWorkFlowOfDeleteButton();
+    public void checkOrUnCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
+    }
+    /**
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
+     */
+     public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
+     }
+    /**
+     * Click on delete button popup
+     */
+    public void clickOnDeleteButtonOnPopup(){
+        createToDoPage.clickOnDeleteButtonOnPopup();
     }
 
     /**
-     * Verify work flow of cancel button
+     * Click on cancel button popup
      */
-    public void verifyWorkFlowOfCancelButton() {
-        createToDoPage.verifyWorkFlowOfCancelButton();
+    public void clickOnCancelButtonOnPopup(){
+        createToDoPage.clickOnCancelButtonOnPopup();
     }
+
+    /**
+     * Check ToDo item is exist
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoName : ToDo name need check
+     */
+    public void checkToDoIsExists(boolean isExists, String ToDoName){
+        if(!createToDoPage.checkToDoIsExists(isExists,ToDoName)){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+    /**
+     * Check ToDo item list is exists
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoNames : ToDo name list need check
+     */
+    public void checkToDoListIsExists(boolean isExists, List<String> ToDoNames){
+        if(!createToDoPage.checkToDoListIsExists(isExists,ToDoNames)){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+    /**
+     * Check all ToDo item is delete
+     */
+    public void checkAllToDoIsDelete(){
+        if(!createToDoPage.checkAllToDoIsDelete()){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
-    public void clickCommentIconPerTaskName(String toDoTaskName) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName);
+    public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
+
+    public void verifyDefaultHintValueInputComment() {
+        createToDoPage.verifyDefaultHintValueInputComment();
+    }
+    public void verifyCancelCompleteMarkPopup() {
+        createToDoPage.verifyCancelCompleteMarkPopup();
     }
 
+    public void closeSuccessToastMes() { createToDoPage.closeSuccessToastMes(); }
+    public void verifyBoxTitleComment() { createToDoPage.verifyGUIBoxTitleComment(); }
+    public void verifyGUICommentList(String commentContent) { createToDoPage.verifyGUICommentList(commentContent); }
+    public void verifyInputAComment(String commentContent) { createToDoPage.verifyInputAComment(commentContent); }
+    public void clickPostComment() { createToDoPage.clickPostComment(); }
+    public int getNumberOfListComment() { return createToDoPage.getNumberOfListComment(); }
+
+    public void verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
+        createToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
+    }
+
+    public void verifyClickOnInputCommentField() { createToDoPage.verifyClickOnInputCommentField(); }
+
+    public void verifyUserInputNoContentComment() { createToDoPage.verifyUserInputNoContentComent();}
+
+    public void verifyInputMaxLenghtContentComment(int maxLength) { createToDoPage.verifyInputMaxLenghtContentComment(maxLength); }
+
+    public void verifyInputSpecialCharactersContentComment() { createToDoPage.verifyInputSpecialCharactersContentComment(); }
+
+    public void verifyGUIPostButton() { createToDoPage.verifyGUIPostButton(); }
 
     /*
     Vien add new method for PLAT 2326-2301 TO verify To-dos textbox

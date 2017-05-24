@@ -16,7 +16,7 @@ public class ClientLoginPage extends AbstractPage {
 
     public ClientLoginPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//h3[text()='Are you a financial auditor?']")

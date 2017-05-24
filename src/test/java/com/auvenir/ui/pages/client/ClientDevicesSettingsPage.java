@@ -16,8 +16,7 @@ public class ClientDevicesSettingsPage extends AbstractPage {
     public ClientDevicesSettingsPage(Logger logger, WebDriver driver)
     {
         super(logger,driver);
-        //PageFactory.initElements(driver, this);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+
     }
     @FindBy(xpath = "//div[contains(text(),'My Devices')]")
     private WebElement myDevicesTextEle;

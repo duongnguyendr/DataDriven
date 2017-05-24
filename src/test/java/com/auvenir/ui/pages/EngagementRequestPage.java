@@ -12,7 +12,6 @@ public class EngagementRequestPage extends AbstractPage {
 
     public EngagementRequestPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
     }
 
     @FindBy(id = "dashboardUsername")

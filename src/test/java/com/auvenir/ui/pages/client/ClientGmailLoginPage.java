@@ -13,7 +13,7 @@ public class ClientGmailLoginPage extends AbstractPage {
 
     public ClientGmailLoginPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//a[text()='Sign In']")

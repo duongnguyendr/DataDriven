@@ -12,7 +12,7 @@ public class CareerPage extends AbstractPage {
 
     public CareerPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
 

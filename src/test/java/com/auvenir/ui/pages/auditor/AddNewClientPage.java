@@ -14,7 +14,7 @@ public class AddNewClientPage extends AbstractPage {
 
     public AddNewClientPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//h1[contains(text(),'Add New Client')]")

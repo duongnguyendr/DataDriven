@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 public class AuditorLoginPage extends AbstractPage {
     public AuditorLoginPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
 

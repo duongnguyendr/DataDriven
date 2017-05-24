@@ -26,7 +26,7 @@ public class GmailPage extends AbstractPage {
 		public GmailPage(Logger logger,WebDriver driver)
 		{
 			super(logger,driver);
-			PageFactory.initElements(driver, this);
+
 		}	
 		
 		/*@FindBy(xpath = "//a[text()='Sign In']")
