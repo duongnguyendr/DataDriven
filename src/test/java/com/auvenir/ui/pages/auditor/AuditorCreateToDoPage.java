@@ -8,8 +8,8 @@ import java.util.List;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
-import com.auvenir.utilities.extentionLibraries.MongoDB;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -34,7 +34,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public AuditorCreateToDoPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindAll(@FindBy(xpath = "//div[@class='e-widget-content']//div[@class='e-widget-options']"))
@@ -282,8 +282,32 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@class='newRow']/td[7]/img")
     private List<WebElement> commentIconToDoListEle;
 
-    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
+    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@class='comment-input']")
     private WebElement typeCommentFieldEle;
+
+    @FindBy(xpath = "//*[@id='comment-box']/p")
+    private WebElement commentboxTitleEle;
+
+    @FindBy(xpath = "//*[@id='comment-box']/p//span[@class='details-comment-count commentNumber']")
+    private WebElement commentboxCountNumberEle;
+
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
+    private List<WebElement> listCommentItemEle;
+
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/img[contains(@class,'user-profile-pic')]")
+    private List<WebElement> userIconCommenterEle;
+
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/p[contains(@class,'detCommentUser')]")
+    private List<WebElement> userNameCommenterEle;
+
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/time[@class='comment-time']")
+    private List<WebElement> commentTimeEle;
+
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/div[@class='detComment']")
+    private List<WebElement> descriptionCommentEle;
+
+    @FindBy(xpath = "//*[@id='comment-button']")
+    private WebElement postCommentButton;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -536,9 +560,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyNewCategoryCreateCancelButton() {
         verifyColorCategoryCancelButton();
         verifyColorCategoryCreateButton();
-        //verifyClickCategoryCancelButton();
         verifyNotCompleteCreateCategory();
         verifyExistedCategory();
+        verifyClickCategoryCancelButton();
     }
 
     public void createToDoTask(String toDoName) throws Exception {
@@ -632,7 +656,7 @@ Vien added new switch case 22/5/2017
         waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
         clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
         //Wait for new task is displayed.
-        Thread.sleep(smallTimeOut);
+        waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
     }
 
     public void verifyToDoNameInputLimitCharacter(int maxLength) throws Exception {
@@ -812,8 +836,7 @@ Vien added new switch case 22/5/2017
     }
 
     public void navigateToToDoList() throws Exception {
-        waitForClickableOfElement(eleToDoLnk, "To Do Link menu");
-        eleToDoLnk.click();
+        clickElement(eleToDoLnk, "To Do Link menu");
     }
 
     public void checkSearchData() {
@@ -1371,7 +1394,6 @@ Vien added new switch case 22/5/2017
 
     public void clickCloseButtonOnPopup() {
         getLogger().info("Click Close Button on PopUp windows.");
-        closeSuccessToastMes();
         WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
         hoverElement(closePopupBtnEle, "Close Delete ToDo button");
         waitForClickableOfElement(closePopupBtnEle, "Close Delete ToDo Button");
@@ -2497,15 +2519,13 @@ Vien added new switch case 22/5/2017
      * get 'engagements' collection(table on mongo)
      */
     public DBCollection getEngagementCollection() {
-        DBCollection dbCollection = null;
         try {
             //TODO move db config to properties file
-            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
-            dbCollection = db.getCollection("auvenir", "engagements");
+            return MongoDBService.getCollection("auvenir", "engagements");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return dbCollection;
+        return null;
     }
 
     /**
@@ -2515,8 +2535,7 @@ Vien added new switch case 22/5/2017
         DBCollection dbCollection = null;
         try {
             //TODO move db config to properties file
-            MongoDB db = new MongoDB("34.205.90.145", 27017, "TestDB");
-            dbCollection = db.getCollection("auvenir", "users");
+            return MongoDBService.getCollection("auvenir", "users");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -2533,7 +2552,7 @@ Vien added new switch case 22/5/2017
      */
     public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
         getLogger().info("Verify To-Do complete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         //TODO get from properties file
         if (jsonObject.get("completed").toString().equals(status)) {
             NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
@@ -2553,10 +2572,10 @@ Vien added new switch case 22/5/2017
      */
     public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
         getLogger().info("Verify To-Do delete status on database.");
-        String idAssignee = MongoDB.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
+        String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
 
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
 
         //TODO get from properties file
@@ -2578,7 +2597,7 @@ Vien added new switch case 22/5/2017
      */
     public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) {
         getLogger().info("Verify To-Do delete status on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
         //TODO get from properties file
         if (jsonObject.get("status").toString().equals(status)) {
@@ -2635,5 +2654,98 @@ Vien added new switch case 22/5/2017
         clickCancelButtonOnPopup();
     }
     /**-----end of duong.nguyen PLAT-2305-----*/
+
+    public void verifyGUIBoxTitleComment() {
+        try{
+            boolean result;
+            final String count = ""+ listCommentItemEle.size();
+            final String defaultBoxTitleComment = "Comments" + "\n" + count;
+            getLogger().info("Verify Box's Title Comment");
+            waitForVisibleElement(commentboxTitleEle,"Comment Box Title.");
+            validateDisPlayedElement(commentboxTitleEle,"Comment Box Title.");
+            result = validateElementText(commentboxCountNumberEle, count);
+            Assert.assertTrue(result, "Box's Title Count Number Comment is displayed unsuccessfully");
+            result = validateElementText(commentboxTitleEle, defaultBoxTitleComment);
+            Assert.assertTrue(result, "Box's Title Comment is displayed unsuccessfully");
+            NXGReports.addStep("Verify Box's Title Comment", LogAs.PASSED, null);
+        }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Box's Title Comment is displayed unsuccessfully");
+            NXGReports.addStep("TestScript Failed: Verify Box's Title Comment", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyGUICommentList(String commentContent){
+        try{
+            boolean result;
+            getLogger().info("Verify GUI of Comment List");
+            final String currentDay = "" + getDate(0,"EEEE, MMM dd") + getCurrentDayNumberSuffix();
+            waitForVisibleElement(userIconCommenterEle.get(userIconCommenterEle.size()-1),"User Icon of Commenter");
+            result = validateDisPlayedElement(userIconCommenterEle.get(userIconCommenterEle.size()-1),"User Icon of Commenter");
+            Assert.assertTrue(result, "User Icon of Commenter is displayed unsuccessfully");
+            validateDisPlayedElement(userNameCommenterEle.get(userNameCommenterEle.size()-1),"User Name of Commenter");
+            result = validateElementText(userNameCommenterEle.get(userNameCommenterEle.size() - 1), "auditor30@gmail.com");
+            Assert.assertTrue(result, "User Name Commenter is displayed unsuccessfully");
+            result = validateCssValueElement(userNameCommenterEle.get(userNameCommenterEle.size() - 1), "font-weight", "bold");
+            Assert.assertTrue(result, "User Name Commenter is NOT displayed with Bold text.");
+            validateDisPlayedElement(commentTimeEle.get(commentTimeEle.size()-1),"Time of Comment Field.");
+            result = validateElementText(commentTimeEle.get(commentTimeEle.size()-1), currentDay);
+            Assert.assertTrue(result, "Time of Comment Field is displayed unsuccessfully.");
+            result = verifyCommentContentIsDisplayed(commentContent);
+            Assert.assertTrue(result, "Content of Comment is displayed unsuccessfully.");
+            NXGReports.addStep("Verify GUI of Comment List", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("GUI of Comment List is displayed unsuccessfully");
+            NXGReports.addStep("TestScript Failed: Verify GUI of Comment List", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public boolean verifyCommentContentIsDisplayed(String commentContent){
+        try{
+            boolean result;
+            getLogger().info("Verify Comment Content is displayed");
+            validateDisPlayedElement(descriptionCommentEle.get(descriptionCommentEle.size()-1),"Comment Content Field");
+            result = validateElementText(descriptionCommentEle.get(descriptionCommentEle.size()-1), commentContent);
+            Assert.assertTrue(result, "Comment Content is displayed unsuccessfully.");
+            NXGReports.addStep("Verify Comment Content is displayed", LogAs.PASSED, null);
+            return true;
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Comment Content is displayed unsuccessfully");
+            NXGReports.addStep("TestScript Failed: Verify Comment Content is displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    public boolean verifyInputAComment(String commentContent) {
+        try {
+            boolean result;
+            getLogger().info("Verify Input a Comment");
+            waitForVisibleElement(typeCommentFieldEle, "Comment Input field");
+            sendKeyTextBox(typeCommentFieldEle, commentContent, "Comment Input field");
+            result = validateAttributeElement(typeCommentFieldEle, "value", commentContent);
+            Assert.assertTrue(result, "Input a Comment is unsuccessfully");
+            NXGReports.addStep("Verify Input Comment", LogAs.PASSED, null);
+            return true;
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Input a Comment is unsuccessfully");
+            NXGReports.addStep("TestScript Failed: Verify Input a Comment", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    public void clickPostComment() {
+        getLogger().info("Click Post Comment Button");
+        int count = Integer.parseInt(commentboxCountNumberEle.getText()) + 1;
+        waitForVisibleElement(postCommentButton, "Comment Input field");
+        clickElement(postCommentButton, "Comment Input field");
+        waitForTextValueChanged(commentboxCountNumberEle, "Box's Title Count Number Comment", count + "");
+    }
 }
 

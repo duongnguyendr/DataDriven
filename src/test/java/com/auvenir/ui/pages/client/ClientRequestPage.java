@@ -15,7 +15,7 @@ public class ClientRequestPage extends AbstractPage {
 
     public ClientRequestPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//span[contains(text(),'All Requests')]")

@@ -25,7 +25,6 @@ public class AdminAccountSettingsPage extends AbstractPage {
 
     public AdminAccountSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
     }
 
     @FindBy(xpath = "//img[@src='images/logos/auvenir/auvenir.svg']")

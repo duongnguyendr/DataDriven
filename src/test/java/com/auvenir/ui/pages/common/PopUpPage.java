@@ -56,7 +56,7 @@ public class PopUpPage extends AbstractPage {
     public PopUpPage(Logger logger, WebDriver driver)
     {
         super(logger,driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     /**

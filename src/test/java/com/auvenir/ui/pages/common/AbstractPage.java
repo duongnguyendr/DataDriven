@@ -4,10 +4,7 @@ package com.auvenir.ui.pages.common;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 //import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
@@ -31,7 +28,6 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
@@ -2057,4 +2053,66 @@ public class AbstractPage {
         }
     }
 
+    public String getDate(int day) {
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DATE, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return simpleDateFormat.format(date.getTime());
+    }
+
+    public String getDate(int day, String formatDate) {
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DATE, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate);
+        return simpleDateFormat.format(date.getTime());
+    }
+
+    public String getCurrentDayNumberSuffix() {
+        Date date = new Date();
+        SimpleDateFormat formatDayOfMonth  = new SimpleDateFormat("d");
+        int day = Integer.parseInt(formatDayOfMonth.format(date));
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+    /**
+     @Description In order to wait text value of Element is changed.
+     @param element element defined on page class
+     @param elementName Name of element that we want to verify
+     */
+    public boolean waitForTextValueChanged(WebElement element, String elementName, String textValue) {
+        getLogger().info("Try to waitForCssValueChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    String actualTextValue = element.getText().trim();
+                    System.out.println("Actual Displayed Value: " + actualTextValue);
+                    System.out.println("Expected Displayed Value: " + textValue);
+                    if (actualTextValue.equals(textValue))
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("Text Value of element '%s' is changed to '%s'", elementName, textValue), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("CSS Value is not changed");
+            NXGReports.addStep(String.format("Text Value of element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
 }

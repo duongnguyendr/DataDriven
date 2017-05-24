@@ -16,7 +16,7 @@ public class AuditorDevicesSettingsPage extends AbstractPage {
 
     public AuditorDevicesSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+
 
     }
 

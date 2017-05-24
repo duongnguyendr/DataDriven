@@ -21,7 +21,7 @@ public class ClientSettingsPage extends AbstractPage {
 
     public ClientSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+
     }
 
     @FindBy(id = "link-setting-account")

@@ -16,7 +16,7 @@ public class ClientAccountSettingsPage extends AbstractPage {
 
     public ClientAccountSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+
     }
 
     @FindBy(xpath = "//div[contains(text(),'Account Settings')]")

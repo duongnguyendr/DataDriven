@@ -16,7 +16,7 @@ public class ClientNotificationsSettingsPage extends AbstractPage {
 
     public ClientNotificationsSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        //PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+
     }
 
     @FindBy(xpath = "//div[contains(text(),'Notifications Settings')]")
