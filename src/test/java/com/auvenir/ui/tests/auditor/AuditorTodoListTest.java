@@ -759,7 +759,10 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 26, enabled = true, description = "[PLAT 2299]-Verify To-do Details Commenting")
+    /**
+     * Scenarios : [PLAT 2299] - Verify To-do Details Commenting
+     */
+    @Test(priority = 26, enabled = false, description = "Verify To-do Details Commenting")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -769,8 +772,8 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagment2299");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagment2299");
+            auditorEngagementService.viewEngagementDetailsPage("engagement2299");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement2299");
             // Will edit when the code is updated with the new xpath and business.
 //            auditorTodoListService.verifyTodoListPage();
             auditorCreateToDoService.navigateToDoListPage();
@@ -780,11 +783,18 @@ public class AuditorTodoListTest extends AbstractTest {
 //            auditorCreateToDoService.closeSuccessToastMes();
             auditorCreateToDoService.selectToDoTaskName("Task2299");
             auditorCreateToDoService.clickCommentIconPerTaskName("Task2299");
-            auditorCreateToDoService.verifyBoxTitleComment();
-            auditorCreateToDoService.verifyDefaultHintValueInputComment();
-            auditorCreateToDoService.verifyInputAComment("comment Task2299");
+            auditorCreateToDoService.verifyInputAComment("comment Task22991");
+            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
             auditorCreateToDoService.clickPostComment();
-            auditorCreateToDoService.verifyGUICommentList("comment Task2299");
+            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, "comment Task22991");
+            auditorCreateToDoService.verifyBoxTitleComment();
+            auditorCreateToDoService.verifyClickOnInputCommentField();
+            auditorCreateToDoService.verifyGUIPostButton();
+            auditorCreateToDoService.verifyDefaultHintValueInputComment();
+            auditorCreateToDoService.verifyGUICommentList("comment Task22991");
+            auditorCreateToDoService.verifyUserInputNoContentComment();
+            auditorCreateToDoService.verifyInputMaxLenghtContentComment(512);
+            auditorCreateToDoService.verifyInputSpecialCharactersContentComment();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
         } catch (Exception e) {

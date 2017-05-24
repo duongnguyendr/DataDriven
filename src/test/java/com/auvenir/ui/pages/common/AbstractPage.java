@@ -201,6 +201,12 @@ public class AbstractPage {
     @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show']/div[@class = 'fl-a-dismiss auvicon-line-circle-ex'] ")
     WebElement successToastMesCloseIconEle;
 
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-orange fl-a-container-show']//p[@class = 'fl-a-text']")
+    WebElement warningToastMesDescriptionEle;
+
+    @FindBy(xpath = "//*[@class = 'header-userName']")
+    WebElement userNameHeaderEle;
+
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
         validateDisPlayedElement(eleTermsOfServiceLnk,"eleAuvenirIncTxt");
@@ -395,24 +401,6 @@ public class AbstractPage {
             NXGReports.addStep("Element : " + elementName +"is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
-    }
-
-    public boolean validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
-    {
-        getLogger().info("verify style with "+ attributeName);
-        try
-        {
-        	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
-            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
-            return true;
-        }
-        catch (Exception e)
-        {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep(element + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return false;
-        }
-
     }
 
     public boolean validateMaxlenght(WebElement webElement, String webElementName, int maxLength) {
@@ -2087,12 +2075,12 @@ public class AbstractPage {
     }
 
     /**
-     @Description In order to wait text value of Element is changed.
-     @param element element defined on page class
-     @param elementName Name of element that we want to verify
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to wait text value of Element is changed.
      */
     public boolean waitForTextValueChanged(WebElement element, String elementName, String textValue) {
-        getLogger().info("Try to waitForCssValueChanged: " + elementName);
+        getLogger().info("Try to waitForTextValueChanged: " + elementName);
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(new ExpectedCondition<Boolean>() {
@@ -2115,4 +2103,74 @@ public class AbstractPage {
             return false;
         }
     }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to wait the size of Element is changed.
+     */
+    public boolean waitForSizeListElementChanged(List<WebElement> element, String elementName, int sizeListElement) {
+        getLogger().info("Try to waitForSizeListElementChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    int actualSizeListElement = element.size();
+                    System.out.println("Actual Size of List Element: " + actualSizeListElement);
+                    System.out.println("Expected Size of List Element: " + sizeListElement);
+                    if (actualSizeListElement == sizeListElement)
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("Size of list element '%s' is changed to '%d'", elementName, sizeListElement), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            getLogger().info("Size of Element is not changed");
+            NXGReports.addStep(String.format("Size of list element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to verify the content of Toast Message.
+     */
+    public boolean verifyContentOfToastMessage(WebElement element, String elementName, String expectedContent) {
+        getLogger().info("Try to Verify Content Of Toast Message: " + elementName);
+        try {
+            boolean result;
+            waitForVisibleElement(element, elementName);
+            result = validateElementText(element, expectedContent);
+            Assert.assertTrue(result, "The content of toast message is displayed unsuccessfully.");
+            return true;
+        } catch (Exception e) {
+            getLogger().info("The content of toast message is displayed unsuccessfully.");
+            return false;
+        }
+    }
+
+    /**
+     * Verify the content of warning toast message is displayed.
+     * @param expectedContent The content is expected to displayed on Warning Message.
+     * @return true if the content is displayed, otherwise it returns false.
+     */
+    public boolean verifyContentOfWarningToastMessage(String expectedContent) {
+        getLogger().info("Try to Verify Content Of Warning Toast Message ");
+        return  verifyContentOfToastMessage(warningToastMesDescriptionEle, "Warning Toast Message Content", expectedContent);
+    }
+
+    /**
+     * Get the Current Username Logged on.
+     * @return String UserName of Current User Logged on.
+     */
+    public String getCurrentUserNameLogOn() {
+        getLogger().info("Get the Current Username Logged on. ");
+        validateDisPlayedElement(userNameHeaderEle, "User Name Header.");
+        return userNameHeaderEle.getText();
+    }
+
+
 }
