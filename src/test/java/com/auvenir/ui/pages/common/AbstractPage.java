@@ -68,7 +68,6 @@ public class AbstractPage {
     public static final String popUpDivCategoryModel ="//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
 
-
     public AbstractPage(Logger logger,WebDriver driver){
         this.driver = driver;
         this.logger = logger;
@@ -155,7 +154,6 @@ public class AbstractPage {
 
     @FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement dropdownCategoryEle;
-
     @FindBy(id="todo-table")
     private WebElement tblXpathTodoTable;
     @FindBy(xpath="//*[@id=\"category-dropdown-menu\"]/div/button")
@@ -1205,6 +1203,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryTitle()
     {
         boolean isCheckTitle = false;
@@ -1233,6 +1234,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryDefaultValue()
     {
         boolean isCheckDetaultValue = false;
@@ -1263,6 +1267,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyHoverClickCategoryName()
     {
         boolean isCheckBorderColor = false;
@@ -1292,6 +1299,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyShowAllTextCategoryName()
     {
         boolean isCheckShowAllText = false;
@@ -1323,6 +1333,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameRequiredData()
     {
         boolean isCheckRequiredData = false;
@@ -1357,6 +1370,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameMaxLength()
     {
         boolean isCheckMaxLength = false;
@@ -1384,6 +1400,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameInputNumber()
     {
         boolean isCheckMaxLength = false;
@@ -1427,6 +1446,9 @@ public class AbstractPage {
         return results;
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameSpecialCharacter()
     {
         boolean isCheckSpecialCharacter = false;
@@ -1460,6 +1482,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryColorAllQuantityColor()
     {
         boolean isCheckAllQuantityColor = false;
@@ -1489,6 +1514,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyChoosedCategoryColor()
     {
         boolean isCheckChoosedColor = false;
@@ -1516,6 +1544,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void chooseCategoryColorByColorName(String colorName)
     {
         boolean isCheckAllQuantityColor = false;
@@ -1551,6 +1582,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyColorCategoryCancelButton()
     {
         boolean isCheckColorCancelButton = false;
@@ -1559,9 +1593,7 @@ public class AbstractPage {
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             clearTextBox(categoryNameFieldOnFormEle, "clear text categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, "CreateCancel", "send key to categoryNameFieldOnFormEle");
-            //waitForVisibleElement(eleEditCategoryCancelBtn, "wait for visible eleEditCategoryCancelBtn");
-            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, backgroundColor, "rgba(151, 147, 147, 1)");
-            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, color, "rgba(255, 255, 255, 1)");
+            isCheckColorCancelButton = verifyColorBackgroundTextBtn(eleEditCategoryCancelBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
             if(isCheckColorCancelButton) {
                 NXGReports.addStep("Verify color of Category cancel button", LogAs.PASSED, null);
             }
@@ -1581,6 +1613,31 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     * buttonNeedCheck : for example eleEditCategoryCancelBtn
+     * backgroundColor: for example "rgba(151, 147, 147, 1)"
+     * color: for example "rgba(255, 255, 255, 1)"
+     */
+    public boolean verifyColorBackgroundTextBtn(WebElement buttonNeedCheck,String backgroundColorBtn, String textColor)
+    {
+        boolean isCheckColorCancelButton = false;
+        getLogger().info("Verify background and text color of the button " + buttonNeedCheck);
+        try
+        {
+            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, backgroundColor, backgroundColorBtn);
+            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, color, textColor);
+        }
+        catch(Exception ex)
+        {
+            logger.info(ex.getMessage());
+        }
+        return isCheckColorCancelButton;
+    }
+
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyColorCategoryCreateButton()
     {
         boolean isCheckColorCreateButton = false;
@@ -1607,6 +1664,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyClickCategoryCancelButton()
     {
         boolean isCheckCancelClick = false;
@@ -1639,6 +1699,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyNotCompleteCreateCategory()
     {
         boolean isCheckCreateCateFail = false;
@@ -1668,6 +1731,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyExistedCategory()
     {
         boolean isCheckExistedCategory = false;
