@@ -2,6 +2,7 @@ package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
 import com.auvenir.utilities.MongoDBService;
+import com.auvenir.utilities.extentionLibraries.Excel;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
@@ -52,7 +53,7 @@ public class ConsumerTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get owner from Customer ID")
     public void getCustomerFromCustomerID() throws Exception {
         try {
-            sData = MongoDBService.toReadExcelData("Consumer1", "consumers");
+            sData = Excel.toReadExcelData("Consumer1", "consumers");
             Response response = given().get(baseUrl+"/v1/consumer/"+sData[4]);
             if (response.getStatusCode() == 200) {
                 getLogger().info("Request successfully with code: " + response.getStatusCode());
