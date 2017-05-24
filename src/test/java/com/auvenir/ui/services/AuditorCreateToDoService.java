@@ -755,7 +755,20 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyGUICommentList(String commentContent) { createToDoPage.verifyGUICommentList(commentContent); }
     public void verifyInputAComment(String commentContent) { createToDoPage.verifyInputAComment(commentContent); }
     public void clickPostComment() { createToDoPage.clickPostComment(); }
+    public int getNumberOfListComment() { return createToDoPage.getNumberOfListComment(); }
 
+    public void verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
+        createToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
+    }
 
+    public void verifyClickOnInputCommentField() { createToDoPage.verifyClickOnInputCommentField(); }
+
+    public void verifyUserInputNoContentComment() { createToDoPage.verifyUserInputNoContentComent();}
+
+    public void verifyInputMaxLenghtContentComment(int maxLength) { createToDoPage.verifyInputMaxLenghtContentComment(maxLength); }
+
+    public void verifyInputSpecialCharactersContentComment() { createToDoPage.verifyInputSpecialCharactersContentComment(); }
+
+    public void verifyGUIPostButton() { createToDoPage.verifyGUIPostButton(); }
 }
 
