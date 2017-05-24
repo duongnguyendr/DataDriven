@@ -2639,7 +2639,7 @@ Vien added new switch case 22/5/2017
      */
     public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status){
         getLogger().info("Verify Completed field updated on database.");
-        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         if (jsonObject.get("completed").toString().equals(status)){
             NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
         } else {
