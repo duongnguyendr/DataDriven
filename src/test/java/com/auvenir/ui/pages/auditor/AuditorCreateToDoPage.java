@@ -34,7 +34,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public AuditorCreateToDoPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindAll(@FindBy(xpath = "//div[@class='e-widget-content']//div[@class='e-widget-options']"))

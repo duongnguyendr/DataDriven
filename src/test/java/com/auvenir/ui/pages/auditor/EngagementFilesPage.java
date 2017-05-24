@@ -12,7 +12,6 @@ public class EngagementFilesPage extends AbstractPage {
 
     public EngagementFilesPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
     }
 
     @FindBy(id = "module-filemanager-titleSpan")

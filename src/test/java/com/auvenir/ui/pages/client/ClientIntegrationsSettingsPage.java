@@ -16,8 +16,7 @@ public class ClientIntegrationsSettingsPage extends AbstractPage {
 
     public ClientIntegrationsSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        //PageFactory.initElements(driver, this);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
+
     }
 
     @FindBy(xpath = "//div[contains(text(),'Google Drive')]")

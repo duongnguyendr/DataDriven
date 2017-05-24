@@ -13,7 +13,7 @@ public class AuditorActivityPage extends AbstractPage {
 
     public AuditorActivityPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//h4[text()='Activity Feed']")

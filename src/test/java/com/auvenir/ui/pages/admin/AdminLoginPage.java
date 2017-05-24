@@ -24,7 +24,6 @@ public class AdminLoginPage extends AbstractPage {
 
     public AdminLoginPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
     }
 
     //@FindBy(xpath = "//span[@id='pageHeadBackText']")

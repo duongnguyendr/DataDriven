@@ -30,7 +30,7 @@ public class AuditorEditCategoriesPage extends AbstractPage {
 
     public AuditorEditCategoriesPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
 

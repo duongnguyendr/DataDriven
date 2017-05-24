@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 public class ClientHomePage extends AbstractPage {
     public ClientHomePage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//span[contains(text(),'My Audits')]")

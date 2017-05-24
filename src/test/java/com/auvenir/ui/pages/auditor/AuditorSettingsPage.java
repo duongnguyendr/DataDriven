@@ -12,7 +12,7 @@ public class AuditorSettingsPage extends AbstractPage {
 
     public AuditorSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//div[@id='m-s-navSystemAuditorHead-id']")
