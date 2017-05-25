@@ -10,6 +10,7 @@ import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
+
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -282,7 +283,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@class='newRow']/td[7]/img")
     private List<WebElement> commentIconToDoListEle;
 
-    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@class='comment-input']")
+    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
     private WebElement typeCommentFieldEle;
 
     @FindBy(xpath = "//*[@id='comment-box']/p")
@@ -308,6 +309,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='comment-button']")
     private WebElement postCommentButton;
+
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img")
+    private WebElement todoListAddNewRequestImg;
+
+    @FindBy(xpath = "//*[@id='add-request-btn']")
+    private WebElement totoPageAddRequestBtn;
+
+    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[1]/input")
+    private WebElement findRequestEmpty1;
+
+    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[2]/input")
+    private WebElement findRequestEmpty2;
+
+    @FindBy (xpath = "//*[@id='todoDetailsName']")
+    private WebElement popupToDoDetailName;
+
+    @FindBy (xpath = "//p[contains(text(),'Request name must not be empty')]")
+    private WebElement messageEmptyRequest;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -538,10 +557,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void verifyAddNewCategoryPopupTitle() {
         verifyCategoryTitle();
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void verifyNewCategoryNameTextbox() {
         verifyCategoryDefaultValue();
         verifyHoverClickCategoryName();
@@ -552,11 +577,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyCategoryNameSpecialCharacter();
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void verifyNewCategoryColorCombobox() {
         verifyCategoryColorAllQuantityColor();
         verifyChoosedCategoryColor();
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void verifyNewCategoryCreateCancelButton() {
         verifyColorCategoryCancelButton();
         verifyColorCategoryCreateButton();
@@ -614,8 +645,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /*
-Vien added new switch case 22/5/2017
- */
+        Vien added new switch case 22/5/2017
+    */
     public void createToDoTask(int numberOfNewCategories) throws Exception {
         getLogger().info("Run createToDoTask()");
         todoNamePage = "To-do name " + randomNumber();
@@ -664,6 +695,9 @@ Vien added new switch case 22/5/2017
         validateMaxlenght(toDoNameInputEle, "ToDo Name Input", maxLength);
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void verifyToDoNameInputSpecialCharacter(String value) throws Exception {
         waitForVisibleElement(toDoNameInputEle, "eleToDoNameInput");
         sendKeyTextBox(toDoNameInputEle, value, "To Do Name Input");
@@ -672,6 +706,9 @@ Vien added new switch case 22/5/2017
         validateElementText(toDoNameErrorLabelEle, "Not a valid name.");
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void verifyDisableToDoSaveIcon() {
         try {
             boolean result;
@@ -2868,6 +2905,248 @@ Vien added new switch case 22/5/2017
             getLogger().info(error);
             NXGReports.addStep("TestScript Failed: Verifying GUI Post button", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyAddNewRequest()
+    {
+        verifyPopupColorAddRequestBtn();
+        verifyClickAddRequestBtn();
+        verifyDefaultToDoNameNewRequestPopup();
+        verifyShowAllTextNewRequestPopup();
+        verifyMaxLengthNewRequestPopup();
+        verifyEmptyNewRequestPopup();
+        verifyInputNumberToNewRequestPopup();
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void clickToDoListAddNewRequest()
+    {
+        waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
+        clickElement(todoListAddNewRequestImg, "click to todoListAddNewRequestImg");
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyPopupColorAddRequestBtn()
+    {
+        getLogger().info("Verify the background and text color of the Add request button.");
+        boolean isCheckColor = false;
+        try {
+            clickToDoListAddNewRequest();
+            isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
+            if(isCheckColor)
+            {
+                NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the background and text color of the Add request button.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the background and text color of the Add request button.", LogAs.FAILED, null);
+        }
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyClickAddRequestBtn()
+    {
+        getLogger().info("Verify to click the add request button and show the empty request");
+        boolean isCheckRequestEmpty = false;
+        try {
+            waitForClickableOfLocator(By.xpath("//*[@id='add-request-btn']"));
+            clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            waitForClickableOfElement(findRequestEmpty1, "wait for findRequestEmpty1");
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            waitForClickableOfElement(findRequestEmpty2, "wait for findRequestEmpty2");
+            isCheckRequestEmpty = clickElement(findRequestEmpty2, "click to findRequestEmpty2");
+            if(isCheckRequestEmpty)
+            {
+                NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.FAILED, null);
+        }
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyDefaultToDoNameNewRequestPopup()
+    {
+        getLogger().info("Verify the default ToDo name on new request popup.");
+        boolean isCheckColor = false;
+        try {
+            clickElement(popupToDoDetailName, "click to popupToDoDetailName");
+
+            String todoDetailText = getTextByJavaScripts(popupToDoDetailName);
+            getLogger().info("todoDetailText = " + todoDetailText);
+            if(todoDetailText.equals("Untitled Todo"))
+            {
+                isCheckColor = true;
+            }
+            if(isCheckColor)
+            {
+                NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED, null);
+        }
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyShowAllTextNewRequestPopup()
+    {
+        getLogger().info("Verify to show all text in the new request on popup.");
+        boolean isCheckColor = false;
+        try {
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            clearTextBox(findRequestEmpty1, "clear findRequestEmpty1");
+            String enterRequestName = "Add new request " + randomNumber();
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            sendKeyTextBox(findRequestEmpty1, enterRequestName, "add text to findRequestEmpty1");
+            String todoShowAllText = getTextByJavaScripts(findRequestEmpty1);
+            if(todoShowAllText.equals(enterRequestName))
+            {
+                isCheckColor = true;
+            }
+            if(isCheckColor)
+            {
+                NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, null);
+        }
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyMaxLengthNewRequestPopup()
+    {
+        getLogger().info("Verify the max length of new request.");
+        boolean isCheckMaxLength = false;
+        try {
+            boolean ischeckvalidateMaxlenght = validateMaxlenght(findRequestEmpty1, "findRequestEmpty1", 101);
+            getLogger().info("ischeckvalidateMaxlenght = " + ischeckvalidateMaxlenght);
+            clickElement(findRequestEmpty2, "click to findRequestEmpty2");
+            isCheckMaxLength = waitForVisibleOfLocator(By.xpath("//p[contains(text(),'Request name can not have more than 100 characters')]"));
+            getLogger().info("isCheckMaxLength = " + isCheckMaxLength);
+            if(isCheckMaxLength)
+            {
+                NXGReports.addStep("Verify the max length of new request.", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the max length of new request.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the max length of new request.", LogAs.FAILED, null);
+        }
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyEmptyNewRequestPopup()
+    {
+        getLogger().info("Verify the empty new request on popup.");
+        boolean isCheckEmptyRequest = false;
+        try {
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            clickElement(findRequestEmpty2, "click to findRequestEmpty2");
+            isCheckEmptyRequest = waitForVisibleOfLocator(By.xpath("//p[contains(text(),'Request name must not be empty')]"));
+            getLogger().info("isCheckEmptyRequest = " + isCheckEmptyRequest);
+            String emptyMessageAddRequest = messageEmptyRequest.getText();
+            getLogger().info("emptyMessageAddRequest = " + emptyMessageAddRequest);
+            if(emptyMessageAddRequest.equals("Request name must not be empty"))
+            {
+                NXGReports.addStep("Verify the empty new request on popup.", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the empty new request on popup.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the empty new request on popup.", LogAs.FAILED, null);
+        }
+    }
+
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyInputNumberToNewRequestPopup()
+    {
+        getLogger().info("Verify to input number to new request in the add new request popup.");
+        try {
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            sendKeyTextBox(findRequestEmpty1, numberSequence, "send number to findRequestEmpty1");
+            String numberText = getTextByJavaScripts(findRequestEmpty1);
+            getLogger().info("numberText = " + numberText);
+            if(numberText.equals(numberSequence))
+            {
+                NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED, null);
         }
     }
 }

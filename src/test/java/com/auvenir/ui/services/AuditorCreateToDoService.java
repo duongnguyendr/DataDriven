@@ -757,6 +757,12 @@ public class AuditorCreateToDoService extends AbstractService {
     public void clickPostComment() { createToDoPage.clickPostComment(); }
     public int getNumberOfListComment() { return createToDoPage.getNumberOfListComment(); }
 
+    /**
+     * Author minh.nguyen
+     */
+    public void createNewRequestOnToDoPage() {
+        createToDoPage.verifyAddNewRequest();
+    }
     public void verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
         createToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
     }
