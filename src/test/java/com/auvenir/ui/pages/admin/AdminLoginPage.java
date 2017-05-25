@@ -847,7 +847,160 @@ public class AdminLoginPage extends AbstractPage {
         GeneralUtilities.toValidate(getEleStatusTxt(), "Status Text", "Displayed");
     }
 
-    public void viewCredentials(){
+    public void viewAndVerifyCredentials() {
         getEleViewCredentialsBtn().click();
+
+//        GeneralUtilities.toValidate(getEleAuthIDTxt(), "Auth ID key", "Displayed");
+//        GeneralUtilities.toValidate(getEleAPIKeyTxt(), "API Text", "Displayed");
+    }
+
+    public void verifyDropMenuMessage() {
+        visibilityOfElementWait(getEleThereNoEmailsTxt(), "Inbox Icon", 15);
+        getLogger().info("Check mail box.");
+        GeneralUtilities.toValidate(getEleThereNoEmailsTxt(), "There are no Emails - Text", "Displayed");
+        getLogger().info("Check View message button.");
+        GeneralUtilities.toValidate(getEleViewMessagesBtn(), "View Messages - Button", "Enabled");
+        getLogger().info("Check My message text is displayed.");
+        GeneralUtilities.toValidate(getEleMyMessagesTxt(), "My Messages - Text", "Displayed");
+    }
+
+    public void verifyBodyMessagePage() {
+        visibilityOfElementWait(getEleNewMessageBtn(), "New Messages", 15);
+        GeneralUtilities.toValidate(getEleNewMessageBtn(), "New Messages - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleInboxMsgImg(), "Inbox Messages - Images", "Displayed");
+        GeneralUtilities.toValidate(getEleYouDontHaveTxt(), "You dont have - Text", "Displayed");
+    }
+
+    public void clickNewMessage() {
+        getEleNewMessageBtn().click();
+    }
+
+    public void verifyNewMessagePopup() {
+        GeneralUtilities.toValidate(getEleNewMessageTxt(), "New Message - Title", "Displayed");
+        GeneralUtilities.toValidate(getEleEmailToTxt(), "To: - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEmailToTxtFld(), "Email To: - Text Field", "Displayed");
+        GeneralUtilities.toValidate(getEleSubjectTxt(), "Subject: - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleSubjectTxtFld(), "Subject - Text Field", "Displayed");
+        GeneralUtilities.toValidate(getEleEmailBodyTxtFld(), "Email body - Text Field", "Displayed");
+        GeneralUtilities.toValidate(getEleSendBtn(), "Send - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleAttachmentIcn(), "Attachment - Icon", "Displayed");
+        GeneralUtilities.toValidate(getEleMailCloseIcn(), "Mail Close - Icon", "Displayed");
+    }
+
+    public void closeNewMessagePopup() {
+        getEleMailCloseIcn().click();
+    }
+
+    public void verifyDropMenuNotification() {
+        visibilityOfElementWait(getEleYouHaveNoNotificationTxt(), "You have no new - Text", 8);
+        GeneralUtilities.toValidate(getEleYouHaveNoNotificationTxt(), "you have no Notifications - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleViewAllLnk(), "View All - Link", "Displayed");
+    }
+
+    public void clickViewAllNotification() {
+        getEleViewAllLnk().click();
+    }
+
+    public void verifyBodyNotificationPage() {
+        GeneralUtilities.toValidate(getEleMyNotificationsTxt(), "My Notification - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleNotificationsIcn(), "Notification - Icon", "Displayed");
+        GeneralUtilities.toValidate(getEleYouDontHaveNotificationTxt(), "My Messages - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleClickHereLnk(), "View Messages - Button", "Displayed");
+    }
+
+    public void navigateToSettingAccountPage() {
+        auvenirPage.getEleNotificationImg().click();
+        getEleViewAllLnk().click();
+        visibilityOfElementWait(getEleClickHereLnk(), "Click Here - Link", 20);
+        getEleClickHereLnk().click();
+    }
+
+    public void verifySettingAccountPage() {
+        visibilityOfElementWait(getEleSettingsTxt(), "Settings Title", 20);
+        GeneralUtilities.toValidate(getEleSettingsTxt(), "Settings  - Title", "Displayed");
+        GeneralUtilities.toValidate(getEleAccountLnk(), "Account  - Link", "Displayed");
+        GeneralUtilities.toValidate(getEleDevicesLnk(), "Devices  - Link", "Displayed");
+        GeneralUtilities.toValidate(getEleAccountSettingsTxt(), "Account Settings  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleFirstLastNameTxt(), "First and Last Name  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleFirstLastNameTxtFld(), "First and Last Name  - Text Field", "Displayed");
+        GeneralUtilities.toValidate(getEleEmailAddressTxt(), "Email Address  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEmailAddressTxtFld(), "Email Address  - Text Field", "Displayed");
+        GeneralUtilities.toValidate(getElePhomeNumberTxt(), "Phone Number  - Text", "Displayed");
+        GeneralUtilities.toValidate(getElePhoneNumberTxtFld(), "Phone Number  - Text Field", "Displayed");
+        GeneralUtilities.toValidate(getElePhotoImg(), "Photo  - Image", "Displayed");
+        GeneralUtilities.toValidate(getEleYourPhotoTxt(), "your Photo  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleUpdateBtn(), "Update   - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleDeactivateLnk(), "Deactivate My Account - Link", "Displayed");
+    }
+
+    public void clickDeactiveLink() {
+        getEleDeactivateLnk().click();
+    }
+
+    public void verifyDeactivePopup() {
+        GeneralUtilities.toValidate(getEleDeactivatAccTxt(), "Deactivate Account - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAlertIcn(), "Alert - Icon", "Displayed");
+        GeneralUtilities.toValidate(getEleYouareAboutTxt(), "You are about to - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleCancelBtn(), "Cancel   - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleDeactivateBtn(), "Deactivate   - Button", "Displayed");
+    }
+
+    public void closeDeactivePopup() {
+        getEleCloseIcn().click();
+    }
+
+    public void navigateToSettingDevicesPage() {
+        visibilityOfElementWait(auvenirPage.getEleNotificationImg(), "Notification Icon", 10);
+        auvenirPage.getEleNotificationImg().click();
+        visibilityOfElementWait(getEleViewAllLnk(), "Notification Icon", 10);
+        getEleViewAllLnk().click();
+        visibilityOfElementWait(getEleClickHereLnk(), "Notification Icon", 10);
+        getEleClickHereLnk().click();
+        visibilityOfElementWait(getEleSettingsTxt(), "Settings Title", 10);
+        getEleDevicesLnk().click();
+    }
+
+    public void verifySettingDevicesPage() {
+        GeneralUtilities.toValidate(getEleMyDevicesTxt(), "MyDevices  - Title", "Displayed");
+        GeneralUtilities.toValidate(getEleYouRegisteredTxt(), "You Have Registered  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleDeviceImg(), "Devices  - Image", "Displayed");
+        GeneralUtilities.toValidate(getEleDeviceCustomerNmTxt(), "Customer Name  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleDeviceNameTxt(), "Device Type  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleViewBtn(), "View  - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleAddAnotherLnk(), "Add Another - Link", "Displayed");
+    }
+
+    public void addAnotherDeviceLink() {
+        getEleAddAnotherLnk().click();
+    }
+
+    public void verifyAddAnotherPopup() {
+        visibilityOfElementWait(getEleRegisterDeviceTxt(), "Settings Title", 20);
+        GeneralUtilities.toValidate(getEleRegisterDeviceTxt(), "Register a New Device  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleDownloadAuvenirTxt(), "Download the Auvenir  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleTextMeBtn(), "Text me a Link  - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleRegisterMobileImg(), "Register Mobile  - Image", "Displayed");
+        GeneralUtilities.toValidate(getEleDownloadAppStoreImg(), "Download App store - Image", "Displayed");
+        GeneralUtilities.toValidate(getEleGetItGooglePlayImg(), "Google Play - Image", "Displayed");
+        GeneralUtilities.toValidate(getElePopupCloseIcn(), "Register Device Close - Icn", "Displayed");
+    }
+
+    public void navigateToSettingDevicesDisconnect() {
+        navigateToSettingDevicesPage();
+        getEleViewBtn().click();
+    }
+
+    public void verifySettingDevicesDisconnectPopup() {
+        GeneralUtilities.toValidate(getEleCustomerNameTxt(), "Customer Name - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleDeviceViewImg(), "Device - Image", "Displayed");
+        GeneralUtilities.toValidate(getEleDeviceNameTxt(), "Device Name - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleOSTxt(), "Device OS - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleBrowserTxt(), "Browser - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleLastUsedTxt(), "Last Used: - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleDisconnectDeviceBtn(), "Disconnect Devices - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleDisconnectthisDeviceTxt(), "Disconnect this device - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleCancelDisconnectBtn(), "Cancel - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleDisconnectBtn(), "Disconnect - Button", "Displayed");
+        GeneralUtilities.toValidate(getEleCloseIcn(), "Disconnect this device Close - Icon", "Displayed");
     }
 }

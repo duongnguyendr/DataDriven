@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GeneralUtilities;
+import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -519,7 +520,7 @@ public class AuvenirPage extends AbstractPage {
     }
 
 	/*@FindBy(xpath="//a[contains(text(),'Join as a business')]")
-	private WebElement eleJoinAsABusinessLnk;
+    private WebElement eleJoinAsABusinessLnk;
 	public WebElement getEleJoinAsABusinessLnk(){
 		return eleJoinAsABusinessLnk;
 	}
@@ -617,6 +618,11 @@ public class AuvenirPage extends AbstractPage {
         return eleGoBtn;
     }
 
+    /**
+     * Refactored by huy.huynh on 24/05/2017.
+     * Restructure only
+     */
+
     public void verifyHeader() {
         actions = new Actions(getDriver());
         GeneralUtilities.toValidate(getEleAuvenirLogoImg(), "Auvenir Logo Image", "Displayed");
@@ -663,4 +669,56 @@ public class AuvenirPage extends AbstractPage {
         GeneralUtilities.toValidate(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
 
     }
+
+    public void clickMessageBoxIcon() {
+        visibilityOfElementWait(getEleInboxImg(), "Inbox Icon", 20);
+        getEleInboxImg().click();
+    }
+
+    public void clickNotiticationIcon() {
+        visibilityOfElementWait(getEleNotificationImg(), "Inbox Icon", 20);
+        getEleNotificationImg().click();
+    }
+
+    public void clickTermsOfServiceLink() {
+        getEleTermsOfUserFtrLnk().click();
+    }
+
+    public void verifyTermsOfServicePage() {
+        GeneralUtilities.toValidate(getEleTOSTitleTxt(), "Terms of Service - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEffectiveTxt(), "Effective: 16th Jan  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleTheseTermsTxt(), "These terms of service  - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
+        GeneralUtilities.toValidate(getEleVisitDeloitteLnk(), "Visit DEloitte - Link", "Displayed");
+        GeneralUtilities.toValidate(getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
+    }
+
+    public void clickPrivacyStatementLink() {
+        getElePrivacyPolicyFtrLnk().click();
+    }
+
+    public void verifyPrivacyStatementPage() {
+        GeneralUtilities.toValidate(getElePrivacyTitleTxt(), "Privacy Statement - Title", "Displayed");
+        GeneralUtilities.toValidate(getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
+        GeneralUtilities.toValidate(getElePrivacyTOSLnk(), "Privacy - TOS - Link", "Displayed");
+        GeneralUtilities.toValidate(getElePrivacyCookiesLnk(), "Privacy Cookies - Link", "Displayed");
+    }
+
+    public void clickCookieNoticeLink() {
+        getEleCookieNoticeFtrLnk().click();
+    }
+
+    public void verifyCookieNoticePage() {
+        GeneralUtilities.toValidate(getEleCookieNoticeTitleTxt(), "Cookie Notice - Title", "Displayed");
+        GeneralUtilities.toValidate(getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuvenirUsesTxt(), "Last Revised - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
+        GeneralUtilities.toValidate(getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
+        GeneralUtilities.toValidate(getEleAboutCookiesLnk(), "About Cookies - Link", "Displayed");
+    }
+    /*-----------end of huy.huynh on 24/05/2017.*/
 }

@@ -1,5 +1,6 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -12,14 +13,14 @@ import org.openqa.selenium.WebDriver;
  * Refactor code and implement for PLAT 2273
  */
 public class AdminService extends AbstractService {
+    AdminLoginPage adminLoginPage;
+    AuvenirPage auvenirPage;
 
     public AdminService(Logger logger, WebDriver driver) {
         super(logger, driver);
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        auvenirPage = new AuvenirPage(getLogger(), getDriver());
     }
-
-    AdminLoginPage adminLoginPage;
-
 
     public void navigateToSettingPage() {
         try {
@@ -41,5 +42,106 @@ public class AdminService extends AbstractService {
         }
     }
 
+    /**
+     * Refactored by huy.huynh on 24/05/2017.
+     * Restructure only
+     */
+    public void verifyPageLoad() {
+        adminLoginPage.verifyAdminLoginPage();
+    }
+
+    public void verifyHeader() {
+        getLogger().info("Verify Admin logged in header.");
+        auvenirPage.verifyHeader();
+        adminLoginPage.verifyAdminHeaderText();
+    }
+
+    public void verifyBody() {
+        getLogger().info("Verify Admin logged in body.");
+        adminLoginPage.verifyAdminDashBoard();
+        adminLoginPage.verifyUserTable();
+    }
+
+    public void verifyFooter() {
+        getLogger().info("Verify page footer.");
+        auvenirPage.verifyFooter();
+    }
+
+    public void viewAndVerifyCredentials() {
+        adminLoginPage.viewAndVerifyCredentials();
+    }
+
+    public void verifyDropMenuMessage() {
+        adminLoginPage.verifyDropMenuMessage();
+    }
+
+    public void clickNewMessage() {
+        adminLoginPage.clickNewMessage();
+    }
+
+    public void verifyNewMessagePopup() {
+        adminLoginPage.verifyNewMessagePopup();
+    }
+
+    public void closeNewMessagePopup() {
+        adminLoginPage.closeNewMessagePopup();
+    }
+
+    public void verifyDropMenuNotification() {
+        adminLoginPage.verifyDropMenuNotification();
+    }
+
+    public void clickViewAllNotification() {
+        adminLoginPage.clickViewAllNotification();
+    }
+
+    public void verifyBodyNotificationPage() {
+        adminLoginPage.verifyBodyNotificationPage();
+    }
+
+    public void navigateToSettingAccountPage() {
+        adminLoginPage.navigateToSettingAccountPage();
+    }
+
+    public void verifySettingAccountPage() {
+        adminLoginPage.verifySettingAccountPage();
+    }
+
+    public void clickDeactiveLink() {
+        adminLoginPage.clickDeactiveLink();
+    }
+
+    public void verifyDeactivePopup() {
+        adminLoginPage.verifyDeactivePopup();
+    }
+
+    public void closeDeactivePopup() {
+        adminLoginPage.closeDeactivePopup();
+    }
+
+    public void navigateToSettingDevicesPage() {
+        adminLoginPage.navigateToSettingDevicesPage();
+    }
+
+    public void verifySettingDevicesPage() {
+        adminLoginPage.verifySettingDevicesPage();
+    }
+
+    public void addAnotherDeviceLink() {
+        adminLoginPage.addAnotherDeviceLink();
+    }
+
+    public void verifyAddAnotherPopup() {
+        adminLoginPage.verifyAddAnotherPopup();
+    }
+
+    public void navigateToSettingDevicesDisconnect() {
+        adminLoginPage.navigateToSettingDevicesDisconnect();
+    }
+
+    public void verifySettingDevicesDisconnectPopup() {
+        adminLoginPage.verifySettingDevicesDisconnectPopup();
+    }
+    /*-----------end of huy.huynh on 24/05/2017.*/
 }
 

@@ -3,16 +3,16 @@ package com.auvenir.utilities;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
-import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -86,5 +86,27 @@ public class GeneralUtilities {
                 }
                 break;
         }
+    }
+
+    public static void scrollToFooter(WebDriver webDriver) {
+        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    //indian code, reuse temporyly
+    public static void switchToWindow(Logger logger, WebDriver webDriver) {
+        logger.info("Detect new windows.");
+        String parentWin = null;
+        String newWin = null;
+        Set<String> handles = webDriver.getWindowHandles();
+        Iterator<String> it = handles.iterator();
+        while (it.hasNext()) {
+            parentWin = it.next();
+            newWin = it.next();
+
+        }
+        logger.info("Swithc to new windwos.");
+        webDriver.switchTo().window(newWin);
+
     }
 }
