@@ -327,6 +327,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy (xpath = "//p[contains(text(),'Request name must not be empty')]")
     private WebElement messageEmptyRequest;
+    private String checkMarkToDoName = "";
+    private String checkToDoNameAddNewRequest = "";
+    @FindBy (xpath = "//*[@id='auv-todo-details']/div[3]")
+    private WebElement closeAddNewRequest;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -1195,8 +1199,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         categoryComboBoxEle.get(0).click();
         editCategoryEle.click();
     }
-
-    private String checkMarkToDoName = "";
 
     public void clickCheckboxNewToDoTask() {
         waitForClickableOfElement(eleToDoCheckboxRow.get(0), "CheckBox New ToDo Task");
@@ -2919,12 +2921,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyMaxLengthNewRequestPopup();
         verifyEmptyNewRequestPopup();
         verifyInputNumberToNewRequestPopup();
+        verifyNewRequestStoreInDatabase();
+        verifyUpdateRequestStoreInDatabase();
     }
     /**
      * Author minh.nguyen
      */
     public void clickToDoListAddNewRequest()
     {
+        checkToDoNameAddNewRequest = textToDoName.get(0).getAttribute("value").toString();
         waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
         clickElement(todoListAddNewRequestImg, "click to todoListAddNewRequestImg");
     }
@@ -2965,11 +2970,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForClickableOfLocator(By.xpath("//*[@id='add-request-btn']"));
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
-            waitForClickableOfElement(findRequestEmpty1, "wait for findRequestEmpty1");
+            //waitForClickableOfElement(findRequestEmpty1, "wait for findRequestEmpty1");
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
-            waitForClickableOfElement(findRequestEmpty2, "wait for findRequestEmpty2");
+            //waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             isCheckRequestEmpty = clickElement(findRequestEmpty2, "click to findRequestEmpty2");
             if(isCheckRequestEmpty)
             {
@@ -2998,8 +3003,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             clickElement(popupToDoDetailName, "click to popupToDoDetailName");
 
             String todoDetailText = getTextByJavaScripts(popupToDoDetailName);
+            clearTextBox(popupToDoDetailName,"clear popupToDoDetailName");
+            String pleaseNameYourTodo = popupToDoDetailName.getAttribute("placeholder");
             getLogger().info("todoDetailText = " + todoDetailText);
-            if(todoDetailText.equals("Untitled Todo"))
+            getLogger().info("pleaseNameYourTodo = " + pleaseNameYourTodo);
+            if(todoDetailText.equals(checkToDoNameAddNewRequest) && pleaseNameYourTodo.equals("Please name your To-Do"))
             {
                 isCheckColor = true;
             }
@@ -3094,6 +3102,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
@@ -3125,9 +3134,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     {
         getLogger().info("Verify to input number to new request in the add new request popup.");
         try {
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             sendKeyTextBox(findRequestEmpty1, numberSequence, "send number to findRequestEmpty1");
@@ -3147,6 +3158,91 @@ public class AuditorCreateToDoPage extends AbstractPage {
         {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED, null);
+        }
+    }
+
+    private String newRequest01 = "New request01 " + randomNumber();
+    private String newRequest02 = "New request02 " + randomNumber();
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyNewRequestStoreInDatabase()
+    {
+        getLogger().info("Verify these new request are stored in the database.");
+        try {
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
+            sendKeyTextBox(findRequestEmpty1, newRequest01, "send data to findRequestEmpty1");
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            clearTextBox(findRequestEmpty2, "clear text of findRequestEmpty2");
+            sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
+            String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1);
+            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2);
+            clickElement(closeAddNewRequest, "click to closeAddNewRequest");
+            clickToDoListAddNewRequest();
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1);
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2);
+            if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
+            {
+                NXGReports.addStep("Verify these new request are stored in the database.", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify these new request are stored in the database.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify these new request are stored in the database.", LogAs.FAILED, null);
+        }
+    }
+
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyUpdateRequestStoreInDatabase()
+    {
+        getLogger().info("Verify to update these requests and these are stored in the database.");
+        try {
+            newRequest01 = "updated01";
+            newRequest02 = "updated02";
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            sendKeyTextBox(findRequestEmpty1, newRequest01, "send data to findRequestEmpty1");
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
+            getLogger().info("Value findRequestEmpty2: " + findRequestEmpty2.getAttribute("value"));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1);
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            clickElement(findRequestEmpty2, "click to findRequestEmpty2");
+            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2);
+            clickElement(closeAddNewRequest, "click to closeAddNewRequest");
+            clickToDoListAddNewRequest();
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1);
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            clickElement(findRequestEmpty2, "click to findRequestEmpty2");
+            String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2);
+            if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
+            {
+                NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.PASSED, null);
+            }
+            else
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, null);
         }
     }
 }

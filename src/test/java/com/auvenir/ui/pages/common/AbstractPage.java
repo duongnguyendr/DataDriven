@@ -687,8 +687,10 @@ public class AbstractPage {
     public void sendKeyTextBox(WebElement element, String text,String elementName){
         getLogger().info("Try to sendKey on : "+elementName);
         try {
-            element.click();
+            waitForClickableOfElement(element, "wait for click to " + element);
+            //element.click();
             element.clear();
+            waitForClickableOfElement(element, "wait for click to " + element);
             element.sendKeys(text);
             NXGReports.addStep("Send text: "+text+ "on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
