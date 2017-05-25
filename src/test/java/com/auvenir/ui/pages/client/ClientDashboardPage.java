@@ -2,6 +2,9 @@ package com.auvenir.ui.pages.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -536,5 +540,52 @@ public class ClientDashboardPage extends AbstractPage {
         getLogger().info("verify client home page.");
         waitForVisibleElement(myAuditTextEle, "myAuditTextEle");
         validateElementText(myAuditTextEle, "My Audits");
+    }
+
+    public void verifyClientHeaderRefactor() {
+        try {
+            getLogger().info("Verifying GUI Post button");
+            boolean result;
+            validateDisPlayedElement(eleAuvenirHeaderImg, "Auvenir Header Image");
+            validateDisPlayedElement(eleDashboardLnk, "Dashboard Link");
+            validateDisPlayedElement(eleRequestLnk, "Request Link");
+            validateDisPlayedElement(eleFilesLnk, "Files Link");
+            validateDisPlayedElement(eleDashboardUserNameTxt, "Dashboard UserName Text");
+            validateDisPlayedElement(eleDashboardUserNameIcn, "Dashboard UserName Icon");
+            clickAndHold(eleDashboardUserNameIcn, "Dashboard UserName Icon");
+
+
+//            Assert.assertTrue(result, "The background color of the Post button is displayed unsuccessfully.");
+//            validateCSSValueElement(postCommentButton, "color", "rgba(255, 255, 255, 1)");
+//            Assert.assertTrue(result, "The text color of the Post button is displayed unsuccessfully.");
+            NXGReports.addStep("Verifying GUI Post button", LogAs.PASSED, null);
+        } catch (AssertionError error) {
+            getLogger().info(error);
+            NXGReports.addStep("TestScript Failed: Verifying GUI Post button", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        auvenirPage = new AuvenirPage(getLogger(), getDriver());
+//        auvenirPage.toValidate(eleAuvenirHeaderImg, "Auvenir Header Image", "Displayed");
+//        auvenirPage.toValidate(getEleDashboardLnk(), "Dashboard Link", "Displayed");
+//        auvenirPage.toValidate(getEleRequestLnk(), "Request Link", "Displayed");
+//        auvenirPage.toValidate(getEleFilesLnk(), "Files Link", "Displayed");
+//        auvenirPage.toValidate(getEleDashboardUserNameTxt(), "Dashboard UserName Text", "Displayed");
+//        auvenirPage.toValidate(getEleDashboardUserNameIcn(), "Dashboard UserName Icon", "Displayed");
+//        getEleDashboardUserNameIcn().click();
+        auvenirPage.toValidate(getEleUserInitialImg(), "User Initial Image", "Displayed");
+        auvenirPage.toValidate(getEleUserInitialTxt(), "User Initial Text", "Displayed");
+        auvenirPage.toValidate(getEleUserNameTxt(), "User Name Text", "Displayed");
+        auvenirPage.toValidate(getEleSettingsLnk(), "Settings Link", "Displayed");
+        auvenirPage.toValidate(getEleSignOutLnk(), "Sign Out Link", "Displayed");
+        auvenirPage.toValidate(getEleInboxIcn(), "Inbox Icon", "Displayed");
+        getEleInboxIcn().click();
+        auvenirPage.toValidate(getEleThereAreNoEmailsTxt(), "There Are No Emails Text", "Displayed");
+        auvenirPage.toValidate(getEleViewMessagesTxt(), "View Messages Text", "Displayed");
+        auvenirPage.toValidate(getEleMyMessagesTxt(), "My Messages Text", "Displayed");
+        auvenirPage.toValidate(getEleNewMessagesBtn(), "New Messages Button", "Displayed");
+        auvenirPage.toValidate(getEleNotificationIcn(), "Notification Icon", "Displayed");
+        getEleNotificationIcn().click();
+        auvenirPage.toValidate(getEleYouHaveNoNewNotificationTxt(), "You Have No New Notification Text", "Displayed");
+        auvenirPage.toValidate(getEleViewAllTxt(), "View All Text", "Displayed");
     }
 }

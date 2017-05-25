@@ -56,7 +56,7 @@ public class ClientTest extends AbstractRefactorService
 	@BeforeClass
 	public void preCondition()
 	{
-		
+
 		sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL")
 				+ GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID") + "/delete";
 		getLogger().info("Call rest api to delete existed client user :" + sURL);
@@ -70,8 +70,8 @@ public class ClientTest extends AbstractRefactorService
 		}
 		else {}
 	}
-	
-		
+
+
 	@AfterMethod
 	public void deleteCookies()
 	{
