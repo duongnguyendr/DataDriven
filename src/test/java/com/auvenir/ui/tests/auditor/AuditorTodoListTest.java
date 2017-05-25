@@ -1604,7 +1604,7 @@ End of merged VienPham.
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorCreateToDoService.createToDoPage();
+            auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.createNewRequestOnToDoPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
