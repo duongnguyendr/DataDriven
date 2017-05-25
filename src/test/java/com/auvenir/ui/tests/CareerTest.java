@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.CareerPage;
 import org.testng.Assert;
@@ -36,16 +37,16 @@ public class CareerTest extends AbstractRefactorService {
             auvenirPage.getEleCareersLnk().click();
 
             switchToWindow();
-            auvenirPage.toValidate(auvenirPage.getEleAuvenirImg(), "Auvenir Header Logo Image", "Displayed");
-            auvenirPage.toValidate(careerPage.getEleWeAreGrowingTxt(), "We are Growing Text", "Displayed");
-            auvenirPage.toValidate(careerPage.getEleCareersAtAuvenirTxt(), "Careers at Auvenir Text", "Displayed");
-            //auvenirPage.toValidate(careerPage.getEleBusinessTxt(),"Business Text","Displayed");
-            auvenirPage.toValidate(careerPage.getEleProductLeadLnk(), "Product text", "Displayed");
-            //auvenirPage.toValidate(careerPage.getEleMarketingTxt(),"Marketing Text","Displayed");
-            //auvenirPage.toValidate(careerPage.getEleSalesBizDevelopmentLnk(),"Sales/Biz Development link","Displayed");
-            auvenirPage.toValidate(careerPage.getEleTechnologyTxt(), "Technology Text", "Displayed");
-            auvenirPage.toValidate(careerPage.getEleDeveloperLnk(), "Developer Link", "Displayed");
-            //auvenirPage.toValidate(careerPage.getEleSeniorDevOpsLnk(),"Senior Dev Ops Link","Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleAuvenirImg(), "Auvenir Header Logo Image", "Displayed");
+            GeneralUtilities.toValidate(careerPage.getEleWeAreGrowingTxt(), "We are Growing Text", "Displayed");
+            GeneralUtilities.toValidate(careerPage.getEleCareersAtAuvenirTxt(), "Careers at Auvenir Text", "Displayed");
+            //GeneralUtilities.toValidate(careerPage.getEleBusinessTxt(),"Business Text","Displayed");
+            GeneralUtilities.toValidate(careerPage.getEleProductLeadLnk(), "Product text", "Displayed");
+            //GeneralUtilities.toValidate(careerPage.getEleMarketingTxt(),"Marketing Text","Displayed");
+            //GeneralUtilities.toValidate(careerPage.getEleSalesBizDevelopmentLnk(),"Sales/Biz Development link","Displayed");
+            GeneralUtilities.toValidate(careerPage.getEleTechnologyTxt(), "Technology Text", "Displayed");
+            GeneralUtilities.toValidate(careerPage.getEleDeveloperLnk(), "Developer Link", "Displayed");
+            //GeneralUtilities.toValidate(careerPage.getEleSeniorDevOpsLnk(),"Senior Dev Ops Link","Displayed");
             auvenirPage.verifyFooter();
             getDriver().close();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");

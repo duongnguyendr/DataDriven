@@ -20,10 +20,10 @@
             <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
+            <class name="com.auvenir.ui.tests.admin.AdminTest"/>
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
             <methods>
-                <include name="verifyCompletedFieldUpdateSuccessful"></include>
-                <include name="verifyCancelCompleteAction"></include>
+                <include name="verifyAdminCookieNoticePage"></include>
             </methods>
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
