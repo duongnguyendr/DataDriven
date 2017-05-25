@@ -182,28 +182,38 @@ public class AbstractPage {
 
 
     @FindBy(xpath = "//input[contains(@id,'forge-InputBox')]")
-    List<WebElement> listOfCategoriesItemEle;
+    private List<WebElement> listOfCategoriesItemEle;
 
     @FindBy(xpath = "//img[contains(@id,\"cat-trash-btn\")]")
-    List<WebElement> listOfEditTrashEle;
+    private List<WebElement> listOfEditTrashEle;
 
     @FindBy(xpath = "//img[contains(@id,\"cat-edit-btn\")]")
-    List<WebElement> listOfEditPenEle;
+    private List<WebElement> listOfEditPenEle;
 
     @FindBy(xpath = "//div[@id=\"category-dropdown-menu\"]/div[@class=\"\"]")
-    List<WebDriver> listOfCategoriesDropdownTableEle;
+    private List<WebDriver> listOfCategoriesDropdownTableEle;
 
     @FindBy(xpath = "//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]")
-    WebElement cancelDeletedToDoButtonEle;
+    private WebElement cancelDeletedToDoButtonEle;
 
     @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show']/div[@class = 'fl-a-dismiss auvicon-line-circle-ex'] ")
-    WebElement successToastMesCloseIconEle;
+    private WebElement successToastMesCloseIconEle;
 
     @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-orange fl-a-container-show']//p[@class = 'fl-a-text']")
-    WebElement warningToastMesDescriptionEle;
+    private WebElement warningToastMesDescriptionEle;
 
     @FindBy(xpath = "//*[@class = 'header-userName']")
-    WebElement userNameHeaderEle;
+    private WebElement userNameHeaderEle;
+
+    @FindBy(xpath = "//*[@class='progress-overlay']")
+    private WebElement progressingDiv;
+
+    @FindBy(xpath = "//img[@class='header-auvenirLogo']")
+    private WebElement eleAuvenirHeaderImg;
+
+    public WebElement getEleAuvenirHeaderImg() {
+        return eleAuvenirHeaderImg;
+    }
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
@@ -2240,5 +2250,12 @@ public class AbstractPage {
         return userNameHeaderEle.getText();
     }
 
+    /**
+     * Waiting for The Progressing Overlay is closed.
+     */
+    public void waitForProgressOverlayIsClosed(){
+        getLogger().info("Try to waiting the ProgressOverlayIsClosed.");
+        waitForCssValueChanged(progressingDiv, "Progress Overlay", "display", "none");
+    }
 
 }

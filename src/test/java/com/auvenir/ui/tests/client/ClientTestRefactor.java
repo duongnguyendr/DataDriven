@@ -8,6 +8,7 @@ import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.client.*;
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
@@ -51,6 +52,7 @@ public class ClientTestRefactor extends AbstractTest {
     Date date = null;
     static String CurrentDate=null;
     private int waittime = 60;
+
 //	@BeforeClass
 //	public void preCondition()
 //	{
@@ -80,214 +82,89 @@ public class ClientTestRefactor extends AbstractTest {
      * @Description: To Verify the display of Elements in Client Home Page
 	 * @Author: Jeevaraj SP
 	 */
-    @Test(priority = 7, enabled = false, description = "To Verify the display of Elements in Client Home Page")
+    @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Client Home Page")
     public void verifyClientHomePage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
-        clientDashboardPage = new ClientDashboardPage(getLogger(), getDriver());
-        clientHomePage = new ClientHomePage(getLogger(), getDriver());
-        auvenirPage = new AuvenirPage(getLogger(), getDriver());
-        Actions actions = new Actions(getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
         try {
-            //driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ACTIVE_ID")+"/update?status=ACTIVE");
-            //Thread.sleep(15000);
-//            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             clientService.loginWithUserRole(userId);
-            //Thread.sleep(5000);
-
-            clientDashboardPage.verifyClientHeader();
-            clientDashboardPage.getEleAuvenirHeaderImg().click();
-            Thread.sleep(10000);
-            GeneralUtilities.toValidate(clientHomePage.getEleMyAuditsTxt(), "My Audits Text", "Displayed");
-            GeneralUtilities.toValidate(clientHomePage.getEleInProgressTxt(), "In Progress Text", "Displayed");
-            GeneralUtilities.toValidate(clientHomePage.getEleCompletedTxt(), "Completed Text", "Displayed");
-            //GeneralUtilities.toValidate(clientHomePage.getEleBusinessLogoImg(),"Business Logo Image", "Displayed");
-            actions.moveToElement(clientHomePage.getEleDataGatheringIcn()).perform();
-            Thread.sleep(3000);
-            GeneralUtilities.toValidate(clientHomePage.getEleViewBtn(), "View Button", "Displayed");
-            GeneralUtilities.toValidate(clientHomePage.getEleDataGatheringTxt(), "Data Gathering Text", "Displayed");
-            Thread.sleep(5000);
-
-            GeneralUtilities.toValidate(clientHomePage.getEleUntitledTxt(), "Untitled Text", "Displayed");
-            GeneralUtilities.toValidate(clientHomePage.getEleUpdatedTxt(), "Updated Text", "Displayed");
-            clientDashboardPage.verifyClientFooter();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
+            clientService.verifyClientHeader();
+            clientService.verifyClientInboxMessage();
+            clientService.verifyMyAuditsPage();
+            clientService.verifyClientFooterRefactor();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify the display of Elements in Client Home Page.", LogAs.PASSED, null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Home Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         } catch (Exception e) {
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Home Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    /*
+	 * @Description: To Verify the display of Elements in Client Request Page
+	 * @Author: Jeevaraj SP
+	 */
+    @Test(priority=8,enabled=true, description="To Verify the display of Elements in Client Request Page")
+    public void verifyClientRequestPage() throws Exception
+    {
+        AbstractRefactorService.sStatusCnt=0;
+        clientDashboardPage =new ClientDashboardPage(getLogger(),getDriver());
+        clientRequestPage =new ClientRequestPage(getLogger(),getDriver());
+        auvenirPage =new AuvenirPage(getLogger(),getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        try
+        {
+            clientService.verifyClientHeader();
+            clientDashboardPage.getEleRequestLnk().click();
+            Thread.sleep(5000);
+            //Will Update later.
+//            auvenirPage.toValidate(clientRequestPage.getEleAllRequestTxt(),"All Request Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleFinancialsTxt(),"Financials Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleGeneralLedgerTxt(),"General Ledger Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleTrialBalanceTxt(),"Trial Balance Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleBankStatementsTxt(),"Bank Statements Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleGeneralLedgerHeaderTxt(),"General Legder Header Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleDescriptionGeneralLedgerTxt(),"Description General Legder Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleGeneralLedgerContainerFld(),"General Legder Container Field", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleUploadGeneralLedgerImg(),"Upload General Legder Image", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleDragAndDropGeneralLedgerTxt(),"Drag and Drop General Legder Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleBrowseGeneralLedgerTxt(),"Browse General Legder Text", "Displayed");
+//            Thread.sleep(5000);
+//            clientRequestPage.getEleTrialBalanceTxt().click();
+//            Thread.sleep(5000);
+//            auvenirPage.toValidate(clientRequestPage.getEleTrialBalanceHeaderTxt(),"Trial Balance Header Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleDescriptionTrialBalanceTxt(),"Description Trial Balance Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleTrialBalanceContainerFld(),"Trial Balance container Field", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleUploadTrialBalanceImg(),"Upload Trial Balance Image", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleDragAndDropTrialBalanceTxt(),"Drag and Drop Trial Balance Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleBrowseTrialBalanceTxt(),"Browse Trial Balance Text", "Displayed");
+//            Thread.sleep(5000);
+//            clientRequestPage.getEleBankStatementsTxt().click();
+//            Thread.sleep(5000);
+//            auvenirPage.toValidate(clientRequestPage.getEleBankStatementsHeaderTxt(),"Bank Statements Header Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleDescriptionBankStatementsTxt(),"Description Bank Statements Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleBankStatementContainerFld(),"Bank Statements Container Field", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleUploadBankStatementsImg(),"Upload Bank Statements Image", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleDragAndDropBankStatementsTxt(),"Drag and Drop Bank Statements Text", "Displayed");
+//            auvenirPage.toValidate(clientRequestPage.getEleBrowseBankStatementsTxt(),"My Audits Text", "Displayed");
+//            clientDashboardPage.verifyClientFooter();
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
+        }
+        catch (AssertionError e)
+        {
+            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+        catch (Exception e)
+        {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
-//    /*
-//     * @Description: Inviting a client
-//     * @Author:Lakshmi BS
-//     */
-//    @Test(priority = 1, enabled = true, description = "Inviting a client from Auditor")
-//    public void verifyInvitingNewClient() throws Exception {
-//        try {
-//            getLogger().info("Inviting a client from auditor.");
-//            createNewAuditPage = new CreateNewAuditPage(getLogger(),getDriver());
-//            addNewClientPage = new AddNewClientPage(getLogger(),getDriver());
-//            auditorEngagementPage = new AuditorEngagementPage(getLogger(),getDriver());
-//            adminLoginPage = new AdminLoginPage(getLogger(),getDriver());
-//            clientOnBoardingPage = new ClientOnBoardingPage(getLogger(),getDriver());
-//            clientService = new ClientService(getLogger(),getDriver());
-//            dateFormat = new SimpleDateFormat("MM/d/yyyy");
-//            date = new Date();
-//            CurrentDate = dateFormat.format(date);
-//            String newClientData[] = GenericService.toReadExcelData("creating_NewClient_Data");
-//            String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
-//            getLogger().info("Login with Auditor user.");
-////            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDIT_ID"),
-////                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-////                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
-//            clientService.loginWithUserRole(userId);
-//            visibilityOfElementWait(auditorEngagementPage.getEleClientsLnk(), "Clients Link", 50);
-//            Thread.sleep(5000);
-//			/*
-//			 * auditorEngagementPage.getEleClientsLnk().click();
-//			 * auditorEngagementPage.getEleAddNewBtn().click();
-//			 */
-//            Assert.assertTrue(auditorEngagementPage.getEleCreateNewBtn().isDisplayed(), "Auditor failed to login");
-//            NXGReports.addStep("Auditor login is successful", LogAs.PASSED, null);
-//
-//            auditorEngagementPage.getEleCreateNewBtn().click();
-//            Thread.sleep(5000);
-////            visibilityOfElementWait(createNewAuditPage.getEleSelectClientBtn(), "Select Client", 15);
-//            Thread.sleep(8000);
-//            createNewAuditPage.getEleSelectClientBtn().click();
-////            visibilityOfElementWait(createNewAuditPage.getElePleaseSelectYourTxt(), "Please Select your text", 15);
-//            Assert.assertTrue(createNewAuditPage.getElePleaseSelectYourTxt().isDisplayed(),
-//                    "Please select your client text is not displayed");
-//            NXGReports.addStep("Please select your client text is displayed successful", LogAs.PASSED, null);
-//            Thread.sleep(3000);
-//
-//            createNewAuditPage.getEleSelectYourClientDrpDwn().click();
-////            visibilityOfElementWait(createNewAuditPage.getEleCreateNewClientDrpDwn(), "Create New Client Drop Down", 10);
-//            createNewAuditPage.getEleCreateNewClientDrpDwn().click();
-//            try {
-//                createNewAuditPage.getEleContinueBtn().click();
-//            } catch (Exception e) {
-//
-//            }
-////            visibilityOfElementWait(createNewAuditPage.getEleAddNewClientTxt(), "Add New Client", 15);
-//            Thread.sleep(8000);
-//            Assert.assertTrue(createNewAuditPage.getEleAddNewClientTxt().isDisplayed(),
-//                    "Add New Client page is not displayed");
-//            NXGReports.addStep("Add New Client page is displayed successfully", LogAs.PASSED, null);
-//
-//            addNewClientPage.getEleLegalNameOfEntityTxtFld().sendKeys(newClientData[1]);
-//            NXGReports.addStep(newClientData[1] + " Data entered in Legal Name of Entity Text field successfully",
-//                    LogAs.PASSED, null);
-//            addNewClientPage.getEleFirstAndLastNameTxtFld().sendKeys(newClientData[2]);
-//            NXGReports.addStep(newClientData[2] + " Data entered in First and Last Name Text field successfully",
-//                    LogAs.PASSED, null);
-//            addNewClientPage.getEleEmailAddressTxtFld()
-//                    .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"));
-//            NXGReports.addStep(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID")
-//                    + " Data entered in Email ID Text field successfully", LogAs.PASSED, null);
-//            addNewClientPage.getElePhoneNumberTxtFld().sendKeys(newClientData[3]);
-//            NXGReports.addStep(newClientData[3] + " Data entered in Phone Number Text field successfully", LogAs.PASSED,
-//                    null);
-//            addNewClientPage.getEleTheLegalNameChkBox().click();
-//            addNewClientPage.getEleTheEntityIsPubliclyListedChkBox().click();
-//            addNewClientPage.getEleTheEntityHasOperationsChkBox().click();
-//            addNewClientPage.getElePleaseListParentTxtFld().sendKeys(newClientData[4]);
-//            NXGReports.addStep(newClientData[4] + " Data entered in List of Parent Company Text field successfully",
-//                    LogAs.PASSED, null);
-//            addNewClientPage.getEleIndustryDrpDwn().click();
-//            addNewClientPage.getEleSelectIndustryTypeDrpDwn().click();
-//            Thread.sleep(10000);
-//            addNewClientPage.getElePleaseListParentTxtFld().sendKeys(Keys.PAGE_DOWN);
-//
-//            Thread.sleep(5000);
-//            addNewClientPage.getEleAccountingFrameWorkDrpDwn().click();
-//
-//            addNewClientPage.getEleSelectAccountingFrameWorkDrpDwn().click();
-//            addNewClientPage.getEleAddressTxtFld().sendKeys(newClientData[5]);
-//            NXGReports.addStep(newClientData[5] + " Data entered in Street Number Text field successfully",
-//                    LogAs.PASSED, null);
-//
-//            addNewClientPage.getEleUnitNumberTxtFld().sendKeys(newClientData[7]);
-//            NXGReports.addStep(newClientData[7] + " Data entered in Unit Number Text field successfully", LogAs.PASSED,
-//                    null);
-//            addNewClientPage.getEleCityTxtFld().sendKeys(newClientData[8]);
-//            NXGReports.addStep(newClientData[8] + " Data entered in City Text field successfully", LogAs.PASSED, null);
-//            addNewClientPage.getEleProvinceStateTxtFld().sendKeys(newClientData[9]);
-//            NXGReports.addStep(newClientData[9] + " Data entered in Province State Text field successfully",
-//                    LogAs.PASSED, null);
-//
-//            addNewClientPage.getEleCountryTxtFld().sendKeys("France");
-//            NXGReports.addStep(newClientData[9] + " Data entered in Province State Text field successfully",
-//                    LogAs.PASSED, null);
-//
-//            addNewClientPage.getElePostalCodeTxtFld().sendKeys(newClientData[10]);
-//            NXGReports.addStep(newClientData[10] + " Data entered in Postal Code Text field successfully", LogAs.PASSED,
-//                    null);
-//
-//
-//            Thread.sleep(5000);
-//            getLogger().info("click country field.");
-//            addNewClientPage.getElePleaseListParentTxtFld().click();
-//
-//
-//            Thread.sleep(5000);
-//            getLogger().info("click Add button.");
-//            addNewClientPage.getEleAddBtn().click();
-//            Thread.sleep(5000);
-//            getLogger().info("Click select button.");
-//            createNewAuditPage.getEleSelectBtn().click();
-////            visibilityOfElementWait(createNewAuditPage.getEleSelectYourClientDrpDwn(), "Select Your Client Drop Down", 10);
-//            getLogger().info("Select client.");
-//            createNewAuditPage.getEleSelectYourClientDrpDwn().click();
-//            Thread.sleep(3000);
-//            createNewAuditPage.getEleSelectCreatedClientDrpDwn(newClientData[2]).click();
-//            getLogger().info("click continue button.");
-////            visibilityOfElementWait(createNewAuditPage.getEleContinueBtn(), "Continue Button",waittime);
-//            createNewAuditPage.getEleContinueBtn().click();
-//            Thread.sleep(5000);
-//
-//            Assert.assertTrue(createNewAuditPage.getEleInviteBtn().isDisplayed(), "New Client is not created");
-//            NXGReports.addStep("New Client is successfully created", LogAs.PASSED, null);
-//
-//            createNewAuditPage.getEleInviteBtn().click();
-//            Thread.sleep(5000);
-//            Assert.assertTrue(createNewAuditPage.getEleResendBtn().isDisplayed(), "Engagement invitation is not sent");
-//            Thread.sleep(5000);
-//            createNewAuditPage.getEleResendBtn().click();
-//            Thread.sleep(5000);
-//			/*loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-//					GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-//					GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
-//			visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", 15);
-//			Assert.assertTrue(adminLoginPage.getEleAdminHdrTxt().getText().equals("Admin"),
-//					"Admin Login is not successfull");
-//			NXGReports.addStep("Admin Login is successfull", LogAs.PASSED, null);
-//
-//			Assert.assertTrue(adminLoginPage
-//					.getEleAuditorStatusLst("CLIENT",
-//							GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), CurrentDate)
-//					.equals("Onboarding"), "Auditor is not created with Pending status");*/
-//            // Assert.assertTrue(createNewAuditPage.getEleEnagagementInivitationTxt().getText().equals("Your
-//            // engagement invitation has been sent."), "Engagement Invitation
-//            // sent success message is not displayed");
-//
-//
-//
-//            NXGReports.addStep("Engagement Invitations is not sent successfully for Client", LogAs.PASSED, null);
-//        } catch (Exception e) {
-//            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//            throw e;
-//        }
-//    }
-
-	/*
-	 * @Description: To Verify the display of Elements in Email: Invitation from to complete your financial audit
-	 * @Author: Lakshmi BS
-	 */
 }

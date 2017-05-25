@@ -151,18 +151,11 @@ public class AuditorNewEngagementPage extends AbstractPage {
         NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
 
         getLogger().info("Click Continue button.");
-        //WebElement popUpDiv = getDriver().findElement(By.xpath("//*[@id='ce-setup-container']"));
         clickContinueBtn();
-        //waitForVisibleElement(teamContainerDivEle,"Member Select Option Div Element");
         NXGReports.addStep("Click Continue button.", LogAs.PASSED, null);
-
         verifyTeamMemberWizardPage();
 
         getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
-        //waitForJSandJQueryToLoad();
-        //waitForCssValueChanged(popUpDiv,"Member Select Option Div Element", "display", "none");
-        //Need to wait for Create Your Team form is displayed. Will removed if it had another solution
-        Thread.sleep(smallTimeOut);
         clickNoMemberBtn();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
         waitForVisibleElement(createNewTodoListTextEle, "Create new todo list text");
@@ -212,6 +205,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     public void clickNoMemberBtn() {
         //waitForVisibleElement(eleContinueNoMemberBtn, "Continue No Member button");
 //        waitForClickableOfLocator(By.xpath("//*[@id='team-continue-btn']"));
+        waitForProgressOverlayIsClosed();
         clickElement(eleContinueNoMemberBtn, "Continue No member button");
     }
 

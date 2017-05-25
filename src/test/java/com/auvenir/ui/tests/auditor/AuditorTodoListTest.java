@@ -536,7 +536,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 20, enabled = false, description = "[PLAT 2283]: verify click And Do Not Select Option Filter")
+    @Test(priority = 20, enabled = true, description = "[PLAT 2283]: verify click And Do Not Select Option Filter")
     public void clickAndDoNotSelectOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -762,7 +762,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * Scenarios : [PLAT 2299] - Verify To-do Details Commenting
      */
-    @Test(priority = 26, enabled = false, description = "Verify To-do Details Commenting")
+    @Test(priority = 26, enabled = true, description = "Verify To-do Details Commenting")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());

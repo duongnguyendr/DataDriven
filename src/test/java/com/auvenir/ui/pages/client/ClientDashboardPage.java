@@ -2,10 +2,6 @@ package com.auvenir.ui.pages.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.utilities.GeneralUtilities;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,8 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-//import org.testng.log4testng.Logger;
 
 public class ClientDashboardPage extends AbstractPage {
     AuvenirPage auvenirPage = null;
@@ -415,21 +409,14 @@ public class ClientDashboardPage extends AbstractPage {
         return eleTermsOfServiceDotTxt;
     }
 
-    @FindBy(id = "privacy")
+    @FindBy(xpath = "//div[@class='lower-footer']//a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     public WebElement getElePrivacyStatementLnk() {
         return elePrivacyStatementLnk;
     }
 
-    @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
-    private WebElement elePrivacyStatementDotTxt;
-
-    public WebElement getElePrivacyStatementDotTxt() {
-        return elePrivacyStatementDotTxt;
-    }
-
-    @FindBy(id = "cookies")
+    @FindBy(xpath = "//div[@class='lower-footer']//a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     public WebElement getEleCookieNoticeLnk() {
@@ -465,42 +452,47 @@ public class ClientDashboardPage extends AbstractPage {
     @FindBy(id = "c-header-title")
     private WebElement myAuditTextEle;
 
-    public void verifyClientFooter() {
-        auvenirPage = new AuvenirPage(getLogger(), getDriver());
-        GeneralUtilities.toValidate(getEleAuvenirIncTxt(), "Auvenir Inc Text", "Displayed");
-        GeneralUtilities.toValidate(getEleTermsOfServiceLnk(), "Terms Of Service Link", "Displayed");
-        GeneralUtilities.toValidate(getEleTermsOfServiceDotTxt(), "Terms Of Service Dot Text", "Displayed");
-        GeneralUtilities.toValidate(getElePrivacyStatementLnk(), "Privacy Statement Link", "Displayed");
-        GeneralUtilities.toValidate(getElePrivacyStatementDotTxt(), "Privacy Statement Dot Text", "Displayed");
-        GeneralUtilities.toValidate(getEleCookieNoticeLnk(), "Cookie Notice Link", "Displayed");
-    }
+    @FindBy(id = "inbox-header-message-type-filter")
+    private  WebElement allMessDropdownEle;
 
-    public void verifyClientHeader() {
+    // Old code from R1, will be cover with new code with the same function name.
+/*    public void verifyClientFooter() {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
-        GeneralUtilities.toValidate(getEleAuvenirHeaderImg(), "Auvenir Header Image", "Displayed");
-        GeneralUtilities.toValidate(getEleDashboardLnk(), "Dashboard Link", "Displayed");
-        GeneralUtilities.toValidate(getEleRequestLnk(), "Request Link", "Displayed");
-        GeneralUtilities.toValidate(getEleFilesLnk(), "Files Link", "Displayed");
-        GeneralUtilities.toValidate(getEleDashboardUserNameTxt(), "Dashboard UserName Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDashboardUserNameIcn(), "Dashboard UserName Icon", "Displayed");
+        auvenirPage.toValidate(getEleAuvenirIncTxt(), "Auvenir Inc Text", "Displayed");
+        auvenirPage.toValidate(getEleTermsOfServiceLnk(), "Terms Of Service Link", "Displayed");
+        auvenirPage.toValidate(getEleTermsOfServiceDotTxt(), "Terms Of Service Dot Text", "Displayed");
+        auvenirPage.toValidate(getElePrivacyStatementLnk(), "Privacy Statement Link", "Displayed");
+        auvenirPage.toValidate(getElePrivacyStatementDotTxt(), "Privacy Statement Dot Text", "Displayed");
+        auvenirPage.toValidate(getEleCookieNoticeLnk(), "Cookie Notice Link", "Displayed");
+    }*/
+
+    // Old code from R1, will be cover with new code with the same function name.
+   /* public void verifyClientHeader() {
+        auvenirPage = new AuvenirPage(getLogger(), getDriver());
+        auvenirPage.toValidate(getEleAuvenirHeaderImg(), "Auvenir Header Image", "Displayed");
+        auvenirPage.toValidate(getEleDashboardLnk(), "Dashboard Link", "Displayed");
+        auvenirPage.toValidate(getEleRequestLnk(), "Request Link", "Displayed");
+        auvenirPage.toValidate(getEleFilesLnk(), "Files Link", "Displayed");
+        auvenirPage.toValidate(getEleDashboardUserNameTxt(), "Dashboard UserName Text", "Displayed");
+        auvenirPage.toValidate(getEleDashboardUserNameIcn(), "Dashboard UserName Icon", "Displayed");
         getEleDashboardUserNameIcn().click();
-        GeneralUtilities.toValidate(getEleUserInitialImg(), "User Initial Image", "Displayed");
-        GeneralUtilities.toValidate(getEleUserInitialTxt(), "User Initial Text", "Displayed");
-        GeneralUtilities.toValidate(getEleUserNameTxt(), "User Name Text", "Displayed");
-        GeneralUtilities.toValidate(getEleSettingsLnk(), "Settings Link", "Displayed");
-        GeneralUtilities.toValidate(getEleSignOutLnk(), "Sign Out Link", "Displayed");
-        GeneralUtilities.toValidate(getEleInboxIcn(), "Inbox Icon", "Displayed");
+        auvenirPage.toValidate(getEleUserInitialImg(), "User Initial Image", "Displayed");
+        auvenirPage.toValidate(getEleUserInitialTxt(), "User Initial Text", "Displayed");
+        auvenirPage.toValidate(getEleUserNameTxt(), "User Name Text", "Displayed");
+        auvenirPage.toValidate(getEleSettingsLnk(), "Settings Link", "Displayed");
+        auvenirPage.toValidate(getEleSignOutLnk(), "Sign Out Link", "Displayed");
+        auvenirPage.toValidate(getEleInboxIcn(), "Inbox Icon", "Displayed");
         getEleInboxIcn().click();
-        GeneralUtilities.toValidate(getEleThereAreNoEmailsTxt(), "There Are No Emails Text", "Displayed");
-        GeneralUtilities.toValidate(getEleViewMessagesTxt(), "View Messages Text", "Displayed");
-        GeneralUtilities.toValidate(getEleMyMessagesTxt(), "My Messages Text", "Displayed");
-        GeneralUtilities.toValidate(getEleNewMessagesBtn(), "New Messages Button", "Displayed");
-        GeneralUtilities.toValidate(getEleNotificationIcn(), "Notification Icon", "Displayed");
+        auvenirPage.toValidate(getEleThereAreNoEmailsTxt(), "There Are No Emails Text", "Displayed");
+        auvenirPage.toValidate(getEleViewMessagesTxt(), "View Messages Text", "Displayed");
+        auvenirPage.toValidate(getEleMyMessagesTxt(), "My Messages Text", "Displayed");
+        auvenirPage.toValidate(getEleNewMessagesBtn(), "New Messages Button", "Displayed");
+        auvenirPage.toValidate(getEleNotificationIcn(), "Notification Icon", "Displayed");
         getEleNotificationIcn().click();
-        GeneralUtilities.toValidate(getEleYouHaveNoNewNotificationTxt(), "You Have No New Notification Text", "Displayed");
-        GeneralUtilities.toValidate(getEleViewAllTxt(), "View All Text", "Displayed");
+        auvenirPage.toValidate(getEleYouHaveNoNewNotificationTxt(), "You Have No New Notification Text", "Displayed");
+        auvenirPage.toValidate(getEleViewAllTxt(), "View All Text", "Displayed");
 
-    }
+    }*/
 
     public void clickAuvenirLogo() {
         getLogger().info("Click Auvenir header button.");
@@ -537,50 +529,50 @@ public class ClientDashboardPage extends AbstractPage {
         validateElementText(myAuditTextEle, "My Audits");
     }
 
-    public void verifyClientHeaderRefactor() {
-        try {
-            getLogger().info("Verifying GUI Post button");
-            boolean result;
-            validateDisPlayedElement(eleAuvenirHeaderImg, "Auvenir Header Image");
-            validateDisPlayedElement(eleDashboardLnk, "Dashboard Link");
-            validateDisPlayedElement(eleRequestLnk, "Request Link");
-            validateDisPlayedElement(eleFilesLnk, "Files Link");
-            validateDisPlayedElement(eleDashboardUserNameTxt, "Dashboard UserName Text");
-            validateDisPlayedElement(eleDashboardUserNameIcn, "Dashboard UserName Icon");
-            clickAndHold(eleDashboardUserNameIcn, "Dashboard UserName Icon");
-
-
-//            Assert.assertTrue(result, "The background color of the Post button is displayed unsuccessfully.");
-//            validateCSSValueElement(postCommentButton, "color", "rgba(255, 255, 255, 1)");
-//            Assert.assertTrue(result, "The text color of the Post button is displayed unsuccessfully.");
-            NXGReports.addStep("Verifying GUI Post button", LogAs.PASSED, null);
-        } catch (AssertionError error) {
-            getLogger().info(error);
-            NXGReports.addStep("TestScript Failed: Verifying GUI Post button", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-        auvenirPage = new AuvenirPage(getLogger(), getDriver());
-//        GeneralUtilities.toValidate(eleAuvenirHeaderImg, "Auvenir Header Image", "Displayed");
-//        GeneralUtilities.toValidate(getEleDashboardLnk(), "Dashboard Link", "Displayed");
-//        GeneralUtilities.toValidate(getEleRequestLnk(), "Request Link", "Displayed");
-//        GeneralUtilities.toValidate(getEleFilesLnk(), "Files Link", "Displayed");
-//        GeneralUtilities.toValidate(getEleDashboardUserNameTxt(), "Dashboard UserName Text", "Displayed");
-//        GeneralUtilities.toValidate(getEleDashboardUserNameIcn(), "Dashboard UserName Icon", "Displayed");
-//        getEleDashboardUserNameIcn().click();
-        GeneralUtilities.toValidate(getEleUserInitialImg(), "User Initial Image", "Displayed");
-        GeneralUtilities.toValidate(getEleUserInitialTxt(), "User Initial Text", "Displayed");
-        GeneralUtilities.toValidate(getEleUserNameTxt(), "User Name Text", "Displayed");
-        GeneralUtilities.toValidate(getEleSettingsLnk(), "Settings Link", "Displayed");
-        GeneralUtilities.toValidate(getEleSignOutLnk(), "Sign Out Link", "Displayed");
-        GeneralUtilities.toValidate(getEleInboxIcn(), "Inbox Icon", "Displayed");
-        getEleInboxIcn().click();
-        GeneralUtilities.toValidate(getEleThereAreNoEmailsTxt(), "There Are No Emails Text", "Displayed");
-        GeneralUtilities.toValidate(getEleViewMessagesTxt(), "View Messages Text", "Displayed");
-        GeneralUtilities.toValidate(getEleMyMessagesTxt(), "My Messages Text", "Displayed");
-        GeneralUtilities.toValidate(getEleNewMessagesBtn(), "New Messages Button", "Displayed");
-        GeneralUtilities.toValidate(getEleNotificationIcn(), "Notification Icon", "Displayed");
-        getEleNotificationIcn().click();
-        GeneralUtilities.toValidate(getEleYouHaveNoNewNotificationTxt(), "You Have No New Notification Text", "Displayed");
-        GeneralUtilities.toValidate(getEleViewAllTxt(), "View All Text", "Displayed");
+    public void verifyClientHeader(){
+        getLogger().info("Verifying Client Header");
+        waitForVisibleElement(eleDashboardLnk, "Dashboard Link");
+        validateDisPlayedElement(eleDashboardLnk, "Dashboard Link");
+        validateElementText(eleDashboardLnk, "Dashboard");
+        validateDisPlayedElement(eleAuvenirHeaderImg, "Auvenir Header Image");
+        validateDisPlayedElement(eleRequestLnk, "Request Link");
+        validateDisPlayedElement(eleFilesLnk, "Files Link");
+        validateDisPlayedElement(eleDashboardUserNameTxt, "Dashboard UserName Text");
+        validateDisPlayedElement(eleDashboardUserNameIcn, "Dashboard UserName Icon");
+        clickAndHold(eleDashboardUserNameIcn, "Dashboard UserName Icon");
+        validateDisPlayedElement(eleUserInitialImg, "User Initial Image");
+        validateDisPlayedElement(eleUserInitialTxt, "User Initial Text");
+        validateDisPlayedElement(eleUserNameTxt, "User Name Text");
+        validateDisPlayedElement(eleSettingsLnk, "Settings Link");
+        validateDisPlayedElement(eleSignOutLnk, "Sign Out Link");
+        validateDisPlayedElement(eleInboxIcn, "Inbox Icon");
+        // Cannot find the element "eleMyMessagesTxt", need to confirm later with new test case.
+//        validateDisPlayedElement(eleMyMessagesTxt, "My Messages Text");
+        validateDisPlayedElement(eleNotificationIcn, "Notification Icon");
+        clickAndHold(eleNotificationIcn, "Notification Icon");
+        validateDisPlayedElement(eleYouHaveNoNewNotificationTxt, "No New Notification Text");
+        validateDisPlayedElement(eleViewAllTxt, "View All Button");
     }
+
+    public void verifyClientInboxMessage() {
+        getLogger().info("Verify Message Inbox");
+        clickAndHold(eleInboxIcn, "Inbox Icon");
+        waitForVisibleElement(allMessDropdownEle, "All Message DropDown");
+        validateElementText(allMessDropdownEle,"All Messages");
+        validateDisPlayedElement(eleThereAreNoEmailsTxt, "There are no emails text.");
+        validateDisPlayedElement(eleViewMessagesTxt, "View Messages Text");
+        validateDisPlayedElement(eleNewMessagesBtn, "New Messages Button");
+    }
+
+    public void verifyClientFooter() {
+        getLogger().info("Verify Client Footer Refactor");
+        validateDisPlayedElement(eleAuvenirIncTxt, "Auvenir Inc Text");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "Terms Of Service Link");
+        validateDisPlayedElement(eleTermsOfServiceDotTxt, "Terms Of Service Dot Text");
+        validateDisPlayedElement(elePrivacyStatementLnk, "Privacy Statement Link");
+        validateElementText(elePrivacyStatementLnk, "Privacy Statement");
+        validateDisPlayedElement(eleCookieNoticeLnk, "Cookie Notice Link");
+        validateElementText(eleCookieNoticeLnk, "Cookie Notice");
+    }
+
 }
