@@ -884,14 +884,14 @@ public class AbstractPage {
     }
 
 
-    public String getTextByJavaScripts(WebElement eleGetText) {
+    public String getTextByJavaScripts(WebElement eleGetText, String elementName) {
         getLogger().info("Get text by javascript of element " + eleGetText);
         try {
             JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-            NXGReports.addStep("Get text by javascript of element " + eleGetText, LogAs.PASSED, null);
+            NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.PASSED, null);
             return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;", eleGetText);
         } catch (Exception ex) {
-            NXGReports.addStep("Get text by javascript of element " + eleGetText, LogAs.FAILED, null);
+            NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return "";
         }
@@ -1246,7 +1246,7 @@ public class AbstractPage {
         try
         {
             waitForClickableOfElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-            String strCateDefaultValue = getTextByJavaScripts(categoryNameFieldOnFormEle);
+            String strCateDefaultValue = getTextByJavaScripts(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
             if(strCateDefaultValue.equals(""))
             {
                 isCheckDetaultValue = true;
@@ -1313,7 +1313,7 @@ public class AbstractPage {
             clickElement(categoryNameFieldOnFormEle,"click to categoryNameFieldOnFormEle");
             clearTextBox(categoryNameFieldOnFormEle, "clear categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle,categoryNameAllText,"send key to categoryNameFieldOnFormEle");
-            String strGetCategoryName = getTextByJavaScripts(categoryNameFieldOnFormEle);
+            String strGetCategoryName = getTextByJavaScripts(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
             if(categoryNameAllText.equals(strGetCategoryName))
             {
                 isCheckShowAllText = true;
@@ -1414,7 +1414,7 @@ public class AbstractPage {
             waitForClickableOfElement(categoryNameFieldOnFormEle,"wait for click categoryNameFieldOnFormEle");
             clickElement(categoryNameFieldOnFormEle,"click to categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle,numberSequence,"send key to categoryNameFieldOnFormEle");
-            String strNumberValue = getTextByJavaScripts(categoryNameFieldOnFormEle);
+            String strNumberValue = getTextByJavaScripts(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
             if(strNumberValue.equals(numberSequence))
             {
                 isCheckMaxLength = true;

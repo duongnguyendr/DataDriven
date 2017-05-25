@@ -527,7 +527,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             eleToDoSearchInput.sendKeys(maxLenghtString);
             eleToDoSearchInput.sendKeys(numberSequence);
             // Get the text from eleToDoSearchInput
-            String txtSearchText = getTextByJavaScripts(eleToDoSearchInput);
+            String txtSearchText = getTextByJavaScripts(eleToDoSearchInput, "eleToDoSearchInput");
             getLogger().info("The input txtSearchText = " + txtSearchText);
             if (txtSearchText.equals(maxLenghtString)) {
                 isCheckMaxLength = true;
@@ -3002,7 +3002,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             clickElement(popupToDoDetailName, "click to popupToDoDetailName");
 
-            String todoDetailText = getTextByJavaScripts(popupToDoDetailName);
+            String todoDetailText = getTextByJavaScripts(popupToDoDetailName, "popupToDoDetailName");
             clearTextBox(popupToDoDetailName,"clear popupToDoDetailName");
             String pleaseNameYourTodo = popupToDoDetailName.getAttribute("placeholder");
             getLogger().info("todoDetailText = " + todoDetailText);
@@ -3042,7 +3042,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             sendKeyTextBox(findRequestEmpty1, enterRequestName, "add text to findRequestEmpty1");
-            String todoShowAllText = getTextByJavaScripts(findRequestEmpty1);
+            String todoShowAllText = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             if(todoShowAllText.equals(enterRequestName))
             {
                 isCheckColor = true;
@@ -3142,7 +3142,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             sendKeyTextBox(findRequestEmpty1, numberSequence, "send number to findRequestEmpty1");
-            String numberText = getTextByJavaScripts(findRequestEmpty1);
+            String numberText = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             getLogger().info("numberText = " + numberText);
             if(numberText.equals(numberSequence))
             {
@@ -3176,14 +3176,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             clearTextBox(findRequestEmpty2, "clear text of findRequestEmpty2");
             sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
-            String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1);
-            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2);
+            String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             clickElement(closeAddNewRequest, "click to closeAddNewRequest");
             clickToDoListAddNewRequest();
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
-            String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1);
+            String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
-            String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2);
+            String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
             {
                 NXGReports.addStep("Verify these new request are stored in the database.", LogAs.PASSED, null);
@@ -3217,18 +3217,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Value findRequestEmpty2: " + findRequestEmpty2.getAttribute("value"));
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
-            String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1);
+            String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
-            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2);
+            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             clickElement(closeAddNewRequest, "click to closeAddNewRequest");
             clickToDoListAddNewRequest();
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
-            String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1);
+            String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
-            String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2);
+            String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
             {
                 NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.PASSED, null);

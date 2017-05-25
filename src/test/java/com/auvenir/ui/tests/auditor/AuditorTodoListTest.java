@@ -1603,8 +1603,8 @@ End of merged VienPham.
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorCreateToDoService.createToDoPage();
+            //auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            //auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.createNewRequestOnToDoPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
