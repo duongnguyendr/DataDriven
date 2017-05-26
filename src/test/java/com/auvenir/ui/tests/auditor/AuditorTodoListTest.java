@@ -1516,9 +1516,9 @@ End of merged VienPham.
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        Random r = new Random();
-        String engagementName = "Engagement-PLAT-2350" + r.nextInt(1000);
-        String taskName = "Task-2305" + r.nextInt(1000);
+        Random random = new Random();
+        String engagementName = "Engagement-PLAT-2350" + random.nextInt(1000);
+        String taskName = "Task-2305" + random.nextInt(1000);
         try{
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1556,9 +1556,9 @@ End of merged VienPham.
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        Random r = new Random();
-        String engagementName = "Engagement-PLAT-2350" + r.nextInt(1000);
-        String taskName = "Task-2305" + r.nextInt(1000);
+        Random random = new Random();
+        String engagementName = "Engagement-PLAT-2350" + random.nextInt(1000);
+        String taskName = "Task-2305" + random.nextInt(1000);
         try{
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
