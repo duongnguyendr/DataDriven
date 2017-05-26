@@ -455,6 +455,12 @@ public class ClientDashboardPage extends AbstractPage {
     @FindBy(id = "inbox-header-message-type-filter")
     private  WebElement allMessDropdownEle;
 
+    @FindBy(xpath =  "//div[contains(@id, 'email') and @class = 'au-modal']")
+    private WebElement emailContainerFormEle;
+
+//    @FindBy (xpath = "//*[@id='w-cta-mainText']")
+//    private  WebElement dashBoardWelcomeTxtEle;
+
     // Old code from R1, will be cover with new code with the same function name.
 /*    public void verifyClientFooter() {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
@@ -525,8 +531,8 @@ public class ClientDashboardPage extends AbstractPage {
 
     public void verifyClientHomePage() {
         getLogger().info("verify client home page.");
-        waitForVisibleElement(myAuditTextEle, "myAuditTextEle");
-        validateElementText(myAuditTextEle, "My Audits");
+        waitForVisibleElement(eleWelcomeToYourDashboardTxt, "dashBoardWelcomeTxtEle");
+        validateElementText(eleWelcomeToYourDashboardTxt, "Hi Test! Welcome to your Dashboard.");
     }
 
     public void verifyClientHeader(){
@@ -575,4 +581,87 @@ public class ClientDashboardPage extends AbstractPage {
         validateElementText(eleCookieNoticeLnk, "Cookie Notice");
     }
 
+    public void clickRequestLink() {
+        getLogger().info("Click Request Link.");
+        waitForVisibleElement(eleRequestLnk, "Request Link");
+        validateElementText(eleRequestLnk, "Requests");
+        clickElement(eleRequestLnk, "Request Link");
+    }
+
+    public void clickFilesLink() {
+        getLogger().info("Click Files Link.");
+        waitForVisibleElement(eleFilesLnk, "Files Link");
+        validateElementText(eleFilesLnk, "Files");
+        clickElement(eleFilesLnk, "Files Link");
+    }
+
+    public void clickDashBoardLink() {
+        getLogger().info("Click Dash Board Link.");
+        waitForVisibleElement(eleDashboardLnk, "Dashboard Link");
+        validateElementText(eleDashboardLnk, "Dashboard");
+        clickElement(eleDashboardLnk, "Dashboard Link");
+    }
+
+    public void clickNewMessageButton() {
+        getLogger().info("Click New Message Button.");
+        hoverElement(allMessDropdownEle, "All Message DropDown");
+        waitForVisibleElement(eleNewMessagesBtn, "New Message Button");
+        validateElementText(eleNewMessagesBtn, "New Message");
+        clickElement(eleNewMessagesBtn, "New Message Button");
+    }
+
+    public void verifyNewMessageForm() {
+        getLogger().info("Verify New Message Form.");
+        waitForVisibleElement(eleNewMessagesHeaderTxt, "New Messages Header Text");
+        validateDisPlayedElement(eleNewMessagesHeaderTxt, "New Messages Header Text");
+        validateElementText(eleNewMessagesHeaderTxt, "New Message");
+        validateDisPlayedElement(eleCloseImg, "Close Message Button");
+        validateDisPlayedElement(eleToTxt, "To Text");
+        validateDisPlayedElement(eleTypeTheContactNameTxt, "Type The Contact Name Text");
+        validateDisPlayedElement(eleSubjectTxt, "Subject Text");
+        validateDisPlayedElement(eleTypeTheMessageSubjectTxt, "Type The Message Subject Text");
+        validateDisPlayedElement(eleTypeYourMessageTxt, "Type Your Message Text");
+        validateDisPlayedElement(eleEmptyEmailImg, "Empty Email Image");
+        validateDisPlayedElement(eleYouDontHaveAnyMessageTxt, "You Dont Have any Message Text");
+        validateDisPlayedElement(eleSendBtn, "Send Button");
+        validateDisPlayedElement(eleAttachmentImg, "Attachment Image");
+    }
+
+    public void clickCloseMessageButton() {
+        getLogger().info("Click Close Message Button.");
+        waitForVisibleElement(eleCloseImg, "Close Message Button");
+        clickElement(eleCloseImg, "Close Message Button");
+        waitForCssValueChanged(emailContainerFormEle, "emailContainerPopup", "display", "none");
+    }
+
+    public void verifyDashboardPage() {
+        getLogger().info("Verify Dashboard Page.");
+        waitForVisibleElement(eleWelcomeToYourDashboardTxt, "Welcome To Your Dashboard Text");
+        validateDisPlayedElement(eleWelcomeToYourDashboardTxt, "Welcome To Your Dashboard Text");
+        validateElementText(eleWelcomeToYourDashboardTxt, "Hi Test! Welcome to your Dashboard.");
+        validateDisPlayedElement(eleProfileInitialsTxt, "Profile Initials Text");
+        validateDisPlayedElement(elePleaseCompleteTxt, "Please Complete Text");
+        validateDisPlayedElement(eleViewRequestsBtn, "View Requests Button");
+        validateDisPlayedElement(eleMyAuditorTxt, "My Auditor Text");
+        validateDisPlayedElement(eleAuditorImg, "Auditor Image");
+        validateDisPlayedElement(eleAuditorFullNameTxt, "Auditor Full Name Text");
+        validateDisPlayedElement(eleSendAMessageTxt, "Send A Message Text");
+        validateDisPlayedElement(eleActivityFeedTxt, "Activity Feed Text");
+        validateDisPlayedElement(eleCreationDateTxt, "Creation Date Text");
+        validateDisPlayedElement(eleCircleBulletinImg, "Circle Bulletin Image");
+        validateDisPlayedElement(eleTimeStampImg, "Time Stamp Image");
+        validateDisPlayedElement(eleTimeStampTxt, "Time Stamp Text");
+        // Cannot find the element form old Code R1. Will update later
+//        validateDisPlayedElement(eleActivityProfileInitialsTxt, "Activity Profile Initails Text");
+        validateDisPlayedElement(eleYouTxt, "You Text");
+        validateDisPlayedElement(eleJoinedToTheTxt, "Joined To The Text");
+        // Cannot find the element form old Code R1. Will update later
+//        validateDisPlayedElement(eleUntitledTxt, "Untitled Text");
+    }
+
+    public void clickInboxMessage() {
+        getLogger().info("Click Inbox Icon.");
+        waitForVisibleElement(eleInboxIcn, "Inbox Icon");
+        clickElement(eleInboxIcn, "Inbox Icon");
+    }
 }

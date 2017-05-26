@@ -771,6 +771,35 @@ public class ClientOnBoardingPage extends AbstractPage {
             }
         return monthName;
     }
+
+    public void verifyClientOnBoardingPersonalStep(){
+        getLogger().info("Verify Client On Boarding - Personal Information Step.");
+        waitForVisibleElement(elePleaseConfirmYourInfoTxt, "Please Confirm your Information - Text");
+        validateDisPlayedElement(elePleaseConfirmYourInfoTxt, "Please confirm your information - Text");
+        validateElementText(elePleaseConfirmYourInfoTxt, "Please Confirm your Information");
+        validateDisPlayedElement(eleAuvenirLogoImg, "Auvenir Logo");
+        validateDisPlayedElement(elePERSONALTxt, "Personal Text");
+        // Cannot find the element form old Code R1. Will update later
+//        validateDisPlayedElement(eleBUISNESSTxt, "Buisness - Text");
+//        validateDisPlayedElement(eleFILESTxt, "FILES Text");
+        validateDisPlayedElement(eleSECURITYTxt, "SECURITY -Text");
+        validateDisPlayedElement(elePERSONALImg, "PERSONAL Circle Image");
+        // Cannot find the element form old Code R1. Will update later
+//        validateDisPlayedElement(eleBUISNESSImg, "BUISNESS Circle Image");
+//        validateDisPlayedElement(eleFILESImg, "FILES Circle Image ");
+        validateDisPlayedElement(eleSECURITYImg, "SECURITY Circle Image");
+        validateDisPlayedElement(eleFirstLastNameTxt, "First Name Last Name Text");
+        validateDisPlayedElement(eleFirstLastNameTxtFld, "FirstName LastName TxtFld");
+        validateDisPlayedElement(eleEmailAddressTxt, "Email Address - Text");
+        validateDisPlayedElement(eleEmailAddressTxtFld, "Email Address Text Field");
+        validateDisPlayedElement(elePhoneNumberTxt, "Phone Number - Text");
+        validateDisPlayedElement(elePhoneNumberTxtFld, "Phone Number Text Field");
+        validateDisPlayedElement(eleIAgreeImg, "I Agree - Image");
+        validateDisPlayedElement(eleIAgreeTxt, "I Agree - Text");
+        validateDisPlayedElement(eleCameraImg, "Camera Image");
+        validateDisPlayedElement(eleUploadPhotoBtn, "Update Photo Button");
+        validateDisPlayedElement(eleContinueBtn, "Continue button");
+    }
 }
 	
 

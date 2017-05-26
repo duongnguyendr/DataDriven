@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidElementStateException;
@@ -222,7 +223,6 @@ public class AuvenirPage extends AbstractPage {
     public WebElement getEleCookieNoticeFtrLnk() {
         return eleCookieNoticeFtrLnk;
     }
-
 
     @FindBy(xpath = "//h2[@class='terms-title'][text()=' Terms of Service ']")
     private WebElement eleTOSTitleTxt;
@@ -531,14 +531,12 @@ public class AuvenirPage extends AbstractPage {
 		return eleJoinAsAnAuditorLnk;
 	}*/
 
-
     @FindBy(id = "intercom-container-body")
     private WebElement eleIntercomLauncherIcn;
 
     public WebElement getEleIntercomLauncherIcn() {
         return eleIntercomLauncherIcn;
     }
-
 
     @FindBy(xpath = "//img[@src='images/illustrations/login.svg']")
     private WebElement eleMailImg;
@@ -553,7 +551,6 @@ public class AuvenirPage extends AbstractPage {
     public WebElement getEleCheckYourEmailTxt() {
         return eleCheckYourEmailTxt;
     }
-
 
     @FindBy(xpath = "//h2[contains(text(),'Awaiting approval!')]")
     private WebElement eleAwaitingApprovalTxt;
@@ -668,6 +665,67 @@ public class AuvenirPage extends AbstractPage {
 
         GeneralUtilities.toValidate(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
 
+    }
+
+    public void verifyBodyLoginPage(){
+        GeneralUtilities.toValidate(getEleAuvenirImg(), "Auvenir Header Logo Image", "Displayed");
+        GeneralUtilities.toValidate(getEleAuditorLoginLnk(), "Auditor Login Link", "Displayed");
+        GeneralUtilities.toValidate(getEleAuditorLoginImg(), "Auditor Login Image", "Displayed");
+        GeneralUtilities.toValidate(getEleWeHelpYouAuditTxt(), "We help you audit Text", "Displayed");
+        GeneralUtilities.toValidate(getEleJoinTheWaitlistTxt(), "Join the Waitlist Text", "Displayed");
+        GeneralUtilities.toValidate(getEleWorkEmailTxt(), "Work Email Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuditorEmailAddressTxtFld(), "Auditor Email Address Text Field", "Displayed");
+        GeneralUtilities.toValidate(getEleJoinBtn(), "Join Button", "Enabled");
+        GeneralUtilities.toValidate(getEleBySigningUpTxt(), "By signing up, you agree to our Terms of Use and Privacy Poclicy - Text", "Displayed");
+        GeneralUtilities.toValidate(getEleSpendLessTimeClockImg(), "Spend Less Time Clock Image", "Displayed");
+        GeneralUtilities.toValidate(getEleSpendLessTimeTxt(), "Spend Less Time Clock Text", "Displayed");
+        GeneralUtilities.toValidate(getEleUseSophisticatedTxt(), "Use Sophisticated Text", "Displayed");
+        GeneralUtilities.toValidate(getEleDevelopDeeperImg(), "Develop Deeper Image", "Displayed");
+        GeneralUtilities.toValidate(getEleDevelopDeeperTxt(), "Develop Deeper Text", "Displayed");
+        GeneralUtilities.toValidate(getEleLeverageMachineTxt(), "Leverage Machine Text", "Displayed");
+        GeneralUtilities.toValidate(getEleSecurelyManageImg(), "Securely Manage Image", "Displayed");
+        GeneralUtilities.toValidate(getEleSecurelyManageTxt(), "Securely Manage Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAccessACloudTxt(), "Access a cloud Text", "Displayed");
+        GeneralUtilities.toValidate(getElePersonalizedForYouImg(), "Personalized for you Image", "Displayed");
+        GeneralUtilities.toValidate(getElePersonalizedForYouTxt(), "Personalized for you Text", "Displayed");
+        GeneralUtilities.toValidate(getEleCustomizeSchedulesTxt(), "Customize Schedules Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAccessAndManageTxt(), "Access and Manage Text", "Displayed");
+        GeneralUtilities.toValidate(getEleStoreAllTxt(), "Store All Text", "Displayed");
+        GeneralUtilities.toValidate(getEleAuvenirFooterImg(), "Auvenir Footer Image", "Displayed");
+    }
+
+    public void verifyFormLogin(){
+        clickElement(getEleAuditorLoginLnk(), "Auditor Login Link");
+        GeneralUtilities.toValidate(getEleEmailAddressTxt(), "Email Address Text", "Displayed");
+        GeneralUtilities.toValidate(getEleEmailAddressPopUpTxtFld(), "Email Address PopUp Text Field", "Displayed");
+        GeneralUtilities.toValidate(getEleGoBtn(), "Go Button", "Enabled");
+    }
+
+    public void verifyLoginWithEmail(String email){
+        sendKeyTextBox(getEleEmailAddressPopUpTxtFld(), email, "Email Address PopUp Text Field");
+        clickElement(getEleGoBtn(), "Go Button");
+        waitForVisibleElement(getEleWaitVerificationTxt(), "Your email is awaiting verification");
+        sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), "auvaudit", "Auditor Email Address Text Field");
+        sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), email, "Auditor Email Address Text Field");
+        getEleJoinBtn().click();
+    }
+
+    public void verifyApprovePopupDisplayed(){
+        boolean isPopupDisplayed = false;
+        isPopupDisplayed = validateDisPlayedElement(getEleAwaitingApprovalTxt(), "Approve popup");
+        if(isPopupDisplayed){
+            NXGReports.addStep("Awaiting approval popup is successfully displayed.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Awaiting approval popup is successfully displayed", LogAs.FAILED, null);
+        }
+        clickElement(getEleDoneBtn(), "Awaiting Approval popup");
+    }
+    public void verifyFooterPage(){
+        validateDisPlayedElement(getEleTermsOfUserFtrLnk(), "Terms of Service - Link");
+        validateDisPlayedElement(getElePrivacyPolicyFtrLnk(), "Privacy Statement - Link");
+        validateDisPlayedElement(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - Link");
+        validateDisPlayedElement(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text");
     }
 
     public void clickMessageBoxIcon() {

@@ -6,25 +6,18 @@
     </listeners>
     <test name="Regression" preserve-order="true">
         <classes>
-            <!-- Init data -->
-            <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
-
             <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
             <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
 
             <!--
-            <class name="com.auvenir.ui.tests.SmokeTest"/>
+             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <class name="com.auvenir.ui.tests.AdminTest"/>
             <class name="com.auvenir.ui.tests.SupportTest"/>
             <class name="com.auvenir.ui.tests.CareerTest"/>
             <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <class name="com.auvenir.ui.tests.admin.AdminTest"/>
-            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
-            <methods>
-                <include name="verifyAdminCookieNoticePage"></include>
-            </methods>
+            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
             <class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
@@ -41,7 +34,7 @@
             <class name="com.auvenir.rests.api.tests.AccountTest"/>
             <class name="com.auvenir.rests.api.tests.InstitutionTest"/>
             <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
-            <!--<class name="com.auvenir.ui.tests.auditor.AddDeleteIconTest"/>-->
+
 
         </classes>
     </test>

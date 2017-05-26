@@ -13,45 +13,26 @@ import com.auvenir.ui.services.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
+import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.jayway.restassured.RestAssured.given;
 
 /**
  * Created by thuan.duong on 5/24/2017.
  */
 public class ClientTestRefactor extends AbstractTest {
     //Logger logger = Logger.getLogger(ClientTest.class);
-    ClientLoginPage clientLoginPage = null;
-    String expectedTxt = null;
-    AuvenirPage auvenirPage =null;
-    GmailPage gmailPage =null;
-    CreateNewAuditPage createNewAuditPage =null;
-    AddNewClientPage addNewClientPage =null;
-    AuditorEngagementPage auditorEngagementPage =null;
-    AdminLoginPage adminLoginPage =null;
-    ClientOnBoardingPage clientOnBoardingPage =null;
-    ClientDashboardPage clientDashboardPage =null;
-    ClientHomePage clientHomePage = null;
-    ClientRequestPage clientRequestPage =null;
-    ClientFilesPage clientFilesPage =null;
-    String sURL = null;
-    String testCaseId = null;
-    String sData[] = null;
     private ClientService clientService;
-
-    DateFormat dateFormat = null;
-    Date date = null;
-    static String CurrentDate=null;
-    private int waittime = 60;
 
 //	@BeforeClass
 //	public void preCondition()
@@ -79,6 +60,162 @@ public class ClientTestRefactor extends AbstractTest {
 //	}
 
     /*
+     * @Description: To Verify the display of Elements in Client Onboarding Page.
+	 * @Author: Lakshmi BS
+	 */
+    @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page")
+    public void verifyClientOnboardingPage() throws Exception {
+        clientService = new ClientService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        ClientOnBoardingPage clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
+        try {
+            /*String onBoardingUrl;
+            getLogger().info("update status of client to onboarding.");
+            onBoardingUrl = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID") + "/update?status=ONBOARDING";
+            Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(onBoardingUrl);
+            if (response.getStatusCode() == 200) {
+                getLogger().info("The client is on boarding.");
+            } else {
+            }*/
+            //driver.get("https://ariel.auvenir.com/api/user/auvclient02@gmail.com/update?status=ONBOARDING");
+
+//            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            clientService.loginWithUserRole(userId);
+//            Thread.sleep(5000);
+            clientService.verifyClientOnBoardingPersonalStep();
+			/*
+			clientOnBoardingPage.getEleFirstLastNameTxtFld().clear();
+			clientOnBoardingPage.getEleFirstLastNameTxtFld().sendKeys(sData[1]);
+			clientOnBoardingPage.getEleEmailAddressTxtFld().click();
+			clientOnBoardingPage.getEleEmailAddressTxtFld().clear();
+			clientOnBoardingPage.getEleEmailAddressTxtFld().sendKeys(sData[2]);*/
+
+//            clientOnBoardingPage.getEleIAgreeImg().click();
+//            Thread.sleep(3000);
+//            clientOnBoardingPage.getEleContinueBtn().click();
+//            Thread.sleep(5000);
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePleaseConfirmBuisnessTxt(), "Please confirm your buisness - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessNameTxt(), "Buisness Name Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessNameTxtFld(), "Buisness Name Text Field", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleFiscalYearTxt(), "Fiscal Year End Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleFiscalYearTxtFld(), "Fiscal Year End Text Field", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAccountingFrameTxt(), "Accounting Framework Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAccountingFrameTxtFld(), "Accounting Framework Text Field", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessCameraImg(), "Buisness Camera Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessUploadBtn(), "Upload -Button", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessContinueBtn(), "Continue button", "Enabled");
+//            clientOnBoardingPage.getEleBuisnessContinueBtn().click();
+//            Thread.sleep(5000);
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIntegrateFileTxt(), "Integrate with your file storage - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePleaseSelectTxt(), "Please select the directory - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleGoogleDriveTxt(), "Google Drive - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleGoogleDriveImg(), "Google Drive - Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleLocalTxt(), "Local - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleLocalImg(), "Local Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSkipBtn(), "Skip - Button", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleNotReadyTxt(), "Not ready to integrate - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleYouCanSkipTxt(), "You can skip - Text", "Displayed");
+//            clientOnBoardingPage.getEleSkipBtn().click();
+//            Thread.sleep(5000);
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSetUpTxt(), "Set Up Security - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleDownloadtheAuvenirTxt(), "Download the auvenir - Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePhoneNumberSmsInputTxtFld(), "Phone Number - Text Fld", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleTextAppLinkBtn(), "Text App Link - Button", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePhoneImg(), "Phone Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAppStoreImg(), "App Store Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleGooglePlayImg(), "Google Play Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSkipBtn(), "Skip Button", "Enabled");
+//            Robot rb = new Robot();
+//            rb.keyPress(KeyEvent.VK_PAGE_DOWN);
+//            Thread.sleep(3000);
+//            clientOnBoardingPage.getEleSecuritySkipBtn().click();
+//            Thread.sleep(5000);
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleWarningImg(), "Warning Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleCloseImg(), "Close Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSkipSecurityTxt(), "Skip Security Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleByChoosingTxt(), "By Choosing Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAmDefaultingChkBox(), "I am Defaulting Check Box", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAmDefaultingTxt(), "I am Defaulting Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleITakeResponsibilityChkBox(), "I Take Responsibility Check Box", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleITakeResponsibilityTxt(), "I Take Responsibility Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAgreeToAuvenirChkBox(), "I Agree to Auvenir Check Box", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAgreeToAuvenirTxt(), "I Agree to Auvenir Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleTermsAndConditionsSkipSecurityLnk(), "Terms and Conditions Link", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleCancelSkipSecurityBtn(), "Cancel Button", "Enabled");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAgreeSkipSecurityBtn(), "Agree Button", "Enabled");
+//            clientOnBoardingPage.getEleIAmDefaultingChkBox().click();
+//            clientOnBoardingPage.getEleITakeResponsibilityChkBox().click();
+//            clientOnBoardingPage.getEleIAgreeToAuvenirChkBox().click();
+//            clientOnBoardingPage.getEleAgreeSkipSecurityBtn().click();
+//            Thread.sleep(5000);
+//
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleWelcomeToDashboardTxt(), "Welcome to DashBoard - Text", "Displayed");
+
+
+			/*
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetNumberTxt(),"Street Number Text","Displayed");
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetNumberTxtFld(),"Street Number Text Field","Displayed");
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetTxt(),"Street Text","Displayed");
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetTxtFld(),"Street Text Field","Displayed");
+			*/
+
+
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception e) {
+            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+
+    }
+
+    /*
+     * @Description: To Verify the display of Elements in Client Dashboard Page
+	 * @Author: Jeevaraj SP
+	 */
+    @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Client Dashboard Page")
+    public void verifyClientDashboardPage() throws Exception {
+        clientService = new ClientService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        try {
+            //Will update later.
+//            String onBoardingUrl;
+//            getLogger().info("update status of client to active.");
+//            onBoardingUrl = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID") + "/update?status=ACTIVE";
+//            Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(onBoardingUrl);
+//            if (response.getStatusCode() == 200) {
+//                getLogger().info("The client is active.");
+//            } else {
+//            }
+//            //driver.get("https://ariel.auvenir.com/api/user/"+ GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ACTIVE");
+//            Thread.sleep(15000);
+//            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            clientService.loginWithUserRole(userId);
+            clientService.verifyClientHomePage();
+            clientService.clickDashBoardLink();
+            clientService.verifyClientHeader();
+            clientService.clickInboxMessage();
+            clientService.clickNewMessageButton();
+            clientService.verifyNewMessageForm();
+            clientService.clickCloseMessageButton();
+            clientService.clickDashBoardLink();
+            clientService.verifyDashboardPage();
+            clientService.verifyClientFooter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify the display of Elements in Client Dashboard Page", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Dashboard Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception e) {
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Dashboard Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    /*
      * @Description: To Verify the display of Elements in Client Home Page
 	 * @Author: Jeevaraj SP
 	 */
@@ -91,7 +228,7 @@ public class ClientTestRefactor extends AbstractTest {
             clientService.verifyClientHeader();
             clientService.verifyClientInboxMessage();
             clientService.verifyMyAuditsPage();
-            clientService.verifyClientFooterRefactor();
+            clientService.verifyClientFooter();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the display of Elements in Client Home Page.", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -104,65 +241,58 @@ public class ClientTestRefactor extends AbstractTest {
     }
 
     /*
-	 * @Description: To Verify the display of Elements in Client Request Page
+     * @Description: To Verify the display of Elements in Client Request Page
 	 * @Author: Jeevaraj SP
 	 */
-    @Test(priority=8,enabled=true, description="To Verify the display of Elements in Client Request Page")
-    public void verifyClientRequestPage() throws Exception
-    {
-        AbstractRefactorService.sStatusCnt=0;
-        clientDashboardPage =new ClientDashboardPage(getLogger(),getDriver());
-        clientRequestPage =new ClientRequestPage(getLogger(),getDriver());
-        auvenirPage =new AuvenirPage(getLogger(),getDriver());
+    @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Client Request Page")
+    public void verifyClientRequestPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
-        try
-        {
+        try {
+            clientService.loginWithUserRole(userId);
+            clientService.verifyClientHomePage();
+            clientService.clickRequestLnk();
+            clientService.verifyClientRequestPage();
             clientService.verifyClientHeader();
-            clientDashboardPage.getEleRequestLnk().click();
-            Thread.sleep(5000);
-            //Will Update later.
-//            auvenirPage.toValidate(clientRequestPage.getEleAllRequestTxt(),"All Request Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleFinancialsTxt(),"Financials Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleGeneralLedgerTxt(),"General Ledger Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleTrialBalanceTxt(),"Trial Balance Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleBankStatementsTxt(),"Bank Statements Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleGeneralLedgerHeaderTxt(),"General Legder Header Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleDescriptionGeneralLedgerTxt(),"Description General Legder Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleGeneralLedgerContainerFld(),"General Legder Container Field", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleUploadGeneralLedgerImg(),"Upload General Legder Image", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleDragAndDropGeneralLedgerTxt(),"Drag and Drop General Legder Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleBrowseGeneralLedgerTxt(),"Browse General Legder Text", "Displayed");
-//            Thread.sleep(5000);
-//            clientRequestPage.getEleTrialBalanceTxt().click();
-//            Thread.sleep(5000);
-//            auvenirPage.toValidate(clientRequestPage.getEleTrialBalanceHeaderTxt(),"Trial Balance Header Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleDescriptionTrialBalanceTxt(),"Description Trial Balance Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleTrialBalanceContainerFld(),"Trial Balance container Field", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleUploadTrialBalanceImg(),"Upload Trial Balance Image", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleDragAndDropTrialBalanceTxt(),"Drag and Drop Trial Balance Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleBrowseTrialBalanceTxt(),"Browse Trial Balance Text", "Displayed");
-//            Thread.sleep(5000);
-//            clientRequestPage.getEleBankStatementsTxt().click();
-//            Thread.sleep(5000);
-//            auvenirPage.toValidate(clientRequestPage.getEleBankStatementsHeaderTxt(),"Bank Statements Header Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleDescriptionBankStatementsTxt(),"Description Bank Statements Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleBankStatementContainerFld(),"Bank Statements Container Field", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleUploadBankStatementsImg(),"Upload Bank Statements Image", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleDragAndDropBankStatementsTxt(),"Drag and Drop Bank Statements Text", "Displayed");
-//            auvenirPage.toValidate(clientRequestPage.getEleBrowseBankStatementsTxt(),"My Audits Text", "Displayed");
-//            clientDashboardPage.verifyClientFooter();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
-            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
-        }
-        catch (AssertionError e)
-        {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            clientService.verifyGeneralLedgerTab();
+            clientService.clickTrialBalanceMenuLink();
+            clientService.verifyTrialBalanceTab();
+            clientService.clickBankStatementsMenuLink();
+            clientService.verifyBankStatementsTab();
+            clientService.verifyClientFooter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify the display of Elements in Client Request Page", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Request Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception e) {
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Request Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
-        catch (Exception e)
-        {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    }
+
+    /*
+     * @Description: To Verify the display of Elements in Client Files Page
+	 * @Author: Jeevaraj SP
+	 */
+    @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Client Files Page")
+    public void verifyClientFilesPage() throws Exception {
+        clientService = new ClientService(getLogger(), getDriver());
+        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        try {
+            clientService.loginWithUserRole(userId);
+            clientService.verifyClientHomePage();
+            clientService.clickFilesLink();
+            clientService.verifyClientHeader();
+            clientService.verifyFilesTab();
+            clientService.verifyClientFooter();
+            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify the display of Elements in Client Files Page", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Files Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception e) {
+            NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Files Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }

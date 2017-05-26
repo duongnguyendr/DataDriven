@@ -2678,6 +2678,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status){
         getLogger().info("Verify Completed field updated on database.");
+//        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         if (jsonObject.get("completed").toString().equals(status)){
             NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
@@ -2927,10 +2928,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
-    public void clickToDoListAddNewRequest()
-    {
+    public void clickToDoListAddNewRequest() throws InterruptedException {
+        // Need to use Thread.sleep that support stable scripts
         checkToDoNameAddNewRequest = textToDoName.get(0).getAttribute("value").toString();
+        waitForVisibleOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
         waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
+        waitForClickableOfElement(todoListAddNewRequestImg);
+        Thread.sleep(smallerTimeOut);
         clickElement(todoListAddNewRequestImg, "click to todoListAddNewRequestImg");
     }
     /**
@@ -2964,17 +2968,21 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyClickAddRequestBtn()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to click the add request button and show the empty request");
         boolean isCheckRequestEmpty = false;
         try {
             waitForClickableOfLocator(By.xpath("//*[@id='add-request-btn']"));
+            Thread.sleep(smallerTimeOut);
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
-            //waitForClickableOfElement(findRequestEmpty1, "wait for findRequestEmpty1");
-            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
-            clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
+            waitForClickableOfElement(findRequestEmpty1, "wait for findRequestEmpty1");
+            Thread.sleep(smallerTimeOut);
+            clickElement(findRequestEmpty1);
+            clickElement(totoPageAddRequestBtn);
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
-            //waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            Thread.sleep(smallerTimeOut);
             isCheckRequestEmpty = clickElement(findRequestEmpty2, "click to findRequestEmpty2");
             if(isCheckRequestEmpty)
             {
@@ -2997,11 +3005,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyDefaultToDoNameNewRequestPopup()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify the default ToDo name on new request popup.");
         boolean isCheckColor = false;
         try {
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsName']"));
+            Thread.sleep(smallerTimeOut);
             clickElement(popupToDoDetailName, "click to popupToDoDetailName");
-
             String todoDetailText = getTextByJavaScripts(popupToDoDetailName, "popupToDoDetailName");
             clearTextBox(popupToDoDetailName,"clear popupToDoDetailName");
             String pleaseNameYourTodo = popupToDoDetailName.getAttribute("placeholder");
@@ -3032,14 +3042,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyShowAllTextNewRequestPopup()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to show all text in the new request on popup.");
         boolean isCheckColor = false;
         try {
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             clearTextBox(findRequestEmpty1, "clear findRequestEmpty1");
             String enterRequestName = "Add new request " + randomNumber();
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             sendKeyTextBox(findRequestEmpty1, enterRequestName, "add text to findRequestEmpty1");
             String todoShowAllText = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
@@ -3068,11 +3081,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyMaxLengthNewRequestPopup()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify the max length of new request.");
         boolean isCheckMaxLength = false;
         try {
             boolean ischeckvalidateMaxlenght = validateMaxlenght(findRequestEmpty1, "findRequestEmpty1", 101);
             getLogger().info("ischeckvalidateMaxlenght = " + ischeckvalidateMaxlenght);
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
             isCheckMaxLength = waitForVisibleOfLocator(By.xpath("//p[contains(text(),'Request name can not have more than 100 characters')]"));
             getLogger().info("isCheckMaxLength = " + isCheckMaxLength);
@@ -3097,14 +3113,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyEmptyNewRequestPopup()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify the empty new request on popup.");
         boolean isCheckEmptyRequest = false;
         try {
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
             isCheckEmptyRequest = waitForVisibleOfLocator(By.xpath("//p[contains(text(),'Request name must not be empty')]"));
             getLogger().info("isCheckEmptyRequest = " + isCheckEmptyRequest);
@@ -3132,14 +3152,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyInputNumberToNewRequestPopup()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to input number to new request in the add new request popup.");
         try {
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
-            clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            Thread.sleep(smallerTimeOut);
+            clickElement(findRequestEmpty1);
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             sendKeyTextBox(findRequestEmpty1, numberSequence, "send number to findRequestEmpty1");
             String numberText = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
@@ -3168,21 +3191,37 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyNewRequestStoreInDatabase()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
+            Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty1, newRequest01, "send data to findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            Thread.sleep(smallerTimeOut);
             clearTextBox(findRequestEmpty2, "clear text of findRequestEmpty2");
+            Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
+            clickElement(findRequestEmpty1);
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+            clickElement(findRequestEmpty2);
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             clickElement(closeAddNewRequest, "click to closeAddNewRequest");
             clickToDoListAddNewRequest();
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
+            clickElement(findRequestEmpty1);
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            Thread.sleep(smallerTimeOut);
+            clickElement(findRequestEmpty2);
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
             {
@@ -3206,28 +3245,40 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyUpdateRequestStoreInDatabase()
     {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to update these requests and these are stored in the database.");
         try {
             newRequest01 = "updated01";
             newRequest02 = "updated02";
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty1, newRequest01, "send data to findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
             getLogger().info("Value findRequestEmpty2: " + findRequestEmpty2.getAttribute("value"));
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
+            waitForVisibleOfLocator(By.xpath("//*[@id='auv-todo-details']/div[3]"));
             clickElement(closeAddNewRequest, "click to closeAddNewRequest");
             clickToDoListAddNewRequest();
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
+            Thread.sleep(smallerTimeOut);
             String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
             {

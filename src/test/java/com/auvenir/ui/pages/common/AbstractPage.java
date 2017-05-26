@@ -517,6 +517,7 @@ public class AbstractPage {
             return false;
         }
     }
+
     /**
      @Description In order to wait element to be invisible by locator.
      */
@@ -568,6 +569,20 @@ public class AbstractPage {
             getLogger().info("Element is not clickable on Element: "+element.getText());
             NXGReports.addStep("Element: "+ elementName+" is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
+        }
+    }
+
+    /**
+     @Description In order to wait element to be visible.
+     @Author: minh.nguyen
+     */
+    public void waitForClickableOfElement(WebElement element){
+        getLogger().info("Try to waitForClickableOfElement: " + element);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+        }catch (Exception e){
+            getLogger().info("Element is not clickable on Element: " + e.getMessage());
         }
     }
     /**
@@ -650,6 +665,20 @@ public class AbstractPage {
     }
 
     /**
+     @Description: Click on element
+     @Author: minh.nguyen
+     */
+    public void clickElement(WebElement element){
+        getLogger().info("Try to ClickElement: " + element);
+        try{
+            waitForClickableOfElement(element);
+            element.click();
+        } catch (Exception e) {
+            getLogger().info("Unable to Click on: " + e.getMessage());
+        }
+    }
+
+    /**
      @Description: Click and Hold on element
      @param element element defined on page class
      @param elementName Name of element that we want to click and hold
@@ -697,10 +726,10 @@ public class AbstractPage {
     public void sendKeyTextBox(WebElement element, String text,String elementName){
         getLogger().info("Try to sendKey on : "+elementName);
         try {
-            waitForClickableOfElement(element, "wait for click to " + element);
+            waitForClickableOfElement(element, "wait for click to " + elementName);
             //element.click();
             element.clear();
-            waitForClickableOfElement(element, "wait for click to " + element);
+            waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
             NXGReports.addStep("Send text: "+text+ "on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
@@ -895,16 +924,17 @@ public class AbstractPage {
 
 
     public String getTextByJavaScripts(WebElement eleGetText, String elementName) {
-        getLogger().info("Get text by javascript of element " + eleGetText);
+        getLogger().info("Get text by javascript of element " + elementName);
+        String textOfElement = "";
         try {
             JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+            textOfElement = (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;", eleGetText);
             NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.PASSED, null);
-            return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;", eleGetText);
         } catch (Exception ex) {
             NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
-            return "";
         }
+        return textOfElement;
     }
 
     public void verifySortDataGrid(List<WebElement> elementRowValue, WebElement elementSortIcon){

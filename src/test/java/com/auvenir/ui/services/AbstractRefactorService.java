@@ -50,7 +50,7 @@ public class AbstractRefactorService {
     public void setUp() {
         try {
             if (GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
-                System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/tests/resources/chromedriver.exe");
+                System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                 System.out.println("Chrome is set");
                 driver = new ChromeDriver();
             } else {

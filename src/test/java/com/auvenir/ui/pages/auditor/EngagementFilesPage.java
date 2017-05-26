@@ -35,4 +35,10 @@ public class EngagementFilesPage extends AbstractPage {
         return eleNoFilesTxt;
     }
 
+    public void verifyDisplayElementInEngagementFilesPage(){
+        validateDisPlayedElement(getEleFilesTxt(), "Files Text");
+        validateDisPlayedElement(getEleEmptyClipbrdImg(), "Empty Clipboard Image");
+        validateDisPlayedElement(getEleNoFilesTxt(), "'You haven't added any files yet.' text");
+    }
+
 }

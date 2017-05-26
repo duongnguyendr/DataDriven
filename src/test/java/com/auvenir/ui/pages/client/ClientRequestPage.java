@@ -178,4 +178,61 @@ public class ClientRequestPage extends AbstractPage {
     public WebElement getEleBrowseBankStatementsTxt() {
         return eleBrowseBankStatementsTxt;
     }
+
+    public void verifyClientRequestPage() {
+        getLogger().info("Verify the Client Request Page.");
+        waitForVisibleElement(eleAllRequestTxt,"All Requests Text");
+        validateDisPlayedElement(eleAllRequestTxt,"All Requests Text");
+        validateElementText(eleAllRequestTxt, "All Requests");
+        validateDisPlayedElement(eleFinancialsTxt, "Financials Text");
+        validateDisPlayedElement(eleGeneralLedgerTxt, "General Ledger Menu Link");
+        validateDisPlayedElement(eleTrialBalanceTxt, "Trial Balance Menu Link");
+        validateDisPlayedElement(eleBankStatementsTxt, "Bank Statements Menu Link");
+    }
+
+    public void verifyGeneralLedgerTab() {
+        getLogger().info("Verify the General Ledger Tab.");
+        waitForVisibleElement(eleGeneralLedgerHeaderTxt,"General Legder Header Text");
+        validateDisPlayedElement(eleGeneralLedgerHeaderTxt, "General Legder Header Text");
+        validateElementText(eleGeneralLedgerHeaderTxt, "General Ledger");
+        validateDisPlayedElement(eleDescriptionGeneralLedgerTxt, "Description General Legder Text");
+        validateDisPlayedElement(eleGeneralLedgerContainerFld, "General Legder Container Field");
+        validateDisPlayedElement(eleUploadGeneralLedgerImg, "Upload General Legder Image");
+        validateDisPlayedElement(eleDragAndDropGeneralLedgerTxt, "Drag and Drop General Legder Text");
+        validateDisPlayedElement(eleBrowseGeneralLedgerTxt, "Browse General Legder Text");
+    }
+
+    public void clickTrialBalanceMenuLink() {
+        getLogger().info("Click Trial Balance Menu Link.");
+        clickElement(eleTrialBalanceTxt, "Trial Balance Link.");
+    }
+
+    public void verifyTrialBalanceTab() {
+        getLogger().info("Verify the Trial Balance Tab.");
+        waitForVisibleElement(eleTrialBalanceHeaderTxt, "Trial Balance Header");
+        validateDisPlayedElement(eleTrialBalanceHeaderTxt, "Trial Balance Header");
+        validateElementText(eleTrialBalanceHeaderTxt, "Trial Balance");
+        validateDisPlayedElement(eleDescriptionTrialBalanceTxt, "Description Trial Balance Text");
+        validateDisPlayedElement(eleTrialBalanceContainerFld, "Trial Balance container Field");
+        validateDisPlayedElement(eleUploadTrialBalanceImg,"Upload Trial Balance Image");
+        validateDisPlayedElement(eleDragAndDropTrialBalanceTxt, "Drag and Drop Trial Balance Text");
+        validateDisPlayedElement(eleBrowseTrialBalanceTxt,"Browse Trial Balance Text");
+    }
+
+    public void clickBankStatementsMenuLink() {
+        getLogger().info("Click Bank Statements Menu Link.");
+        clickElement(eleBankStatementsTxt, "Bank Statements");
+    }
+
+    public void verifyBankStatementsTab() {
+        getLogger().info("Verify the Bank Statements Tab.");
+        waitForVisibleElement(eleBankStatementsHeaderTxt, "Bank Statements Header");
+        validateDisPlayedElement(eleBankStatementsHeaderTxt, "Bank Statements Header");
+        validateElementText(eleBankStatementsHeaderTxt, "Bank Statements");
+        validateDisPlayedElement(eleDescriptionBankStatementsTxt, "Description Bank Statements Text");
+        validateDisPlayedElement(eleBankStatementContainerFld, "Bank Statements Container Field");
+        validateDisPlayedElement(eleUploadBankStatementsImg, "Upload Bank Statements Image");
+        validateDisPlayedElement(eleDragAndDropBankStatementsTxt, "Drag and Drop Bank Statements Text");
+        validateDisPlayedElement(eleBrowseBankStatementsTxt, "Browse Bank Statements Text");
+    }
 }
