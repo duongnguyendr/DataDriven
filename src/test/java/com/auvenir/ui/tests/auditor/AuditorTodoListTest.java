@@ -49,16 +49,16 @@ public class AuditorTodoListTest extends AbstractTest {
 
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.createAndSelectNewEnagement("engagement01", "", "Company Auvenir");
+            auditorEngagementService.createAndSelectNewEnagement(engagementName, "", "Company Auvenir");
             // Need to change the flow of the code, it always creates new one to verify the empty to do list.
 //            auditorEngagementService.clickNewEnagementButton();
 //            auditorNewEngagementService.verifyNewEngagementPage();
-//            auditorNewEngagementService.enterDataForNewEngagementPage("engagement01", "", "Company Auvenir");
+//            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", "Company Auvenir");
             //will implement later, current we can not navigate engagment by name
 //            auditorEngagementService.verifyAuditorEngagementPage();
-//            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+//            auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
@@ -84,7 +84,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyDataSearch();
             auditorCreateToDoService.verifyCheckMaxLength();
@@ -132,7 +132,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyAddNewCategoryPopupTitle();
             auditorCreateToDoService.verifyNewCategoryNameTextbox();
@@ -159,7 +159,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorCreateToDoService.verifyButtonFilter();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -183,7 +183,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorCreateToDoService.verifySearchPlaceholder();
@@ -207,7 +207,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorCreateToDoService.verifySearchHover();
@@ -232,7 +232,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorCreateToDoService.verifySearchInputText();
@@ -257,7 +257,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorCreateToDoService.verifySearchInputNumber();
@@ -281,8 +281,8 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
@@ -313,8 +313,8 @@ public class AuditorTodoListTest extends AbstractTest {
 
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
@@ -339,8 +339,8 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
@@ -374,8 +374,8 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
 
@@ -410,7 +410,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyFilterDropDownList();
         } catch (Exception e) {
@@ -428,7 +428,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyDefaultValueFilterDropDownList();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
@@ -450,7 +450,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyHoverFilterDropDownList();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
@@ -472,7 +472,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifySelectShowAllDropDownList();
             auditorTodoListService.verifySelectDueDateDropDownList();
@@ -501,7 +501,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyUnableAddMoreOptionFilterDropDownList();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
@@ -524,7 +524,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.selectAndVerifyFirstAssignFilterDropDownList();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
@@ -546,7 +546,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyClickAndDoNotSelectValue();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
@@ -569,8 +569,8 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
@@ -600,8 +600,8 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
 
             auditorCreateToDoService.verifyAddNewToDoTask("Task 01 2284");
@@ -636,7 +636,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             // Move to add new To-do page
             auditorCreateToDoService.navigateAddNewToDoPage();
             //Show Select date drop down
@@ -674,7 +674,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             // Move to add new To-do page
             auditorCreateToDoService.navigateAddNewToDoPage();
             //Check default value of due date
@@ -732,7 +732,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             //Check hove item in data picker
             auditorCreateToDoService.hoverItemInDatePikcer(isNewToDoPage);
             //Click on previous date picker link
@@ -817,7 +817,7 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.clickCheckboxNewToDoTask();
             auditorCreateToDoService.clickBulkActionsDropdown();
@@ -1005,7 +1005,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.createAndSelectNewEnagement("Engagement 01", "", "AAA");
+            auditorEngagementService.createAndSelectNewEnagement(engagementName, "", "AAA");
             // Verify trash to do icon
             auditorCreateToDoService.verifyTrashToDoIcon();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1029,7 +1029,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             // Verify trash to do icon
             auditorCreateToDoService.verifyDefaultStatusTrashToDoIcon();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1053,7 +1053,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             String todoName = "ToDo" + dateFormat.format(date);
@@ -1087,7 +1087,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             //Check on 'Check all' check box
             auditorCreateToDoService.checkOrUnCheckCheckAllCheckBox(true);
             //Verify all check box is checked
@@ -1125,7 +1125,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             String todoName = "ToDoDelete" + dateFormat.format(date);
@@ -1164,7 +1164,7 @@ public class AuditorTodoListTest extends AbstractTest {
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             String todoName = "ToDoCancel" + dateFormat.format(date);
@@ -1344,7 +1344,7 @@ End of merged VienPham.
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             String todoName = "ToDoDelete";
@@ -1387,7 +1387,7 @@ End of merged VienPham.
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             String todoName = "ToDoDelete";
@@ -1428,7 +1428,7 @@ End of merged VienPham.
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             String todoName = "ToDoCancel";
@@ -1471,7 +1471,7 @@ End of merged VienPham.
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage("Engagement 01");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             String todoName = "ToDoCancel";
@@ -1603,8 +1603,8 @@ End of merged VienPham.
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            //auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            //auditorCreateToDoService.createToDoPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.createNewRequestOnToDoPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);

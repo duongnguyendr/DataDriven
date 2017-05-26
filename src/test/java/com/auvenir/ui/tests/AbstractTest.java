@@ -1,5 +1,6 @@
 package com.auvenir.ui.tests;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
@@ -26,6 +27,7 @@ import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -46,6 +48,8 @@ public class AbstractTest {
      */
     protected static final String SD_FAILURE = "failure";
     private String testName = "initial";
+    // minh.nguyen updated May 26,2017
+    public static final String engagementName = "engagement 01";
 
     @Parameters({"server"})
 
@@ -154,7 +158,5 @@ public class AbstractTest {
             logger.log(priority, "STEP INFO - " + testName + " - " + differentiator, t);
         }
     }
-
-
 }
 
