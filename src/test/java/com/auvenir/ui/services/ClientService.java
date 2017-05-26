@@ -1,7 +1,6 @@
 package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.client.*;
-import com.auvenir.ui.tests.AbstractTest;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -19,6 +18,7 @@ public class ClientService extends AbstractService {
     ClientNotificationsSettingsPage clientNotificationsSettingsPage;
     ClientIntegrationsSettingsPage clientIntegrationsSettingsPage;
     ClientDevicesSettingsPage clientDevicesSettingsPage;
+    ClientHomePage clientHomePage;
 
     public ClientService(Logger logger, WebDriver driver) {
 
@@ -29,6 +29,7 @@ public class ClientService extends AbstractService {
         clientNotificationsSettingsPage = new ClientNotificationsSettingsPage(getLogger(), getDriver());
         clientIntegrationsSettingsPage = new ClientIntegrationsSettingsPage(getLogger(), getDriver());
         clientDevicesSettingsPage = new ClientDevicesSettingsPage(getLogger(), getDriver());
+        clientHomePage = new ClientHomePage(getLogger(), getDriver());
     }
 
 
@@ -188,4 +189,21 @@ public class ClientService extends AbstractService {
             NXGReports.addStep("verify Client home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    public void verifyClientHeader() {
+        clientDashboardPage.verifyClientHeader();
+    }
+
+    public void verifyClientInboxMessage() {
+        clientDashboardPage.verifyClientInboxMessage();
+    }
+
+    public void verifyMyAuditsPage() {
+        clientHomePage.verifyMyAuditsPage();
+    }
+
+    public void verifyClientFooterRefactor() {
+        clientDashboardPage.verifyClientFooter();
+    }
+
 }

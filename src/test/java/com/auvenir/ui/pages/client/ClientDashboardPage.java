@@ -2,20 +2,13 @@ package com.auvenir.ui.pages.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.awt.*;
-import java.util.Iterator;
-import java.util.Set;
 
 public class ClientDashboardPage extends AbstractPage {
     AuvenirPage auvenirPage = null;
@@ -416,21 +409,14 @@ public class ClientDashboardPage extends AbstractPage {
         return eleTermsOfServiceDotTxt;
     }
 
-    @FindBy(id = "privacy")
+    @FindBy(xpath = "//div[@class='lower-footer']//a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     public WebElement getElePrivacyStatementLnk() {
         return elePrivacyStatementLnk;
     }
 
-    @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
-    private WebElement elePrivacyStatementDotTxt;
-
-    public WebElement getElePrivacyStatementDotTxt() {
-        return elePrivacyStatementDotTxt;
-    }
-
-    @FindBy(id = "cookies")
+    @FindBy(xpath = "//div[@class='lower-footer']//a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     public WebElement getEleCookieNoticeLnk() {
@@ -466,7 +452,11 @@ public class ClientDashboardPage extends AbstractPage {
     @FindBy(id = "c-header-title")
     private WebElement myAuditTextEle;
 
-    public void verifyClientFooter() {
+    @FindBy(id = "inbox-header-message-type-filter")
+    private  WebElement allMessDropdownEle;
+
+    // Old code from R1, will be cover with new code with the same function name.
+/*    public void verifyClientFooter() {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auvenirPage.toValidate(getEleAuvenirIncTxt(), "Auvenir Inc Text", "Displayed");
         auvenirPage.toValidate(getEleTermsOfServiceLnk(), "Terms Of Service Link", "Displayed");
@@ -474,9 +464,10 @@ public class ClientDashboardPage extends AbstractPage {
         auvenirPage.toValidate(getElePrivacyStatementLnk(), "Privacy Statement Link", "Displayed");
         auvenirPage.toValidate(getElePrivacyStatementDotTxt(), "Privacy Statement Dot Text", "Displayed");
         auvenirPage.toValidate(getEleCookieNoticeLnk(), "Cookie Notice Link", "Displayed");
-    }
+    }*/
 
-    public void verifyClientHeader() {
+    // Old code from R1, will be cover with new code with the same function name.
+   /* public void verifyClientHeader() {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auvenirPage.toValidate(getEleAuvenirHeaderImg(), "Auvenir Header Image", "Displayed");
         auvenirPage.toValidate(getEleDashboardLnk(), "Dashboard Link", "Displayed");
@@ -501,7 +492,7 @@ public class ClientDashboardPage extends AbstractPage {
         auvenirPage.toValidate(getEleYouHaveNoNewNotificationTxt(), "You Have No New Notification Text", "Displayed");
         auvenirPage.toValidate(getEleViewAllTxt(), "View All Text", "Displayed");
 
-    }
+    }*/
 
     public void clickAuvenirLogo() {
         getLogger().info("Click Auvenir header button.");
@@ -537,4 +528,51 @@ public class ClientDashboardPage extends AbstractPage {
         waitForVisibleElement(myAuditTextEle, "myAuditTextEle");
         validateElementText(myAuditTextEle, "My Audits");
     }
+
+    public void verifyClientHeader(){
+        getLogger().info("Verifying Client Header");
+        waitForVisibleElement(eleDashboardLnk, "Dashboard Link");
+        validateDisPlayedElement(eleDashboardLnk, "Dashboard Link");
+        validateElementText(eleDashboardLnk, "Dashboard");
+        validateDisPlayedElement(eleAuvenirHeaderImg, "Auvenir Header Image");
+        validateDisPlayedElement(eleRequestLnk, "Request Link");
+        validateDisPlayedElement(eleFilesLnk, "Files Link");
+        validateDisPlayedElement(eleDashboardUserNameTxt, "Dashboard UserName Text");
+        validateDisPlayedElement(eleDashboardUserNameIcn, "Dashboard UserName Icon");
+        clickAndHold(eleDashboardUserNameIcn, "Dashboard UserName Icon");
+        validateDisPlayedElement(eleUserInitialImg, "User Initial Image");
+        validateDisPlayedElement(eleUserInitialTxt, "User Initial Text");
+        validateDisPlayedElement(eleUserNameTxt, "User Name Text");
+        validateDisPlayedElement(eleSettingsLnk, "Settings Link");
+        validateDisPlayedElement(eleSignOutLnk, "Sign Out Link");
+        validateDisPlayedElement(eleInboxIcn, "Inbox Icon");
+        // Cannot find the element "eleMyMessagesTxt", need to confirm later with new test case.
+//        validateDisPlayedElement(eleMyMessagesTxt, "My Messages Text");
+        validateDisPlayedElement(eleNotificationIcn, "Notification Icon");
+        clickAndHold(eleNotificationIcn, "Notification Icon");
+        validateDisPlayedElement(eleYouHaveNoNewNotificationTxt, "No New Notification Text");
+        validateDisPlayedElement(eleViewAllTxt, "View All Button");
+    }
+
+    public void verifyClientInboxMessage() {
+        getLogger().info("Verify Message Inbox");
+        clickAndHold(eleInboxIcn, "Inbox Icon");
+        waitForVisibleElement(allMessDropdownEle, "All Message DropDown");
+        validateElementText(allMessDropdownEle,"All Messages");
+        validateDisPlayedElement(eleThereAreNoEmailsTxt, "There are no emails text.");
+        validateDisPlayedElement(eleViewMessagesTxt, "View Messages Text");
+        validateDisPlayedElement(eleNewMessagesBtn, "New Messages Button");
+    }
+
+    public void verifyClientFooter() {
+        getLogger().info("Verify Client Footer Refactor");
+        validateDisPlayedElement(eleAuvenirIncTxt, "Auvenir Inc Text");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "Terms Of Service Link");
+        validateDisPlayedElement(eleTermsOfServiceDotTxt, "Terms Of Service Dot Text");
+        validateDisPlayedElement(elePrivacyStatementLnk, "Privacy Statement Link");
+        validateElementText(elePrivacyStatementLnk, "Privacy Statement");
+        validateDisPlayedElement(eleCookieNoticeLnk, "Cookie Notice Link");
+        validateElementText(eleCookieNoticeLnk, "Cookie Notice");
+    }
+
 }

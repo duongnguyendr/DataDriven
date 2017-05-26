@@ -2,6 +2,7 @@ package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
 import com.auvenir.utilities.MongoDBService;
+import com.auvenir.utilities.extentionLibraries.Excel;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
@@ -24,12 +25,13 @@ public class AuthSessionTest extends AbstractAPIService {
     //public static final String restBaseUrl = "http://finicity-qa-334.com";
     //public static final String database = "serviceFinicity";
     static String[] sData = null;
+
     // Connect DB and reset Data
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException {
         //RestAssured.basePath = "http://finicity-qa-334.com";
         //MongoDBService.connectDBServer(dataBaseServer,port, database);
-        MongoDBService.connectDBServer(dataBaseServer,port,dataBaseServer,userName,password,ssl);
+        MongoDBService.connectDBServer(dataBaseServer, port, dataBaseServer, userName, password, ssl);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
@@ -43,23 +45,25 @@ public class AuthSessionTest extends AbstractAPIService {
         MongoDBService.deleteAuthSession("AuthSession1");
         MongoDBService.insertAuthSession("AuthSession1");
     }
+
     @BeforeMethod
-    public void preCondition(){
+    public void preCondition() {
         getBaseUrl();
-        AbstractAPIService.sStatusCnt=0;
+        AbstractAPIService.sStatusCnt = 0;
     }
+
     /*
     TestCase1: Get AuthSession with valid sessionID
      */
-    @Test(priority = 1,enabled = true,description = "Get AuthSession with valid sessionID")
+    @Test(priority = 1, enabled = true, description = "Get AuthSession with valid sessionID")
     public void GetAuthSession() throws Exception {
         try {
-            sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=" + sData[1], new Object[0]);
-            if(response.getStatusCode() == 200) {
+            sData = Excel.toReadExcelData("AuthSession1", "authSessions");
+            Response response = (Response) RestAssured.given().get(baseUrl + "/v1/authenticate?sessionID=" + sData[1], new Object[0]);
+            if (response.getStatusCode() == 200) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, null);
             } else {
-                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED,null);
+                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED, null);
             }
 
             String json = response.asString();
@@ -71,28 +75,27 @@ public class AuthSessionTest extends AbstractAPIService {
             NXGReports.addStep("Correct Schema of Json", LogAs.PASSED, null);
             Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with AuthSessionTest", LogAs.PASSED, null);
-        } catch (AssertionError e)
-        {
+        } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
             throw e;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
             throw e;
         }
     }
+
     /*
     TestCase 2: Get AuthSession with wrong sessionID
      */
-    @Test(priority = 1,enabled = true,description = "Get AuthSession with wrong sessionID")
+    @Test(priority = 1, enabled = true, description = "Get AuthSession with wrong sessionID")
     public void GetAuthSessionWrongSessionID() throws Exception {
         try {
-            sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=12345", new Object[0]);
-            if(response.getStatusCode() == 401) {
-                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen)null);
+            sData = Excel.toReadExcelData("AuthSession1", "authSessions");
+            Response response = (Response) RestAssured.given().get(baseUrl + "/v1/authenticate?sessionID=12345", new Object[0]);
+            if (response.getStatusCode() == 401) {
+                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen) null);
             } else {
-                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED, (CaptureScreen)null);
+                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED, (CaptureScreen) null);
             }
             String json = response.asString();
             JsonPath jp = new JsonPath(json);
@@ -100,28 +103,27 @@ public class AuthSessionTest extends AbstractAPIService {
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
             Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
-        } catch (AssertionError e)
-        {
+        } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
             throw e;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
             throw e;
         }
     }
+
     /*
         TestCase: Get AuthSession without sessionID
     */
-    @Test(priority = 1,enabled = true,description = "Get AuthSession without sessionID")
+    @Test(priority = 1, enabled = true, description = "Get AuthSession without sessionID")
     public void GetAuthSessionWithoutSessionID() throws Exception {
         try {
-            sData = MongoDBService.toReadExcelData("AuthSession1", "authSessions");
-            Response response = (Response)RestAssured.given().get(baseUrl+"/v1/authenticate?sessionID=", new Object[0]);
-            if(response.getStatusCode() == 401) {
-                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen)null);
+            sData = Excel.toReadExcelData("AuthSession1", "authSessions");
+            Response response = (Response) RestAssured.given().get(baseUrl + "/v1/authenticate?sessionID=", new Object[0]);
+            if (response.getStatusCode() == 401) {
+                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen) null);
             } else {
-                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED, (CaptureScreen)null);
+                NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.FAILED, (CaptureScreen) null);
             }
             String json = response.asString();
             JsonPath jp = new JsonPath(json);
@@ -129,12 +131,10 @@ public class AuthSessionTest extends AbstractAPIService {
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
             Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
-        } catch (AssertionError e)
-        {
+        } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
             throw e;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
             throw e;
         }
