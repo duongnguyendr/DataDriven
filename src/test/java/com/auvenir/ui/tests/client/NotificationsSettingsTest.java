@@ -21,9 +21,9 @@ public class NotificationsSettingsTest extends AbstractTest {
     public void verifyFooterClientNotificationsSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId= GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
-        String getTokenUrl =   GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId= GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
+        String getTokenUrl =   GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
         try
         {

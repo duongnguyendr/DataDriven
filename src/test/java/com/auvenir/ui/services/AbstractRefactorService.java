@@ -1,12 +1,13 @@
 package com.auvenir.ui.services;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
+import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
-import com.auvenir.ui.pages.common.GmailPage;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,14 +16,16 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 
 public class AbstractRefactorService {
@@ -33,6 +36,9 @@ public class AbstractRefactorService {
     public static String gmailWindow;
     public static String parentWin = null;
     public static String newWin = null;
+
+    public AbstractRefactorService(Logger logger, WebDriver driver) {
+    }
 
     @Parameters({"server"})
     @BeforeSuite
@@ -49,7 +55,7 @@ public class AbstractRefactorService {
     @BeforeMethod
     public void setUp() {
         try {
-            if (GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
+            if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
                 System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                 System.out.println("Chrome is set");
                 driver = new ChromeDriver();
@@ -147,7 +153,7 @@ public class AbstractRefactorService {
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
         String token = parts[3];
-        GenericService.setCongigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
+        GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
         driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
@@ -177,7 +183,7 @@ public class AbstractRefactorService {
             WebService http = new WebService(logger);
             http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
             http.gettingURL(sEMAILID, sLOGINURL, sDevAuthID, sApiKey);
-            System.out.println(GenericService.getCongigValue(GenericService.sConfigFile, sLOGINURL));
+            System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -198,21 +204,21 @@ public class AbstractRefactorService {
     public void gmaillLogin() throws Exception {
         try {
             GmailPage gmailLoginPo = new GmailPage(logger, driver);
-            driver.get(GenericService.getCongigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             driver.manage().timeouts().implicitlyWait(10000, TimeUnit.SECONDS);
             driver.manage().window().maximize();
 
             //gmailLoginPo.getEleSignInLink().click();
             if (gmailLoginPo.getEleEmailIDTxtFld().isDisplayed()) {
-                gmailLoginPo.getEleEmailIDTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
+                gmailLoginPo.getEleEmailIDTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
                 gmailLoginPo.getEleNextBtn().click();
             }
             Thread.sleep(5000);
-            gmailLoginPo.getElePasswordTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+            gmailLoginPo.getElePasswordTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
             gmailLoginPo.getEleSignInBtn().click();
             Assert.assertTrue(gmailLoginPo.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
             Thread.sleep(5000);
-            gmailLoginPo.getEleSearchTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
+            gmailLoginPo.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
             gmailLoginPo.getEleSearchBtn().click();
             gmailLoginPo.getEleInviteMailLnk().click();
             gmailWindow = driver.getWindowHandle();

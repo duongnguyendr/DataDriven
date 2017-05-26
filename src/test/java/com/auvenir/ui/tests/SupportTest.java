@@ -4,6 +4,8 @@ import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.AuvenirPage;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.auvenir.ui.pages.SupportPage;
@@ -15,6 +17,9 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 
 
 public class SupportTest extends AbstractRefactorService {
+    public SupportTest(Logger logger, WebDriver driver) {
+        super(logger, driver);
+    }
     //Logger logger = Logger.getLogger(SupportTest.class);
     SupportPage supportPage = null;
     String AuditorLoginPageHandles = null;
@@ -30,7 +35,7 @@ public class SupportTest extends AbstractRefactorService {
         supportPage = new SupportPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
             auvenirPage.getEleSupportLnk().click();
             GeneralUtilities.toValidate(supportPage.getEleAuvenirHeaderLogoImg(), "Auvenir Header Logo Image", "Displayed");
             GeneralUtilities.toValidate(supportPage.getEleHereToHelpTxt(), "Here to help Text", "Displayed");

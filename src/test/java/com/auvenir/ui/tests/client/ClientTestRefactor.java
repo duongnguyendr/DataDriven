@@ -1,31 +1,16 @@
 package com.auvenir.ui.tests.client;
 
-import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.CreateNewAuditPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
-import com.auvenir.ui.pages.auditor.AddNewClientPage;
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
-import com.auvenir.ui.pages.client.*;
-import com.auvenir.ui.pages.common.GmailPage;
+import com.auvenir.ui.pages.client.ClientOnBoardingPage;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
-import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
-import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.util.Date;
-
-import static com.jayway.restassured.RestAssured.given;
 
 /**
  * Created by thuan.duong on 5/24/2017.
@@ -66,7 +51,7 @@ public class ClientTestRefactor extends AbstractTest {
     @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page")
     public void verifyClientOnboardingPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
         ClientOnBoardingPage clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
         try {
             /*String onBoardingUrl;
@@ -179,7 +164,7 @@ public class ClientTestRefactor extends AbstractTest {
     @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Client Dashboard Page")
     public void verifyClientDashboardPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
         try {
             //Will update later.
 //            String onBoardingUrl;
@@ -222,7 +207,7 @@ public class ClientTestRefactor extends AbstractTest {
     @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Client Home Page")
     public void verifyClientHomePage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
         try {
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHeader();
@@ -247,7 +232,7 @@ public class ClientTestRefactor extends AbstractTest {
     @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Client Request Page")
     public void verifyClientRequestPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
         try {
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
@@ -278,7 +263,7 @@ public class ClientTestRefactor extends AbstractTest {
     @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Client Files Page")
     public void verifyClientFilesPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
         try {
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();

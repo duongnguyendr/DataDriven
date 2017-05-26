@@ -1,37 +1,43 @@
 package com.auvenir.ui.tests.client;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.auvenir.utilities.GeneralUtilities;
-import com.auvenir.utilities.GenericService;
-import com.auvenir.ui.pages.*;
+import com.auvenir.ui.pages.AuvenirPage;
+import com.auvenir.ui.pages.CreateNewAuditPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.auditor.AddNewClientPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.client.*;
 import com.auvenir.ui.pages.common.GmailPage;
+import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.utilities.GeneralUtilities;
+import com.auvenir.utilities.GenericService;
 import com.jayway.restassured.response.Response;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.auditor.AddNewClientPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
-//import org.testng.log4testng.Logger;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.jayway.restassured.RestAssured.given;
 
+//import org.testng.log4testng.Logger;
+
 public class ClientTest extends AbstractRefactorService
 {
+	public ClientTest(Logger logger, WebDriver driver) {
+		super(logger, driver);
+	}
 	//Logger logger = Logger.getLogger(ClientTest.class);
 	ClientLoginPage clientLoginPage = null;
 	String expectedTxt = null;
@@ -58,8 +64,8 @@ public class ClientTest extends AbstractRefactorService
 	public void preCondition()
 	{
 
-		sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL")
-				+ GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID") + "/delete";
+		sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+				+ GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID") + "/delete";
 		getLogger().info("Call rest api to delete existed client user :" + sURL);
 		Response response = given().keystore(GenericService.sDirPath+"/src/tests/resources/auvenircom.jks","changeit").get(sURL);
 		if(response.getStatusCode()==200){
@@ -97,9 +103,9 @@ public class ClientTest extends AbstractRefactorService
 			CurrentDate = dateFormat.format(date);
 			String newClientData[] = GenericService.toReadExcelData("creating_NewClient_Data");
 			getLogger().info("Login with Auditor user.");
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDIT_ID"),
-					GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-					GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDIT_ID"),
+					GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+					GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 			visibilityOfElementWait(auditorEngagementPage.getEleClientsLnk(), "Clients Link", 50);
 			Thread.sleep(5000);
 			/*
@@ -141,8 +147,8 @@ public class ClientTest extends AbstractRefactorService
 			NXGReports.addStep(newClientData[2] + " Data entered in First and Last Name Text field successfully",
 					LogAs.PASSED, null);
 			addNewClientPage.getEleEmailAddressTxtFld()
-			.sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"));
-			NXGReports.addStep(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID")
+			.sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"));
+			NXGReports.addStep(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")
 					+ " Data entered in Email ID Text field successfully", LogAs.PASSED, null);
 			addNewClientPage.getElePhoneNumberTxtFld().sendKeys(newClientData[3]);
 			NXGReports.addStep(newClientData[3] + " Data entered in Phone Number Text field successfully", LogAs.PASSED,
@@ -215,9 +221,9 @@ public class ClientTest extends AbstractRefactorService
 			Thread.sleep(5000);
 			createNewAuditPage.getEleResendBtn().click();
 			Thread.sleep(5000);
-			/*loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-					GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-					GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			/*loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+					GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+					GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 			visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", 15);
 			Assert.assertTrue(adminLoginPage.getEleAdminHdrTxt().getText().equals("Admin"),
 					"Admin Login is not successfull");
@@ -225,7 +231,7 @@ public class ClientTest extends AbstractRefactorService
 
 			Assert.assertTrue(adminLoginPage
 					.getEleAuditorStatusLst("CLIENT",
-							GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), CurrentDate)
+							GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), CurrentDate)
 					.equals("Onboarding"), "Auditor is not created with Pending status");*/
 			// Assert.assertTrue(createNewAuditPage.getEleEnagagementInivitationTxt().getText().equals("Your
 			// engagement invitation has been sent."), "Engagement Invitation
@@ -252,11 +258,11 @@ public class ClientTest extends AbstractRefactorService
 		gmailPage =new GmailPage(getLogger(),getDriver());
 		try
 		{
-		//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
+		//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
 		//Thread.sleep(5000);
-		//loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "URL"));
-		gmailPage.gmailLogin(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile,"CLIENT_PWD"));
-	    gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
+		//loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
+		gmailPage.gmailLogin(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile,"CLIENT_PWD"));
+	    gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
 	    gmailPage.getEleSearchBtn().click();
 	    Thread.sleep(5000);
 	    System.out.println(   gmailPage.getLsEleInviteMailLnk().size());
@@ -311,7 +317,7 @@ public class ClientTest extends AbstractRefactorService
 		{
 			String onBoardingUrl;
 			getLogger().info("update status of client to onboarding.");
-			onBoardingUrl= GenericService.getCongigValue(GenericService.sConfigFile,"DELETE_URL")+ GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID") +"/update?status=ONBOARDING";
+			onBoardingUrl= GenericService.getConfigValue(GenericService.sConfigFile,"DELETE_URL")+ GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID") +"/update?status=ONBOARDING";
 			Response response = given().keystore(GenericService.sDirPath+"/src/tests/resources/auvenircom.jks","changeit").get(onBoardingUrl);
 			if(response.getStatusCode()==200){
 				getLogger().info("The client is on boarding.");
@@ -319,7 +325,7 @@ public class ClientTest extends AbstractRefactorService
 			else {}
 			//driver.get("https://ariel.auvenir.com/api/user/auvclient02@gmail.com/update?status=ONBOARDING");
 			Thread.sleep(5000);
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 			Thread.sleep(5000);
 			GeneralUtilities.toValidate(clientOnBoardingPage.getEleAuvenirLogoImg(),"Auvenir Logo","Displayed");
 			GeneralUtilities.toValidate(clientOnBoardingPage.getElePERSONALTxt(),"Personal Text","Displayed");
@@ -447,18 +453,18 @@ public class ClientTest extends AbstractRefactorService
 		gmailPage =new GmailPage(getLogger(),getDriver());
 		try
 		{
-			//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
+			//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
 			Thread.sleep(5000);
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "URL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
 			clientLoginPage.getEleLoginLnk().click();
-			clientLoginPage.getEleTypeYourEmailTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"));
+			clientLoginPage.getEleTypeYourEmailTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"));
 			clientLoginPage.getEleGoBtn().click();
 			Thread.sleep(5000);
 			Assert.assertTrue(auvenirPage.getEleWelcomePleaseCheckTxt().isDisplayed(), "Welcome! Please check your email for a login popup is not displayed");
 			NXGReports.addStep("Welcome! Please check your email for a login popup is displayed and email is sent", LogAs.PASSED, null);
-			gmailPage.gmailLogin(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+			gmailPage.gmailLogin(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
 			gmailPage.getEleSearchTxtFld().clear();
-			gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
+			gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
 			gmailPage.getEleSearchBtn().click();
 			Thread.sleep(2000);
 	    	gmailPage.signInEmail();
@@ -511,13 +517,13 @@ public class ClientTest extends AbstractRefactorService
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try
 		{
-			gmailPage.gmailLogin(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+			gmailPage.gmailLogin(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
 			gmailPage.getEleSearchTxtFld().clear();
-			gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
+			gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
 			gmailPage.getEleSearchBtn().click();
 			
 			gmailPage.getEleSearchTxtFld().clear();
-			gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
+			gmailPage.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
 			gmailPage.getEleSearchBtn().click();
 			Thread.sleep(5000);
 	    	/* Edited: Doai Tran
@@ -580,15 +586,15 @@ public class ClientTest extends AbstractRefactorService
 		{
 			String onBoardingUrl;
 			getLogger().info("update status of client to active.");
-			onBoardingUrl= GenericService.getCongigValue(GenericService.sConfigFile,"DELETE_URL")+ GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID") +"/update?status=ACTIVE";
+			onBoardingUrl= GenericService.getConfigValue(GenericService.sConfigFile,"DELETE_URL")+ GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID") +"/update?status=ACTIVE";
 			Response response = given().keystore(GenericService.sDirPath+"/src/tests/resources/auvenircom.jks","changeit").get(onBoardingUrl);
 			if(response.getStatusCode()==200){
 				getLogger().info("The client is active.");
 			}
 			else {}
-			//driver.get("https://ariel.auvenir.com/api/user/"+ GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ACTIVE");
+			//driver.get("https://ariel.auvenir.com/api/user/"+ GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ACTIVE");
 			Thread.sleep(15000);
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 			Thread.sleep(5000);		
 			clientDashboardPage.getEleDashboardLnk().click();
 			clientDashboardPage.verifyClientHeader();
@@ -657,9 +663,9 @@ public class ClientTest extends AbstractRefactorService
 		Actions actions = new Actions(getDriver());
 		try
 		{		
-			//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ACTIVE_ID")+"/update?status=ACTIVE");
+			//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ACTIVE_ID")+"/update?status=ACTIVE");
 			//Thread.sleep(15000);
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 			Thread.sleep(5000);		
 			
 			clientDashboardPage.verifyClientHeader();
@@ -707,9 +713,9 @@ public class ClientTest extends AbstractRefactorService
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try
 		{		
-			//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT__ID")+"/update?status=ACTIVE");
+			//driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT__ID")+"/update?status=ACTIVE");
 			//Thread.sleep(15000);
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 			Thread.sleep(5000);		
 			clientDashboardPage.getEleRequestLnk().click();
 			Thread.sleep(5000);
@@ -775,10 +781,10 @@ public class ClientTest extends AbstractRefactorService
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try
 		{
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
-			/*driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ACTIVE_ID")+"/update?status=ACTIVE");
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			/*driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ACTIVE_ID")+"/update?status=ACTIVE");
 			Thread.sleep(15000);
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ACTIVE_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL")); */
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ACTIVE_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL")); */
 			Thread.sleep(15000);
 			clientDashboardPage.getEleFilesLnk().click();
 			Thread.sleep(5000);
