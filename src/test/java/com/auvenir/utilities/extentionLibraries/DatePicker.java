@@ -115,11 +115,7 @@ public class DatePicker {
     }
 
     public static void main(String[] args) {
-        try {
-            MongoDBService.insertUserAndMappingWithFirm();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+
 //        String data[][] = MongoDBService.readExcelSheetData("usersRegression");
 //        String jsonUser = data[0][8];
 //        String jsonFirm = data[0][9];

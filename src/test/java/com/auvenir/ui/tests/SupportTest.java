@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.AuvenirPage;
 import org.testng.Assert;
@@ -31,14 +32,14 @@ public class SupportTest extends AbstractRefactorService {
         try {
             loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_URL"));
             auvenirPage.getEleSupportLnk().click();
-            auvenirPage.toValidate(supportPage.getEleAuvenirHeaderLogoImg(), "Auvenir Header Logo Image", "Displayed");
-            auvenirPage.toValidate(supportPage.getEleHereToHelpTxt(), "Here to help Text", "Displayed");
-            auvenirPage.toValidate(supportPage.getEleSupportTeamImg(), "Support Team Image", "Displayed");
-            auvenirPage.toValidate(supportPage.getEleExperiencingProblemsTxt(), "Experiencing Problem Text", "Displayed");
-            auvenirPage.toValidate(supportPage.getEleGiveUsACallTxt(), "Give us a call Text", "Displayed");
-            auvenirPage.toValidate(supportPage.getElePhoneNumberTxt(), "Phone Number Text", "Displayed");
-            auvenirPage.toValidate(supportPage.getEleEmailTxt(), "Email Text", "Displayed");
-            auvenirPage.toValidate(supportPage.getEleSendMessageBtn(), "Send Message Button", "Enabled");
+            GeneralUtilities.toValidate(supportPage.getEleAuvenirHeaderLogoImg(), "Auvenir Header Logo Image", "Displayed");
+            GeneralUtilities.toValidate(supportPage.getEleHereToHelpTxt(), "Here to help Text", "Displayed");
+            GeneralUtilities.toValidate(supportPage.getEleSupportTeamImg(), "Support Team Image", "Displayed");
+            GeneralUtilities.toValidate(supportPage.getEleExperiencingProblemsTxt(), "Experiencing Problem Text", "Displayed");
+            GeneralUtilities.toValidate(supportPage.getEleGiveUsACallTxt(), "Give us a call Text", "Displayed");
+            GeneralUtilities.toValidate(supportPage.getElePhoneNumberTxt(), "Phone Number Text", "Displayed");
+            GeneralUtilities.toValidate(supportPage.getEleEmailTxt(), "Email Text", "Displayed");
+            GeneralUtilities.toValidate(supportPage.getEleSendMessageBtn(), "Send Message Button", "Enabled");
 
             auvenirPage.verifyFooter();
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");

@@ -1,6 +1,7 @@
 package com.auvenir.utilities;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.utilities.extentionLibraries.Excel;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
@@ -85,7 +86,7 @@ public class MongoDBService {
      =================================================================== */
     public static void insertOwner(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "owners");
+            sData = Excel.toReadExcelData(valueId, "owners");
 
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
@@ -118,7 +119,7 @@ public class MongoDBService {
      =================================================================== */
     public static void deleteOwner(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "owners");
+            sData = Excel.toReadExcelData(valueId, "owners");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -137,7 +138,7 @@ public class MongoDBService {
      =================================================================== */
     public static void insertConsumer(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "consumers");
+            sData = Excel.toReadExcelData(valueId, "consumers");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -165,7 +166,7 @@ public class MongoDBService {
      =================================================================== */
     public static void deleteConsumer(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "consumers");
+            sData = Excel.toReadExcelData(valueId, "consumers");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -184,7 +185,7 @@ public class MongoDBService {
      =================================================================== */
     public static void insertInstitution(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "institutions");
+            sData = Excel.toReadExcelData(valueId, "institutions");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -217,7 +218,7 @@ public class MongoDBService {
      =================================================================== */
     public static void deleteInstitution(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "institutions");
+            sData = Excel.toReadExcelData(valueId, "institutions");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -236,7 +237,7 @@ public class MongoDBService {
      =================================================================== */
     public static void insertConsumerAccount(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "consumerAccounts");
+            sData = Excel.toReadExcelData(valueId, "consumerAccounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -270,7 +271,7 @@ public class MongoDBService {
      =================================================================== */
     public static void deleteConsumerAccount(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "consumerAccounts");
+            sData = Excel.toReadExcelData(valueId, "consumerAccounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -289,7 +290,7 @@ public class MongoDBService {
      =================================================================== */
     public static void insertAccount(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "accounts");
+            sData = Excel.toReadExcelData(valueId, "accounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -326,7 +327,7 @@ public class MongoDBService {
      =================================================================== */
     public static void deleteAccount(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "accounts");
+            sData = Excel.toReadExcelData(valueId, "accounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -345,7 +346,7 @@ public class MongoDBService {
      =================================================================== */
     public static void insertAuthSession(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "authSessions");
+            sData = Excel.toReadExcelData(valueId, "authSessions");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -409,7 +410,7 @@ public class MongoDBService {
      =================================================================== */
     public static void deleteAuthSession(String valueId) throws UnknownHostException {
         try {
-            sData = toReadExcelData(valueId, "authSessions");
+            sData = Excel.toReadExcelData(valueId, "authSessions");
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
             DBCollection table = db.getCollection("authSessions");
@@ -419,39 +420,6 @@ public class MongoDBService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /* ===================================================================
-     * @author: LAKSHMI BS Description: To read tests data from excel sheet
-	 * Edited by Doai.Tran
-	 =================================================================== */
-    public static String[] toReadExcelData(String sTestCaseID, String SheetName) {
-        String sData[] = null;
-        try {
-            FileInputStream fis = new FileInputStream(sTestDataFile);
-            Workbook wb = WorkbookFactory.create(fis);
-            Sheet sht = wb.getSheet(SheetName);
-
-            System.out.println(SheetName);
-            int iRowNum = sht.getLastRowNum();
-            int k = 0;
-            for (int i = 1; i <= iRowNum; i++) {
-                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
-                    int iCellNum = sht.getRow(i).getLastCellNum();
-                    sData = new String[iCellNum];
-                    System.out.println("Dong: " + i);
-                    System.out.println("So Cot:" + iCellNum);
-                    for (int j = 1; j <= iCellNum; j++) {
-                        sData[j] = sht.getRow(i).getCell(j).getStringCellValue();
-                        System.out.println(sData[j]);
-                    }
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sData;
     }
 
     /**
@@ -513,91 +481,4 @@ public class MongoDBService {
 
         return dBbject.get("_id").toString();
     }
-
-    /**
-     * create some users for init regresstion test with multiple roles
-     */
-    public static void insertUserAndMappingWithFirm() throws UnknownHostException {
-        try {
-            String[][] data = readExcelSheetData("usersRegression");
-
-//            configurateDatabase();
-//            MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
-//            DB db = MongoClient.getDB(DB);
-
-            MongoClient mongoClient = new MongoClient("34.205.90.145", 27017);
-            DB db = mongoClient.getDB("huytest");
-            DBCollection usersCollection = db.getCollection("users");
-            DBCollection firmsCollection = db.getCollection("firms");
-            DBCollection businessesCollection = db.getCollection("businesses");
-
-            //code to drop all records of collection
-            {
-                usersCollection.drop();
-                firmsCollection.drop();
-                businessesCollection.drop();
-            }
-
-            for (int i = 0; i < data.length; i++) {
-                DBObject usersDBObject = (DBObject) JSON.parse(data[i][9]);
-                DBObject mappingDBObject = (DBObject) JSON.parse(data[i][10]);
-
-                usersDBObject.put("_id", new ObjectId(data[i][4]));
-
-                ISO8601DateFormat df = new ISO8601DateFormat();
-                usersDBObject.put("lastLogin", df.parse(data[i][5]));
-                usersDBObject.put("dateCreated", df.parse(data[i][6]));
-
-                BasicDBObject access = new BasicDBObject();
-                access.put("expires", df.parse(data[i][8]));
-                BasicDBObject auth = new BasicDBObject();
-                auth.put("id", data[i][7]);
-                auth.put("access", access);
-                usersDBObject.put("auth", auth);
-                usersCollection.insert(usersDBObject);
-
-                BasicDBObject userInMapping = new BasicDBObject();
-                userInMapping.put("id", new ObjectId(data[i][4]));
-                userInMapping.put("admin", true);
-                List<BasicDBObject> usersInMapping = new ArrayList<>();
-                usersInMapping.add(userInMapping);
-                mappingDBObject.put("acl", usersInMapping);
-
-                if (data[i][1].toString().equals("AUDITOR")) {
-                    firmsCollection.insert(mappingDBObject);
-                } else if (data[i][1].toString().equals("CLIENT")) {
-                    businessesCollection.insert(mappingDBObject);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static String[][] readExcelSheetData(String sheetName) {
-        String data[][] = null;
-        try {
-            FileInputStream fis = new FileInputStream(sTestDataFile);
-            Workbook wb = WorkbookFactory.create(fis);
-            Sheet sheet = wb.getSheet(sheetName);
-
-            System.out.println("sheetName = " + sheetName);
-            int rowCount = sheet.getLastRowNum();
-            data = new String[rowCount][sheet.getRow(0).getLastCellNum()];
-            for (int i = 1; i <= rowCount; i++) {
-                Row row = sheet.getRow(i);
-                for (int j = 0; j < row.getLastCellNum(); j++) {
-                    data[i - 1][j] = row.getCell(j).getStringCellValue();
-                    System.out.print(row.getCell(j).getStringCellValue() + "/");
-                }
-                System.out.println("");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-
 }
