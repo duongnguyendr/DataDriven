@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -220,7 +221,6 @@ public class AuvenirPage extends AbstractPage {
     public WebElement getEleCookieNoticeFtrLnk() {
         return eleCookieNoticeFtrLnk;
     }
-
 
     @FindBy(xpath = "//h2[@class='terms-title'][text()=' Terms of Service ']")
     private WebElement eleTOSTitleTxt;
@@ -529,14 +529,12 @@ public class AuvenirPage extends AbstractPage {
 		return eleJoinAsAnAuditorLnk;
 	}*/
 
-
     @FindBy(id = "intercom-container-body")
     private WebElement eleIntercomLauncherIcn;
 
     public WebElement getEleIntercomLauncherIcn() {
         return eleIntercomLauncherIcn;
     }
-
 
     @FindBy(xpath = "//img[@src='images/illustrations/login.svg']")
     private WebElement eleMailImg;
@@ -551,7 +549,6 @@ public class AuvenirPage extends AbstractPage {
     public WebElement getEleCheckYourEmailTxt() {
         return eleCheckYourEmailTxt;
     }
-
 
     @FindBy(xpath = "//h2[contains(text(),'Awaiting approval!')]")
     private WebElement eleAwaitingApprovalTxt;
@@ -616,7 +613,6 @@ public class AuvenirPage extends AbstractPage {
         return eleGoBtn;
     }
 
-
     public void toValidate(WebElement element, String sExpectedText, String checkType) throws InvalidElementStateException {
         getLogger().info("verify present of: " + sExpectedText);
         getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -661,7 +657,6 @@ public class AuvenirPage extends AbstractPage {
                 break;
         }
     }
-
 
     public void verifyHeader() {
         actions = new Actions(getDriver());
@@ -708,5 +703,66 @@ public class AuvenirPage extends AbstractPage {
 
         toValidate(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
 
+    }
+
+    public void verifyBodyLoginPage(){
+        toValidate(getEleAuvenirImg(), "Auvenir Header Logo Image", "Displayed");
+        toValidate(getEleAuditorLoginLnk(), "Auditor Login Link", "Displayed");
+        toValidate(getEleAuditorLoginImg(), "Auditor Login Image", "Displayed");
+        toValidate(getEleWeHelpYouAuditTxt(), "We help you audit Text", "Displayed");
+        toValidate(getEleJoinTheWaitlistTxt(), "Join the Waitlist Text", "Displayed");
+        toValidate(getEleWorkEmailTxt(), "Work Email Text", "Displayed");
+        toValidate(getEleAuditorEmailAddressTxtFld(), "Auditor Email Address Text Field", "Displayed");
+        toValidate(getEleJoinBtn(), "Join Button", "Enabled");
+        toValidate(getEleBySigningUpTxt(), "By signing up, you agree to our Terms of Use and Privacy Poclicy - Text", "Displayed");
+        toValidate(getEleSpendLessTimeClockImg(), "Spend Less Time Clock Image", "Displayed");
+        toValidate(getEleSpendLessTimeTxt(), "Spend Less Time Clock Text", "Displayed");
+        toValidate(getEleUseSophisticatedTxt(), "Use Sophisticated Text", "Displayed");
+        toValidate(getEleDevelopDeeperImg(), "Develop Deeper Image", "Displayed");
+        toValidate(getEleDevelopDeeperTxt(), "Develop Deeper Text", "Displayed");
+        toValidate(getEleLeverageMachineTxt(), "Leverage Machine Text", "Displayed");
+        toValidate(getEleSecurelyManageImg(), "Securely Manage Image", "Displayed");
+        toValidate(getEleSecurelyManageTxt(), "Securely Manage Text", "Displayed");
+        toValidate(getEleAccessACloudTxt(), "Access a cloud Text", "Displayed");
+        toValidate(getElePersonalizedForYouImg(), "Personalized for you Image", "Displayed");
+        toValidate(getElePersonalizedForYouTxt(), "Personalized for you Text", "Displayed");
+        toValidate(getEleCustomizeSchedulesTxt(), "Customize Schedules Text", "Displayed");
+        toValidate(getEleAccessAndManageTxt(), "Access and Manage Text", "Displayed");
+        toValidate(getEleStoreAllTxt(), "Store All Text", "Displayed");
+        toValidate(getEleAuvenirFooterImg(), "Auvenir Footer Image", "Displayed");
+    }
+
+    public void verifyFormLogin(){
+        clickElement(getEleAuditorLoginLnk(), "Auditor Login Link");
+        toValidate(getEleEmailAddressTxt(), "Email Address Text", "Displayed");
+        toValidate(getEleEmailAddressPopUpTxtFld(), "Email Address PopUp Text Field", "Displayed");
+        toValidate(getEleGoBtn(), "Go Button", "Enabled");
+    }
+
+    public void verifyLoginWithEmail(String email){
+        sendKeyTextBox(getEleEmailAddressPopUpTxtFld(), email, "Email Address PopUp Text Field");
+        clickElement(getEleGoBtn(), "Go Button");
+        waitForVisibleElement(getEleWaitVerificationTxt(), "Your email is awaiting verification");
+        sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), "auvaudit", "Auditor Email Address Text Field");
+        sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), email, "Auditor Email Address Text Field");
+        getEleJoinBtn().click();
+    }
+
+    public void verifyApprovePopupDisplayed(){
+        boolean isPopupDisplayed = false;
+        isPopupDisplayed = validateDisPlayedElement(getEleAwaitingApprovalTxt(), "Approve popup");
+        if(isPopupDisplayed){
+            NXGReports.addStep("Awaiting approval popup is successfully displayed.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Awaiting approval popup is successfully displayed", LogAs.FAILED, null);
+        }
+        clickElement(getEleDoneBtn(), "Awaiting Approval popup");
+    }
+    public void verifyFooterPage(){
+        validateDisPlayedElement(getEleTermsOfUserFtrLnk(), "Terms of Service - Link");
+        validateDisPlayedElement(getElePrivacyPolicyFtrLnk(), "Privacy Statement - Link");
+        validateDisPlayedElement(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - Link");
+        validateDisPlayedElement(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text");
     }
 }

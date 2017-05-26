@@ -159,5 +159,14 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.clickEngagementByPosition(index);
     }
 
+    public void verifyAuditorPageHeaderContent(){
+        try {
+            getLogger().info("Verify content header auditor engagement page.");
+            auditorEngagementPage.auditorPageHeaderContent();
+            NXGReports.addStep("verify content header auditor engagement page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("verify content header auditor engagement pag.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 }
 

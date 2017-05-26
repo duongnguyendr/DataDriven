@@ -105,4 +105,18 @@ public class EngagementRequestPage extends AbstractPage {
         return eleDueDateTxt;
     }
 
+    public void verifyDisplayElementInRequestPage(){
+        validateDisPlayedElement(getEleAllRequestsTxt(), "All Requests Text");
+        validateDisPlayedElement(getEleCreateCategoryLnk(), "Create Category Link");
+        validateDisPlayedElement(getEleGeneralLedgerTxt(), "General Ledger Text");
+        validateDisPlayedElement(getEleDescriptionTxt(), "Description Text");
+        validateDisPlayedElement(getEleDueDateTxt(), "Due Date Text");
+        validateDisPlayedElement(getEleFileUploadIcn(), "File Upload Icon");
+        validateDisPlayedElement(getEleDragDropTxt(), "All Requests Text");
+        validateDisPlayedElement(getEleBrowseFileTxt(), "Browse File Text");
+        validateDisPlayedElement(getEleFINANCIALSLnk(), "Financials - Link");
+        validateDisPlayedElement(getEleGeneralLedgerLnk(), "General Ledger - Link");
+        validateDisPlayedElement(getEleTrialBalanceLnk(), "Trial Balance - Link");
+        validateDisPlayedElement(getEleCompleteTxt(), "Complete - Text");
+    }
 }

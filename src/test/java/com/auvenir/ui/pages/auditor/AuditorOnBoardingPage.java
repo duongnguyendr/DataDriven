@@ -85,7 +85,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleFirstAndLastNameTxtFld;
     }
 
-    @FindBy(xpath = "//p[text()='Address *']")
+    @FindBy(xpath = "//p[text()='Street Address']")
     private WebElement eleAddressTxt;
 
     public WebElement getEleAddressTxt() {
@@ -197,7 +197,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleNortonBadgesImg;
     }
 
-    @FindBy(xpath = "//h3[contains(text(),'Please Provide your Firm Information')]")
+    @FindBy(xpath = "//h3[contains(text(),'Please Provide Your Firm Information')]")
     private WebElement elePleaseProvideTxt;
 
     public WebElement getElePleaseProvideTxt() {
@@ -274,7 +274,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleStreetTxtFld;
     }
 
-    @FindBy(xpath = "//p[text()='Unit / Suite Number *']")
+    @FindBy(xpath = "//p[text()='Unit / Suite Number']")
     private WebElement eleUnitNumberTxt;
 
     public WebElement getEleUnitNumberTxt() {
@@ -288,7 +288,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleUnitNumberTxtFld;
     }
 
-    @FindBy(xpath = "//p[text()='City *']")
+    @FindBy(xpath = "//p[text()='City']")
     private WebElement eleCityTxt;
 
     public WebElement getEleCityTxt() {
@@ -302,7 +302,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleCityTxtFld;
     }
 
-    @FindBy(xpath = "//p[text()='Province / State *']")
+    @FindBy(xpath = "//p[text()='Province/ State']")
     private WebElement eleProvinceStateTxt;
 
     public WebElement getEleProvinceStateTxt() {
@@ -316,7 +316,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleProvinceStateTxtFld;
     }
 
-    @FindBy(xpath = "//p[text()='Postal / Zip Code *']")
+    @FindBy(xpath = "//p[text()='Postal Code/ Zip Code']")
     private WebElement elePostalCodeZipCodeTxt;
 
     public WebElement getElePostalCodeZipCodeTxt() {
@@ -330,7 +330,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleCountryTxtFld;
     }
 
-    @FindBy(xpath = "//p[text()='Country *']")
+    @FindBy(xpath = "//p[text()='Country']")
     private WebElement eleCountryTxt;
 
     public WebElement getEleCountryTxt() {
@@ -386,7 +386,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleCameraFirmImg;
     }
 
-    @FindBy(xpath = "//h3[contains(text(),'Please Provide')]//..//button[text()='Update Photo']")
+    @FindBy(xpath = "//h3[contains(text(),'Please Provide')]//..//button[text()='Update Logo']")
     private WebElement eleUpdatePhotoFirmBtn;
 
     public WebElement getEleUpdatePhotoFirmBtn() {
@@ -538,5 +538,113 @@ public class AuditorOnBoardingPage extends AbstractPage {
 
     public WebElement getEleAgreeSkipSecurityBtn() {
         return eleAgreeSkipSecurityBtn;
+    }
+
+    public void verifyOnBoardingPersonalInformationPage(){
+        validateDisPlayedElement(getEleAuvenirLogoImg(),"Auvenir Logo");
+        validateDisPlayedElement(getElePersonalTxt(), "Personal Text");
+        validateDisPlayedElement(getEleFirmTxt(), "Firm Text");
+        validateDisPlayedElement(getEleSecurityTxt(), "Security Text");
+        validateDisPlayedElement(getElePersonalNumberCircleImg(), "Personal Number Circle Image");
+        validateDisPlayedElement(getEleFirmNumberCircleImg(), "Firm Number Circle Image");
+        validateDisPlayedElement(getEleSecurityNumberCircleImg(), "Security Number Circle Image");
+        validateDisPlayedElement(getElePleaseConfirmTxt(), "Please Confirm Text ");
+        validateDisPlayedElement(getEleFirstAndLastNameTxt(), "First and Last name Text");
+        validateDisPlayedElement(getEleFirstAndLastNameTxtFld(), "First and Last name Text Field");
+        validateDisPlayedElement(getEleEmailAddressTxt(), "Email Address Text");
+        validateDisPlayedElement(getEleEmailAddressTxtFld(), "Email Address Text Field");
+        validateDisPlayedElement(getElePersonalPhoneNumberTxt(), "Personal Phone Number Text");
+        validateDisPlayedElement(getElePersonalPhoneNumberTxtFld(), "Personal Phone Number Text Field");
+        validateDisPlayedElement(getEleIAgreeToChkBox(), "I Agree to Check Box");
+        validateDisPlayedElement(getEleIAgreeToTxt(), "I Agree to Text");
+        validateDisPlayedElement(getElePrivacyLnk(), "Privacy link");
+        validateDisPlayedElement(getEleTermsAndConditionsLnk(), "Terms and Conditions link");
+        validateDisPlayedElement(getEleIHerebyConfirmChkBox(), "I hereby confirm Check Box");
+        validateDisPlayedElement(getEleIHerebyConfirmTxt(), "I hereby confirm Text");
+//        toValidate(getEleCameraImg(), "Camera Image", "Displayed");       //Removed
+//        toValidate(getEleUpdatePhotoBtn(), "Update Photo Button", "Enabled");     //Removed
+        validateEnabledElement(getEleContinueBtn(), "Continue button");
+        validateDisPlayedElement(getEleNortonBadgesImg(), "Norton and Truste Image");
+    }
+    public void verifyInputPersonalInfomation(String auditorName, String phoneNumber){
+        sendKeyTextBox(getEleFirstAndLastNameTxtFld(), auditorName, "First and Last name Text Field");
+        sendKeyTextBox(getElePersonalPhoneNumberTxtFld(), phoneNumber, "Personal Phone Number Text Field");
+        clickOnCheckBox(getEleIAgreeToChkBox(), "I Agree to Check Box");
+        clickOnCheckBox(getEleIHerebyConfirmChkBox(), "I hereby confirm Check Box");
+        clickElement(getEleContinueBtn(), "Continue button");
+    }
+
+    public void verifyOnBoardingFirmInfomationPage(){
+        validateDisPlayedElement(getElePleaseProvideTxt(), "Please Provide Your Text");
+        validateDisPlayedElement(getEleNameTxt(), "Name Text");
+        validateDisPlayedElement(getEleNameTxtFld(), "Name Text Field");
+        validateDisPlayedElement(getEleNumberOfEmployeesTxt(), "Number of Employees Text");
+        validateDisPlayedElement(getEleNumberOfEmployeesTxtFld(), "Number of Employees Text Field");
+        validateDisPlayedElement(getEleFirmPhoneNumberTxt(), "Phone Number Text");
+        validateDisPlayedElement(getEleFirmPhoneNumberTxtFld(), "Phone Number Text Field");
+        validateDisPlayedElement(getEleAddressTxt(), "Address Text");
+        validateDisPlayedElement(getEleAddressTxtFld(), "Address Text Field");
+        validateDisPlayedElement(getEleUnitNumberTxtFld(), "Unit Number Text Field");
+        validateDisPlayedElement(getEleCityTxt(), "City Text");
+        validateDisPlayedElement(getEleCityTxtFld(), "City Text Field");
+        validateDisPlayedElement(getEleCountryTxt(), "Country Text");
+        validateDisPlayedElement(getEleCountryTxtFld(), "Country Text Field");
+        validateDisPlayedElement(getEleProvinceStateTxt(), "Province / State Text");
+        validateDisPlayedElement(getEleProvinceStateTxtFld(), "Province / State Text Field");
+        validateDisPlayedElement(getElePostalCodeZipCodeTxt(), "Postal Code / Zip Code Text");
+        validateDisPlayedElement(getElePostalCodeZipCodeTxtFld(), "Postal Code / Zip Code Text Field");
+        validateDisPlayedElement(getEleIAmAffiliatedChkBox(), "I am affiliated Check Box");
+        validateDisPlayedElement(getEleIAmAffiliatedTxt(), "I am affiliated Text");
+        validateEnabledElement(getEleContinueFirmBtn(), "Continue button");
+        validateDisPlayedElement(getEleCameraFirmImg(), "Camera Firm Image");
+        validateEnabledElement(getEleUpdatePhotoFirmBtn(), "Update Photo Firm Button");
+    }
+
+    public void verifyInputFirmInformationOnboardingPage(String firmName, String numberEmployee, String phoneNumber,
+                                                         String address, String unitNumber, String cityName, String provinceState,
+                                                         String countryName, String zipCode){
+        sendKeyTextBox(getEleNameTxtFld(), firmName, "Name Text Field");
+        sendKeyTextBox(getEleNumberOfEmployeesTxtFld(), numberEmployee, "Number of Employees Text Field");
+        sendKeyTextBox(getEleFirmPhoneNumberTxtFld(), phoneNumber, "Phone Number Text Field");
+        sendKeyTextBox(getEleAddressTxtFld(), address, "Address Text Field");
+        sendKeyTextBox(getEleUnitNumberTxtFld(), unitNumber, "Unit Number Text Field");
+        sendKeyTextBox(getEleCityTxtFld(), cityName, "City Text Field");
+        sendKeyTextBox(getEleProvinceStateTxtFld(), provinceState, "Province / State Text Field");
+        sendKeyTextBox(getEleCountryTxtFld(), countryName, "Country Text Field");
+        sendKeyTextBox(getElePostalCodeZipCodeTxtFld(), zipCode, "Postal Code / Zip Code Text Field");
+//        clickOnCheckBox(getEleIAmAffiliatedChkBox(), "I am affiliated Check Box");
+    }
+
+    public void verifyInputAffliateField(String affliateName){
+        validateDisPlayedElement(getEleAffliatedNameTxt(), "Affliated Name - Text");
+        validateDisPlayedElement(getEleAffliatedNameTxtFld(), "Affliated Name - Text Field");
+        sendKeyTextBox(getEleAffliatedNameTxtFld(), affliateName, "Affliated Name - Text Field");
+    }
+
+    public void verifySecurityOnBoardingPage(){
+        clickElement(getEleContinueFirmBtn(), "Continue button");
+        validateDisPlayedElement(getEleSetUpTxt(), "Set Up Security Text");
+        validateDisPlayedElement(getEleDownloadtheAuvenirTxt(), "Download the Auvenir Text");
+        validateEnabledElement(getEleTextMeALinkBtn(), "Text me a link Button");
+        validateDisPlayedElement(getElePhoneNumberSmsInputTxtFld(), "Phone number Text Field");
+        validateDisPlayedElement(getElePhoneImg(), "Phone Image");
+        validateDisPlayedElement(getEleAppStoreImg(), "App Store Image");
+        validateDisPlayedElement(getEleGooglePlayImg(), "Google Play Image");
+        validateEnabledElement(getEleSkipBtn(), "Skip Button");
+        clickElement(getEleSkipBtn(), "Skip button");
+        validateDisPlayedElement(getEleWarningImg(), "Warning Image");
+        validateDisPlayedElement(getEleCloseImg(), "Close Image");
+        validateDisPlayedElement(getEleSkipSecurityTxt(), "Skip Security Text");
+        validateDisPlayedElement(getEleByChoosingTxt(), "By Choosing Text");
+        validateDisPlayedElement(getEleIAmDefaultingChkBox(), "I am Defaulting Check Box");
+        validateDisPlayedElement(getEleIAmDefaultingTxt(), "I am Defaulting Text");
+        validateDisPlayedElement(getEleITakeResponsibilityChkBox(), "I Take Responsibility Check Box");
+        validateDisPlayedElement(getEleITakeResponsibilityTxt(), "I Take Responsibility Text");
+        validateDisPlayedElement(getEleIAgreeToAuvenirChkBox(), "I Agree to Auvenir Check Box");
+        validateDisPlayedElement(getEleIAgreeToAuvenirTxt(), "I Agree to Auvenir Text");
+        validateDisPlayedElement(getEleTermsAndConditionsSkipSecurityLnk(), "Terms and Conditions Link");
+        validateEnabledElement(getEleCancelSkipSecurityBtn(), "Cancel Button");
+        validateEnabledElement(getEleAgreeSkipSecurityBtn(), "Agree Button");
+
     }
 }
