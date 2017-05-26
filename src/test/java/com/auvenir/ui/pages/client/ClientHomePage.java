@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 public class ClientHomePage extends AbstractPage {
     public ClientHomePage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//span[contains(text(),'My Audits')]")
@@ -76,5 +76,22 @@ public class ClientHomePage extends AbstractPage {
 
     public WebElement getEleUpdatedTxt() {
         return eleUpdatedTxt;
+    }
+
+    public void verifyMyAuditsPage() {
+        getLogger().info("Verify My Audits Page.");
+        clickAndHold(getEleAuvenirHeaderImg(), "Auvenir Header Image.");
+        waitForVisibleElement(eleMyAuditsTxt, "myAuditTextEle");
+        validateDisPlayedElement(eleMyAuditsTxt, "My Audits Text");
+        validateElementText(eleMyAuditsTxt, "My Audits");
+        validateDisPlayedElement(eleInProgressTxt, "In Progress Link");
+        validateDisPlayedElement(eleCompletedTxt, "Completed link");
+        //auvenirPage.toValidate(clientHomePage.getEleBusinessLogoImg(),"Business Logo Image", "Displayed");
+        validateDisPlayedElement(eleDataGatheringTxt, "Data Gathering Text");
+        hoverElement(eleDataGatheringIcn, "Data Gathering");
+        validateDisPlayedElement(eleViewBtn, "View Button");
+        //will updated later after finding how to visible this element.
+//        auvenirPage.toValidate(clientHomePage.getEleUntitledTxt(), "Untitled Text", "Displayed");
+        validateDisPlayedElement(eleUpdatedTxt, "Updated Text");
     }
 }

@@ -13,7 +13,7 @@ public class AuditorClientPage extends AbstractPage {
 
     public AuditorClientPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//span[contains(text(),'My Clients')]")

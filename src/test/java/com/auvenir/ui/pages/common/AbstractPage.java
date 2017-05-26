@@ -4,13 +4,11 @@ package com.auvenir.ui.pages.common;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 //import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
+import javafx.scene.control.Tab;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -30,7 +28,6 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
@@ -40,29 +37,36 @@ public class AbstractPage {
     private    Logger logger = null;
     private  WebDriver driver = null;
     private static final int waitTime = 60;
-    public static  final int smallerTimeOut = 500;
-    public static  final int smallTimeOut = 1000;
-    public static final  String categoryIndiMode = "indicategory";
-    public static  final  String categoryTitleOfAddNew = "Add New Category";
-    public static  final String backgroundColor = "background-color";
-    public  static  final String numberSequence = "123456";
-    public  static  final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit";
-    public  static  final String borderColor = "border-color";
-    public  static  final String border = "border";
-    public static  final String background = "background";
-    public  static  final String searchTextToDoListPage = "Search to do";
-    public  static final String searchTextDefault = "Search...";
-    public  static final String greenColor = "1px solid rgb(89, 155, 161)";
-    public  static final String blueColor = "rgb(43, 72, 117) none repeat scroll 0% 0% / auto padding-box border-box";
-    public  static final String greyColor = "1px solid rgb(151, 147, 147)";
-    public  static final String whiteColor = "1px solid rgb(255, 255, 255)";
-    public  static final String color = "color";
-    public static  final String categoryNameAllText = "category name all text";
-    public static final  String notValidNameMessage = "Not a valid name.";
-    public  static  final String specialCharacter = "~!@#$%^&*+?><,.";
-    public static  final  String existedCategoryName = "Category name already existed";
-    public  static  final int maxLenght = 255;
-    public  static  final int maxLenghtOneHundred = 100;
+    public static final int smallerTimeOut = 500;
+    public static final int smallTimeOut = 1000;
+    public static final String categoryIndiMode = "indicategory";
+    public static final String categoryTitleOfAddNew = "Add New Category";
+    public static final String backgroundColor = "background-color";
+    public static final String numberSequence = "123456";
+    public static final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit";
+    public static final String borderColor = "border-color";
+    public static final String border = "border";
+    public static final String background = "background";
+    public static final String searchTextToDoListPage = "Search to do";
+    public static final String searchTextDefault = "Search...";
+    public static final String greenColor = "1px solid rgb(89, 155, 161)";
+    public static final String blueColor = "rgb(43, 72, 117) none repeat scroll 0% 0% / auto padding-box border-box";
+    public static final String greyColor = "1px solid rgb(151, 147, 147)";
+    public static final String whiteColor = "1px solid rgb(255, 255, 255)";
+    public static final String color = "color";
+    public static final String categoryNameAllText = "category name all text";
+    public static final String notValidNameMessage = "Not a valid name.";
+    public static final String specialCharacter = "~!@#$%^&*+?><,.";
+    public static final String existedCategoryName = "Category name already existed";
+    public static final int maxLenght = 255;
+    public static final int maxLenghtOneHundred = 100;
+    public static final String nullChars = "";
+    public static final String categoryColor = "//*[@id='category-color']";
+    public static final String categoryColorContainer = "//*[@id='category-color-container']/ul/li[4]";
+    public static final String dropdownCategoryToDoBulkDdl = "//*[@class='ui dropdown category todo-bulkDdl ']";
+    public static final String dropdownCategoryToDoBulkDdlDiv1 = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]";
+    public static final String popUpDivCategoryModel ="//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
+    public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
 
     public AbstractPage(Logger logger,WebDriver driver){
         this.driver = driver;
@@ -133,8 +137,10 @@ public class AbstractPage {
     // Create Category
     @FindBy(xpath = "//*[@id='category-dropdown']/div[@class='text']")
     private WebElement eleCategoryComboBox;
+
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuEle;
+
     @FindBy(id="category-name")
     private WebElement categoryNameFieldOnFormEle;
 
@@ -145,6 +151,7 @@ public class AbstractPage {
     private WebElement detailCateColorEle;
     @FindBy(id="category-addBtn")
     private WebElement eleIdBtnAddCategory;
+
     @FindBy(xpath="//*[@class='ui dropdown category todo-bulkDdl ']")
     private WebElement dropdownCategoryEle;
     @FindBy(id="todo-table")
@@ -175,13 +182,38 @@ public class AbstractPage {
 
 
     @FindBy(xpath = "//input[contains(@id,'forge-InputBox')]")
-    List<WebElement> listOfCategoriesItemEle;
+    private List<WebElement> listOfCategoriesItemEle;
 
     @FindBy(xpath = "//img[contains(@id,\"cat-trash-btn\")]")
-    List<WebElement> listOfEditTrashEle;
+    private List<WebElement> listOfEditTrashEle;
 
     @FindBy(xpath = "//img[contains(@id,\"cat-edit-btn\")]")
-    List<WebElement> listOfEditPenEle;
+    private List<WebElement> listOfEditPenEle;
+
+    @FindBy(xpath = "//div[@id=\"category-dropdown-menu\"]/div[@class=\"\"]")
+    private List<WebDriver> listOfCategoriesDropdownTableEle;
+
+    @FindBy(xpath = "//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]")
+    private WebElement cancelDeletedToDoButtonEle;
+
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show']/div[@class = 'fl-a-dismiss auvicon-line-circle-ex'] ")
+    private WebElement successToastMesCloseIconEle;
+
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-orange fl-a-container-show']//p[@class = 'fl-a-text']")
+    private WebElement warningToastMesDescriptionEle;
+
+    @FindBy(xpath = "//*[@class = 'header-userName']")
+    private WebElement userNameHeaderEle;
+
+    @FindBy(xpath = "//*[@class='progress-overlay']")
+    private WebElement progressingDiv;
+
+    @FindBy(xpath = "//img[@class='header-auvenirLogo']")
+    private WebElement eleAuvenirHeaderImg;
+
+    public WebElement getEleAuvenirHeaderImg() {
+        return eleAuvenirHeaderImg;
+    }
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
@@ -379,24 +411,6 @@ public class AbstractPage {
         }
     }
 
-    public boolean validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
-    {
-        getLogger().info("verify style with "+ attributeName);
-        try
-        {
-        	 Assert.assertEquals(element.getCssValue(attributeName),attributeValue);
-            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
-            return true;
-        }
-        catch (Exception e)
-        {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep(element + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return false;
-        }
-
-    }
-
     public boolean validateMaxlenght(WebElement webElement, String webElementName, int maxLength) {
         try {
             String inputTextwithMaxLength = randomCharacters(maxLength);
@@ -414,6 +428,7 @@ public class AbstractPage {
             return false;
         }
     }
+
     /*
             Improvement to detect value: true/ false after take actions
             Updated by: Doai.Tran 8/5/2017
@@ -432,6 +447,7 @@ public class AbstractPage {
             NXGReports.addStep("scroll Page up unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     /*
     Method to scrollPageDown
      */
@@ -618,18 +634,21 @@ public class AbstractPage {
      @param element element defined on page class
      @param elementName Name of element that we want to click
      */
-    public void clickElement(WebElement element,String elementName){
+    public boolean clickElement(WebElement element,String elementName){
         getLogger().info("Try to ClickElement: " + elementName);
         try{
             waitForClickableOfElement(element, "click to " + elementName);
             element.click();
             NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
+            return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to Click on: " + elementName);
             NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
+
     /**
      @Description: Click and Hold on element
      @param element element defined on page class
@@ -673,12 +692,15 @@ public class AbstractPage {
      * @param element element defined on page class
      * @param text The content of text that we want to input.
      * @param elementName Name of element that we want to input value.
+     * @Description: Send a String to textBox.
      */
     public void sendKeyTextBox(WebElement element, String text,String elementName){
         getLogger().info("Try to sendKey on : "+elementName);
         try {
-            element.click();
+            waitForClickableOfElement(element, "wait for click to " + element);
+            //element.click();
             element.clear();
+            waitForClickableOfElement(element, "wait for click to " + element);
             element.sendKeys(text);
             NXGReports.addStep("Send text: "+text+ "on element: "+ elementName, LogAs.PASSED, null);
         }catch (Exception e){
@@ -691,6 +713,7 @@ public class AbstractPage {
      *@Description: Clear all Strings to textBox.
      * @param element element defined on page class
      * @param elementName Name of element that we want to input value.
+     * @Description: Clear all Strings to textBox.
      */
     public void clearTextBox(WebElement element,String elementName){
         getLogger().info("Try to clear text on : "+elementName);
@@ -703,6 +726,7 @@ public class AbstractPage {
             NXGReports.addStep("Unable to clear on: " +elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     /**
      *@Description: Click on checkbox
      * @param element element defined on page class
@@ -724,6 +748,7 @@ public class AbstractPage {
      * @param element element defined on page class
      * @param selText Visible text that you want to select on dropdown
      * @param elementName checkbox name
+     * @Description: select a value on dropdown via visible text
      */
     public boolean selectByVisibleText(WebElement element, String selText, String elementName){
         getLogger().info("Try to selectByVisibleText on element: "+ elementName);
@@ -743,6 +768,7 @@ public class AbstractPage {
      * @param element element defined on page class
      * @param selValue Value that you want to select on dropdown
      * @param elementName checkbox name
+     * @Description: select a value on dropdown via visible text
      */
     public void selectByValue(WebElement element, String selValue, String elementName){
         getLogger().info("Try to selectByValue on element: "+ elementName);
@@ -760,6 +786,7 @@ public class AbstractPage {
      * @param element element defined on page class
      * @param selIndex Value that you want to select on dropdown
      * @param elementName checkbox name
+     * @Description: select a value on dropdown via visible text
      */
     public void selectByIndex(WebElement element, int selIndex, String elementName){
         getLogger().info("Try to selectByIndex on element: "+elementName);
@@ -777,6 +804,7 @@ public class AbstractPage {
      * @Description: Send TabKey
      * @param element element defined on page class
      * @param elementName Name of element: CheckBox that we want to Send TabKey
+     * @Description: Send TabKey
      */
     public void sendTabkey(WebElement element, String elementName) {
         getLogger().info("Try to sendTabkey: "+elementName);
@@ -865,28 +893,15 @@ public class AbstractPage {
 
     }
 
-    // EditCategory method
-    public void editCategories() throws Exception {
-        waitForClickableOfElement(eleCategoryCombobox, "eleCategoryCombobox");
-        eleCategoryCombobox.click();
-        //Verify Category_Dropdown GUI
-        //=========
-        //Click EditCategories option
-        waitForClickableOfElement(eleEditCategory, "eleEditCategory");
-        eleEditCategory.click();
-    }
 
-    public String getTextByJavaScripts(WebElement eleGetText)
-    {
+    public String getTextByJavaScripts(WebElement eleGetText, String elementName) {
         getLogger().info("Get text by javascript of element " + eleGetText);
         try {
             JavascriptExecutor jse = (JavascriptExecutor) getDriver();
-            NXGReports.addStep("Get text by javascript of element " + eleGetText, LogAs.PASSED, null);
+            NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.PASSED, null);
             return (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;", eleGetText);
-        }
-        catch (Exception ex)
-        {
-            NXGReports.addStep("Get text by javascript of element " + eleGetText, LogAs.FAILED, null);
+        } catch (Exception ex) {
+            NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.FAILED, null);
             getLogger().info(ex.getMessage());
             return "";
         }
@@ -925,9 +940,10 @@ public class AbstractPage {
 
     public void clickToNewCategoryDllInList() throws Exception
     {
+        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdl));
         waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        Thread.sleep(smallerTimeOut);
         clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
+        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdlDiv1));
         waitForClickableOfElement(addNewCategoryMenuEle,"addNewCategoryMenuEle");
         Thread.sleep(smallerTimeOut);
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
@@ -936,11 +952,11 @@ public class AbstractPage {
     public void chooseCategoryColorInPopup () throws Exception
     {
         hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
+        waitForClickableOfLocator(By.xpath(categoryColor));
         waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
-        Thread.sleep(smallerTimeOut);
         clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
+        waitForClickableOfLocator(By.xpath(categoryColorContainer));
         waitForClickableOfElement(detailCateColorEle,"detailCateColorEle");
-        Thread.sleep(smallerTimeOut);
         clickElement(detailCateColorEle, "click to detailCateColorEle");
     }
 
@@ -948,11 +964,15 @@ public class AbstractPage {
     {
         waitForClickableOfElement(eleIdBtnAddCategory,"Add Category Button");
         waitForJSandJQueryToLoad();
-        WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+        WebElement popUpDiv = getDriver().findElement(By.xpath(popUpDivCategoryModel));
         clickElement(eleIdBtnAddCategory, "Add Category Button");
         waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
     }
 
+    /**
+     * categoryMode = categoryIndiMode: create new category from list ToDoPage
+     * categoryMode = "": create new category in a ToDoPage
+     */
     public boolean createNewCategory (String categoryMode, String categoryNameInput) throws Exception
     {
         boolean isCheckCategory = false;
@@ -966,8 +986,6 @@ public class AbstractPage {
         }
         // Create new Category
         clickToNewCategoryDllInList();
-
-
         waitForClickableOfElement(categoryNameFieldOnFormEle,"categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
@@ -984,7 +1002,7 @@ public class AbstractPage {
             waitForVisibleElement(imgListTodoPage, "wait for imgListTodoPage");
             clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
             waitForVisibleElement(eleIndiCategoryText,"eleIndiCategoryText");
-            td_collection = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
+            td_collection = tblXpathTodoTable.findElements(By.xpath(dropdownCategoryToDoBulkDllDivDiv));
             for (WebElement tdElement : td_collection) {
                 String strSearchValue = "";
                 try {
@@ -1019,7 +1037,7 @@ public class AbstractPage {
             waitForVisibleElement(imgListTodoPage, "wait for imgListTodoPage");
             clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
             waitForVisibleElement(eleIndiCategoryText, "eleIndiCategoryText");
-            listCategoryName = tblXpathTodoTable.findElements(By.xpath("//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div"));
+            listCategoryName = tblXpathTodoTable.findElements(By.xpath(dropdownCategoryToDoBulkDllDivDiv));
             for (WebElement categoryNameEle : listCategoryName) {
                 String strSearchValue = "";
                 try {
@@ -1197,6 +1215,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryTitle()
     {
         boolean isCheckTitle = false;
@@ -1225,6 +1246,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryDefaultValue()
     {
         boolean isCheckDetaultValue = false;
@@ -1232,7 +1256,7 @@ public class AbstractPage {
         try
         {
             waitForClickableOfElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-            String strCateDefaultValue = getTextByJavaScripts(categoryNameFieldOnFormEle);
+            String strCateDefaultValue = getTextByJavaScripts(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
             if(strCateDefaultValue.equals(""))
             {
                 isCheckDetaultValue = true;
@@ -1255,6 +1279,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyHoverClickCategoryName()
     {
         boolean isCheckBorderColor = false;
@@ -1284,6 +1311,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyShowAllTextCategoryName()
     {
         boolean isCheckShowAllText = false;
@@ -1293,7 +1323,7 @@ public class AbstractPage {
             clickElement(categoryNameFieldOnFormEle,"click to categoryNameFieldOnFormEle");
             clearTextBox(categoryNameFieldOnFormEle, "clear categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle,categoryNameAllText,"send key to categoryNameFieldOnFormEle");
-            String strGetCategoryName = getTextByJavaScripts(categoryNameFieldOnFormEle);
+            String strGetCategoryName = getTextByJavaScripts(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
             if(categoryNameAllText.equals(strGetCategoryName))
             {
                 isCheckShowAllText = true;
@@ -1315,6 +1345,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameRequiredData()
     {
         boolean isCheckRequiredData = false;
@@ -1349,6 +1382,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameMaxLength()
     {
         boolean isCheckMaxLength = false;
@@ -1376,6 +1412,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameInputNumber()
     {
         boolean isCheckMaxLength = false;
@@ -1385,7 +1424,7 @@ public class AbstractPage {
             waitForClickableOfElement(categoryNameFieldOnFormEle,"wait for click categoryNameFieldOnFormEle");
             clickElement(categoryNameFieldOnFormEle,"click to categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle,numberSequence,"send key to categoryNameFieldOnFormEle");
-            String strNumberValue = getTextByJavaScripts(categoryNameFieldOnFormEle);
+            String strNumberValue = getTextByJavaScripts(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
             if(strNumberValue.equals(numberSequence))
             {
                 isCheckMaxLength = true;
@@ -1419,6 +1458,9 @@ public class AbstractPage {
         return results;
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryNameSpecialCharacter()
     {
         boolean isCheckSpecialCharacter = false;
@@ -1452,6 +1494,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyCategoryColorAllQuantityColor()
     {
         boolean isCheckAllQuantityColor = false;
@@ -1481,6 +1526,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyChoosedCategoryColor()
     {
         boolean isCheckChoosedColor = false;
@@ -1508,6 +1556,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public void chooseCategoryColorByColorName(String colorName)
     {
         boolean isCheckAllQuantityColor = false;
@@ -1543,6 +1594,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyColorCategoryCancelButton()
     {
         boolean isCheckColorCancelButton = false;
@@ -1551,9 +1605,7 @@ public class AbstractPage {
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             clearTextBox(categoryNameFieldOnFormEle, "clear text categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, "CreateCancel", "send key to categoryNameFieldOnFormEle");
-            //waitForVisibleElement(eleEditCategoryCancelBtn, "wait for visible eleEditCategoryCancelBtn");
-            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, backgroundColor, "rgba(151, 147, 147, 1)");
-            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, color, "rgba(255, 255, 255, 1)");
+            isCheckColorCancelButton = verifyColorBackgroundTextBtn(eleEditCategoryCancelBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
             if(isCheckColorCancelButton) {
                 NXGReports.addStep("Verify color of Category cancel button", LogAs.PASSED, null);
             }
@@ -1573,6 +1625,31 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     * buttonNeedCheck : for example eleEditCategoryCancelBtn
+     * backgroundColor: for example "rgba(151, 147, 147, 1)"
+     * color: for example "rgba(255, 255, 255, 1)"
+     */
+    public boolean verifyColorBackgroundTextBtn(WebElement buttonNeedCheck,String backgroundColorBtn, String textColor)
+    {
+        boolean isCheckColorCancelButton = false;
+        getLogger().info("Verify background and text color of the button " + buttonNeedCheck);
+        try
+        {
+            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, backgroundColor, backgroundColorBtn);
+            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, color, textColor);
+        }
+        catch(Exception ex)
+        {
+            logger.info(ex.getMessage());
+        }
+        return isCheckColorCancelButton;
+    }
+
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyColorCategoryCreateButton()
     {
         boolean isCheckColorCreateButton = false;
@@ -1599,16 +1676,22 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyClickCategoryCancelButton()
     {
         boolean isCheckCancelClick = false;
         getLogger().info("Verify to click Category cancel button");
         try {
-            // blue color
-            waitForClickableOfElement(eleEditCategoryCancelBtn, "wait for click to eleEditCategoryCancelBtn");
-            clickElement(eleEditCategoryCancelBtn, "click to eleEditCategoryCancelBtn");
-            //isCheckCancelClick = waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
-            //isCheckCancelClick = waitForInvisibleElement(eleIdBtnAddCategory, "wait for invisible eleIdBtnAddCategory");
+            // click to cancel button
+            clickToNewCategoryDllInList();
+            hoverElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
+            waitForClickableOfLocator(By.xpath("//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]"));
+            waitForClickableOfElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo Button");
+            isCheckCancelClick = clickElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
+
+            getLogger().info("isCheckCancelClick = " + isCheckCancelClick);
             if(isCheckCancelClick) {
                 NXGReports.addStep("Verify to click Category cancel button", LogAs.PASSED, null);
             }
@@ -1628,6 +1711,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyNotCompleteCreateCategory()
     {
         boolean isCheckCreateCateFail = false;
@@ -1657,6 +1743,9 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Author: minh.nguyen
+     */
     public boolean verifyExistedCategory()
     {
         boolean isCheckExistedCategory = false;
@@ -1665,14 +1754,15 @@ public class AbstractPage {
             String categoryName = "Existed category " + randomNumber();
             //Thread.sleep(smallerTimeOut);
             waitForJSandJQueryToLoad();
+            waitForClickableOfLocator(By.id("category-name"));
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             clearTextBox(categoryNameFieldOnFormEle, "clear categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
             chooseCategoryColorInPopup();
             clickNewCategoryCreateButton();
             clickToNewCategoryDllInList();
-            //Thread.sleep(smallerTimeOut);
             waitForJSandJQueryToLoad();
+            waitForClickableOfLocator(By.id("category-name"));
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
             chooseCategoryColorInPopup();
@@ -1703,6 +1793,8 @@ public class AbstractPage {
         }
     }
 
+
+    //Vien Added=================
     public void hoverElementAndClickToOtherElement(WebElement element1, String elementName1, WebElement element2, String elementName2) {
         getLogger().info("Try to hoverElement: " + elementName1 + " and click to " + elementName2);
         try {
@@ -1716,14 +1808,14 @@ public class AbstractPage {
     }
 
 
-    public void editCategories(String newValue, int numberOfItems) throws Exception {
+    public void editSameMultiItems(String newValue, int numberOfItems) throws Exception {
         int i;
         try {
             for (i = 0; i < numberOfItems; i++) {
                 waitForVisibleElement(listOfCategoriesItemEle.get(i), "Category Item " + i);
                 hoverElementAndClickToOtherElement(listOfCategoriesItemEle.get(i), "Category Item " + i, listOfEditPenEle.get(i), "Edit Pen " + i);
                 sendKeyTextBox(listOfCategoriesItemEle.get(i), newValue, String.format("Category Item %d", i));
-                Thread.sleep(smallTimeOut);
+                Thread.sleep(smallerTimeOut);
             }
             NXGReports.addStep("Enter new value", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1804,20 +1896,34 @@ public class AbstractPage {
     }
 
     /**
-     * Find the index(position) of Web Element in the list Web Element by text
+     * Find the index(position) of Web Element in the list Web Element by attribute value
      * @param listElement List WebElement
-     * @param  textValue String text which is compared with each WebElements.
+     * @param textValue   String text which is compared with each WebElements.
      * @return i if the WebElement is matched, otherwise return -1.
      *
      */
-    public int findElementByValue(List<WebElement> listElement, String textValue){
-        for(int i = 0; i<listElement.size();i++){
-            if(validateAttributeElement(listElement.get(i),"value", textValue)){
-                getLogger().info("Element is found at " + i);
-                return i;
+    public int findElementByAttributeValue(List<WebElement> listElement, String textValue) {
+        try {
+            String actualAttributeValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualAttributeValue = listElement.get(i).getAttribute("value").trim();
+                if (actualAttributeValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
+                }
             }
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
         }
-        return -1;
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
@@ -1872,17 +1978,284 @@ public class AbstractPage {
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
-            NXGReports.addStep("Element: "+ elementName + " is disappear.", LogAs.PASSED, null);
+            NXGReports.addStep("Element: " + elementName + " is disappear.", LogAs.PASSED, null);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Element: " + element.getText() +"is not disappear.");
-            NXGReports.addStep("Element: "+ elementName +" is not disappear.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Element: " + element.getText() + "is not disappear.");
+            NXGReports.addStep("Element: " + elementName + " is not disappear.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
+
     public void waitPageLoad() throws InterruptedException {
         getLogger().info("Just a moment. Page is loading.");
         Thread.sleep(smallerTimeOut);
     }
+
+
+    //Vien.Pham add for ticket 2291
+    public int verifyListOfCurrentCategories(List<WebElement> webElement) {
+        int numberOfItemsBefore = 0;
+        for (WebElement tdElement : webElement) {
+            String isCheckCategory = nullChars;
+            try {
+                isCheckCategory = tdElement.getAttribute("data-dbdata");
+                numberOfItemsBefore++;
+            } catch (Exception ex) {
+            }
+        }
+
+        return numberOfItemsBefore;
+    }
+
+    public void verifyItemsRemovedOrNot(int numberOfItemsBefore, int numberOfItemsbeRemoved, List<WebElement> webElement) {
+        int numberOfItemDisplayed = 0;
+        int result = numberOfItemsBefore - numberOfItemsbeRemoved;
+        try {
+            for (WebElement tdElement : webElement) {
+                String isCheckCategory = nullChars;
+                isCheckCategory = tdElement.getAttribute("data-dbdata");
+                if (isCheckCategory == null) {
+                    numberOfItemDisplayed = 0;
+                    break;
+                } else {
+                    numberOfItemDisplayed++;
+                }
+                if (numberOfItemDisplayed == result) {
+                    NXGReports.addStep("Remove completed ", LogAs.PASSED, null);
+
+                } else {
+                    NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+
+
+            }
+            System.out.println("so luong item after: " + result);
+        } catch (Exception e) {
+            NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    /**
+     * Find the index(position) of Web Element in the list Web Element by text value
+     *
+     * @param listElement List WebElement
+     * @param textValue   String text which is compared with each WebElements.
+     * @return i if the WebElement is matched, otherwise return -1.
+     */
+    public int findElementByText(List<WebElement> listElement, String textValue) {
+        try {
+            String actualTextValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualTextValue = listElement.get(i).getText().trim();
+                if (actualTextValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
+                }
+            }
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+        }
+    }
+
+    /**
+     * Find the index(position) of Web Element in the list Web Element by attribute value
+     *
+     * @param listElement List WebElement
+     * @param textValue   String text which is compared with each WebElements.
+     * @param attributeName   String attributeName which attribute will be found with get Attribute method.
+     * @return i if the WebElement is matched, otherwise return -1.
+     */
+    public int findElementByAttribute(List<WebElement> listElement, String textValue, String attributeName) {
+        try {
+            String actualAttributeValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualAttributeValue = listElement.get(i).getAttribute(attributeName).trim();
+                if (actualAttributeValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
+                }
+            }
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(String.format("Cannot find the text name: %s", textValue));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return -1;
+        }
+    }
+
+    public boolean closeSuccessToastMes(){
+        try {
+            getLogger().info("Close the Success Toast Message.");
+            boolean result;
+            waitForClickableOfElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+            result = clickElement(successToastMesCloseIconEle, "Close Icon Success Toast Message");
+            Assert.assertTrue(result, "The Toast Message should be closed.");
+            NXGReports.addStep("The Toast Message is closed successfully", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return true;
+
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Cannot close the Success Toast Message.");
+            NXGReports.addStep("The Toast Message is closed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    public String getDate(int day) {
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DATE, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return simpleDateFormat.format(date.getTime());
+    }
+
+    public String getDate(int day, String formatDate) {
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DATE, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate);
+        return simpleDateFormat.format(date.getTime());
+    }
+
+    public String getCurrentDayNumberSuffix() {
+        Date date = new Date();
+        SimpleDateFormat formatDayOfMonth  = new SimpleDateFormat("d");
+        int day = Integer.parseInt(formatDayOfMonth.format(date));
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to wait text value of Element is changed.
+     */
+    public boolean waitForTextValueChanged(WebElement element, String elementName, String textValue) {
+        getLogger().info("Try to waitForTextValueChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    String actualTextValue = element.getText().trim();
+                    System.out.println("Actual Displayed Value: " + actualTextValue);
+                    System.out.println("Expected Displayed Value: " + textValue);
+                    if (actualTextValue.equals(textValue))
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("Text Value of element '%s' is changed to '%s'", elementName, textValue), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("CSS Value is not changed");
+            NXGReports.addStep(String.format("Text Value of element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to wait the size of Element is changed.
+     */
+    public boolean waitForSizeListElementChanged(List<WebElement> element, String elementName, int sizeListElement) {
+        getLogger().info("Try to waitForSizeListElementChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    int actualSizeListElement = element.size();
+                    System.out.println("Actual Size of List Element: " + actualSizeListElement);
+                    System.out.println("Expected Size of List Element: " + sizeListElement);
+                    if (actualSizeListElement == sizeListElement)
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("Size of list element '%s' is changed to '%d'", elementName, sizeListElement), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            getLogger().info("Size of Element is not changed");
+            NXGReports.addStep(String.format("Size of list element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to verify the content of Toast Message.
+     */
+    public boolean verifyContentOfToastMessage(WebElement element, String elementName, String expectedContent) {
+        getLogger().info("Try to Verify Content Of Toast Message: " + elementName);
+        try {
+            boolean result;
+            waitForVisibleElement(element, elementName);
+            result = validateElementText(element, expectedContent);
+            Assert.assertTrue(result, "The content of toast message is displayed unsuccessfully.");
+            return true;
+        } catch (Exception e) {
+            getLogger().info("The content of toast message is displayed unsuccessfully.");
+            return false;
+        }
+    }
+
+    /**
+     * Verify the content of warning toast message is displayed.
+     * @param expectedContent The content is expected to displayed on Warning Message.
+     * @return true if the content is displayed, otherwise it returns false.
+     */
+    public boolean verifyContentOfWarningToastMessage(String expectedContent) {
+        getLogger().info("Try to Verify Content Of Warning Toast Message ");
+        return  verifyContentOfToastMessage(warningToastMesDescriptionEle, "Warning Toast Message Content", expectedContent);
+    }
+
+    /**
+     * Get the Current Username Logged on.
+     * @return String UserName of Current User Logged on.
+     */
+    public String getCurrentUserNameLogOn() {
+        getLogger().info("Get the Current Username Logged on. ");
+        validateDisPlayedElement(userNameHeaderEle, "User Name Header.");
+        return userNameHeaderEle.getText();
+    }
+
+    /**
+     * Waiting for The Progressing Overlay is closed.
+     */
+    public void waitForProgressOverlayIsClosed(){
+        getLogger().info("Try to waiting the ProgressOverlayIsClosed.");
+        waitForCssValueChanged(progressingDiv, "Progress Overlay", "display", "none");
+    }
+
 }

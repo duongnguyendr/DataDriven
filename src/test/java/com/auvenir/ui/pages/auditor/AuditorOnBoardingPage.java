@@ -13,7 +13,6 @@ public class AuditorOnBoardingPage extends AbstractPage {
 
     public AuditorOnBoardingPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
     }
 
     @FindBy(css = "img[class='header-auvenirLogo']")

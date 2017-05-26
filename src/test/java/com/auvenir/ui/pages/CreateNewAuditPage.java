@@ -14,7 +14,6 @@ public class CreateNewAuditPage extends AbstractPage {
     public CreateNewAuditPage(Logger logger, WebDriver driver) {
         super(logger, driver);
 
-        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//button[text()='Create New']")

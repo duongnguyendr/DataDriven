@@ -16,7 +16,7 @@ public class AuditorNotificationsSettingsPage extends AbstractPage {
 
     public AuditorNotificationsSettingsPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        // PageFactory.initElements(new AjaxElementLocatorFactory(driver,waitTime),this);
+
 
     }
 

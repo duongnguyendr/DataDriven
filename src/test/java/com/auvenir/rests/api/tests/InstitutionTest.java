@@ -2,6 +2,7 @@ package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
 import com.auvenir.utilities.MongoDBService;
+import com.auvenir.utilities.extentionLibraries.Excel;
 import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -51,7 +52,7 @@ public class InstitutionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account with valid Customer ID")
     public void GetAccountCustomerID() throws Exception {
         try {
-            sData = MongoDBService.toReadExcelData("Institution1", "institutions");
+            sData = Excel.toReadExcelData("Institution1", "institutions");
             Response response = given().get(baseUrl+"/v1/institution/"+sData[1]+"?consumerID="+sData[4]);
             Assert.assertEquals(response.statusCode(), 200);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
@@ -85,7 +86,7 @@ public class InstitutionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account from Out Customer ID")
     public void GetAccountOutCustomerID() throws Exception {
         try{
-            sData = MongoDBService.toReadExcelData("Institution1", "institutions");
+            sData = Excel.toReadExcelData("Institution1", "institutions");
             Response response = given().get(baseUrl+"/v1/institution/"+sData[1]);
             Assert.assertEquals(response.statusCode(), 401);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
@@ -107,7 +108,7 @@ public class InstitutionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account with Out Customer ID")
     public void GetAccountWrongCustomerID() throws Exception {
         try{
-            sData = MongoDBService.toReadExcelData("Institution1", "institutions");
+            sData = Excel.toReadExcelData("Institution1", "institutions");
             Response response = given().get(baseUrl+"/v1/institution/"+sData[1]+"?consumerID=12345");
             Assert.assertEquals(response.statusCode(), 400);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);

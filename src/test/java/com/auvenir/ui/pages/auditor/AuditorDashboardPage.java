@@ -15,7 +15,7 @@ public class AuditorDashboardPage extends AbstractPage {
 
     public AuditorDashboardPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
 

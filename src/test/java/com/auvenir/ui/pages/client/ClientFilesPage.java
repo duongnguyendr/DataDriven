@@ -12,7 +12,7 @@ public class ClientFilesPage extends AbstractPage {
 
     public ClientFilesPage(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver, this);
+
     }
 
     @FindBy(xpath = "//img[@src='images/views/docsEmpty.svg']//..//..//span[contains(text(),'Files')]")

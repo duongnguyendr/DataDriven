@@ -39,10 +39,10 @@ public class AuditorDetailsEngagementService extends AbstractService {
     }
 
 
-    public void verifyDetailsEngagementPage(String engagement01) {
+    public void verifyDetailsEngagementPage(String engagementName) {
         try {
             getLogger().info("verify Detail Engagement page.(Implemented later)");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage("engagement01");
+            auditorDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
             NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

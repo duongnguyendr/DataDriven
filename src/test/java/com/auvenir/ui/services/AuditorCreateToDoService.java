@@ -37,9 +37,9 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
 
-    public void verifyGUIAddNewToDoNameTextBox() {
+    public void verifyGUIAddNewToDoNameTextBox(int numberOfTask) {
         getLogger().info("Verify GUI Add New To Do Text Box");
-        createToDoPage.verifyDefaultValueToDoNameTextBox();
+        createToDoPage.verifyDefaultValueToDoNameTextBox(numberOfTask);
         createToDoPage.verifyHoverCssValueToDoNameTextBox();
         createToDoPage.verifyWarningCssValueToDoNameTextBox();
         createToDoPage.verifyGUIButtonCreateToDo();
@@ -185,7 +185,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //	}
 
     public void navigateToDoListPage() throws Exception {
-        this.createToDoPage.navigateToEngagementPage();
+        //this.createToDoPage.navigateToEngagementPage();
         this.createToDoPage.navigateToToDoList();
     }
 
@@ -284,10 +284,12 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+
+    // Vien.Pham added new numberCategories
     public void createToDoPage() {
 
         try {
-            createToDoPage.createToDoTask();
+            createToDoPage.createToDoTask(1);
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -295,6 +297,18 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+    //Vien.Pham add new Create Multicategories
+    public void createMultiCategories(){
+        try {
+            createToDoPage.createToDoTask(2);
+            NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Create To-Do page", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
     /*
         public void verifyGUIAddNewToDoNameTextBox() {
             try {
@@ -308,7 +322,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception  {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -458,8 +472,47 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.clickDeleteToDoBulkActions();
     }
 
-    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+    public void verifyCompleteMarkPopup() {
+        createToDoPage.verifyCompleteMarkPopup();
+    }
 
+    public void verifyClickCloseMarkPopup() {
+        createToDoPage.verifyClickCloseMarkPopup();
+    }
+
+    public void verifyDeleteToDoPopUpDisplayed() {
+        createToDoPage.verifyGUIDeleteToDoPopUp();
+    }
+
+    public void clickCloseButtonOnPopup() {
+        createToDoPage.clickCloseButtonOnPopup();
+    }
+
+    public void clickCancelButtonOnPopup() {
+        createToDoPage.clickCancelButtonOnPopup();
+    }
+
+    public void verifyBulkActionsDropdownIsClosed() {
+        createToDoPage.verifyBulkActionsDropdownIsClosed();
+    }
+
+    public void selectToDoTaskName(String toDoName) {
+        createToDoPage.selectToDoCheckboxByName(toDoName);
+    }
+
+    public void unselectToDoTaskName(String toDoName) {
+        createToDoPage.unSelectToDoCheckboxByName(toDoName);
+    }
+
+    public int getNumberofToDoTask() {
+        return createToDoPage.getNumberofToDoTask();
+    }
+
+    public void waitMessageIsDisappear() {
+        //createToDoPage.waitMessageIsDisappear();
+    }
+
+    //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
     /**
      * Move add new to do page
      */
@@ -581,29 +634,147 @@ public class AuditorCreateToDoService extends AbstractService {
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- End
 
+    //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- Start
 
-    public void verifyDeleteToDoPopUpDisplayed() {
-        createToDoPage.verifyGUIDeleteToDoPopUp();
+    /**
+     * Verify trash to do icon
+     */
+    public void verifyTrashToDoIcon() {
+        createToDoPage.verifyTrashToDoIcon();
     }
 
-    public void clickCloseButtonOnPopup() {
-        createToDoPage.clickCloseButtonOnPopup();
+    /**
+     * Verify default status trash to do icon
+     */
+    public void verifyDefaultStatusTrashToDoIcon() {
+        createToDoPage.verifyDefaultStatusTrashToDoIcon();
     }
 
-    public void clickCancelButtonOnPopup() {
-        createToDoPage.clickCancelButtonOnPopup();
+    /**
+     * Click on trash delete icon
+     */
+    public void clickOnTrashIcon(){
+        createToDoPage.clickOnTrashIcon();
     }
 
-    public void verifyBulkActionsDropdownIsClosed() {
-        createToDoPage.verifyBulkActionsDropdownIsClosed();
+    /**
+     * Verify GUI and Close icon of delete confirm popup
+     */
+    public void verifyGUIDeleteConfirmPopup() {
+        createToDoPage.verifyGUIDeleteConfirmPopup();
     }
 
-    public void selectToDoTaskName(String toDoName) {
-        createToDoPage.selectToTaskName(toDoName);
+    /**
+     * Check or Uncheck CheckAll check box control
+     * @param isCheck : true check | false is un check
+     */
+    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
+    }
+    /**
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
+     */
+    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
     }
 
-    public void waitMessageIsDisappear() {
-        createToDoPage.waitMessageIsDisappear();
+    /**
+     * Check or Uncheck all check box control
+     * @param isCheck : true check | false is un check
+     */
+    public void checkOrUnCheckAllCheckBox(boolean isCheck){
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
     }
+    /**
+     * Verify all check box is check or un check
+     * @param isCheck : true check | false is un check
+     */
+     public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck){
+        createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
+     }
+    /**
+     * Click on delete button popup
+     */
+    public void clickOnDeleteButtonOnPopup(){
+        createToDoPage.clickOnDeleteButtonOnPopup();
+    }
+
+    /**
+     * Click on cancel button popup
+     */
+    public void clickOnCancelButtonOnPopup(){
+        createToDoPage.clickOnCancelButtonOnPopup();
+    }
+
+    /**
+     * Check ToDo item is exist
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoName : ToDo name need check
+     */
+    public void checkToDoIsExists(boolean isExists, String ToDoName){
+        if(!createToDoPage.checkToDoIsExists(isExists,ToDoName)){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+    /**
+     * Check ToDo item list is exists
+     * @param isExists : true : is exists | false : is not exists
+     * @param ToDoNames : ToDo name list need check
+     */
+    public void checkToDoListIsExists(boolean isExists, List<String> ToDoNames){
+        if(!createToDoPage.checkToDoListIsExists(isExists,ToDoNames)){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+    /**
+     * Check all ToDo item is delete
+     */
+    public void checkAllToDoIsDelete(){
+        if(!createToDoPage.checkAllToDoIsDelete()){
+            AbstractService.sStatusCnt++;
+        }
+    }
+
+
+    //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
+
+    public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
+
+    public void verifyDefaultHintValueInputComment() {
+        createToDoPage.verifyDefaultHintValueInputComment();
+    }
+    public void verifyCancelCompleteMarkPopup() {
+        createToDoPage.verifyCancelCompleteMarkPopup();
+    }
+
+    public void closeSuccessToastMes() { createToDoPage.closeSuccessToastMes(); }
+    public void verifyBoxTitleComment() { createToDoPage.verifyGUIBoxTitleComment(); }
+    public void verifyGUICommentList(String commentContent) { createToDoPage.verifyGUICommentList(commentContent); }
+    public void verifyInputAComment(String commentContent) { createToDoPage.verifyInputAComment(commentContent); }
+    public void clickPostComment() { createToDoPage.clickPostComment(); }
+    public int getNumberOfListComment() { return createToDoPage.getNumberOfListComment(); }
+
+    /**
+     * Author minh.nguyen
+     */
+    public void createNewRequestOnToDoPage() {
+        createToDoPage.verifyAddNewRequest();
+    }
+    public void verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
+        createToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
+    }
+
+    public void verifyClickOnInputCommentField() { createToDoPage.verifyClickOnInputCommentField(); }
+
+    public void verifyUserInputNoContentComment() { createToDoPage.verifyUserInputNoContentComent();}
+
+    public void verifyInputMaxLenghtContentComment(int maxLength) { createToDoPage.verifyInputMaxLenghtContentComment(maxLength); }
+
+    public void verifyInputSpecialCharactersContentComment() { createToDoPage.verifyInputSpecialCharactersContentComment(); }
+
+    public void verifyGUIPostButton() { createToDoPage.verifyGUIPostButton(); }
 }
 
