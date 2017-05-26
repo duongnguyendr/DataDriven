@@ -8,20 +8,22 @@
         <classes>
             <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
             <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
-
+             <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
+            <class name="com.auvenir.ui.tests.auditor.AuditorTestRefactor"/>
+            <methods>
+                <include name="verifyAuditorLoginPage"></include>
+            </methods>
             <!--
-             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <class name="com.auvenir.ui.tests.AdminTest"/>
             <class name="com.auvenir.ui.tests.SupportTest"/>
             <class name="com.auvenir.ui.tests.CareerTest"/>
-            <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
-            <methods>
-                <include name="verifyCompletedFieldUpdateSuccessful"></include>
-                <include name="verifyCancelCompleteAction"></include>
-            </methods>
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
+            <!--<methods>-->
+                <!--<include name="verifyCompletedFieldUpdateSuccessful"></include>-->
+            <!--</methods>-->
+
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
             <class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
