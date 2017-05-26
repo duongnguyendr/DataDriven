@@ -1506,7 +1506,7 @@ End of merged VienPham.
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         Random r = new Random();
         String engagementName = "Engagement-PLAT-2350" + r.nextInt(1000);
-        String taskName = "Task-2305" + r.nextInt();
+        String taskName = "Task-2305" + r.nextInt(1000);
         try{
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1546,7 +1546,7 @@ End of merged VienPham.
         String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
         Random r = new Random();
         String engagementName = "Engagement-PLAT-2350" + r.nextInt(1000);
-        String taskName = "Task-2305" + r.nextInt();
+        String taskName = "Task-2305" + r.nextInt(1000);
         try{
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();

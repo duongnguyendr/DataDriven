@@ -791,18 +791,18 @@ public class AuditorTest extends AbstractRefactorService {
             throw e;
         }
     }
-	
-	
-	
-/*	 
+
+
+
+/*
 	 * @Description: To Verify the display of Elements in Auditor Gmail Login Page.
 	 * @Author: Jeevaraj SP
-	 
+
 	@Test(priority=12,enabled=false, description="To Verify the display of Elements in Auditor Gmail Login Page")
 	public void auditorGmailLoginPage() throws Exception
 	{   AbstractRefactorService.sStatusCnt=0;
 		auditorEngagementPage = new AuditorEngagementPage(driver);
-		
+
 		auvenirPage=new AuvenirPage(driver);
 		auditorLoginPo=new AuditorLoginPage(driver);
 		auditorGmailLoginPo = new AuditorGmailLoginPage(driver);
@@ -846,12 +846,12 @@ public class AuditorTest extends AbstractRefactorService {
 			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
-		catch (AssertionError e) 
+		catch (AssertionError e)
 		{
 			NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
 			throw e;
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
 			throw e;

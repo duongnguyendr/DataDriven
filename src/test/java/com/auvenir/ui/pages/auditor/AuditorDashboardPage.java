@@ -244,4 +244,58 @@ public class AuditorDashboardPage extends AbstractPage {
         return eleYouCreatedTxt;
     }
 
+    public void verifyDisplayElementOnAuditorDashBoardPage(){
+        validateDisPlayedElement(getEleDashboardLnk(), "Dashboard Link");
+        validateDisPlayedElement(getEleRequestLnk(), "Requests Link");
+        validateDisPlayedElement(getEleFilesLnk(), "Files Link");
+        validateDisPlayedElement(getEleActivityLnk(), "Activity Link");
+        validateDisPlayedElement(getEleTaskDrpDwn(), "Current Tasks Dropdown");
+        for (WebElement eleTaskFormTxt : getEleTaskFormTxts()) {
+            validateDisPlayedElement(eleTaskFormTxt, eleTaskFormTxt.getText());
+        }
+        validateDisPlayedElement(getEleSelectBtn(), "Select Button");
+        validateDisPlayedElement(getEleSetBtn(), "Set Button");
+        validateDisPlayedElement(getEleInviteBtn(), "Invite Button");
+        validateDisPlayedElement(getEleArchiveBtn(), "Archive Button");
+        validateDisPlayedElement(getEleMyClientTxt(), "My Client Text");
+        validateDisPlayedElement(getEleProfileImg(), "Profile image");
+        validateDisPlayedElement(getEleNoClientTxt(), "No Client - Text");
+        validateDisPlayedElement(getEleMyClientImg(), "My client image");
+    }
+
+    public void clickRequestLink(){
+        waitForClickableOfElement(getEleRequestLnk(), "Requests Link");
+        clickElement(getEleRequestLnk(), "Requests Link");
+    }
+
+    public void clickFilesLink(){
+        waitForClickableOfElement(getEleFilesLnk(), "File Link");
+        clickElement(getEleFilesLnk(), "File link");
+    }
+
+    public void clickActivityLink(){
+        waitForClickableOfElement(getEleActivityLnk(), "Activity link");
+        clickElement(getEleActivityLnk(), "Activity link");
+    }
+
+    public void verifyDisplayElementInActivityPage(){
+        validateDisPlayedElement(getEleActivityFeedTxt(), "Activity Feed Text");
+        validateDisPlayedElement(getEleActivityDayTxt(), "Activity Day Text");
+        validateDisPlayedElement(getEleYouCreatedTxt(), "You created a new Engagement- Text");
+    }
+
+    public void clickArchiveButton(){
+        waitForClickableOfElement(getEleArchiveBtn(), "Archive button");
+        clickElement(getEleArchiveBtn(), "Archive button");
+    }
+    public void verifyDisplayElementInArchivePage(){
+        clickArchiveButton();
+        validateDisPlayedElement(getEleArchiveEngagementTxt(), "Archive Engagement Header Text");
+        validateDisPlayedElement(getEleArchiveEngagementImg(), "Archive Engagement Image");
+        validateDisPlayedElement(getEleYouWillNoTxt(), "You will not longer be able to access - Text");
+        validateDisPlayedElement(getEleCancelBtn(), "Cancel Button");
+        validateDisPlayedElement(getEleYesBtn(), "Yes - Button");
+        validateDisPlayedElement(getEleCloseSmallIcn(), "Close icon");
+        clickElement(getEleCancelBtn(), "Cancel button");
+    }
 }

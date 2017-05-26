@@ -817,4 +817,15 @@ public class AdminLoginPage extends AbstractPage {
         waitForVisibleElement(eleAdminHdrTxt, "eleAdminHdrTxt");
         validateElementText(eleAdminHdrTxt, "Admin");
     }
+
+    public void verifyDisplayElementInDeActivePage(){
+        validateDisPlayedElement(getEleDeactivateLnk(), "Deactivate My Account - Link");
+        clickElement(getEleDeactivateLnk(), "Deactive link");
+        validateDisPlayedElement(getEleDeactivatAccTxt(), "Deactivate Account - Text");
+        validateDisPlayedElement(getEleAlertIcn(), "Alert - Icon");
+        validateDisPlayedElement(getEleYouareAboutTxt(), "You are about to - Text");
+        validateDisPlayedElement(getEleCancelBtn(), "Cancel   - Button");
+        validateDisPlayedElement(getEleDeactivateBtn(), "Deactivate   - Button");
+        clickElement(getEleCloseIcn(),"Close button");
+    }
 }
