@@ -18,6 +18,11 @@
         <poi.version>3.14</poi.version>
         <mongodb.version>3.2.2</mongodb.version>
         <commons.logging.version>1.1.1</commons.logging.version>
+        <mongo-api.version>0.2.1</mongo-api.version>
+        <mongodb-driver.verison>3.2.2</mongodb-driver.verison>
+        <json.version>20160810</json.version>
+        <json-schema-validator.version>3.0.2</json-schema-validator.version>
+        <mail.version>1.4</mail.version>
     </properties>
 
 
@@ -153,13 +158,13 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-schema-validator</artifactId>
-            <version>3.0.2</version>
+            <version>${json-schema-validator.version}</version>
         </dependency>
 
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.4</version>
+            <version>${mail.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -169,13 +174,18 @@
         <dependency>
             <groupId>com.rhcloud.mongodb</groupId>
             <artifactId>mongo-api</artifactId>
-            <version>0.2.1</version>
+            <version>${mongo-api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
-            <version>3.2.2</version>
+            <version>${mongodb-driver.verison}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
         </dependency>
     </dependencies>
 </project>
