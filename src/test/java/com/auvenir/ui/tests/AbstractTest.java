@@ -48,7 +48,7 @@ public class AbstractTest {
      */
     protected static final String SD_FAILURE = "failure";
     private String testName = "initial";
-    // minh.nguyen updated May 26,2017
+    // minh.nguyen updated May 26,2017 updated
     public static final String engagementName = "engagement 01";
 
     @Parameters({"server"})
