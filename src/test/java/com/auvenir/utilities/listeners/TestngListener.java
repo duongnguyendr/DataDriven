@@ -57,7 +57,7 @@ public class TestngListener implements ITestListener {
 
 	public void onTestStart(ITestResult result) 
 	{
-		GenericService.setCongigValue(GenericService.sConfigFile, "DATE", sdateTime);
+		GenericService.setConfigValue(GenericService.sConfigFile, "DATE", sdateTime);
 	}
 
 	public void onTestSuccess(ITestResult result) 

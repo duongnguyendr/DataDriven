@@ -1,35 +1,37 @@
 package com.auvenir.ui.tests.auditor;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.auvenir.ui.pages.AuvenirPage;
+import com.auvenir.ui.pages.EngagementRequestPage;
+import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.auditor.*;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
-import com.auvenir.ui.pages.auditor.*;
 import com.jayway.restassured.response.Response;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.auvenir.ui.pages.auditor.AuditorSettingsPage;
-import com.auvenir.ui.pages.auditor.AddNewClientPage;
-import com.auvenir.ui.pages.auditor.EngagementFilesPage;
-import com.auvenir.ui.pages.EngagementRequestPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
-//import org.testng.log4testng.Logger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.jayway.restassured.RestAssured.given;
 
+//import org.testng.log4testng.Logger;
+
 public class AuditorTest extends AbstractRefactorService {
+    public AuditorTest(Logger logger, WebDriver driver) {
+        super(logger, driver);
+    }
     //Logger logger =Logger.getLogger(AuditorTest.class);
     AuditorOnBoardingPage auditorOnBoardingPage = null;
     AuditorEngagementPage auditorEngagementPage = null;
@@ -58,7 +60,7 @@ public class AuditorTest extends AbstractRefactorService {
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
         String sURL = null;
         try {
-            sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/delete";
+            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/delete";
             getLogger().info("Call api to delete existed Audit user: " + sURL);
             //driver.get(sURL);
             Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
@@ -86,7 +88,7 @@ public class AuditorTest extends AbstractRefactorService {
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
             GeneralUtilities.toValidate(auvenirPage.getEleAuvenirImg(), "Auvenir Header Logo Image", "Displayed");
             GeneralUtilities.toValidate(auvenirPage.getEleAuditorLoginLnk(), "Auditor Login Link", "Displayed");
             GeneralUtilities.toValidate(auvenirPage.getEleAuditorLoginImg(), "Auditor Login Image", "Displayed");
@@ -120,7 +122,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(auvenirPage.getEleEmailAddressPopUpTxtFld(), "Email Address PopUp Text Field", "Displayed");
             GeneralUtilities.toValidate(auvenirPage.getEleGoBtn(), "Go Button", "Enabled");
             getLogger().info("enter auditor email.");
-            auvenirPage.getEleEmailAddressPopUpTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            auvenirPage.getEleEmailAddressPopUpTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auvenirPage.getEleGoBtn().click();
             //visibilityOfElementWait(auvenirPage.getEleWaitVerificationTxt(),"Wait verification text",waittime );
             visibilityOfElementWait(auvenirPage.getEleWaitVerificationTxt(), "Your email is awaiting verification", waittime);
@@ -130,7 +132,7 @@ public class AuditorTest extends AbstractRefactorService {
             auvenirPage.getEleAuditorEmailAddressTxtFld().sendKeys("auvaudit");
             //	GeneralUtilities.toValidate(auvenirPage.getEleNotValidEmailTxt(),"Not a valid email address - Text","Displayed");
             auvenirPage.getEleAuditorEmailAddressTxtFld().clear();
-            auvenirPage.getEleAuditorEmailAddressTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            auvenirPage.getEleAuditorEmailAddressTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auvenirPage.getEleJoinBtn().click();
             Thread.sleep(3000);
             Assert.assertTrue(auvenirPage.getEleAwaitingApprovalTxt().isDisplayed(),
@@ -171,7 +173,7 @@ public class AuditorTest extends AbstractRefactorService {
         try {
             String onBoardingUrl;
             getLogger().info("update status of auditor to onboarding.");
-            onBoardingUrl = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/update?status=ONBOARDING";
+            onBoardingUrl = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/update?status=ONBOARDING";
             Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(onBoardingUrl);
             if (response.getStatusCode() == 200) {
                 getLogger().info("The Auditor is on boarding.");
@@ -179,7 +181,7 @@ public class AuditorTest extends AbstractRefactorService {
             }
 
             getLogger().info("Login with auditor role.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             Thread.sleep(5000);
             GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAuvenirLogoImg(), "Auvenir Logo", "Displayed");
             GeneralUtilities.toValidate(auditorOnBoardingPage.getElePersonalTxt(), "Personal Text", "Displayed");
@@ -336,18 +338,18 @@ public class AuditorTest extends AbstractRefactorService {
             date = new Date();
             CurrentDate = dateFormat.format(date);
 
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", 15);
             Assert.assertTrue(adminLoginPage.getEleAdminHdrTxt().getText().equals("Admin"),
                     "Admin Login is not able to login correctly");
             NXGReports.addStep("Admin Login is able to login correctly", LogAs.PASSED, null);
             adminLoginPage.getEleChangeActiveStatus("AUDITOR",
-                    GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), CurrentDate);
+                    GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), CurrentDate);
             NXGReports.addStep("status of auditor changed to ACTIVE", LogAs.PASSED, null);
             Thread.sleep(5000);
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auvenirPage.verifyHeader();
             GeneralUtilities.toValidate(auditorEngagementPage.getEleEngagementLnk(), "Engagement Link", "Displayed");
             GeneralUtilities.toValidate(auditorEngagementPage.getEleClientsLnk(), "Clients Link", "Displayed");
@@ -377,7 +379,7 @@ public class AuditorTest extends AbstractRefactorService {
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorEngagementPage.auditorPageHeaderContent();
             auditorEngagementPage.getEleCreateNewBtn().click();
             GeneralUtilities.toValidate(auditorDashboardPage.getEleDashboardLnk(), "Dashboard Link", "Displayed");
@@ -421,7 +423,7 @@ public class AuditorTest extends AbstractRefactorService {
         engagementRequestPage = new EngagementRequestPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(), "Create New Button", 15);
             auditorEngagementPage.getEleCreateNewBtn().click();
             visibilityOfElementWait(auditorDashboardPage.getEleRequestLnk(), "Request Link", 15);
@@ -463,7 +465,7 @@ public class AuditorTest extends AbstractRefactorService {
         engagementFilesPage = new EngagementFilesPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(), "Create New Button", 15);
             auditorEngagementPage.getEleCreateNewBtn().click();
             visibilityOfElementWait(auditorDashboardPage.getEleFilesLnk(), "Files Link", 15);
@@ -495,7 +497,7 @@ public class AuditorTest extends AbstractRefactorService {
 
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(), "Create New Button", 15);
             auditorEngagementPage.getEleCreateNewBtn().click();
             visibilityOfElementWait(auditorDashboardPage.getEleActivityLnk(), "Activity Link", 15);
@@ -527,7 +529,7 @@ public class AuditorTest extends AbstractRefactorService {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
 
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleClientsLnk(), "Clients Link", 15);
             auditorEngagementPage.getEleClientsLnk().click();
             auditorEngagementPage.getEleAddNewBtn().click();
@@ -596,7 +598,7 @@ public class AuditorTest extends AbstractRefactorService {
         auditorClientPage = new AuditorClientPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleClientsLnk(), "Clients Link", 15);
             auditorEngagementPage.getEleClientsLnk().click();
             auditorEngagementPage.auditorPageHeaderContent();
@@ -630,7 +632,7 @@ public class AuditorTest extends AbstractRefactorService {
         actions = new Actions(getDriver());
         try {
             getLogger().info("Login with auditor user.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleClientsLnk(), "Clients Link", waittime);
             auditorEngagementPage.getEleAuditorNameDrpDwn().click();
             //Thread.sleep(5000);
@@ -686,7 +688,7 @@ public class AuditorTest extends AbstractRefactorService {
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
         actions = new Actions(getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleClientsLnk(), "Clients Link", waittime);
             auditorEngagementPage.getEleAuditorNameDrpDwn().click();
             Thread.sleep(5000);
@@ -739,7 +741,7 @@ public class AuditorTest extends AbstractRefactorService {
 
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(), "Create New Button", waittime);
             auditorEngagementPage.getEleCreateNewBtn().click();
             visibilityOfElementWait(auditorDashboardPage.getEleArchiveBtn(), "Archive Button", waittime);
@@ -775,7 +777,7 @@ public class AuditorTest extends AbstractRefactorService {
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(), "Create New Button", waittime);
             auditorEngagementPage.getEleClientsLnk().click();
             visibilityOfElementWait(auditorDashboardPage.getEleMyClientTxt(), "My Clients header text", waittime);
@@ -809,31 +811,31 @@ public class AuditorTest extends AbstractRefactorService {
 		auditorGmailLoginPo = new AuditorGmailLoginPage(driver);
 		try
 		{
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 			visibilityOfElementWait(auvenirPage.getEleAuditorEmailAddressTxtFld(), "Email Address Text Field", 15);
-			auvenirPage.getEleAuditorEmailAddressTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+			auvenirPage.getEleAuditorEmailAddressTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 			auvenirPage.getEleJoinBtn().click();
 			GeneralUtilities.toValidate(auvenirPage.getEleMailImg(),"Mail Image","Displayed");
 			GeneralUtilities.toValidate(auvenirPage.getEleCheckYourEmailTxt(),"Check Your Email Text","Displayed");
 			GeneralUtilities.toValidate(auvenirPage.getEleWeSentTxt(),"We Sent Text","Displayed");
 			GeneralUtilities.toValidate(auvenirPage.getEleDoneBtn(),"Done Button","Enabled");
 			auvenirPage.getEleDoneBtn().click();
-	    	driver.get(GenericService.getCongigValue(GenericService.sConfigFile,"GMAIL_URL"));
+	    	driver.get(GenericService.getConfigValue(GenericService.sConfigFile,"GMAIL_URL"));
 	    	if(auditorGmailLoginPo.getEleSignInLink().isDisplayed())
 	    	{
 	    		auditorGmailLoginPo.getEleSignInLink().click();
 	    	}
 	    	if(auditorGmailLoginPo.getEleEmailIDTxtFld().isDisplayed())
 	    	{
-	    		auditorGmailLoginPo.getEleEmailIDTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+	    		auditorGmailLoginPo.getEleEmailIDTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 	    		auditorGmailLoginPo.getEleNextBtn().click();
 	    	}
 	    	visibilityOfElementWait(auditorGmailLoginPo.getElePasswordTxtFld(), "Password Text Field", 10);
-			auditorGmailLoginPo.getElePasswordTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile,"AUDITOR_PWD"));
+			auditorGmailLoginPo.getElePasswordTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile,"AUDITOR_PWD"));
 	    	auditorGmailLoginPo.getEleSignInBtn().click();
 	    	Assert.assertTrue(auditorGmailLoginPo.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
 	    	visibilityOfElementWait(auditorGmailLoginPo.getEleSearchTxtFld(), "Search Text Field", 10);
-			auditorGmailLoginPo.getEleSearchTxtFld().sendKeys(GenericService.getCongigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
+			auditorGmailLoginPo.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile,"GMAIL_SEARCHMAIL"));
 	    	auditorGmailLoginPo.getEleSearchBtn().click();
 	    	auditorGmailLoginPo.getEleFirstMailLnk().click();
 	    	GeneralUtilities.toValidate(auditorGmailLoginPo.getEleNoReplyTxt(),"No Reply Text","Displayed");

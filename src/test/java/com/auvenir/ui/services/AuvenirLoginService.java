@@ -1,25 +1,29 @@
 package com.auvenir.ui.services;
 
-import java.util.concurrent.TimeUnit;
-
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
-import org.openqa.selenium.By;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class AuvenirLoginService extends AbstractRefactorService {
-
+    public AuvenirLoginService(Logger logger, WebDriver driver) {
+        super(logger, driver);
+    }
     //Getting the URl by passing Dev Auth ID and Authentication key
     public void setURL(String sEMAILID, String sAUTHID, String sLOGINURL, String sDevAuthID, String sApiKey) throws Exception {
         try {
             WebService http = new WebService(getLogger());
             http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
             http.gettingURL(sEMAILID, sLOGINURL, sDevAuthID, sApiKey);
-            System.out.println(GenericService.getCongigValue(GenericService.sConfigFile, sLOGINURL));
+            System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;

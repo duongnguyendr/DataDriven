@@ -2,34 +2,28 @@ package com.auvenir.ui.pages.auditor;
 
 //import library
 
-import java.util.Calendar;
-import java.util.List;
-
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
-
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
-import org.apache.xalan.lib.ExsltDatetime;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.json.JSONObject;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-
-import com.auvenir.ui.pages.common.AbstractPage;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.net.UnknownHostException;
+import java.util.Calendar;
+import java.util.List;
 
 public class AuditorCreateToDoPage extends AbstractPage {
 
@@ -342,17 +336,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
 
     public void verifyButtonCreateToDo() throws Exception {
-        validateCSSValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
-        validateCSSValueElement(createToDoBtnEle, "color", "rgba(255, 255, 255, 1)");
+        validateCssValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
+        validateCssValueElement(createToDoBtnEle, "color", "rgba(255, 255, 255, 1)");
         validateDisPlayedElement(createToDoBtnEle, "Create Todo Button");
     }
 
     public void verifyGUIButtonCreateToDo() {
         try {
             boolean result;
-            result = validateCSSValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
+            result = validateCssValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
             Assert.assertTrue(result, "Background-color of Create To Do Button is displayed unsuccessfully");
-            result = validateCSSValueElement(createToDoBtnEle, "color", "rgba(255, 255, 255, 1)");
+            result = validateCssValueElement(createToDoBtnEle, "color", "rgba(255, 255, 255, 1)");
             Assert.assertTrue(result, "Text Color of Create To Do Button is displayed unsuccessfully");
             result = validateDisPlayedElement(createToDoBtnEle, "Create Todo Button");
             Assert.assertTrue(result, "Text Value of Create To Do Button is displayed unsuccessfully");
@@ -451,7 +445,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verify Hover CSS Value To Do Text Box");
             waitForVisibleElement(toDoNameInputEle, "Todo Name input field");
             clickAndHold(toDoNameInputEle, "Todo Name input field");
-            result = validateCSSValueElement(toDoNameInputEle, "border", "1px solid rgb(89, 155, 161)");
+            result = validateCssValueElement(toDoNameInputEle, "border", "1px solid rgb(89, 155, 161)");
             Assert.assertTrue(result, "Hover CSS Value of To Do TextBox is displayed unsuccessfully");
             NXGReports.addStep("Verify Hover CSS Value of To Do Text Box", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -470,7 +464,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForVisibleElement(dueDateFieldEle, "Due Date input field");
             clickAndHold(toDoNameInputEle, "Todo Name input field");
             dueDateFieldEle.click();
-            result = validateCSSValueElement(toDoNameInputEle, "border", "1px solid rgba(253, 109, 71, 0.4)");
+            result = validateCssValueElement(toDoNameInputEle, "border", "1px solid rgba(253, 109, 71, 0.4)");
             Assert.assertTrue(result, "Warning CSS Value of To Do TextBox is displayed unsuccessfully");
             waitForVisibleElement(toDoNameErrorLabelEle, "Todo Name error  Label");
             result = validateElementText(toDoNameErrorLabelEle, "Not a valid name.");
@@ -793,7 +787,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
             clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
-            boolean isCheckSearchHover = validateCSSValueElement(this.eleToDoSearchInput, borderColor, "rgb(89, 155, 161)");
+            boolean isCheckSearchHover = validateCssValueElement(this.eleToDoSearchInput, borderColor, "rgb(89, 155, 161)");
             if (isCheckSearchHover) {
                 NXGReports.addStep("verify when hover on Search change bounary color to green.", LogAs.PASSED, null);
             } else {
@@ -859,7 +853,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         if (!this.eleCheckBox.isSelected()) {
             this.eleCheckBox.click();
         }
-        this.validateCSSValueElement(this.eleCheckBox, backgroundColor, "rgba(92, 212, 192, 1)");
+        this.validateCssValueElement(this.eleCheckBox, backgroundColor, "rgba(92, 212, 192, 1)");
     }
 
     public void verifyUnCheckOnCheckBox() throws Exception {
@@ -867,7 +861,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             this.eleCheckBox.click();
 
         }
-        this.validateCSSValueElement(this.eleCheckBox, backgroundColor, "rgba(202, 206, 206, 1)");
+        this.validateCssValueElement(this.eleCheckBox, backgroundColor, "rgba(202, 206, 206, 1)");
     }
 
     public void navigateToEngagementPage() throws Exception {
@@ -1311,8 +1305,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verify the cancel button in Mark as complete popup");
         try {
             waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]"));
-            isCheckColorCancelButton = validateCSSValueElement(cancelMarkPopupBtn, backgroundColor, "rgba(151, 147, 147, 1)");
-            isCheckColorCancelButton = validateCSSValueElement(cancelMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
+            isCheckColorCancelButton = validateCssValueElement(cancelMarkPopupBtn, backgroundColor, "rgba(151, 147, 147, 1)");
+            isCheckColorCancelButton = validateCssValueElement(cancelMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
             if (isCheckColorCancelButton) {
                 NXGReports.addStep("Verify the cancel button in Mark as complete popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             } else {
@@ -1330,8 +1324,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verify the archive button in Mark as complete popup");
         try {
             waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]"));
-            isCheckColorCancelButton = validateCSSValueElement(archiveMarkPopupBtn, backgroundColor, "rgba(89, 155, 161, 1)");
-            isCheckColorCancelButton = validateCSSValueElement(archiveMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
+            isCheckColorCancelButton = validateCssValueElement(archiveMarkPopupBtn, backgroundColor, "rgba(89, 155, 161, 1)");
+            isCheckColorCancelButton = validateCssValueElement(archiveMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
             clickElement(archiveMarkPopupBtn, "click to archiveMarkPopupBtn");
             if (isCheckColorCancelButton) {
                 NXGReports.addStep("Verify the archive button in Mark as complete popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -1406,14 +1400,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
             result = validateElementText(centerDeleteToDoDescriptionEle, guideSentenceDes);
             Assert.assertTrue(result, "Guide Sentence Description Delete ToDo is not displayed");
             waitForVisibleElement(deletedToDoButtonEle, "Delete To-Do button");
-            result = validateCSSValueElement(deletedToDoButtonEle, "background-color", "rgba(241, 103, 57, 1)");
+            result = validateCssValueElement(deletedToDoButtonEle, "background-color", "rgba(241, 103, 57, 1)");
             Assert.assertTrue(result, "Background color of Delete To-Do button is NOT orange");
-            result = validateCSSValueElement(deletedToDoButtonEle, "color", "rgba(255, 255, 255, 1)");
+            result = validateCssValueElement(deletedToDoButtonEle, "color", "rgba(255, 255, 255, 1)");
             Assert.assertTrue(result, "Text color of Delete To-Do button is NOT white");
             waitForVisibleElement(cancelDeletedToDoButtonEle, "Cancel delete To-Do button");
-            result = validateCSSValueElement(cancelDeletedToDoButtonEle, "background-color", "rgba(151, 147, 147, 1)");
+            result = validateCssValueElement(cancelDeletedToDoButtonEle, "background-color", "rgba(151, 147, 147, 1)");
             Assert.assertTrue(result, "Background color of Cancel delete To-Do button is NOT gray");
-            result = validateCSSValueElement(cancelDeletedToDoButtonEle, "color", "rgba(255, 255, 255, 1)");
+            result = validateCssValueElement(cancelDeletedToDoButtonEle, "color", "rgba(255, 255, 255, 1)");
             Assert.assertTrue(result, "Text color of Cancel delete To-Do button is NOT white");
             NXGReports.addStep("Verify GUI Delete To-Dos popup is displayed successfully", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -2731,7 +2725,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateDisPlayedElement(userNameCommenterEle.get(userNameCommenterEle.size() - 1), "User Name of Commenter");
             result = validateElementText(userNameCommenterEle.get(userNameCommenterEle.size() - 1), getCurrentUserNameLogOn());
             Assert.assertTrue(result, "User Name Commenter is displayed unsuccessfully");
-            result = validateCSSValueElement(userNameCommenterEle.get(userNameCommenterEle.size() - 1), "font-weight", "bold");
+            result = validateCssValueElement(userNameCommenterEle.get(userNameCommenterEle.size() - 1), "font-weight", "bold");
             Assert.assertTrue(result, "User Name Commenter is NOT displayed with Bold text.");
             validateDisPlayedElement(commentTimeEle.get(commentTimeEle.size() - 1), "Time of Comment Field.");
             result = validateElementText(commentTimeEle.get(commentTimeEle.size() - 1), currentDay);
@@ -2822,7 +2816,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verify click on Input Comment Field - Border color change to green");
             waitForVisibleElement(typeCommentFieldEle, "Input Comment field");
             clickElement(typeCommentFieldEle, "Input Comment field");
-            result = validateCSSValueElement(typeCommentFieldEle, "border", "1px solid rgb(92, 155, 160)");
+            result = validateCssValueElement(typeCommentFieldEle, "border", "1px solid rgb(92, 155, 160)");
             Assert.assertTrue(result, "Border color of Input Comment is NOT changed to green.");
             NXGReports.addStep("Verify click on Input Comment Field", LogAs.PASSED, null);
 
@@ -2899,9 +2893,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verifying GUI Post button");
             boolean result;
             validateDisPlayedElement(postCommentButton, "Post Button");
-            result = validateCSSValueElement(postCommentButton, "background-color", "rgba(89, 155, 161, 1)");
+            result = validateCssValueElement(postCommentButton, "background-color", "rgba(89, 155, 161, 1)");
             Assert.assertTrue(result, "The background color of the Post button is displayed unsuccessfully.");
-            validateCSSValueElement(postCommentButton, "color", "rgba(255, 255, 255, 1)");
+            validateCssValueElement(postCommentButton, "color", "rgba(255, 255, 255, 1)");
             Assert.assertTrue(result, "The text color of the Post button is displayed unsuccessfully.");
             NXGReports.addStep("Verifying GUI Post button", LogAs.PASSED, null);
         } catch (AssertionError error) {

@@ -1,16 +1,14 @@
 package com.auvenir.ui.pages.common;
 
 //import library
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.util.*;
-
-//import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
-import javafx.scene.control.Tab;
+import com.auvenir.utilities.GenericService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -19,15 +17,18 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.log4testng.Logger;
 import org.testng.Assert;
 
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+//import org.testng.log4testng.Logger;
+//import org.testng.log4testng.Logger;
 
 /**
  * Created by hungcuong1105 on 4/15/2017.
@@ -878,30 +879,30 @@ public class AbstractPage {
     /**
      *
      * @param element element defined on page class
-     * @param cSSValueName AttributeCSSS that we want to validate
-     * @param expectedCSSValue Expected value that we want to validate
+     * @param attributeName AttributeCSSS that we want to validate
+     * @param attributeValue Expected value that we want to validate
      */
-    public boolean validateCSSValueElement(WebElement element, String cSSValueName, String expectedCSSValue) {
-        getLogger().info("verify CSS Value " + expectedCSSValue + " of: " + element.toString());
-        String actualCSSValue = null;
-        try {
-            actualCSSValue = element.getCssValue(cSSValueName);
-            getLogger().info("actualCSSValue of " + cSSValueName + " is: " + actualCSSValue);
-            if (actualCSSValue.equals(expectedCSSValue)) {
-                getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
-                NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.PASSED, null);
-                return true;
-            } else {
-                AbstractService.sStatusCnt++;
-                getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
-                throw new Exception();
-            }
-        } catch (Exception e) {
+    public boolean validateCssValueElement(WebElement element,String attributeName,String attributeValue) throws InvalidElementStateException
+    {
+        getLogger().info("verify style with "+ attributeName);
+        try
+        {
+            getLogger().info("CurrentL: "+ element.getCssValue(attributeName).trim());
+            Assert.assertEquals(element.getCssValue(attributeName).trim(),attributeValue);
+            NXGReports.addStep(element.getTagName() + " has style with  "+attributeName, LogAs.PASSED, null);
+            return true;
+        }
+        catch (Exception e)
+        {
             AbstractService.sStatusCnt++;
-            getLogger().info(element.getTagName() + " has CSSValue " + actualCSSValue);
-            NXGReports.addStep(element.getTagName() + " has CSSValue " + actualCSSValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(element + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(element + " has style with  "+attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
+
     }
 
     public boolean validateIsNotDisPlayedElement(WebElement element, String elementName) {
@@ -1114,7 +1115,7 @@ public class AbstractPage {
 
     public void verifyHoverElement(WebElement element, String cssValueName, String expectedCssValue) {
         hoverElement(element, "Element");
-        validateCSSValueElement(element, cssValueName, expectedCssValue);
+        validateCssValueElement(element, cssValueName, expectedCssValue);
     }
 
     /**
@@ -1320,7 +1321,7 @@ public class AbstractPage {
             // Green color
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
             //sendKeyTextBox(categoryNameFieldOnFormEle,"test color", "send key to test color");
-            isCheckBorderColor = validateCSSValueElement(categoryNameFieldOnFormEle, border, greenColor);
+            isCheckBorderColor = validateCssValueElement(categoryNameFieldOnFormEle, border, greenColor);
             getLogger().info("isCheckBorderColor = " + isCheckBorderColor);
             if(isCheckBorderColor) {
                 NXGReports.addStep("Verify hover and click to category name", LogAs.PASSED, null);
@@ -1566,7 +1567,7 @@ public class AbstractPage {
         try {
             // blue color
             chooseCategoryColorByColorName("#2b4875");
-            isCheckChoosedColor = validateCSSValueElement(categoryColorFieldOnFromEle, background, blueColor);
+            isCheckChoosedColor = validateCssValueElement(categoryColorFieldOnFromEle, background, blueColor);
             if(isCheckChoosedColor) {
                 NXGReports.addStep("Verify to choose the category color", LogAs.PASSED, null);
             }
@@ -1667,8 +1668,8 @@ public class AbstractPage {
         getLogger().info("Verify background and text color of the button " + buttonNeedCheck);
         try
         {
-            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, backgroundColor, backgroundColorBtn);
-            isCheckColorCancelButton = validateCSSValueElement(eleEditCategoryCancelBtn, color, textColor);
+            isCheckColorCancelButton = validateCssValueElement(eleEditCategoryCancelBtn, backgroundColor, backgroundColorBtn);
+            isCheckColorCancelButton = validateCssValueElement(eleEditCategoryCancelBtn, color, textColor);
         }
         catch(Exception ex)
         {
@@ -1685,8 +1686,8 @@ public class AbstractPage {
         boolean isCheckColorCreateButton = false;
         getLogger().info("Verify color of Category create button");
         try {
-            isCheckColorCreateButton = validateCSSValueElement(eleIdBtnAddCategory, backgroundColor, "rgba(89, 155, 161, 1)");
-            isCheckColorCreateButton = validateCSSValueElement(eleIdBtnAddCategory, color, "rgba(255, 255, 255, 1)");
+            isCheckColorCreateButton = validateCssValueElement(eleIdBtnAddCategory, backgroundColor, "rgba(89, 155, 161, 1)");
+            isCheckColorCreateButton = validateCssValueElement(eleIdBtnAddCategory, color, "rgba(255, 255, 255, 1)");
             if(isCheckColorCreateButton) {
                 NXGReports.addStep("Verify color of Category create button", LogAs.PASSED, null);
             }
@@ -2287,5 +2288,366 @@ public class AbstractPage {
         getLogger().info("Try to waiting the ProgressOverlayIsClosed.");
         waitForCssValueChanged(progressingDiv, "Progress Overlay", "display", "none");
     }
+    public static boolean IS_ENGLISH_LANGUAGE = true;
 
+    public enum Element_Type{
+        DISPLAYED, ISENABLE, ISSELECTED, HIDDEN, TEXT_VALUE, NOT_EXIST
+    }
+
+    /**
+     * Check properties of element
+     * @param webElement
+     * @param expected
+     * @param type
+     */
+    public void validateElememt(WebElement webElement, String expected, Element_Type type){
+        switch (type){
+            case DISPLAYED:
+                try {
+                    Assert.assertTrue(webElement.isDisplayed(), expected + " is not displayed.");
+                }catch (NoSuchElementException e){
+                    NXGReports.addStep(expected + " is not found", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                } catch (AssertionError e){
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }
+                break;
+            case ISENABLE:
+                try {
+                    Assert.assertTrue(webElement.isEnabled(), expected + " is not enabled.");
+                }catch (NoSuchElementException e){
+                    NXGReports.addStep(expected + " is not found",LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }catch (AssertionError e){
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }
+                break;
+            case ISSELECTED:
+                try {
+                    Assert.assertTrue(webElement.isSelected(), expected + " is not selected  ");
+                }catch (NoSuchElementException e){
+                    NXGReports.addStep(expected + " is not found",LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }catch (AssertionError e){
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }
+                break;
+            case HIDDEN:
+                try {
+                    Assert.assertFalse(webElement.isDisplayed(), expected + " is not hidden.");
+                }catch (NoSuchElementException e){
+                    NXGReports.addStep(expected + " is not found",LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }catch (AssertionError e){
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }
+                break;
+            case TEXT_VALUE:
+                try {
+                    Assert.assertEquals(getText(webElement), expected);
+                }catch (NoSuchElementException e){
+                    NXGReports.addStep(expected + " is not found", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }catch (AssertionError e){
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    throw new AssertionError(e.getMessage());
+                }
+                break;
+            case NOT_EXIST:
+                driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+                try{
+                    webElement.click();
+                    throw new AssertionError(expected + " is still displayed.");
+                }catch (NoSuchElementException e){
+                    NXGReports.addStep(expected + " is not exist.", LogAs.PASSED,null);
+                }
+
+                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public AbstractPage(WebDriver webDriver){
+        this.driver = webDriver;
+    }
+
+    /**
+     *
+     * @param url
+     */
+    public void getUrl(String url){
+        driver.get(url);
+    }
+
+    /**
+     * Select option in select element by text
+     * @param ele
+     * @param item
+     */
+    public void selectOptionByText(WebElement ele, String item){
+        Select select = new Select(ele);
+        select.selectByVisibleText(item);
+    }
+
+    /**
+     * Select option in select element by value
+     * @param ele
+     * @param val
+     */
+    public void selectOptionByValue(WebElement ele, String val){
+        Select select = new Select(ele);
+        select.selectByValue(val);
+    }
+
+    /**
+     * Select option in select element by index
+     * @param ele
+     * @param index
+     */
+    public void selectOptionByIndex(WebElement ele, int index){
+        Select select = new Select(ele);
+        select.selectByIndex(index);
+    }
+
+    /**
+     * Switch to other tab
+     * @param tabIndex
+     */
+    public void switchToOtherTab(int tabIndex){
+        List<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(tabIndex));
+    }
+
+    /**
+     * Get text value of element
+     * @param webElement
+     * @return
+     */
+    public String getText(WebElement webElement){
+        if(webElement.getTagName().equals("input") || webElement.getTagName().equals("textarea"))
+            return  webElement.getAttribute("value");
+        return webElement.getText();
+    }
+
+    /**
+     * TODO
+     * Execute javascript
+     * @param script
+     * @return
+     */
+    public String executeJavascript(String script){
+        return "";
+    }
+
+    /**
+     * @param webElement
+     * @param timeOut
+     */
+    public void waitUtilElementClickable(WebElement webElement, long timeOut){
+        try{
+            WebDriverWait wait = new WebDriverWait(driver, timeOut);
+            wait.until(ExpectedConditions.elementToBeClickable(webElement));
+        }catch (TimeoutException e){
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw new AssertionError(e.getMessage());
+        }
+    }
+
+    /**
+     * @param webElement
+     * @param timeOut
+     * @param text
+     */
+    public void waitUtilTextPresent(WebElement webElement, long timeOut, String text){
+        try{
+            WebDriverWait wait = new WebDriverWait(driver, timeOut);
+            wait.until(ExpectedConditions.textToBePresentInElement(webElement, text));
+        }catch (TimeoutException e){
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw new AssertionError(e.getMessage());
+        }
+    }
+
+    /**
+     * Wait Web Element is util hidden
+     * @param by
+     * @param timeOut
+     */
+    public void waitUtilElementHidden(By by, long timeOut){
+        try{
+            WebDriverWait wait = new WebDriverWait(driver, timeOut);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+        }catch (TimeoutException e){
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw new AssertionError(e.getMessage());
+        }
+    }
+
+    /**
+     * Switch to other frame
+     * @param name
+     */
+    public void switchToFrame(String name){
+        driver.switchTo().frame(name);
+    }
+
+    /**
+     * Switch to other frame
+     * @param id
+     */
+    public void switchToFrame(int id){
+        driver.switchTo().frame(id);
+    }
+
+    /**
+     * Switch to other frame
+     * @param eleFrame
+     */
+    public  void switchToFrame(WebElement eleFrame){
+        driver.switchTo().frame(eleFrame);
+    }
+
+    /**
+     * Verify CSS value of element
+     * @param webElement
+     * @param cssName
+     * @param expected
+     */
+    public void verifyCssValue(WebElement webElement, String cssName, String expected){
+
+        try{
+
+            String actualValue = webElement.getCssValue(cssName);
+            if(cssName.contains("color")){
+                actualValue = GenericService.parseRgbTohex(actualValue);
+            }
+
+            Assert.assertEquals(actualValue, expected);
+        }catch (AssertionError e){
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw new AssertionError(e.getMessage());
+        }
+    }
+
+    /**
+     * Get css value of element:before
+     * @param element
+     * @param cssType
+     * @return
+     */
+    public void getValueCssOfBeforeElement(WebElement element, String cssType, String expectedResult){
+        try{
+            WebElement parent = (WebElement) ((JavascriptExecutor) driver).executeScript(
+                    "return arguments[0].parentNode;", element);
+            String actual = ((JavascriptExecutor) driver).executeScript("return window.getComputedStyle(arguments[0], ':before').getPropertyValue('" + cssType + "');", parent).toString();
+            Assert.assertEquals(actual, expectedResult);
+        }catch (AssertionError e){
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw new AssertionError(e.getMessage());
+        }
+    }
+    @FindBy(xpath = "//*[@id='language-flag']/button")
+    private WebElement changeLanguageBTN;
+    @FindBy(xpath = "//*[@class='ui right aligned container']/button")
+    private WebElement loginBTN;
+    @FindBy(xpath = "//form[@class='ui form login-form']//input[@name='email']")
+    private WebElement emailTextBox;
+    @FindBy(xpath = "//form[@class='ui form login-form']//input[@name='password']")
+    private WebElement passwordTextBox;
+    @FindBy(xpath = "//form[@class='ui form login-form']//button")
+    private WebElement submitBTN;
+    @FindBy(className = "ui label userAligment")
+    private WebElement profileLink;
+    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+    private WebElement logoutBTN;
+
+    /*
+    This method to use to login to Advertisement site and Marketing site.
+     */
+    public void loginToMarketingPage(String username, String password){
+        try{
+            clickElement(loginBTN,"loginBTN");
+            sendKeyTextBox(emailTextBox,username,"emailTextBox");
+            sendKeyTextBox(passwordTextBox,password,"passwordTextBox");
+            clickElement(submitBTN,"submitBTN");
+            waitForVisibleElement(profileLink,"profileLink");
+            Assert.assertTrue(driver.getTitle().equals("Auvenir - Automating financial audit!"));
+            getLogger().info("Login Successfully.");
+            NXGReports.addStep("Login Successfully.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("unable to login to marketing home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }catch (Error er){
+            NXGReports.addStep("unable to login to marketing home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /*
+    This method to change language of page to French
+     */
+    public void changeLanguage(){
+        try{
+            getLogger().info("Try to change language of page.");
+            clickElement(changeLanguageBTN,"changeLanguageBTN");
+            getLogger().info("Change language successfully.");
+            NXGReports.addStep("Change language successfully.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("unable to Change language.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void deleteAllCookies(){
+        try{
+            getLogger().info("Try to delete all cookies.");
+            driver.manage().deleteAllCookies();
+            NXGReports.addStep("Delete all cookies successfully.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Delete all cookies successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void deleteCookieName(String cookieName){
+        try {
+            driver.manage().deleteCookieNamed(cookieName);
+            NXGReports.addStep("Delete all cookies :" +cookieName, LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Delete cookie successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+    public void refreshPage(){
+        try{
+            driver.navigate().refresh();
+            NXGReports.addStep("Refresh page successfully.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to refresh page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void navigateBack(){
+        try{
+            driver.navigate().back();
+            NXGReports.addStep("Back to previous page successfully.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to back to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void navigateForward(){
+        try{
+            driver.navigate().forward();
+            NXGReports.addStep("Forward to previous page successfully.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Unable to forward to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void validateNotExistedElement(WebElement element, String elementName){
+        try{
+            element.click();
+            NXGReports.addStep(elementName+" is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw new AssertionError(elementName + " is still displayed.");
+        }catch (NoSuchElementException e){
+            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED,null);
+        }
+    }
 }

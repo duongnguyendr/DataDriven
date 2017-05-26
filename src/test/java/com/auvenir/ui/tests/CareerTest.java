@@ -4,6 +4,8 @@ import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.CareerPage;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.auvenir.ui.pages.AuvenirPage;
@@ -15,6 +17,9 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 
 
 public class CareerTest extends AbstractRefactorService {
+    public CareerTest(Logger logger, WebDriver driver) {
+        super(logger, driver);
+    }
     //Logger logger = Logger.getLogger(CareerTest.class);
     CareerPage careerPage = null;
     String auditorLoginPageHandles = null;
@@ -31,7 +36,7 @@ public class CareerTest extends AbstractRefactorService {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
             getLogger().info("Log into home page.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
             auditorLoginPageHandles = getDriver().getWindowHandle();
             getLogger().info("Switch to New page.");
             auvenirPage.getEleCareersLnk().click();

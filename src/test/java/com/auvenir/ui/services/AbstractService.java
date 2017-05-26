@@ -1,5 +1,6 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.marketing.HomePage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -11,7 +12,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,11 +31,12 @@ public class AbstractService {
      * Base url this value is set at runtime.
      */
     private String baseUrl = "https://ariel.auvenir.com";
-
+    HomePage homePO;
     public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
+        homePO = new HomePage(getLogger(), getDriver());
     }
 
     public WebDriver getDriver() {
@@ -52,8 +53,8 @@ public class AbstractService {
     }
 
     public void setBaseUrl(String serverDomainName) {
-
-        baseUrl = "https://" + serverDomainName;
+        // S3 do not use HTTPS
+        baseUrl = "http://" + serverDomainName;
         getLogger().info("Url of testing server is: " + baseUrl);
     }
 
@@ -64,7 +65,7 @@ public class AbstractService {
             String s1 = driver.findElement(By.xpath("//pre")).getText();
             String[] parts = s1.split("(\")");
             String token = parts[3];
-            GenericService.setCongigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -89,7 +90,7 @@ public class AbstractService {
             String token = parts[3];
             String checkTokenUrl = getBaseUrl() + "/checkToken?email=";
             getLogger().info("checktokenurl: " + checkTokenUrl);
-            GenericService.setCongigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -113,4 +114,51 @@ public class AbstractService {
             throw e;
         }
     }
+    private String baseLanguage ="English";
+    public String getLanguage() {
+        return baseLanguage;
+    }
+    public void setLanguage(String language) {
+        baseLanguage =  language;
+        getLogger().info("Language of page is: " + baseLanguage);
+    }
+    /*
+    This method will be used on Advertisement and Marketing page.
+     */
+    public void goToBaseURL(){
+        try{
+            setBaseUrl(System.getProperty("serverDomainName"));
+            String baseUrl = getBaseUrl();
+            getLogger().info("Go to baseURL: "+baseUrl);
+            driver.get(baseUrl);
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().window().maximize();
+            setLanguage(System.getProperty("language"));
+            String sLanguage = getLanguage();
+            System.out.println(sLanguage);
+            if(sLanguage.equals("French") ) {
+                System.out.println("Language is : " + baseLanguage);
+                homePO.clickOnChangeLanguageBTN();
+            }
+            NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("unable to go to home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void loginToMarketingPage(String UserName, String Password){
+        try{
+            goToBaseURL();
+            homePO.clickOnLoginBTN();
+            getLogger().info("Input Username and Password.");
+            homePO.inputUserNamePassword(UserName,Password);
+            getLogger().info("Click on Login button.");
+            homePO.clickOnSubmitBTN();
+            //driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+            homePO.waitPageLoad();
+            homePO.waitForJSandJQueryToLoad();
+        }catch (Exception e){
+            NXGReports.addStep("unable to login to Marketing page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
 }

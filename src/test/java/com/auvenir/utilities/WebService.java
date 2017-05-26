@@ -4,11 +4,11 @@ package com.auvenir.utilities;
 
 import org.apache.log4j.Logger;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
 
 public class WebService {
     private Logger logger;
@@ -17,8 +17,8 @@ public class WebService {
     String splitArray[] = null;
     String sResult[] = null;
     String sValue = null;
-    String sRegisterUrl = GenericService.getCongigValue(GenericService.sConfigFile, "REGISTER_URL");
-    String sLoginUrl = GenericService.getCongigValue(GenericService.sConfigFile, "LOGIN_URL");
+    String sRegisterUrl = GenericService.getConfigValue(GenericService.sConfigFile, "REGISTER_URL");
+    String sLoginUrl = GenericService.getConfigValue(GenericService.sConfigFile, "LOGIN_URL");
     String sUserAuthID = null;
 
     /*	String sDevAuthID = null;
@@ -66,7 +66,7 @@ public class WebService {
         //System.out.println(sKey);
         logger.info("Value of  sValue: " + sValue);
         //System.out.println(sValue);
-        GenericService.setCongigValue(GenericService.sConfigFile, sKey, sValue);
+        GenericService.setConfigValue(GenericService.sConfigFile, sKey, sValue);
     }
 
     public void gettingURL(String sEmailID, String sKey, String sDevAuthID, String sApiKey) throws Exception {
@@ -77,9 +77,9 @@ public class WebService {
         httpsUrlCon.setRequestMethod("POST");
         httpsUrlCon.setRequestProperty("User-Agent", USER_AGENT);
         httpsUrlCon.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        sUserAuthID = GenericService.getCongigValue(GenericService.sConfigFile, "USERAUTHID");
-        sDevAuthID = GenericService.getCongigValue(GenericService.sConfigFile, "DEVAUTHID");
-        sApiKey = GenericService.getCongigValue(GenericService.sConfigFile, "APIKEY");
+        sUserAuthID = GenericService.getConfigValue(GenericService.sConfigFile, "USERAUTHID");
+        sDevAuthID = GenericService.getConfigValue(GenericService.sConfigFile, "DEVAUTHID");
+        sApiKey = GenericService.getConfigValue(GenericService.sConfigFile, "APIKEY");
         String urlParameters = "email=" + sEmailID + "&userAuthID=" + sUserAuthID + "&devAuthID=" + sDevAuthID
                 + "&apiKey=" + sApiKey;
         httpsUrlCon.setDoOutput(true);
@@ -102,6 +102,6 @@ public class WebService {
         //System.out.println("--------------------------");
         logger.info("Skey value is: " + sKey);
         //System.out.println(sKey);
-        GenericService.setCongigValue(GenericService.sConfigFile, sKey, sValue);
+        GenericService.setConfigValue(GenericService.sConfigFile, sKey, sValue);
     }
 }

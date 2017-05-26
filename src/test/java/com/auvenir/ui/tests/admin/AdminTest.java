@@ -26,7 +26,7 @@ public class AdminTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
 
-        adminId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMIN_ID");
+        adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
     }
 
     private void navigationPreconditions() {

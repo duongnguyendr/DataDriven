@@ -20,9 +20,9 @@ public class EngagementTest extends AbstractTest {
     @Test(priority = 1, enabled = true, description = "Verify Footer in Auditor Engagements page.")
     public void verifyFooterAuditorEngagementPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
         try {
             //logCurrentStepStart();
