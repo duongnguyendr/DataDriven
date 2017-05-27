@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.admin;
 
-import com.auvenir.ui.pages.engagement.AdminPortalReviewPO;
+import com.auvenir.ui.pages.marketing.engagement.AdminPortalReviewPO;
 import com.auvenir.ui.tests.AbstractTest;
 import org.testng.annotations.Test;
 

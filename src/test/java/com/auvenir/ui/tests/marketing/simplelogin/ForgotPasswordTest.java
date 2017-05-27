@@ -1,11 +1,11 @@
 package com.auvenir.ui.tests.marketing.simplelogin;
 
 
-import com.auvenir.ui.pages.forgotpassword.ForgotPassModalPO;
-import com.auvenir.ui.pages.forgotpassword.PasswordResetSuccessPO;
-import com.auvenir.ui.pages.forgotpassword.ResetLinkSentModalPO;
-import com.auvenir.ui.pages.forgotpassword.ResetPasswordPO;
-import com.auvenir.ui.pages.mailtemplate.EmailResetPassPO;
+import com.auvenir.ui.pages.marketing.forgotpassword.ForgotPassModalPO;
+import com.auvenir.ui.pages.marketing.forgotpassword.PasswordResetSuccessPO;
+import com.auvenir.ui.pages.marketing.forgotpassword.ResetLinkSentModalPO;
+import com.auvenir.ui.pages.marketing.forgotpassword.ResetPasswordPO;
+import com.auvenir.ui.pages.marketing.mailtemplate.EmailResetPassPO;
 import com.auvenir.ui.pages.marketing.HomePage;
 import com.auvenir.ui.pages.marketing.LoginModalPO;
 import com.auvenir.ui.services.AbstractService;

@@ -1,9 +1,9 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.signup.FirmService;
-import com.auvenir.ui.services.signup.PersonalService;
-import com.auvenir.ui.services.signup.SecurityService;
+import com.auvenir.ui.services.marketing.signup.FirmService;
+import com.auvenir.ui.services.marketing.signup.PersonalService;
+import com.auvenir.ui.services.marketing.signup.SecurityService;
 import com.auvenir.ui.services.marketing.HomeService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;

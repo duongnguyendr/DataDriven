@@ -1,8 +1,8 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.forgotpassword.ForgotPassModalPO;
-import com.auvenir.ui.pages.forgotpassword.ResetLinkSentModalPO;
+import com.auvenir.ui.pages.marketing.forgotpassword.ForgotPassModalPO;
+import com.auvenir.ui.pages.marketing.forgotpassword.ResetLinkSentModalPO;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.pages.engagement.AuditorEngagementReviewPO;
+import com.auvenir.ui.pages.marketing.engagement.AuditorEngagementReviewPO;
 import com.auvenir.ui.tests.AbstractTest;
 import org.testng.annotations.Test;
 

@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.marketing.simplelogin;
 
-import com.auvenir.ui.pages.forgotpassword.ResetPasswordPO;
-import com.auvenir.ui.pages.mailtemplate.EmailResetPassPO;
+import com.auvenir.ui.pages.marketing.forgotpassword.ResetPasswordPO;
+import com.auvenir.ui.pages.marketing.mailtemplate.EmailResetPassPO;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.HomeService;
