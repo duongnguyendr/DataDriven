@@ -793,6 +793,13 @@ public class AuvenirPage extends AbstractPage {
     public void verifyAuvenirImage(){
         waitForVisibleElement(eleAuvenirImg,"career link");
     }
+
+    public void clickOnSupportLink(){
+        waitForVisibleElement(eleSupportLnk,"support link");
+        hoverElement(eleSupportLnk, "support link");
+        clickElement(eleSupportLnk, "support link");
+    }
+
     /**
      * TanPham 29/05/2017 - End
      */

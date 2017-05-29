@@ -1,6 +1,9 @@
 package com.auvenir.ui.pages;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.utilities.GeneralUtilities;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -159,5 +162,79 @@ public class SupportPage extends AbstractPage {
 
     public WebElement getEleAllRightsReservedTxt() {
         return eleAllRightsReservedTxt;
+    }
+
+    public void verifyContentSupportPage(){
+
+        waitForVisibleElement(eleAuvenirHeaderLogoImg, "Auvenir Header Logo Image");
+        NXGReports.addStep("Auvenir Header Logo Image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleHereToHelpTxt, "Here to help Text");
+        NXGReports.addStep("Here to help Text is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleSupportImg, "Support Team Imag");
+        NXGReports.addStep("Support Team Imag is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleExperiencingProblemsTxt, "Experiencing Problem Textt");
+        NXGReports.addStep("Experiencing Problem Text", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleGiveUsACallTxt, "Give us a call Text");
+        NXGReports.addStep("Give us a call Text is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(elePhoneNumberTxt, "Phone Number Text");
+        NXGReports.addStep("Phone Number Text is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleEmailTxt, "Email Text");
+        NXGReports.addStep("Email Text is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleSendMessageBtn, "Send Message Button");
+        NXGReports.addStep("Send Message Button", LogAs.PASSED, null);
+    }
+
+    public void verifyFooterSupportPage() {
+        waitForVisibleElement(eleCareersImg, "careers image");
+        NXGReports.addStep("Careers image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleCareersLnk, "careers link");
+        NXGReports.addStep("Careers link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleSupportImg, "support image");
+        NXGReports.addStep("Support image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleSupportLnk, "support link");
+        NXGReports.addStep("Support link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleLocatorImg, "locator image");
+        NXGReports.addStep("Locator image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleTorontoCanadaLnk, "toronto canada location link");
+        NXGReports.addStep("Toronto canada location link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(elePhoneImg, "phone image");
+        NXGReports.addStep("Phone image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(elePhoneNumberLnk, "phone number link");
+        NXGReports.addStep("Phone number link is displayed", LogAs.PASSED, null);
+
+        /*waitForVisibleElement(eleTermsOfServiceFtrLnk, "terms of service link");
+        NXGReports.addStep("Terms of service link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(elePrivacyStatementFtrLnk, "privacy statement link");
+        NXGReports.addStep("Privacy statement link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleCookieFtrLnk, "cookie notice footer link");
+        NXGReports.addStep("Cookie notice footer link is displayed", LogAs.PASSED, null);*/
+
+        waitForVisibleElement(eleFacebookImg, "Facebook image");
+        NXGReports.addStep("Facebook image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleTwitterImg, "Twitter image");
+        NXGReports.addStep("Twitter image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleLinkedinImg, "Linkedin image");
+        NXGReports.addStep("Linkedin image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleAllRightsReservedTxt, "All rights reserversd test");
+        NXGReports.addStep("All rights reserversd is displayed", LogAs.PASSED, null);
     }
 }
