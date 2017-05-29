@@ -779,4 +779,21 @@ public class AuvenirPage extends AbstractPage {
         GeneralUtilities.toValidate(getEleAboutCookiesLnk(), "About Cookies - Link", "Displayed");
     }
     /*-----------end of huy.huynh on 24/05/2017.*/
+
+    /**
+     * TanPham 29/05/2017 - Start
+     */
+
+    public void clickOnCareerLink(){
+        waitForVisibleElement(eleCareersLnk,"career link");
+        hoverElement(eleCareersLnk, "career link");
+        clickElement(eleCareersLnk, "carrer link");
+    }
+
+    public void verifyAuvenirImage(){
+        waitForVisibleElement(eleAuvenirImg,"career link");
+    }
+    /**
+     * TanPham 29/05/2017 - End
+     */
 }

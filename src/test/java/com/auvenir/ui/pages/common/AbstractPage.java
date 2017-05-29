@@ -2084,7 +2084,7 @@ public class AbstractPage {
 
 
             }
-            System.out.println("so luong item after: " + result);
+            System.out.println("The number of items after: " + result);
         } catch (Exception e) {
             NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -2513,18 +2513,28 @@ public class AbstractPage {
 
     /**
      * Switch to other frame
-     * @param name
+     * @param IframeName
      */
-    public void switchToFrame(String name){
-        driver.switchTo().frame(name);
+    public void switchToFrame(String IframeName){
+        try {
+            getLogger().info("Try to switch to iFrame: "+IframeName);
+            driver.switchTo().frame(IframeName);
+        }catch (Exception e){
+            getLogger().info("Unable to switch to iFrame: "+IframeName+"with error: "+e.getMessage());
+        }
     }
 
     /**
      * Switch to other frame
-     * @param id
+     * @param iFrameId
      */
-    public void switchToFrame(int id){
-        driver.switchTo().frame(id);
+    public void switchToFrame(int iFrameId){
+        try {
+            getLogger().info("Try to switch to iFrame with id: "+ iFrameId);
+            driver.switchTo().frame(iFrameId);
+        }catch (Exception e){
+            getLogger().info("Try to switch to iFrame with id: "+ iFrameId +"with error: "+e.getMessage());
+        }
     }
 
     /**
@@ -2532,7 +2542,12 @@ public class AbstractPage {
      * @param eleFrame
      */
     public  void switchToFrame(WebElement eleFrame){
-        driver.switchTo().frame(eleFrame);
+        try {
+            getLogger().info("Try to switch to iFrame with WebElement: " + eleFrame);
+            driver.switchTo().frame(eleFrame);
+        }catch (Exception e){
+            getLogger().info("Try to switch to iFrame with WebElement: "+ eleFrame +"with error: "+e.getMessage());
+        }
     }
 
     /**

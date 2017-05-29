@@ -12,6 +12,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -167,4 +169,47 @@ public class AbstractService {
         }
     }
 
+    //Loading the URL by keeping in config properties
+    private String homeAuvenirUrl = "https://ariel.auvenir.com";
+    public String getHomeAuvenirUrl() {
+        return homeAuvenirUrl;
+    }
+
+    public void setHomeAuvenirUrl(String serverDomainName) {
+        // S3 do not use HTTPS
+        homeAuvenirUrl = "https://" + serverDomainName;
+        getLogger().info("Url of testing server is: " + homeAuvenirUrl);
+    }
+
+    public void goToAuvenirHomePage() {
+        try {
+            setHomeAuvenirUrl(System.getProperty("serverDomainName"));
+            String homeAuvenir = getHomeAuvenirUrl();
+            getLogger().info("Go to home auvenri url : "+ homeAuvenir);
+            System.out.println(homeAuvenir);
+            driver.get(homeAuvenir);
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().window().maximize();
+        } catch (AssertionError e) {
+            NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    public static String parentWin = null;
+    public static String newWin = null;
+
+    public void switchToWindow() {
+        logger.info("Detect new windows.");
+        Set<String> handles = driver.getWindowHandles();
+        Iterator<String> it = handles.iterator();
+        while (it.hasNext()) {
+            parentWin = it.next();
+            newWin = it.next();
+
+        }
+        logger.info("Switch to new windwos.");
+        driver.switchTo().window(newWin);
+
+    }
 }

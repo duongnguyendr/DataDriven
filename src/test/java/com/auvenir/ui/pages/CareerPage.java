@@ -1,6 +1,10 @@
 package com.auvenir.ui.pages;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.utilities.GeneralUtilities;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +19,8 @@ public class CareerPage extends AbstractPage {
 
     }
 
+    @FindBy(xpath = "//img[@id='headerLogo']")
+    private WebElement eleAuvenirImg;
 
     @FindBy(xpath = "//h1[contains(text(),'We are Growing. Come Join our Team.')]")
     private WebElement eleWeAreGrowingTxt;
@@ -166,7 +172,91 @@ public class CareerPage extends AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'All rights reserved.')]")
     private WebElement eleAllRightsReservedTxt;
 
+    @FindBy(xpath = "//div[@class='pull-left']//a[@href='/terms']")
+    private WebElement eleTermsOfServiceFtrLnk;
+
+    @FindBy(xpath = "//div[@class='pull-left']//a[@href='/privacy']")
+    private WebElement elePrivacyStatementFtrLnk;
+
+    @FindBy(xpath = "//div[@class='pull-left']//a[@href='/cookies']")
+    private WebElement eleCookieFtrLnk;
+
+
+    public WebElement getElePrivacyStatementFtrLnk() {
+        return elePrivacyStatementFtrLnk;
+    }
+
+
     public WebElement getEleAllRightsReservedTxt() {
         return eleAllRightsReservedTxt;
+    }
+
+    public void verifyHeaderCareerPathPage(){
+        waitForVisibleElement(eleAuvenirImg, "auvenir image header");
+        NXGReports.addStep("Auvenir image is displayed", LogAs.PASSED, null);
+    }
+
+    public void verifyContenCareerPathPage(){
+        waitForVisibleElement(eleWeAreGrowingTxt, "we are growing text");
+        NXGReports.addStep("We are Growing Text is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleCareersAtAuvenirTxt, "careers at Auvenir Text");
+        NXGReports.addStep("Careers at Auvenir Text is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleProductLeadLnk, "product text");
+        NXGReports.addStep("Product text is displayed", LogAs.PASSED, null);
+
+        /*waitForVisibleElement(eleTechnologyTxt, "technology text");
+        NXGReports.addStep("Technology text is displayed", LogAs.PASSED, null);*/
+
+        //waitForVisibleElement(eleDeveloperLnk, "developer link");
+        //NXGReports.addStep("Developer link is displayed", LogAs.PASSED, null);
+    }
+
+    public void verifyFooterCareerPathPage() {
+        waitForVisibleElement(eleCareersImg, "careers image");
+        NXGReports.addStep("Careers image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleCareersLnk, "careers link");
+        NXGReports.addStep("Careers link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleSupportImg, "support image");
+        NXGReports.addStep("Support image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleSupportLnk, "support link");
+        NXGReports.addStep("Support link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleLocatorImg, "locator image");
+        NXGReports.addStep("Locator image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleTorontoCanadaLnk, "toronto canada location link");
+        NXGReports.addStep("Toronto canada location link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(elePhoneImg, "phone image");
+        NXGReports.addStep("Phone image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(elePhoneNumberLnk, "phone number link");
+        NXGReports.addStep("Phone number link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleTermsOfServiceFtrLnk, "terms of service link");
+        NXGReports.addStep("Terms of service link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(elePrivacyStatementFtrLnk, "privacy statement link");
+        NXGReports.addStep("Privacy statement link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleCookieFtrLnk, "cookie notice footer link");
+        NXGReports.addStep("Cookie notice footer link is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleFacebookImg, "Facebook image");
+        NXGReports.addStep("Facebook image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleTwitterImg, "Twitter image");
+        NXGReports.addStep("Twitter image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleLinkedinImg, "Linkedin image");
+        NXGReports.addStep("Linkedin image is displayed", LogAs.PASSED, null);
+
+        waitForVisibleElement(eleAllRightsReservedTxt, "All rights reserversd test");
+        NXGReports.addStep("All rights reserversd is displayed", LogAs.PASSED, null);
     }
 }
