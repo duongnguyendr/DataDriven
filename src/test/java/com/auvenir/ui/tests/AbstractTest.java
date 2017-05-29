@@ -1,33 +1,19 @@
 package com.auvenir.ui.tests;
 
-import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.WebService;
-import com.auvenir.utilities.listeners.TestngListener;
 import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.ITestMethodFinder;
-import org.testng.ITestNGListener;
-import org.testng.ITestNGMethod;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 
 import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by cuong.nguyen on 4/24/2017.
@@ -36,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class AbstractTest {
     private Logger logger = Logger.getLogger(AbstractTest.class);
     private WebDriver driver;
+    protected String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(PROPERTIES_DATA, "DATA_FILE");
+    protected static final String PROPERTIES_DATA = "auvenir.properties";
     protected static final String SD_START = "start";
     /**
      * Default differentiator - end of the step.
@@ -46,6 +34,8 @@ public class AbstractTest {
      */
     protected static final String SD_FAILURE = "failure";
     private String testName = "initial";
+    // minh.nguyen updated May 26,2017 updated
+    public static final String engagementName = "engagement 01";
 
     @Parameters({"server"})
 
@@ -67,7 +57,7 @@ public class AbstractTest {
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
         try {
-            if (GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
+            if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
                 System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                 System.out.println("Chrome is set");
                 driver = new ChromeDriver();
@@ -154,7 +144,5 @@ public class AbstractTest {
             logger.log(priority, "STEP INFO - " + testName + " - " + differentiator, t);
         }
     }
-
-
 }
 

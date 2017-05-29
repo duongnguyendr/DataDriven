@@ -10,34 +10,10 @@
 
 package com.auvenir.utilities;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -51,8 +27,22 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.awt.*;
+import java.io.*;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+import java.util.Random;
 
 public class GenericService {
     public static String sFile;
@@ -70,7 +60,7 @@ public class GenericService {
 	 * data from config file
 	 */
 
-    public static String getCongigValue(String sFile, String sKey) {
+    public static String getConfigValue(String sFile, String sKey) {
         Properties prop = new Properties();
         String sValue = null;
         try {
@@ -90,7 +80,7 @@ public class GenericService {
      * @author: LAKSHMI BS Description: To read the basic environment settings
      * data from config file
      */
-    public static void setCongigValue(String sFile, String sKey, String sValue) {
+    public static void setConfigValue(String sFile, String sKey, String sValue) {
         Properties prop = new Properties();
         try {
             FileInputStream fis = new FileInputStream(new File(sFile));
@@ -245,19 +235,19 @@ public class GenericService {
         properties.put("mail.debug", "true");
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(GenericService.getCongigValue(GenericService.sConfigFile, "FROM_EMAILID"),
-                        GenericService.getCongigValue(GenericService.sConfigFile, "FROM_PWD"));
+                return new PasswordAuthentication(GenericService.getConfigValue(GenericService.sConfigFile, "FROM_EMAILID"),
+                        GenericService.getConfigValue(GenericService.sConfigFile, "FROM_PWD"));
             }
         });
         try {
             MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(GenericService.getCongigValue(GenericService.sConfigFile, "FROM_EMAILID")));
+            msg.setFrom(new InternetAddress(GenericService.getConfigValue(GenericService.sConfigFile, "FROM_EMAILID")));
             msg.setRecipients(Message.RecipientType.TO,
-                    GenericService.getCongigValue(GenericService.sConfigFile, "TO_EMAILID"));
+                    GenericService.getConfigValue(GenericService.sConfigFile, "TO_EMAILID"));
             msg.setRecipients(Message.RecipientType.CC,
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CC_EMAILID"));
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CC_EMAILID"));
             // msg.setSubject("Auvenir_Execution_Report_"+GenericService.getCongigValue(GenericService.sConfigFile,"EXECUTION_REPORT_DATE"));
-            msg.setSubject("Auvenir Execution Report on " + GenericService.getCongigValue(GenericService.sConfigFile, "SERVER")
+            msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
                     + " " + sExecutionDate);
             msg.setSentDate(new Date());
             Multipart multipart = new MimeMultipart();
@@ -281,5 +271,119 @@ public class GenericService {
             ex.printStackTrace();
         }
     }
+    private static String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+    /**
+     * Generate radom password
+     * @param lenght
+     * @return
+     */
+    public static String genPassword(int lenght, boolean isContainsUpperCase, boolean isContainsLowerCase, boolean isContainsDigit){
+        Random r = new Random();
+        while(true) {
+            char[] password = new char[lenght];
+            boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+            for(int i=0; i<password.length; i++) {
+                char ch = symbols.charAt(r.nextInt(symbols.length()));
+                if(isContainsUpperCase && Character.isUpperCase(ch))
+                    hasUpper = true;
+                else if(isContainsLowerCase && Character.isLowerCase(ch))
+                    hasLower = true;
+                else if(isContainsDigit && Character.isDigit(ch))
+                    hasDigit = true;
+                password[i] = ch;
+            }
+            if(hasUpper && hasLower && hasDigit) {
+                return new String(password);
+            }
+        }
+    }
+
+    /**
+     * Parse Rgb to color to hex
+     * @param rgb
+     * @return
+     */
+    public static String parseRgbTohex(String rgb){
+        String value = null;
+        try {
+            int indexOpen = rgb.indexOf("(");
+            rgb = rgb.substring(indexOpen + 1, rgb.length() - 1);
+
+            String[] temp = rgb.split(",");
+
+            int r = Integer.parseInt(temp[0].trim());
+            int g = Integer.parseInt(temp[1].trim());
+            int b = Integer.parseInt(temp[2].trim());
+
+
+            value = String.format("#%02x%02x%02x", r, g, b);
+        } catch (Exception e) {
+        }
+        return value;
+    }
+
+    /**
+     * Validate email address
+     * @param email
+     * @return
+     */
+    public static boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+    /**
+     * @param fileName
+     * @param sheetName
+     * @param numberColumn
+     * @param numberRow
+     * @return
+     */
+    public static String readExcelData(String fileName, String sheetName, int numberColumn, int numberRow) {
+        String cellValue = null;
+        try {
+            // Read the spreadsheet
+            FileInputStream fis = new FileInputStream(fileName);
+
+            // Using XSSF for xlsx format, for xls use HSSF
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheet(sheetName);
+            cellValue = String.valueOf(sheet.getRow(numberRow).getCell(numberColumn).getStringCellValue());
+            fis.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return cellValue;
+    }
+
+    /**
+     * @param fileName
+     * @param sheetName
+     * @param numberColumn
+     * @param numberRow
+     * @param data
+     */
+    public static void updateExcelData(String fileName, String sheetName, int numberColumn, int numberRow, String data) {
+        try {
+            //Read the spreadsheet that needs to be updated
+            FileInputStream fis= new FileInputStream(fileName);
+
+            // Using XSSF for xlsx format, for xls use HSSF
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheet(sheetName);
+            sheet.getRow(numberRow).getCell(numberColumn).setCellValue(data);
+
+            //write this workbook in excel file.
+            FileOutputStream fos = new FileOutputStream(fileName);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

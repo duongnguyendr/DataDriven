@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.utilities.GeneralUtilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -156,17 +157,19 @@ public class AuditorEngagementPage extends AbstractPage {
         return eleAddNewBtn;
     }
 
+    final String viewButtonOnEngagement = ".//div/div/div[2]/div[2]/input";
+
     public void auditorPageHeaderContent() {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-        auvenirPage.toValidate(auditorEngagementPage.getEleAuvenirLogoImg(), "Auvenir Logo", "Displayed");
-        auvenirPage.toValidate(auditorEngagementPage.getEleEngagementLnk(), "Engagement Link", "Displayed");
-        auvenirPage.toValidate(auditorEngagementPage.getEleClientsLnk(), "Clients Link", "Displayed");
-        auvenirPage.toValidate(auditorEngagementPage.getEleAuditorNameDrpDwn(), "Auditor Name Dropdown", "Displayed");
-        auvenirPage.toValidate(auditorEngagementPage.getEleSettingsLnk(), "Dropdown Settings Link", "Displayed");
-        auvenirPage.toValidate(auditorEngagementPage.getEleSignOutLnk(), "Dropdown SignOut Link", "Displayed");
-        auvenirPage.toValidate(auditorEngagementPage.getEleChatIcn(), "Chat Icon", "Displayed");
-        auvenirPage.toValidate(auditorEngagementPage.getEleNotificationIcn(), "Notification Icon", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleAuvenirLogoImg(), "Auvenir Logo", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleEngagementLnk(), "Engagement Link", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleClientsLnk(), "Clients Link", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleAuditorNameDrpDwn(), "Auditor Name Dropdown", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleSettingsLnk(), "Dropdown Settings Link", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleSignOutLnk(), "Dropdown SignOut Link", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleChatIcn(), "Chat Icon", "Displayed");
+        GeneralUtilities.toValidate(auditorEngagementPage.getEleNotificationIcn(), "Notification Icon", "Displayed");
     }
 
     public void verifyAuditorEngagementPage() {
@@ -193,9 +196,9 @@ public class AuditorEngagementPage extends AbstractPage {
 	public void viewEngagementDetailsPage(String engagementName) throws Exception{
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-		hoverElement(engagementListEle.get(index).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
-		waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
-		clickAndHold(engagementListEle.get(index).findElement(By.xpath(".//div/div/div[2]/div[2]/input")),engagementName);
+		hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
+		waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
+		clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
 	}
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
         WebElement webElement = getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
@@ -259,16 +262,32 @@ public class AuditorEngagementPage extends AbstractPage {
      * @param engagementPosition int the Engagement position which is clicked.
      */
     public void clickEngagementByPosition(int engagementPosition){
-        hoverElement(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
-        waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
-        clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(".//div/div/div[2]/div[2]/input")), "Engagement View Item");
+        hoverElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
+        waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
+        clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
     }
-    public void viewEngagementDetailsPageWithName(String engagementName) throws Exception{
-        //Hard code, we enhance later.
-        String xpath = "//div[@id='cpa-main']/div//p[text()='%s']/parent::*/parent::div//div[@class='e-widget-content']//input";
-        WebElement engagementEle = getDriver().findElement(By.xpath(String.format(xpath, engagementName)));
-        hoverElement(engagementEle, engagementName);
-        waitForClickableOfElement(engagementEle, engagementName);
-        clickAndHold(engagementEle, engagementName);
+
+    public void clickvisibilityOfElementWait(){
+        auditorEngagementPage.getEleCreateNewBtn();
+    }
+
+    public void clickClientsLink(){
+        waitForClickableOfElement(getEleClientsLnk(), "Client link");
+        clickElement(getEleClientsLnk(), "Client link");
+    }
+
+    public void clickAddNewButton(){
+        waitForClickableOfElement(getEleAddNewBtn(), "Add new button");
+        clickElement(getEleAddNewBtn(), "Add new button");
+    }
+
+    public void clickdropDownSetingLink(){
+        waitForClickableOfElement(getEleSettingsLnk(), "Drop down setting");
+        clickElement(getEleSettingsLnk(), "Drop down setting");
+    }
+
+    public void clickAuditorNameDropDown(){
+        waitForClickableOfElement(getEleAuditorNameDrpDwn(), "Auditor name drop down");
+        clickElement(getEleAuditorNameDrpDwn(), "Auditor name drop down");
     }
 }

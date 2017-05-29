@@ -5,16 +5,11 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.apache.poi.util.SystemOutLogger;
-import org.omg.PortableInterceptor.ServerRequestInfo;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -125,8 +120,8 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     public void verifyCancelBtn() throws Exception {
         getLogger().info("Verifying Cancel button..");
         try {
-            validateCSSValueElement(eleEditCategoryCancelBtn, "background-color", "rgba(151, 147, 147, 1)");
-            validateCSSValueElement(eleEditCategoryCancelBtn, "color", "rgba(255, 255, 255, 1)");
+            validateCssValueElement(eleEditCategoryCancelBtn, "background-color", "rgba(151, 147, 147, 1)");
+            validateCssValueElement(eleEditCategoryCancelBtn, "color", "rgba(255, 255, 255, 1)");
             validateEnabledElement(eleEditCategoryCancelBtn, "Cancel Button");
 
             NXGReports.addStep("Cancel displayed correctly", LogAs.PASSED, null);
@@ -166,8 +161,8 @@ public class AuditorEditCategoriesPage extends AbstractPage {
         try {
             getLogger().info("Verifying Default Save button...");
             validateDisPlayedElement(eleEditCategorySaveBtn, "Save");
-            validateCSSValueElement(eleEditCategorySaveBtn, "background-color", "rgba(89, 155, 161, 1)");
-            validateCSSValueElement(eleEditCategorySaveBtn, "color", "rgba(255, 255, 255, 1)");
+            validateCssValueElement(eleEditCategorySaveBtn, "background-color", "rgba(89, 155, 161, 1)");
+            validateCssValueElement(eleEditCategorySaveBtn, "color", "rgba(255, 255, 255, 1)");
             getLogger().info("Verifying Default Save button is disable...");
             Assert.assertEquals(eleEditCategorySaveBtn.getAttribute("disabled"), "true");
             NXGReports.addStep("Default Save button displayed correctly", LogAs.PASSED, null);

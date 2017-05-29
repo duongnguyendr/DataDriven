@@ -1,7 +1,6 @@
 package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.client.*;
-import com.auvenir.ui.tests.AbstractTest;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -19,6 +18,10 @@ public class ClientService extends AbstractService {
     ClientNotificationsSettingsPage clientNotificationsSettingsPage;
     ClientIntegrationsSettingsPage clientIntegrationsSettingsPage;
     ClientDevicesSettingsPage clientDevicesSettingsPage;
+    ClientHomePage clientHomePage;
+    ClientRequestPage clientRequestPage;
+    ClientFilesPage clientFilesPage;
+    ClientOnBoardingPage clientOnBoardingPage;
 
     public ClientService(Logger logger, WebDriver driver) {
 
@@ -29,6 +32,10 @@ public class ClientService extends AbstractService {
         clientNotificationsSettingsPage = new ClientNotificationsSettingsPage(getLogger(), getDriver());
         clientIntegrationsSettingsPage = new ClientIntegrationsSettingsPage(getLogger(), getDriver());
         clientDevicesSettingsPage = new ClientDevicesSettingsPage(getLogger(), getDriver());
+        clientHomePage = new ClientHomePage(getLogger(), getDriver());
+        clientRequestPage = new ClientRequestPage(getLogger(), getDriver());
+        clientFilesPage = new ClientFilesPage(getLogger(), getDriver());
+        clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
     }
 
 
@@ -50,23 +57,9 @@ public class ClientService extends AbstractService {
 
     }
 
-    public void verifyClientFooter() {
-
-        try {
-            clientDashboardPage.scrollPageDown();
+    public void verifyClientFooter(){
             getLogger().info("verify footer page.");
             clientDashboardPage.verifyClientFooter();
-            getLogger().info("verfify term of service link.");
-            clientDashboardPage.verifyTermsOfServiceLink();
-            getLogger().info("verify privacy state link.");
-            clientDashboardPage.verifyPrivacyStateLink();
-            getLogger().info("verify cookies notice link.");
-            clientDashboardPage.verifyCookieNotice();
-            clientDashboardPage.scrollPageUp();
-            NXGReports.addStep("verify footer page", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
     }
 
     public void navigateToCompletedTab() {
@@ -179,13 +172,65 @@ public class ClientService extends AbstractService {
     }
 
     public void verifyClientHomePage() {
-        try {
-            getLogger().info("verify client home page.");
-            clientDashboardPage.verifyClientHomePage();
-            NXGReports.addStep("verify Client home page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            getLogger().info(e);
-            NXGReports.addStep("verify Client home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("verify client home page.");
+        clientDashboardPage.verifyClientHomePage();
     }
+
+    public void verifyClientHeader() {
+        clientDashboardPage.verifyClientHeader();
+    }
+
+    public void verifyClientInboxMessage() {
+        clientDashboardPage.verifyClientInboxMessage();
+    }
+
+    public void verifyMyAuditsPage() {
+        clientHomePage.verifyMyAuditsPage();
+    }
+
+    public void verifyClientRequestPage() { clientRequestPage.verifyClientRequestPage(); }
+
+    public void clickRequestLnk() { clientDashboardPage.clickRequestLink(); }
+
+    public void verifyGeneralLedgerTab() { clientRequestPage.verifyGeneralLedgerTab(); }
+
+    public void clickTrialBalanceMenuLink() { clientRequestPage.clickTrialBalanceMenuLink(); }
+
+    public void verifyTrialBalanceTab() { clientRequestPage.verifyTrialBalanceTab(); }
+
+    public void clickBankStatementsMenuLink() { clientRequestPage.clickBankStatementsMenuLink(); }
+
+    public void verifyBankStatementsTab() { clientRequestPage.verifyBankStatementsTab(); }
+
+    public void clickFilesLink() { clientDashboardPage.clickFilesLink(); }
+
+    public void verifyFilesTab() { clientFilesPage.verifyFilesTab(); }
+
+    public void clickDashBoardLink() { clientDashboardPage.clickDashBoardLink(); }
+
+    public void clickNewMessageButton() { clientDashboardPage.clickNewMessageButton(); }
+
+    public void verifyNewMessageForm() { clientDashboardPage.verifyNewMessageForm(); }
+
+    public void clickCloseMessageButton() { clientDashboardPage.clickCloseMessageButton(); }
+
+    public void verifyDashboardPage() { clientDashboardPage.verifyDashboardPage(); }
+
+    public void clickInboxMessage() { clientDashboardPage.clickInboxMessage(); }
+
+    public void verifyClientOnBoardingPersonalStep() { clientOnBoardingPage.verifyClientOnBoardingPersonalStep(); }
+
+    public void clickContinuePersonalInformationButton() { clientOnBoardingPage.clickContinuePersonalInformationButton(); }
+
+    public void verifyClientOnBoardingBusinessStep() { clientOnBoardingPage.verifyClientOnBoardingBusinessStep(); }
+
+    public void clickContinueBusinessInformationButton() { clientOnBoardingPage.clickContinueBusinessInformationButton(); }
+
+    public void verifyClientOnBoardingIntegrateFileStep() { clientOnBoardingPage.verifyClientOnBoardingIntegrateFileStep(); }
+
+    public void clickSkipIntegrateFileButton() { clientOnBoardingPage.clickSkipIntegrateFileButton(); }
+
+    public void verifyClientOnBoardingSecurityStep() { clientOnBoardingPage.verifyClientOnBoardingSecurityStep(); }
+
+    public void clickSkipSecurityButton(){ clientOnBoardingPage.clickSkipSecurityButton(); }
 }

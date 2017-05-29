@@ -35,4 +35,14 @@ public class ClientFilesPage extends AbstractPage {
     public WebElement getEleYouHaventAddedTxt() {
         return eleYouHaventAddedTxt;
     }
+
+    public void verifyFilesTab() {
+        getLogger().info("Verify the Files Tab.");
+        waitForVisibleElement(eleFilesHeaderTxt, "Files Header");
+        validateDisPlayedElement(eleFilesHeaderTxt, "Files Header");
+        validateElementText(eleFilesHeaderTxt, "Files");
+        validateDisPlayedElement(eleEmptyFilesImg, "Empty Files Image");
+        validateDisPlayedElement(eleYouHaventAddedTxt, "You Havent Added Text");
+
+    }
 }

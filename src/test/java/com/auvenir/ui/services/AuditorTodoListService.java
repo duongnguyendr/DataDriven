@@ -10,6 +10,8 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
+import javax.sql.rowset.spi.SyncFactoryException;
+
 /**
  * Created by cuong.nguyen on 5/8/2017.
  */
@@ -284,7 +286,7 @@ public class AuditorTodoListService extends AbstractService {
 
     /**-----end of huy.huynh PLAT-2285-----*/
 
-    public void verifyCompletedFieldUpdated(String engagementValue, String todoName, String status){
+    public void verifyCompletedFieldUpdated(String engagementValue, String todoName, String status) throws SyncFactoryException {
         auditorCreateToDoPage.verifyMarkAsCompleteBackend("name", engagementValue, todoName, status);
     }
 

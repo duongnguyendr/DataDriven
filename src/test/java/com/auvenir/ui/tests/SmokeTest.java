@@ -1,23 +1,25 @@
 package com.auvenir.ui.tests;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.auvenir.utilities.GenericService;
-import com.auvenir.ui.pages.client.ClientOnBoardingPage;
+import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.CreateNewAuditPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.pages.auditor.AddNewClientPage;
+import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorOnBoardingPage;
+import com.auvenir.ui.pages.client.ClientOnBoardingPage;
 import com.auvenir.ui.pages.common.GmailPage;
+import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.utilities.GeneralUtilities;
+import com.auvenir.utilities.GenericService;
 import com.jayway.restassured.response.Response;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,17 +28,22 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
-import com.auvenir.ui.pages.AuvenirPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
-//import org.testng.log4testng.Logger;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.jayway.restassured.RestAssured.given;
 
+//import org.testng.log4testng.Logger;
+
 public class SmokeTest extends AbstractRefactorService {
+    public SmokeTest(Logger logger, WebDriver driver) {
+        super(logger, driver);
+    }
     //Logger logger = Logger.getLogger(SmokeTest.class);
 
     CreateNewAuditPage createNewAuditPage = null;
@@ -87,8 +94,8 @@ public class SmokeTest extends AbstractRefactorService {
         try {
             getLogger().info("Delete existed user before create.");
 
-            sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID") + "/delete";
+            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                    + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID") + "/delete";
             getLogger().info("Call rest api: " + sURL);
 
 
@@ -100,8 +107,8 @@ public class SmokeTest extends AbstractRefactorService {
             } else {
             }
 
-            sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID") + "/delete";
+            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                    + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID") + "/delete";
             getLogger().info("Call rest api: " + sURL);
             Response response1 = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
             if (response1.getStatusCode() == 200) {
@@ -125,7 +132,7 @@ public class SmokeTest extends AbstractRefactorService {
         public void setUp() {
             try {
                 getLogger().info("Start browser");
-                if (GenericService.getCongigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
+                if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
                     System.setProperty("webdriver.chrome.driver",
                             GenericService.sDirPath + "\\src\\tests\\resources\\chromedriver.exe");
                     getLogger().info("Chrome is set");
@@ -159,9 +166,9 @@ public class SmokeTest extends AbstractRefactorService {
         try {
             getLogger().info("Login Auvenir with Admin role.");
             adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", waittime);
             //Thread.sleep(5000);
             getLogger().info("The text is rendered: " + adminLoginPage.getEleAdminHdrTxt().getText());
@@ -190,7 +197,7 @@ public class SmokeTest extends AbstractRefactorService {
             date = new Date();
             CurrentDate = dateFormat.format(date);
             getLogger().info("Login to home page.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "URL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
             getLogger().info("wait for page load.");
             visibilityOfElementWait(auvenirPage.getEleAuditorEmailAddressTxtFld(), "Email Address Text Field", waittime);
             Assert.assertTrue(auvenirPage.getEleAuditorEmailAddressTxtFld().isDisplayed(),
@@ -198,7 +205,7 @@ public class SmokeTest extends AbstractRefactorService {
             NXGReports.addStep("Auivenir application is displayed successfully", LogAs.PASSED, null);
             getLogger().info("Enter auditor email.");
             auvenirPage.getEleAuditorEmailAddressTxtFld()
-                    .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
             getLogger().info("click to regedit auditor user.");
             auvenirPage.getEleJoinBtn().click();
             getLogger().info("wait for wait aproval popup shown.");
@@ -211,9 +218,9 @@ public class SmokeTest extends AbstractRefactorService {
             auvenirPage.getEleDoneBtn().click();
             Thread.sleep(5000);
             getLogger().info("Login with admin role.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             getLogger().info("Wait for admin logged in page load.");
             visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", waittime);
             Assert.assertTrue(adminLoginPage.getEleAdminHdrTxt().getText().equals("Admin"),
@@ -222,7 +229,7 @@ public class SmokeTest extends AbstractRefactorService {
             getLogger().info("verify registered auditor in wait listed status.");
             Assert.assertTrue(adminLoginPage
                     .getEleAuditorStatusLst("AUDITOR",
-                            GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate)
+                            GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate)
                     .equals("Wait Listed"), "Auditor is not created with Pending status");
             NXGReports.addStep("Auditor is successfully created with Wait Listed status", LogAs.PASSED, null);
             getLogger().info("registered auditor user is in wait listed status.");
@@ -247,9 +254,9 @@ public class SmokeTest extends AbstractRefactorService {
             date = new Date();
             CurrentDate = dateFormat.format(date);
             getLogger().info("Login with admin role.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             getLogger().info("wait for logged in admin page load.");
             visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", waittime);
             Assert.assertTrue(adminLoginPage.getEleAdminHdrTxt().getText().equals("Admin"),
@@ -257,11 +264,11 @@ public class SmokeTest extends AbstractRefactorService {
             NXGReports.addStep("Admin Login is successfull", LogAs.PASSED, null);
             getLogger().info("change auditor to onboarding status.");
             adminLoginPage.getEleChangeOnBoardingStatus("AUDITOR",
-                    GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate);
+                    GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate);
             getLogger().info("Login with auditor user.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             getLogger().info("wait for confirm your tests message of auditor page..");
             visibilityOfElementWait(clientOnBoardingPage.getElePleaseConfirmYourInfoTxt(),
                     "Please confirm your Info Text", waittime);
@@ -297,53 +304,53 @@ public class SmokeTest extends AbstractRefactorService {
         try {
 
             getLogger().info("Login with auditor user.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             getLogger().info("Wait for page is loaded.");
             visibilityOfElementWait(auditorOnBoardingPage.getElePleaseConfirmTxt(), "Please Confirm your information", waittime);
             getLogger().info("verify logo is rendered.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleAuvenirLogoImg(), "Auvenir Logo", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAuvenirLogoImg(), "Auvenir Logo", "Displayed");
             getLogger().info("verify personal text.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePersonalTxt(), "Personal Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePersonalTxt(), "Personal Text", "Displayed");
             getLogger().info("verify firm text.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleFirmTxt(), "Firm Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleFirmTxt(), "Firm Text", "Displayed");
             getLogger().info("verfify security text.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleSecurityTxt(), "Security Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleSecurityTxt(), "Security Text", "Displayed");
             getLogger().info("verify personal image.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePersonalNumberCircleImg(), "Personal Number Circle Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePersonalNumberCircleImg(), "Personal Number Circle Image", "Displayed");
             getLogger().info("verify firm image.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleFirmNumberCircleImg(), "Firm Number Circle Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleFirmNumberCircleImg(), "Firm Number Circle Image", "Displayed");
             getLogger().info("verify security image.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleSecurityNumberCircleImg(), "Security Number Circle Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleSecurityNumberCircleImg(), "Security Number Circle Image", "Displayed");
             getLogger().info("verify please confirm text.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePleaseConfirmTxt(), "Please Confirm your Information Text ", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePleaseConfirmTxt(), "Please Confirm your Information Text ", "Displayed");
             getLogger().info("verify first and last name text.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleFirstAndLastNameTxt(), "First and Last name Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleFirstAndLastNameTxt(), "First and Last name Text", "Displayed");
             getLogger().info("verify first and last name text field.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleFirstAndLastNameTxtFld(), "First and Last name Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleFirstAndLastNameTxtFld(), "First and Last name Text Field", "Displayed");
             getLogger().info("verify email address tests.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleEmailAddressTxt(), "Email Address Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleEmailAddressTxt(), "Email Address Text", "Displayed");
             getLogger().info("verify email field.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleEmailAddressTxtFld(), "Email Address Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleEmailAddressTxtFld(), "Email Address Text Field", "Displayed");
             getLogger().info("verify phone text.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePersonalPhoneNumberTxt(), "Personal Phone Number Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePersonalPhoneNumberTxt(), "Personal Phone Number Text", "Displayed");
             getLogger().info("verify fone field.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePersonalPhoneNumberTxtFld(), "Personal Phone Number Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePersonalPhoneNumberTxtFld(), "Personal Phone Number Text Field", "Displayed");
             getLogger().info("verify agree checkbox.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAgreeToChkBox(), "I Agree to Check Box", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAgreeToChkBox(), "I Agree to Check Box", "Displayed");
             getLogger().info("verify agree text.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAgreeToTxt(), "I Agree to Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAgreeToTxt(), "I Agree to Text", "Displayed");
             getLogger().info("verify privacy link.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePrivacyLnk(), "Privacy link", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePrivacyLnk(), "Privacy link", "Displayed");
             getLogger().info("verify term and condition link.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleTermsAndConditionsLnk(), "Terms and Conditions link", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleTermsAndConditionsLnk(), "Terms and Conditions link", "Displayed");
             getLogger().info("verify confirm checkbox.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIHerebyConfirmChkBox(), "I hereby confirm Check Box", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIHerebyConfirmChkBox(), "I hereby confirm Check Box", "Displayed");
             getLogger().info("verify confirm text");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIHerebyConfirmTxt(), "I hereby confirm Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCameraImg(), "Camera Image", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleUpdatePhotoBtn(), "Update Photo Button", "Enabled");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleContinueBtn(), "Continue button", "Enabled");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleNortonBadgesImg(), "Norton and Truste Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIHerebyConfirmTxt(), "I hereby confirm Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCameraImg(), "Camera Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleUpdatePhotoBtn(), "Update Photo Button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleContinueBtn(), "Continue button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleNortonBadgesImg(), "Norton and Truste Image", "Displayed");
             auditorOnBoardingPage.getEleFirstAndLastNameTxtFld().clear();
             auditorOnBoardingPage.getEleFirstAndLastNameTxtFld().sendKeys(sData[1]);
             auditorOnBoardingPage.getElePersonalPhoneNumberTxtFld().click();
@@ -356,38 +363,38 @@ public class SmokeTest extends AbstractRefactorService {
             getLogger().info("click Continue button.");
             auditorOnBoardingPage.getEleContinueBtn().click();
             visibilityOfElementWait(auditorOnBoardingPage.getElePleaseProvideTxt(), "Please Provide your Firm Information", waittime);
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePleaseProvideTxt(), "Please Provide your Firm Information", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleNameTxt(), "Name Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleNameTxtFld(), "Name Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleNumberOfEmployeesTxt(), "Number of Employees Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleNumberOfEmployeesTxtFld(), "Number of Employees Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleFirmPhoneNumberTxt(), "Phone Number Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleFirmPhoneNumberTxtFld(), "Phone Number Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleAddressTxt(), "Address Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleAddressTxtFld(), "Address Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePleaseProvideTxt(), "Please Provide your Firm Information", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleNameTxt(), "Name Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleNameTxtFld(), "Name Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleNumberOfEmployeesTxt(), "Number of Employees Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleNumberOfEmployeesTxtFld(), "Number of Employees Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleFirmPhoneNumberTxt(), "Phone Number Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleFirmPhoneNumberTxtFld(), "Phone Number Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAddressTxt(), "Address Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAddressTxtFld(), "Address Text Field", "Displayed");
 			
 			/*
-			auvenirPage.toValidate(auditorOnBoardingPage.getEleStreetNumberTxt(),"Street Number Text","Displayed");
-			auvenirPage.toValidate(auditorOnBoardingPage.getEleStreetNumberTxtFld(),"Street Number Text Field","Displayed");
-			auvenirPage.toValidate(auditorOnBoardingPage.getEleStreetTxt(),"Street Text","Displayed");
-			auvenirPage.toValidate(auditorOnBoardingPage.getEleStreetTxtFld(),"Street Text Field","Displayed");
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetNumberTxt(),"Street Number Text","Displayed");
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetNumberTxtFld(),"Street Number Text Field","Displayed");
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetTxt(),"Street Text","Displayed");
+			GeneralUtilities.toValidate(auditorOnBoardingPage.getEleStreetTxtFld(),"Street Text Field","Displayed");
 			*/
-            //auvenirPage.toValidate(auditorOnBoardingPage.getEleUnitNumberTxt(),"Unit Number Text","Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleUnitNumberTxtFld(), "Unit Number Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCityTxt(), "City Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCityTxtFld(), "City Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCountryTxt(), "Country Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCountryTxtFld(), "Country Text Field", "Displayed");
+            //GeneralUtilities.toValidate(auditorOnBoardingPage.getEleUnitNumberTxt(),"Unit Number Text","Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleUnitNumberTxtFld(), "Unit Number Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCityTxt(), "City Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCityTxtFld(), "City Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCountryTxt(), "Country Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCountryTxtFld(), "Country Text Field", "Displayed");
 
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleProvinceStateTxt(), "Province / State Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleProvinceStateTxtFld(), "Province / State Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePostalCodeZipCodeTxt(), "Postal Code / Zip Code Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePostalCodeZipCodeTxtFld(), "Postal Code / Zip Code Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAmAffiliatedChkBox(), "I am affiliated Check Box", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAmAffiliatedTxt(), "I am affiliated Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleContinueFirmBtn(), "Continue button", "Enabled");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCameraFirmImg(), "Camera Firm Image", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleUpdatePhotoFirmBtn(), "Update Photo Firm Button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleProvinceStateTxt(), "Province / State Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleProvinceStateTxtFld(), "Province / State Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePostalCodeZipCodeTxt(), "Postal Code / Zip Code Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePostalCodeZipCodeTxtFld(), "Postal Code / Zip Code Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAmAffiliatedChkBox(), "I am affiliated Check Box", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAmAffiliatedTxt(), "I am affiliated Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleContinueFirmBtn(), "Continue button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCameraFirmImg(), "Camera Firm Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleUpdatePhotoFirmBtn(), "Update Photo Firm Button", "Enabled");
             auditorOnBoardingPage.getEleNameTxtFld().clear();
             auditorOnBoardingPage.getEleNameTxtFld().sendKeys(sData[3]);
             auditorOnBoardingPage.getEleNumberOfEmployeesTxtFld().clear();
@@ -412,45 +419,45 @@ public class SmokeTest extends AbstractRefactorService {
             auditorOnBoardingPage.getElePostalCodeZipCodeTxtFld().sendKeys(sData[11]);
             auditorOnBoardingPage.getEleIAmAffiliatedChkBox().click();
             Thread.sleep(3000);
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleAffliatedNameTxt(), "Affliated Name - Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleAffliatedNameTxtFld(), "Affliated Name - Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAffliatedNameTxt(), "Affliated Name - Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAffliatedNameTxtFld(), "Affliated Name - Text Field", "Displayed");
 
             auditorOnBoardingPage.getEleAffliatedNameTxtFld().sendKeys(sData[9]);
-            auvenirPage.toValidate(auvenirPage.getEleTermsOfUserFtrLnk(), "Terms of Service - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getElePrivacyPolicyFtrLnk(), "Privacy Statement - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleCookieNoticeFtrLnk(), "Cookie Notice footer - Link", "Displayed");
-            auvenirPage.toValidate(auvenirPage.getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleTermsOfUserFtrLnk(), "Terms of Service - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getElePrivacyPolicyFtrLnk(), "Privacy Statement - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleCookieNoticeFtrLnk(), "Cookie Notice footer - Link", "Displayed");
+            GeneralUtilities.toValidate(auvenirPage.getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
             getLogger().info("click continue button.");
             auditorOnBoardingPage.getEleContinueFirmBtn().click();
             //Thread.sleep(3000);
             getLogger().info("Wait for page load.");
             visibilityOfElementWait(auditorOnBoardingPage.getEleSetUpTxt(), "Setup security text", waittime);
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleSetUpTxt(), "Set Up Security Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleDownloadtheAuvenirTxt(), "Download the Auvenir Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleTextMeALinkBtn(), "Text me a link Button", "Enabled");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePhoneNumberSmsInputTxtFld(), "Phone number Text Field", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getElePhoneImg(), "Phone Image", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleAppStoreImg(), "App Store Image", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleGooglePlayImg(), "Google Play Image", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleSkipBtn(), "Skip Button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleSetUpTxt(), "Set Up Security Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleDownloadtheAuvenirTxt(), "Download the Auvenir Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleTextMeALinkBtn(), "Text me a link Button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePhoneNumberSmsInputTxtFld(), "Phone number Text Field", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getElePhoneImg(), "Phone Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAppStoreImg(), "App Store Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleGooglePlayImg(), "Google Play Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleSkipBtn(), "Skip Button", "Enabled");
             getLogger().info("Click skip button.");
             auditorOnBoardingPage.getEleSkipBtn().click();
             getLogger().info("wait for new page load.");
             visibilityOfElementWait(auditorOnBoardingPage.getEleSkipSecurityTxt(), "Skip security text", waittime);
             getLogger().info("The new page is loaded.");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleWarningImg(), "Warning Image", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCloseImg(), "Close Image", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleSkipSecurityTxt(), "Skip Security Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleByChoosingTxt(), "By Choosing Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAmDefaultingChkBox(), "I am Defaulting Check Box", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAmDefaultingTxt(), "I am Defaulting Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleITakeResponsibilityChkBox(), "I Take Responsibility Check Box", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleITakeResponsibilityTxt(), "I Take Responsibility Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAgreeToAuvenirChkBox(), "I Agree to Auvenir Check Box", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleIAgreeToAuvenirTxt(), "I Agree to Auvenir Text", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleTermsAndConditionsSkipSecurityLnk(), "Terms and Conditions Link", "Displayed");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleCancelSkipSecurityBtn(), "Cancel Button", "Enabled");
-            auvenirPage.toValidate(auditorOnBoardingPage.getEleAgreeSkipSecurityBtn(), "Agree Button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleWarningImg(), "Warning Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCloseImg(), "Close Image", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleSkipSecurityTxt(), "Skip Security Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleByChoosingTxt(), "By Choosing Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAmDefaultingChkBox(), "I am Defaulting Check Box", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAmDefaultingTxt(), "I am Defaulting Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleITakeResponsibilityChkBox(), "I Take Responsibility Check Box", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleITakeResponsibilityTxt(), "I Take Responsibility Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAgreeToAuvenirChkBox(), "I Agree to Auvenir Check Box", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleIAgreeToAuvenirTxt(), "I Agree to Auvenir Text", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleTermsAndConditionsSkipSecurityLnk(), "Terms and Conditions Link", "Displayed");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCancelSkipSecurityBtn(), "Cancel Button", "Enabled");
+            GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAgreeSkipSecurityBtn(), "Agree Button", "Enabled");
             auditorOnBoardingPage.getEleIAmDefaultingChkBox().click();
             auditorOnBoardingPage.getEleITakeResponsibilityChkBox().click();
             auditorOnBoardingPage.getEleIAgreeToAuvenirChkBox().click();
@@ -459,7 +466,7 @@ public class SmokeTest extends AbstractRefactorService {
             //Thread.sleep(5000);
             getLogger().info("wait for new page is loaded.");
             visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(), "Create New Button", waittime);
-            auvenirPage.toValidate(auditorEngagementPage.getEleCreateNewBtn(), "'Create New' Button", "Displayed");
+            GeneralUtilities.toValidate(auditorEngagementPage.getEleCreateNewBtn(), "'Create New' Button", "Displayed");
             Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -487,9 +494,9 @@ public class SmokeTest extends AbstractRefactorService {
             date = new Date();
             CurrentDate = dateFormat.format(date);
             getLogger().info("Log in with admin user.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             getLogger().info("Wait for admin logged in page load.");
             visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", waittime);
             Assert.assertTrue(adminLoginPage.getEleAdminHdrTxt().getText().equals("Admin"),
@@ -499,16 +506,16 @@ public class SmokeTest extends AbstractRefactorService {
 
             Assert.assertTrue(adminLoginPage
                     .getEleAuditorStatusLst("AUDITOR",
-                            GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate)
+                            GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate)
                     .equalsIgnoreCase("Active"), "Auditor is not created with Active status");
             NXGReports.addStep("Auditor change to Active status", LogAs.PASSED, null);
 			/*
 			adminLoginPage.getEleChangeActiveStatus("AUDITOR",
-					GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate);
+					GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), CurrentDate);
 			Thread.sleep(5000);
-			loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"),
-					GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-					GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+			loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"),
+					GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+					GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 			visibilityOfElementWait(auditorEngagementPage.getEleAuvenirLogoImg(), "Auvenir Logo Image", 15);
 			Assert.assertTrue(auditorEngagementPage.getEleAuvenirLogoImg().isDisplayed(), "Home Page is not displayed");
 			NXGReports.addStep("Home Page is displayed", LogAs.PASSED, null);
@@ -536,9 +543,9 @@ public class SmokeTest extends AbstractRefactorService {
             clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
             String newClientData[] = GenericService.toReadExcelData("creating_NewClient_Data");
             getLogger().info("Login with Auditor user.");
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             getLogger().info("wait for page load.");
             visibilityOfElementWait(auditorEngagementPage.getEleClientsLnk(), "Clients Link", waittime);
             Assert.assertTrue(auditorEngagementPage.getEleCreateNewBtn().isDisplayed(), "Auditor failed to login");
@@ -577,8 +584,8 @@ public class SmokeTest extends AbstractRefactorService {
                     LogAs.PASSED, null);
             getLogger().info("Enter email.");
             addNewClientPage.getEleEmailAddressTxtFld()
-                    .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
-            NXGReports.addStep(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID")
+                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
+            NXGReports.addStep(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID")
                     + " Data entered in Email ID Text field successfully", LogAs.PASSED, null);
             getLogger().info("Enter phone.");
             addNewClientPage.getElePhoneNumberTxtFld().sendKeys(newClientData[3]);
@@ -686,16 +693,16 @@ public class SmokeTest extends AbstractRefactorService {
             NXGReports.addStep("Client successfully logged in and Onboarding screen is displayed", LogAs.PASSED, null);
             //gmailLogout();
             NXGReports.addStep("Client successfully logged Out from Gmail", LogAs.PASSED, null);
-            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             visibilityOfElementWait(adminLoginPage.getEleAdminHdrTxt(), "Admin Header Text", 50);
             Assert.assertTrue(adminLoginPage.getEleAdminHdrTxt().getText().equals("Admin"),
                     "Admin Login is not able to login correctly");
             NXGReports.addStep("Admin Login is able to login correctly", LogAs.PASSED, null);
             Assert.assertTrue(adminLoginPage
                     .getEleClientStatusLst("CLIENT",
-                            GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"), CurrentDate)
+                            GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"), CurrentDate)
                     .equals("Onboarding"), "Client is not created with Active status");
             NXGReports.addStep("Client is created with Active status", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -716,23 +723,23 @@ public class SmokeTest extends AbstractRefactorService {
         try {
             getLogger().info("Admin delete client and auditor.");
 
-            sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID") + "/delete";
+            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                    + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID") + "/delete";
             System.out.println(sURL);
             getDriver().get(sURL);
             System.out.println(adminLoginPage.getEleDeletedTxt().getText());
             Assert.assertTrue(
                     (adminLoginPage.getEleDeletedTxt().getText().contains("deleted"))
                             && (adminLoginPage.getEleDeletedTxt().getText().contains(
-                            GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"))),
+                            GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"))),
                     "Auditor is not deleted");
             NXGReports.addStep("Auditor is deleted sucessfully", LogAs.PASSED, null);
-            sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID") + "/delete";
+            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                    + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID") + "/delete";
             getDriver().get(sURL);
             Assert.assertTrue(
                     (adminLoginPage.getEleDeletedTxt().getText().contains("deleted")) && (adminLoginPage.getEleDeletedTxt()
-                            .getText().contains(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"))),
+                            .getText().contains(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"))),
                     "Client is not deleted");
             NXGReports.addStep("Client is deleted sucessfully", LogAs.PASSED, null);
 			/*
@@ -740,11 +747,11 @@ public class SmokeTest extends AbstractRefactorService {
 			 * "Admin Header Text",50); JavascriptExecutor javascriptExecutor =
 			 * (JavascriptExecutor) driver;
 			 * javascriptExecutor.executeScript("window.scrollBy(0,250)", "");
-			 * adminLoginPage.getEleDeleteTheCreatedUser(GenericService.getCongigValue
+			 * adminLoginPage.getEleDeleteTheCreatedUser(GenericService.getConfigValue
 			 * (GenericService.sConfigFile, "CLIENT_EMAIL_ID")); NXGReports.addStep(
 			 * "Admin is able to delete Auditor sucessfully", LogAs.PASSED,
 			 * null); driver.navigate().refresh();
-			 * adminLoginPage.getEleDeleteTheCreatedUser(GenericService.getCongigValue
+			 * adminLoginPage.getEleDeleteTheCreatedUser(GenericService.getConfigValue
 			 * (GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
 			 * NXGReports.addStep("Admin is able to delete Auditor sucessfully",
 			 * LogAs.PASSED, null); driver.navigate().refresh();
@@ -782,25 +789,25 @@ public class SmokeTest extends AbstractRefactorService {
     public void gmailLogin() throws Exception {
         try {
             gmailPage = new GmailPage(getLogger(), getDriver());
-            getDriver().get(GenericService.getCongigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             getDriver().manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
             getDriver().manage().window().maximize();
             getLogger().info("Wait for gmail page load.");
             visibilityOfElementWait(gmailPage.getEleEmailIDTxtFld(), "Email field", waittime);
             if (gmailPage.getEleEmailIDTxtFld().isDisplayed()) {
                 gmailPage.getEleEmailIDTxtFld()
-                        .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
+                        .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
                 gmailPage.getEleNextBtn().click();
             }
             visibilityOfElementWait(gmailPage.getElePasswordTxtFld(), "Passwd", waittime);
             gmailPage.getElePasswordTxtFld()
-                    .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
             gmailPage.getEleSignInBtn().click();
             visibilityOfElementWait(gmailPage.getComposeTextFld(), "Compose", waittime);
             Assert.assertTrue(gmailPage.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
             gmailPage.getEleSearchTxtFld().clear();
             gmailPage.getEleSearchTxtFld()
-                    .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
+                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
             gmailPage.getEleSearchBtn().click();
             Thread.sleep(8000);
             gmailPage.inviteEmail();

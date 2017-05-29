@@ -1,6 +1,5 @@
 package com.auvenir.ui.tests.admin;
 
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AdminAccountSettingsService;
 import com.auvenir.ui.services.AdminService;
@@ -27,9 +26,9 @@ public class AdminSettingsTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
         this.adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
             adminService.verifyAdminLoginPage();
@@ -48,9 +47,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void InputValueFullName() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
         adminService.verifyAdminLoginPage();
         adminService.navigateToSettingPage();
@@ -86,9 +85,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void VerifyEmailTextBox() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
         adminService.verifyAdminLoginPage();
         adminService.navigateToSettingPage();
@@ -105,9 +104,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void InputValuePhoneNumber() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
         adminService.verifyAdminLoginPage();
         adminService.navigateToSettingPage();
@@ -146,9 +145,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateNewImage() throws IOException {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
         adminService.verifyAdminLoginPage();
         adminService.navigateToSettingPage();
@@ -172,9 +171,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateNewInfo() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
         adminService.verifyAdminLoginPage();
         adminService.navigateToSettingPage();
@@ -203,9 +202,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateOverLoadImage() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(this.getLogger(), this.getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
         try {
             adminService.loginWithUserRole(userId);
@@ -230,9 +229,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void verifyDisableUpdateBtn() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(this.getLogger(), this.getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
         try {
             adminService.loginWithUserRole(userId);
@@ -257,9 +256,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void verifyMessageUpdateBtnErrorValue() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
         try {
             adminService.loginWithUserRole(userId);
@@ -301,7 +300,7 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateFailedWithWrongName() {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
         try {
             adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
@@ -325,7 +324,7 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateFailedWithWrongPhoneNumber() {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
         try {
             adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
@@ -349,7 +348,7 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateFailedWithInvalidImage() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
         try {
             adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
@@ -376,9 +375,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateWithValidName() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
 
         try {
             adminService.loginWithUserRole(userId);
@@ -401,9 +400,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateWithValidPhoneNumber() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
@@ -425,9 +424,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateAvatarSuccessful() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();
@@ -454,9 +453,9 @@ public class AdminSettingsTest extends AbstractTest {
     public void updateAllInfoSuccessful() throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
-        String userId = GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID");
-        String getTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId);
             adminService.verifyAdminLoginPage();

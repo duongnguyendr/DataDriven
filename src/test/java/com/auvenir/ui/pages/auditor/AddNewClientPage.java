@@ -331,4 +331,46 @@ public class AddNewClientPage extends AbstractPage {
     public WebElement getEleAddBtn() {
         return eleAddBtn;
     }
+
+    public void verifyDisplayElementInAddNewClientPage(){
+        validateDisPlayedElement(getEleAddNewClientTxt(), "Add New Client Text");
+        validateEnabledElement(getEleCloseBtn(), "Close Button");
+        validateDisPlayedElement(getEleCompanyInformationTxt(), "Company Information Text");
+        validateDisPlayedElement(getEleKeyContactInformationTxt(), "Contact Information Text");
+        validateDisPlayedElement(getEleLegalNameOfEntityTxt(), "Legal Name of Entity Text");
+        validateDisPlayedElement(getEleLegalNameOfEntityTxtFld(), "Legal Name of Entity Text Field");
+        validateDisPlayedElement(getEleTheLegalNameChangedTxt(), "The Legal Name Changed Text");
+        validateDisPlayedElement(getEleTheLegalNameChkBox(), "The Legal Name CheckBox");
+        validateDisPlayedElement(getEleTheEntityIsPubliclyListedTxt(), "The Entity is Publicly Listed Text");
+        validateDisPlayedElement(getEleTheEntityIsPubliclyListedChkBox(), "The Entity is Publicly Listed CheckBox");
+        validateDisPlayedElement(getEleTheEntityHasOperationsTxt(), "The Entity Has Operations Text");
+        validateDisPlayedElement(getEleTheEntityHasOperationsChkBox(), "The Entity Has Operations CheckBox");
+        validateDisPlayedElement(getElePleaseListParentTxt(), "Please List Parent Text");
+        validateDisPlayedElement(getElePleaseListParentTxtFld(), "Please List Parent Text Field");
+        validateDisPlayedElement(getEleIndustryTxt(), "Industry Text");
+        validateDisPlayedElement(getEleIndustryDrpDwn(), "Industry Drop Down");
+        clickElement(getEleIndustryDrpDwn(), "Industry drop down");
+        validateDisPlayedElement(getEleSelectIndustryTypeDrpDwn(), "Select Industry Type Drop Down");
+        validateDisPlayedElement(getEleAccountingFrameWorkTxt(), "Accounting Framework Text");
+        validateDisPlayedElement(getEleAccountingFrameWorkDrpDwn(), "Accounting Framework Drop Down");
+        validateDisPlayedElement(getEleSelectAccountingFrameWorkDrpDwn(), "Select Accounting Framework Drop Down");
+        validateDisPlayedElement(getEleAddressTxtFld(), "Address Text Field");
+        validateDisPlayedElement(getEleAddressTxt(), "Address Text");
+        validateDisPlayedElement(getEleUnitNumberTxtFld(), "Unit Number Text Field");
+        validateDisPlayedElement(getEleCityTxt(), "City Text");
+        validateDisPlayedElement(getEleCityTxtFld(), "City Text Field");
+        validateDisPlayedElement(getEleProvinceStateTxt(), "Province/State Text");
+        validateDisPlayedElement(getEleProvinceStateTxtFld(), "Province/State Text Field");
+        validateDisPlayedElement(getElePostalCodeTxt(), "Postal Code Text");
+        validateDisPlayedElement(getElePostalCodeTxtFld(), "Postal Code Text Field");
+        validateDisPlayedElement(getEleFirstAndLastNameTxt(), "First and Last Name Text");
+        validateDisPlayedElement(getEleFirstAndLastNameTxtFld(), "First and Last Name Text Field");
+        validateDisPlayedElement(getEleEmailAddressTxt(), "Email Address Text");
+        validateDisPlayedElement(getEleEmailAddressTxtFld(), "Email Address Text Field");
+        validateDisPlayedElement(getElePhoneNumberTxt(), "Phone Number Text");
+        validateDisPlayedElement(getElePhoneNumberTxtFld(), "Phone Number Text Field");
+        validateDisPlayedElement(getEleCameraImg(), "Camera Image");
+        validateEnabledElement(getEleUploadPhotoBtn(), "Upload Photo Button");
+        validateEnabledElement(getEleAddBtn(), "Add Button");
+    }
 }

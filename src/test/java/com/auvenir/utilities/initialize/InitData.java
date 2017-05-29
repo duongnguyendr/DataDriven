@@ -1,4 +1,4 @@
-package com.auvenir.utilities.regressionTesting;
+package com.auvenir.utilities.initialize;
 
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.MongoDBService;
@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
+import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.Set;
  * Run one time before Regression Testing with config on properties file ./resources/properties/MongoDB.properties
  * Execute this main() to run
  */
-public class InitMongoDB {
+public class InitData {
 
     private static String server;
     private static int port;
@@ -29,7 +30,7 @@ public class InitMongoDB {
     private static String ssl;
     private Properties properties = GeneralUtilities.getMongoDBProperties();
 
-    private InitMongoDB() {
+    public InitData() {
         server = properties.getProperty("server");
         port = Integer.parseInt(properties.getProperty("port"));
         dbName = properties.getProperty("dbName");
@@ -45,7 +46,8 @@ public class InitMongoDB {
     /**
      * create some users for init regresstion test with multiple roles
      */
-    private void insertUserAndMapping() throws UnknownHostException {
+    @Test(priority = 1, enabled = true, description = "Initialize data before testing.")
+    public void initUserAndMapping() throws UnknownHostException {
         try {
             String[][] data = Excel.readExcelSheetData(properties.getProperty("sheetForInitMongoDB"));
 
@@ -108,8 +110,8 @@ public class InitMongoDB {
         }
     }
 
-    public static void main(String[] args) throws UnknownHostException {
-        InitMongoDB initMongoDB = new InitMongoDB();
-        initMongoDB.insertUserAndMapping();
-    }
+//    public static void main(String[] args) throws UnknownHostException {
+//        InitData initMongoDB = new InitData();
+//        initMongoDB.initUserAndMapping();
+//    }
 }

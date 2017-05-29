@@ -147,8 +147,8 @@ public class AuditorTodoListPage extends AbstractPage {
 
 
     public void verifyButtonCreateToDo() throws Exception {
-        validateCSSValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
-        validateCSSValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
+        validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
+        validateCssValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
         validateDisPlayedElement(eleCreateToDoBtn, "Create Todo Button");
 
     }
@@ -165,7 +165,7 @@ public class AuditorTodoListPage extends AbstractPage {
         clickAndHold(eleToDoSearchInput, "Search Button");
         waitForPresentOfLocator(By.xpath("//input[@id='todo-search']"));
 
-        validateCSSValueElement(eleToDoSearchInput, "border-color", "rgb(89, 155, 161)");
+        validateCssValueElement(eleToDoSearchInput, "border-color", "rgb(89, 155, 161)");
     }
 
     public void verifySearchInputText() throws Exception {
@@ -199,13 +199,13 @@ public class AuditorTodoListPage extends AbstractPage {
     public void verifyCheckOnCheckBox() throws Exception {
         checkAllToDoTask();
         waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
-        validateCSSValueElement(eleCheckBox, "background-color", "rgba(92, 212, 192, 1)");
+        validateCssValueElement(eleCheckBox, "background-color", "rgba(92, 212, 192, 1)");
     }
 
     public void verifyUnCheckOnCheckBox() throws Exception {
         unCheckAllToDoTask();
         waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
-        validateCSSValueElement(eleCheckBox, "background-color", "rgba(202, 206, 206, 1)");
+        validateCssValueElement(eleCheckBox, "background-color", "rgba(202, 206, 206, 1)");
     }
 
     public void clickCreateToDoBtn() {
@@ -286,7 +286,7 @@ public class AuditorTodoListPage extends AbstractPage {
         try {
             // Green color
             hoverElement(eleFilterDropDownList, "eleFilterDropDownList");
-            isCheckBorderColor = validateCSSValueElement(eleFilterDropDownList, "border-bottom-color", "rgba(117, 117, 117, 1)");
+            isCheckBorderColor = validateCssValueElement(eleFilterDropDownList, "border-bottom-color", "rgba(117, 117, 117, 1)");
             if (isCheckBorderColor) {
                 NXGReports.addStep("Verify  hover on Filter DropDown list: PASSED", LogAs.PASSED, null);
             } else {
