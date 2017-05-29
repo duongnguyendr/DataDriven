@@ -2590,7 +2590,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status complete expected
      */
-    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
+    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
         getLogger().info("Verify To-Do complete status on database.");
         JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         //TODO get from properties file
@@ -2610,7 +2610,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param assigneeName    name of assignee
      */
-    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
+    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) throws SyncFactoryException {
         getLogger().info("Verify To-Do delete status on database.");
         String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
@@ -2677,7 +2677,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status update expected
      */
-    public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status){
+    public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
         getLogger().info("Verify Completed field updated on database.");
 //        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
