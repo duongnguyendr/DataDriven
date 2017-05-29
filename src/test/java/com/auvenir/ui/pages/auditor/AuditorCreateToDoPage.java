@@ -1073,6 +1073,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify Default Value Of Category ComboBox successfully.", LogAs.PASSED, null);
         } else {
             NXGReports.addStep("Failed: Verify Default Value Of Category ComboBox", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
         }
     }
 
