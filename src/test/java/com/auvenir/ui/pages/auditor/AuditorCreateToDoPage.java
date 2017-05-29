@@ -352,6 +352,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement deleteRequestMenu;
     @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
     private WebElement copyTaskMenu;
+    private String newRequest01 = "New request01 " + randomNumber();
+    private String newRequest02 = "New request02 " + randomNumber();
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -3205,8 +3207,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    private String newRequest01 = "New request01 " + randomNumber();
-    private String newRequest02 = "New request02 " + randomNumber();
     /**
      * Author minh.nguyen
      */
