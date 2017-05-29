@@ -422,4 +422,10 @@ public class GmailPage extends AbstractPage {
 
 		}
 	}
+
+	public void searchGmail(String GMAIL_SEARCHMAIL){
+		clearTextBox(eleSearchTxtFld, "Search Field");
+		sendKeyTextBox(eleSearchTxtFld, GMAIL_SEARCHMAIL, "Search Field");
+		clickElement(eleSearchBtn, "Search button");
+	}
 }

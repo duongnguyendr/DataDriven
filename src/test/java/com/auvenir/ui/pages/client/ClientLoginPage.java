@@ -607,4 +607,77 @@ public class ClientLoginPage extends AbstractPage {
     public WebElement getEleGetStartedBtn() {
         return eleGetStartedBtn;
     }
+
+    public void signInEmailOnClientLoginPage(String clientID) {
+        getLogger().info("Sign In Email On Client Login Page");
+        clickElement(eleLoginLnk, "Login link");
+        sendKeyTextBox(eleTypeYourEmailTxtFld, clientID, "Login link");
+        clickElement(eleGoBtn, "Go Button");
+    }
+
+    public void verifyClientLoginPageAfterSignIn(){
+        getLogger().info("Verify Client Login Page After Sign In.");
+        waitForVisibleElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
+        validateDisPlayedElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
+        validateElementText(eleWelcomeAuvenirTxt, "Welcome to Auvenir!");
+        validateDisPlayedElement(eleAuvenirImg, "Auvenir - Image");
+        validateDisPlayedElement(eleCongratzTxt, "Congratulations - Text");
+        validateDisPlayedElement(eleWhenReadyTxt, "When we are ready - Text");
+        validateDisPlayedElement(eleLoginBtn, "Login - Button");
+        validateDisPlayedElement(eleWeWelcomeTxt, "We Welcome - Text");
+        validateDisPlayedElement(eleFeedbackAuvTxt, "feedback@auvenir.com - Link");
+        validateDisPlayedElement(eleBestRegardsTxt, "Best Regards - Text");
+        validateDisPlayedElement(eleAuditSmarterImg, "Audit Smarter - Image");
+        validateDisPlayedElement(eleAuditSmarterTxt, "Audit Smarter - Text");
+        validateDisPlayedElement(eleRichmondStreetTxt, "Richmond Street Address - Text");
+        validateDisPlayedElement(eleThisEmailTxt, "This email is subject to - Text");
+        validateDisPlayedElement(eleToUnsubscribeTxt, "To Unsubribe - Text");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "Terms of Service - Link");
+        validateDisPlayedElement(elePrivacyStatementLnk, "Privacy statement - Link");
+        validateDisPlayedElement(eleClickHereLnk, "Click Here - Link");
+    }
+
+    public void verifyClientLoginPageAfterActiveAccount(){
+        getLogger().info("Verify Client Login Page After Active Account.");
+        waitForVisibleElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
+        validateDisPlayedElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
+        validateElementText(eleWelcomeAuvenirTxt, "Welcome to Auvenir!");
+        validateDisPlayedElement(eleAuvenirImg, "Auvenir - Image");
+        validateDisPlayedElement(eleYourAccountTxt, "Your account has been activated - Text");
+        validateDisPlayedElement(eleGetStartedBtn, "Get Started - Button");
+        validateDisPlayedElement(eleWeWelcomeTxt, "We Welcome - Text");
+        validateDisPlayedElement(eleFeedbackAuvTxt, "feedback@auvenir.com - Link");
+        validateDisPlayedElement(eleBestRegardsTxt, "Best Regards - Text");
+        validateDisPlayedElement(eleAuditSmarterImg, "Audit Smarter - Image");
+        validateDisPlayedElement(eleAuditSmarterTxt, "Audit Smarter - Text");
+        validateDisPlayedElement(eleRichmondStreetTxt, "Richmond Street Address - Text");
+        validateDisPlayedElement(eleThisEmailTxt, "This email is subject to - Text");
+        validateDisPlayedElement(eleToUnsubscribeTxt, "To Unsubribe - Text");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "Terms of Service - Link");
+        validateDisPlayedElement(elePrivacyStatementLnk, "Privacy statement - Link");
+        validateDisPlayedElement(eleClickHereLnk, "Click Here - Link");
+    }
+
+    public void verifyClientLoginPageInvitationEmail(){
+        getLogger().info("Verify Client Login Page Invitation Email.");
+        validateDisPlayedElement(eleAuvenirImg, "Auvenir - Image");
+        validateDisPlayedElement(eleHiJackTxt, "Hi Jack, -Text ");
+        validateDisPlayedElement(eleHasInvitedTxt, "has invited you to join Auvenir - Text");
+        validateDisPlayedElement(eleStartAuditBtn, "Start Your Audit - Button");
+        validateDisPlayedElement(eleAuvenirisTxt, "Auvenir is on mission- Text");
+        validateDisPlayedElement(eleFeedbackAuvTxt, "feedback@auvenir.com - Link");
+        validateDisPlayedElement(eleAuditSmarterImg, "Audit Smarter - Image");
+        validateDisPlayedElement(eleAuditSmarterTxt, "Audit Smarter - Text");
+        validateDisPlayedElement(eleRichmondStreetTxt, "Richmond Street Address - Text");
+        validateDisPlayedElement(eleThisEmailTxt, "This email is subject to - Text");
+        validateDisPlayedElement(eleToUnsubscribeTxt, "To Unsubribe - Text");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "Terms of Service - Link");
+        validateDisPlayedElement(elePrivacyStatementLnk, "Privacy statement - Link");
+        validateDisPlayedElement(eleClickHereLnk, "Click Here - Link");
+    }
+
+    public void clickStartAuditButton(){
+        getLogger().info("Click Start Audit Button.");
+        clickElement(eleStartAuditBtn, "Start Audit Button");
+    }
 }
