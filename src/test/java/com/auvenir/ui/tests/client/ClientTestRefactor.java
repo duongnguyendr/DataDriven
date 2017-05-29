@@ -1,7 +1,6 @@
 package com.auvenir.ui.tests.client;
 
 import com.auvenir.ui.pages.client.ClientOnBoardingPage;
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -63,10 +62,7 @@ public class ClientTestRefactor extends AbstractTest {
             } else {
             }*/
             //driver.get("https://ariel.auvenir.com/api/user/auvclient02@gmail.com/update?status=ONBOARDING");
-
-//            loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             clientService.loginWithUserRole(userId);
-//            Thread.sleep(5000);
             clientService.verifyClientOnBoardingPersonalStep();
 			/*
 			clientOnBoardingPage.getEleFirstLastNameTxtFld().clear();
@@ -74,47 +70,17 @@ public class ClientTestRefactor extends AbstractTest {
 			clientOnBoardingPage.getEleEmailAddressTxtFld().click();
 			clientOnBoardingPage.getEleEmailAddressTxtFld().clear();
 			clientOnBoardingPage.getEleEmailAddressTxtFld().sendKeys(sData[2]);*/
+            clientService.clickContinuePersonalInformationButton();
+            //Will update later. For now, the Business step is not displayed.
+//            clientService.verifyClientOnBoardingBusinessStep();
+//            clientService.clickContinueBusinessInformationButton();
+            //Will update later. For now, the Integrate File step is not displayed.
+//            clientService.verifyClientOnBoardingIntegrateFileStep();
+            //Will update later. For now, the skip button is not displayed.
+//            clientService.clickSkipIntegrateFileButton();
+            clientService.verifyClientOnBoardingSecurityStep();
+            clientService.clickSkipSecurityButton();
 
-//            clientOnBoardingPage.getEleIAgreeImg().click();
-//            Thread.sleep(3000);
-//            clientOnBoardingPage.getEleContinueBtn().click();
-//            Thread.sleep(5000);
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePleaseConfirmBuisnessTxt(), "Please confirm your buisness - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessNameTxt(), "Buisness Name Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessNameTxtFld(), "Buisness Name Text Field", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleFiscalYearTxt(), "Fiscal Year End Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleFiscalYearTxtFld(), "Fiscal Year End Text Field", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAccountingFrameTxt(), "Accounting Framework Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAccountingFrameTxtFld(), "Accounting Framework Text Field", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessCameraImg(), "Buisness Camera Image", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessUploadBtn(), "Upload -Button", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleBuisnessContinueBtn(), "Continue button", "Enabled");
-//            clientOnBoardingPage.getEleBuisnessContinueBtn().click();
-//            Thread.sleep(5000);
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIntegrateFileTxt(), "Integrate with your file storage - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePleaseSelectTxt(), "Please select the directory - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleGoogleDriveTxt(), "Google Drive - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleGoogleDriveImg(), "Google Drive - Image", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleLocalTxt(), "Local - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleLocalImg(), "Local Image", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSkipBtn(), "Skip - Button", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleNotReadyTxt(), "Not ready to integrate - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleYouCanSkipTxt(), "You can skip - Text", "Displayed");
-//            clientOnBoardingPage.getEleSkipBtn().click();
-//            Thread.sleep(5000);
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSetUpTxt(), "Set Up Security - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleDownloadtheAuvenirTxt(), "Download the auvenir - Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePhoneNumberSmsInputTxtFld(), "Phone Number - Text Fld", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleTextAppLinkBtn(), "Text App Link - Button", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getElePhoneImg(), "Phone Image", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAppStoreImg(), "App Store Image", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleGooglePlayImg(), "Google Play Image", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSkipBtn(), "Skip Button", "Enabled");
-//            Robot rb = new Robot();
-//            rb.keyPress(KeyEvent.VK_PAGE_DOWN);
-//            Thread.sleep(3000);
-//            clientOnBoardingPage.getEleSecuritySkipBtn().click();
-//            Thread.sleep(5000);
 //            GeneralUtilities.toValidate(clientOnBoardingPage.getEleWarningImg(), "Warning Image", "Displayed");
 //            GeneralUtilities.toValidate(clientOnBoardingPage.getEleCloseImg(), "Close Image", "Displayed");
 //            GeneralUtilities.toValidate(clientOnBoardingPage.getEleSkipSecurityTxt(), "Skip Security Text", "Displayed");
@@ -145,7 +111,7 @@ public class ClientTestRefactor extends AbstractTest {
 			*/
 
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -271,7 +237,7 @@ public class ClientTestRefactor extends AbstractTest {
             clientService.verifyClientHeader();
             clientService.verifyFilesTab();
             clientService.verifyClientFooter();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the display of Elements in Client Files Page", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Files Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

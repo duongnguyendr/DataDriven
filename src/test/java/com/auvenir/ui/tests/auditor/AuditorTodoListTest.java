@@ -1537,7 +1537,7 @@ End of merged VienPham.
             auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", "Company Auvenir");
             //will implement later, current we can not navigate engagment by name
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPageWithName(engagementName, engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorCreateToDoService.createToDoTaskWithCategoryName(taskName, "Category1");
@@ -1577,7 +1577,7 @@ End of merged VienPham.
             auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", "Company Auvenir");
             //will implement later, current we can not navigate engagment by name
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPageWithName(engagementName, engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorCreateToDoService.createToDoTaskWithCategoryName(taskName, "Category1");

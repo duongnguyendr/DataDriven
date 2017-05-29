@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.marketing.emailtemplate;
 
 import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.ui.pages.marketing.mailtemplate.MailAuditorJoinPO;
+import com.auvenir.ui.pages.marketing.mailtemplate.*;
 import com.auvenir.ui.tests.AbstractTest;
 import org.testng.annotations.Test;
 

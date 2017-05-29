@@ -220,5 +220,17 @@ public class ClientService extends AbstractService {
 
     public void verifyClientOnBoardingPersonalStep() { clientOnBoardingPage.verifyClientOnBoardingPersonalStep(); }
 
+    public void clickContinuePersonalInformationButton() { clientOnBoardingPage.clickContinuePersonalInformationButton(); }
 
+    public void verifyClientOnBoardingBusinessStep() { clientOnBoardingPage.verifyClientOnBoardingBusinessStep(); }
+
+    public void clickContinueBusinessInformationButton() { clientOnBoardingPage.clickContinueBusinessInformationButton(); }
+
+    public void verifyClientOnBoardingIntegrateFileStep() { clientOnBoardingPage.verifyClientOnBoardingIntegrateFileStep(); }
+
+    public void clickSkipIntegrateFileButton() { clientOnBoardingPage.clickSkipIntegrateFileButton(); }
+
+    public void verifyClientOnBoardingSecurityStep() { clientOnBoardingPage.verifyClientOnBoardingSecurityStep(); }
+
+    public void clickSkipSecurityButton(){ clientOnBoardingPage.clickSkipSecurityButton(); }
 }

@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.marketing.emailtemplate;
 
 
-import com.auvenir.ui.pages.marketing.mailtemplate.MailAuditorAccessPO;
+import com.auvenir.ui.pages.marketing.mailtemplate.*;
 import com.auvenir.ui.services.marketing.HomeService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;

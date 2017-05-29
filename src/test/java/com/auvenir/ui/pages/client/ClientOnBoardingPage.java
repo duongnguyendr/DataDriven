@@ -146,7 +146,7 @@ public class ClientOnBoardingPage extends AbstractPage {
     public WebElement getEleIAgreeImg() {
         return eleIAgreeImg;
     }
-
+    
     @FindBy(xpath = "//label[text()='I agree to the ']")
     private WebElement eleIAgreeTxt;
 
@@ -469,6 +469,10 @@ public class ClientOnBoardingPage extends AbstractPage {
     public WebElement getEleAgreeSkipSecurityBtn() {
         return eleAgreeSkipSecurityBtn;
     }
+
+    @FindBy (xpath = "//img[@id='agreement-personal-cpa']")
+    private WebElement agreePersonalCPAEle;
+
     /*@FindBy(xpath="//p[@id='onboard-introTitle']")
 	private WebElement eleAuditSmarterTxt;
 	public WebElement getEleAuditSmarterTxt(){
@@ -800,6 +804,93 @@ public class ClientOnBoardingPage extends AbstractPage {
         validateDisPlayedElement(eleUploadPhotoBtn, "Update Photo Button");
         validateDisPlayedElement(eleContinueBtn, "Continue button");
     }
+
+    public void clickContinuePersonalInformationButton() {
+        getLogger().info("Click Continue Button to confirm Personal Information.");
+        clickElement(eleIAgreeImg, "Agree to the Privacy statament checkbox");
+        clickElement(agreePersonalCPAEle, "Confirm a Chartered Professional Accountant checkbox");
+        clickElement(eleContinueBtn, "Continue Button");
+    }
+
+    public void verifyClientOnBoardingBusinessStep() {
+        getLogger().info("Verify Client On Boarding - Provide your Business Info Step.");
+        waitForVisibleElement(elePleaseConfirmBuisnessTxt, "Please confirm your Business - Text");
+        validateDisPlayedElement(elePleaseConfirmBuisnessTxt, "Please confirm your information - Text");
+        validateElementText(elePleaseConfirmBuisnessTxt, "Please Confirm your Information");
+        validateDisPlayedElement(eleBuisnessNameTxt, "Buisness Name Text");
+        validateDisPlayedElement(eleBuisnessNameTxtFld, "Buisness Name Text Field");
+        validateDisPlayedElement(eleFiscalYearTxt, "Fiscal Year End Text");
+        validateDisPlayedElement(eleFiscalYearTxtFld, "Fiscal Year End Text Field");
+        validateDisPlayedElement(eleAccountingFrameTxt, "Accounting Framework Text");
+        validateDisPlayedElement(eleAccountingFrameTxtFld, "Accounting Framework Text Field");
+        validateDisPlayedElement(eleBuisnessCameraImg, "Buisness Camera Image");
+        validateDisPlayedElement(eleBuisnessUploadBtn, "Upload -Button");
+        validateDisPlayedElement(eleBuisnessContinueBtn, "Continue button");
+    }
+
+    public void clickContinueBusinessInformationButton() {
+        getLogger().info("Click Continue to confirm Business Information");
+        clickElement(eleBuisnessContinueBtn, "Continue button");
+    }
+
+    public void verifyClientOnBoardingIntegrateFileStep(){
+        getLogger().info("Verify Client On Boarding - Integrate File Step.");
+        waitForVisibleElement(eleIntegrateFileTxt, "Integrate with your file storage - Text");
+        validateDisPlayedElement(eleIntegrateFileTxt, "Integrate with your file storage - Text");
+        validateElementText(eleIntegrateFileTxt, "Please Confirm your Information");
+        validateDisPlayedElement(elePleaseSelectTxt, "Please select the directory - Text");
+        validateDisPlayedElement(eleGoogleDriveTxt, "Google Drive - Text");
+        validateDisPlayedElement(eleGoogleDriveImg, "Google Drive - Image");
+        validateDisPlayedElement(eleLocalTxt, "Local - Text");
+        validateDisPlayedElement(eleLocalImg, "Local Image");
+        validateDisPlayedElement(eleSkipBtn, "Skip - Button");
+        validateDisPlayedElement(eleNotReadyTxt, "Not ready to integrate - Text");
+        validateDisPlayedElement(eleYouCanSkipTxt, "You can skip - Text");
+    }
+
+    public void clickSkipIntegrateFileButton() {
+        getLogger().info("Click Skip Button");
+        clickElement(eleSkipBtn, "Skip Button");
+    }
+
+    public void verifyClientOnBoardingSecurityStep() {
+        getLogger().info("Verify Client On Boarding - Set Up Security");
+        waitForVisibleElement(eleSetUpTxt, "Set Up Security - Text");
+        validateDisPlayedElement(eleSetUpTxt, "Set Up Security - Text");
+        validateElementText(eleSetUpTxt, "Set Up Security");
+        validateDisPlayedElement(eleDownloadtheAuvenirTxt, "Download the auvenir - Text");
+        validateDisPlayedElement(elePhoneNumberSmsInputTxtFld, "Phone Number - Text Fld");
+        validateDisPlayedElement(eleTextAppLinkBtn, "Text App Link - Button");
+        validateDisPlayedElement(elePhoneImg, "Phone Image");
+        validateDisPlayedElement(eleAppStoreImg, "App Store Image");
+        validateDisPlayedElement(eleGooglePlayImg, "Google Play Image");
+        validateDisPlayedElement(eleSkipBtn, "Skip Button");
+    }
+
+    public void clickSkipSecurityButton() {
+        getLogger().info("Click Skip Security Button.");
+        clickElement(eleSecuritySkipBtn, "Skip button");
+    }
+
+    public void verifySkipSecurityPopUp() {
+        getLogger().info("Verify Skip Security Popup.");
+        waitForVisibleElement(eleSkipSecurityTxt, "Skip Security Text");
+        validateDisPlayedElement(eleSkipSecurityTxt, "Skip Security Text");
+        validateElementText(eleSkipSecurityTxt, "Skip Security");
+        validateDisPlayedElement(eleWarningImg, "Warning Image");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleCloseImg(), "Close Image", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleByChoosingTxt(), "By Choosing Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAmDefaultingChkBox(), "I am Defaulting Check Box", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAmDefaultingTxt(), "I am Defaulting Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleITakeResponsibilityChkBox(), "I Take Responsibility Check Box", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleITakeResponsibilityTxt(), "I Take Responsibility Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAgreeToAuvenirChkBox(), "I Agree to Auvenir Check Box", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAgreeToAuvenirTxt(), "I Agree to Auvenir Text", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleTermsAndConditionsSkipSecurityLnk(), "Terms and Conditions Link", "Displayed");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleCancelSkipSecurityBtn(), "Cancel Button", "Enabled");
+//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAgreeSkipSecurityBtn(), "Agree Button", "Enabled");
+    }
+
 }
 	
 

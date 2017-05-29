@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.marketing.emailtemplate;
 
-import com.auvenir.ui.pages.marketing.mailtemplate.MailAuditorInviteClientPO;
+import com.auvenir.ui.pages.marketing.mailtemplate.*;
 import com.auvenir.ui.tests.AbstractTest;
 import org.testng.annotations.Test;
 
