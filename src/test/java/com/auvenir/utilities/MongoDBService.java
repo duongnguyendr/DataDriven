@@ -1,6 +1,7 @@
 package com.auvenir.utilities;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.utilities.extentionLibraries.DBProperties;
 import com.auvenir.utilities.extentionLibraries.Excel;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
@@ -72,7 +73,7 @@ public class MongoDBService {
             System.out.println("Connected successfully.");
         } catch (Exception e) {
             //getLogger().info("Unable to connect to DB: "+ e.getMessage());
-            System.out.println("Unable to connect to DB: "+ e.getMessage());
+            System.out.println("Unable to connect to DB: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -107,7 +108,7 @@ public class MongoDBService {
             table.insert(document);
             getLogger().info("Insert owner successfully.");
         } catch (Exception e) {
-            getLogger().info("Insert owner successfully."+e.getMessage());
+            getLogger().info("Insert owner successfully." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -128,7 +129,7 @@ public class MongoDBService {
             table.remove(document);
             getLogger().info("Delete owner successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to delete owner."+e.getMessage());
+            getLogger().info("Unable to delete owner." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -157,7 +158,7 @@ public class MongoDBService {
             table.insert(document);
             getLogger().info("Insert consumer successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to insert consumer."+e.getMessage());
+            getLogger().info("Unable to insert consumer." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -213,7 +214,7 @@ public class MongoDBService {
             table.insert(document);
             getLogger().info("Insert Institution successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to insert Institution."+e.getMessage());
+            getLogger().info("Unable to insert Institution." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -234,7 +235,7 @@ public class MongoDBService {
             table.remove(document);
             getLogger().info("Delete Institution successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to delete Institution."+e.getMessage());
+            getLogger().info("Unable to delete Institution." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -270,7 +271,7 @@ public class MongoDBService {
             table.insert(document);
             getLogger().info("Insert ConsumerAccount successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to insert ConsumerAccount."+e.getMessage());
+            getLogger().info("Unable to insert ConsumerAccount." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -291,7 +292,7 @@ public class MongoDBService {
             table.remove(document);
             getLogger().info("Delete ConsumerAccount successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to delete ConsumerAccount."+e.getMessage());
+            getLogger().info("Unable to delete ConsumerAccount." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -330,7 +331,7 @@ public class MongoDBService {
             table.insert(document);
             getLogger().info("Insert Account successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to Insert Account."+e.getMessage());
+            getLogger().info("Unable to Insert Account." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -351,7 +352,7 @@ public class MongoDBService {
             table.remove(document);
             getLogger().info("Delete Account successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to delete Account."+e.getMessage());
+            getLogger().info("Unable to delete Account." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -417,7 +418,7 @@ public class MongoDBService {
             table.insert(document);
             getLogger().info("Insert AuthSession successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to insert AuthSession."+e.getMessage());
+            getLogger().info("Unable to insert AuthSession." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -437,14 +438,13 @@ public class MongoDBService {
             table.remove(document);
             getLogger().info("Delete AuthSession successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to delete AuthSession."+e.getMessage());
+            getLogger().info("Unable to delete AuthSession." + e.getMessage());
             e.printStackTrace();
         }
     }
 
     /**
      * Merged by huy.huynh on 22/05/2017.
-     * TODO move db config to properties file
      */
 
     /**
@@ -453,7 +453,7 @@ public class MongoDBService {
      * @param dbName         engagement field chosen as key
      * @param collectionName engagement value chosen as value
      */
-    public static DBCollection getCollection(String dbName, String collectionName) throws UnknownHostException, SyncFactoryException {
+    public static DBCollection getCollection(String dbName, String collectionName) throws Exception {
         configurateDatabase();
         MongoClient mongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
         com.mongodb.DB db = mongoClient.getDB(dbName);
@@ -468,17 +468,17 @@ public class MongoDBService {
      * @param value        of engagement want to query
      * @param name         of to-do
      */
-    public static JSONObject getToDoObject(DBCollection dBCollection, String field, String value, String name) throws Exception{
+    public static JSONObject getToDoObject(DBCollection dBCollection, String field, String value, String name) throws Exception {
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put(field, value);
         DBCursor cursor = dBCollection.find(searchQuery);
         DBObject dBbject = cursor.next();
 
         JSONObject output = new JSONObject(new JSON().serialize(dBbject));
-        JSONArray jsonArray = output.getJSONArray("todos");
+        JSONArray jsonArray = output.getJSONArray(DBProperties.getToDoJsonKey());
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject object = jsonArray.getJSONObject(i);
-            if (object.get("name").toString().equals(name)) {
+            if (object.get(DBProperties.getNameToDoJsonKey()).toString().equals(name)) {
                 return object;
             }
         }
@@ -491,7 +491,7 @@ public class MongoDBService {
      * @param dBCollection DBCollection object
      * @param value        of engagement want to query
      */
-    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) throws Exception{
+    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) throws Exception {
         String[] assignee = value.split(" ");
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put("firstName", assignee[0]);

@@ -87,4 +87,12 @@ public class DBProperties {
     public static String getEngagementsCollection() {
         return getProperty("engagementsCollection");
     }
+
+    public static String getToDoJsonKey() {
+        return getProperty("todoJsonKey");
+    }
+
+    public static String getNameToDoJsonKey() {
+        return getProperty("todoNameJsonKey");
+    }
 }

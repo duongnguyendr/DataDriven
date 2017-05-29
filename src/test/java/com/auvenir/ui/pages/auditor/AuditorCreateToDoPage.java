@@ -2570,6 +2570,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             //TODO move db config to properties file
             return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getEngagementsCollection());
         } catch (Exception e) {
+            NXGReports.addStep("Can't get Engagements Colection: auvenir-engagements", LogAs.FAILED, null);
             e.printStackTrace();
         }
         return null;
