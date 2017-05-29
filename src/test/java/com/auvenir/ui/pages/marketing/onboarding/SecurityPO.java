@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.marketing.onboarding;
 
 //import com.auvenir.utilities.PropertiesHelper;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -17,11 +18,11 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class SecurityPO extends BaseAuditorOnBoardingPO {
+public class SecurityPO extends AbstractPage {
 
-    public SecurityPO(Logger logger, WebDriver webDriver) {
-        super(logger, webDriver);
-        PageFactory.initElements(webDriver, this);
+    public SecurityPO(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        PageFactory.initElements(driver, this);
     }
 
     //=======================================  Element of Breadcrumb Completed page PERSONAL ===================================
@@ -79,7 +80,7 @@ public class SecurityPO extends BaseAuditorOnBoardingPO {
     @FindBy(xpath = "//*[contains(text(),'Contain at least one capital letter')]")
     private  WebElement capitalLetterMessage;
 
-    @Override
+    //@Override
     public void verifyPageContent() {
         if(IS_ENGLISH_LANGUAGE) {
             this.validateElememt(elePagePersonal, "PERSONAL", Element_Type.TEXT_VALUE);

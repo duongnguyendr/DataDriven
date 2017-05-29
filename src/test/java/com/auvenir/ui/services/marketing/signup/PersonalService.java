@@ -1,7 +1,7 @@
 package com.auvenir.ui.services.marketing.signup;
 
 import com.auvenir.ui.pages.marketing.HomePage;
-import com.auvenir.ui.pages.marketing.onboarding.PersonalPO;
+import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

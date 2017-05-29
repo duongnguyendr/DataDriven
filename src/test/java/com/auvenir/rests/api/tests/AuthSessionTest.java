@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
 
 /**
@@ -28,7 +29,7 @@ public class AuthSessionTest extends AbstractAPIService {
 
     // Connect DB and reset Data
     @BeforeClass
-    public void getRestBaseUrl() throws UnknownHostException {
+    public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath = "http://finicity-qa-334.com";
         //MongoDBService.connectDBServer(dataBaseServer,port, database);
         MongoDBService.connectDBServer(dataBaseServer, port, dataBaseServer, userName, password, ssl);

@@ -21,6 +21,7 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -2557,7 +2558,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * get 'engagements' collection(table on mongo)
      */
-    public DBCollection getEngagementCollection() {
+    public DBCollection getEngagementCollection() throws SyncFactoryException {
         try {
             //TODO move db config to properties file
             return MongoDBService.getCollection("auvenir", "engagements");
@@ -2570,7 +2571,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * get 'engagements' collection(table on mongo)
      */
-    public DBCollection getUserCollection() {
+    public DBCollection getUserCollection() throws SyncFactoryException {
         DBCollection dbCollection = null;
         try {
             //TODO move db config to properties file
@@ -2589,7 +2590,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status complete expected
      */
-    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
+    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
         getLogger().info("Verify To-Do complete status on database.");
         JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         //TODO get from properties file
@@ -2609,7 +2610,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param assigneeName    name of assignee
      */
-    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
+    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) throws SyncFactoryException {
         getLogger().info("Verify To-Do delete status on database.");
         String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
@@ -2634,7 +2635,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status delete expected
      */
-    public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) {
+    public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
         getLogger().info("Verify To-Do delete status on database.");
         JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
@@ -2676,7 +2677,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status update expected
      */
-    public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status){
+    public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
         getLogger().info("Verify Completed field updated on database.");
 //        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
         JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);

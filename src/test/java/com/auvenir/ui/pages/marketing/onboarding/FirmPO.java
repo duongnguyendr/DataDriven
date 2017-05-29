@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages.marketing.onboarding;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -13,11 +14,11 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class FirmPO extends BaseAuditorOnBoardingPO {
+public class FirmPO extends AbstractPage {
 
-    public FirmPO(Logger logger,WebDriver webDriver) {
-        super(logger,webDriver);
-        PageFactory.initElements(webDriver, this);
+    public FirmPO(Logger logger,WebDriver driver) {
+        super(logger,driver);
+        PageFactory.initElements(driver, this);
     }
 
     // =============================================== Element of Breadcrumb Completed page ===============================
@@ -164,7 +165,7 @@ public class FirmPO extends BaseAuditorOnBoardingPO {
     private WebElement btnContinue;
     public WebElement getBtnContinue() {return btnContinue;}
 
-    @Override
+    //@Override
     public void verifyPageContent() {
         if(IS_ENGLISH_LANGUAGE)
             this.validateElememt(elePagePersonal,"PERSONAL", Element_Type.TEXT_VALUE);
@@ -265,14 +266,14 @@ public class FirmPO extends BaseAuditorOnBoardingPO {
             NXGReports.addStep("Input City", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             eleState.click();
-            this.selectListBoxByText(eleMenu, strState);
+            //this.selectListBoxByText(eleMenu, strState);
             NXGReports.addStep("Select Status State", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             eleMemberID.sendKeys(strMemberID);
             NXGReports.addStep("Input Member ID", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             eleNumberEmployee.click();
-            this.selectListBoxByText(eleMenu, strNumEmp);
+            //this.selectListBoxByText(eleMenu, strNumEmp);
             NXGReports.addStep("Select Number of Employee", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             elePhoneNumber.sendKeys(strPhone);

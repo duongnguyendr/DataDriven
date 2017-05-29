@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class AccountTest extends AbstractAPIService {
     }
 
     @BeforeClass
-    public void getRestBaseUrl() throws UnknownHostException {
+    public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath=restBaseUrl;
         MongoDBService.connectDBServer(dataBaseServer, port, dataBaseServer, userName, password, ssl);
         MongoDBService.deleteOwner("Owner1");
