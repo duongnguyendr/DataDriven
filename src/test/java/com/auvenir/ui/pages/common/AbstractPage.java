@@ -2484,6 +2484,7 @@ public class AbstractPage {
             WebDriverWait wait = new WebDriverWait(driver, timeOut);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
         }catch (TimeoutException e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw new AssertionError(e.getMessage());
         }
@@ -2498,6 +2499,7 @@ public class AbstractPage {
             getLogger().info("Try to switch to iFrame: "+IframeName);
             driver.switchTo().frame(IframeName);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             getLogger().info("Unable to switch to iFrame: "+IframeName+"with error: "+e.getMessage());
         }
     }
@@ -2511,6 +2513,7 @@ public class AbstractPage {
             getLogger().info("Try to switch to iFrame with id: "+ iFrameId);
             driver.switchTo().frame(iFrameId);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             getLogger().info("Try to switch to iFrame with id: "+ iFrameId +"with error: "+e.getMessage());
         }
     }
@@ -2524,6 +2527,7 @@ public class AbstractPage {
             getLogger().info("Try to switch to iFrame with WebElement: " + eleFrame);
             driver.switchTo().frame(eleFrame);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             getLogger().info("Try to switch to iFrame with WebElement: "+ eleFrame +"with error: "+e.getMessage());
         }
     }
@@ -2545,6 +2549,7 @@ public class AbstractPage {
 
             Assert.assertEquals(actualValue, expected);
         }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw new AssertionError(e.getMessage());
         }
@@ -2563,6 +2568,7 @@ public class AbstractPage {
             String actual = ((JavascriptExecutor) driver).executeScript("return window.getComputedStyle(arguments[0], ':before').getPropertyValue('" + cssType + "');", parent).toString();
             Assert.assertEquals(actual, expectedResult);
         }catch (AssertionError e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw new AssertionError(e.getMessage());
         }
@@ -2611,6 +2617,7 @@ public class AbstractPage {
             getLogger().info("Change language successfully.");
             NXGReports.addStep("Change language successfully.", LogAs.PASSED, null);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("unable to Change language.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -2620,6 +2627,7 @@ public class AbstractPage {
             driver.manage().deleteAllCookies();
             NXGReports.addStep("Delete all cookies successfully.", LogAs.PASSED, null);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Delete all cookies successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -2628,6 +2636,7 @@ public class AbstractPage {
             driver.manage().deleteCookieNamed(cookieName);
             NXGReports.addStep("Delete all cookies :" +cookieName, LogAs.PASSED, null);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Delete cookie successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
@@ -2637,6 +2646,7 @@ public class AbstractPage {
             driver.navigate().refresh();
             NXGReports.addStep("Refresh page successfully.", LogAs.PASSED, null);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Unable to refresh page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -2645,6 +2655,7 @@ public class AbstractPage {
             driver.navigate().back();
             NXGReports.addStep("Back to previous page successfully.", LogAs.PASSED, null);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Unable to back to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -2653,6 +2664,7 @@ public class AbstractPage {
             driver.navigate().forward();
             NXGReports.addStep("Forward to previous page successfully.", LogAs.PASSED, null);
         }catch (Exception e){
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Unable to forward to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
