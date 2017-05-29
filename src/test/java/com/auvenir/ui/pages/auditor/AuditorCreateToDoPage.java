@@ -59,6 +59,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private static final String requestNotEmptyStr = "//p[contains(text(),'Request name must not be empty')]";
     private static final String chracterMoreThan100 = "//p[contains(text(),'Request name can not have more than 100 characters')]";
     private static final String todoDetailName  = "//*[@id='todoDetailsName']";
+    private static final String displayImageInPopup = "img[src='../../images/icons/clipboard-yellow.png']";
+    private static final String markCompletePopupCancelBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]";
+    private static final String markCompletePopupArchiveBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]";
 
     @FindBy(id = "auv-todo-createToDo")
     private WebElement createToDoBtnEle;
@@ -714,7 +717,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
         clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
         //Wait for new task is displayed.
-        waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
+        waitForClickableOfLocator(By.xpath(todoPageAddRequestImg));
     }
 
     public void verifyToDoNameInputLimitCharacter(int maxLength) throws Exception {
@@ -1319,8 +1322,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyDisplayImageInPopup() {
         getLogger().info("Verify to display image in popup");
         try {
-            waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
-            WebElement imageInPopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            waitForVisibleOfLocator(By.cssSelector(displayImageInPopup));
+            WebElement imageInPopup = getDriver().findElement(By.cssSelector(displayImageInPopup));
             waitForVisibleElement(imageInPopup, "visible " + imageInPopup);
             NXGReports.addStep("Verify to display image in popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         } catch (Exception ex) {
@@ -1333,7 +1336,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         boolean isCheckColorCancelButton = false;
         getLogger().info("Verify the cancel button in Mark as complete popup");
         try {
-            waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]"));
+            waitForPresentOfLocator(By.xpath(markCompletePopupCancelBtn));
             isCheckColorCancelButton = validateCssValueElement(cancelMarkPopupBtn, backgroundColor, "rgba(151, 147, 147, 1)");
             isCheckColorCancelButton = validateCssValueElement(cancelMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
             if (isCheckColorCancelButton) {
@@ -1352,7 +1355,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         boolean isCheckColorCancelButton = false;
         getLogger().info("Verify the archive button in Mark as complete popup");
         try {
-            waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]"));
+            waitForPresentOfLocator(By.xpath(markCompletePopupArchiveBtn));
             isCheckColorCancelButton = validateCssValueElement(archiveMarkPopupBtn, backgroundColor, "rgba(89, 155, 161, 1)");
             isCheckColorCancelButton = validateCssValueElement(archiveMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
             clickElement(archiveMarkPopupBtn, "click to archiveMarkPopupBtn");
@@ -1372,8 +1375,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verify to click to close complete mark popup");
         try {
             clickToBulkCompleteButton();
-            waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
-            WebElement closePopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            waitForVisibleOfLocator(By.cssSelector(displayImageInPopup));
+            WebElement closePopup = getDriver().findElement(By.cssSelector(displayImageInPopup));
             waitForClickableOfElement(closePopup, "wait for click to closePopup");
             boolean isClickClose = clickElement(closePopup, "click to closePopup");
             if (isClickClose) {
