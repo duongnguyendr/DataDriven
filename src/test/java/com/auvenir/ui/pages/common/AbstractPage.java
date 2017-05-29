@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 //import org.testng.log4testng.Logger;
+import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
+import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -2594,6 +2596,9 @@ public class AbstractPage {
     @FindBy(xpath = "//table [@id=\"todo-table\"]//input[@type=\"text\"]")
     List<WebElement> listTodosTextboxEle;
 
+    @FindBy(id = "engagement-backButton")
+    WebElement engagementBackBtn;
+
     public void waitForNewTodoNameSaved() {
         String deFaultBorder = "1px solid rgb(255, 255, 255)";
         try {
@@ -2621,6 +2626,37 @@ public class AbstractPage {
         clickElement(categoryCreateBtnEle, "categoryCreateEle");
         System.out.println("click Pass2");
 
+    }
+
+
+    public void vefifyInvalidTodoNameNotSaved(String invalidName) {
+        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
+        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(),getDriver());
+        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
+        try {
+            WebElement textbox1 = TodosTextboxEle.get(0);
+            getLogger().info("Click anywhere...");
+            clickElement(eleAuvenirIncTxt, "Auvernir Inc");
+            getLogger().info("Verifying border of todo Textbox is Orange while enter invalid values or not...");
+            validateCssValueElement(textbox1, "border", OrangeBorder);
+            getLogger().info("Make sure invalid name is not saved after return to Todo list Page again...");
+            getLogger().info("Back to Engagement page...");
+            engagementBackBtn.click();
+            getLogger().info("Return to Todo list page again..");
+            auditorEngagementPage.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham007");
+            getLogger().info("Comparing...");
+            String comparedValue = TodosTextboxEle.get(0).getAttribute("value");
+            if (!comparedValue.equals(invalidName)){
+                NXGReports.addStep("Invalid name is not saved as expected.", LogAs.PASSED, null);
+            }else {
+                NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
     }
 
 }
