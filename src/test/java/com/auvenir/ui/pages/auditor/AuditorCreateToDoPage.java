@@ -2,11 +2,16 @@ package com.auvenir.ui.pages.auditor;
 
 //import library
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
+import com.itextpdf.text.pdf.PdfName;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -19,9 +24,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.auvenir.ui.pages.common.AbstractPage;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
+import com.auvenir.utilities.extentionLibraries.DatePicker;
+
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -115,7 +128,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@id='empty-todo']//..//..//div")
     private WebElement eleNotesEmtyToDo;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
     private WebElement categoryDropdownEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']//button")
@@ -3387,5 +3400,529 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
         return toDoListNames;
     }
+
+    /**
+     * -----end of huy.huynh PLAT-2303-----
+     */
+
+    /*
+    Vien Pham add new method for PLAT 2326-2301
+     */
+
+    @FindBy(xpath = "//table [@id=\"todo-table\"]//input[@type=\"text\"]")
+    List<WebElement> TodosTextboxEle;
+
+    @FindBy(xpath = "//input [@id=\"cb-select-all-todo\"]")
+    WebElement todoAllCheckbox;
+
+    @FindBy(xpath = "//*[@id=\"btn-todo-trash\"]")
+    WebElement todoTrashBtn;
+
+    @FindBy(xpath = "//input [contains(@class,\"due\")]")
+    List<WebElement> newDueDateEle;
+
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]")
+    List<WebElement> DropdownCategoryEle;
+
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown client')]")
+    List<WebElement> DropdownClientAssignee;
+
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown auditor')]")
+    List<WebElement> DropdoownAuditAssignee;
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[@class=\"item\"]")
+    List<WebElement> listOfCategoryItemsDropdown;
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown client\")]//div[contains(@class,\"menu\")]/button[@class=\"item\"]")
+    List<WebElement> listOfClientAssigneesDropdown;
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[@class=\"item\"]")
+    List<WebElement> listOfAuditAssigneeDropdown;
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//input[contains(@class,\"input-due-date\")]")
+    WebElement DropdownDuedateBtn;
+
+    @FindBy(xpath = "//div[@id=\"ui-datepicker-div\"]")
+    WebElement TableOfDatePicker;
+
+
+    @FindBy(xpath = "//div[@id=\"ui-datepicker-div\"]//span[contains(@class,\"month\")]")
+    WebElement Month;
+
+    @FindBy(xpath = "//div[contains(@class,\"ui-datepicker\")]/a[1]")
+    WebElement PrevBtn;
+    @FindBy(xpath = "//div[contains(@class,\"ui-datepicker\")]/a[2]")
+    WebElement NextBtn;
+
+    @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
+    private WebElement eleAuvenirIncTxt;
+
+    @FindBy(id = "engagement-backButton")
+    WebElement engagementBackBtn;
+
+
+    public void verifyTodoTextbox_DefaultValue() {
+        getLogger().info("Verifying Untitle Todo text...");
+        String title = "Untitled Todo";
+        try {
+            validateDisPlayedElement(TodosTextboxEle.get(0), "Todos Textbox");
+            if (TodosTextboxEle.get(0).getAttribute("value").equals(title)) {
+                NXGReports.addStep("Untitle Todo displayed as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Untitle Todo does not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+            }
+
+        } catch (Exception e) {
+            NXGReports.addStep("Untitle Todo does not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void verifyFirstTodoTextbox_PlaceHolderValue() {
+        getLogger().info("Verifying Hint text on first todo...");
+        String firstHintValue = "Write your first To-Do here";
+
+        try {
+            if (TodosTextboxEle.get(0).getAttribute("placeholder").equals(firstHintValue)) {
+                NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    public void verifySecondTodoTextbox_PlaceHolderValue() {
+        getLogger().info("Verify Hint text on second todo...");
+        String secondHintValue = "Write your To-Do here";
+
+        try {
+            createToDoBtnEle.click();
+            Thread.sleep(smallerTimeOut);
+            String value1 = TodosTextboxEle.get(1).getAttribute("placeholder");
+            if (value1.equals(secondHintValue)) {
+                NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+    }
+
+    public void verifyTodoTextboxBorder_Default() {
+        WebElement textbox1 = TodosTextboxEle.get(0);
+        getLogger().info("Verifying border of todo Textbox default is white...");
+        String deFaultBorder = "1px solid rgb(255, 255, 255)";
+        try {
+            validateCSSValueElement(textbox1, "border", deFaultBorder);
+            NXGReports.addStep("Default border is White as expected.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Default border is not White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+
+    }
+
+    public void verifyTodoTextboxBorder_WhileHovered() {
+        WebElement textbox1 = TodosTextboxEle.get(0);
+        String GreenBorder = "rgb(92, 155, 160)";
+        getLogger().info("Verifying border of todo Textbox is Green while hovered...");
+        try {
+            hoverElement(textbox1, "Todos Textbox");
+            validateCSSValueElement(textbox1, "border-color", GreenBorder);
+            NXGReports.addStep("Border is Green while hovered on it.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Border is not Green while hovered on it.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    public void verifyTodoTextboxBorder_WhileMissedName() {
+
+        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
+        try {
+            WebElement textbox1 = TodosTextboxEle.get(0);
+            getLogger().info("Clear todo Textbox...");
+            sendKeyTextBox(textbox1, nullChars, "Todos Textbox");
+            getLogger().info("Click anywhere...");
+            clickElement(todoTrashBtn, "todo Trash Btn");
+            getLogger().info("Verifying border of todo Textbox is Orange while missed name or not...");
+            validateCSSValueElement(textbox1, "border", OrangeBorder);
+            NXGReports.addStep("Border is Orange while missed name as expected.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Border is not Orange while missed name.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+    }
+
+    public void verifyTodoTextbox_InputText() {
+        String deFaultBorder = "1px solid rgb(255, 255, 255)";
+        String GreenBorder = "1px solid rgb(92, 155, 160)";
+        String value1 = "To-do" + randomNumber();
+
+        try {
+            Thread.sleep(smallerTimeOut);
+            WebElement textbox1 = TodosTextboxEle.get(0);
+            getLogger().info("Verifying while user input valid text, textbox border is green...");
+            sendKeyTextBox(textbox1, value1, "Todos Textbox");
+            validateCSSValueElement(textbox1, "border", GreenBorder);
+            getLogger().info("Click anywhere to verify textbox border is White..");
+            clickElement(todoTrashBtn, "todo Trash Btn");
+            validateCSSValueElement(textbox1, "border", deFaultBorder);
+            getLogger().info("Verify valid value was saved or not...");
+            if (textbox1.getAttribute("value").equals(value1)) {
+                NXGReports.addStep("Valid Todo name was saved as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Valid Todo name was not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+            }
+        } catch (Exception e) {
+
+            NXGReports.addStep("Valid Todo name was not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void verifyTodoTextbox_MissingInput() {
+        String valueName = TodosTextboxEle.get(0).getAttribute("value");
+        try {
+            Thread.sleep(smallerTimeOut);
+            verifyTodoTextboxBorder_WhileMissedName();
+            getLogger().info("Verifing null value was saved or not...");
+            if (!valueName.equals(nullChars)) {
+                NXGReports.addStep("Null Todo name was not saved as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Null Todo name was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("Null Todo name was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void verifyTodoTextbox_InputNumber() {
+        String deFaultBorder = "1px solid rgb(255, 255, 255)";
+        String GreenBorder = "1px solid rgb(92, 155, 160)";
+        Integer value1 = randomNumber();
+
+
+        try {
+            getLogger().info("Verifying while user input valid number textbox border is green...");
+            Thread.sleep(smallerTimeOut);
+            WebElement textbox1 = TodosTextboxEle.get(0);
+            sendKeyTextBox(textbox1, value1.toString(), "Todos Textbox");
+            validateCSSValueElement(textbox1, "border", GreenBorder);
+            getLogger().info("Click anywhere to verify textbox border is White..");
+            clickElement(todoTrashBtn, "todo Trash Btn");
+            validateCSSValueElement(textbox1, "border", deFaultBorder);
+            getLogger().info("Verify valid number was saved or not...");
+            if (textbox1.getAttribute("value").equals(value1.toString())) {
+                NXGReports.addStep("Number as Todo Name was saved as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Number as Todo name was not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+            }
+        } catch (Exception e) {
+
+            NXGReports.addStep("Number as Todo name was not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+    }
+
+
+    public void verifyTodoTextbox_InputSpecialChars() {
+        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
+        try {
+            int count = TodosTextboxEle.size() + 1;
+            clickElement(createToDoBtnEle, "Create todo btn");
+            getLogger().info("Verifying while user input special char, textbox border is orange...");
+            waitForSizeListElementChanged(TodosTextboxEle, "list To Do Task", count);
+            WebElement textbox1 = TodosTextboxEle.get(0);
+            sendKeyTextBox(textbox1, specialCharacter, "Todos Textbox");
+            validateCSSValueElement(textbox1, "border", OrangeBorder);
+            getLogger().info("Create new Todo textbox...");
+            count = TodosTextboxEle.size() + 1;
+            clickElement(createToDoBtnEle, "Create todo btn");
+            waitForSizeListElementChanged(TodosTextboxEle, "list To Do Task", count);
+            WebElement textbox2 = TodosTextboxEle.get(1);
+            getLogger().info("Verifying special chars was saved or not...");
+            if (!specialCharacter.equals(textbox2.getAttribute("value"))) {
+                NXGReports.addStep("Special chars was not saved as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Special chars was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            NXGReports.addStep("Special chars was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void verifyCategoryBox_DefaultValue() {
+        String defaultValue = "Select";
+        try {
+            Thread.sleep(500);
+            if (DropdownCategoryEle.get(0).getText().equals(defaultValue)) {
+                NXGReports.addStep("Default value of CategoryBox is Select.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Default value of CategoryBox is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("Default value of CategoryBox is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyBorderCategoryBox_WhileHovered() {
+        String GreenBorder = "1px solid rgb(92, 155, 160)";
+        try {
+            hoverElement(DropdownCategoryEle.get(0), "Category Dropdown Menu");
+            validateCSSValueElement(DropdownCategoryEle.get(0), "border", GreenBorder);
+            NXGReports.addStep("Border of Categorybox is Green when hovered.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Border of Categorybox is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    public void verifyAddNewCategory() {
+        try {
+            createNewToDoTask(2);
+            NXGReports.addStep("Add new Category successfully.", LogAs.PASSED, null);
+
+        } catch (Exception e) {
+            NXGReports.addStep("Add new Category failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+    }
+
+    public void verifyCategoryIsSelectedCorrectly() {
+        try {
+            clickElement(DropdownCategoryEle.get(0), "CategoryDropdown");
+            String value1 = listOfCategoryItemsDropdown.get(0).getText();
+            clickElement(listOfCategoryItemsDropdown.get(0), "");
+            Thread.sleep(smallerTimeOut);
+            String value2 = DropdownCategoryEle.get(0).getText();
+            if (value1.equals(value2)) {
+                NXGReports.addStep("Category is selected successfully.", LogAs.PASSED, null);
+
+            } else {
+                NXGReports.addStep("Category is selected failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+            }
+
+        } catch (Exception e) {
+            NXGReports.addStep("Category is selected failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
+
+    public void createNewToDoTask(int numberOfNewCategories) throws Exception {
+        getLogger().info("Run createToDoTask()");
+
+        int count = TodosTextboxEle.size() + 1;
+        clickElement(createToDoBtnEle, "Create To Do Button");
+        todoNamePage = "To-do name " + randomNumber();
+        waitForSizeListElementChanged(TodosTextboxEle, "To Do Name Task", count);
+        sendKeyTextBox(TodosTextboxEle.get(0), todoNamePage, "Todos Textbox");
+        switch (numberOfNewCategories) {
+
+            case 1:
+                createNewCategory("", "");
+                break;
+            case 2:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+
+            case 3:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+
+            case 4:
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                createNewCategory("", "");
+                break;
+
+        }
+
+    }
+
+    public void verifyClientAssignee_DefaultValue() {
+        String defaultValue = "Unassigned";
+        try {
+            Thread.sleep(500);
+            if (DropdownClientAssignee.get(0).getText().equals(defaultValue)) {
+                NXGReports.addStep("Default value of Assignee is Select.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Default value of Assignee is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("Default value of Assignee is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    public void verifyBorderClientAssignee_WhileHovered() {
+
+        String GreenBorder = "1px solid rgb(92, 155, 160)";
+        try {
+            hoverElement(DropdownClientAssignee.get(0), "Category Dropdown Menu");
+            validateCSSValueElement(DropdownClientAssignee.get(0), "border", GreenBorder);
+            NXGReports.addStep("Border of ClientAssigneebox is Green when hovered.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Border of ClientAssigneebox is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    public void verifyClientAssigneeIsSelectedCorrectly() {
+        try {
+            getLogger().info("List of Client Assignee..");
+            clickElement(DropdownClientAssignee.get(0), "ClientAssignee Dropdown");
+            getLogger().info("the number of client assignee is: " + listOfClientAssigneesDropdown.size());
+            getLogger().info("First client Assignee is: " + listOfClientAssigneesDropdown.get(0).getText());
+            String value1 = listOfClientAssigneesDropdown.get(0).getText();
+            getLogger().info("Trying to select First one..");
+            clickElement(listOfClientAssigneesDropdown.get(0), "First client Assignee");
+//            waitForClickableOfLocator(By.xpath(""));
+            getLogger().info("Verifying selection is correctly..");
+            Thread.sleep(smallerTimeOut);
+            String value2 = DropdownClientAssignee.get(0).getText();
+            if (value1.equals(value2)) {
+                getLogger().info("after selected, client assignee is: " + value2);
+                NXGReports.addStep("Client assignee is selected correctly.", LogAs.PASSED, null);
+
+            } else {
+                NXGReports.addStep("Client assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            System.out.println("error is: " + e);
+            NXGReports.addStep("Client assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void verifyBorderDuedate_WhileHovered() {
+        String GreenBorder = "1px solid rgb(89, 155, 161)";
+        try {
+            hoverElement(DropdownDuedateBtn, "Duedate Dropdown Menu");
+            validateCSSValueElement(DropdownDuedateBtn, "border", GreenBorder);
+            NXGReports.addStep("Border of DueDate is Green when hovered.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Border of DueDate is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    public WebElement getTableOfDataPicker() {
+        return TableOfDatePicker;
+    }
+
+    public void verifyDuedateTable() {
+//        DatePicker datePicker = new DatePicker();
+        try {
+            DropdownDuedateBtn.click();
+            waitForCssValueChanged(TableOfDatePicker, "Date Picker Table", "display", "block");
+            getLogger().info("Current Month is: " + Month.getText());
+            Thread.sleep(2000);
+//            datePicker.pickADate("12","5","2017");
+
+
+//            verifyPrevFunction();
+//            verifyNextFunction();
+
+        } catch (Exception e) {
+
+
+        }
+    }
+
+    public void verifyBorderAuditAssignee_WhileHoverd() {
+        String GreenBorder = "1px solid rgb(89, 155, 161)";
+        try {
+            hoverElement(DropdownDuedateBtn, "Duedate Dropdown Menu");
+            validateCSSValueElement(DropdownDuedateBtn, "border", GreenBorder);
+            NXGReports.addStep("Border of AuditAssignee  is Green when hovered.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Border of AuditAssignee is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyAuditAssigneeIsSelectedCorrectly() {
+        try {
+            getLogger().info("List of Audit Assignee..");
+            clickElement(DropdoownAuditAssignee.get(0), "AuditAssignee Dropdown");
+            getLogger().info("the number of Audit assignee is: " + listOfAuditAssigneeDropdown.size());
+            getLogger().info("First audit Assignee is: " + listOfAuditAssigneeDropdown.get(0).getText());
+            String value1 = listOfAuditAssigneeDropdown.get(0).getText();
+            getLogger().info("Trying to select First one..");
+            clickElement(listOfAuditAssigneeDropdown.get(0), "First Audit Assignee");
+//            waitForClickableOfLocator(By.xpath(""));
+            getLogger().info("Verifying selection is correctly..");
+            Thread.sleep(smallerTimeOut);
+            String value2 = DropdoownAuditAssignee.get(0).getText();
+            if (value1.equals(value2)) {
+                getLogger().info("After selected, audit assignee is: " + value2);
+                NXGReports.addStep("Audit assignee is selected correctly.", LogAs.PASSED, null);
+
+            } else {
+                NXGReports.addStep("Audit assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            System.out.println("error is: " + e);
+            NXGReports.addStep("Audit assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+
+    }
+
+
+    public void vefifyInvalidTodoNameNotSaved(String invalidName) {
+        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
+        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(),getDriver());
+        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
+        try {
+            WebElement textbox1 = TodosTextboxEle.get(0);
+            getLogger().info("Click anywhere...");
+            clickElement(eleAuvenirIncTxt, "Auvernir Inc");
+            getLogger().info("Verifying border of todo Textbox is Orange while enter invalid values or not...");
+            validateCSSValueElement(textbox1, "border", OrangeBorder);
+            getLogger().info("Make sure invalid name is not saved after return to Todo list Page again...");
+            getLogger().info("Back to Engagement page...");
+            engagementBackBtn.click();
+            getLogger().info("Return to Todo list page again..");
+            auditorEngagementPage.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham007");
+            getLogger().info("Comparing...");
+            String comparedValue = TodosTextboxEle.get(0).getAttribute("value");
+            if (!comparedValue.equals(invalidName)){
+                NXGReports.addStep("Invalid name is not saved as expected.", LogAs.PASSED, null);
+            }else {
+                NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+
 }
 

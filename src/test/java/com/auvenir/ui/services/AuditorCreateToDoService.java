@@ -797,5 +797,58 @@ public class AuditorCreateToDoService extends AbstractService {
             createToDoPage.selectToDoCheckboxByName(toDoNameList.get(i));
         }
     }
+    public void verifyGUIPostButton() {
+        createToDoPage.verifyGUIPostButton();
+    }
+
+    /*
+    Vien add new method for PLAT 2326-2301 TO verify To-dos textbox
+     */
+    public void verifyTodosTextBox() throws InterruptedException {
+        getLogger().info("Verifying Todos Textbox...");
+        createToDoPage.verifyTodoTextbox_DefaultValue();
+        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifyTodoTextboxBorder_Default();
+        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
+        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
+        createToDoPage.verifyTodoTextbox_InputText();
+        createToDoPage.verifyTodoTextbox_MissingInput();
+        createToDoPage.verifyTodoTextbox_InputNumber();
+        createToDoPage.verifyTodoTextbox_InputSpecialChars();
+
+    }
+
+    public void verifyCategoryComboBox() {
+        getLogger().info("Verifying Category ComboBox...");
+        createToDoPage.verifyCategoryBox_DefaultValue();
+        createToDoPage.verifyBorderCategoryBox_WhileHovered();
+        getLogger().info("Trying to create some category items...");
+        createToDoPage.verifyAddNewCategory();
+        createToDoPage.verifyCategoryIsSelectedCorrectly();
+    }
+
+    public void verifyClientAssigneeComboBox() {
+        getLogger().info("Verifying Client Assignee ComboBox...");
+        createToDoPage.verifyClientAssignee_DefaultValue();
+        createToDoPage.verifyBorderClientAssignee_WhileHovered();
+        createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
+    }
+
+    public void verifyDuedateTimebox(){
+        getLogger().info("Verifying DueDate Timebox...");
+//        createToDoPage.verifyDuedate_DefaultValue();
+        createToDoPage.verifyBorderDuedate_WhileHovered();
+        createToDoPage.verifyDuedateTable();
+//        createToDoPage.verifyselectDuedate();
+    }
+
+    public void verifyAuditAssigneeBox(){
+        getLogger().info("Verifying AuditAssignee box..");
+//        createToDoPage.verifyAditAssignee_DefaultValue();
+        createToDoPage.verifyBorderAuditAssignee_WhileHoverd();
+        createToDoPage.verifyAuditAssigneeIsSelectedCorrectly();
+    }
+
 }
 

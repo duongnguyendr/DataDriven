@@ -1,6 +1,13 @@
 package com.auvenir.ui.pages.common;
 
 //import library
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.util.*;
+
+//import org.testng.log4testng.Logger;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -127,6 +134,14 @@ public class AbstractPage {
     @FindBy(xpath = "//img[@id='modal-close-categoryModel-2Dd9bM38sb25ObfMVSJG6Ui8tLVE205c']")
     WebElement eleEditCategoryCloseBtn;
 
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]")
+    List<WebElement> listOfCategoryDropdown;
+
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[2]/div[1]")
+    List<WebElement> listOfAddNewCategory;
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
+    WebElement addNewCategoryEle;
     /*
     Elements for create a Category
     Create by: Minh.Nguyen & Thuan.Duong
@@ -518,7 +533,6 @@ public class AbstractPage {
             return false;
         }
     }
-
     /**
      @Description In order to wait element to be invisible by locator.
      */
@@ -980,9 +994,16 @@ public class AbstractPage {
         clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
     }
 
-    public void chooseCategoryColorInPopup () throws Exception
-    {
-        hoverElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
+    //    @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]//div[@class=\"text\"]")
+    @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]/div[contains(@class,'ui dropdown category')]")
+    WebElement categoryDropdownEle;
+
+    @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]//div[@class=\"menu\"]/div[1]")
+    WebElement categoryCreateBtnEle;
+
+
+    public void chooseCategoryColorInPopup() throws Exception {
+        hoverElement(categoryColorFieldOnFromEle, "categoryColorFieldOnFromEle");
         waitForClickableOfLocator(By.xpath(categoryColor));
         waitForClickableOfElement(categoryColorFieldOnFromEle,"categoryColorFieldOnFromEle");
         clickElement(categoryColorFieldOnFromEle, "click to categoryColorFieldOnFromEle");
@@ -1023,6 +1044,7 @@ public class AbstractPage {
         sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
+        closeSuccessToastMes();
         // Verify the category that has just created
         waitForVisibleElement(tblXpathTodoTable,"tblXpathTodoTable");
         List<WebElement> td_collection = new ArrayList<>();
@@ -2504,7 +2526,7 @@ public class AbstractPage {
 
     /**
      * Switch to other frame
-     * @param id
+     * @param iFrameId
      */
     public void switchToFrame(int iFrameId){
         try {
@@ -2520,7 +2542,12 @@ public class AbstractPage {
      * @param eleFrame
      */
     public  void switchToFrame(WebElement eleFrame){
-        driver.switchTo().frame(eleFrame);
+        try {
+            getLogger().info("Try to switch to iFrame with WebElement: " + eleFrame);
+            driver.switchTo().frame(eleFrame);
+        }catch (Exception e){
+            getLogger().info("Try to switch to iFrame with WebElement: "+ eleFrame +"with error: "+e.getMessage());
+        }
     }
 
     /**
@@ -2660,4 +2687,44 @@ public class AbstractPage {
             NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED,null);
         }
     }
+
+    /*
+    Vien edited clicktoNewCategoryDllInList
+     */
+
+    @FindBy(xpath = "//table [@id=\"todo-table\"]//input[@type=\"text\"]")
+    List<WebElement> TodosTextboxEle;
+
+    @FindBy(xpath = "//table [@id=\"todo-table\"]//input[@type=\"text\"]")
+    List<WebElement> listTodosTextboxEle;
+
+    public void waitForNewTodoNameSaved() {
+        String deFaultBorder = "1px solid rgb(255, 255, 255)";
+        try {
+            getLogger().info("Click anywhere...");
+            clickElement(eleAuvenirIncTxt, "Auvernir Inc");
+            getLogger().info("Verifying the Todo TextName border is transfered from Green to White or not...");
+          boolean i =  waitForCssValueChanged(listTodosTextboxEle.get(0), "To Do Name textbox", "border", deFaultBorder);
+          if (i){
+            NXGReports.addStep("Data is saved.", LogAs.PASSED, null);}
+            else {
+              NXGReports.addStep("Data is not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+          }
+        } catch (Exception e) {
+            NXGReports.addStep("Data is not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void clickToNewCategoryDllInList() throws Exception {
+        waitForNewTodoNameSaved();
+        clickElement(categoryDropdownEle, "categoryDropdownEle");
+        Thread.sleep(smallerTimeOut);
+        waitForClickableOfLocator(By.xpath("//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]//div[@class=\"menu\"]/div[1]"));
+        clickElement(categoryCreateBtnEle, "categoryCreateEle");
+        System.out.println("click Pass2");
+
+    }
+
 }
