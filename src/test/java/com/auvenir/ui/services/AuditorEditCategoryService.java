@@ -29,10 +29,10 @@ public class AuditorEditCategoryService extends AbstractService {
 
     }
 
-    public void navigateToEditAtTodoListPage() throws Exception {
-
-        auditorEditCategoryPage.selectEditCategoriesAtTodoPage();
-    }
+//    public void navigateToEditAtTodoListPage() throws Exception {
+//
+//        auditorEditCategoryPage.selectEditCategoriesAtTodoPage();
+//    }
 
     public void returnToCreateNewTodoPage() {
         auditorEditCategoryPage.returnToCreateNewTodoPage();

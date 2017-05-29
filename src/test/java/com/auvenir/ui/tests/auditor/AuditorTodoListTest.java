@@ -1269,7 +1269,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createMultiCategories();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
             auditorEditCategoryService.hoverOnCategoryItem_TodoListPage();
@@ -1322,7 +1322,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createMultiCategories();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             getLogger().info("Verifying Edit cases..");
             auditorEditCategoryService.editValidValue_TodoListPage();
             auditorEditCategoryService.editOnlyNumber_TodoListPage();
@@ -1347,7 +1347,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createMultiCategories();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             getLogger().info("Verifying Remove case..");
             auditorEditCategoryService.remove1Item();
             auditorEditCategoryService.removeMultiItems();
@@ -1614,7 +1614,7 @@ End of merged VienPham.
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.createToDoPage();
+            //auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.createNewRequestOnToDoPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);

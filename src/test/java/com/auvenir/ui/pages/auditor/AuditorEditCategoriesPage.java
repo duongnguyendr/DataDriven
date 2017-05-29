@@ -29,26 +29,26 @@ public class AuditorEditCategoriesPage extends AbstractPage {
     }
 
 
-    @FindBy(xpath = "//*[@id=\"form-todo\"]/td[3]/div/div[1]")
+    @FindBy(xpath = "//div[contains(@class,\"ui dropdown category\")]/div[contains(@class,\"text\")]")
     private WebElement dropdownCategoryEle;
 
-    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]/td[3]//div[@class='text']")
+    @FindBy(xpath = "//div[contains(@class,\"ui dropdown category\")]/div[contains(@class,\"text\")]")
     WebElement dropdownCategoryTodoPageEle;
 
-    @FindBy(xpath = "//*[@id=\"form-todo\"]/td[3]/div/div[2]/div[2]")
+    @FindBy(xpath = "//div[contains(@class,\"category\")]//div[contains(@class,\"menu\")]/div[2]")
     WebElement eleEditCategory;
 
-    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]/td[3]//div[@class=\"menu\"]/div[2]")
+    @FindBy(xpath = "//div[contains(@class,\"category\")]//div[contains(@class,\"menu\")]/div[2]")
     WebElement editCategoryTodoPage;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement eleEditCategoryTitle;
 
-    @FindBy(xpath = "//div[27]//div[@class=\"todo-modal-component\"]//*[@id=\"setup-component-body\"]/div/div[1]")
+    @FindBy(xpath = "//div[contains(@class,\"des-edit-modal\")]")
     WebElement eleEditCategoryGuide;
 
 
-    @FindBy(xpath = "//div[27][starts-with(@id,\"categoryModel\")]//button[@id=\"m-ce-cancelBtn\"]")
+    @FindBy(xpath = "//div[@class='au-modal au-display']//button[@id=\"m-ce-cancelBtn\"]")
     WebElement eleEditCategoryCancelBtn;
 
     @FindBy(xpath = "//div[@class=\"ce-footerBtnHolder\"]/button[@id=\"category-updateBtn\"]")
