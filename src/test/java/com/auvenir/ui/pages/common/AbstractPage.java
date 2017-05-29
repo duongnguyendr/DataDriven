@@ -2504,7 +2504,7 @@ public class AbstractPage {
 
     /**
      * Switch to other frame
-     * @param id
+     * @param iFrameId
      */
     public void switchToFrame(int iFrameId){
         try {
@@ -2520,7 +2520,12 @@ public class AbstractPage {
      * @param eleFrame
      */
     public  void switchToFrame(WebElement eleFrame){
-        driver.switchTo().frame(eleFrame);
+        try {
+            getLogger().info("Try to switch to iFrame with WebElement: " + eleFrame);
+            driver.switchTo().frame(eleFrame);
+        }catch (Exception e){
+            getLogger().info("Try to switch to iFrame with WebElement: "+ eleFrame +"with error: "+e.getMessage());
+        }
     }
 
     /**
