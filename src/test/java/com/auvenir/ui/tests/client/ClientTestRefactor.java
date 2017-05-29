@@ -1,7 +1,6 @@
 package com.auvenir.ui.tests.client;
 
-import com.auvenir.ui.pages.client.*;
-import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.pages.client.ClientOnBoardingPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -11,8 +10,6 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static com.jayway.restassured.RestAssured.given;
 
 /**
  * Created by thuan.duong on 5/24/2017.
@@ -240,7 +237,7 @@ public class ClientTestRefactor extends AbstractTest {
             clientService.verifyClientHeader();
             clientService.verifyFilesTab();
             clientService.verifyClientFooter();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the display of Elements in Client Files Page", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed: Verify the display of Elements in Client Files Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
