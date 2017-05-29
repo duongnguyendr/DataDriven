@@ -2951,13 +2951,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     {
         verifyPopupColorAddRequestBtn();
         verifyClickAddRequestBtn();
-        /*verifyDefaultToDoNameNewRequestPopup();
+        verifyDefaultToDoNameNewRequestPopup();
         verifyShowAllTextNewRequestPopup();
         verifyMaxLengthNewRequestPopup();
         verifyEmptyNewRequestPopup();
         verifyInputNumberToNewRequestPopup();
         verifyNewRequestStoreInDatabase();
-        verifyUpdateRequestStoreInDatabase();*/
+        verifyUpdateRequestStoreInDatabase();
         verifyDeleteRequestOnPopup();
         verifyCopyTaskOnPopup();
     }
