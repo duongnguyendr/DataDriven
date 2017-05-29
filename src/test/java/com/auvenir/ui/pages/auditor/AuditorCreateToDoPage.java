@@ -7,12 +7,10 @@ import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
-
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
-import com.sun.jna.platform.win32.OaIdl;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
@@ -21,8 +19,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-
-import com.auvenir.ui.pages.common.AbstractPage;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
@@ -30,9 +26,9 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Calendar;
 
 
 
@@ -62,7 +58,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private static final String displayImageInPopup = "img[src='../../images/icons/clipboard-yellow.png']";
     private static final String markCompletePopupCancelBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]";
     private static final String markCompletePopupArchiveBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]";
-
+    private static final String popUpWindowsToClose = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]";
     @FindBy(id = "auv-todo-createToDo")
     private WebElement createToDoBtnEle;
 
@@ -1450,7 +1446,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void clickCancelButtonOnPopup() {
         getLogger().info("Click Cancel Button on PopUp windows.");
-        WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+        WebElement popUpDiv = getDriver().findElement(By.xpath(popUpWindowsToClose));
         hoverElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
         waitForClickableOfElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo Button");
         clickElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
@@ -1459,7 +1455,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void clickCloseButtonOnPopup() {
         getLogger().info("Click Close Button on PopUp windows.");
-        WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+        WebElement popUpDiv = getDriver().findElement(By.xpath(popUpWindowsToClose));
         hoverElement(closePopupBtnEle, "Close Delete ToDo button");
         waitForClickableOfElement(closePopupBtnEle, "Close Delete ToDo Button");
         clickElement(closePopupBtnEle, "Close Delete ToDo button");
