@@ -339,8 +339,8 @@ public class AuditorTodoListTest extends AbstractTest {
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement01");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement01");
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
@@ -1234,7 +1234,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createMultiCategories();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.verifyEditCategoriesTitle();
             auditorEditCategoryService.verifyEditCategoriesGuide();
             auditorEditCategoryService.hoverOnCategoryItem_TodoListPage();
@@ -1287,7 +1287,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createMultiCategories();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             getLogger().info("Verifying Edit cases..");
             auditorEditCategoryService.editValidValue_TodoListPage();
             auditorEditCategoryService.editOnlyNumber_TodoListPage();
@@ -1312,7 +1312,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createMultiCategories();
-            auditorEditCategoryService.navigateToEditAtTodoListPage();
+            auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             getLogger().info("Verifying Remove case..");
             auditorEditCategoryService.remove1Item();
             auditorEditCategoryService.removeMultiItems();
