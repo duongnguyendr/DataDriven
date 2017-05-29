@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 /**
  * Created by vien.pham on 5/22/2017.
  */
-public class PLAT2326_230_VienOwner extends AbstractTest {
+public class AuditorToDoPageTest extends AbstractTest {
 
     private AuditorCreateToDoService auditorCreateToDoService;
     private AuditorEditCategoryService auditorEditCategoryService;
