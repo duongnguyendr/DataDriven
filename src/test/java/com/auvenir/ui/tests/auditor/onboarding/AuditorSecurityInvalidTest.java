@@ -1,10 +1,8 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.signup.FirmService;
-import com.auvenir.ui.services.marketing.signup.PersonalService;
-import com.auvenir.ui.services.marketing.signup.SecurityService;
 import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,9 +17,9 @@ import org.testng.annotations.Test;
 public class AuditorSecurityInvalidTest extends AbstractTest {
 
     private HomeService homeService;
-    private PersonalService personalService;
-    private FirmService firmService;
-    private SecurityService securityService;
+    PersonalService personalService;
+    FirmService firmService;
+    SecurityService securityService;
 
     // personal information
     String strFullName = GenericService.readExcelData(testData, "OnBoarding", 1, 1);

@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages.marketing.onboarding;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,11 +10,11 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class SuccessPO extends BaseAuditorOnBoardingPO {
+public class SuccessPO extends AbstractPage {
 
-    public SuccessPO(Logger logger, WebDriver webDriver){
-        super(logger, webDriver);
-        PageFactory.initElements(webDriver,this);
+    public SuccessPO(Logger logger, WebDriver driver){
+        super(logger, driver);
+        PageFactory.initElements(driver,this);
     }
 
     // Element of Success Creation Account
@@ -32,7 +33,7 @@ public class SuccessPO extends BaseAuditorOnBoardingPO {
     public WebElement getBtnClose(){return btnContinue; }
 
 
-    @Override
+    //@Override
     public void verifyPageContent(){
         this.validateElememt(elePageSuccess,"Your Account Has Been Created!", Element_Type.TEXT_VALUE);
         this.isLoaded();

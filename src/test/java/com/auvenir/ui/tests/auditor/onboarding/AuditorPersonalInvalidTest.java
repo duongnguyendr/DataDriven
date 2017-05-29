@@ -3,9 +3,9 @@ package com.auvenir.ui.tests.auditor.onboarding;
 //import com.auvenir.utilities.PropertiesHelper;
 
 import com.auvenir.ui.pages.marketing.HomePage;
-import com.auvenir.ui.pages.marketing.onboarding.PersonalPO;
+import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.signup.PersonalService;
+import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.services.marketing.HomeService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -21,10 +21,9 @@ import org.testng.annotations.Test;
 public class AuditorPersonalInvalidTest extends AbstractTest {
 
     private HomePage home = null;
-    private PersonalPO personal = null;
-
+    PersonalPO personal = null;
     private HomeService homeService;
-    private PersonalService personalService;
+    PersonalService personalService;
 
 
     @Test(priority = 1, enabled = true, description = "Navigate to  Home Page")
