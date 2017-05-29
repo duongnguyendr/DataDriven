@@ -6,6 +6,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
+import com.auvenir.utilities.extentionLibraries.DBProperties;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -22,14 +23,12 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
-import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 
 
 public class AuditorCreateToDoPage extends AbstractPage {
@@ -45,20 +44,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private String todoNamePage = "";
     private String todoContentTextSearch = "name";
     public static final int smallTimeOut = 2000;
-    private String todoPageAddRequestImg = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img";
-    private String todoPageAddRequestBtn = "//*[@id='add-request-btn']";
-    private static final String todoPageAddRequestTxtFirst = "//*[@id='todoDetailsReqCont']/div[1]/input";
-    private static final String todoPageAddRequestTxtSecond = "//*[@id='todoDetailsReqCont']/div[2]/input";
-    private static final String closeAddNewRequestPopup = "//*[@id='auv-todo-details']/div[3]";
-    private static final String deleteRequestMenuStr = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]";
-    private static final String copyTaskMenuStr = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]";
-    private static final String requestNotEmptyStr = "//p[contains(text(),'Request name must not be empty')]";
-    private static final String chracterMoreThan100 = "//p[contains(text(),'Request name can not have more than 100 characters')]";
-    private static final String todoDetailName  = "//*[@id='todoDetailsName']";
-    private static final String displayImageInPopup = "img[src='../../images/icons/clipboard-yellow.png']";
-    private static final String markCompletePopupCancelBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]";
-    private static final String markCompletePopupArchiveBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]";
-    private static final String popUpWindowsToClose = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]";
+
     @FindBy(id = "auv-todo-createToDo")
     private WebElement createToDoBtnEle;
 
@@ -134,8 +120,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-name")
     private WebElement toDoNameInputEle;
 
-	@FindBy(xpath = "//div[@class='inputMargin div-name-container']//p[@class='auv-inputError']")
-	private WebElement toDoNameErrorLabelEle;
+    @FindBy(xpath = "//div[@class='inputMargin div-name-container']//p[@class='auv-inputError']")
+    private WebElement toDoNameErrorLabelEle;
 
     @FindBy(xpath = "//*[@id='todo-add-btn']")
     private WebElement toDoSaveIconEle;
@@ -182,10 +168,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement categoryTitleEle;
 
-	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
-	WebElement closePopupBtnEle;
+    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//img[@class='au-modal-closeBtn']")
+    WebElement closePopupBtnEle;
 
-	@FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
+    @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//button[@id = 'm-ce-cancelBtn']")
     WebElement editCategoryCancelBtnEle;
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
@@ -330,29 +316,21 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='add-request-btn']")
     private WebElement totoPageAddRequestBtn;
 
-    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[1]/input")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/input")
     private WebElement findRequestEmpty1;
 
-    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[2]/input")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[2]/input")
     private WebElement findRequestEmpty2;
 
-    @FindBy (xpath = "//*[@id='todoDetailsName']")
+    @FindBy(xpath = "//*[@id='todoDetailsName']")
     private WebElement popupToDoDetailName;
 
-    @FindBy (xpath = "//p[contains(text(),'Request name must not be empty')]")
+    @FindBy(xpath = "//p[contains(text(),'Request name must not be empty')]")
     private WebElement messageEmptyRequest;
     private String checkMarkToDoName = "";
     private String checkToDoNameAddNewRequest = "";
-    @FindBy (xpath = "//*[@id='auv-todo-details']/div[3]")
+    @FindBy(xpath = "//*[@id='auv-todo-details']/div[3]")
     private WebElement closeAddNewRequest;
-    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div")
-    private WebElement deleteRequestBtn;
-    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
-    private WebElement deleteRequestMenu;
-    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
-    private WebElement copyTaskMenu;
-    private String newRequest01 = "New request01 " + randomNumber();
-    private String newRequest02 = "New request02 " + randomNumber();
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -713,7 +691,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
         clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
         //Wait for new task is displayed.
-        waitForClickableOfLocator(By.xpath(todoPageAddRequestImg));
+        waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
     }
 
     public void verifyToDoNameInputLimitCharacter(int maxLength) throws Exception {
@@ -756,7 +734,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean result;
             waitForVisibleElement(toDoNameInputEle, "To Do Name Input");
-            sendKeyTextBox(toDoNameInputEle,"Task01", "To Do Name Input");
+            sendKeyTextBox(toDoNameInputEle, "Task01", "To Do Name Input");
             waitForVisibleElement(toDoSaveIconEle, "To Do Save Icon");
             result = validateAttributeElement(toDoSaveIconEle, "class", "fa fa-floppy-o");
             Assert.assertTrue(result, "To Do Save Icon is not enabled");
@@ -1289,8 +1267,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyMarkCompleteArchive();
     }
 
-    public void clickToBulkCompleteButton()
-    {
+    public void clickToBulkCompleteButton() {
         List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
         clickElement(menuBulkActionsDropdown.get(1), "Bulk complete button");
     }
@@ -1318,8 +1295,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyDisplayImageInPopup() {
         getLogger().info("Verify to display image in popup");
         try {
-            waitForVisibleOfLocator(By.cssSelector(displayImageInPopup));
-            WebElement imageInPopup = getDriver().findElement(By.cssSelector(displayImageInPopup));
+            waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            WebElement imageInPopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
             waitForVisibleElement(imageInPopup, "visible " + imageInPopup);
             NXGReports.addStep("Verify to display image in popup", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         } catch (Exception ex) {
@@ -1332,7 +1309,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         boolean isCheckColorCancelButton = false;
         getLogger().info("Verify the cancel button in Mark as complete popup");
         try {
-            waitForPresentOfLocator(By.xpath(markCompletePopupCancelBtn));
+            waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]"));
             isCheckColorCancelButton = validateCssValueElement(cancelMarkPopupBtn, backgroundColor, "rgba(151, 147, 147, 1)");
             isCheckColorCancelButton = validateCssValueElement(cancelMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
             if (isCheckColorCancelButton) {
@@ -1351,7 +1328,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         boolean isCheckColorCancelButton = false;
         getLogger().info("Verify the archive button in Mark as complete popup");
         try {
-            waitForPresentOfLocator(By.xpath(markCompletePopupArchiveBtn));
+            waitForPresentOfLocator(By.xpath("//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]"));
             isCheckColorCancelButton = validateCssValueElement(archiveMarkPopupBtn, backgroundColor, "rgba(89, 155, 161, 1)");
             isCheckColorCancelButton = validateCssValueElement(archiveMarkPopupBtn, color, "rgba(255, 255, 255, 1)");
             clickElement(archiveMarkPopupBtn, "click to archiveMarkPopupBtn");
@@ -1371,8 +1348,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verify to click to close complete mark popup");
         try {
             clickToBulkCompleteButton();
-            waitForVisibleOfLocator(By.cssSelector(displayImageInPopup));
-            WebElement closePopup = getDriver().findElement(By.cssSelector(displayImageInPopup));
+            waitForVisibleOfLocator(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
+            WebElement closePopup = getDriver().findElement(By.cssSelector("img[src='../../images/icons/clipboard-yellow.png']"));
             waitForClickableOfElement(closePopup, "wait for click to closePopup");
             boolean isClickClose = clickElement(closePopup, "click to closePopup");
             if (isClickClose) {
@@ -1446,7 +1423,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void clickCancelButtonOnPopup() {
         getLogger().info("Click Cancel Button on PopUp windows.");
-        WebElement popUpDiv = getDriver().findElement(By.xpath(popUpWindowsToClose));
+        WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
         hoverElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
         waitForClickableOfElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo Button");
         clickElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
@@ -1455,7 +1432,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void clickCloseButtonOnPopup() {
         getLogger().info("Click Close Button on PopUp windows.");
-        WebElement popUpDiv = getDriver().findElement(By.xpath(popUpWindowsToClose));
+        WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
         hoverElement(closePopupBtnEle, "Close Delete ToDo button");
         waitForClickableOfElement(closePopupBtnEle, "Close Delete ToDo Button");
         clickElement(closePopupBtnEle, "Close Delete ToDo button");
@@ -1481,10 +1458,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-	public int findToDoTaskName(String toDoName) {
-		getLogger().info("Find Position of To Do Task Name");
-		return findElementByAttributeValue(eleToDoNameRow, toDoName);
-	}
+    public int findToDoTaskName(String toDoName) {
+        getLogger().info("Find Position of To Do Task Name");
+        return findElementByAttributeValue(eleToDoNameRow, toDoName);
+    }
 
     public void selectToDoCheckboxByName(String todoName) {
         getLogger().info("Select To Do Task Check Box by Name");
@@ -1841,11 +1818,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Click on trash icon
      */
-    public void clickOnTrashIcon(){
+    public void clickOnTrashIcon() {
         try {
             waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
-            hoverElement(trashToDoBtnEle,"Hover trash icon ");
-            clickElement(trashToDoBtnEle,"Click on trash icon");
+            hoverElement(trashToDoBtnEle, "Hover trash icon ");
+            clickElement(trashToDoBtnEle, "Click on trash icon");
             NXGReports.addStep("Click on trash ToDo icon", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
@@ -1982,28 +1959,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Check/Uncheck checkall check box
+     *
      * @param isCheck
      */
-    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck){
+    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck) {
         try {
-            waitForVisibleElement(eleCheckAllCheckBox,"'CheckAll' check box");
-            hoverElement(eleCheckAllCheckBox,"Hover 'CheckAll' check box");
-            if(isCheck){
-                if(!eleCheckAllCheckBox.isSelected()){
-                    clickElement(eleCheckAllCheckBox,"Check on 'CheckAll' checkbox");
-                }else{
-                    clickElement(eleCheckAllCheckBox,"Un check on 'CheckAll' checkbox");
-                    clickElement(eleCheckAllCheckBox,"Check on 'CheckAll' checkbox");
+            waitForVisibleElement(eleCheckAllCheckBox, "'CheckAll' check box");
+            hoverElement(eleCheckAllCheckBox, "Hover 'CheckAll' check box");
+            if (isCheck) {
+                if (!eleCheckAllCheckBox.isSelected()) {
+                    clickElement(eleCheckAllCheckBox, "Check on 'CheckAll' checkbox");
+                } else {
+                    clickElement(eleCheckAllCheckBox, "Un check on 'CheckAll' checkbox");
+                    clickElement(eleCheckAllCheckBox, "Check on 'CheckAll' checkbox");
                 }
-                NXGReports.addStep("Check on 'CheckAll' check box in ToDo page complete", LogAs.PASSED,null);
-            }else{
-                if(eleCheckAllCheckBox.isSelected()){
-                    clickElement(eleCheckAllCheckBox,"Un Check on 'CheckAll' checkbox");
-                }else{
-                    clickElement(eleCheckAllCheckBox,"Un check on 'CheckAll' checkbox");
-                    clickElement(eleCheckAllCheckBox,"Check on 'CheckAll' checkbox");
+                NXGReports.addStep("Check on 'CheckAll' check box in ToDo page complete", LogAs.PASSED, null);
+            } else {
+                if (eleCheckAllCheckBox.isSelected()) {
+                    clickElement(eleCheckAllCheckBox, "Un Check on 'CheckAll' checkbox");
+                } else {
+                    clickElement(eleCheckAllCheckBox, "Un check on 'CheckAll' checkbox");
+                    clickElement(eleCheckAllCheckBox, "Check on 'CheckAll' checkbox");
                 }
-                NXGReports.addStep("UnCheck on 'CheckAll' check box in ToDo page complete", LogAs.PASSED,null);
+                NXGReports.addStep("UnCheck on 'CheckAll' check box in ToDo page complete", LogAs.PASSED, null);
             }
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
@@ -2013,9 +1991,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Verify all check box is un check or check in ToDo list
+     *
      * @param isCheck true : check | false : un check
      */
-    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
+    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck) {
         try {
             boolean result = true;
             boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
@@ -2028,17 +2007,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     checkAllCheckBoxIsCheckOrUnCheck(eleToDoCompleteCheckboxRow, isCheck);
             }
             Assert.assertTrue(result, "All checkbox do not check/uncheck");
-            if(isCheck){
+            if (isCheck) {
                 NXGReports.addStep("All check box are check in ToDo page", LogAs.PASSED, null);
-            }else{
+            } else {
                 NXGReports.addStep("All check box are uncheck in ToDo page", LogAs.PASSED, null);
             }
 
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            if(isCheck){
+            if (isCheck) {
                 NXGReports.addStep("TestScript Failed: All check box are not check in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }else{
+            } else {
                 NXGReports.addStep("TestScript Failed: All check box are not uncheck in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         }
@@ -2046,68 +2025,70 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Check/Uncheck checkall check box
+     *
      * @param isCheck
      */
-    public void checkOrUnCheckAllCheckBox(boolean isCheck){
-            boolean result = true;
-            boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
-            boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
-            // verify "CheckAll" check box is checked when all check box are check
-            //// check all check box in ToDo page
-            if (!checkEmptyToDoListRow) {
-                result = checkAllCheckBox(eleToDoCheckboxRow, isCheck);
-                if (result == false) {
-                    if(isCheck){
-                        NXGReports.addStep("TestScript Failed: can not check on all check box has not complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    }else{
-                        NXGReports.addStep("TestScript Failed: can not uncheck on all check box has not complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    }
-                    return;
+    public void checkOrUnCheckAllCheckBox(boolean isCheck) {
+        boolean result = true;
+        boolean checkEmptyToDoListRow = checkListIsEmpty(eleToDoRowList);
+        boolean checkEmptyToDoCompleteListRow = checkListIsEmpty(eleToDoCompleteRowList);
+        // verify "CheckAll" check box is checked when all check box are check
+        //// check all check box in ToDo page
+        if (!checkEmptyToDoListRow) {
+            result = checkAllCheckBox(eleToDoCheckboxRow, isCheck);
+            if (result == false) {
+                if (isCheck) {
+                    NXGReports.addStep("TestScript Failed: can not check on all check box has not complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                } else {
+                    NXGReports.addStep("TestScript Failed: can not uncheck on all check box has not complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
+                return;
             }
+        }
 
-            if (!checkEmptyToDoCompleteListRow) {
-                result = checkAllCheckBox(eleToDoCompleteCheckboxRow, isCheck);
-                if (result == false) {
-                    if(isCheck){
-                        NXGReports.addStep("TestScript Failed: can not check on all check box has complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    }else{
-                        NXGReports.addStep("TestScript Failed: can not uncheck on all check box has complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    }
-                    return;
+        if (!checkEmptyToDoCompleteListRow) {
+            result = checkAllCheckBox(eleToDoCompleteCheckboxRow, isCheck);
+            if (result == false) {
+                if (isCheck) {
+                    NXGReports.addStep("TestScript Failed: can not check on all check box has complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                } else {
+                    NXGReports.addStep("TestScript Failed: can not uncheck on all check box has complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
+                return;
             }
-            if(result){
-                NXGReports.addStep("Check all check box in ToDo page", LogAs.PASSED, null);
-            }else{
-                NXGReports.addStep("Uncheck all check box in ToDo page", LogAs.PASSED, null);
-            }
+        }
+        if (result) {
+            NXGReports.addStep("Check all check box in ToDo page", LogAs.PASSED, null);
+        } else {
+            NXGReports.addStep("Uncheck all check box in ToDo page", LogAs.PASSED, null);
+        }
     }
 
     /**
      * Verify 'CheckAll' check box is check or uncheck
+     *
      * @param isCheck : true : check | false : uncheck
      */
-    public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck){
-            waitForVisibleElement(eleCheckAllCheckBox, "CheckAll check box");
-            if(isCheck){
-                if (!eleCheckAllCheckBox.isSelected()) {
-                    AbstractService.sStatusCnt++;
-                    NXGReports.addStep("TestScript Failed: CheckAll check box do not auto check in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    return;
-                }
-            }else{
-                if (eleCheckAllCheckBox.isSelected()) {
-                    AbstractService.sStatusCnt++;
-                    NXGReports.addStep("TestScript Failed: CheckAll check box do not auto uncheck in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    return;
-                }
+    public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck) {
+        waitForVisibleElement(eleCheckAllCheckBox, "CheckAll check box");
+        if (isCheck) {
+            if (!eleCheckAllCheckBox.isSelected()) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("TestScript Failed: CheckAll check box do not auto check in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return;
             }
-            if(isCheck){
-                NXGReports.addStep("'CheckAll' check box is check when check all check box in ToDo page", LogAs.PASSED, null);
-            }else{
-                NXGReports.addStep("'CheckAll' check box is uncheck when uncheck all check box in ToDo page", LogAs.PASSED, null);
+        } else {
+            if (eleCheckAllCheckBox.isSelected()) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("TestScript Failed: CheckAll check box do not auto uncheck in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return;
             }
+        }
+        if (isCheck) {
+            NXGReports.addStep("'CheckAll' check box is check when check all check box in ToDo page", LogAs.PASSED, null);
+        } else {
+            NXGReports.addStep("'CheckAll' check box is uncheck when uncheck all check box in ToDo page", LogAs.PASSED, null);
+        }
     }
 
     /**
@@ -2142,10 +2123,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * get index of ToDo name in ToDo list
+     *
      * @param toDoName : ToDo need search
      * @return -1 : not found | index : if found
      */
-    public int getIndexOfToDoItem(List<WebElement> eleDataRowList, String toDoName){
+    public int getIndexOfToDoItem(List<WebElement> eleDataRowList, String toDoName) {
         for (int i = 0; i < eleDataRowList.size(); i++) {
             String actualAttributeValue = eleDataRowList.get(i).getAttribute("value").trim();
             if (actualAttributeValue.equals(toDoName)) {
@@ -2154,19 +2136,21 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
         return -1;
     }
+
     /**
      * Check ToDo item delete is exists in ToDo list
+     *
      * @param isExists : true : exists | false : not exists
      * @param todoName : ToDo name need check
      * @return true | false
      */
-    public boolean checkToDoIsExists(boolean isExists, String todoName){
+    public boolean checkToDoIsExists(boolean isExists, String todoName) {
         getLogger().info("Select To Do Task Check Box by Name");
-        int index = getIndexOfToDoItem(eleToDoNameRow,todoName);
-        if(!isExists && index!= -1)
+        int index = getIndexOfToDoItem(eleToDoNameRow, todoName);
+        if (!isExists && index != -1)
             return false;
 
-        if(isExists && index == -1)
+        if (isExists && index == -1)
             return false;
 
         return true;
@@ -2175,18 +2159,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Check ToDo item list delete is exists in ToDo list
-     * @param isExists : true : exists | false : not exists
+     *
+     * @param isExists     : true : exists | false : not exists
      * @param todoNameList : ToDo name list need check
      * @return
      */
-    public boolean checkToDoListIsExists(boolean isExists, List<String> todoNameList){
+    public boolean checkToDoListIsExists(boolean isExists, List<String> todoNameList) {
         getLogger().info("Select To Do Task List Check Box by Name");
-        for(int i=0; i<todoNameList.size(); i++){
-            int index = getIndexOfToDoItem(eleToDoNameRow,todoNameList.get(i));
-            if(!isExists && index!= -1)
+        for (int i = 0; i < todoNameList.size(); i++) {
+            int index = getIndexOfToDoItem(eleToDoNameRow, todoNameList.get(i));
+            if (!isExists && index != -1)
                 return false;
 
-            if(isExists && index == -1)
+            if (isExists && index == -1)
                 return false;
         }
         return true;
@@ -2214,7 +2199,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Click on delete button in pop up
      */
-    public void clickDeleteButtonOnPopUp(){
+    public void clickDeleteButtonOnPopUp() {
         getLogger().info("Click Delete Button on PopUp windows.");
         WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
         hoverElement(deletedToDoButtonEle, "Delete ToDo button");
@@ -2225,10 +2210,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Check all ToDo item is delete
+     *
      * @return true : all is deleted | false : not delete all
      */
-    public boolean checkAllToDoIsDelete(){
-        if(!checkListIsEmpty(eleToDoRowList) || !checkListIsEmpty(eleToDoCompleteRowList)){
+    public boolean checkAllToDoIsDelete() {
+        if (!checkListIsEmpty(eleToDoRowList) || !checkListIsEmpty(eleToDoCompleteRowList)) {
             return false;
         }
         return true;
@@ -2579,11 +2565,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * get 'engagements' collection(table on mongo)
      */
-    public DBCollection getEngagementCollection() throws SyncFactoryException {
+    public DBCollection getEngagementCollection() {
         try {
             //TODO move db config to properties file
-            return MongoDBService.getCollection("auvenir", "engagements");
-        } catch (UnknownHostException e) {
+            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getEngagementsCollection());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -2592,12 +2578,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * get 'engagements' collection(table on mongo)
      */
-    public DBCollection getUserCollection() throws SyncFactoryException {
+    public DBCollection getUserCollection() {
         DBCollection dbCollection = null;
         try {
             //TODO move db config to properties file
-            return MongoDBService.getCollection("auvenir", "users");
-        } catch (UnknownHostException e) {
+            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getUsersCollection());
+        } catch (Exception e) {
+            NXGReports.addStep("Can't get Users Colection: auvenir-users", LogAs.FAILED, null);
             e.printStackTrace();
         }
         return dbCollection;
@@ -2611,15 +2598,20 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status complete expected
      */
-    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
-        getLogger().info("Verify To-Do complete status on database.");
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("completed").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
+        try {
+            getLogger().info("Verify To-Do complete status on database.");
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            //TODO get from properties file
+            if (jsonObject.get("completed").toString().equals(status)) {
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
 
@@ -2631,20 +2623,25 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param assigneeName    name of assignee
      */
-    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) throws SyncFactoryException {
-        getLogger().info("Verify To-Do delete status on database.");
-        String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
-        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
+    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
+        try {
+            getLogger().info("Verify To-Do delete status on database.");
+            String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
+            //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
 
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
 
-        //TODO get from properties file
-        if (jsonObject.get("auditorAssignee").toString().contains(idAssignee)) {
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //TODO get from properties file
+            if (jsonObject.get("auditorAssignee").toString().contains(idAssignee)) {
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
 
@@ -2657,30 +2654,38 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param status          status delete expected
      */
     public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
-        getLogger().info("Verify To-Do delete status on database.");
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
-        //TODO get from properties file
-        if (jsonObject.get("status").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        try {
+            getLogger().info("Verify To-Do delete status on database.");
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
+            //TODO get from properties file
+            if (jsonObject.get("status").toString().equals(status)) {
+                NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
-    /**-----end of huy.huynh PLAT-2303-----*/
+
+    /**
+     * -----end of huy.huynh PLAT-2303-----
+     */
 
     public void verifyDefaultHintValueInputComment() {
-        try{
+        try {
             boolean result;
             final String defaultValueInputComment = "Type a comment";
             getLogger().info("Verify Default Hint Value Input Comment");
-            waitForVisibleElement(typeCommentFieldEle,"Input Comment field.");
-            validateDisPlayedElement(typeCommentFieldEle,"Input Comment field.");
-            result = validateAttributeElement(typeCommentFieldEle,"placeholder", defaultValueInputComment);
+            waitForVisibleElement(typeCommentFieldEle, "Input Comment field.");
+            validateDisPlayedElement(typeCommentFieldEle, "Input Comment field.");
+            result = validateAttributeElement(typeCommentFieldEle, "placeholder", defaultValueInputComment);
             Assert.assertTrue(result, "Default Hint Value Input Comment is displayed unsuccessfully");
             NXGReports.addStep("Verify Default Hint Value Input Comment", LogAs.PASSED, null);
-        }catch (AssertionError e){
+        } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Default Hint Value Input Comment is displayed unsuccessfully");
             NXGReports.addStep("TestScript Failed: Verify Default Hint Value Input Comment", LogAs.FAILED,
@@ -2699,30 +2704,39 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param status          status update expected
      */
     public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
-        getLogger().info("Verify Completed field updated on database.");
+        try {
+            getLogger().info("Verify Completed field updated on database.");
 //        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        if (jsonObject.get("completed").toString().equals(status)){
-            NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            if (jsonObject.get("completed").toString().equals(status)) {
+                NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
+
     public void verifyCancelCompleteMarkPopup() {
         verifyShowConfirmPopupAndMarkTitle();
         verifyDisplayImageInPopup();
         verifyMarkPopupColorCancelBtn();
         clickCancelButtonOnPopup();
     }
-    /**-----end of duong.nguyen PLAT-2305-----*/
+
+    /**
+     * -----end of duong.nguyen PLAT-2305-----
+     */
 
     public void verifyGUIBoxTitleComment() {
         getLogger().info("Verify Box's Title Comment");
         try {
             boolean result;
             final String count;
-            if(!listCommentItemEle.isEmpty())
+            if (!listCommentItemEle.isEmpty())
                 count = "" + listCommentItemEle.size();
             else
                 count = "0";
@@ -2811,7 +2825,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public int getNumberOfListComment() {
         getLogger().info("Get Number of List Comment.");
-        if(listCommentItemEle.isEmpty()){
+        if (listCommentItemEle.isEmpty()) {
             return 0;
         } else {
             return listCommentItemEle.size();
@@ -2932,11 +2946,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyAddNewRequest()
-    {
+    public void verifyAddNewRequest() {
         verifyPopupColorAddRequestBtn();
         verifyClickAddRequestBtn();
         verifyDefaultToDoNameNewRequestPopup();
@@ -2947,223 +2961,192 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyNewRequestStoreInDatabase();
         verifyUpdateRequestStoreInDatabase();
     }
+
     /**
      * Author minh.nguyen
      */
     public void clickToDoListAddNewRequest() throws InterruptedException {
         // Need to use Thread.sleep that support stable scripts
         checkToDoNameAddNewRequest = textToDoName.get(0).getAttribute("value").toString();
-        waitForVisibleOfLocator(By.xpath(todoPageAddRequestImg));
-        waitForClickableOfLocator(By.xpath(todoPageAddRequestImg));
+        waitForVisibleOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
+        waitForClickableOfLocator(By.xpath("//*[@id='todo-table']/tbody/tr[1]/td[7]/img"));
         waitForClickableOfElement(todoListAddNewRequestImg);
         Thread.sleep(smallerTimeOut);
         clickElement(todoListAddNewRequestImg, "click to todoListAddNewRequestImg");
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyPopupColorAddRequestBtn()
-    {
+    public void verifyPopupColorAddRequestBtn() {
         getLogger().info("Verify the background and text color of the Add request button.");
         boolean isCheckColor = false;
         try {
             clickToDoListAddNewRequest();
             isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
-            if(isCheckColor)
-            {
+            if (isCheckColor) {
                 NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify the background and text color of the Add request button.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify the background and text color of the Add request button.", LogAs.FAILED, null);
         }
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyClickAddRequestBtn()
-    {
+    public void verifyClickAddRequestBtn() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to click the add request button and show the empty request");
         boolean isCheckRequestEmpty = false;
         try {
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestBtn));
+            waitForClickableOfLocator(By.xpath("//*[@id='add-request-btn']"));
             Thread.sleep(smallerTimeOut);
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             waitForClickableOfElement(findRequestEmpty1, "wait for findRequestEmpty1");
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1);
             clickElement(totoPageAddRequestBtn);
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             Thread.sleep(smallerTimeOut);
             isCheckRequestEmpty = clickElement(findRequestEmpty2, "click to findRequestEmpty2");
-            if(isCheckRequestEmpty)
-            {
+            if (isCheckRequestEmpty) {
                 NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.FAILED, null);
         }
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyDefaultToDoNameNewRequestPopup()
-    {
+    public void verifyDefaultToDoNameNewRequestPopup() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify the default ToDo name on new request popup.");
         boolean isCheckColor = false;
         try {
-            waitForVisibleOfLocator(By.xpath(todoDetailName));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsName']"));
             Thread.sleep(smallerTimeOut);
             clickElement(popupToDoDetailName, "click to popupToDoDetailName");
             String todoDetailText = getTextByJavaScripts(popupToDoDetailName, "popupToDoDetailName");
-            clearTextBox(popupToDoDetailName,"clear popupToDoDetailName");
+            clearTextBox(popupToDoDetailName, "clear popupToDoDetailName");
             String pleaseNameYourTodo = popupToDoDetailName.getAttribute("placeholder");
             getLogger().info("todoDetailText = " + todoDetailText);
             getLogger().info("pleaseNameYourTodo = " + pleaseNameYourTodo);
-            if(todoDetailText.equals(checkToDoNameAddNewRequest) && pleaseNameYourTodo.equals("Please name your To-Do"))
-            {
+            if (todoDetailText.equals(checkToDoNameAddNewRequest) && pleaseNameYourTodo.equals("Please name your To-Do")) {
                 isCheckColor = true;
             }
-            if(isCheckColor)
-            {
+            if (isCheckColor) {
                 NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED, null);
         }
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyShowAllTextNewRequestPopup()
-    {
+    public void verifyShowAllTextNewRequestPopup() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to show all text in the new request on popup.");
         boolean isCheckColor = false;
         try {
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             clearTextBox(findRequestEmpty1, "clear findRequestEmpty1");
             String enterRequestName = "Add new request " + randomNumber();
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             sendKeyTextBox(findRequestEmpty1, enterRequestName, "add text to findRequestEmpty1");
             String todoShowAllText = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
-            if(todoShowAllText.equals(enterRequestName))
-            {
+            if (todoShowAllText.equals(enterRequestName)) {
                 isCheckColor = true;
             }
-            if(isCheckColor)
-            {
+            if (isCheckColor) {
                 NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, null);
         }
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyMaxLengthNewRequestPopup()
-    {
+    public void verifyMaxLengthNewRequestPopup() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify the max length of new request.");
         boolean isCheckMaxLength = false;
         try {
             boolean ischeckvalidateMaxlenght = validateMaxlenght(findRequestEmpty1, "findRequestEmpty1", 101);
             getLogger().info("ischeckvalidateMaxlenght = " + ischeckvalidateMaxlenght);
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
-            isCheckMaxLength = waitForVisibleOfLocator(By.xpath(chracterMoreThan100));
+            isCheckMaxLength = waitForVisibleOfLocator(By.xpath("//p[contains(text(),'Request name can not have more than 100 characters')]"));
             getLogger().info("isCheckMaxLength = " + isCheckMaxLength);
-            if(isCheckMaxLength)
-            {
+            if (isCheckMaxLength) {
                 NXGReports.addStep("Verify the max length of new request.", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify the max length of new request.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify the max length of new request.", LogAs.FAILED, null);
         }
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyEmptyNewRequestPopup()
-    {
+    public void verifyEmptyNewRequestPopup() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify the empty new request on popup.");
         boolean isCheckEmptyRequest = false;
         try {
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
-            isCheckEmptyRequest = waitForVisibleOfLocator(By.xpath(requestNotEmptyStr));
+            isCheckEmptyRequest = waitForVisibleOfLocator(By.xpath("//p[contains(text(),'Request name must not be empty')]"));
             getLogger().info("isCheckEmptyRequest = " + isCheckEmptyRequest);
             String emptyMessageAddRequest = messageEmptyRequest.getText();
             getLogger().info("emptyMessageAddRequest = " + emptyMessageAddRequest);
-            if(emptyMessageAddRequest.equals("Request name must not be empty"))
-            {
+            if (emptyMessageAddRequest.equals("Request name must not be empty")) {
                 NXGReports.addStep("Verify the empty new request on popup.", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify the empty new request on popup.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify the empty new request on popup.", LogAs.FAILED, null);
         }
@@ -3172,58 +3155,54 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
-    public void verifyInputNumberToNewRequestPopup()
-    {
+    public void verifyInputNumberToNewRequestPopup() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to input number to new request in the add new request popup.");
         try {
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1);
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             sendKeyTextBox(findRequestEmpty1, numberSequence, "send number to findRequestEmpty1");
             String numberText = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
             getLogger().info("numberText = " + numberText);
-            if(numberText.equals(numberSequence))
-            {
+            if (numberText.equals(numberSequence)) {
                 NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED, null);
         }
     }
 
+    private String newRequest01 = "New request01 " + randomNumber();
+    private String newRequest02 = "New request02 " + randomNumber();
+
     /**
      * Author minh.nguyen
      */
-    public void verifyNewRequestStoreInDatabase()
-    {
+    public void verifyNewRequestStoreInDatabase() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
             Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty1, newRequest01, "send data to findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             Thread.sleep(smallerTimeOut);
             clearTextBox(findRequestEmpty2, "clear text of findRequestEmpty2");
             Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1);
             Thread.sleep(smallerTimeOut);
@@ -3233,28 +3212,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
             String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             clickElement(closeAddNewRequest, "click to closeAddNewRequest");
             clickToDoListAddNewRequest();
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1);
             Thread.sleep(smallerTimeOut);
             String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty2);
             Thread.sleep(smallerTimeOut);
             String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
-            if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
-            {
+            if (todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04)) {
                 NXGReports.addStep("Verify these new request are stored in the database.", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify these new request are stored in the database.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify these new request are stored in the database.", LogAs.FAILED, null);
         }
@@ -3263,119 +3237,62 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
-    public void verifyUpdateRequestStoreInDatabase()
-    {
+    public void verifyUpdateRequestStoreInDatabase() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to update these requests and these are stored in the database.");
         try {
             newRequest01 = "updated01";
             newRequest02 = "updated02";
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty1, newRequest01, "send data to findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             Thread.sleep(smallerTimeOut);
             sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
             getLogger().info("Value findRequestEmpty2: " + findRequestEmpty2.getAttribute("value"));
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             Thread.sleep(smallerTimeOut);
             String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
+            waitForClickableOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
             Thread.sleep(smallerTimeOut);
             String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
-            waitForVisibleOfLocator(By.xpath(closeAddNewRequestPopup));
+            waitForVisibleOfLocator(By.xpath("//*[@id='auv-todo-details']/div[3]"));
             clickElement(closeAddNewRequest, "click to closeAddNewRequest");
             clickToDoListAddNewRequest();
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[1]/input"));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
             Thread.sleep(smallerTimeOut);
             String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
+            waitForVisibleOfLocator(By.xpath("//*[@id='todoDetailsReqCont']/div[2]/input"));
             clickElement(findRequestEmpty2, "click to findRequestEmpty2");
             Thread.sleep(smallerTimeOut);
             String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
-            if(todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04))
-            {
+            if (todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04)) {
                 NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.PASSED, null);
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, null);
         }
     }
 
     /**
-     * Author minh.nguyen
-     */
-    public void verifyDeleteRequestOnPopup() {
-        // Need to use Thread.sleep that support stable scripts
-        getLogger().info("Verify to delete a request on the popup.");
-        boolean isCheckDeleteRequest = false;
-        try {
-            clickElement(deleteRequestBtn,"click to deleteRequestBtn");
-            waitForClickableOfLocator(By.xpath(deleteRequestMenuStr));
-            isCheckDeleteRequest = clickElement(deleteRequestMenu, "click to deleteRequestMenu");
-            if(isCheckDeleteRequest)
-            {
-                NXGReports.addStep("Verify to delete a request on the popup.", LogAs.PASSED, null);
-            }
-            else
-            {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to delete a request on the popup.", LogAs.FAILED, null);
-            }
-        } catch (Exception ex) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to delete a request on the popup.", LogAs.FAILED, null);
-        }
-    }
-
-    /**
-     * Author minh.nguyen
-     */
-    public void verifyCopyTaskOnPopup() {
-        // Need to use Thread.sleep that support stable scripts
-        getLogger().info("Verify to copy a task on the popup.");
-        boolean isCheckCopyRequest = false;
-        try {
-            clickElement(deleteRequestBtn,"click to deleteRequestBtn");
-            waitForClickableOfLocator(By.xpath(copyTaskMenuStr));
-            isCheckCopyRequest = clickElement(copyTaskMenu, "click to copyTaskMenu");
-            if(isCheckCopyRequest)
-            {
-                NXGReports.addStep("Verify to copy a task on the popup.", LogAs.PASSED, null);
-            }
-            else
-            {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to copy a task on the popup.", LogAs.FAILED, null);
-            }
-        } catch (Exception ex) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to copy a task on the popup.", LogAs.FAILED, null);
-        }
-    }
-
-    /**
      * Create ToDo name list
+     *
      * @author : TanPham
      * @date : 29/05/2017
      */
 
-    public List<String> createToDoNameList(String todoName, int numberToDo){
+    public List<String> createToDoNameList(String todoName, int numberToDo) {
         List<String> toDoListNames = new ArrayList<String>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();

@@ -68,9 +68,11 @@ public class MongoDBService {
                 System.out.println("AAAAAAA");
                 return mongoClient;
             }
-            getLogger().info("Connected successfully.");
+            //getLogger().info("Connected successfully.");
+            System.out.println("Connected successfully.");
         } catch (Exception e) {
-            getLogger().info("Unable to connect to DB: "+ e.getMessage());
+            //getLogger().info("Unable to connect to DB: "+ e.getMessage());
+            System.out.println("Unable to connect to DB: "+ e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -466,7 +468,7 @@ public class MongoDBService {
      * @param value        of engagement want to query
      * @param name         of to-do
      */
-    public static JSONObject getToDoObject(DBCollection dBCollection, String field, String value, String name) {
+    public static JSONObject getToDoObject(DBCollection dBCollection, String field, String value, String name) throws Exception{
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put(field, value);
         DBCursor cursor = dBCollection.find(searchQuery);
@@ -489,7 +491,7 @@ public class MongoDBService {
      * @param dBCollection DBCollection object
      * @param value        of engagement want to query
      */
-    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) {
+    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) throws Exception{
         String[] assignee = value.split(" ");
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put("firstName", assignee[0]);
