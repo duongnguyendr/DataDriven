@@ -60,8 +60,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public static final int smallTimeOut = 2000;
     private String todoPageAddRequestImg = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img";
     private String todoPageAddRequestBtn = "//*[@id='add-request-btn']";
-    private static final String todoPageAddRequestTxtFirst = "//*[@id='todoDetailsReqCont']/div[1]/input";
-    private static final String todoPageAddRequestTxtSecond = "//*[@id='todoDetailsReqCont']/div[2]/input";
+    private String todoPageAddRequestTxtFirst = "//*[@id='todoDetailsReqCont']/div[1]/input";
+    private String todoPageAddRequestTxtSecond = "//*[@id='todoDetailsReqCont']/div[2]/input";
     private static final String closeAddNewRequestPopup = "//*[@id='auv-todo-details']/div[3]";
     private static final String deleteRequestMenuStr = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]";
     private static final String copyTaskMenuStr = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]";
@@ -966,10 +966,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             //boolean isCheckData = createToDoPage.checkContentTextSearch();
             boolean isCheckData = false;
             waitForVisibleOfLocator(By.id("todo-search"));
-            //Thread.sleep(smallTimeOut);
             clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
             clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-            //Thread.sleep(smallTimeOut);
             sendKeyTextBox(eleToDoSearchInput, todoContentTextSearch, "sendkey to todoContentTextSearch");
             waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")), "");
             // Check the result in the list data
@@ -1098,7 +1096,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void createToDoTaskWithCategoryName(String toDoName, String categoryName) throws Exception {
         waitForClickableOfElement(createToDoBtnEle, "Create To Do Button");
-        createToDoBtnEle.click();
+        clickElement(createToDoBtnEle, "click to createToDoBtnEle");
         // Will changed after finding new solution for waiting Element
         Thread.sleep(smallTimeOut);
         createToDoNameTextBoxEle.sendKeys(toDoName);
@@ -1123,9 +1121,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean result;
             waitForClickableOfElement(createToDoNameTextBoxEle, "To Task name Textbox");
-            createToDoNameTextBoxEle.click();
+            clickElement(createToDoNameTextBoxEle, "click to createToDoNameTextBoxEle");
             waitForClickableOfElement(categoryComboBoxEle.get(0), "Category Combo box");
-            categoryComboBoxEle.get(0).click();
+            clickElement(categoryComboBoxEle.get(0), "click to categoryComboBoxEle.get(0)");
             List<WebElement> menuCateComboBox = categoryComboBoxMenuEle.get(0).findElements(By.tagName("div"));
             result = validateElementText(menuCateComboBox.get(0), "Add New Category");
             Assert.assertTrue(result, "Add New Category option is not displayed");
@@ -1182,11 +1180,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         createToDoNameTextBoxEle.sendKeys(toDoName);
         // Choose Due Date
         waitForClickableOfElement(dueDateFieldEle, "Due Date field");
-        dueDateFieldEle.click();
+        clickElement(dueDateFieldEle, "click to dueDateFieldEle");
         waitForClickableOfElement(dateItemonCalendarEle, "Date value");
-        dateItemonCalendarEle.click();
+        clickElement(dateItemonCalendarEle, "click to dateItemonCalendarEle");
         waitForVisibleElement(toDoSaveIconEle, "Save Icon");
-        toDoSaveIconEle.click();
+        clickElement(toDoSaveIconEle, "click to toDoSaveIconEle");
         verifyAddNewToDoTask(toDoName);
     }
 
@@ -1223,18 +1221,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
             e.printStackTrace();
         }
         waitForClickableOfElement(createToDoNameTextBoxEle, "To Task name Textbox");
-        createToDoNameTextBoxEle.click();
+        clickElement(createToDoNameTextBoxEle, "click to createToDoNameTextBoxEle");
         waitForClickableOfElement(categoryComboBoxEle.get(0), "Category Combo box");
-        categoryComboBoxEle.get(0).click();
-        addNewCategoryMenuItemEle.click();
+        clickElement(categoryComboBoxEle.get(0), "click to categoryComboBoxEle.get(0)");
+        clickElement(addNewCategoryMenuItemEle, "click to addNewCategoryMenuItemEle");
     }
 
     public void clickEditCategory() {
         waitForClickableOfElement(createToDoNameTextBoxEle, "To Task name Textbox");
-        createToDoNameTextBoxEle.click();
+        clickElement(createToDoNameTextBoxEle, "click to createToDoNameTextBoxEle");
         waitForClickableOfElement(categoryComboBoxEle.get(0), "Category Combo box");
-        categoryComboBoxEle.get(0).click();
-        editCategoryEle.click();
+        clickElement(categoryComboBoxEle.get(0), "click to categoryComboBoxEle.get(0)");
+        clickElement(editCategoryEle, "click to editCategoryEle");
     }
 
     public void clickCheckboxNewToDoTask() {
@@ -1300,7 +1298,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyDisplayImageInPopup();
         verifyMarkPopupColorCancelBtn();
         verifyMarkPopupColorArchiveBtn();
-        //verifyClickClosePopup();
+        verifyClickClosePopup();
         verifyMarkCompleteArchive();
     }
 
@@ -1550,7 +1548,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void navigateAddNewToDoPage() throws Exception {
         getLogger().info("Run createToDoPage()");
         waitForClickableOfElement(createToDoBtnEle, "create todo button.");
-        this.createToDoBtnEle.click();
+        clickElement(createToDoBtnEle, "click to createToDoBtnEle");
     }
 
     /**
@@ -1591,7 +1589,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             // If isNewToDoPage = true, verify in add new to-do page
             if (isNewToDoPage) {
                 waitForClickableOfElement(eleIdDueDate, "Due date text box");
-                eleIdDueDate.click();
+                clickElement(eleIdDueDate, "click to eleIdDueDate");
                 waitForClickableOfElement(eleXpathChooseDate, "Date picker");
                 waitForVisibleElement(eleDataPickerToDate, "Date picker to date");
                 waitForVisibleElement(eleDataPickerToDay, "Date picker to day");
@@ -2961,6 +2959,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyInputNumberToNewRequestPopup();
         verifyNewRequestStoreInDatabase();
         verifyUpdateRequestStoreInDatabase();
+        verifyDeleteRequestOnPopup();
+        verifyCopyTaskOnPopup();
     }
     /**
      * Author minh.nguyen
@@ -3342,6 +3342,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             clickElement(deleteRequestBtn,"click to deleteRequestBtn");
             waitForClickableOfLocator(By.xpath(deleteRequestMenuStr));
+            Thread.sleep(smallerTimeOut);
+            sendKeyTextBox(findRequestEmpty1, "Deleted the request", "send data to findRequestEmpty1");
             isCheckDeleteRequest = clickElement(deleteRequestMenu, "click to deleteRequestMenu");
             if(isCheckDeleteRequest)
             {
@@ -3366,6 +3368,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verify to copy a task on the popup.");
         boolean isCheckCopyRequest = false;
         try {
+            Thread.sleep(smallerTimeOut);
+            sendKeyTextBox(findRequestEmpty1, "Copied the request", "send data to findRequestEmpty1");
+            //sendTabkey();
+            Thread.sleep(smallerTimeOut);
             clickElement(deleteRequestBtn,"click to deleteRequestBtn");
             waitForClickableOfLocator(By.xpath(copyTaskMenuStr));
             isCheckCopyRequest = clickElement(copyTaskMenu, "click to copyTaskMenu");
