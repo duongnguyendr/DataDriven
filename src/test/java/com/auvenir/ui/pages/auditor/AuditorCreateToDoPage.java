@@ -22,8 +22,14 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import java.net.UnknownHostException;
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
+
+
 
 public class AuditorCreateToDoPage extends AbstractPage {
 
@@ -3289,6 +3295,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, null);
         }
+    }
+
+    /**
+     * Create ToDo name list
+     * @author : TanPham
+     * @date : 29/05/2017
+     */
+
+    public List<String> createToDoNameList(String todoName, int numberToDo){
+        List<String> toDoListNames = new ArrayList<String>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        // Add one ToDo name
+        for (int i = 0; i < numberToDo; i++) {
+            toDoListNames.add(todoName + i + dateFormat.format(date));
+        }
+
+        return toDoListNames;
     }
 }
 

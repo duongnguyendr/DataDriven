@@ -1124,13 +1124,10 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            String todoName = "ToDoDelete" + dateFormat.format(date);
-            // Add one To-Do name
-            ArrayList<String> toDoListNames = new ArrayList<String>();
-            toDoListNames.add(todoName);
-            // Create To-Do follow name
+            // Create To-Do name list
+            String todoName = "ToDoDelete";
+            List<String> toDoListNames = auditorCreateToDoService.createToDoNameList(todoName,1);
+            // Create To-Do follow name list
             auditorCreateToDoService.createListToDoTask(toDoListNames);
             // Select To-Do has just created
             auditorCreateToDoService.selectToDoTaskName(todoName);
@@ -1163,13 +1160,10 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            String todoName = "ToDoCancel" + dateFormat.format(date);
-            // Add one To-Do name
-            ArrayList<String> toDoListNames = new ArrayList<String>();
-            toDoListNames.add(todoName);
-            // Create To-Do follow name
+            // Create To-Do name list
+            String todoName = "ToDoCancel";
+            List<String> toDoListNames = auditorCreateToDoService.createToDoNameList(todoName,1);
+            // Create To-Do follow name list
             auditorCreateToDoService.createListToDoTask(toDoListNames);
             // Select To-Do has just created
             auditorCreateToDoService.selectToDoTaskName(todoName);
@@ -1343,20 +1337,13 @@ End of merged VienPham.
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
+            // Create ToDo name list
             String todoName = "ToDoDelete";
-            // Add one ToDo name
-            List<String> toDoListNames = new ArrayList<String>();
-            for (int i = 0; i < ToDoItemNumber; i++) {
-                toDoListNames.add(todoName + i + dateFormat.format(date));
-            }
+            List<String> toDoListNames = auditorCreateToDoService.createToDoNameList(todoName,ToDoItemNumber);
             // Create ToDo follow name
             auditorCreateToDoService.createListToDoTask(toDoListNames);
-            // Select ToDo has just created
-            for (int i = 0; i < toDoListNames.size(); i++) {
-                auditorCreateToDoService.selectToDoTaskName(toDoListNames.get(i));
-            }
+            // Select ToDo list has just created
+            auditorCreateToDoService.selectMultiToDoTaskByNameList(toDoListNames);
             // Click on trash delete icon
             auditorCreateToDoService.clickOnTrashIcon();
             // Verify work flow of delete button
@@ -1386,15 +1373,10 @@ End of merged VienPham.
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
+            // Create ToDo name list
             String todoName = "ToDoDelete";
-            // Add one To-Do name
-            List<String> toDoListNames = new ArrayList<String>();
-            for (int i = 0; i < ToDoItemNumber; i++) {
-                toDoListNames.add(todoName + i + dateFormat.format(date));
-            }
-            // Create To-Do follow name
+            List<String> toDoListNames = auditorCreateToDoService.createToDoNameList(todoName,ToDoItemNumber);
+            // Create ToDo follow name list
             auditorCreateToDoService.createListToDoTask(toDoListNames);
             // Check on 'CheckAll' check box
             auditorCreateToDoService.checkOrUnCheckCheckAllCheckBox(true);
@@ -1427,20 +1409,13 @@ End of merged VienPham.
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
+            // Create To-Do name list
             String todoName = "ToDoCancel";
-            // Add one To-Do name
-            List<String> toDoListNames = new ArrayList<String>();
-            for (int i = 0; i < ToDoItemNumber; i++) {
-                toDoListNames.add(todoName + i + dateFormat.format(date));
-            }
-            // Create To-Do follow name
+            List<String> toDoListNames = auditorCreateToDoService.createToDoNameList(todoName,ToDoItemNumber);
+            // Create ToDo follow name list
             auditorCreateToDoService.createListToDoTask(toDoListNames);
-            // Select To-Do has just created
-            for (int i = 0; i < toDoListNames.size(); i++) {
-                auditorCreateToDoService.selectToDoTaskName(toDoListNames.get(i));
-            }
+            // Select ToDo list has just created
+            auditorCreateToDoService.selectMultiToDoTaskByNameList(toDoListNames);
             // Click on trash delete icon
             auditorCreateToDoService.clickOnTrashIcon();
             // Verify work flow of delete button
@@ -1470,15 +1445,10 @@ End of merged VienPham.
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
+            // Create ToDo name list
             String todoName = "ToDoCancel";
-            // Add one To-Do name
-            List<String> toDoListNames = new ArrayList<String>();
-            for (int i = 0; i < ToDoItemNumber; i++) {
-                toDoListNames.add(todoName + i + dateFormat.format(date));
-            }
-            // Create To-Do follow name
+            List<String> toDoListNames = auditorCreateToDoService.createToDoNameList(todoName,ToDoItemNumber);
+            // Create ToDo follow name list
             auditorCreateToDoService.createListToDoTask(toDoListNames);
             // Check on 'CheckAll' check box
             auditorCreateToDoService.checkOrUnCheckCheckAllCheckBox(true);

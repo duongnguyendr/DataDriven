@@ -776,5 +776,26 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyInputSpecialCharactersContentComment() { createToDoPage.verifyInputSpecialCharactersContentComment(); }
 
     public void verifyGUIPostButton() { createToDoPage.verifyGUIPostButton(); }
+
+    /**
+     * Create ToDo name list
+     * @author : TanPham
+     * @date : 29/05/2017
+     */
+
+    public List<String> createToDoNameList(String todoName, int numberToDo){
+        return createToDoPage.createToDoNameList(todoName,numberToDo);
+    }
+
+    /**
+     * Select check box follow To-Do name list
+     * @author : TanPham
+     * @date : 29/05/2017
+     */
+    public void selectMultiToDoTaskByNameList(List<String> toDoNameList) {
+        for (int i = 0; i < toDoNameList.size(); i++) {
+            createToDoPage.selectToDoCheckboxByName(toDoNameList.get(i));
+        }
+    }
 }
 
