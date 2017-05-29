@@ -698,6 +698,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
             case 1:
                 createNewCategory("", "");
+                break;
             case 2:
                 createNewCategory("", "");
                 createNewCategory("", "");
@@ -3695,7 +3696,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyAddNewCategory() {
         try {
-            createNewToDoTask(2);
+            createToDoTask(2);
             NXGReports.addStep("Add new Category successfully.", LogAs.PASSED, null);
 
         } catch (Exception e) {

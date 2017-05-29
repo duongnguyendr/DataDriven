@@ -980,15 +980,7 @@ public class AbstractPage {
         }
     }
 
-    public void clickToNewCategoryDllInList() throws Exception {
-        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdl));
-        waitForClickableOfElement(dropdownCategoryEle, "dropdownCategoryEle");
-        clickElement(dropdownCategoryEle, "click to dropdownCategoryEle");
-        waitForClickableOfLocator(By.xpath(dropdownCategoryToDoBulkDdlDiv1));
-        waitForClickableOfElement(addNewCategoryMenuEle, "addNewCategoryMenuEle");
-        Thread.sleep(smallerTimeOut);
-        clickElement(addNewCategoryMenuEle, "click to addNewCategoryMenuEle");
-    }
+   //Vien deleted aMinh method
 
     //    @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]//div[@class=\"text\"]")
     @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]/div[contains(@class,'ui dropdown category')]")
@@ -2621,7 +2613,7 @@ public class AbstractPage {
         }
     }
 
-    public void clickTo1NewCategoryDllInList() throws Exception {
+    public void clickToNewCategoryDllInList() throws Exception {
         waitForNewTodoNameSaved();
         clickElement(categoryDropdownEle, "categoryDropdownEle");
         Thread.sleep(smallerTimeOut);
