@@ -12,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -25,7 +26,7 @@ public class InstitutionTest extends AbstractAPIService {
     //public static final String database ="serviceFinicity";
     static String[] sData = null;
     @BeforeClass
-    public void getRestBaseUrl()throws UnknownHostException {
+    public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath=restBaseUrl;
         MongoDBService.connectDBServer(dataBaseServer,port,dataBaseServer,userName,password,ssl);
 

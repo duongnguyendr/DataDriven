@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class OwnerTest extends AbstractAPIService {
     static String[] sData = null;
     // Connect DB and reset Data
     @BeforeClass
-    public void getRestBaseUrl() throws UnknownHostException {
+    public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath=restBaseUrl;
         //MongoDBService.connectDBServer("34.205.90.145",27017,database);
         //MongoDBService.connectDBServer(dataBaseServer,port,database,userName,password,ssl);
