@@ -3451,8 +3451,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(id = "engagement-backButton")
-    WebElement engagementBackBtn;
+
 
 
     public void verifyTodoTextbox_DefaultValue() {
@@ -3887,35 +3886,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void vefifyInvalidTodoNameNotSaved(String invalidName) {
-        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(),getDriver());
-        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
-        try {
-            WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Click anywhere...");
-            clickElement(eleAuvenirIncTxt, "Auvernir Inc");
-            getLogger().info("Verifying border of todo Textbox is Orange while enter invalid values or not...");
-            validateCssValueElement(textbox1, "border", OrangeBorder);
-            getLogger().info("Make sure invalid name is not saved after return to Todo list Page again...");
-            getLogger().info("Back to Engagement page...");
-            engagementBackBtn.click();
-            getLogger().info("Return to Todo list page again..");
-            auditorEngagementPage.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham007");
-            getLogger().info("Comparing...");
-            String comparedValue = TodosTextboxEle.get(0).getAttribute("value");
-            if (!comparedValue.equals(invalidName)){
-                NXGReports.addStep("Invalid name is not saved as expected.", LogAs.PASSED, null);
-            }else {
-                NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-            }
-        } catch (Exception e) {
-            NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        }
-    }
 
 
 }
