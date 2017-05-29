@@ -6,6 +6,7 @@
     </listeners>
     <test name="Regression" preserve-order="true">
         <classes>
+            <class name="com.auvenir.utilities.initialize.InitData"/>
             <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
             <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
 
