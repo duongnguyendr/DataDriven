@@ -775,7 +775,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifyInputSpecialCharactersContentComment() { createToDoPage.verifyInputSpecialCharactersContentComment(); }
 
-    public void verifyGUIPostButton() { createToDoPage.verifyGUIPostButton(); }
+
 
     /**
      * Create ToDo name list

@@ -3520,7 +3520,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verifying border of todo Textbox default is white...");
         String deFaultBorder = "1px solid rgb(255, 255, 255)";
         try {
-            validateCSSValueElement(textbox1, "border", deFaultBorder);
+            validateCssValueElement(textbox1, "border", deFaultBorder);
             NXGReports.addStep("Default border is White as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Default border is not White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -3536,7 +3536,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verifying border of todo Textbox is Green while hovered...");
         try {
             hoverElement(textbox1, "Todos Textbox");
-            validateCSSValueElement(textbox1, "border-color", GreenBorder);
+            validateCssValueElement(textbox1, "border-color", GreenBorder);
             NXGReports.addStep("Border is Green while hovered on it.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Border is not Green while hovered on it.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -3554,7 +3554,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Click anywhere...");
             clickElement(todoTrashBtn, "todo Trash Btn");
             getLogger().info("Verifying border of todo Textbox is Orange while missed name or not...");
-            validateCSSValueElement(textbox1, "border", OrangeBorder);
+            validateCssValueElement(textbox1, "border", OrangeBorder);
             NXGReports.addStep("Border is Orange while missed name as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Border is not Orange while missed name.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -3573,10 +3573,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
             WebElement textbox1 = TodosTextboxEle.get(0);
             getLogger().info("Verifying while user input valid text, textbox border is green...");
             sendKeyTextBox(textbox1, value1, "Todos Textbox");
-            validateCSSValueElement(textbox1, "border", GreenBorder);
+            validateCssValueElement(textbox1, "border", GreenBorder);
             getLogger().info("Click anywhere to verify textbox border is White..");
             clickElement(todoTrashBtn, "todo Trash Btn");
-            validateCSSValueElement(textbox1, "border", deFaultBorder);
+            validateCssValueElement(textbox1, "border", deFaultBorder);
             getLogger().info("Verify valid value was saved or not...");
             if (textbox1.getAttribute("value").equals(value1)) {
                 NXGReports.addStep("Valid Todo name was saved as expected.", LogAs.PASSED, null);
@@ -3619,10 +3619,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
             Thread.sleep(smallerTimeOut);
             WebElement textbox1 = TodosTextboxEle.get(0);
             sendKeyTextBox(textbox1, value1.toString(), "Todos Textbox");
-            validateCSSValueElement(textbox1, "border", GreenBorder);
+            validateCssValueElement(textbox1, "border", GreenBorder);
             getLogger().info("Click anywhere to verify textbox border is White..");
             clickElement(todoTrashBtn, "todo Trash Btn");
-            validateCSSValueElement(textbox1, "border", deFaultBorder);
+            validateCssValueElement(textbox1, "border", deFaultBorder);
             getLogger().info("Verify valid number was saved or not...");
             if (textbox1.getAttribute("value").equals(value1.toString())) {
                 NXGReports.addStep("Number as Todo Name was saved as expected.", LogAs.PASSED, null);
@@ -3648,7 +3648,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForSizeListElementChanged(TodosTextboxEle, "list To Do Task", count);
             WebElement textbox1 = TodosTextboxEle.get(0);
             sendKeyTextBox(textbox1, specialCharacter, "Todos Textbox");
-            validateCSSValueElement(textbox1, "border", OrangeBorder);
+            validateCssValueElement(textbox1, "border", OrangeBorder);
             getLogger().info("Create new Todo textbox...");
             count = TodosTextboxEle.size() + 1;
             clickElement(createToDoBtnEle, "Create todo btn");
@@ -3685,7 +3685,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String GreenBorder = "1px solid rgb(92, 155, 160)";
         try {
             hoverElement(DropdownCategoryEle.get(0), "Category Dropdown Menu");
-            validateCSSValueElement(DropdownCategoryEle.get(0), "border", GreenBorder);
+            validateCssValueElement(DropdownCategoryEle.get(0), "border", GreenBorder);
             NXGReports.addStep("Border of Categorybox is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Border of Categorybox is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -3782,7 +3782,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String GreenBorder = "1px solid rgb(92, 155, 160)";
         try {
             hoverElement(DropdownClientAssignee.get(0), "Category Dropdown Menu");
-            validateCSSValueElement(DropdownClientAssignee.get(0), "border", GreenBorder);
+            validateCssValueElement(DropdownClientAssignee.get(0), "border", GreenBorder);
             NXGReports.addStep("Border of ClientAssigneebox is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Border of ClientAssigneebox is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -3821,7 +3821,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String GreenBorder = "1px solid rgb(89, 155, 161)";
         try {
             hoverElement(DropdownDuedateBtn, "Duedate Dropdown Menu");
-            validateCSSValueElement(DropdownDuedateBtn, "border", GreenBorder);
+            validateCssValueElement(DropdownDuedateBtn, "border", GreenBorder);
             NXGReports.addStep("Border of DueDate is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Border of DueDate is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -3856,7 +3856,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String GreenBorder = "1px solid rgb(89, 155, 161)";
         try {
             hoverElement(DropdownDuedateBtn, "Duedate Dropdown Menu");
-            validateCSSValueElement(DropdownDuedateBtn, "border", GreenBorder);
+            validateCssValueElement(DropdownDuedateBtn, "border", GreenBorder);
             NXGReports.addStep("Border of AuditAssignee  is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Border of AuditAssignee is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -3902,7 +3902,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Click anywhere...");
             clickElement(eleAuvenirIncTxt, "Auvernir Inc");
             getLogger().info("Verifying border of todo Textbox is Orange while enter invalid values or not...");
-            validateCSSValueElement(textbox1, "border", OrangeBorder);
+            validateCssValueElement(textbox1, "border", OrangeBorder);
             getLogger().info("Make sure invalid name is not saved after return to Todo list Page again...");
             getLogger().info("Back to Engagement page...");
             engagementBackBtn.click();
