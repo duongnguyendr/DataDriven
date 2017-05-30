@@ -329,26 +329,26 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='add-request-btn']")
     private WebElement totoPageAddRequestBtn;
 
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/input")
+    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[1]/input")
     private WebElement findRequestEmpty1;
 
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[2]/input")
+    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[2]/input")
     private WebElement findRequestEmpty2;
 
-    @FindBy(xpath = "//*[@id='todoDetailsName']")
+    @FindBy (xpath = "//*[@id='todoDetailsName']")
     private WebElement popupToDoDetailName;
 
-    @FindBy(xpath = "//p[contains(text(),'Request name must not be empty')]")
+    @FindBy (xpath = "//p[contains(text(),'Request name must not be empty')]")
     private WebElement messageEmptyRequest;
     private String checkMarkToDoName = "";
     private String checkToDoNameAddNewRequest = "";
-    @FindBy(xpath = "//*[@id='auv-todo-details']/div[3]")
+    @FindBy (xpath = "//*[@id='auv-todo-details']/div[3]")
     private WebElement closeAddNewRequest;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div")
+    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div")
     private WebElement deleteRequestBtn;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
+    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
     private WebElement deleteRequestMenu;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
+    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
     private WebElement copyTaskMenu;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
@@ -1839,11 +1839,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Click on trash icon
      */
-    public void clickOnTrashIcon() {
+    public void clickOnTrashIcon(){
         try {
             waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
-            hoverElement(trashToDoBtnEle, "Hover trash icon ");
-            clickElement(trashToDoBtnEle, "Click on trash icon");
+            hoverElement(trashToDoBtnEle,"Hover trash icon ");
+            clickElement(trashToDoBtnEle,"Click on trash icon");
             NXGReports.addStep("Click on trash ToDo icon", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
@@ -2972,18 +2972,21 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
-    public void verifyAddNewRequest() {
+    public void verifyAddNewRequestButton()
+    {
         verifyPopupColorAddRequestBtn();
         verifyClickAddRequestBtn();
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyRequestNameTextbox()
+    {
         verifyDefaultToDoNameNewRequestPopup();
         verifyShowAllTextNewRequestPopup();
         verifyMaxLengthNewRequestPopup();
         verifyEmptyNewRequestPopup();
         verifyInputNumberToNewRequestPopup();
-        verifyNewRequestStoreInDatabase();
-        verifyUpdateRequestStoreInDatabase();
-        verifyDeleteRequestOnPopup();
-        verifyCopyTaskOnPopup();
     }
 
     /**
@@ -3519,6 +3522,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyTodoTextboxBorder_WhileMissedName() {
 
+        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
             getLogger().info("Clear todo Textbox...");
