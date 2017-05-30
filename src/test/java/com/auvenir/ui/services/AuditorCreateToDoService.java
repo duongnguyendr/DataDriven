@@ -806,16 +806,16 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void verifyTodosTextBox() throws InterruptedException {
         getLogger().info("Verifying Todos Textbox...");
-        createToDoPage.verifyTodoTextbox_DefaultValue();
-        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
-        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
-        createToDoPage.verifyTodoTextboxBorder_Default();
-        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
-        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
+//        createToDoPage.verifyTodoTextbox_DefaultValue();
+//        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+//        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
+//        createToDoPage.verifyTodoTextboxBorder_Default();
+//        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
+//        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
         createToDoPage.verifyTodoTextbox_InputText();
-        createToDoPage.verifyTodoTextbox_MissingInput();
         createToDoPage.verifyTodoTextbox_InputNumber();
-        createToDoPage.verifyTodoTextbox_InputSpecialChars();
+        createToDoPage.verifySpecialCharacter();
+//        createToDoPage.verifyTodoTextbox_MissingInput();
 
     }
 

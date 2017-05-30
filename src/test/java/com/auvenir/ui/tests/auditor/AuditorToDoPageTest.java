@@ -20,14 +20,18 @@ public class AuditorToDoPageTest extends AbstractTest {
     private AuditorNewEngagementService auditorNewEngagementService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
 
-    @Test(priority = 1, enabled = false, description = "Verify Todos Textbox")
+    @Test(priority = 1, enabled = true, description = "Verify Todos Textbox")
     public void verifyTodosTextBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
-            auditorCreateToDoService.navigateToDoListPage();
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyTodosTextBox();
             NXGReports.addStep("Verify Todos Textbox.", LogAs.PASSED, null);
@@ -86,7 +90,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify Audit Assignee box")
+    @Test(priority = 5, enabled = false, description = "Verify Audit Assignee box")
     public void verifyAuditAssigneeBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
