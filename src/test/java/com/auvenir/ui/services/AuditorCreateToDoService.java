@@ -813,9 +813,9 @@ public class AuditorCreateToDoService extends AbstractService {
 //        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
 //        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
         createToDoPage.verifyTodoTextbox_InputText();
-//        createToDoPage.verifyTodoTextbox_InputNumber();
-//        createToDoPage.verifyTodoTextbox_InputSpecialChars();
-//        createToDoPage.verifyTodoTextbox_NullChars();
+        createToDoPage.verifyTodoTextbox_InputNumber();
+        createToDoPage.verifyTodoTextbox_InputSpecialChars();
+        createToDoPage.verifyTodoTextbox_NullChars();
 
     }
 

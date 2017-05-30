@@ -2649,8 +2649,6 @@ public class AbstractPage {
 
 
     public void verifyInvalidTodoNameNotSaved(String invalidName) {
-        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
         try {
             Thread.sleep(smallerTimeOut);
             WebElement textbox1 = TodosTextboxEle.get(0);
@@ -2673,8 +2671,6 @@ public class AbstractPage {
     }
 
     public void verifyValidTodoNameSaved(String validName) {
-        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
         try {
             Thread.sleep(smallerTimeOut);
             WebElement textbox1 = TodosTextboxEle.get(0);
@@ -2719,9 +2715,7 @@ public class AbstractPage {
             validateCssValueElement(textbox1, "border", GreenBorder);
             getLogger().info("Click anywhere to verify textbox border transfered from Green to White..");
             clickElement(eleAuvenirIncTxt, "Auvenir Inc");
-            Thread.sleep(1000);
             validateCssValueElement(textbox1, "border", deFaultBorder);
-            System.out.println("Mau sac hien tai la: "+ textbox1.getCssValue("border"));
             NXGReports.addStep("Border color displayed correctly.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Border color is not displayed correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
