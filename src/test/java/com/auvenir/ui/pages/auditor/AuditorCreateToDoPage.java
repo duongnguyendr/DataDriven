@@ -3573,6 +3573,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
+    public void verifyTodoTextbox_NullChars(){
+        try {
+            String value1 =  nullChars;
+            verifyInvalidTodoNameNotSaved(value1);
+            NXGReports.addStep("Nullchars was not saved as expected.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Nullchars still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
 
 
     public  void verifyTodoTextbox_InputSpecialChars(){
@@ -3583,7 +3594,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (Exception e) {
             NXGReports.addStep("Special character still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
 
     }
 
