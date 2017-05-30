@@ -878,17 +878,31 @@ public class ClientOnBoardingPage extends AbstractPage {
         validateDisPlayedElement(eleSkipSecurityTxt, "Skip Security Text");
         validateElementText(eleSkipSecurityTxt, "Skip Security");
         validateDisPlayedElement(eleWarningImg, "Warning Image");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleCloseImg(), "Close Image", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleByChoosingTxt(), "By Choosing Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAmDefaultingChkBox(), "I am Defaulting Check Box", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAmDefaultingTxt(), "I am Defaulting Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleITakeResponsibilityChkBox(), "I Take Responsibility Check Box", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleITakeResponsibilityTxt(), "I Take Responsibility Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAgreeToAuvenirChkBox(), "I Agree to Auvenir Check Box", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleIAgreeToAuvenirTxt(), "I Agree to Auvenir Text", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleTermsAndConditionsSkipSecurityLnk(), "Terms and Conditions Link", "Displayed");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleCancelSkipSecurityBtn(), "Cancel Button", "Enabled");
-//            GeneralUtilities.toValidate(clientOnBoardingPage.getEleAgreeSkipSecurityBtn(), "Agree Button", "Enabled");
+        validateDisPlayedElement(eleCloseImg, "Close Image");
+        validateDisPlayedElement(eleByChoosingTxt, "By Choosing Text");
+        validateDisPlayedElement(eleIAmDefaultingChkBox, "I am Defaulting Check Box");
+        validateDisPlayedElement(eleIAmDefaultingTxt, "I am Defaulting Text");
+        validateDisPlayedElement(eleITakeResponsibilityChkBox, "I Take Responsibility Check Box");
+        validateDisPlayedElement(eleITakeResponsibilityTxt, "I Take Responsibility Text");
+        validateDisPlayedElement(eleIAgreeToAuvenirChkBox, "I Agree to Auvenir Check Box");
+        validateDisPlayedElement(eleIAgreeToAuvenirTxt, "I Agree to Auvenir Text");
+        validateDisPlayedElement(eleTermsAndConditionsSkipSecurityLnk, "Terms and Conditions Link");
+        validateDisPlayedElement(eleCancelSkipSecurityBtn, "Cancel Button");
+        validateDisPlayedElement(eleAgreeSkipSecurityBtn, "Agree Button");
+    }
+
+    public void clickSkipSecurityWarning() {
+        getLogger().info("Click Skip the Security Warning Popup.");
+        clickElement(eleIAmDefaultingChkBox, "I am defaulting checkbox");
+        clickElement(eleITakeResponsibilityChkBox, "I take responsibility checkbox");
+        clickElement(eleIAgreeToAuvenirChkBox, "I agree to Auvenir service checkbox");
+        clickElement(eleAgreeSkipSecurityBtn, "Agree Button");
+    }
+
+    public void verifyDashBoardText(){
+        getLogger().info("Click Skip the Security Warning Popup.");
+        waitForVisibleElement(eleWelcomeToDashboardTxt, "Welcome to DashBoard - Text");
+        validateDisPlayedElement(eleWelcomeToDashboardTxt, "Welcome to DashBoard - Text");
     }
 
 }

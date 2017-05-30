@@ -212,4 +212,15 @@ public class AbstractService {
         driver.switchTo().window(newWin);
 
     }
+    public void loadURL(String sUrl) {
+        try {
+            System.out.println(sUrl);
+            driver.get(sUrl);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+            driver.manage().window().maximize();
+        } catch (AssertionError e) {
+            NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
 }
