@@ -1614,8 +1614,13 @@ End of merged VienPham.
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            //auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.createNewRequestOnToDoPage();
+            auditorCreateToDoService.createToDoPage();
+            auditorCreateToDoService.verifyAddNewRequestButton();
+            auditorCreateToDoService.verifyRequestNameTextbox();
+            auditorCreateToDoService.verifyCreateRequest();
+            auditorCreateToDoService.verifyUpdateRequest();
+            auditorCreateToDoService.verifyDeleteRequest();
+            auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
         } catch (Exception e) {

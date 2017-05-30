@@ -760,9 +760,40 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
-    public void createNewRequestOnToDoPage() {
-        createToDoPage.verifyAddNewRequest();
+    public void verifyAddNewRequestButton() {
+        createToDoPage.verifyAddNewRequestButton();
     }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyRequestNameTextbox() {
+        createToDoPage.verifyRequestNameTextbox();
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyCreateRequest() {
+        createToDoPage.verifyNewRequestStoreInDatabase();
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyUpdateRequest() {
+        createToDoPage.verifyUpdateRequestStoreInDatabase();
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyDeleteRequest() {
+        createToDoPage.verifyDeleteRequestOnPopup();
+    }
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyCopyRequest() {
+        createToDoPage.verifyCopyTaskOnPopup();
+    }
+
     public void verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
         createToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
     }
