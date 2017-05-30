@@ -1722,7 +1722,9 @@ public class AbstractPage {
     }
 
 
-    //Vien Added=================
+    /*
+    Author: Vien Pham
+     */
     public void hoverElementAndClickToOtherElement(WebElement element1, String elementName1, WebElement element2, String elementName2) {
         getLogger().info("Try to hoverElement: " + elementName1 + " and click to " + elementName2);
         try {
@@ -1773,6 +1775,11 @@ public class AbstractPage {
 
 
     }
+
+    /*
+
+    End of Vien Pham.
+     */
 
     /**
      * @param element     element defined on page class
@@ -2651,12 +2658,7 @@ public class AbstractPage {
             sendKeyTextBox(textbox1, invalidName, "Todos Textbox");
             verifyBorderOfTextBoxTobeOrange();
             getLogger().info("Make sure invalid name was not saved after return to Todo list Page again...");
-            getLogger().info("Back to Engagement page...");
-            engagementBackBtn.click();
-            getLogger().info("Return to Todo list page again..");
-            auditorEngagementPage.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham007");
-            getLogger().info("Comparing...");
+            returnToTodoListPage();
             String comparedValue = TodosTextboxEle.get(0).getAttribute("value");
             if (!comparedValue.equals(invalidName)) {
                 NXGReports.addStep("Invalid name was not saved as expected.", LogAs.PASSED, null);
@@ -2673,39 +2675,58 @@ public class AbstractPage {
     public void verifyValidTodoNameSaved(String validName) {
         AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
-        String deFaultBorder = "1px solid rgb(255, 255, 255)";
-        String GreenBorder = "1px solid rgb(92, 155, 160)";
-
         try {
             Thread.sleep(smallerTimeOut);
             WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Verifying while user input valid text, textbox border is green...");
             sendKeyTextBox(textbox1, validName, "Todos Textbox");
-            validateCssValueElement(textbox1, "border", GreenBorder);
-            getLogger().info("Click anywhere to verify textbox border transfered from Green to White..");
-            clickElement(eleAuvenirIncTxt, "todo Trash Btn");
-            validateCssValueElement(textbox1, "border", deFaultBorder);
+            verifyBorderTodoTextBox_InputValidValue();
             getLogger().info("Make sure valid name was saved after return to Todo list Page again...");
+            returnToTodoListPage();
+            String comparedValue = TodosTextboxEle.get(0).getAttribute("value");
+            if (comparedValue.equals(validName)) {
+                NXGReports.addStep("Valid Todo name was saved as expected.", LogAs.PASSED, null);
+            } else {
+                NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    public void returnToTodoListPage() {
+        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
+        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
+        try {
             getLogger().info("Back to Engagement page...");
             engagementBackBtn.click();
             getLogger().info("Return to Todo list page again..");
             auditorEngagementPage.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham007");
             getLogger().info("Comparing...");
-            String comparedValue = TodosTextboxEle.get(0).getAttribute("value");
-            if (comparedValue.equals(validName)) {
-                NXGReports.addStep("Valid Todo name was saved as expected.", LogAs.PASSED, null);
-            } else {
-                NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-            }
+            NXGReports.addStep("Return to Todo ListPage successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
-
-            NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
+            NXGReports.addStep("Return to Todo ListPage failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
+    public void verifyBorderTodoTextBox_InputValidValue() {
+        String deFaultBorder = "1px solid rgb(255, 255, 255)";
+        String GreenBorder = "1px solid rgb(92, 155, 160)";
+        try {
+            WebElement textbox1 = TodosTextboxEle.get(0);
+            getLogger().info("Verifying while user inputting valid text, textbox border is green...");
+            validateCssValueElement(textbox1, "border", GreenBorder);
+            getLogger().info("Click anywhere to verify textbox border transfered from Green to White..");
+            clickElement(eleAuvenirIncTxt, "Auvenir Inc");
+            Thread.sleep(1000);
+            validateCssValueElement(textbox1, "border", deFaultBorder);
+            System.out.println("Mau sac hien tai la: "+ textbox1.getCssValue("border"));
+            NXGReports.addStep("Border color displayed correctly.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Border color is not displayed correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
     public void verifyBorderOfTextBoxTobeOrange() {
         String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
