@@ -25,8 +25,10 @@ public class AdminTest extends AbstractTest {
     private void initVariable() {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
-
         adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+        adminService.loginWithUserRole(adminId);
+        adminService.verifyPageLoad();
     }
 
     private void navigationPreconditions() {
@@ -37,8 +39,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 1, enabled = true, description = "To Verify the display of Elements in Admin Home Page")
     public void verifyAdminHomePage() {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             adminService.verifyHeader();
             adminService.verifyBody();
@@ -61,8 +67,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Messages screen")
     public void verifyMessagesContent() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             auvenirService.clickMessageBoxIcon();
             adminService.verifyDropMenuMessage();
@@ -82,8 +92,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Notification screen")
     public void verifyAlertContent() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             auvenirService.clickNotiticationIcon();
             adminService.verifyDropMenuNotification();
@@ -102,8 +116,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Admin Account Settings and Deactivate screen")
     public void verifyAdminSettingsAccContent() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             adminService.navigateToSettingAccountPage();
             adminService.verifySettingAccountPage();
@@ -123,8 +141,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 5, enabled = true, description = "To Verify the display of Elements in Admin Settings Devices Registration screen")
     public void verifyAdminSettingsDevicesContentRegister() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             adminService.navigateToSettingDevicesPage();
             adminService.verifySettingDevicesPage();
@@ -143,8 +165,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Admin Settings Devices Disconnect screen")
     public void verifyAdminSettingsDevicesContentDisconnect() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             adminService.navigateToSettingDevicesDisconnect();
             adminService.verifySettingDevicesDisconnectPopup();
@@ -161,8 +187,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Admin Settings Devices Disconnect screen")
     public void verifyAdminTOS() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             GeneralUtilities.scrollToFooter(getDriver());
             auvenirService.clickTermsOfServiceLink();
@@ -181,8 +211,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Admin Settings Devices Disconnect screen")
     public void verifyAdminPrivacyPage() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             GeneralUtilities.scrollToFooter(getDriver());
             auvenirService.clickPrivacyStatementLink();
@@ -201,8 +235,12 @@ public class AdminTest extends AbstractTest {
     @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Admin Settings Devices Disconnect screen")
     public void verifyAdminCookieNoticePage() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+            adminService = new AdminService(getLogger(), getDriver());
+            auvenirService = new AuvenirService(getLogger(), getDriver());
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             GeneralUtilities.scrollToFooter(getDriver());
             auvenirService.clickCookieNoticeLink();

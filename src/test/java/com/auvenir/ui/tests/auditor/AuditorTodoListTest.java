@@ -856,6 +856,20 @@ public class AuditorTodoListTest extends AbstractTest {
 
         auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+        auditorDetailsEngagementService.navigateToTodoListPage();
     }
 
     /**
@@ -885,8 +899,27 @@ public class AuditorTodoListTest extends AbstractTest {
     @Test(priority = 28, enabled = true, testName = "Verify GUI.", description = "verify Undo Button exist ", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoExist() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+        auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.uiVerifyButtonUndoExist();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -905,8 +938,27 @@ public class AuditorTodoListTest extends AbstractTest {
     @Test(priority = 29, enabled = true, testName = "Undo arrow.", description = "verify button Undo action disable", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoStatus() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+        auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.uiVerifyButtonUndoDisable();
 
@@ -929,8 +981,27 @@ public class AuditorTodoListTest extends AbstractTest {
     @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "verify Undo action Complete a To-Do, verified change on database but UI", groups = "workflow")
     public void verifyUndoActionWithCompleteCase() {
         try {
-            initVariable();
-            navigationPreconditions();
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+        auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -956,8 +1027,27 @@ public class AuditorTodoListTest extends AbstractTest {
     @Test(priority = 31, enabled = true, testName = "Undo successfully", description = "verify Undo action Assign to a To-Do, verified change on UI but database", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithAssignToCase() throws Exception {
         try {
-            initVariable();
-            navigationPreconditions();
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+        auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -983,8 +1073,27 @@ public class AuditorTodoListTest extends AbstractTest {
     @Test(priority = 32, enabled = true, testName = "Undo successfully", description = "verify Undo action Delete a To-Do, verified change on database but UI", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithDeleteCase() {
         try {
-            initVariable();
-            navigationPreconditions();
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+        auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -1010,8 +1119,27 @@ public class AuditorTodoListTest extends AbstractTest {
     @Test(priority = 33, enabled = true, testName = "Undo fail", description = "verify Undo action Download Attachments disable", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyDownloadAttachmentsDisable() {
         try {
-            initVariable();
-            navigationPreconditions();
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        auditorEngagementService.loginWithUserRole(auditorId);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        auditorEngagementService.clickNewEnagementButton();
+        auditorNewEngagementService.verifyNewEngagementPage();
+
+        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+        auditorEngagementService.verifyAuditorEngagementPage();
+
+        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+        auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.verifyToDoDownloadAttachmentsDisable("toDoName01" + timeStamp);
