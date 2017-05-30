@@ -5,6 +5,9 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GeneralUtilities;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -814,6 +817,7 @@ public class AdminLoginPage extends AbstractPage {
     public void verifyAdminLoginPage() {
         waitForVisibleElement(eleAdminHdrTxt, "eleAdminHdrTxt");
         validateElementText(eleAdminHdrTxt, "Admin");
+        validateDisPlayedElement(eleAdminHdrTxt, "eleAdminHdrTxt");
     }
 
     public void verifyAdminHeaderText() {
@@ -1010,5 +1014,24 @@ public class AdminLoginPage extends AbstractPage {
         validateDisPlayedElement(getEleCancelBtn(), "Cancel   - Button");
         validateDisPlayedElement(getEleDeactivateBtn(), "Deactivate   - Button");
         clickElement(getEleCloseIcn(), "Close button");
+    }
+
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+        getLogger().info("Verify user is changed status on the list.");
+        try {
+            String actualStatus = getEleAuditorStatusLst(userType, email, dateCreated);
+            Assert.assertTrue(actualStatus.equals(expectedStatus), String.format("Auditor is not created with %s status", actualStatus));
+            NXGReports.addStep("Verify user is changed status on the list.", LogAs.PASSED, null);
+        } catch (AssertionError e){
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e){
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
     }
 }

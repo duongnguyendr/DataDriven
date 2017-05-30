@@ -126,4 +126,63 @@ public class CreateNewAuditPage extends AbstractPage {
         return eleResendBtn;
     }
 
+    @FindBy(xpath = "//*[@id='engagement-my-client-widget']/h4")
+    private WebElement myClientTitleEle;
+
+    @FindBy(xpath = "//p[@class = 'w-mc-name']")
+    private WebElement clientNameTextEle;
+
+    public void clickSelectClientButton() {
+        waitForVisibleElement(myClientTitleEle, "My Client Title");
+        validateElementText(myClientTitleEle, "My Client");
+        clickElement(eleSelectClientBtn, "Select Client Button");
+    }
+
+    public void verifyPleaseSelectClientText() {
+        waitForVisibleElement(elePleaseSelectYourTxt, "Please select your client");
+        validateDisPlayedElement(elePleaseSelectYourTxt, "Please select your client");
+        validateElementText(elePleaseSelectYourTxt, "Please select your client");
+    }
+
+    public void clickCreateNewClient() {
+        waitForVisibleElement(eleSelectYourClientDrpDwn, "Select Your Client Dropdown");
+        clickElement(eleSelectYourClientDrpDwn, "Select Your Client Dropdown");
+        waitForVisibleElement(eleCreateNewClientDrpDwn, "Create New Client Item");
+        clickElement(eleCreateNewClientDrpDwn, "Create New Client Item");
+    }
+
+    public void verifyAddNewClientPopUpDisplayed() {
+        waitForVisibleElement(eleAddNewClientTxt, "Add New Client Title");
+        validateDisPlayedElement(eleAddNewClientTxt, "Add New Client Title");
+        validateElementText(eleAddNewClientTxt, "Add New Client");
+    }
+
+    public void clickSelectClient(String clientName) {
+        getLogger().info("Select client.");
+        waitForVisibleElement(eleSelectYourClientDrpDwn, "Select Your Client Dropdown");
+        clickElement(eleSelectYourClientDrpDwn, "Select Your Client Dropdown");
+        waitForVisibleElement(getEleSelectCreatedClientDrpDwn(clientName), String.format("client name '%s' option", clientName));
+        clickElement(getEleSelectCreatedClientDrpDwn(clientName), String.format("client name '%s' option", clientName));
+        waitForVisibleElement(eleContinueBtn, "Continue Button");
+        clickElement(eleContinueBtn, "Continue Button");
+        waitForProgressOverlayIsClosed();
+    }
+
+    public void verifyClientIsSelected(String clientFirstName) {
+        getLogger().info("Verify Client is selected.");
+        waitForVisibleElement(clientNameTextEle, "Client Name Text");
+        validateDisPlayedElement(clientNameTextEle, "Client Name Text");
+        validateElementText(clientNameTextEle, clientFirstName);
+        validateDisPlayedElement(eleInviteBtn, "Invite Button");
+    }
+
+    public void sendInvitationName() {
+        getLogger().info("Send Invitation to Client.");
+//        closeSuccessToastMes();
+        waitForProgressOverlayIsClosed();
+        final String expectedContent = "Your engagement invitation has been sent.";
+        clickElement(eleInviteBtn, "Invite Button");
+        verifyContentOfSuccessToastMessage(expectedContent);
+        clickElement(eleResendBtn, "Resend Button");
+    }
 }

@@ -1,6 +1,9 @@
 package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.AuvenirPage;
+import com.auvenir.ui.pages.CreateNewAuditPage;
+import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.auditor.AddNewClientPage;
 import com.auvenir.ui.pages.client.*;
 import com.auvenir.ui.pages.common.GmailPage;
 import com.kirwa.nxgreport.NXGReports;
@@ -27,6 +30,9 @@ public class ClientService extends AbstractService {
     ClientLoginPage clientLoginPage;
     AuvenirPage auvenirPage;
     GmailPage gmailPage;
+    CreateNewAuditPage createNewAuditPage;
+    AddNewClientPage addNewClientPage;
+    AdminLoginPage adminLoginPage;
 
 
     public ClientService(Logger logger, WebDriver driver) {
@@ -44,6 +50,9 @@ public class ClientService extends AbstractService {
         clientLoginPage = new ClientLoginPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         gmailPage = new GmailPage(getLogger(), getDriver());
+        createNewAuditPage = new CreateNewAuditPage(getLogger(), getDriver());
+        addNewClientPage = new AddNewClientPage(getLogger(), getDriver());
+        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
     }
 
 
@@ -271,4 +280,53 @@ public class ClientService extends AbstractService {
     public void verifyClientLoginPageInvitationEmail() { clientLoginPage.verifyClientLoginPageInvitationEmail(); }
 
     public void clickStartAuditButton() { clientLoginPage.clickStartAuditButton(); }
+
+    public void clickSelectClientButton() { createNewAuditPage.clickSelectClientButton(); }
+
+    public void verifyPleaseSelectClientText() { createNewAuditPage.verifyPleaseSelectClientText(); }
+
+    public void clickCreateNewClient() { createNewAuditPage.clickCreateNewClient(); }
+
+    public void verifyAddNewClientPopUpDisplayed() { createNewAuditPage.verifyAddNewClientPopUpDisplayed(); }
+
+    public void inputDataKeyContactInfo(String name, String email, String phoneNumber) {
+        addNewClientPage.inputDataKeyContactInfo(name, email, phoneNumber);
+    }
+
+    public void inputDataCompanyInfo(String legalName, String pleaseListParent, String address, String unitNumber,
+                                     String city, String provinceState, String country, String postalCode ) {
+        addNewClientPage.inputDataCompanyInfo(legalName, pleaseListParent, address, unitNumber,
+                city, provinceState, country, postalCode );
+    }
+
+    public void selectAllCheckboxInCompanyInformation() {
+        addNewClientPage.selectAllCheckboxInCompanyInformation();
+    }
+
+    public void clickAddNewClientButton() {
+        addNewClientPage.clickAddNewClientButton();
+    }
+
+    public void clickSelectClient(String clientName){
+        createNewAuditPage.clickSelectClient(clientName);
+    }
+
+    public void verifyClientIsSelected(String clientFirstName){
+        createNewAuditPage.verifyClientIsSelected(clientFirstName);
+    }
+
+    public void sendInvitationName() {
+        createNewAuditPage.sendInvitationName();
+    }
+    public void closeSuccessToastMes() {
+        createNewAuditPage.closeSuccessToastMes();
+    }
+
+    public void verifyAdminLoginPage() {
+        adminLoginPage.verifyAdminLoginPage();
+    }
+
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+        adminLoginPage.verifyUserIsChangeStatusOnTheList(userType, email, dateCreated, expectedStatus);
+    }
 }

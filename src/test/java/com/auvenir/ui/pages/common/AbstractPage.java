@@ -234,6 +234,9 @@ public class AbstractPage {
         return eleAuvenirHeaderImg;
     }
 
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show'] //div[@class='send-message-success-alert']/span")
+    private WebElement successToastMesDescriptionEle;
+
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
         validateDisPlayedElement(eleTermsOfServiceLnk, "eleAuvenirIncTxt");
@@ -2740,5 +2743,17 @@ public class AbstractPage {
     /*
     End of VienPham
      */
+
+    /**
+     * Author: Thuan Duong.
+     * Verify the content of success toast message is displayed.
+     *
+     * @param expectedContent The content is expected to displayed on Success Message.
+     * @return true if the content is displayed, otherwise it returns false.
+     */
+    public boolean verifyContentOfSuccessToastMessage(String expectedContent) {
+        getLogger().info("Try to Verify Content Of Warning Toast Message ");
+        return verifyContentOfToastMessage(successToastMesDescriptionEle, "Success Toast Message Content", expectedContent);
+    }
 
 }

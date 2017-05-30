@@ -13,10 +13,7 @@ import org.testng.annotations.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
@@ -334,6 +331,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String toDoListNames[] = {"416 To Do Task02","a To Do Task02","z To Do Task02", "b To Do Task02", "c To Do Task02"};
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -342,15 +340,8 @@ public class AuditorTodoListTest extends AbstractTest {
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
-
             auditorCreateToDoService.verifyAddNewToDoTask("ZAToDo PLAT 2282");
-            ArrayList<String> toDoListNames = new ArrayList<String>();
-            toDoListNames.add("416 To Do Task02");
-            toDoListNames.add("a To Do Task02");
-            toDoListNames.add("z To Do Task02");
-            toDoListNames.add("b To Do Task02");
-            toDoListNames.add("c To Do Task02");
-            auditorCreateToDoService.createListToDoTask(toDoListNames);
+            auditorCreateToDoService.createListToDoTask(Arrays.asList(toDoListNames));
             auditorCreateToDoService.verifySortDataGridIcon();
             auditorCreateToDoService.verifyCheckBoxToDoName();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
