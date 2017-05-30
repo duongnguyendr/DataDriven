@@ -3574,35 +3574,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void verifyTodoTextbox_InputSpecialChars() {
-        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
-        try {
-            int count = TodosTextboxEle.size() + 1;
-            clickElement(createToDoBtnEle, "Create todo btn");
-            getLogger().info("Verifying while user input special char, textbox border is orange...");
-            waitForSizeListElementChanged(TodosTextboxEle, "list To Do Task", count);
-            WebElement textbox1 = TodosTextboxEle.get(0);
-            sendKeyTextBox(textbox1, specialCharacter, "Todos Textbox");
-            validateCssValueElement(textbox1, "border", OrangeBorder);
-            getLogger().info("Create new Todo textbox...");
-            count = TodosTextboxEle.size() + 1;
-            clickElement(createToDoBtnEle, "Create todo btn");
-            waitForSizeListElementChanged(TodosTextboxEle, "list To Do Task", count);
-            WebElement textbox2 = TodosTextboxEle.get(1);
-            getLogger().info("Verifying special chars was saved or not...");
-            if (!specialCharacter.equals(textbox2.getAttribute("value"))) {
-                NXGReports.addStep("Special chars was not saved as expected.", LogAs.PASSED, null);
-            } else {
-                NXGReports.addStep("Special chars was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (Exception e) {
-            getLogger().info(e);
-            NXGReports.addStep("Special chars was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
-        }
-    }
-
-    public  void verifySpecialCharacter(){
+    public  void verifyTodoTextbox_InputSpecialChars(){
         try {
             String value1 =  specialCharacter;
             verifyInvalidTodoNameNotSaved(value1);
