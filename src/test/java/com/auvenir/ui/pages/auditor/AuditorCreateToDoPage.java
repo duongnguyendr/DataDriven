@@ -3549,14 +3549,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyTodoTextbox_InputNumber() {
         try {
-            String value1 =  Integer.toString(randomNumber());
+            String value1 = Integer.toString(randomNumber());
             verifyValidTodoNameSaved(value1);
-            NXGReports.addStep("Valid number was saved as expected.", LogAs.PASSED, null);
+            NXGReports.addStep("Valid Number was saved as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Valid number still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Valid Number still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
+
     public void verifyTodoTextbox_MissingInput() {
         String valueName = TodosTextboxEle.get(0).getAttribute("value");
         try {
@@ -3577,9 +3578,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void verifyTodoTextbox_NullChars(){
+    public void verifyTodoTextbox_NullChars() {
         try {
-            String value1 =  nullChars;
+            String value1 = nullChars;
             verifyInvalidTodoNameNotSaved(value1);
             NXGReports.addStep("Nullchars was not saved as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -3589,10 +3590,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-
-    public  void verifyTodoTextbox_InputSpecialChars(){
+    public void verifyTodoTextbox_InputSpecialChars() {
         try {
-            String value1 =  specialCharacter;
+            String value1 = specialCharacter;
             verifyInvalidTodoNameNotSaved(value1);
             NXGReports.addStep("Special character was not saved as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -3658,41 +3658,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Category is selected failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
-
-    }
-
-    public void createNewToDoTask(int numberOfNewCategories) throws Exception {
-        getLogger().info("Run createToDoTask()");
-
-        int count = TodosTextboxEle.size() + 1;
-        clickElement(createToDoBtnEle, "Create To Do Button");
-        todoNamePage = "To-do name " + randomNumber();
-        waitForSizeListElementChanged(TodosTextboxEle, "To Do Name Task", count);
-        sendKeyTextBox(TodosTextboxEle.get(0), todoNamePage, "Todos Textbox");
-        switch (numberOfNewCategories) {
-
-            case 1:
-                createNewCategory("", "");
-                break;
-            case 2:
-                createNewCategory("", "");
-                createNewCategory("", "");
-                break;
-
-            case 3:
-                createNewCategory("", "");
-                createNewCategory("", "");
-                createNewCategory("", "");
-                break;
-
-            case 4:
-                createNewCategory("", "");
-                createNewCategory("", "");
-                createNewCategory("", "");
-                createNewCategory("", "");
-                break;
-
-        }
 
     }
 
