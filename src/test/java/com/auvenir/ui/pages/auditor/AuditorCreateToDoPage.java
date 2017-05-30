@@ -6,6 +6,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
+import com.auvenir.utilities.extentionLibraries.DBProperties;
 import com.auvenir.utilities.extentionLibraries.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -22,7 +23,6 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
-import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -2586,11 +2586,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * get 'engagements' collection(table on mongo)
      */
-    public DBCollection getEngagementCollection() throws SyncFactoryException {
+    public DBCollection getEngagementCollection() {
         try {
             //TODO move db config to properties file
-            return MongoDBService.getCollection("auvenir", "engagements");
-        } catch (UnknownHostException e) {
+            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getEngagementsCollection());
+        } catch (Exception e) {
+            NXGReports.addStep("Can't get Engagements Colection: auvenir-engagements", LogAs.FAILED, null);
             e.printStackTrace();
         }
         return null;
@@ -2599,12 +2600,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * get 'engagements' collection(table on mongo)
      */
-    public DBCollection getUserCollection() throws SyncFactoryException {
+    public DBCollection getUserCollection() {
         DBCollection dbCollection = null;
         try {
             //TODO move db config to properties file
-            return MongoDBService.getCollection("auvenir", "users");
-        } catch (UnknownHostException e) {
+            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getUsersCollection());
+        } catch (Exception e) {
+            NXGReports.addStep("Can't get Users Colection: auvenir-users", LogAs.FAILED, null);
             e.printStackTrace();
         }
         return dbCollection;
@@ -2618,15 +2620,20 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status complete expected
      */
-    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
-        getLogger().info("Verify To-Do complete status on database.");
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //TODO get from properties file
-        if (jsonObject.get("completed").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    public void verifyToDoCompleteBackend(String engagementField, String engagementValue, String todoName, String status) {
+        try {
+            getLogger().info("Verify To-Do complete status on database.");
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            //TODO get from properties file
+            if (jsonObject.get("completed").toString().equals(status)) {
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
 
@@ -2638,20 +2645,25 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param assigneeName    name of assignee
      */
-    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) throws SyncFactoryException {
-        getLogger().info("Verify To-Do delete status on database.");
-        String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
-        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
+    public void verifyToDoAssignToBackend(String engagementField, String engagementValue, String todoName, String assigneeName) {
+        try {
+            getLogger().info("Verify To-Do delete status on database.");
+            String idAssignee = MongoDBService.getUserObjectByFirstNameLastName(getUserCollection(), assigneeName);
+            //System.out.println("+++++++++++++++++++++++++++++++++++++++++++idAssignee = " + idAssignee);
 
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            //System.out.println("+++++++++++++++++++++++++++++++++++++++++++auditorAssignee = " + jsonObject.get("auditorAssignee").toString());
 
-        //TODO get from properties file
-        if (jsonObject.get("auditorAssignee").toString().contains(idAssignee)) {
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //TODO get from properties file
+            if (jsonObject.get("auditorAssignee").toString().contains(idAssignee)) {
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
 
@@ -2664,15 +2676,20 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param status          status delete expected
      */
     public void verifyToDoDeteteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
-        getLogger().info("Verify To-Do delete status on database.");
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
-        //TODO get from properties file
-        if (jsonObject.get("status").toString().equals(status)) {
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        try {
+            getLogger().info("Verify To-Do delete status on database.");
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++jsonObject = " + jsonObject.get("status"));
+            //TODO get from properties file
+            if (jsonObject.get("status").toString().equals(status)) {
+                NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
 
@@ -2709,14 +2726,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param status          status update expected
      */
     public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
-        getLogger().info("Verify Completed field updated on database.");
+        try {
+            getLogger().info("Verify Completed field updated on database.");
 //        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
-        if (jsonObject.get("completed").toString().equals(status)) {
-            NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            if (jsonObject.get("completed").toString().equals(status)) {
+                NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, null);
+            ex.printStackTrace();
         }
     }
 

@@ -803,4 +803,11 @@ public class AuvenirPage extends AbstractPage {
     /**
      * TanPham 29/05/2017 - End
      */
+
+    public void verifyWelcomePleaseCheckTxtIsDisplayed(){
+        getLogger().info("Verify Welcome Please Check Text is displayed.");
+        waitForVisibleElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
+        validateDisPlayedElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
+        validateElementText(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login link.");
+    }
 }
