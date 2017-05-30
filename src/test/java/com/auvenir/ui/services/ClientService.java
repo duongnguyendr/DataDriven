@@ -1,6 +1,8 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.client.*;
+import com.auvenir.ui.pages.common.GmailPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -22,9 +24,12 @@ public class ClientService extends AbstractService {
     ClientRequestPage clientRequestPage;
     ClientFilesPage clientFilesPage;
     ClientOnBoardingPage clientOnBoardingPage;
+    ClientLoginPage clientLoginPage;
+    AuvenirPage auvenirPage;
+    GmailPage gmailPage;
+
 
     public ClientService(Logger logger, WebDriver driver) {
-
         super(logger, driver);
         clientDashboardPage = new ClientDashboardPage(getLogger(), getDriver());
         clientSettingsPage = new ClientSettingsPage(getLogger(), getDriver());
@@ -36,6 +41,9 @@ public class ClientService extends AbstractService {
         clientRequestPage = new ClientRequestPage(getLogger(), getDriver());
         clientFilesPage = new ClientFilesPage(getLogger(), getDriver());
         clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
+        clientLoginPage = new ClientLoginPage(getLogger(), getDriver());
+        auvenirPage = new AuvenirPage(getLogger(), getDriver());
+        gmailPage = new GmailPage(getLogger(), getDriver());
     }
 
 
@@ -233,4 +241,34 @@ public class ClientService extends AbstractService {
     public void verifyClientOnBoardingSecurityStep() { clientOnBoardingPage.verifyClientOnBoardingSecurityStep(); }
 
     public void clickSkipSecurityButton(){ clientOnBoardingPage.clickSkipSecurityButton(); }
+
+    public void verifySkipSecurityPopUp(){ clientOnBoardingPage.verifySkipSecurityPopUp(); }
+
+    public void clickSkipSecurityWarning(){ clientOnBoardingPage.clickSkipSecurityWarning(); }
+
+    public void verifyDashBoardText(){ clientOnBoardingPage.verifyDashBoardText(); }
+
+    public void signInEmailOnClientLoginPage(String clientID) { clientLoginPage.signInEmailOnClientLoginPage(clientID);}
+
+    public void verifyWelcomePleaseCheckTxtIsDisplayed() { auvenirPage.verifyWelcomePleaseCheckTxtIsDisplayed(); }
+
+    public void gmailLogin(String gmailUserName, String gmailPassword) throws InterruptedException {
+        gmailPage.gmailLogin(gmailUserName, gmailPassword);
+    }
+
+    public void searchGmail(String GMAIL_SEARCHMAIL) { gmailPage.searchGmail(GMAIL_SEARCHMAIL); }
+
+    public void signInEmail() { gmailPage.signInEmail(); }
+
+    public void verifyClientLoginPageAfterSignIn() { clientLoginPage.verifyClientLoginPageAfterSignIn(); }
+
+    public void accountActiveEmail() { gmailPage.accountActiveEmail(); }
+
+    public void verifyClientLoginPageAfterActiveAccount() { clientLoginPage.verifyClientLoginPageAfterActiveAccount(); }
+
+    public void inviteEmail() { gmailPage.inviteEmail(); }
+
+    public void verifyClientLoginPageInvitationEmail() { clientLoginPage.verifyClientLoginPageInvitationEmail(); }
+
+    public void clickStartAuditButton() { clientLoginPage.clickStartAuditButton(); }
 }
