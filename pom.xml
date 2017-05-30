@@ -91,7 +91,7 @@
             <artifactId>NXGReport</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/jars/NXGReport.jar</systemPath>
+            <systemPath>${project.basedir}\jars\NXGReport.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
