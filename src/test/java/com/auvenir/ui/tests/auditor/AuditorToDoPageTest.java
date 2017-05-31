@@ -6,7 +6,6 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -24,7 +23,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     public void verifyTodosTextBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorCreateToDoService.navigateToDoListPage();
@@ -92,7 +91,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
