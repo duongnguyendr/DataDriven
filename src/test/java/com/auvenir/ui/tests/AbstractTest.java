@@ -74,6 +74,7 @@ public class AbstractTest {
         }else if (browser.equalsIgnoreCase("internet explorer")){
             GenericService.sBrowserData="INTERNET_EXPLORER_";
         }
+        GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
         System.out.println("setUp");
         testName = method.getName();
         logCurrentStepStart();
