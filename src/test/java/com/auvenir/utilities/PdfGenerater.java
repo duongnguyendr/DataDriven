@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -140,7 +141,7 @@ public class PdfGenerater {
 
     private static void createSummaryTable(Paragraph preface, int iPassCount, int iFailCount, int iSkipCount) throws DocumentException {
         int total = iPassCount + iFailCount + iSkipCount;
-        PdfPTable table = new PdfPTable(2);
+        PdfPTable table = new PdfPTable(2 );
 
         table.setWidthPercentage(25);
         table.setWidths(new float[]{1, (float) 0.25});
@@ -148,6 +149,7 @@ public class PdfGenerater {
         // table.setWidths(new int[]{1, 1});
         table.addCell(new PdfPCell(new Phrase("Test Summary", tableHeaderbold)));
         table.addCell("");
+
 
         table.addCell(new PdfPCell(new Phrase("Total Test cases", tableCellText)));
         table.addCell(String.valueOf(total));
@@ -180,9 +182,18 @@ public class PdfGenerater {
     private static void createTable(Paragraph preface, ArrayList sTestName, ArrayList sDescription, ArrayList sStatus) throws DocumentException, IOException {
         Font statusFont = null;
         String image = null;
-        PdfPTable table = new PdfPTable(4);
+        List<String> browserList = getBrowserList();
+        int totalBrowser = browserList.size();
+        PdfPTable table = new PdfPTable(3 + totalBrowser);
         table.setWidthPercentage(95);
-        table.setWidths(new float[]{(float) 0.16, (float) 0.90, (float) 2.5, (float) 0.28});
+        float[] columnWidths = new float[5];
+        columnWidths[0] = (float) 0.16;
+        columnWidths[1] = (float) 0.90;
+        columnWidths[2] = (float) 1.2;
+        for(int i=3; i <3 + totalBrowser; i++){
+            columnWidths[i] = (float) 0.30;
+        }
+        table.setWidths(columnWidths);
         PdfPCell c1 = new PdfPCell(new Phrase("No.", tableHeaderbold));
         c1.setVerticalAlignment(Element.ALIGN_CENTER);
         c1.setBackgroundColor(BaseColor.GRAY);
@@ -195,13 +206,39 @@ public class PdfGenerater {
         c1.setVerticalAlignment(Element.ALIGN_CENTER);
         c1.setBackgroundColor(BaseColor.GRAY);
         table.addCell(c1);
-        c1 = new PdfPCell(new Phrase("Status", tableHeaderbold));
-        c1.setVerticalAlignment(Element.ALIGN_CENTER);
-        c1.setBackgroundColor(BaseColor.GRAY);
-        table.addCell(c1);
+        for(int i=0; i<totalBrowser; i++){
+            String browserName = browserList.get(i);
+            c1 = new PdfPCell(new Phrase(browserName.substring(0,browserName.length()-1), tableHeaderbold));
+            c1.setVerticalAlignment(Element.ALIGN_CENTER);
+            c1.setBackgroundColor(BaseColor.GRAY);
+            table.addCell(c1);
+        }
+
         table.setHeaderRows(1);
         int cnt = 0;
-        for (int i = 0; i < sTestName.size(); i++) {
+        List<String> sTestNameList = getTestNameList(sTestName);
+        for (int i = 0; i < sTestNameList.size(); i++) {
+
+            String sDescriptionTestName = getDescriptionTestNameFollowBrowser(sTestName,sTestNameList.get(i),
+                                                                      sDescription);
+            cnt = cnt + 1;
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(cnt), tableCellValue)));
+            table.addCell(new PdfPCell(new Phrase(sTestNameList.get(i).toString(), tableCellValue)));
+            table.addCell(new PdfPCell(new Phrase(sDescriptionTestName, tableCellValue)));
+            for(int j=0; j<totalBrowser; j++){
+                String browserName = browserList.get(j);
+                String statusTestName = getStatusTestNameFollowBrowser(sTestName,sTestNameList.get(i),
+                        browserList,browserName,sStatus);
+                if (statusTestName.equals("Passed")) {
+                    statusFont = passFont;
+                } else if (statusTestName.equals("Failed")) {
+                    statusFont = failFont;
+                } else {
+                    statusFont = skipFont;
+                }
+                table.addCell(new PdfPCell(new Phrase(statusTestName, statusFont)));
+            }
+/*
             if (sStatus.get(i).equals("Passed")) {
                 statusFont = passFont;
                 //image = System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\pass.png";
@@ -214,11 +251,13 @@ public class PdfGenerater {
                 //image = System.getProperty("user.dir")+"\\src\\tests\\resources\\images\\skip.png";
             }
             cnt = cnt + 1;
-            table.addCell(new PdfPCell(new Phrase(String.valueOf(cnt), tableCellValue)));
+
             table.addCell(new PdfPCell(new Phrase(sTestName.get(i).toString(), tableCellValue)));
             table.addCell(new PdfPCell(new Phrase(sDescription.get(i).toString(), tableCellValue)));
             table.addCell(new PdfPCell(new Phrase(sStatus.get(i).toString(), statusFont)));
+            table.addCell(new PdfPCell(new Phrase(sStatus.get(i).toString(), statusFont)));*/
             //table.addCell(new PdfPCell(new Phrase(String.valueOf(cnt),tableCellValue)));    table.addCell(new PdfPCell(new Phrase(sTestName.get(i).toString(),tableCellValue))); table.addCell(new PdfPCell(new Phrase(sDescription.get(i).toString(),tableCellValue)));  table.addCell(createStatusImage(image));
+
         }
         preface.add(table);
     }
@@ -227,6 +266,62 @@ public class PdfGenerater {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
+    }
+
+    /**
+     * Get browser list not duplicate
+     * @return browser list
+     */
+    private static List<String> getBrowserList(){
+        List<String> result = new ArrayList<String>();
+        int totalRow = GenericService.sBrowserTestNameList.size();
+        for(int i=0; i<totalRow; i++){
+            if(!result.contains(GenericService.sBrowserTestNameList.get(i).toString())){
+                result.add(GenericService.sBrowserTestNameList.get(i).toString());
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get test name list not duplciate
+     * @param sTestNames : test name list
+     * @return test name list
+     */
+    private static List<String> getTestNameList(ArrayList sTestNames)
+    {
+        List<String> result = new ArrayList<String>();
+        int totalRow = sTestNames.size();
+        for(int i=0; i<totalRow; i++){
+            if(!result.contains(sTestNames.get(i).toString())){
+                result.add(sTestNames.get(i).toString());
+            }
+        }
+        return result;
+    }
+
+    private static String getStatusTestNameFollowBrowser(ArrayList sTestNames, String sTestName,
+                                                         List<String> sBrowserList, String sBrowser,
+                                                         ArrayList sStatus){
+        String result = "";
+        for (int i = 0; i < sTestNames.size(); i++) {
+            if (sTestNames.get(i).equals(sTestName) &&
+                sBrowserList.get(i).equals(sBrowser)){
+                return sStatus.get(i).toString();
+            }
+        }
+        return  result;
+    }
+
+    private static String getDescriptionTestNameFollowBrowser(ArrayList sTestNames, String sTestName,
+                                                              ArrayList sDescription){
+        String result = "";
+        for (int i = 0; i < sTestNames.size(); i++) {
+            if (sTestNames.get(i).equals(sTestName)){
+                return sDescription.get(i).toString();
+            }
+        }
+        return  result;
     }
 }
    

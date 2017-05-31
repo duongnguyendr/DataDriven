@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class GenericService {
     public static String sFile;
@@ -55,6 +56,8 @@ public class GenericService {
     public static String sConfigFile = null;
     public static String sExecutionDate = null;
     public static String sBrowserData = null;
+    public static ArrayList sBrowserTestNameList = new ArrayList<String>();
+
 	/*
      * @author: LAKSHMI BS Description: To read the basic environment settings
 	 * data from config file
