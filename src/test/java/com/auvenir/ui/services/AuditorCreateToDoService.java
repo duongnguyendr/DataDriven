@@ -308,6 +308,7 @@ public class AuditorCreateToDoService extends AbstractService {
         }
 
 
+
     }
     /*
         public void verifyGUIAddNewToDoNameTextBox() {
@@ -835,14 +836,32 @@ public class AuditorCreateToDoService extends AbstractService {
     /*
     Vien add new method for PLAT 2326-2301 TO verify To-dos textbox
      */
+
+    public void createCategories(String newValue) throws Exception {
+
+        createToDoPage.createNewCategory("",newValue);
+
+    }
+
+    public void createMultiCategory(String cate1,String cate2, String cate3) throws Exception {
+        createToDoPage.createNewCategory("",cate1);
+//        createToDoPage.createNewCategory("",cate2);
+//        createToDoPage.createNewCategory("",cate3);
+    }
+
+    public void navigateToEditNewCategory() throws InterruptedException {
+        createToDoPage.navigateToEditCategory();
+
+    }
+
     public void verifyTodosTextBox() throws InterruptedException {
         getLogger().info("Verifying Todos Textbox...");
-//        createToDoPage.verifyTodoTextbox_DefaultValue();
-//        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
-//        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
-//        createToDoPage.verifyTodoTextboxBorder_Default();
-//        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
-//        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
+        createToDoPage.verifyTodoTextbox_DefaultValue();
+        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifyTodoTextboxBorder_Default();
+        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
+        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
         createToDoPage.verifyTodoTextbox_InputText();
         createToDoPage.verifyTodoTextbox_InputNumber();
         createToDoPage.verifyTodoTextbox_InputSpecialChars();
@@ -855,7 +874,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCategoryBox_DefaultValue();
         createToDoPage.verifyBorderCategoryBox_WhileHovered();
         getLogger().info("Trying to create some category items...");
-        createToDoPage.verifyAddNewCategory();
+        createToDoPage.verifyAddNewCategories();
         createToDoPage.verifyCategoryIsSelectedCorrectly();
     }
 
