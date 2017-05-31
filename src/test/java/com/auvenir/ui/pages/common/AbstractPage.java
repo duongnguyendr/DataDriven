@@ -77,6 +77,7 @@ public class AbstractPage {
     public static final String dropdownCategoryToDoBulkDdlDiv1 = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]";
     public static final String popUpDivCategoryModel = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
+    private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
 
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
@@ -939,7 +940,11 @@ public class AbstractPage {
 
     }
 
-
+    /**
+     * @param eleGetText Element defined in page class
+     * @param elementName The text name of element
+     * @return The text of web element
+     */
     public String getTextByJavaScripts(WebElement eleGetText, String elementName) {
         getLogger().info("Get text by javascript of element " + elementName);
         String textOfElement = "";
@@ -2644,10 +2649,9 @@ public class AbstractPage {
         waitForNewTodoNameSaved();
         clickElement(categoryDropdownEle, "categoryDropdownEle");
         Thread.sleep(smallerTimeOut);
-        waitForClickableOfLocator(By.xpath("//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]//div[@class=\"menu\"]/div[1]"));
+        waitForClickableOfLocator(By.xpath(categoryCreateBtnXpath));
         clickElement(categoryCreateBtnEle, "categoryCreateEle");
         System.out.println("click Pass2");
-
     }
 
 
