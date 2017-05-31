@@ -57,7 +57,7 @@ public class AbstractService {
 
     public void setBaseUrl(String serverDomainName) {
         // S3 do not use HTTPS
-        baseUrl = serverDomainName;
+        baseUrl = "https://" + serverDomainName;
         getLogger().info("Url of testing server is: " + baseUrl);
     }
 

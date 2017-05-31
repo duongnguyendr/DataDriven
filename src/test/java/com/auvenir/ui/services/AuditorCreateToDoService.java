@@ -77,10 +77,8 @@ public class AuditorCreateToDoService extends AbstractService {
     public void navigatetoCreateToDoTab() {
         getLogger().info("Navigate to CreateToDo Tab");
         try {
-            //engagementPage.navigateToEngagementTask("engagement");
-            //detailsEngagementPage.navigateToTaskList();
             todoListPage.clickCreateToDoBtn();
-//            createToDoPage.verifyAddNewToDoTask("task");
+            todoListPage.waitForNumberOfTodoListIncreased();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -298,7 +296,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     //Vien.Pham add new Create Multicategories
-    public void createMultiCategories(){
+    public void createMultiCategories() {
         try {
             createToDoPage.createToDoTask(2);
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
@@ -308,8 +306,8 @@ public class AuditorCreateToDoService extends AbstractService {
         }
 
 
-
     }
+
     /*
         public void verifyGUIAddNewToDoNameTextBox() {
             try {
@@ -323,7 +321,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception  {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -514,6 +512,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     //[PLAT-2294] Add select date dropdown TanPH 2017/05/15 -- Start
+
     /**
      * Move add new to do page
      */
@@ -654,7 +653,7 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Click on trash delete icon
      */
-    public void clickOnTrashIcon(){
+    public void clickOnTrashIcon() {
         createToDoPage.clickOnTrashIcon();
     }
 
@@ -667,65 +666,74 @@ public class AuditorCreateToDoService extends AbstractService {
 
     /**
      * Check or Uncheck CheckAll check box control
+     *
      * @param isCheck : true check | false is un check
      */
-    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck){
+    public void checkOrUnCheckCheckAllCheckBox(boolean isCheck) {
         createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
     }
+
     /**
      * Verify all check box is check or un check
+     *
      * @param isCheck : true check | false is un check
      */
-    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck){
+    public void verifyAllCheckBoxIsCheckOrUnCheck(boolean isCheck) {
         createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
     }
 
     /**
      * Check or Uncheck all check box control
+     *
      * @param isCheck : true check | false is un check
      */
-    public void checkOrUnCheckAllCheckBox(boolean isCheck){
+    public void checkOrUnCheckAllCheckBox(boolean isCheck) {
         createToDoPage.checkOrUnCheckCheckAllCheckBox(isCheck);
     }
+
     /**
      * Verify all check box is check or un check
+     *
      * @param isCheck : true check | false is un check
      */
-     public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck){
+    public void verifyCheckAllCheckBoxIsCheckOrUncheck(boolean isCheck) {
         createToDoPage.verifyAllCheckBoxIsCheckOrUnCheck(isCheck);
-     }
+    }
+
     /**
      * Click on delete button popup
      */
-    public void clickOnDeleteButtonOnPopup(){
+    public void clickOnDeleteButtonOnPopup() {
         createToDoPage.clickOnDeleteButtonOnPopup();
     }
 
     /**
      * Click on cancel button popup
      */
-    public void clickOnCancelButtonOnPopup(){
+    public void clickOnCancelButtonOnPopup() {
         createToDoPage.clickOnCancelButtonOnPopup();
     }
 
     /**
      * Check ToDo item is exist
+     *
      * @param isExists : true : is exists | false : is not exists
      * @param ToDoName : ToDo name need check
      */
-    public void checkToDoIsExists(boolean isExists, String ToDoName){
-        if(!createToDoPage.checkToDoIsExists(isExists,ToDoName)){
+    public void checkToDoIsExists(boolean isExists, String ToDoName) {
+        if (!createToDoPage.checkToDoIsExists(isExists, ToDoName)) {
             AbstractService.sStatusCnt++;
         }
     }
 
     /**
      * Check ToDo item list is exists
-     * @param isExists : true : is exists | false : is not exists
+     *
+     * @param isExists  : true : is exists | false : is not exists
      * @param ToDoNames : ToDo name list need check
      */
-    public void checkToDoListIsExists(boolean isExists, List<String> ToDoNames){
-        if(!createToDoPage.checkToDoListIsExists(isExists,ToDoNames)){
+    public void checkToDoListIsExists(boolean isExists, List<String> ToDoNames) {
+        if (!createToDoPage.checkToDoListIsExists(isExists, ToDoNames)) {
             AbstractService.sStatusCnt++;
         }
     }
@@ -733,8 +741,8 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Check all ToDo item is delete
      */
-    public void checkAllToDoIsDelete(){
-        if(!createToDoPage.checkAllToDoIsDelete()){
+    public void checkAllToDoIsDelete() {
+        if (!createToDoPage.checkAllToDoIsDelete()) {
             AbstractService.sStatusCnt++;
         }
     }
@@ -742,21 +750,41 @@ public class AuditorCreateToDoService extends AbstractService {
 
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
-    public void clickCommentIconPerTaskName(String toDoTaskName) { createToDoPage.selectToDoCommentIconByName(toDoTaskName); }
+    public void clickCommentIconPerTaskName(String toDoTaskName) {
+        createToDoPage.selectToDoCommentIconByName(toDoTaskName);
+    }
 
     public void verifyDefaultHintValueInputComment() {
         createToDoPage.verifyDefaultHintValueInputComment();
     }
+
     public void verifyCancelCompleteMarkPopup() {
         createToDoPage.verifyCancelCompleteMarkPopup();
     }
 
-    public void closeSuccessToastMes() { createToDoPage.closeSuccessToastMes(); }
-    public void verifyBoxTitleComment() { createToDoPage.verifyGUIBoxTitleComment(); }
-    public void verifyGUICommentList(String commentContent) { createToDoPage.verifyGUICommentList(commentContent); }
-    public void verifyInputAComment(String commentContent) { createToDoPage.verifyInputAComment(commentContent); }
-    public void clickPostComment() { createToDoPage.clickPostComment(); }
-    public int getNumberOfListComment() { return createToDoPage.getNumberOfListComment(); }
+    public void closeSuccessToastMes() {
+        createToDoPage.closeSuccessToastMes();
+    }
+
+    public void verifyBoxTitleComment() {
+        createToDoPage.verifyGUIBoxTitleComment();
+    }
+
+    public void verifyGUICommentList(String commentContent) {
+        createToDoPage.verifyGUICommentList(commentContent);
+    }
+
+    public void verifyInputAComment(String commentContent) {
+        createToDoPage.verifyInputAComment(commentContent);
+    }
+
+    public void clickPostComment() {
+        createToDoPage.clickPostComment();
+    }
+
+    public int getNumberOfListComment() {
+        return createToDoPage.getNumberOfListComment();
+    }
 
     /**
      * Author minh.nguyen
@@ -764,30 +792,35 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyAddNewRequestButton() {
         createToDoPage.verifyAddNewRequestButton();
     }
+
     /**
      * Author minh.nguyen
      */
     public void verifyRequestNameTextbox() {
         createToDoPage.verifyRequestNameTextbox();
     }
+
     /**
      * Author minh.nguyen
      */
     public void verifyCreateRequest() {
         createToDoPage.verifyNewRequestStoreInDatabase();
     }
+
     /**
      * Author minh.nguyen
      */
     public void verifyUpdateRequest() {
         createToDoPage.verifyUpdateRequestStoreInDatabase();
     }
+
     /**
      * Author minh.nguyen
      */
     public void verifyDeleteRequest() {
         createToDoPage.verifyDeleteRequestOnPopup();
     }
+
     /**
      * Author minh.nguyen
      */
@@ -799,28 +832,37 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
     }
 
-    public void verifyClickOnInputCommentField() { createToDoPage.verifyClickOnInputCommentField(); }
+    public void verifyClickOnInputCommentField() {
+        createToDoPage.verifyClickOnInputCommentField();
+    }
 
-    public void verifyUserInputNoContentComment() { createToDoPage.verifyUserInputNoContentComent();}
+    public void verifyUserInputNoContentComment() {
+        createToDoPage.verifyUserInputNoContentComent();
+    }
 
-    public void verifyInputMaxLenghtContentComment(int maxLength) { createToDoPage.verifyInputMaxLenghtContentComment(maxLength); }
+    public void verifyInputMaxLenghtContentComment(int maxLength) {
+        createToDoPage.verifyInputMaxLenghtContentComment(maxLength);
+    }
 
-    public void verifyInputSpecialCharactersContentComment() { createToDoPage.verifyInputSpecialCharactersContentComment(); }
-
+    public void verifyInputSpecialCharactersContentComment() {
+        createToDoPage.verifyInputSpecialCharactersContentComment();
+    }
 
 
     /**
      * Create ToDo name list
+     *
      * @author : TanPham
      * @date : 29/05/2017
      */
 
-    public List<String> createToDoNameList(String todoName, int numberToDo){
-        return createToDoPage.createToDoNameList(todoName,numberToDo);
+    public List<String> createToDoNameList(String todoName, int numberToDo) {
+        return createToDoPage.createToDoNameList(todoName, numberToDo);
     }
 
     /**
      * Select check box follow To-Do name list
+     *
      * @author : TanPham
      * @date : 29/05/2017
      */
@@ -829,6 +871,7 @@ public class AuditorCreateToDoService extends AbstractService {
             createToDoPage.selectToDoCheckboxByName(toDoNameList.get(i));
         }
     }
+
     public void verifyGUIPostButton() {
         createToDoPage.verifyGUIPostButton();
     }
@@ -839,14 +882,14 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void createCategories(String newValue) throws Exception {
 
-        createToDoPage.createNewCategory("",newValue);
+        createToDoPage.createNewCategory("", newValue);
 
     }
 
-    public void createMultiCategory(String cate1,String cate2, String cate3) throws Exception {
-        createToDoPage.createNewCategory("",cate1);
-//        createToDoPage.createNewCategory("",cate2);
-//        createToDoPage.createNewCategory("",cate3);
+    public void createMultiCategory(String cate1, String cate2, String cate3) throws Exception {
+        createToDoPage.createNewCategory("", cate1);
+        createToDoPage.createNewCategory("",cate2);
+        createToDoPage.createNewCategory("",cate3);
     }
 
     public void navigateToEditNewCategory() throws InterruptedException {
@@ -885,7 +928,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
     }
 
-    public void verifyDuedateTimebox(){
+    public void verifyDuedateTimebox() {
         getLogger().info("Verifying DueDate Timebox...");
 //        createToDoPage.verifyDuedate_DefaultValue();
         createToDoPage.verifyBorderDuedate_WhileHovered();
@@ -893,7 +936,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //        createToDoPage.verifyselectDuedate();
     }
 
-    public void verifyAuditAssigneeBox(){
+    public void verifyAuditAssigneeBox() {
         getLogger().info("Verifying AuditAssignee box..");
 //        createToDoPage.verifyAditAssignee_DefaultValue();
         createToDoPage.verifyBorderAuditAssignee_WhileHoverd();

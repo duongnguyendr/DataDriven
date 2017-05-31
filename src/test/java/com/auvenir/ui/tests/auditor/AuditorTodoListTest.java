@@ -1428,7 +1428,7 @@ Vien.Pham refactor PLAT2291
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.createMultiCategory("vienpham", "cate2", "cate3");
+            auditorCreateToDoService.createMultiCategory("vien1", "vien2", "vien3");
             auditorCreateToDoService.navigateToEditNewCategory();
             getLogger().info("Verifying remove 1 item..");
             auditorEditCategoryService.removeItem(1);

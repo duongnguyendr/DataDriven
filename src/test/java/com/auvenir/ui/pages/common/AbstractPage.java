@@ -942,7 +942,7 @@ public class AbstractPage {
     }
 
     /**
-     * @param eleGetText Element defined in page class
+     * @param eleGetText  Element defined in page class
      * @param elementName The text name of element
      * @return The text of web element
      */
@@ -1034,11 +1034,6 @@ public class AbstractPage {
         } else {
             categoryName = categoryNameInput;
         }
-        // Create new Category
-        getLogger().info("Waiting for number of Todo list change...");
-
-        int sizeOfTodoList = tableTodoList.size() + 1;
-        waitForSizeListElementChanged(tableTodoList, "Table Todolist", sizeOfTodoList);
         getLogger().info("Adding new category...");
         navigateToAddNewCategory();
         waitForClickableOfElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
@@ -1078,6 +1073,15 @@ public class AbstractPage {
         waitForDisappearElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         getLogger().info("isCheckCategory = " + isCheckCategory);
         return isCheckCategory;
+    }
+
+    /*
+    Vien.Pham add new method.
+     */
+    public void waitForNumberOfTodoListIncreased() {
+        getLogger().info("Waiting for number of Todo list change...");
+        int sizeOfTodoListExpected = tableTodoList.size() + 1;
+        waitForSizeListElementChanged(tableTodoList, "Table Todolist", sizeOfTodoListExpected);
     }
 
     public boolean chooseCategoryByNameFromDll(String categoryName) {
@@ -2661,10 +2665,10 @@ public class AbstractPage {
         }
     }
 
-    //VienPham modified to navigateToAddNewCategory
+    /*
+    Vien.Pham modified this method
+     */
     public void navigateToAddNewCategory() throws Exception {
-//        waitForNewTodoNameSaved();
-
         clickElement(categoryDropdownEle, "categoryDropdownEle");
         Thread.sleep(smallerTimeOut);
         waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
