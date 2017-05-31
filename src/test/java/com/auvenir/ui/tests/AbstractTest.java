@@ -73,10 +73,11 @@ public class AbstractTest {
             e.printStackTrace();
         }
     }
-    public void closeAllTab(){
+
+    public void closeAllTab() {
         String originalHandle = driver.getWindowHandle();
         //Do something to open new tabs
-        for(String handle : driver.getWindowHandles()) {
+        for (String handle : driver.getWindowHandles()) {
             if (!handle.equals(originalHandle)) {
                 driver.switchTo().window(handle);
                 driver.close();
@@ -91,7 +92,7 @@ public class AbstractTest {
     public void tearDown(Method method) {
         testName = method.getName();
         logger.info("Close .the browser.");
-        closeAllTab();
+        //closeAllTab();
         logCurrentStepEnd();
     }
 

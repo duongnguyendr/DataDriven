@@ -2,12 +2,6 @@ package com.auvenir.ui.pages.common;
 
 //import library
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.util.*;
-
-//import org.testng.log4testng.Logger;
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
@@ -35,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+//import org.testng.log4testng.Logger;
 
 //import org.testng.log4testng.Logger;
 //import org.testng.log4testng.Logger;
@@ -2741,4 +2737,29 @@ public class AbstractPage {
     End of VienPham
      */
 
+
+    /**
+     * Added by huy.huynh on 31/05/2017.
+     * New for smoke test
+     */
+
+    /**
+     * @param webElement  WebElement
+     * @param elementText Text of Element be presented.
+     */
+    public boolean validateSelectedItemText(WebElement webElement, String elementText) {
+        try {
+            getLogger().info("Check renderd of text: " + elementText);
+            getLogger().info("Actual Text is displayed: " + new Select(webElement).getFirstSelectedOption().getText());
+            Assert.assertEquals(new Select(webElement).getFirstSelectedOption().getText(), elementText);
+            NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
+            return true;
+        } catch (AssertionError error) {
+            getLogger().info(error);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+    /*-----------end of huy.huynh on 31/05/2017.*/
 }

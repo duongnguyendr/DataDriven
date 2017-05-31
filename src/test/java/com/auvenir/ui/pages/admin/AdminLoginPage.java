@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.admin;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.utilities.extentionLibraries.LocatorProperties;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
@@ -735,6 +736,9 @@ public class AdminLoginPage extends AbstractPage {
         return eleGetItGooglePlayImg;
     }
 
+//    @FindBy(xpath = "")
+//    WebElement webElement = getDriver().findElement(By.xpath("//*[@id=\"msgText-wyYeDf0F\"]/div/p[1]"));
+
 
     public void getEleClientEntryValidate(String UserType, String Email, String DateCreated, String ClientName) throws InterruptedException {
         Thread.sleep(10000);
@@ -1011,4 +1015,58 @@ public class AdminLoginPage extends AbstractPage {
         validateDisPlayedElement(getEleDeactivateBtn(), "Deactivate   - Button");
         clickElement(getEleCloseIcn(), "Close button");
     }
+
+    /**
+     * Refactored by huy.huynh on 30/05/2017.
+     * New for smoke test
+     */
+    @FindBy(xpath = "//table[@id='w-mu-table']")
+    private WebElement tableUser;
+
+    public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
+        try {
+            WebElement type = getDriver().findElement(LocatorProperties.getElement("userTypeCellOnUserTableAdminX", userEmail));
+            WebElement email = getDriver().findElement(LocatorProperties.getElement("emailCellOnUserTableAdminX", userEmail));
+            WebElement date = getDriver().findElement(LocatorProperties.getElement("dateCreatedCellOnUserTableAdminX", userEmail));
+
+            validateElementText(type, userType);
+            validateElementText(email, userEmail);
+            validateElementText(date, createdDate);
+
+            verifyAuditorStatusOnAdminUserTable(userEmail, userStatus);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
+        try {
+            WebElement status = getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail));
+            validateSelectedItemText(status, userStatus);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
+        try {
+            Select status = new Select(getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail)));
+            status.selectByVisibleText(chooseOption);
+
+            validateElementText(getDriver().findElement(LocatorProperties.getElement("textOnPopUpConfirmChangeUserStatusX")), "Are you sure you want to change user status from");
+
+            waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
+            getEleStatusConfirmBtn().click();
+
+            waitForProgressOverlayIsClosed();
+            waitForClickableOfElement(getEleCredentialsCloseIcn(), "Auditor onboarding successful message");
+            getEleCredentialsCloseIcn().click();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    /*-----------end of huy.huynh on 30/05/2017.*/
+
 }

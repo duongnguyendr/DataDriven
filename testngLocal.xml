@@ -18,7 +18,10 @@
             <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+            <class name="com.auvenir.ui.tests.SmokeTestt"/>
+            <methods>
+                <include name="changeTheStatusAuditorToOnBoarding"></include>
+            </methods>
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
             <class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>

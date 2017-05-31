@@ -2603,7 +2603,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public DBCollection getUserCollection() {
         DBCollection dbCollection = null;
         try {
-            //TODO move db config to properties file
             return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getUsersCollection());
         } catch (Exception e) {
             NXGReports.addStep("Can't get Users Colection: auvenir-users", LogAs.FAILED, null);
