@@ -127,7 +127,7 @@ public class PdfGenerater {
 
         Paragraph prefaceThree = new Paragraph();
         prefaceThree.setSpacingBefore(2);
-        createSummaryTable(prefaceThree, iPassCount, iFailCount, iSkipCount);
+        createSummaryTable(prefaceThree, iPassCount, iFailCount, iSkipCount, sTestName, sStatus);
         addEmptyLine(prefaceThree, 2);
         document.add(prefaceThree);
 
@@ -139,26 +139,49 @@ public class PdfGenerater {
         document.newPage();
     }
 
-    private static void createSummaryTable(Paragraph preface, int iPassCount, int iFailCount, int iSkipCount) throws DocumentException {
+    private static void createSummaryTable(Paragraph preface, int iPassCount, int iFailCount, int iSkipCount,
+                                           ArrayList sTestNames, ArrayList sStatus) throws DocumentException {
         int total = iPassCount + iFailCount + iSkipCount;
-        PdfPTable table = new PdfPTable(2 );
-
-        table.setWidthPercentage(25);
-        table.setWidths(new float[]{1, (float) 0.25});
+        List<String> browserList = getBrowserList();
+        int totalBrowser = browserList.size();
+        int totalColumn =  totalBrowser + 1;
+        PdfPTable table = new PdfPTable(totalColumn );
+        float[] columnWidths = new float[totalColumn];
+        columnWidths[0] = (float) 1;
+        for(int i=1; i <totalColumn; i++){
+            columnWidths[i] = (float) 0.50;
+        }
+        table.setWidthPercentage(50);
+        table.setWidths(columnWidths);
 
         // table.setWidths(new int[]{1, 1});
         table.addCell(new PdfPCell(new Phrase("Test Summary", tableHeaderbold)));
-        table.addCell("");
-
+        for(int i=0; i<browserList.size(); i++){
+            table.addCell(new PdfPCell(new Phrase(browserList.get(i).substring(0,browserList.get(i).length()-1),tableHeaderbold)));
+        }
 
         table.addCell(new PdfPCell(new Phrase("Total Test cases", tableCellText)));
-        table.addCell(String.valueOf(total));
+        for(int i=0; i<browserList.size(); i++){
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
+                                                          browserList.get(i).toString())),tableHeaderbold)));
+        }
+
         table.addCell(new PdfPCell(new Phrase("Passed", tableCellText)));
-        table.addCell(String.valueOf(iPassCount));
+        for(int i=0; i<browserList.size(); i++){
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
+                    browserList.get(i).toString(), sStatus, "Passed")),tableHeaderbold)));
+        }
         table.addCell(new PdfPCell(new Phrase("Failed", tableCellText)));
-        table.addCell(String.valueOf(iFailCount));
+        for(int i=0; i<browserList.size(); i++){
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
+                    browserList.get(i).toString(), sStatus, "Failed")),tableHeaderbold)));
+        }
+
         table.addCell(new PdfPCell(new Phrase("Skipped", tableCellText)));
-        table.addCell(String.valueOf(iSkipCount));
+        for(int i=0; i<browserList.size(); i++){
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
+                    browserList.get(i).toString(), sStatus, "Skipped")),tableHeaderbold)));
+        }
         preface.add(table);
     }
 
@@ -184,13 +207,14 @@ public class PdfGenerater {
         String image = null;
         List<String> browserList = getBrowserList();
         int totalBrowser = browserList.size();
-        PdfPTable table = new PdfPTable(3 + totalBrowser);
+        int totalColumn =  totalBrowser + 3;
+        PdfPTable table = new PdfPTable(totalColumn);
         table.setWidthPercentage(95);
-        float[] columnWidths = new float[5];
+        float[] columnWidths = new float[totalColumn];
         columnWidths[0] = (float) 0.16;
         columnWidths[1] = (float) 0.90;
         columnWidths[2] = (float) 1.2;
-        for(int i=3; i <3 + totalBrowser; i++){
+        for(int i=3; i <totalColumn; i++){
             columnWidths[i] = (float) 0.30;
         }
         table.setWidths(columnWidths);
@@ -286,7 +310,7 @@ public class PdfGenerater {
     /**
      * Get test name list not duplciate
      * @param sTestNames : test name list
-     * @return test name list
+     * @return null | test name list
      */
     private static List<String> getTestNameList(ArrayList sTestNames)
     {
@@ -300,6 +324,15 @@ public class PdfGenerater {
         return result;
     }
 
+    /**
+     * get status test name follow browser
+     * @param sTestNames : test name list
+     * @param sTestName : test name need check
+     * @param sBrowserList : browser list
+     * @param sBrowser : browser need check
+     * @param sStatus : status test name list
+     * @return "" | != ""
+     */
     private static String getStatusTestNameFollowBrowser(ArrayList sTestNames, String sTestName,
                                                          List<String> sBrowserList, String sBrowser,
                                                          ArrayList sStatus){
@@ -313,6 +346,13 @@ public class PdfGenerater {
         return  result;
     }
 
+    /**
+     * Get description test name follow browser
+     * @param sTestNames : test name list
+     * @param sTestName : test name check
+     * @param sDescription : description test name list
+     * @return "" | != ""
+     */
     private static String getDescriptionTestNameFollowBrowser(ArrayList sTestNames, String sTestName,
                                                               ArrayList sDescription){
         String result = "";
@@ -322,6 +362,46 @@ public class PdfGenerater {
             }
         }
         return  result;
+    }
+
+    /**
+     * Count total test name follow browser
+     * @param sTestNames : test name list
+     * @param sBrowserList : browser list
+     * @param sBrowser : browser need check
+     * @return 0 | >0
+     */
+    private static int countTotalTestNameFollowBrowser(ArrayList sTestNames,
+                                                       ArrayList sBrowserList, String sBrowser){
+        int count =0 ;
+        for (int i = 0; i < sTestNames.size(); i++) {
+            if (sBrowserList.get(i).equals(sBrowser)){
+                count++;
+            }
+        }
+        return  count;
+    }
+
+    /**
+     * Count total test name follow status
+     * @param sTestNames : test name list
+     * @param sBrowserList : browser list
+     * @param sBrowser : browser need check
+     * @param sStatus : status test name list
+     * @param statusTest : status need check
+     * @return 0 | >0
+     */
+    private static int countTotalTestNameStatusFollowBrowser(ArrayList sTestNames,
+                                                             ArrayList sBrowserList, String sBrowser,
+                                                             ArrayList sStatus, String statusTest){
+        int count =0 ;
+        for (int i = 0; i < sTestNames.size(); i++) {
+            if (sBrowserList.get(i).equals(sBrowser) &&
+                sStatus.get(i).equals(statusTest)){
+                count++;
+            }
+        }
+        return  count;
     }
 }
    
