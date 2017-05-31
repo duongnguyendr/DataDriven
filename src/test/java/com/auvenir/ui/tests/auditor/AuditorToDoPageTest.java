@@ -19,7 +19,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     private AuditorNewEngagementService auditorNewEngagementService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
 
-    @Test(priority = 1, enabled = true, description = "Verify Todos Textbox")
+    @Test(priority = 1, enabled = false, description = "Verify Todos Textbox")
     public void verifyTodosTextBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -37,14 +37,19 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = false, description = "Verify Category Combo box")
+    @Test(priority = 2, enabled = true, description = "Verify Category Combo box")
     public void verifyCategoryComboBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
-            auditorCreateToDoService.navigateToDoListPage();
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyCategoryComboBox();
             NXGReports.addStep("Verify Category Combo box.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -57,10 +62,15 @@ public class AuditorToDoPageTest extends AbstractTest {
     public void verifyClientAssigneeComboBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
-            auditorCreateToDoService.navigateToDoListPage();
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyClientAssigneeComboBox();
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.PASSED, null);
         } catch (Exception e) {
