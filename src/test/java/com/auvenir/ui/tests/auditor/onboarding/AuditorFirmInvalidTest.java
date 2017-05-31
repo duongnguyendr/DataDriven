@@ -84,6 +84,41 @@ public class AuditorFirmInvalidTest extends AbstractTest {
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
             firmService.verifyFirmSignUpPage();
+            //Merge testcase "Verify name are highlight when name with one Blank"
+            firmService.inputValueIntoFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 2, 6));
+            firmService.clickOnRuleLogoCheckBox();
+            firmService.verifyColorFirmNameTextBox("border-color","rgb(253, 109, 71)");
+            firmService.verifyColorFirmNameTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            //Merge testcase "Verify name are highlight when name with two spaces in character"
+            firmService.inputValueIntoFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 3, 6));
+            firmService.clickOnRuleLogoCheckBox();
+            firmService.verifyColorFirmNameTextBox("border-color","rgb(253, 109, 71)");
+            firmService.verifyColorFirmNameTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            //Merge testcase "Verify name are highlight when name with one blank and character"
+            firmService.inputValueIntoFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 4, 6));
+            firmService.clickOnRuleLogoCheckBox();
+            firmService.verifyColorFirmNameTextBox("border-color","rgb(253, 109, 71)");
+            firmService.verifyColorFirmNameTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            //Merge testcase "Verify previous name are highlight when name with blank"
+            firmService.clickOnChangedNameCheckBox();
+            firmService.inputValueIntoPreviousFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 2, 7));
+            firmService.clickOnRuleLogoCheckBox();
+            firmService.verifyColorPreFirmNameTextBox("border-color","rgb(253, 109, 71)");
+            firmService.verifyColorPreFirmNameTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            //Merge testcase "Verify previous name are highlight when name with two space in character"
+            firmService.inputValueIntoPreviousFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 3, 7));
+            firmService.clickOnRuleLogoCheckBox();
+            firmService.verifyColorPreFirmNameTextBox("border-color","rgb(253, 109, 71)");
+            firmService.verifyColorPreFirmNameTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            //Merge testcase "Verify previous name are highlight when name with special character"
+            firmService.inputValueIntoPreviousFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 4, 7));
+            firmService.clickOnRuleLogoCheckBox();
+            firmService.verifyColorPreFirmNameTextBox("border-color","rgb(253, 109, 71)");
+            firmService.verifyColorPreFirmNameTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            //Merge testcase "Verify previous name are highlight when name with special character"
+
+
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify firm sign up page: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
@@ -92,7 +127,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     }
 
 
-    @Test(priority = 5, enabled = true, description = "Verify name are highlight when name with one Blank")
+    @Test(priority = 5, enabled = false, description = "Verify name are highlight when name with one Blank")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyNameWithBlank(){
         homeService = new HomeService(getLogger(),getDriver());
@@ -117,7 +152,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     }
 
 
-    @Test(priority = 6,enabled = true, description = "Verify name are highlight when name with two spaces in character")
+    @Test(priority = 6,enabled = false, description = "Verify name are highlight when name with two spaces in character")
     //Fail : because current code set border-color is : rgb(230, 123, 99), expected is : rgb(253, 109, 71)
     public void verifyNameWithTwoSpaceInCharacter(){
         homeService = new HomeService(getLogger(),getDriver());
@@ -133,7 +168,6 @@ public class AuditorFirmInvalidTest extends AbstractTest {
             firmService.clickOnRuleLogoCheckBox();
             firmService.verifyColorFirmNameTextBox("border-color","rgb(253, 109, 71)");
             firmService.verifyColorFirmNameTextBox("background-color","rgba(241, 103, 57, 0.2)");
-            Thread.sleep(10000);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify name are highlight when name with two spaces in character: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
@@ -141,7 +175,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7,enabled = true,description = "Verify name are highlight when name with one blank and character")
+    @Test(priority = 7,enabled = false,description = "Verify name are highlight when name with one blank and character")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyNameWithSpecialCharacter(){
         homeService = new HomeService(getLogger(),getDriver());
@@ -164,7 +198,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8,enabled = true, description = "Verify previous name are highlight when name with blank")
+    @Test(priority = 8,enabled = false, description = "Verify previous name are highlight when name with blank")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyPreviousNameWithBlank(){
         homeService = new HomeService(getLogger(),getDriver());
@@ -189,7 +223,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     }
 
 
-    @Test(priority = 9,enabled = true, description = "Verify previous name are highlight when name with two space in character")
+    @Test(priority = 9,enabled = false, description = "Verify previous name are highlight when name with two space in character")
     public void verifyPreNameWithTwoSpaceInCharacter(){
         homeService = new HomeService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
@@ -212,7 +246,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10,enabled = true, description = "Verify previous name are highlight when name with special character")
+    @Test(priority = 10,enabled = false, description = "Verify previous name are highlight when name with special character")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyPreviousNameWithSpecialCharacter(){
         homeService = new HomeService(getLogger(),getDriver());

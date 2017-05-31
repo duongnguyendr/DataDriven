@@ -1,15 +1,20 @@
 package com.auvenir.ui.pages.marketing.onboarding;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+
+import java.util.List;
 
 /**
  * Created by cuong.nguyen on 4/12/2017.
@@ -105,6 +110,27 @@ public class PersonalPO extends AbstractPage {
 
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='error field']//div[@class='ui input']//input[@name='member_phone_number']")
     private  WebElement phoneError;
+
+    // List Item of ListBox Role in Firm
+    @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[1]//div[@class='menu transition visible']/div")
+    private List<WebElement> listItemRoleFirmEle;
+    public List<WebElement> getListItemRoleFirmEle(){
+        return listItemRoleFirmEle;
+    }
+
+    // List Item of Option 'Hear about Auvenir'
+    @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
+    private List<WebElement> listItemReferenceEle;
+    public List<WebElement> getListItemReferenceEle(){
+        return listItemReferenceEle;
+    }
+
+    // Page Provide Firm Information Div Element
+    @FindBy(xpath = "//div[@class='step-content' and @id='step2']")
+    private WebElement pageProvideFirmInfoEle;
+    public WebElement getPageProvideFirmInfoEle(){ return pageProvideFirmInfoEle; }
+
+
     //@Override
     public void verifyPageContent(){
         //this.driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
@@ -144,63 +170,52 @@ public class PersonalPO extends AbstractPage {
 
     }
 
-    public void registerAuditorPersonal(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference){
-       try {
-           waitForVisibleElement(eleName,"Full name");
-           eleName.sendKeys(strName);
-           NXGReports.addStep("Input First and Last Name", LogAs.PASSED, null);
+    public void registerAuditorPersonal(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
+        boolean result;
+        try {
+            waitForVisibleElement(eleName, "Full name");
+            sendKeyTextBox(eleName, strName, "Full Name TextBox");
 
-           waitForVisibleElement(eleEmail,"Email");
-           eleEmail.sendKeys(strEmail);
-           NXGReports.addStep("Input Email Address", LogAs.PASSED, null);
+            waitForVisibleElement(eleEmail, "Email");
+            sendKeyTextBox(eleEmail, strEmail, "Email Name TextBox");
 
-           waitForVisibleElement(eleConfirmEmail,"Email");
-           eleConfirmEmail.sendKeys(strEmail);
-           NXGReports.addStep("Input confirm Email Address", LogAs.PASSED, null);
+            waitForVisibleElement(eleConfirmEmail, "Email");
+            sendKeyTextBox(eleConfirmEmail, strEmail, "Confirm Email TextBox");
 
-           waitForClickableOfElement(eleRoleFirm,"Role");
-           clickElement(eleRoleFirm,"Role");
-           //selectListBoxByText(eleMenu,strRoleFirm);
-           NXGReports.addStep("select Role in Firm", LogAs.PASSED, null);
+            waitForClickableOfElement(eleRoleFirm, "Role in Firm Dropdown");
+            clickElement(eleRoleFirm, "Role");
+            waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown","aria-expanded", "true");
+            clickElement(listItemRoleFirmEle.get(0), "First Item on Role Dropdown");
+            waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown","aria-expanded", "false");
 
-           waitForVisibleElement(elePhoneNumber, "Phone number");
-           clickElement(elePhoneNumber,"phone number");
-           elePhoneNumber.sendKeys(strPhone);
-           NXGReports.addStep("Input Phone Number", LogAs.PASSED, null);
+            waitForVisibleElement(elePhoneNumber, "Phone number");
+            sendKeyTextBox(elePhoneNumber, strPhone, "Phone number TextBox");
 
-           waitForVisibleElement(eleReference,"Reference check box");
-           clickElement(eleReference, "Reference check box");
-           //selectListBoxByText(eleMenu,strReference);
-           NXGReports.addStep("Select reference about Auvenir", LogAs.PASSED, null);
+            waitForVisibleElement(eleReference, "Reference check box");
+            clickElement(eleReference, "Reference check box");
+            waitForAtrributeValueChanged(eleReference, "Reference 'Hear' Dropdown","aria-expanded", "true");
+            clickElement(listItemReferenceEle.get(0), "First Item on Reference 'Hear' Dropdown");
+            waitForAtrributeValueChanged(eleReference, "Reference 'Hear' Dropdown","aria-expanded", "false");
 
 
-           waitForVisibleElement(chkAgree,"Check box agree");
-           clickElement(chkAgree, " check box agree");
-           NXGReports.addStep("Check to checkbox Privacy policy and Term of Service", LogAs.PASSED, null);
+            waitForVisibleElement(chkAgree, "Check box agree");
+            clickElement(chkAgree, " check box agree");
 
-           waitForVisibleElement(chkConfirm,"Check box confirm");
-           clickElement(chkConfirm, "check box confirm");
-           NXGReports.addStep("Check to checkbox I confirm ", LogAs.PASSED, null);
+            waitForVisibleElement(chkConfirm, "Check box confirm");
+            clickElement(chkConfirm, "check box confirm");
 
-           waitForVisibleElement(btnContinue,"Continue button");
-           clickElement(btnContinue, "continue button");
-           NXGReports.addStep("Click button continue", LogAs.PASSED, null);
+            waitForVisibleElement(btnContinue, "Continue button");
+            clickElement(btnContinue, "continue button");
 
-       }catch (NoSuchElementException e){
-           NXGReports.addStep("Element is not found", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-           throw new AssertionError(e.getMessage());
-       }
+            result = validateDisPlayedElement(pageProvideFirmInfoEle, "Page Provide Firm Infomation");
+            Assert.assertTrue(result, "Page Provide Your Firm Infomation should be loaded.");
+            NXGReports.addStep("Register Auditor Personal passed", LogAs.PASSED, null);
 
-        // Verify Register Auditor Personal Page is passed
-        try{
-            this.validateElememt(eleFrameAuditorPersonal,"Page Register Auditor Personal", Element_Type.NOT_EXIST);
-            NXGReports.addStep("Register Auditor Personal passed", LogAs.PASSED,null);
-        }catch (NoSuchElementException e){
-            NXGReports.addStep("Register Auditor Personal failed", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError("Register Auditor Personal failed");
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Page Provide Your Firm Infomation is not loaded.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
-
     }
 
     public void clickOnCheckBoxConfirm(){

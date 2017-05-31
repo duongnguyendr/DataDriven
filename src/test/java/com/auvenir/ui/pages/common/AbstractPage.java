@@ -2242,9 +2242,11 @@ public class AbstractPage {
                 try {
                     Assert.assertTrue(webElement.isDisplayed(), expected + " is not displayed.");
                 } catch (NoSuchElementException e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 }
@@ -2253,9 +2255,11 @@ public class AbstractPage {
                 try {
                     Assert.assertTrue(webElement.isEnabled(), expected + " is not enabled.");
                 } catch (NoSuchElementException e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 }
@@ -2264,9 +2268,11 @@ public class AbstractPage {
                 try {
                     Assert.assertTrue(webElement.isSelected(), expected + " is not selected  ");
                 } catch (NoSuchElementException e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 }
@@ -2275,9 +2281,11 @@ public class AbstractPage {
                 try {
                     Assert.assertFalse(webElement.isDisplayed(), expected + " is not hidden.");
                 } catch (NoSuchElementException e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 }
@@ -2286,9 +2294,11 @@ public class AbstractPage {
                 try {
                     Assert.assertEquals(getText(webElement), expected);
                 } catch (NoSuchElementException e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
+                    AbstractService.sStatusCnt ++;
                     NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError(e.getMessage());
                 }
@@ -2784,4 +2794,33 @@ public class AbstractPage {
         return verifyContentOfToastMessage(successToastMesDescriptionEle, "Success Toast Message Content", expectedContent);
     }
 
+    /**
+     * Author: Thuan Duong.
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to verify
+     * @Description In order to wait element to change Attribute value.
+     */
+    public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
+        getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    String actualAttributeValue = element.getAttribute(attributeName);
+                    System.out.println("Actual Displayed Value: " + actualAttributeValue);
+                    if (actualAttributeValue.equals(attributeValue))
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            NXGReports.addStep(String.format("Attribute '%s' of element '%s' is changed to '%s'", attributeName, elementName, attributeValue), LogAs.PASSED, null);
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Attribute Value is not changed");
+            NXGReports.addStep(String.format("Attribute '%s' of element '%s' is NOT changed", attributeName, elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
 }

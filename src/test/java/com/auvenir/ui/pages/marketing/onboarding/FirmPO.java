@@ -36,7 +36,8 @@ public class FirmPO extends AbstractPage {
     private WebElement eleFirmName;
     public WebElement getEleFirmName() {return eleFirmName;}
 
-    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_name']")
+//    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_name']")
+    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_name']")
     private WebElement eleFirmNameError;
 
     // Element of checkbox rule changed Name
@@ -49,7 +50,8 @@ public class FirmPO extends AbstractPage {
     private WebElement elePreFirmName;
     public WebElement getElePreFirmName() { return elePreFirmName; }
 
-    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_previous_name']")
+//    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_previous_name']")
+    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_previous_name']")
     private WebElement elePreFirmNameError;
 
     // Element of Firm website
@@ -166,7 +168,8 @@ public class FirmPO extends AbstractPage {
     public WebElement getBtnContinue() {return btnContinue;}
 
     //@Override
-    public void verifyPageContent() {
+    public void verifyPageContent(){
+        getLogger().info("Verify Page Content Firm PO.");
         if(IS_ENGLISH_LANGUAGE)
             this.validateElememt(elePagePersonal,"PERSONAL", Element_Type.TEXT_VALUE);
         else
@@ -180,7 +183,7 @@ public class FirmPO extends AbstractPage {
     }
 
     @Override*/
-    protected void isLoaded() throws Error {
+    protected void isLoaded() throws Error{
         // Checking Firm Name element is displayed
         this.validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
         NXGReports.addStep("ELement of Firm Name", LogAs.PASSED, null);
@@ -226,7 +229,8 @@ public class FirmPO extends AbstractPage {
         NXGReports.addStep("Element of button Update Logo", LogAs.PASSED, null);
 
         // Checking checkbox Rule Logo element is displayed
-        this.validateElememt(chkRuleLogo, "Element of checkbox Rule Logo", Element_Type.DISPLAYED);
+        validateDisPlayedElement(chkRuleLogo, "Element of checkbox Rule Logo");
+//        this.validateElememt(chkRuleLogo, "Element of checkbox Rule Logo", Element_Type.DISPLAYED);
         NXGReports.addStep("Element of checkbox Rule Logo", LogAs.PASSED, null);
 
         // Checking button Continue element is displayed
@@ -338,6 +342,7 @@ public class FirmPO extends AbstractPage {
     }
 
     public void clickOnRuleLogoCheckBox(){
+        getLogger().info("Click On Rule Logo CheckBox");
         hoverElement(this.chkRuleLogo," rule logo check box");
         clickElement(this.chkRuleLogo, " rule logo check box");
     }
@@ -346,7 +351,7 @@ public class FirmPO extends AbstractPage {
         try {
             waitForVisibleElement(eleInput,strDescription);
             clickElement(eleInput,strDescription);
-            eleInput.sendKeys(strName);
+            sendKeyTextBox(eleInput, strName, strDescription);
             NXGReports.addStep("Input "+ strDescription, LogAs.PASSED, null);
 
         }catch (NoSuchElementException e){
