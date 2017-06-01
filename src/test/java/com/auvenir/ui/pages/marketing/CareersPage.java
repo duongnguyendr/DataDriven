@@ -1,10 +1,6 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,8 +16,24 @@ public class CareersPage extends AbstractPage {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }
-    private String marketingHeaderTextCst = "We are growing. Come join our team.";
-    private String careersAtAuvenirTextCst = "Careers at Auvenir";
+
+    /**
+     * Verify page content
+     */
+    /*@Override
+    public void verifyContentPage() {
+        System.out.println("Verify careers page content");
+    }
+*/
+    /*@Override
+    protected void load() {
+
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+
+    }*/
     @FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
     private WebElement auvenirLogoImage;
     @FindBy(xpath = ".//*[@id='marketing-header']//div[@class='row']/div")
@@ -35,35 +47,12 @@ public class CareersPage extends AbstractPage {
     @FindBy(xpath = ".//*[@id='career']//div[contains(text(),'Sales')]")
     private WebElement SalesText;
     public void verifyCareersContentPage(){
-        getLogger().info("Verify careers content page");
-        boolean checkMarketingHeaderText = false;
-        boolean checkCareersAuvenirText = false;
-        boolean isCheckCareersContentPage,isCheckCareersContentPage1, isCheckCareersContentPage2, isCheckCareersContentPage3, isCheckCareersContentPage4
-        ,isCheckCareersContentPage5  = false;
-        isCheckCareersContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
-        isCheckCareersContentPage1 = waitForVisibleElement(marketingHeaderText,"auvenmarketingHeaderTextirLogoImage");
-        if(marketingHeaderText.getText().equals(marketingHeaderTextCst))
-        {
-            checkMarketingHeaderText = true;
-        }
-        getLogger().info("marketingHeaderText = " + marketingHeaderText.getText());
-        isCheckCareersContentPage2 = waitForVisibleElement(careersAtAuvenirText,"careersAtAuvenirText");
-        if(careersAtAuvenirText.getText().equals(careersAtAuvenirTextCst))
-        {
-            checkCareersAuvenirText = true;
-        }
-        isCheckCareersContentPage3 = waitForVisibleElement(EngineeringText,"EngineeringText");
-        isCheckCareersContentPage4 = waitForVisibleElement(ProductText,"ProductText");
-        isCheckCareersContentPage5 = waitForVisibleElement(SalesText,"SalesText");
-        if(isCheckCareersContentPage & isCheckCareersContentPage1 & isCheckCareersContentPage2 & isCheckCareersContentPage3 & isCheckCareersContentPage4
-                & isCheckCareersContentPage5 & checkMarketingHeaderText & checkCareersAuvenirText)
-        {
-            NXGReports.addStep("Verify careers content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else
-        {
-            AbstractService.sStatusCnt ++;
-            NXGReports.addStep("Verify careers content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
-        }
+        waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
+        waitForVisibleElement(marketingHeaderText,"auvenmarketingHeaderTextirLogoImage");
+        waitForVisibleElement(careersAtAuvenirText,"careersAtAuvenirText");
+        waitForVisibleElement(EngineeringText,"EngineeringText");
+        waitForVisibleElement(ProductText,"ProductText");
+        waitForVisibleElement(SalesText,"SalesText");
+
     }
 }

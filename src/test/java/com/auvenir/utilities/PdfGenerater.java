@@ -107,23 +107,34 @@ public class PdfGenerater {
         addEmptyLine(preface, 1);
         document.add(preface);
 
-        Image image2 = Image.getInstance(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart.png");
+        /*Image image2 = Image.getInstance(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart.png");
         image2.scaleAbsolute(120f, 120f);
-        //image2.setAlignment(Element.ALIGN_LEFT);
-
+         //image2.setAlignment(Element.ALIGN_LEFT);
         Image image3 = Image.getInstance(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart.png");
-        image3.scaleAbsolute(120f, 120f);
+        image3.scaleAbsolute(120f, 120f);*/
 
         addEmptyLine(preface, 8);
-        PdfPTable table = new PdfPTable(2);
 
-        table.setWidthPercentage(75);
-        table.setWidths(new int[]{1, 1});
-        table.setSpacingAfter(10);
+        List<String> browserList = getBrowserList();
+        int totalBrowser = browserList.size();
+        for (int i = 0; i < totalBrowser; i++) {
+            Paragraph prefaceBrowser = new Paragraph();
+            addEmptyLine(prefaceBrowser, 1);
+            String browserName = browserList.get(i).substring(0,browserList.get(i).length()-1);
+            prefaceBrowser.add(new Paragraph("        Browser name : " + browserName, smallBold));
+            addEmptyLine(prefaceBrowser, 1);
+            document.add(prefaceBrowser);
 
-        table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart.png"));
-        table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart.png"));
-        document.add(table);
+            PdfPTable table = new PdfPTable(2);
+
+            table.setWidthPercentage(75);
+            table.setWidths(new int[]{1, 1});
+            table.setSpacingAfter(10);
+
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart" + browserName + ".png"));
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart" + browserName + ".png"));
+            document.add(table);
+        }
 
         Paragraph prefaceThree = new Paragraph();
         prefaceThree.setSpacingBefore(2);
@@ -249,10 +260,12 @@ public class PdfGenerater {
             table.addCell(new PdfPCell(new Phrase(String.valueOf(cnt), tableCellValue)));
             table.addCell(new PdfPCell(new Phrase(sTestNameList.get(i).toString(), tableCellValue)));
             table.addCell(new PdfPCell(new Phrase(sDescriptionTestName, tableCellValue)));
-            for(int j=0; j<totalBrowser; j++){
+            for(int j=0;  j< totalBrowser; j++){
                 String browserName = browserList.get(j);
-                String statusTestName = getStatusTestNameFollowBrowser(sTestName,sTestNameList.get(i),
-                        browserList,browserName,sStatus);
+                String statusTestName = getStatusTestNameFollowBrowser(sTestName,
+                                                                       sTestNameList.get(i).toString(),
+                                                                       GenericService.sBrowserTestNameList,browserName,
+                                                                       sStatus);
                 if (statusTestName.equals("Passed")) {
                     statusFont = passFont;
                 } else if (statusTestName.equals("Failed")) {

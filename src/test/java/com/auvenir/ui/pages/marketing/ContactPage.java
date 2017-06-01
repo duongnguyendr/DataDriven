@@ -1,9 +1,5 @@
 package com.auvenir.ui.pages.marketing;
 
-import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,8 +15,26 @@ public class ContactPage extends AboutPage {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }
-    private String headerTextCst = "Get In Touch! We are here to support you and would love to hear your feedback.";
-    private String getInTouchTextCst = "Get in Touch with Auvenir\n" + "We will respond within 24 hours.";
+
+    /**
+     * Verify page content
+     */
+/*
+    @Override
+    public void verifyContentPage() {
+        System.out.println("Verify contact page content.");
+    }
+*/
+
+    /*@Override
+    protected void load() {
+        getFooterPage().getEleContact().click();
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        Assert.assertEquals(webDriver.getTitle(), "Contact");
+    }*/
     @FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
     private WebElement auvenirLogoImage;
     @FindBy(xpath = ".//*/div[@class='ui center aligned header header-main-text']")
@@ -41,40 +55,14 @@ public class ContactPage extends AboutPage {
     private WebElement contactMapImage;
 
     public void verifyContactContentPage(){
-        getLogger().info("Verify contact content page");
-        boolean checkHeaderText = false;
-        String strGetTouchText = "";
-        boolean isCheckContactContentPage,isCheckContactContentPage1,isCheckContactContentPage2,isCheckContactContentPage3,isCheckContactContentPage4,
-                isCheckContactContentPage5, isCheckContactContentPage6, isCheckContactContentPage7,isCheckContactContentPage8= false;
-        isCheckContactContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
-        isCheckContactContentPage1 = waitForVisibleElement(headerText,"headerText");
-        if(headerText.getText().equals(headerTextCst))
-        {
-            checkHeaderText = true;
-        }
-        isCheckContactContentPage2 = waitForVisibleElement(getInTouchText,"getInTouchText");
-        strGetTouchText = getInTouchText.getText();
-        boolean isCheckTouchText = false;
-        if(strGetTouchText.equals(getInTouchTextCst))
-        {
-            isCheckTouchText = true;
-        }
-        getLogger().info("strGetTouchText = " + strGetTouchText);
-        isCheckContactContentPage3 = waitForVisibleElement(nameTextBox,"nameTextBox");
-        isCheckContactContentPage4 = waitForVisibleElement(emailTextBox,"emailTextBox");
-        isCheckContactContentPage5 = waitForVisibleElement(directMessageDropdown,"directMessageDropdown");
-        isCheckContactContentPage6 = waitForVisibleElement(messageTextBox,"messageTextBox");
-        isCheckContactContentPage7 = waitForVisibleElement(sendMessageBTN,"sendMessageBTN");
-        isCheckContactContentPage8 = waitForVisibleElement(contactMapImage,"contactMapImage");
-        if(isCheckTouchText & isCheckContactContentPage & isCheckContactContentPage1 & isCheckContactContentPage2 & isCheckContactContentPage3
-                & isCheckContactContentPage4 & isCheckContactContentPage5 & isCheckContactContentPage6 & isCheckContactContentPage7 & isCheckContactContentPage8
-                & checkHeaderText)
-        {
-            NXGReports.addStep("Verify contact content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify contact content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
-        }
+        waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
+        waitForVisibleElement(headerText,"headerText");
+        waitForVisibleElement(getInTouchText,"getInTouchText");
+        waitForVisibleElement(nameTextBox,"nameTextBox");
+        waitForVisibleElement(emailTextBox,"emailTextBox");
+        waitForVisibleElement(directMessageDropdown,"directMessageDropdown");
+        waitForVisibleElement(messageTextBox,"messageTextBox");
+        waitForVisibleElement(sendMessageBTN,"sendMessageBTN");
+        waitForVisibleElement(contactMapImage,"contactMapImage");
     }
 }

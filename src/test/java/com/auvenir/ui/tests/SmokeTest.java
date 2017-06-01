@@ -196,7 +196,6 @@ public class SmokeTest extends AbstractRefactorService {
             dateFormat = new SimpleDateFormat("MM/d/yyyy");
             date = new Date();
             CurrentDate = dateFormat.format(date);
-
             getLogger().info("Login to home page.");
             loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
             getLogger().info("wait for page load.");
@@ -205,12 +204,10 @@ public class SmokeTest extends AbstractRefactorService {
                     "Auivenir application is not displayed");
             NXGReports.addStep("Auivenir application is displayed successfully", LogAs.PASSED, null);
             getLogger().info("Enter auditor email.");
-
             auvenirPage.getEleAuditorEmailAddressTxtFld()
                     .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
             getLogger().info("click to regedit auditor user.");
             auvenirPage.getEleJoinBtn().click();
-
             getLogger().info("wait for wait aproval popup shown.");
             visibilityOfElementWait(auvenirPage.getEleAwaitingApprovalTxt(), "Awaiting Approval", waittime);
             Assert.assertTrue(auvenirPage.getEleAwaitingApprovalTxt().isDisplayed(),

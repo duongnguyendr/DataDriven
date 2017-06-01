@@ -792,27 +792,10 @@ public class AuvenirPage extends AbstractPage {
      * TanPham 29/05/2017 - End
      */
 
-    public void verifyWelcomePleaseCheckTxtIsDisplayed() {
+    public void verifyWelcomePleaseCheckTxtIsDisplayed(){
         getLogger().info("Verify Welcome Please Check Text is displayed.");
         waitForVisibleElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
         validateDisPlayedElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
         validateElementText(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login link.");
     }
-
-    /**
-     * Refactored by huy.huynh on 30/05/2017.
-     * Restructure only
-     */
-
-    public void verifyPageLoad() {
-        validateDisPlayedElement(getEleAuditorEmailAddressTxtFld(), "Join email");
-    }
-
-    public void actionWithApprovalDialog() {
-        visibilityOfElementWait(getEleAwaitingApprovalTxt(), "Awaiting Approval", 20);
-        visibilityOfElementWait(getEleDoneBtn(), "Approval Done Button", 20);
-        getEleDoneBtn().click();
-    }
-
-    /*-----------end of huy.huynh on 30/05/2017.*/
 }

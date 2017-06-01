@@ -21,7 +21,6 @@ public class CookiesNoticeTest extends AbstractTest {
         try {
             homeService = new HomeService(getLogger(), getDriver());
             cookiesNoticeService = new CookiesNoticeService(getLogger(), getDriver());
-            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.goToCookiesNoticePage();
             cookiesNoticeService.verifyCookiesNoticeContentPage();
@@ -29,7 +28,6 @@ public class CookiesNoticeTest extends AbstractTest {
             NXGReports.addStep("Verify about CookiesNotice page content: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
             NXGReports.addStep("Verify about CookiesNotice page content: FAILED", LogAs.FAILED, (CaptureScreen) null);
-            throw e;
         }
     }
 }

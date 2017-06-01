@@ -1,6 +1,7 @@
 package com.auvenir.utilities;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.utilities.extentionLibraries.DBProperties;
 import com.auvenir.utilities.extentionLibraries.Excel;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
@@ -13,7 +14,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static com.auvenir.utilities.GenericService.sDirPath;
 import static com.mongodb.MongoClientOptions.builder;
@@ -475,10 +475,10 @@ public class MongoDBService {
         DBObject dBbject = cursor.next();
 
         JSONObject output = new JSONObject(new JSON().serialize(dBbject));
-        JSONArray jsonArray = output.getJSONArray("todos");
+        JSONArray jsonArray = output.getJSONArray(DBProperties.getToDoJsonKey());
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject object = jsonArray.getJSONObject(i);
-            if (object.get("name").toString().equals(name)) {
+            if (object.get(DBProperties.getNameToDoJsonKey()).toString().equals(name)) {
                 return object;
             }
         }
@@ -500,20 +500,5 @@ public class MongoDBService {
         DBObject dBbject = cursor.next();
 
         return dBbject.get("_id").toString();
-    }
-
-    public static void removeUserObjectByEmail(DBCollection dBCollection, String value){
-        try {
-            BasicDBObject searchQuery = new BasicDBObject();
-            searchQuery.put("email", value);
-            DBCursor cursor = dBCollection.find(searchQuery);
-            DBObject dBbject = cursor.next();
-
-            dBCollection.remove(dBbject);
-        } catch (NoSuchElementException ex) {
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 }

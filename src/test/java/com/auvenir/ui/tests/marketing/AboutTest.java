@@ -22,7 +22,6 @@ public class AboutTest extends AbstractTest {
         try {
             homeService = new HomeService(getLogger(), getDriver());
             aboutService = new AboutService(getLogger(), getDriver());
-            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.goToAboutPage();
             aboutService.verifyAboutContentPage();
@@ -30,7 +29,6 @@ public class AboutTest extends AbstractTest {
             NXGReports.addStep("Verify about page content: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
             NXGReports.addStep("Verify about page content: FAILED", LogAs.FAILED, (CaptureScreen) null);
-            throw e;
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,12 +18,29 @@ public class HomePage extends AbstractPage {
         super(logger,driver);
         PageFactory.initElements(driver, this);
     }
-    private String ourMissionText1Cst = "Auvenir is on a mission to enable a Smarter Audit. The Auvenir platform seamlessly integrates advanced technology to enhance the financial audit workflow, improving efficiency for auditors and minimizing the opportunity cost for their clients.";
-    private String ourMissionText2Cst = "As a Deloitte venture, Auvenir benefits from the agility of a start-up culture while leveraging deep world-class technology and audit expertise. Our people are dedicated to continuously improving our offering to make the audit process better for auditors and their clients.";
-    private String ourMissionText3Cst = "Our long term vision is to inspire full trust and confidence in financial reporting through accessible, timely, and reliable communication of financial performance between companies and their financiers.";
-    private String whyAuvenirText2Cct = "We have developed a robust collaboration tool for auditors and their clients as well as patent pending machine learning software that automates a great deal of the audit process.";
-    private String belowProductFeaturesTextCst = "Our platform re-imagines the audit, making it smarter for all parties.";
-    private String spendLessTimeDescriptionTextCst = "Automate mundane tasks, freeing up time for higher value services and a better ROI";
+
+    /**
+     * Verify page content
+     */
+    /*@Override
+    public void verifyContentPage() {
+        System.out.println("Verify home page content.");
+    }
+
+    @Override
+    protected void load() {
+        getFooterPage().getEleHome().click();
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        Assert.assertEquals(webDriver.getTitle(), "Home");
+    }
+
+    public PersonalPO navigateAuditorSignUp(){
+        this.getHeaderPage().getAuditorSignUp().click();
+        return new PersonalPO(webDriver);
+    }*/
     @FindBy(xpath = "//*[@id='language-flag']/button")
     private WebElement changeLanguageBTN;
     @FindBy(xpath = "//*[@class='ui right aligned container']/button")
@@ -63,46 +77,6 @@ public class HomePage extends AbstractPage {
     private WebElement EmailForgotPasswordTextBox;
     @FindBy(xpath = "//div[@id='forgot-popup']//div[@class='ui error message']")
     private WebElement EmailForgotPasswordMessage;
-    @FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
-    private WebElement avenirLogo;
-    @FindBy(xpath = ".//*[@id='marketing-header']//h1")
-    private WebElement weHelpYouAuditSmarterText;
-    @FindBy(xpath = ".//*[@id='marketing-header']//a[contains(text(),'Join as an Auditor Today')]")
-    private WebElement joinAsAnAuditorTodayText;
-    @FindBy(xpath = ".//*[@id='home_mission']/h2[contains(text(),'Our Mission')]")
-    private WebElement ourMissionText;
-    @FindBy(xpath = ".//*[@id='home_mission']/p[1]")
-    private WebElement ourMissionText1;
-    @FindBy(xpath = ".//*[@id='home_mission']/p[2]")
-    private WebElement ourMissionText2;
-    @FindBy(xpath = ".//*[@id='home_mission']/p[3]")
-    private WebElement ourMissionText3;
-    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//h2[contains(text(),'Why Auvenir?')]")
-    private WebElement whyAuvenirText;
-    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//div[@class='middle aligned column why-auvenir-content']/p[1]")
-    private WebElement whyAuvenirText1;
-    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//div[@class='middle aligned column why-auvenir-content']/p[2]")
-    private WebElement whyAuvenirText2;
-    @FindBy(xpath = ".//*[@id='home_productFeatures']/header/h2")
-    private WebElement productFeaturesText;
-    @FindBy(xpath = ".//*[@id='home_productFeatures']/header/p")
-    private WebElement belowProductFeaturesText;
-    @FindBy(xpath = "//img[@src='/static/images/home/img_feature_1.png']")
-    private WebElement spendLessTimeImage;
-    @FindBy(xpath = ".//*[@id='home_productFeatures']//h4[contains(text(),'Spend Less Time, Earn More')]")
-    private WebElement spendLessTimeText;
-    @FindBy(xpath = ".//*[@id='home_productFeatures']//div[1]/p")
-    private WebElement spendLessTimeDescriptionText;
-    @FindBy(xpath = "//a[@href='/about']")
-    private WebElement aBoutLink;
-    @FindBy(xpath = "//a[@href='/contact']")
-    private WebElement contactLink;
-    @FindBy(xpath = "//a[@href='/cookies']")
-    private WebElement cookiesNoticeLink;
-    @FindBy(xpath = "//a[@href='/privacy']")
-    private WebElement privacyPolicyLink;
-    @FindBy(xpath = "//a[@href='/terms']")
-    private WebElement termsOfService;
 
     public void clickOnChangeLanguageBTN(){
         clickElement(changeLanguageBTN,"changeLanguageBTN");
@@ -178,72 +152,61 @@ public class HomePage extends AbstractPage {
         waitForClickableOfElement(signUpBTN,"signup button");
         clickElement(signUpBTN,"signup button");
     }
-    public void verifyHomeContentPage() {
-        getLogger().info("Verify home content page");
-        boolean checkOurMissionText1 = false;
-        boolean checkOurMissionText2 = false;
-        boolean checkOurMissionText3 = false;
-        boolean checkWhyAuvenir2 = false;
-        boolean checkProductFeatures = false;
-        boolean checkBelowProductFeatures = false;
-        boolean checkSpendLessTimeDescription = false;
-        boolean checkHomePageContentPage, checkHomePageContentPage1, checkHomePageContentPage2, checkHomePageContentPage3,checkHomePageContentPage4
-                ,checkHomePageContentPage5, checkHomePageContentPage6, checkHomePageContentPage7, checkHomePageContentPage8 = false;
-        checkHomePageContentPage = waitForVisibleElement(avenirLogo, "avenirLogo");
-        checkHomePageContentPage1 = waitForVisibleElement(weHelpYouAuditSmarterText, "weHelpYouAuditSmarterText");
-        checkHomePageContentPage2 = waitForVisibleElement(joinAsAnAuditorTodayText, "joinAsAnAuditorTodayText");
-        checkHomePageContentPage3 = waitForVisibleElement(ourMissionText, "ourMissionText");
-
-        waitForVisibleElement(ourMissionText1, "ourMissionText1");
-        if (ourMissionText1.getText().equals(ourMissionText1Cst)) {
-            checkOurMissionText1 = true;
-        }
-        waitForVisibleElement(ourMissionText2, "ourMissionText2");
-        if (ourMissionText2.getText().equals(ourMissionText2Cst)) {
-            checkOurMissionText2 = true;
-        }
-        waitForVisibleElement(ourMissionText3, "ourMissionText3");
-        if (ourMissionText3.getText().equals(ourMissionText3Cst)) {
-            checkOurMissionText3 = true;
-        }
-        checkHomePageContentPage4 = waitForVisibleElement(whyAuvenirText, "whyAuvenirText");
-        checkHomePageContentPage5 = waitForVisibleElement(whyAuvenirText1, "whyAuvenirText1");
-        checkHomePageContentPage6 = waitForVisibleElement(whyAuvenirText2, "whyAuvenirText2");
-        if (whyAuvenirText2.getText().equals(whyAuvenirText2Cct)) {
-            checkWhyAuvenir2 = true;
-        }
-
-        waitForVisibleElement(productFeaturesText, "productFeaturesText");
-        if (productFeaturesText.getText().contains("Product Features"))
-        {
-            checkProductFeatures = true;
-        }
+    public void verifyHomeContentPage(){
+        waitForVisibleElement(avenirLogo,"avenirLogo");
+        waitForVisibleElement(weHelpYouAuditSmarterText,"weHelpYouAuditSmarterText");
+        waitForVisibleElement(joinAsAnAuditorTodayText,"joinAsAnAuditorTodayText");
+        waitForVisibleElement(ourMissionText,"ourMissionText");
+        waitForVisibleElement(ourMissionText1,"ourMissionText1");
+        waitForVisibleElement(ourMissionText2,"ourMissionText2");
+        waitForVisibleElement(ourMissionText3,"ourMissionText3");
+        waitForVisibleElement(whyAuvenirText,"whyAuvenirText");
+        waitForVisibleElement(whyAuvenirText1,"whyAuvenirText1");
+        waitForVisibleElement(whyAuvenirText2,"whyAuvenirText2");
+        waitForVisibleElement(productFeaturesText,"productFeaturesText");
         waitForVisibleElement(belowProductFeaturesText,"belowProductFeaturesText");
-        if(belowProductFeaturesText.getText().equals(belowProductFeaturesTextCst))
-        {
-            checkBelowProductFeatures = true;
-        }
-        checkHomePageContentPage7 = waitForVisibleElement(spendLessTimeImage,"spendLessTimeImage");
-        checkHomePageContentPage8 = waitForVisibleElement(spendLessTimeText,"spendLessTimeText");
-
+        waitForVisibleElement(spendLessTimeImage,"spendLessTimeImage");
+        waitForVisibleElement(spendLessTimeText,"spendLessTimeText");
         waitForVisibleElement(spendLessTimeDescriptionText,"spendLessTimeDescriptionText");
-        if(spendLessTimeDescriptionText.getText().equals(spendLessTimeDescriptionTextCst))
-        {
-            checkSpendLessTimeDescription = true;
-        }
-        if(checkHomePageContentPage & checkHomePageContentPage1 & checkHomePageContentPage2 & checkHomePageContentPage3 & checkHomePageContentPage4 & checkHomePageContentPage5
-                & checkHomePageContentPage6 & checkHomePageContentPage7 & checkHomePageContentPage8 & checkOurMissionText1 & checkOurMissionText2 & checkOurMissionText3
-                & checkWhyAuvenir2 & checkProductFeatures & checkBelowProductFeatures & checkSpendLessTimeDescription)
-        {
-            NXGReports.addStep("Verify home content page", LogAs.PASSED, null);
-        }
-        else
-        {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify home content page", LogAs.FAILED, null);
-        }
     }
-
+    @FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
+    private WebElement avenirLogo;
+    @FindBy(xpath = ".//*[@id='marketing-header']//h1")
+    private WebElement weHelpYouAuditSmarterText;
+    @FindBy(xpath = ".//*[@id='marketing-header']//a[contains(text(),'Join as an Auditor Today')]")
+    private WebElement joinAsAnAuditorTodayText;
+    @FindBy(xpath = ".//*[@id='home_mission']/h2[contains(text(),'Our Mission')]")
+    private WebElement ourMissionText;
+    @FindBy(xpath = ".//*[@id='home_mission']/p[1]")
+    private WebElement ourMissionText1;
+    @FindBy(xpath = ".//*[@id='home_mission']/p[2]")
+    private WebElement ourMissionText2;
+    @FindBy(xpath = ".//*[@id='home_mission']/p[3]")
+    private WebElement ourMissionText3;
+    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//h2[contains(text(),'Why Auvenir?')]")
+    private WebElement whyAuvenirText;
+    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//div[@class='middle aligned column why-auvenir-content']/p[1]")
+    private WebElement whyAuvenirText1;
+    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//div[@class='middle aligned column why-auvenir-content']/p[2]")
+    private WebElement whyAuvenirText2;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']/header/h2")
+    private WebElement productFeaturesText;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']/header/p")
+    private WebElement belowProductFeaturesText;
+    @FindBy(xpath = "//img[@src=\"/static/images/home/img_feature_1.png\"]")
+    private WebElement spendLessTimeImage;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']//h4[contains(text(),'Spend Less Time, Earn More')]")
+    private WebElement spendLessTimeText;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']//div[1]/p")
+    private WebElement spendLessTimeDescriptionText;
+    @FindBy(xpath = "//a[@href='/about']")
+    private WebElement aBoutLink;
+    @FindBy(xpath = "//a[@href='/contact']")
+    private WebElement contactLink;
+    @FindBy(xpath = "//a[@href='/cookies']")
+    private WebElement cookiesNoticeLink;
+    @FindBy(xpath = "//a[@href='/privacy']")
+    private WebElement privacyPolicyLink;
     public void goToAboutPage(){
         clickElement(aBoutLink,"aBoutLink");
     }
@@ -255,9 +218,5 @@ public class HomePage extends AbstractPage {
     }
     public void goToPrivacyPolicyPage(){
         clickElement(privacyPolicyLink,"privacyPolicyLink");
-    }
-    public void goToTermOfService()
-    {
-        clickElement(termsOfService,"termsOfService");
     }
 }

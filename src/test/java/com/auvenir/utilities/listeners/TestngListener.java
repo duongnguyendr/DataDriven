@@ -101,8 +101,10 @@ public class TestngListener implements ITestListener {
 	     iFailCount=context.getFailedTests().size(); 
 	     iSkippedCount=context.getSkippedTests().size(); 
 	     iTotalExecuted = iPassCount+iFailCount+iSkippedCount;
-	     GenericService.getPieChart(iPassCount,iFailCount,iSkippedCount);
-	     GenericService.getBarChart(iPassCount,iFailCount,iSkippedCount);
+	     //GenericService.getPieChart(iPassCount,iFailCount,iSkippedCount);
+		//GenericService.getBarChart(iPassCount,iFailCount,iSkippedCount);
+		 GenericService.getPieChartFollowBrowser(sTestName,sStatus);
+		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);
          PdfGenerater pdf = new PdfGenerater();
          pdf.toExecute(sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount, pdfReports);
          //File reports = new File(sTestngReports);
