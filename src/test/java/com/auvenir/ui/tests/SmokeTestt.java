@@ -7,7 +7,6 @@ import com.auvenir.ui.services.AuvenirService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
-import com.auvenir.utilities.extentionLibraries.DBProperties;
 import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -99,7 +98,7 @@ public class SmokeTestt extends AbstractTest {
     public void auditorCreation() throws Exception {
         try {
             //precondition
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getUsersCollection()), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
 
             initVariable();
 
@@ -126,7 +125,7 @@ public class SmokeTestt extends AbstractTest {
 
     @Test(priority = 3, enabled = true, description = "Change the status of the Auditor to OnBoarding")
     public void changeTheStatusAuditorToOnBoarding() throws Exception {
-        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getUsersCollection()), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
 
         initVariable();
 

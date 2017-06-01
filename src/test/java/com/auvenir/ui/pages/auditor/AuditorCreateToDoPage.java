@@ -6,8 +6,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
-import com.auvenir.utilities.extentionLibraries.DBProperties;
-import com.auvenir.utilities.extentionLibraries.DatePicker;
+import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -2588,7 +2587,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public DBCollection getEngagementCollection() {
         try {
             //TODO move db config to properties file
-            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getEngagementsCollection());
+            return MongoDBService.getCollection("engagements");
         } catch (Exception e) {
             NXGReports.addStep("Can't get Engagements Colection: auvenir-engagements", LogAs.FAILED, null);
             e.printStackTrace();
@@ -2597,12 +2596,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
-     * get 'engagements' collection(table on mongo)
+     * get 'users' collection(table on mongo)
      */
     public DBCollection getUserCollection() {
         DBCollection dbCollection = null;
         try {
-            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getUsersCollection());
+            return MongoDBService.getCollection("users");
         } catch (Exception e) {
             NXGReports.addStep("Can't get Users Colection: auvenir-users", LogAs.FAILED, null);
             e.printStackTrace();
@@ -3650,7 +3649,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[2]")
-   WebElement editCategoryBtn;
+    WebElement editCategoryBtn;
 
     @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]/div[contains(@class,'ui dropdown category')]")
     WebElement categoryDropdownEle;

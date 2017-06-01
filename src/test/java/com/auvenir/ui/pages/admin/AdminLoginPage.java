@@ -3,7 +3,7 @@ package com.auvenir.ui.pages.admin;
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.extentionLibraries.LocatorProperties;
+import com.auvenir.utilities.GeneralUtilities;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -1042,11 +1042,20 @@ public class AdminLoginPage extends AbstractPage {
     @FindBy(xpath = "//table[@id='w-mu-table']")
     private WebElement tableUser;
 
+    @FindBy(xpath = "//p[contains(@id,'msgText')]/div/p[1]")
+    private WebElement textViewOnPopupConfirm;
+
+    private String xpathUserTypeCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[2]";
+    private String xpathEmailCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[3]";
+    private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
+    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[6]/select";
+
+
     public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
         try {
-            WebElement type = getDriver().findElement(LocatorProperties.getElement("userTypeCellOnUserTableAdminX", userEmail));
-            WebElement email = getDriver().findElement(LocatorProperties.getElement("emailCellOnUserTableAdminX", userEmail));
-            WebElement date = getDriver().findElement(LocatorProperties.getElement("dateCreatedCellOnUserTableAdminX", userEmail));
+            WebElement type = GeneralUtilities.getElement(getDriver(), xpathUserTypeCellOnUserTableAdminX, userEmail);
+            WebElement email = GeneralUtilities.getElement(getDriver(), xpathEmailCellOnUserTableAdminX, userEmail);
+            WebElement date = GeneralUtilities.getElement(getDriver(), xpathDateCreatedCellOnUserTableAdminX, userEmail);
 
             validateElementText(type, userType);
             validateElementText(email, userEmail);
@@ -1060,21 +1069,16 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
-        try {
-            WebElement status = getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail));
-            validateSelectedItemText(status, userStatus);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
+        WebElement status = GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail);
+        validateSelectedItemText(status, userStatus);
     }
 
     public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
         try {
-            Select status = new Select(getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail)));
+            Select status = new Select(GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
             status.selectByVisibleText(chooseOption);
 
-            validateElementText(getDriver().findElement(LocatorProperties.getElement("textOnPopUpConfirmChangeUserStatusX")), "Are you sure you want to change user status from");
+            validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
 
             waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
             getEleStatusConfirmBtn().click();

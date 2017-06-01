@@ -5,10 +5,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -137,5 +134,17 @@ public class GeneralUtilities {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
+    }
+
+    public static WebElement getElement(WebDriver webDriver, String xpath, String... arg) {
+        WebElement webElement = null;
+        xpath = String.format(xpath, arg);
+        try {
+            webElement = webDriver.findElement(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return webElement;
     }
 }
