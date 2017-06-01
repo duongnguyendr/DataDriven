@@ -2,12 +2,12 @@ package com.auvenir.ui.pages.admin;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.extentionLibraries.LocatorProperties;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
-import org.apache.log4j.Logger;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GeneralUtilities;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -1016,22 +1016,75 @@ public class AdminLoginPage extends AbstractPage {
         clickElement(getEleCloseIcn(), "Close button");
     }
 
-    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus) {
         getLogger().info("Verify user is changed status on the list.");
         try {
             String actualStatus = getEleAuditorStatusLst(userType, email, dateCreated);
             Assert.assertTrue(actualStatus.equals(expectedStatus), String.format("Auditor is not created with %s status", actualStatus));
             NXGReports.addStep("Verify user is changed status on the list.", LogAs.PASSED, null);
-        } catch (AssertionError e){
-            AbstractService.sStatusCnt ++;
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
             getLogger().info(e);
             NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (Exception e){
-            AbstractService.sStatusCnt ++;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             getLogger().info(e);
             NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
 
     }
+
+    /**
+     * Refactored by huy.huynh on 30/05/2017.
+     * New for smoke test
+     */
+    @FindBy(xpath = "//table[@id='w-mu-table']")
+    private WebElement tableUser;
+
+    public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
+        try {
+            WebElement type = getDriver().findElement(LocatorProperties.getElement("userTypeCellOnUserTableAdminX", userEmail));
+            WebElement email = getDriver().findElement(LocatorProperties.getElement("emailCellOnUserTableAdminX", userEmail));
+            WebElement date = getDriver().findElement(LocatorProperties.getElement("dateCreatedCellOnUserTableAdminX", userEmail));
+
+            validateElementText(type, userType);
+            validateElementText(email, userEmail);
+            validateElementText(date, createdDate);
+
+            verifyAuditorStatusOnAdminUserTable(userEmail, userStatus);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
+        try {
+            WebElement status = getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail));
+            validateSelectedItemText(status, userStatus);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
+        try {
+            Select status = new Select(getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail)));
+            status.selectByVisibleText(chooseOption);
+
+            validateElementText(getDriver().findElement(LocatorProperties.getElement("textOnPopUpConfirmChangeUserStatusX")), "Are you sure you want to change user status from");
+
+            waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
+            getEleStatusConfirmBtn().click();
+
+            waitForProgressOverlayIsClosed();
+            waitForClickableOfElement(getEleCredentialsCloseIcn(), "Auditor onboarding successful message");
+            getEleCredentialsCloseIcn().click();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    /*-----------end of huy.huynh on 30/05/2017.*/
 }
