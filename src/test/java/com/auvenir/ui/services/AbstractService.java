@@ -35,6 +35,15 @@ public class AbstractService {
     private String baseUrl = "https://ariel.auvenir.com";
     HomePage homePO;
 
+    private String prefixProtocol = "";
+    public String getPrefixProtocol() {
+        return prefixProtocol;
+    }
+
+    public void setPrefixProtocol(String prefixProtocol) {
+        this.prefixProtocol = prefixProtocol;
+    }
+
     public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
@@ -77,6 +86,7 @@ public class AbstractService {
             driver.manage().window().maximize();
             NXGReports.addStep("Login with userid: " + userId, LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Login with userid: " + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
@@ -85,7 +95,11 @@ public class AbstractService {
     public void loginWithUserRole(String userId) {
         try {
             getLogger().info("Login with user role: " + userId);
-            setBaseUrl("https://" + System.getProperty("serverDomainName"));
+            if(prefixProtocol == "")
+            {
+                prefixProtocol = "https://";
+            }
+            setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String getTokenUrl = getBaseUrl() + "/getToken?email=";
             getLogger().info("gettoken link: " + getTokenUrl);
             driver.get(getTokenUrl + userId);
@@ -102,6 +116,7 @@ public class AbstractService {
             driver.manage().window().maximize();
             NXGReports.addStep("Login with userid: " + userId, LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Login with userid: " + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
@@ -135,7 +150,11 @@ public class AbstractService {
      */
     public void goToBaseURL() {
         try {
-            setBaseUrl("http://" + System.getProperty("serverDomainName"));
+            if(prefixProtocol == "")
+            {
+                prefixProtocol = "https://";
+            }
+            setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
             driver.get(baseUrl);
@@ -144,6 +163,10 @@ public class AbstractService {
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
             System.out.println(sLanguage);
+            if(sLanguage == null)
+            {
+                sLanguage = "English";
+            }
             if (sLanguage.equals("French")) {
                 System.out.println("Language is : " + baseLanguage);
                 homePO.clickOnChangeLanguageBTN();
@@ -168,6 +191,7 @@ public class AbstractService {
             homePO.waitPageLoad();
             homePO.waitForJSandJQueryToLoad();
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("unable to login to Marketing page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -180,7 +204,12 @@ public class AbstractService {
 
     public void setHomeAuvenirUrl(String serverDomainName) {
         // S3 do not use HTTPS
-        homeAuvenirUrl = "https://" + serverDomainName;
+        if(prefixProtocol == "")
+        {
+            prefixProtocol = "https://";
+        }
+
+        homeAuvenirUrl = prefixProtocol + serverDomainName;
         getLogger().info("Url of testing server is: " + homeAuvenirUrl);
     }
 
@@ -194,6 +223,7 @@ public class AbstractService {
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
@@ -222,6 +252,7 @@ public class AbstractService {
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

@@ -22,13 +22,15 @@ public class TermsTest extends AbstractTest {
         try {
             homeService = new HomeService(getLogger(), getDriver());
             termsService = new TermsService(getLogger(), getDriver());
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
-            homeService.goToPrivacyPolicyPage();
+            homeService.goToTermsOfService();
             termsService.verifyTermsContentPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify about terms page content: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
             NXGReports.addStep("Verify about terms page content: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            throw e;
         }
     }
 }

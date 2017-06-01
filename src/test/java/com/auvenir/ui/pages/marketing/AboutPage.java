@@ -1,6 +1,10 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -55,16 +59,31 @@ public class AboutPage extends AbstractPage {
     @FindBy(xpath = ".//img[@src='/static/images/about/img-wkphoto_01.png']")
     private WebElement firstImage;
     public void verifyAboutContentPage(){
-        waitForVisibleElement(avenirLogo,"avenirLogo");
-        validateElementText(headerText,"Auvenir is a Toronto-based technology company that makes the audit process better for auditors and clients. We are proud to be a Deloitte venture.");
-        waitForVisibleElement(meetTheAuvyLeagueText,"meetTheAuvyLeagueText");
-        waitForVisibleElement(alexImage,"alexImage");
-        waitForVisibleElement(alextNameText,"alextNameText");
-        waitForVisibleElement(alextTitleText,"alextTitleText");
-        waitForVisibleElement(wannaJoinUsText,"wannaJoinUsText");
-        waitForVisibleElement(viewCareerBTN,"viewCareerBTN");
-        waitForVisibleElement(highlightSoFourWeekendText,"highlightSoFourWeekendText");
-        waitForVisibleElement(firstImage,"firstImage");
+        getLogger().info("Verify about content page");
+        boolean isCheckAboutContentPage,isCheckAboutContentPage1,isCheckAboutContentPage2,isCheckAboutContentPage3,isCheckAboutContentPage4
+                ,isCheckAboutContentPage5,isCheckAboutContentPage6,isCheckAboutContentPage7,isCheckAboutContentPage8,isCheckAboutContentPage9 = false;
+
+        isCheckAboutContentPage = waitForVisibleElement(avenirLogo,"avenirLogo");
+        isCheckAboutContentPage1 = validateElementText(headerText,"Auvenir is a Toronto-based technology company that makes the audit process better for auditors and clients. We are proud to be a Deloitte venture.");
+        isCheckAboutContentPage2 = waitForVisibleElement(meetTheAuvyLeagueText,"meetTheAuvyLeagueText");
+        isCheckAboutContentPage3 = waitForVisibleElement(alexImage,"alexImage");
+        isCheckAboutContentPage4 = waitForVisibleElement(alextNameText,"alextNameText");
+        isCheckAboutContentPage5 = waitForVisibleElement(alextTitleText,"alextTitleText");
+        isCheckAboutContentPage6 = waitForVisibleElement(wannaJoinUsText,"wannaJoinUsText");
+        isCheckAboutContentPage7 = waitForVisibleElement(viewCareerBTN,"viewCareerBTN");
+        isCheckAboutContentPage8 = waitForVisibleElement(highlightSoFourWeekendText,"highlightSoFourWeekendText");
+        isCheckAboutContentPage9 = waitForVisibleElement(firstImage,"firstImage");
+
+        if(isCheckAboutContentPage & isCheckAboutContentPage1 & isCheckAboutContentPage2 & isCheckAboutContentPage3 & isCheckAboutContentPage4 & isCheckAboutContentPage5
+                & isCheckAboutContentPage6 & isCheckAboutContentPage7 & isCheckAboutContentPage8 & isCheckAboutContentPage9)
+        {
+            NXGReports.addStep("Verify about content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify about content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
+        }
     }
     public void goToCareersPage(){
         clickElement(viewCareerBTN,"viewCareerBTN");
