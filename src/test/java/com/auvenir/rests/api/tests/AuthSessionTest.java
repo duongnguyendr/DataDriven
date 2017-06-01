@@ -1,8 +1,8 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
-import com.auvenir.utilities.extentionLibraries.Excel;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
@@ -59,7 +59,7 @@ public class AuthSessionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get AuthSession with valid sessionID")
     public void GetAuthSession() throws Exception {
         try {
-            sData = Excel.toReadExcelData("AuthSession1", "authSessions");
+            sData = GenericService.toReadExcelData("AuthSession1", "authSessions");
             Response response = (Response) RestAssured.given().get(baseUrl + "/v1/authenticate?sessionID=" + sData[1], new Object[0]);
             if (response.getStatusCode() == 200) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, null);
@@ -91,7 +91,7 @@ public class AuthSessionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get AuthSession with wrong sessionID")
     public void GetAuthSessionWrongSessionID() throws Exception {
         try {
-            sData = Excel.toReadExcelData("AuthSession1", "authSessions");
+            sData = GenericService.toReadExcelData("AuthSession1", "authSessions");
             Response response = (Response) RestAssured.given().get(baseUrl + "/v1/authenticate?sessionID=12345", new Object[0]);
             if (response.getStatusCode() == 401) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen) null);
@@ -119,7 +119,7 @@ public class AuthSessionTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get AuthSession without sessionID")
     public void GetAuthSessionWithoutSessionID() throws Exception {
         try {
-            sData = Excel.toReadExcelData("AuthSession1", "authSessions");
+            sData = GenericService.toReadExcelData("AuthSession1", "authSessions");
             Response response = (Response) RestAssured.given().get(baseUrl + "/v1/authenticate?sessionID=", new Object[0]);
             if (response.getStatusCode() == 401) {
                 NXGReports.addStep("Request successfully with code: " + response.getStatusCode(), LogAs.PASSED, (CaptureScreen) null);
