@@ -14,9 +14,9 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class FirmPO extends AbstractPage {
+public class AuditorSignUpFirmPage extends AbstractPage {
 
-    public FirmPO(Logger logger,WebDriver driver) {
+    public AuditorSignUpFirmPage(Logger logger, WebDriver driver) {
         super(logger,driver);
         PageFactory.initElements(driver, this);
     }
@@ -59,7 +59,7 @@ public class FirmPO extends AbstractPage {
     private WebElement eleFirmWebsite;
     public WebElement getEleFirmWebsite() { return eleFirmWebsite;}
 
-    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_website']")
+    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_website']")
     private WebElement elePreFirmWebsiteError;
 
     // Element of Full Address
@@ -67,7 +67,7 @@ public class FirmPO extends AbstractPage {
     private WebElement eleFullAddress;
     public WebElement getEleFullAddress(){return  eleFullAddress; }
 
-    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_full_address']")
+    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_full_address']")
     private WebElement eleFullAddressError;
 
 
@@ -90,7 +90,7 @@ public class FirmPO extends AbstractPage {
     private WebElement eleZipCode;
     public WebElement getEleZipCode() { return eleZipCode;}
 
-    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_postal_code']")
+    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_postal_code']")
     private WebElement eleZipCodeError;
 
     // Element of City
@@ -115,7 +115,7 @@ public class FirmPO extends AbstractPage {
     private WebElement eleMemberID;
     public WebElement getEleMemberID() {return eleMemberID;}
 
-    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_member_id']")
+    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_member_id']")
     private WebElement eleMemberIdError;
 
     // Element of Number of Employees
@@ -130,7 +130,7 @@ public class FirmPO extends AbstractPage {
     private WebElement elePhoneNumber;
     public WebElement getElePhoneNumber() {return elePhoneNumber;}
 
-    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_phone_number']")
+    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_phone_number']")
     private WebElement elePhoneNumberIdError;
 
     // Element of checkbox affiliated Firm
@@ -167,13 +167,16 @@ public class FirmPO extends AbstractPage {
     private WebElement btnContinue;
     public WebElement getBtnContinue() {return btnContinue;}
 
+    final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
+
     //@Override
     public void verifyPageContent(){
         getLogger().info("Verify Page Content Firm PO.");
         if(IS_ENGLISH_LANGUAGE)
-            this.validateElememt(elePagePersonal,"PERSONAL", Element_Type.TEXT_VALUE);
+            validateElememt(elePagePersonal,"PERSONAL", Element_Type.TEXT_VALUE);
         else
-            this.validateElememt(elePagePersonal,"PERSONNEL", Element_Type.TEXT_VALUE);
+            validateElememt(elePagePersonal,"PERSONNEL", Element_Type.TEXT_VALUE);
         this.isLoaded();
     }
 
@@ -185,57 +188,31 @@ public class FirmPO extends AbstractPage {
     @Override*/
     protected void isLoaded() throws Error{
         // Checking Firm Name element is displayed
-        this.validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
-        NXGReports.addStep("ELement of Firm Name", LogAs.PASSED, null);
-
+        validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
         // Checking checkbox Changed Name element is displayed
-        this.validateElememt(chkChangedName, "Element of Checkbox Changed Name", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of Checkbox Changed Name", LogAs.PASSED, null);
-
+        validateElememt(chkChangedName, "Element of Checkbox Changed Name", Element_Type.DISPLAYED);
         // Checking Firm Website element is displayed
-        this.validateElememt(eleFirmWebsite, "Element of Firm Website", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of Firm Website", LogAs.PASSED, null);
-
+        validateElememt(eleFirmWebsite, "Element of Firm Website", Element_Type.DISPLAYED);
         // Checking Zip Code element is displayed
-        this.validateElememt(eleZipCode, "Element of Zip Code", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of Zip Code", LogAs.PASSED, null);
-
+        validateElememt(eleZipCode, "Element of Zip Code", Element_Type.DISPLAYED);
         // Checking City element is displayed
-        this.validateElememt(eleCity, "Element of City", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of City", LogAs.PASSED, null);
-
+        validateElememt(eleCity, "Element of City", Element_Type.DISPLAYED);
         // Checking State element is displayed
-        this.validateElememt(eleState, "Element of State", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of State", LogAs.PASSED, null);
-
+        validateElememt(eleState, "Element of State", Element_Type.DISPLAYED);
         // Checking Member I.D element is displayed
-        this.validateElememt(eleMemberID, "Element of Member I.D", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of Member I.D", LogAs.PASSED, null);
-
+        validateElememt(eleMemberID, "Element of Member I.D", Element_Type.DISPLAYED);
         // Checking Number of Employee element is displayed
-        this.validateElememt(eleNumberEmployee, "Element of Number Employee", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of Number Employee", LogAs.PASSED, null);
-
+        validateElememt(eleNumberEmployee, "Element of Number Employee", Element_Type.DISPLAYED);
         // Checking Phone Number element is displayed
-        this.validateElememt(elePhoneNumber, "Element of Phone Number", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of Phone Number", LogAs.PASSED, null);
-
+        validateElememt(elePhoneNumber, "Element of Phone Number", Element_Type.DISPLAYED);
         // Checking checkbox Affiliated Firm element is displayed
-        this.validateElememt(chkAffFirm, "Element of checkbox Affiliated", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of checkbox Affiliatede", LogAs.PASSED, null);
-
+        validateElememt(chkAffFirm, "Element of checkbox Affiliated", Element_Type.DISPLAYED);
         // Checking button Update Logo element is displayed
-        this.validateElememt(btnUpdateLogo, "Element of button Update Logo", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of button Update Logo", LogAs.PASSED, null);
-
+        validateElememt(btnUpdateLogo, "Element of button Update Logo", Element_Type.DISPLAYED);
         // Checking checkbox Rule Logo element is displayed
-        validateDisPlayedElement(chkRuleLogo, "Element of checkbox Rule Logo");
-//        this.validateElememt(chkRuleLogo, "Element of checkbox Rule Logo", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of checkbox Rule Logo", LogAs.PASSED, null);
-
+        validateElememt(chkRuleLogo, "Element of checkbox Rule Logo", Element_Type.DISPLAYED);
         // Checking button Continue element is displayed
-        this.validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
-        NXGReports.addStep("Element of button Continuee", LogAs.PASSED, null);
+        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
     }
 
     public void registerFirmInfo(String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
@@ -343,24 +320,12 @@ public class FirmPO extends AbstractPage {
 
     public void clickOnRuleLogoCheckBox(){
         getLogger().info("Click On Rule Logo CheckBox");
-        hoverElement(this.chkRuleLogo," rule logo check box");
-        clickElement(this.chkRuleLogo, " rule logo check box");
-    }
-
-    public void inputValueIntoControl(WebElement eleInput, String strDescription, String strName){
-        try {
-            waitForVisibleElement(eleInput,strDescription);
-            clickElement(eleInput,strDescription);
-            sendKeyTextBox(eleInput, strName, strDescription);
-            NXGReports.addStep("Input "+ strDescription, LogAs.PASSED, null);
-
-        }catch (NoSuchElementException e){
-            NXGReports.addStep("Element is not found", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(e.getMessage());
-        }
+        hoverElement(chkRuleLogo," rule logo check box");
+        clickElement(chkRuleLogo, " rule logo check box");
     }
 
     public void inputValueIntoFirmNameTextBox(String strName){
+        getLogger().info("Input Value Into Firm Name TextBox.");
         inputValueIntoControl(eleFirmName, "firm name",strName);
     }
 
@@ -389,43 +354,69 @@ public class FirmPO extends AbstractPage {
     }
 
     public void inputValueIntoAffiliatedFirmNameTextBox(String strName){
-        inputValueIntoControl(eleAffFirm, "affiliated firm’s name",strName);
+        inputValueIntoControl(eleAffFirm, "affiliated firm's name",strName);
     }
 
-    public void verifyColorControl(WebElement eleError, String strDescription, String attributeName, String attributeValue){
-        waitForVisibleElement(eleError,strDescription);
-        validateCssValueElement(eleError,attributeName,attributeValue);
+    public void verifyColorControl(WebElement eleError, String strDescription, String attributeName, String attributeValue) {
+        waitForVisibleElement(eleError, strDescription);
+        waitForCssValueChanged(eleError, strDescription, attributeName, attributeValue);
+        validateCssValueElement(eleError, attributeName, attributeValue);
     }
 
-    public void verifyColorFirmNameTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(eleFirmNameError, "firm name error", attributeName, attributeValue);
+    public void verifyInputValidValueOnFirmNameTextBox(String invalidValue) {
+        inputValueIntoFirmNameTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(eleFirmNameError, "firm name error", "border-color", warningBorderCSSColor);
+        verifyColorControl(eleFirmNameError, "firm name error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyColorPreFirmNameTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(elePreFirmNameError, "previous firm name error", attributeName, attributeValue);
+    public void verifyInputValidValueOnPreFirmNameTextBox(String invalidValue) {
+        inputValueIntoPreviousFirmNameTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(elePreFirmNameError, "previous firm name error", "border-color", warningBorderCSSColor);
+        verifyColorControl(elePreFirmNameError, "previous firm name error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyColorFirmWebsiteTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(elePreFirmWebsiteError, "firm website error", attributeName, attributeValue);
+    public void verifyInputValidValueOnFirmWebsiteTextBox(String invalidValue) {
+        inputValueIntoWebsiteTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(elePreFirmWebsiteError, "firm website error", "border-color", warningBorderCSSColor);
+        verifyColorControl(elePreFirmWebsiteError, "firm website error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyColorFullAddressTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(eleFullAddressError, "street address error", attributeName, attributeValue);
+    public void verifyInputValidValueOnFullAddressTextBox(String invalidValue) {
+        inputValueIntoFullAddressTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(eleFullAddressError, "street address error", "border-color", warningBorderCSSColor);
+        verifyColorControl(eleFullAddressError, "street address error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyColorZipCodeTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(eleZipCodeError, "zip code error", attributeName, attributeValue);
+    public void verifyInputValidValueOnZipCodeTextBox(String invalidValue) {
+        inputValueIntoZipCodeTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(eleZipCodeError, "zip code error", "border-color", warningBorderCSSColor);
+        verifyColorControl(eleZipCodeError, "zip code error", "background-color", warningBackgroundCSSColor);
+
     }
 
-    public void verifyColorMemberIdTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(eleMemberIdError, "member id error", attributeName, attributeValue);
+    public void verifyInputValidValueOnMemberIdTextBox(String invalidValue) {
+        inputValueIntoMemberIdTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(eleMemberIdError, "member id error", "border-color", warningBorderCSSColor);
+        verifyColorControl(eleMemberIdError, "member id error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyColorPhoneNumberIdTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(elePhoneNumberIdError, "phone number id error", attributeName, attributeValue);
+    public void verifyInputValidValueOnPhoneNumberIdTextBox(String invalidValue) {
+        inputValueIntoPhoneNumberIdTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(elePhoneNumberIdError, "phone number id error", "border-color", warningBorderCSSColor);
+        verifyColorControl(elePhoneNumberIdError, "phone number id error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyColorAffFirmTextBox(String attributeName, String attributeValue) {
-        verifyColorControl(eleAffFirmError, "affiliated firm's name error", attributeName, attributeValue);
+    public void verifyInputValidValueOnAffFirmTextBox(String invalidValue) {
+        inputValueIntoAffiliatedFirmNameTextBox(invalidValue);
+        clickOnRuleLogoCheckBox();
+        verifyColorControl(eleAffFirmError, "affiliated firm's name error", "border-color", warningBorderCSSColor);
+        verifyColorControl(eleAffFirmError, "affiliated firm's name error", "background-color", warningBackgroundCSSColor);
     }
 }

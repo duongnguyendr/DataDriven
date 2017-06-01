@@ -145,29 +145,17 @@ public class PersonalPO extends AbstractPage {
     //@Override*/
     protected void isLoaded() throws Error {
         // Checking First and Last Name element is displayed
-        this.validateElememt(eleName,"Element First and Last Name", Element_Type.DISPLAYED);
-        NXGReports.addStep("Input First and Last Name", LogAs.PASSED, null);
-
+        validateElememt(eleName,"Element First and Last Name", Element_Type.DISPLAYED);
         // Checking Email Address element is displayed
-        this.validateElememt(eleEmail,"Element of Email Address", Element_Type.DISPLAYED);
-        NXGReports.addStep("Input Email Address", LogAs.PASSED, null);
-
+        validateElememt(eleEmail,"Element of Email Address", Element_Type.DISPLAYED);
         // Checking ReEnter Email Address element is displayed
-        this.validateElememt(eleConfirmEmail,"Element of ReEnter Email Address", Element_Type.DISPLAYED);
-        NXGReports.addStep("Input confirm Email Address", LogAs.PASSED, null);
-
+        validateElememt(eleConfirmEmail,"Element of ReEnter Email Address", Element_Type.DISPLAYED);
         //  Checking Role in Firm element is displayed
-        this.validateElememt(eleRoleFirm,"Element of Role in Firm", Element_Type.DISPLAYED);
-        NXGReports.addStep("select Role in Firm", LogAs.PASSED, null);
-
+        validateElememt(eleRoleFirm,"Element of Role in Firm", Element_Type.DISPLAYED);
         // Checking Phone Number element is displayed
-        this.validateElememt(elePhoneNumber,"Element of Phone Number", Element_Type.DISPLAYED);
-        NXGReports.addStep("Input Phone Number", LogAs.PASSED, null);
-
+        validateElememt(elePhoneNumber,"Element of Phone Number", Element_Type.DISPLAYED);
         // Checking Reference Auvenir element is displayed
-        this.validateElememt(eleReference,"Element of Reference Auvenir", Element_Type.DISPLAYED);
-        NXGReports.addStep("Select reference about Auvenir", LogAs.PASSED, null);
-
+        validateElememt(eleReference,"Element of Reference Auvenir", Element_Type.DISPLAYED);
     }
 
     public void registerAuditorPersonal(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
@@ -223,19 +211,6 @@ public class PersonalPO extends AbstractPage {
             waitForVisibleElement(chkConfirm,"check confirm checkbox");
             clickElement(chkConfirm, "continue button");
             NXGReports.addStep("Click on check box confirm", LogAs.PASSED, null);
-
-        }catch (NoSuchElementException e){
-            NXGReports.addStep("Element is not found", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(e.getMessage());
-        }
-    }
-
-    public void inputValueIntoControl(WebElement eleInput, String strDescription, String strName){
-        try {
-            waitForVisibleElement(eleInput,strDescription);
-            clickElement(eleInput,strDescription);
-            eleInput.sendKeys(strName);
-            NXGReports.addStep("Input "+ strDescription, LogAs.PASSED, null);
 
         }catch (NoSuchElementException e){
             NXGReports.addStep("Element is not found", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
