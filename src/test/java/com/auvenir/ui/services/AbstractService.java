@@ -84,7 +84,7 @@ public class AbstractService {
     public void loginWithUserRole(String userId) {
         try {
             getLogger().info("Login with user role: " + userId);
-            setBaseUrl(System.getProperty("serverDomainName"));
+            setBaseUrl("https://" + System.getProperty("serverDomainName"));
             String getTokenUrl = getBaseUrl() + "/getToken?email=";
             getLogger().info("gettoken link: " + getTokenUrl);
             driver.get(getTokenUrl + userId);
@@ -134,7 +134,7 @@ public class AbstractService {
      */
     public void goToBaseURL() {
         try {
-            setBaseUrl("https://" + System.getProperty("serverDomainName"));
+            setBaseUrl("http://" + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
             driver.get(baseUrl);
@@ -149,6 +149,8 @@ public class AbstractService {
             }
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
         } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt ++;
             NXGReports.addStep("unable to go to home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }

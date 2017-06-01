@@ -28,7 +28,9 @@ public class AbstractTest {
     /*
     refactor to fix hardcode
      */
-    protected String testData;
+    String localPropertiesDest = GenericService.sDirPath + "/local.properties";
+    protected String testData  = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
+
     protected static final String SD_START = "start";
     /**
      * Default differentiator - end of the step.
@@ -77,6 +79,7 @@ public class AbstractTest {
         }else if (browser.equalsIgnoreCase("internet explorer")){
             GenericService.sBrowserData="INTERNET_EXPLORER_";
         }
+        GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
         System.out.println("setUp");
         testName = method.getName();
         logCurrentStepStart();
@@ -104,10 +107,11 @@ public class AbstractTest {
             e.printStackTrace();
         }
     }
-    public void closeAllTab(){
+
+    public void closeAllTab() {
         String originalHandle = driver.getWindowHandle();
         //Do something to open new tabs
-        for(String handle : driver.getWindowHandles()) {
+        for (String handle : driver.getWindowHandles()) {
             if (!handle.equals(originalHandle)) {
                 driver.switchTo().window(handle);
                 driver.close();
@@ -122,7 +126,7 @@ public class AbstractTest {
     public void tearDown(Method method) {
         testName = method.getName();
         logger.info("Close .the browser.");
-        closeAllTab();
+        //closeAllTab();
         logCurrentStepEnd();
     }
 
