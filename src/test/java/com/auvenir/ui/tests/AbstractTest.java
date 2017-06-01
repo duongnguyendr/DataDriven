@@ -25,7 +25,9 @@ public class AbstractTest {
     /*
     refactor to fix hardcode
      */
-    protected String testData;
+    String localPropertiesDest = GenericService.sDirPath + "/local.properties";
+    protected String testData  = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
+
     protected static final String SD_START = "start";
     /**
      * Default differentiator - end of the step.
