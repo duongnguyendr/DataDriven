@@ -23,15 +23,15 @@ public class PrivacyPolicyTest extends AbstractTest {
         try {
             homeService = new HomeService(getLogger(), getDriver());
             privacyPolicyService = new PrivacyPolicyService(getLogger(), getDriver());
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.goToPrivacyPolicyPage();
             privacyPolicyService.verifyPrivacyPolicyContentPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify about Privacy Policy page content: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        /*PrivacyPolicyPage privacyPolicyPO = new PrivacyPolicyPage(getLogger(),getDriver());
-        privacyPolicyPO.verifyContentPage();*/
         }catch (Exception e) {
             NXGReports.addStep("Verify about Privacy Policy page content: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            throw e;
         }
     }
 }
