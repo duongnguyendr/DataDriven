@@ -160,7 +160,7 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown platform - " + os);
                 }
-                WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
+                driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
                 NXGReports.setWebDriver(driver);
             }
         } catch (Exception e) {
