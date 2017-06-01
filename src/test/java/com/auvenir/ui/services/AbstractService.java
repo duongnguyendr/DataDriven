@@ -198,8 +198,12 @@ public class AbstractService {
     }
 
     public void setHomeAuvenirUrl(String serverDomainName) {
+        if(prefixProtocol == "")
+        {
+            prefixProtocol = "https://";
+        }
         // S3 do not use HTTPS
-        homeAuvenirUrl = "https://" + serverDomainName;
+        homeAuvenirUrl = prefixProtocol + serverDomainName;
         getLogger().info("Url of testing server is: " + homeAuvenirUrl);
     }
 
