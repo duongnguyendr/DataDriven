@@ -126,7 +126,7 @@ public class AbstractTest {
                     DesiredCapabilities capabilities = new DesiredCapabilities();
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     driver = new FirefoxDriver(capabilities);
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("INTERNET_EXPLORER_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     System.out.println("Intetnet Explorer is set");
                     System.setProperty("webdriver.gecko.intenetexplorer", GenericService.sDirPath + "/src/test/resources/IEDriverServer_64.exe");
                     driver = new InternetExplorerDriver();
@@ -140,7 +140,7 @@ public class AbstractTest {
                     capabilities = DesiredCapabilities.firefox();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")) {
                     capabilities = DesiredCapabilities.chrome();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("INTERNET_EXPLORER_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     capabilities = DesiredCapabilities.internetExplorer();
                 }else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
                     capabilities = DesiredCapabilities.safari();
