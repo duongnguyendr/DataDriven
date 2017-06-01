@@ -53,6 +53,7 @@ public class GenericService {
     static public String sDirPath = System.getProperty("user.dir");
     public static String sTestDataFile = sDirPath + "\\TestData.xlsx";
     public final static String MONGODBPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\MongoDB.properties";
+    public final static String LOCATORPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\Locator.properties";
     public static String sConfigFile = null;
     public static String sExecutionDate = null;
     public static String sBrowserData = null;
@@ -274,29 +275,31 @@ public class GenericService {
             ex.printStackTrace();
         }
     }
+
     private static String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     /**
      * Generate radom password
+     *
      * @param lenght
      * @return
      */
-    public static String genPassword(int lenght, boolean isContainsUpperCase, boolean isContainsLowerCase, boolean isContainsDigit){
+    public static String genPassword(int lenght, boolean isContainsUpperCase, boolean isContainsLowerCase, boolean isContainsDigit) {
         Random r = new Random();
-        while(true) {
+        while (true) {
             char[] password = new char[lenght];
             boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
-            for(int i=0; i<password.length; i++) {
+            for (int i = 0; i < password.length; i++) {
                 char ch = symbols.charAt(r.nextInt(symbols.length()));
-                if(isContainsUpperCase && Character.isUpperCase(ch))
+                if (isContainsUpperCase && Character.isUpperCase(ch))
                     hasUpper = true;
-                else if(isContainsLowerCase && Character.isLowerCase(ch))
+                else if (isContainsLowerCase && Character.isLowerCase(ch))
                     hasLower = true;
-                else if(isContainsDigit && Character.isDigit(ch))
+                else if (isContainsDigit && Character.isDigit(ch))
                     hasDigit = true;
                 password[i] = ch;
             }
-            if(hasUpper && hasLower && hasDigit) {
+            if (hasUpper && hasLower && hasDigit) {
                 return new String(password);
             }
         }
@@ -304,10 +307,11 @@ public class GenericService {
 
     /**
      * Parse Rgb to color to hex
+     *
      * @param rgb
      * @return
      */
-    public static String parseRgbTohex(String rgb){
+    public static String parseRgbTohex(String rgb) {
         String value = null;
         try {
             int indexOpen = rgb.indexOf("(");
@@ -328,6 +332,7 @@ public class GenericService {
 
     /**
      * Validate email address
+     *
      * @param email
      * @return
      */
@@ -337,6 +342,7 @@ public class GenericService {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
+
     /**
      * @param fileName
      * @param sheetName
@@ -373,7 +379,7 @@ public class GenericService {
     public static void updateExcelData(String fileName, String sheetName, int numberColumn, int numberRow, String data) {
         try {
             //Read the spreadsheet that needs to be updated
-            FileInputStream fis= new FileInputStream(fileName);
+            FileInputStream fis = new FileInputStream(fileName);
 
             // Using XSSF for xlsx format, for xls use HSSF
             Workbook workbook = new XSSFWorkbook(fis);
