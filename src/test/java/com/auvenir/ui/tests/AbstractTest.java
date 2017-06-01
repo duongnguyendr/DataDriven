@@ -99,7 +99,7 @@ public class AbstractTest {
         }else if (browser.equalsIgnoreCase("firefox")){
             GenericService.sBrowserData="FIREFOX_";
         }else if (browser.equalsIgnoreCase("internet explorer")){
-            GenericService.sBrowserData="INTERNET_EXPLORER_";
+            GenericService.sBrowserData="IE_";
         }else if (browser.equalsIgnoreCase("safari")){
             GenericService.sBrowserData="SAFARI_";
         }

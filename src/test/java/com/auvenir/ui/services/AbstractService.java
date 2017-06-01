@@ -147,7 +147,7 @@ public class AbstractService {
      */
     public void goToBaseURL() {
         try {
-            if(prefixProtocol == "")
+            if("".equals(prefixProtocol))
             {
                 prefixProtocol = "https://";
             }
