@@ -48,7 +48,7 @@ public class SupportRefactoryTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Support Page")
+    /*@Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Support Page")
     public void verifySupportPage1() throws Exception {
         supportService = new SupportService(getLogger(), getDriver());
         try {
@@ -70,5 +70,5 @@ public class SupportRefactoryTest extends AbstractTest {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
-    }
+    }*/
 }
