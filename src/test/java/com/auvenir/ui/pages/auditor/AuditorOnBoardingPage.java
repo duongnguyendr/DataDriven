@@ -1,12 +1,12 @@
 package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class AuditorOnBoardingPage extends AbstractPage {
 
@@ -540,8 +540,8 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleAgreeSkipSecurityBtn;
     }
 
-    public void verifyOnBoardingPersonalInformationPage(){
-        validateDisPlayedElement(getEleAuvenirLogoImg(),"Auvenir Logo");
+    public void verifyOnBoardingPersonalInformationPage() {
+        validateDisPlayedElement(getEleAuvenirLogoImg(), "Auvenir Logo");
         validateDisPlayedElement(getElePersonalTxt(), "Personal Text");
         validateDisPlayedElement(getEleFirmTxt(), "Firm Text");
         validateDisPlayedElement(getEleSecurityTxt(), "Security Text");
@@ -566,7 +566,8 @@ public class AuditorOnBoardingPage extends AbstractPage {
         validateEnabledElement(getEleContinueBtn(), "Continue button");
         validateDisPlayedElement(getEleNortonBadgesImg(), "Norton and Truste Image");
     }
-    public void verifyInputPersonalInfomation(String auditorName, String phoneNumber){
+
+    public void verifyInputPersonalInfomation(String auditorName, String phoneNumber) {
         sendKeyTextBox(getEleFirstAndLastNameTxtFld(), auditorName, "First and Last name Text Field");
         sendKeyTextBox(getElePersonalPhoneNumberTxtFld(), phoneNumber, "Personal Phone Number Text Field");
         clickOnCheckBox(getEleIAgreeToChkBox(), "I Agree to Check Box");
@@ -574,7 +575,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
         clickElement(getEleContinueBtn(), "Continue button");
     }
 
-    public void verifyOnBoardingFirmInfomationPage(){
+    public void verifyOnBoardingFirmInfomationPage() {
         validateDisPlayedElement(getElePleaseProvideTxt(), "Please Provide Your Text");
         validateDisPlayedElement(getEleNameTxt(), "Name Text");
         validateDisPlayedElement(getEleNameTxtFld(), "Name Text Field");
@@ -602,7 +603,7 @@ public class AuditorOnBoardingPage extends AbstractPage {
 
     public void verifyInputFirmInformationOnboardingPage(String firmName, String numberEmployee, String phoneNumber,
                                                          String address, String unitNumber, String cityName, String provinceState,
-                                                         String countryName, String zipCode){
+                                                         String countryName, String zipCode) {
         sendKeyTextBox(getEleNameTxtFld(), firmName, "Name Text Field");
         sendKeyTextBox(getEleNumberOfEmployeesTxtFld(), numberEmployee, "Number of Employees Text Field");
         sendKeyTextBox(getEleFirmPhoneNumberTxtFld(), phoneNumber, "Phone Number Text Field");
@@ -615,13 +616,13 @@ public class AuditorOnBoardingPage extends AbstractPage {
 //        clickOnCheckBox(getEleIAmAffiliatedChkBox(), "I am affiliated Check Box");
     }
 
-    public void verifyInputAffliateField(String affliateName){
+    public void verifyInputAffliateField(String affliateName) {
         validateDisPlayedElement(getEleAffliatedNameTxt(), "Affliated Name - Text");
         validateDisPlayedElement(getEleAffliatedNameTxtFld(), "Affliated Name - Text Field");
         sendKeyTextBox(getEleAffliatedNameTxtFld(), affliateName, "Affliated Name - Text Field");
     }
 
-    public void verifySecurityOnBoardingPage(){
+    public void verifySecurityOnBoardingPage() {
         clickElement(getEleContinueFirmBtn(), "Continue button");
         validateDisPlayedElement(getEleSetUpTxt(), "Set Up Security Text");
         validateDisPlayedElement(getEleDownloadtheAuvenirTxt(), "Download the Auvenir Text");
@@ -647,4 +648,53 @@ public class AuditorOnBoardingPage extends AbstractPage {
         validateEnabledElement(getEleAgreeSkipSecurityBtn(), "Agree Button");
 
     }
+
+    /**
+     * Refactored by huy.huynh on 01/06/2017.
+     * New for smoke test
+     */
+
+    @FindBy(id = "onboard-firm-continue")
+    private WebElement buttonFirmContinue;
+
+    @FindBy(id = "security-title")
+    private WebElement titleSecurity;
+
+    @FindBy(xpath = "//input[@id='first-password']")
+    private WebElement inputFirstPassword;
+
+    @FindBy(xpath = "//input[@id='second-password']")
+    private WebElement inputSecondPassword;
+
+    @FindBy(id = "security-continueBtn")
+    private WebElement buttonSecurityContinue;
+
+    @FindBy(id = "epilogue-title")
+    private WebElement titleEpilogue;
+
+    @FindBy(id = "epilogue-description")
+    private WebElement textViewEpilogueDescription;
+
+    @FindBy(id = "epilogue-closeBtn")
+    private WebElement buttonElilogueClose;
+
+    public void verifySecurityOnBoardingPageSimplelize() {
+        clickElement(buttonFirmContinue);
+
+        validateElementText(titleSecurity,"Create Your Password");
+
+        sendKeyTextBox(inputFirstPassword,"abcd1234","First password");
+        sendKeyTextBox(inputSecondPassword,"abcd1234","Second password");
+
+        clickElement(buttonSecurityContinue);
+    }
+
+    public void verifyEpilogueOnBoardingPage() {
+
+        validateElementText(titleEpilogue,"Your Account Has Been Created!");
+        validateElementText(textViewEpilogueDescription,"Thank you for creating an account. We will be sending a verification email to auvautoaudit01@gmail.com within 24 hours. Please click the link in the email to get started on your engagements.");
+
+        clickElement(buttonElilogueClose);
+    }
+    /*-----------end of huy.huynh on 01/06/2017.*/
 }

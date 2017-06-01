@@ -33,8 +33,8 @@ public class AuditorService extends AbstractService {
     /*
      * Constructor
      */
-    public AuditorService(Logger logger, WebDriver driver){
-        super(logger,driver);
+    public AuditorService(Logger logger, WebDriver driver) {
+        super(logger, driver);
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(), getDriver());
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
@@ -80,203 +80,222 @@ public class AuditorService extends AbstractService {
             throw e;
         }
     }
-    public void verifyBodyLoginPage(){
+
+    public void verifyBodyLoginPage() {
         auvenirPage.verifyBodyLoginPage();
     }
-    public void verifyFooterLoginPage(){
+
+    public void verifyFooterLoginPage() {
         auvenirPage.verifyFooter();
     }
-    public void verifyEmailLoginForm(){
+
+    public void verifyEmailLoginForm() {
         auvenirPage.verifyFormLogin();
     }
-    public void verifyLoginWithEmail(String email){
+
+    public void verifyLoginWithEmail(String email) {
         auvenirPage.verifyLoginWithEmail(email);
         auvenirPage.verifyApprovePopupDisplayed();
     }
 
-    public void verifyPersonalPage(){
+    public void verifyPersonalPage() {
         auditorOnBoardingPage.verifyOnBoardingPersonalInformationPage();
     }
 
-    public void verifyInputPersonalInfomation(String auditorName, String phoneNumber){
+    public void verifyInputPersonalInfomation(String auditorName, String phoneNumber) {
         auditorOnBoardingPage.verifyInputPersonalInfomation(auditorName, phoneNumber);
     }
 
-    public void verifyFirmPage(){
+    public void verifyFirmPage() {
         auditorOnBoardingPage.verifyOnBoardingFirmInfomationPage();
     }
 
     public void verifyInputFirmInformation(String firmName, String numberEmployee, String phoneNumber,
                                            String address, String unitNumber, String cityName, String provinceState,
-                                           String countryName, String zipCode){
+                                           String countryName, String zipCode) {
         auditorOnBoardingPage.verifyInputFirmInformationOnboardingPage(firmName, numberEmployee, phoneNumber, address,
-                                                                       unitNumber,cityName, provinceState,countryName,zipCode);
+                unitNumber, cityName, provinceState, countryName, zipCode);
     }
 
-    public void verifyFooterPage(){
+    public void verifyFooterPage() {
         auvenirPage.verifyFooterPage();
     }
-    public void verifyInputAffliateField(String affliateName){
+
+    public void verifyInputAffliateField(String affliateName) {
         auditorOnBoardingPage.verifyInputAffliateField(affliateName);
     }
 
-    public void verifySecurityOnBoardingPage(){
+    public void verifySecurityOnBoardingPage() {
         auditorOnBoardingPage.verifySecurityOnBoardingPage();
     }
 
-    public void verifyAdminLoginPage(){
-        try{
+    public void verifyAdminLoginPage() {
+        try {
             adminLoginPage.verifyAdminLoginPage();
             NXGReports.addStep("Admin Login is able to login correctly", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Admin Login is able to login correctly", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyChangeActiveStatus(String userType, String email, String dateCreated){
-        try{
+    public void verifyChangeActiveStatus(String userType, String email, String dateCreated) {
+        try {
             adminLoginPage.getEleChangeActiveStatus(userType, email, dateCreated);
             NXGReports.addStep("status of auditor changed to ACTIVE.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("status of auditor changed to ACTIVE.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyheaderPage(){
-        try{
+    public void verifyheaderPage() {
+        try {
             auvenirPage.verifyHeader();
             NXGReports.addStep("verify header page.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify header page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyDisplayElementInAuditorDashBoardPage(){
-        try{
+    public void verifyDisplayElementInAuditorDashBoardPage() {
+        try {
             auditorDashboardPage.verifyDisplayElementOnAuditorDashBoardPage();
             NXGReports.addStep("verify element on auditor dashboard page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element on auditor dashboard page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void clickRequestLink(){
+    public void clickRequestLink() {
         auditorDashboardPage.clickRequestLink();
     }
 
-    public void verifyDisplayElementInEngagementRequestPage(){
-        try{
+    public void verifyDisplayElementInEngagementRequestPage() {
+        try {
             engagementRequestPage.verifyDisplayElementInRequestPage();
             NXGReports.addStep("verify element on engagement request page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element on engagement request page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyDisplayElementInEngagementFilesPage(){
-        try{
+    public void verifyDisplayElementInEngagementFilesPage() {
+        try {
             engagementFilesPage.verifyDisplayElementInEngagementFilesPage();
             NXGReports.addStep("verify element in engagement files manager page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in engagement files manager page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void clickFilesLink(){
+    public void clickFilesLink() {
         auditorDashboardPage.clickFilesLink();
     }
 
-    public void clickActivityLink(){
+    public void clickActivityLink() {
         auditorDashboardPage.clickActivityLink();
     }
 
 
-    public void verifyDisplayElementInEngagementActivityPage(){
-        try{
+    public void verifyDisplayElementInEngagementActivityPage() {
+        try {
             auditorDashboardPage.verifyDisplayElementInActivityPage();
             NXGReports.addStep("verify element in engagement activity page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in engagement activity page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void clickClientsLink(){
+    public void clickClientsLink() {
         auditorEngagementPage.clickClientsLink();
     }
 
-    public void clickAddNewClientButton(){
+    public void clickAddNewClientButton() {
         auditorEngagementPage.clickAddNewButton();
     }
 
-    public void verifyDisplayElementInAddNewClientPage(){
-        try{
+    public void verifyDisplayElementInAddNewClientPage() {
+        try {
             addNewClientPage.verifyDisplayElementInAddNewClientPage();
             NXGReports.addStep("verify element in add new client page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in add new client page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void auditorPageHeaderContent(){
-        try{
+    public void auditorPageHeaderContent() {
+        try {
             auditorEngagementPage.auditorPageHeaderContent();
             NXGReports.addStep("verify auditor client page header content.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify auditor client page header content.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyDisplayElementInClientPage(){
-        try{
+    public void verifyDisplayElementInClientPage() {
+        try {
             auditorClientPage.verifyDisplayElementInClientPage();
             NXGReports.addStep("verify element in client page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in client page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void clickdropDownSetingLink(){
+    public void clickdropDownSetingLink() {
         auditorEngagementPage.clickdropDownSetingLink();
     }
 
-    public void verifyDisplayElementInAuditorAccountSettingPage(){
-        try{
+    public void verifyDisplayElementInAuditorAccountSettingPage() {
+        try {
             auditorSettingsPage.verifyDisplayElementInAuditorAccountSettingPage();
             NXGReports.addStep("verify element in auditor account setting page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in auditor setting account page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyDisplayElementInDeActivePage(){
-        try{
+    public void verifyDisplayElementInDeActivePage() {
+        try {
             adminLoginPage.verifyDisplayElementInDeActivePage();
             NXGReports.addStep("verify element in deactive page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in deactive page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void navigateToAuditorAccountSetting(){
+    public void navigateToAuditorAccountSetting() {
         auditorEngagementPage.clickAuditorNameDropDown();
         auditorEngagementPage.clickdropDownSetingLink();
     }
 
-    public void verifyDisplayElementInAuditorNotificationSettingPage(){
-        try{
+    public void verifyDisplayElementInAuditorNotificationSettingPage() {
+        try {
             auditorSettingsPage.verifyDisplayElementInAuditorNotificationSettingPage();
             NXGReports.addStep("verify element in auditor notification setting page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in auditor notification setting page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyDisplayElementInArchivePage(){
-        try{
+    public void verifyDisplayElementInArchivePage() {
+        try {
             auditorDashboardPage.verifyDisplayElementInArchivePage();
             NXGReports.addStep("verify element in auditor archive page displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify element in auditor archive setting page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    /**
+     * Refactored by huy.huynh on 01/06/2017.
+     * New for smoke test
+     */
+
+    public void verifySecurityOnBoardingPageSimplelize() {
+        auditorOnBoardingPage.verifySecurityOnBoardingPageSimplelize();
+    }
+
+    public void verifyEpilogueOnBoardingPage() {
+        auditorOnBoardingPage.verifyEpilogueOnBoardingPage();
+    }
+    /*-----------end of huy.huynh on 01/06/2017.*/
 }

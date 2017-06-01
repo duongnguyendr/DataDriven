@@ -151,25 +151,26 @@ public class SmokeTestt extends AbstractTest {
         sData = GenericService.toReadExcelData(testCaseId);
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
-            String onBoardingUrl;
-            getLogger().info("update status of auditor to onboarding .");
-            onBoardingUrl = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/update?status=ONBOARDING";
-            Response response = given().keystore(GenericService.sDirPath + "/src/test/resources/auvenircom.jks", "changeit").get(onBoardingUrl);
-//            Response response = given().config(RestAssured.config().sslConfig(new SSLConfig().allowAllHostnames())).get(onBoardingUrl); // Allow all hostname without certificate
-            if (response.getStatusCode() == 200) {
-                getLogger().info("The Auditor is on boarding.");
-            } else {
-            }
+//            String onBoardingUrl;
+//            getLogger().info("update status of auditor to onboarding .");
+//            onBoardingUrl = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/update?status=ONBOARDING";
+//            Response response = given().keystore(GenericService.sDirPath + "/src/test/resources/auvenircom.jks", "changeit").get(onBoardingUrl);
+////            Response response = given().config(RestAssured.config().sslConfig(new SSLConfig().allowAllHostnames())).get(onBoardingUrl); // Allow all hostname without certificate
+//            if (response.getStatusCode() == 200) {
+//                getLogger().info("The Auditor is on boarding.");
+//            } else {
+//            }
 
             getLogger().info("Login with auditor role.");
-            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.verifyPersonalPage();
             auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
             auditorService.verifyFirmPage();
             auditorService.verifyInputFirmInformation(sData[3], sData[4], sData[5], sData[6] + ", " + sData[7], sData[8], sData[9], sData[10], sData[9], sData[11]);
 //            auditorService.verifyInputAffliateField(sData[9]); Affiliate checkbox disabled.
             auditorService.verifyFooterPage();
-            auditorService.verifySecurityOnBoardingPage();
+            auditorService.verifySecurityOnBoardingPageSimplelize();
+            auditorService.verifyEpilogueOnBoardingPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);

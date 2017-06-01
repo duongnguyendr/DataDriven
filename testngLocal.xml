@@ -20,7 +20,7 @@
              -->
             <class name="com.auvenir.ui.tests.SmokeTestt"/>
             <methods>
-                <include name="changeTheStatusAuditorToOnBoarding"></include>
+                <include name="verifyAuditorOnboardingPage"></include>
             </methods>
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
