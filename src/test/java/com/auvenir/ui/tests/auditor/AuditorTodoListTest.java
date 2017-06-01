@@ -93,7 +93,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-/*
+
     @Test(priority = 3, enabled = true, description = "Verify to create new Category")
     public void verifyCreateNewCategory() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -385,9 +385,9 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//*
+    /*
     TestCase to cover ticket: PLAT 2283
-     *//*
+     */
     @Test(priority = 14, enabled = false, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
     public void verifyFilterButton() throws Exception {
 
@@ -640,7 +640,7 @@ public class AuditorTodoListTest extends AbstractTest {
     }
 
     @Test(priority = 24, enabled = false, description = "Verify due date drop down in add new to-do page.")
-    *//**
+    /**
      * Fail :
      * 1. default value due date date picker is not match with engagement due date :
      auditorCreateToDoService.checkDefaultValueDueDate()
@@ -650,7 +650,7 @@ public class AuditorTodoListTest extends AbstractTest {
      * Current date picker has not ">" and "<" link, so will check "prev" and "next" replaced
      *                          auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
      *                          auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
-     *//*
+     */
     public void verifyDueDateDropDownInNewToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -698,7 +698,7 @@ public class AuditorTodoListTest extends AbstractTest {
     }
 
     @Test(priority = 25, enabled = false, description = "Verify due date drop down in to-do list page.")
-    *//**
+    /**
      * Fail :
      * 1. Current code does not against when user input text and special character :
      *                        auditorCreateToDoService.verifyInputSpecialCharacterValue(isNewToDoPage);
@@ -708,7 +708,7 @@ public class AuditorTodoListTest extends AbstractTest {
      * Current date picker has not ">" and "<" link, so will check "prev" and "next" replaced
      *                          auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
      *                          auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
-     *//*
+     */
     public void verifyDueDateDropDownInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -748,9 +748,9 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * Scenarios : [PLAT 2299] - Verify To-do Details Commenting
-     *//*
+     */
     @Test(priority = 26, enabled = true, description = "Verify To-do Details Commenting")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -793,9 +793,9 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * Added by minh.nguyen on 19/05/2017.
-     *//*
+     */
     @Test(priority = 27, enabled = true, description = "Verify mark as complete")
     public void verifyMarkAsComplete() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -826,17 +826,17 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * Added by huy.huynh on 18/05/2017.
      * Scenarios : PLAT 2285 - Add undo option
      * Modified by huy.huynh on 19/05/2017.
      * Merge with PLAT 2303(merge frontend and backend)
-     *//*
+     */
 
-    *//**
+    /**
      * (precondition)init value for variables
      * dependsOnMethods: setUp on AbstractTest
-     *//*
+     */
     //TODO
     //@BeforeMethod(dependsOnMethods = {"setUp"})
     public void initVariable() {
@@ -863,10 +863,10 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService.navigateToTodoListPage();
     }
 
-    *//**
+    /**
      * (precondition)flow to Needed-To-Test page
      * dependsOnMethods: initVariable
-     *//*
+     */
     //@BeforeMethod(dependsOnMethods = {"initVariable"})
     public void navigationPreconditions() {
         auditorEngagementService.loginWithUserRole(auditorId);
@@ -884,10 +884,10 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService.navigateToTodoListPage();
     }
 
-    *//**
+    /**
      * (case)verify button Undo action exist
-     *//*
-    @Test(priority = 28, enabled = true, testName = "Verify GUI.", description = "verify Undo Button exist ", groups = "ui"*//*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*//*)
+     */
+    @Test(priority = 28, enabled = true, testName = "Verify GUI.", description = "verify Undo Button exist ", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoExist() throws Exception {
         try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -923,10 +923,10 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * (case)verify button Undo action disable
-     *//*
-    @Test(priority = 29, enabled = true, testName = "Undo arrow.", description = "verify button Undo action disable", groups = "ui"*//*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*//*)
+     */
+    @Test(priority = 29, enabled = true, testName = "Undo arrow.", description = "verify button Undo action disable", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoStatus() throws Exception {
         try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -966,9 +966,9 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * (case)verify Undo action Complete a To-Do, verified change on database but UI
-     *//*
+     */
     @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "verify Undo action Complete a To-Do, verified change on database but UI", groups = "workflow")
     public void verifyUndoActionWithCompleteCase() {
         try {
@@ -1012,10 +1012,10 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * (case)verify Undo action Assign to a To-Do, verified change on UI but database
-     *//*
-    @Test(priority = 31, enabled = true, testName = "Undo successfully", description = "verify Undo action Assign to a To-Do, verified change on UI but database", groups = "workflow"*//*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*//*)
+     */
+    @Test(priority = 31, enabled = true, testName = "Undo successfully", description = "verify Undo action Assign to a To-Do, verified change on UI but database", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithAssignToCase() throws Exception {
         try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1058,10 +1058,10 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * (case)verify Undo action Delete a To-Do, verified change on database but UI
-     *//*
-    @Test(priority = 32, enabled = true, testName = "Undo successfully", description = "verify Undo action Delete a To-Do, verified change on database but UI", groups = "workflow"*//*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*//*)
+     */
+    @Test(priority = 32, enabled = true, testName = "Undo successfully", description = "verify Undo action Delete a To-Do, verified change on database but UI", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithDeleteCase() {
         try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1104,10 +1104,10 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * (case)verify Undo action Download Attachments disable
-     *//*
-    @Test(priority = 33, enabled = true, testName = "Undo fail", description = "verify Undo action Download Attachments disable", groups = "workflow"*//*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*//*)
+     */
+    @Test(priority = 33, enabled = true, testName = "Undo fail", description = "verify Undo action Download Attachments disable", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyDownloadAttachmentsDisable() {
         try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1144,14 +1144,14 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * -----end of huy.huynh PLAT-2285-----
-     *//*
+     */
 
-    *//**
+    /**
      * Added by tan.pham on 19/05/2017.
      * Scenarios : PLAT 2286 - Add delete icon
-     *//*
+     */
     @Test(priority = 34, enabled = true, description = "Verify GUI of delete icon in ToDo page.")
     public void verifyGUIDeleteIconInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1343,13 +1343,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    *//**
+    /**
      * -----end of tan.pham PLAT-2286-----
-     *//*
+     */
 
-    *//*
+    /*
     Vien Pham merged editCategoriesTEst into this page
-     *//*
+     */
     @Test(priority = 40, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
     public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1374,9 +1374,9 @@ public class AuditorTodoListTest extends AbstractTest {
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-*//*
+/*
 Vien.Pham refactor PLAT2291
- *//*
+ */
 
     @Test(priority = 42, enabled = true, description = "Verify Edit Function")
     public void verifyEditFunctionAtCreateNewTodoPage() throws Exception {
@@ -1411,9 +1411,9 @@ Vien.Pham refactor PLAT2291
             NXGReports.addStep("Verify Edit Fuction.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-*//*
+/*
 Vien.Pham refactor PLAT2291
- *//*
+ */
     @Test(priority = 44, enabled = true, description = "Verify Remove function")
     public void verifyRemoveFunctionAtTodoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1441,12 +1441,12 @@ Vien.Pham refactor PLAT2291
         }
     }
 
-*//*
+/*
 End of merged VienPham.
- *//*
-    *//**
+ */
+    /**
      * PLAT-2286 : Add new test suite : delete and cancel when user select multi ToDo item - Start
-     *//*
+     */
     int ToDoItemNumber = 4;
 
     @Test(priority = 45, enabled = false, description = "Verify work flow of delete multi ToDo item in ToDo page.")
@@ -1593,14 +1593,14 @@ End of merged VienPham.
         }
     }
 
-    *//**
+    /**
      * PLAT-2286 : Add new test suite : delete and cancel when user select multi ToDo item - End
-     *//*
+     */
 
-    *//**
+    /**
      * Added by duong.nguyen on 22/05/2017.
      * Scenarios : PLAT 2305 - Backend Mark To-Do as complete
-     *//*
+     */
     @Test(priority = 49, enabled = true, description = "PLAT-2305: Verify DB update completed field is true when archive mart as completed.")
     public void verifyCompletedFieldUpdateSuccessful() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1681,11 +1681,11 @@ End of merged VienPham.
                     LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-    *//**-----end of duong.nguyen PLAT-2305-----*//*
+    /**-----end of duong.nguyen PLAT-2305-----*/
 
-    *//**
+    /**
      * Added by minh.nguyen on 24/05/2017.
-     *//*
+     */
     @Test(priority = 51, enabled = true, description = "Verify to create new request on ToDo page")
     public void verifyAddNewRequestOnToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1712,7 +1712,7 @@ End of merged VienPham.
             getLogger().info(e);
             throw e;
         }
-    }*/
+    }
 }
 
 
