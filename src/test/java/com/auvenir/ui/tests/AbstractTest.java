@@ -2,24 +2,20 @@ package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
 
 import java.lang.reflect.Method;
-import java.net.URL;
 
 /**
  * Created by cuong.nguyen on 4/24/2017.
@@ -39,7 +35,7 @@ public class AbstractTest {
         +SeleniumGrid
         +Local
      */
-    private String runMode = "SeleniumGrid";
+    private String runMode = "Local";
     public String getRunMode() {
         setRunMode(System.getProperty("runSeleniumMode"));
         return runMode;
@@ -70,6 +66,7 @@ public class AbstractTest {
     @BeforeSuite
     public void setConfig() {
         System.out.println("AAAAAAA");
+        getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
         /*if (browser.equalsIgnoreCase("chrome")) {
@@ -91,6 +88,8 @@ public class AbstractTest {
     @Parameters({"browser","version","os"})
     @BeforeMethod
     public void setUp(Method method, String browser, String version, String os) {
+        System.out.println("Before Method.");
+        //getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
             GenericService.sBrowserData="CHROME_";
         }else if (browser.equalsIgnoreCase("firefox")){
@@ -99,17 +98,19 @@ public class AbstractTest {
             GenericService.sBrowserData="INTERNET_EXPLORER_";
         }
         GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
-        System.out.println("setUp");
+        System.out.println("setUp: "+GenericService.sBrowserData);
         testName = method.getName();
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
+        System.out.println("=====*****======");
         try {
-            if (runMode.equalsIgnoreCase("Local")) {
+            //if (runMode.equalsIgnoreCase("Local")) {
             /*
             Initialize Selenium Local WebDriver
              */
                 if (GenericService.sBrowserData.equalsIgnoreCase("CHROME_")) {
                     //if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
+                    System.out.println("Chrome is open.");
                     System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                     System.out.println("Chrome is set");
                     driver = new ChromeDriver();
@@ -124,10 +125,10 @@ public class AbstractTest {
                     System.setProperty("webdriver.gecko.intenetexplorer", GenericService.sDirPath + "/src/test/resources/IEDriverServer_64.exe");
                     driver = new InternetExplorerDriver();
                 }
-            }else {
-            /*
+            /*}else {
+            *//*
             Initialize Selenium for Selenium Grid
-             */
+             *//*
                 DesiredCapabilities capabilities;
                 if (GenericService.sBrowserData.equalsIgnoreCase("CHROME_")) {
                     capabilities = DesiredCapabilities.firefox();
@@ -152,7 +153,7 @@ public class AbstractTest {
                 }
                 WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
                 NXGReports.setWebDriver(driver);
-            }
+            }*/
         } catch (Exception e) {
             System.out.println("Problem in launching driver");
             e.printStackTrace();
