@@ -23,15 +23,15 @@
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
             <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
-            <methods>
+            <!--<methods>
                 <include name="verifyAboutPageContentTest"></include>
-            </methods>
-            <class name="com.auvenir.ui.tests.marketing.CareersTest"/>
+            </methods>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.CareersTest"/>
             <class name="com.auvenir.ui.tests.marketing.ContactTest"/>
             <class name="com.auvenir.ui.tests.marketing.CookiesNoticeTest"/>
             <class name="com.auvenir.ui.tests.marketing.HomePageTest"/>
             <class name="com.auvenir.ui.tests.marketing.PrivacyPolicyTest"/>
-            <class name="com.auvenir.ui.tests.marketing.TermsTest"/>
+            <class name="com.auvenir.ui.tests.marketing.TermsTest"/>-->
             <!-- <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
