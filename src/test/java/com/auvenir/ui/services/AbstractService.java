@@ -52,6 +52,7 @@ public class AbstractService {
 
 
     public String getBaseUrl() {
+        setBaseUrl(System.getProperty("serverDomainName"));
         return baseUrl;
     }
 
