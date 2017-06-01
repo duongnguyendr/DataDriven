@@ -8,6 +8,9 @@ import org.apache.log4j.Priority;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -90,8 +93,13 @@ public class AbstractTest {
             } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")){
                 System.out.println("Firefox is set");
                 System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
-                driver = new FirefoxDriver();
-
+                DesiredCapabilities capabilities = new DesiredCapabilities();
+                capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,true);
+                driver = new FirefoxDriver(capabilities);
+            }else if (GenericService.sBrowserData.equalsIgnoreCase("INTERNET_EXPLORER_")){
+                System.out.println("Intetnet Explorer is set");
+                System.setProperty("webdriver.gecko.intenetexplorer", GenericService.sDirPath + "/src/test/resources/IEDriverServer_64.exe");
+                driver = new InternetExplorerDriver();
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
