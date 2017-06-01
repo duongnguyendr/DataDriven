@@ -10,6 +10,7 @@
 
 package com.auvenir.utilities;
 
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -37,12 +38,11 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.awt.*;
+import java.util.List;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 public class GenericService {
     public static String sFile;
@@ -55,6 +55,8 @@ public class GenericService {
     public final static String LOCATORPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\Locator.properties";
     public static String sConfigFile = null;
     public static String sExecutionDate = null;
+    public static String sBrowserData = null;
+    public static ArrayList sBrowserTestNameList = new ArrayList<String>();
 
 	/*
      * @author: LAKSHMI BS Description: To read the basic environment settings
@@ -272,12 +274,10 @@ public class GenericService {
             ex.printStackTrace();
         }
     }
-
     private static String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     /**
      * Generate radom password
-     *
      * @param lenght
      * @return
      */
@@ -304,7 +304,6 @@ public class GenericService {
 
     /**
      * Parse Rgb to color to hex
-     *
      * @param rgb
      * @return
      */
@@ -329,7 +328,6 @@ public class GenericService {
 
     /**
      * Validate email address
-     *
      * @param email
      * @return
      */
@@ -339,7 +337,6 @@ public class GenericService {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
-
     /**
      * @param fileName
      * @param sheetName
@@ -391,5 +388,227 @@ public class GenericService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    /**
+     * Get browser list not duplicate
+     * @return browser list
+     */
+    private static List<String> getBrowserList(){
+        java.util.List<String> result = new ArrayList<String>();
+        int totalRow = sBrowserTestNameList.size();
+        for(int i=0; i<totalRow; i++){
+            if(!result.contains(sBrowserTestNameList.get(i).toString())){
+                result.add(sBrowserTestNameList.get(i).toString());
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Count total test name follow status
+     * @param sTestNames : test name list
+     * @param sBrowserList : browser list
+     * @param sBrowser : browser need check
+     * @param sStatus : status test name list
+     * @param statusTest : status need check
+     * @return 0 | >0
+     */
+    private static int countTotalTestNameStatusFollowBrowser(ArrayList sTestNames,
+                                                             ArrayList sBrowserList, String sBrowser,
+                                                             ArrayList sStatus, String statusTest){
+        int count =0 ;
+        for (int i = 0; i < sTestNames.size(); i++) {
+            if (sBrowserList.get(i).equals(sBrowser) &&
+                    sStatus.get(i).equals(statusTest)){
+                count++;
+            }
+        }
+        return  count;
+    }
+
+    /**
+     * Get pie chart follow browser list
+     * @param sTestNames : test name list
+     * @param sStatus : status test name list
+     */
+    public static void getPieChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus) {
+        List<String> browserList = getBrowserList();
+        int totalBrowser = browserList.size();
+        for(int i=0; i<totalBrowser; i++){
+
+            iPassCount = countTotalTestNameStatusFollowBrowser(sTestNames,
+                    sBrowserTestNameList,browserList.get(i),
+                    sStatus, "Passed");
+
+            iFailCount = countTotalTestNameStatusFollowBrowser(sTestNames,
+                                                                sBrowserTestNameList,browserList.get(i),
+                                                                sStatus, "Failed");
+
+            iSkippedCount = countTotalTestNameStatusFollowBrowser(sTestNames,
+                                                                  sBrowserTestNameList,browserList.get(i),
+                                                                  sStatus, "Skipped");
+
+            String browserName = browserList.get(i).substring(0,browserList.get(i).length()-1);
+            DefaultPieDataset pieDataset = new DefaultPieDataset();
+            pieDataset.setValue("FAIL", new Integer(iFailCount));
+            pieDataset.setValue("SKIP", new Integer(iSkippedCount));
+            pieDataset.setValue("PASS", new Integer(iPassCount));
+
+            JFreeChart piechart = ChartFactory.createPieChart("Pie Chart", pieDataset, true, true, false);
+            PiePlot plot = (PiePlot) piechart.getPlot();
+
+            plot.setSectionPaint("FAIL", Color.RED);
+            plot.setSectionPaint("SKIP", Color.ORANGE);
+            plot.setSectionPaint("PASS", new Color(192 * 85 + 192 * 104 + 192 * 47));
+            plot.setBackgroundPaint(new Color(192 * 65536 + 192 * 256 + 192));
+            plot.setExplodePercent("FAIL", 0.05);
+            plot.setSimpleLabels(true);
+            plot.setSectionOutlinesVisible(true);
+
+            PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator("{0}: {1} ({2})", new DecimalFormat("0"),
+                    new DecimalFormat("0%"));
+            plot.setLabelGenerator(gen);
+            plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
+            try {
+                ChartUtilities.saveChartAsJPEG(
+                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName +".png"), piechart,
+                        400, 400);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void getBarChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus) {
+        List<String> browserList = getBrowserList();
+        int totalBrowser = browserList.size();
+        for (int i = 0; i < totalBrowser; i++) {
+            final String series1 = "First";
+            final String series2 = "Second";
+            final String series3 = "Third";
+            final String category1 = "Status";
+
+            iPassCount = countTotalTestNameStatusFollowBrowser(sTestNames,
+                    sBrowserTestNameList,browserList.get(i),
+                    sStatus, "Passed");
+
+            iFailCount = countTotalTestNameStatusFollowBrowser(sTestNames,
+                    sBrowserTestNameList,browserList.get(i),
+                    sStatus, "Failed");
+
+            iSkippedCount = countTotalTestNameStatusFollowBrowser(sTestNames,
+                    sBrowserTestNameList,browserList.get(i),
+                    sStatus, "Skipped");
+
+            String browserName = browserList.get(i).substring(0,browserList.get(i).length()-1);
+
+            DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
+            dataSet.addValue(iPassCount, series1, "Status");
+            dataSet.addValue(iFailCount, series2, "Status");
+            dataSet.addValue(iSkippedCount, series3, "Status");
+
+            JFreeChart chart = ChartFactory.createBarChart("Bar Graph" , "Execution Status", "Testcases", dataSet,
+                    PlotOrientation.VERTICAL, false, true, false);
+            CategoryPlot barplot = chart.getCategoryPlot();
+            // barplot.setBackgroundPaint(paint);
+            barplot.setBackgroundPaint(Color.white);
+            barplot.setBackgroundPaint(new Color(192 * 65536 + 192 * 256 + 192));
+
+            barplot.setDomainGridlinePaint(Color.white);
+
+            NumberAxis rangeAxis = (NumberAxis) barplot.getRangeAxis();
+            rangeAxis.setRange(0.0, 70.0);
+            rangeAxis.setTickUnit(new NumberTickUnit(10));
+            rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+            rangeAxis.setAutoRangeIncludesZero(true);
+
+            final BarRenderer renderer = (BarRenderer) barplot.getRenderer();
+            renderer.setDrawBarOutline(false);
+            renderer.setMaximumBarWidth(0.20);
+
+            // set up gradient paints for series...
+            final GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, new Color(192 * 85 + 192 * 104 + 192 * 47), 0.0f, 0.0f,
+                    Color.lightGray);
+            final GradientPaint gp1 = new GradientPaint(
+
+                    0.0f, 0.0f, Color.red, 0.0f, 0.0f, Color.lightGray);
+
+            final GradientPaint gp2 = new GradientPaint(0.0f, 0.0f, Color.orange, 0.0f, 0.0f, Color.lightGray);
+            renderer.setSeriesPaint(0, gp0);
+            renderer.setSeriesPaint(1, gp1);
+            renderer.setSeriesPaint(2, gp2);
+
+            try {
+                ChartUtilities.saveChartAsJPEG(
+                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart"+ browserName +".png"), chart,
+                        400, 400);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /** huyhuynh 01/06/2017
+     * get all data on given sheet into 2-dimension array
+     *
+     * @param sheetName sheet which we want to get data
+     */
+    public static String[][] readExcelSheetData(String sheetName) {
+        String data[][] = null;
+        try {
+            FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            Workbook wb = WorkbookFactory.create(fis);
+            Sheet sheet = wb.getSheet(sheetName);
+
+            //System.out.println("sheetName = " + sheetName);
+            int rowCount = sheet.getLastRowNum();
+            data = new String[rowCount][sheet.getRow(0).getLastCellNum()];
+            for (int i = 1; i <= rowCount; i++) {
+                Row row = sheet.getRow(i);
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    data[i - 1][j] = row.getCell(j).getStringCellValue();
+                    //System.out.print(row.getCell(j).getStringCellValue() + "/");
+                }
+                //System.out.println("");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /* ===================================================================
+     * @author: LAKSHMI BS Description: To read tests data from excel sheet
+     * Edited by Doai.Tran
+     =================================================================== */
+    public static String[] toReadExcelData(String sTestCaseID, String SheetName) {
+        String sData[] = null;
+        try {
+            FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            Workbook wb = WorkbookFactory.create(fis);
+            Sheet sht = wb.getSheet(SheetName);
+
+            System.out.println(SheetName);
+            int iRowNum = sht.getLastRowNum();
+            int k = 0;
+            for (int i = 1; i <= iRowNum; i++) {
+                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                    int iCellNum = sht.getRow(i).getLastCellNum();
+                    sData = new String[iCellNum];
+                    System.out.println("Dong: " + i);
+                    System.out.println("So Cot:" + iCellNum);
+                    for (int j = 1; j <= iCellNum; j++) {
+                        sData[j] = sht.getRow(i).getCell(j).getStringCellValue();
+                        System.out.println(sData[j]);
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sData;
     }
 }

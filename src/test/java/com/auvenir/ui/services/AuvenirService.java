@@ -1,7 +1,6 @@
 package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.utilities.GenericService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -47,20 +46,5 @@ public class AuvenirService extends AbstractService {
 
     public void verifyCookieNoticePage() {
         auvenirPage.verifyCookieNoticePage();
-    }
-
-    public void verifyPageLoad() {
-        auvenirPage.verifyPageLoad();
-    }
-
-    public void inputEmailAndJoin(String email){
-        auvenirPage.getEleAuditorEmailAddressTxtFld()
-                .sendKeys(email);
-        getLogger().info("click to regedit auditor user.");
-        auvenirPage.getEleJoinBtn().click();
-    }
-
-    public void actionWithApprovalDialog(){
-        auvenirPage.actionWithApprovalDialog();
     }
 }

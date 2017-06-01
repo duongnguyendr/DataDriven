@@ -18,17 +18,14 @@ public class HomePageTest extends AbstractTest {
     public void verifyHomePageContent(){
         try {
             homeService = new HomeService(getLogger(), getDriver());
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.verifyHomeContentPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify about page content - Home: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
             NXGReports.addStep("Verify about page content- Home: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            throw e;
         }
     }
-
-    //@Test(priority = 2)
-    //public void verifyPageContentTest(){
-      //  basePage.verifyContentPage();
-    //}
 }

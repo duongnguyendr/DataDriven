@@ -6,8 +6,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
-import com.auvenir.utilities.extentionLibraries.DBProperties;
-import com.auvenir.utilities.extentionLibraries.DatePicker;
+import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -114,8 +113,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@id='empty-todo']//..//..//div")
     private WebElement eleNotesEmtyToDo;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
-    private WebElement categoryDropdownEle;
+//    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
+//    private WebElement categoryDropdownEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']//button")
     private List<WebElement> categoryOptionItemEle;
@@ -329,26 +328,26 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='add-request-btn']")
     private WebElement totoPageAddRequestBtn;
 
-    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[1]/input")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/input")
     private WebElement findRequestEmpty1;
 
-    @FindBy (xpath = "//*[@id='todoDetailsReqCont']/div[2]/input")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[2]/input")
     private WebElement findRequestEmpty2;
 
-    @FindBy (xpath = "//*[@id='todoDetailsName']")
+    @FindBy(xpath = "//*[@id='todoDetailsName']")
     private WebElement popupToDoDetailName;
 
-    @FindBy (xpath = "//p[contains(text(),'Request name must not be empty')]")
+    @FindBy(xpath = "//p[contains(text(),'Request name must not be empty')]")
     private WebElement messageEmptyRequest;
     private String checkMarkToDoName = "";
     private String checkToDoNameAddNewRequest = "";
-    @FindBy (xpath = "//*[@id='auv-todo-details']/div[3]")
+    @FindBy(xpath = "//*[@id='auv-todo-details']/div[3]")
     private WebElement closeAddNewRequest;
-    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div")
     private WebElement deleteRequestBtn;
-    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
     private WebElement deleteRequestMenu;
-    @FindBy (xpath="//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
     private WebElement copyTaskMenu;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
@@ -677,8 +676,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         todoNamePage = "To-do name " + randomNumber();
         waitForClickableOfElement(createToDoBtnEle, "create todo button.");
         clickElement(createToDoBtnEle, "click to createToDoBtnEle");
-        waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
-        clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
+        waitForClickableOfElement(TodosTextboxEle.get(0), "wait for eleIdToDoName");
+        clickElement(TodosTextboxEle.get(0), "click to eleIdToDoName");
         createToDoNameTextBoxEle.sendKeys(todoNamePage);
         switch (numberOfNewCategories) {
 
@@ -704,7 +703,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 break;
 
         }
-
         waitForClickableOfLocator(By.id("due-date"));
         waitForClickableOfElement(dueDateFieldEle, "eleIdDueDate");
         clickElement(dueDateFieldEle, "click to eleIdDueDate");
@@ -1839,11 +1837,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Click on trash icon
      */
-    public void clickOnTrashIcon(){
+    public void clickOnTrashIcon() {
         try {
             waitForVisibleElement(trashToDoBtnEle, "Trash ToDo icon");
-            hoverElement(trashToDoBtnEle,"Hover trash icon ");
-            clickElement(trashToDoBtnEle,"Click on trash icon");
+            hoverElement(trashToDoBtnEle, "Hover trash icon ");
+            clickElement(trashToDoBtnEle, "Click on trash icon");
             NXGReports.addStep("Click on trash ToDo icon", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
@@ -2589,7 +2587,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public DBCollection getEngagementCollection() {
         try {
             //TODO move db config to properties file
-            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getEngagementsCollection());
+            return MongoDBService.getCollection("engagements");
         } catch (Exception e) {
             NXGReports.addStep("Can't get Engagements Colection: auvenir-engagements", LogAs.FAILED, null);
             e.printStackTrace();
@@ -2598,12 +2596,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
-     * get 'engagements' collection(table on mongo)
+     * get 'users' collection(table on mongo)
      */
     public DBCollection getUserCollection() {
         DBCollection dbCollection = null;
         try {
-            return MongoDBService.getCollection(DBProperties.getDBname(), DBProperties.getUsersCollection());
+            return MongoDBService.getCollection("users");
         } catch (Exception e) {
             NXGReports.addStep("Can't get Users Colection: auvenir-users", LogAs.FAILED, null);
             e.printStackTrace();
@@ -2971,16 +2969,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
-    public void verifyAddNewRequestButton()
-    {
+    public void verifyAddNewRequestButton() {
         verifyPopupColorAddRequestBtn();
         verifyClickAddRequestBtn();
     }
+
     /**
      * Author minh.nguyen
      */
-    public void verifyRequestNameTextbox()
-    {
+    public void verifyRequestNameTextbox() {
         verifyDefaultToDoNameNewRequestPopup();
         verifyShowAllTextNewRequestPopup();
         verifyMaxLengthNewRequestPopup();
@@ -3636,6 +3633,35 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
         }
 
+    }
+
+    /*
+    Vien Pham
+     */
+    public void verifyAddNewCategories() {
+        try {
+            createNewCategory("", "");
+            NXGReports.addStep("Add new Category successfully.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Add new Category failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[2]")
+   WebElement editCategoryBtn;
+
+    @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]/div[contains(@class,'ui dropdown category')]")
+    WebElement categoryDropdownEle;
+
+    public void navigateToEditCategory() throws InterruptedException {
+        //        waitForNewTodoNameSaved();
+        getLogger().info("Navigating to Editcategory...");
+        waitForClickableOfLocator(By.xpath("//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]/div[contains(@class,'ui dropdown category')]"));
+        clickElement(categoryDropdownEle, "categoryDropdown");
+        Thread.sleep(smallerTimeOut);
+        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[2]"));
+        clickElement(editCategoryBtn, "editCategory");
     }
 
     public void verifyCategoryIsSelectedCorrectly() {

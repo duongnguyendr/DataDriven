@@ -5,10 +5,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,7 +15,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by huy.huynh on 12/05/2017.
@@ -115,27 +111,19 @@ public class GeneralUtilities {
 
     }
 
-    public static void visibilityOfElementWait(WebDriver webDriver, WebElement webElement, String elementName, int waitTime) {
+    /**
+     * Refactored by huy.huynh on 01/06/2017.
+     * New for smoke test
+     */
+    public static WebElement getElement(WebDriver webDriver, String xpath, String... arg) {
+        WebElement webElement = null;
+        xpath = String.format(xpath, arg);
         try {
-            WebDriverWait webDriverWait = new WebDriverWait(webDriver, waitTime);
-            webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-        } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
-            NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
-        }
-    }
-
-    // Loading the URL by keeping in config properties
-    public static void loadURL(WebDriver webDriver, String sUrl) {
-        try {
-            System.out.println(sUrl);
-            webDriver.get(sUrl);
-            webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-            webDriver.manage().window().maximize();
-        } catch (AssertionError e) {
-            NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED,
+            webElement = webDriver.findElement(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
         }
+        return webElement;
     }
 }

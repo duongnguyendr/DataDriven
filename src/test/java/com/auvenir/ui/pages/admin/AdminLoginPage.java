@@ -2,10 +2,14 @@ package com.auvenir.ui.pages.admin;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.utilities.extentionLibraries.LocatorProperties;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GeneralUtilities;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GeneralUtilities;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -736,9 +740,6 @@ public class AdminLoginPage extends AbstractPage {
         return eleGetItGooglePlayImg;
     }
 
-//    @FindBy(xpath = "")
-//    WebElement webElement = getDriver().findElement(By.xpath("//*[@id=\"msgText-wyYeDf0F\"]/div/p[1]"));
-
 
     public void getEleClientEntryValidate(String UserType, String Email, String DateCreated, String ClientName) throws InterruptedException {
         Thread.sleep(10000);
@@ -818,6 +819,7 @@ public class AdminLoginPage extends AbstractPage {
     public void verifyAdminLoginPage() {
         waitForVisibleElement(eleAdminHdrTxt, "eleAdminHdrTxt");
         validateElementText(eleAdminHdrTxt, "Admin");
+        validateDisPlayedElement(eleAdminHdrTxt, "eleAdminHdrTxt");
     }
 
     public void verifyAdminHeaderText() {
@@ -1016,6 +1018,25 @@ public class AdminLoginPage extends AbstractPage {
         clickElement(getEleCloseIcn(), "Close button");
     }
 
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+        getLogger().info("Verify user is changed status on the list.");
+        try {
+            String actualStatus = getEleAuditorStatusLst(userType, email, dateCreated);
+            Assert.assertTrue(actualStatus.equals(expectedStatus), String.format("Auditor is not created with %s status", actualStatus));
+            NXGReports.addStep("Verify user is changed status on the list.", LogAs.PASSED, null);
+        } catch (AssertionError e){
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e){
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
+
     /**
      * Refactored by huy.huynh on 30/05/2017.
      * New for smoke test
@@ -1023,11 +1044,20 @@ public class AdminLoginPage extends AbstractPage {
     @FindBy(xpath = "//table[@id='w-mu-table']")
     private WebElement tableUser;
 
+    @FindBy(xpath = "//p[contains(@id,'msgText')]/div/p[1]")
+    private WebElement textViewOnPopupConfirm;
+
+    private String xpathUserTypeCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[2]";
+    private String xpathEmailCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[3]";
+    private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
+    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[6]/select";
+
+
     public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
         try {
-            WebElement type = getDriver().findElement(LocatorProperties.getElement("userTypeCellOnUserTableAdminX", userEmail));
-            WebElement email = getDriver().findElement(LocatorProperties.getElement("emailCellOnUserTableAdminX", userEmail));
-            WebElement date = getDriver().findElement(LocatorProperties.getElement("dateCreatedCellOnUserTableAdminX", userEmail));
+            WebElement type = GeneralUtilities.getElement(getDriver(), xpathUserTypeCellOnUserTableAdminX, userEmail);
+            WebElement email = GeneralUtilities.getElement(getDriver(), xpathEmailCellOnUserTableAdminX, userEmail);
+            WebElement date = GeneralUtilities.getElement(getDriver(), xpathDateCreatedCellOnUserTableAdminX, userEmail);
 
             validateElementText(type, userType);
             validateElementText(email, userEmail);
@@ -1041,21 +1071,16 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
-        try {
-            WebElement status = getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail));
-            validateSelectedItemText(status, userStatus);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
+        WebElement status = GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail);
+        validateSelectedItemText(status, userStatus);
     }
 
     public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
         try {
-            Select status = new Select(getDriver().findElement(LocatorProperties.getElement("statusCellOnUserTableAdminX", userEmail)));
+            Select status = new Select(GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
             status.selectByVisibleText(chooseOption);
 
-            validateElementText(getDriver().findElement(LocatorProperties.getElement("textOnPopUpConfirmChangeUserStatusX")), "Are you sure you want to change user status from");
+            validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
 
             waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
             getEleStatusConfirmBtn().click();
@@ -1068,5 +1093,4 @@ public class AdminLoginPage extends AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 30/05/2017.*/
-
 }

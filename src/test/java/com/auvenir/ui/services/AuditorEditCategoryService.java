@@ -25,7 +25,7 @@ public class AuditorEditCategoryService extends AbstractService {
 
     public void navigateToEditAtCreateTodoPage() throws Exception {
 
-        auditorEditCategoryPage.selectEditCategories();
+        auditorEditCategoryPage.navigateToEditCategory();
 
     }
 
@@ -52,7 +52,7 @@ public class AuditorEditCategoryService extends AbstractService {
         auditorEditCategoryPage.verifyHoverOnCategoryItem();
     }
 
-    public void hoverOnCategoryItem_TodoListPage(){
+    public void hoverOnCategoryItem_TodoListPage() {
         auditorEditCategoryPage.verifyHoverOnCategoryItem_TodoListPage();
     }
 
@@ -67,65 +67,55 @@ public class AuditorEditCategoryService extends AbstractService {
         auditorEditCategoryPage.verifyDefaultSaveBtn();
     }
 
-    public void editValidValue() throws Exception {
-        auditorEditCategoryPage.editCategoryItem();
+    public void editValidValue(String newValue) throws Exception {
+
+        auditorEditCategoryPage.editValidCategory(newValue);
 
     }
 
-    public void editValidValue_TodoListPage() throws Exception {
-        auditorEditCategoryPage.editCategoryItem_TodoListPage();
-    }
-
-    public void editSameMultiValidItems() throws Exception {
-        auditorEditCategoryPage.editSameMultiItems();
-
-    }
-    public void editSameMultiValidItems_TodoListPage() throws Exception {
-        auditorEditCategoryPage.editSameMultiItems_TodoListPage();
+    public void verifyValidValue(String comparedValue) {
+        auditorEditCategoryPage.verifyCategoriesSaved(comparedValue);
     }
 
 
-    public void editOnlyNumber() throws Exception {
-        auditorEditCategoryPage.editOnlyNumber();
-
-
-    }
-
-    public void editOnlyNumber_TodoListPage() throws Exception {
-        auditorEditCategoryPage.editOnlyNumber_TodoListPage();
-    }
-
-    public void editNullChars() throws Exception {
-        auditorEditCategoryPage.editNullChar();
-
-    }
-    public void editNullChars_TodoListPage() throws Exception {
-        auditorEditCategoryPage.editNullChar_TodoListPage();
-    }
-
-    public void editSpecialChars() throws Exception {
-        auditorEditCategoryPage.editSpecialChars();
-
+    public void editOnlyNumber(int number) throws Exception {
+        auditorEditCategoryPage.editOnlyNumber(number);
 
     }
 
-    public void editSpecialChars_TodoListPage() throws Exception {
-        auditorEditCategoryPage.editSpecialChars_TodoListPage();
+    public void verifyNumber(int comparedNumber) {
+        auditorEditCategoryPage.verifyCategoriesSaved(Integer.toString(comparedNumber));
     }
 
 
-    public void remove1Item() throws Exception {
-        auditorEditCategoryPage.remove1Item();
+    public void editNullChars(String nullChars) throws Exception {
+        auditorEditCategoryPage.editNullChar(nullChars);
+
+    }
+
+    public void verifyNullChars(String nullChars) throws Exception {
+        auditorEditCategoryPage.verifyCategoriesNotSaved(nullChars);
+    }
+
+    public void editSpecialChars(String specialChar) throws Exception {
+        auditorEditCategoryPage.editSpecialChars(specialChar);
+    }
+
+    public void verifySpecialChars(String specialChar) throws Exception {
+
+        auditorEditCategoryPage.verifyCategoriesNotSaved(specialChar);
+    }
+
+
+    public void removeItem(int numberOfRemovedItem) throws Exception {
+        auditorEditCategoryPage.removeItem(numberOfRemovedItem);
 
 
     }
 
-    public void removeMultiItems() throws Exception {
-        auditorEditCategoryPage.removeMultiItems();
-
-
-    }
 }
+
+
 
 
 

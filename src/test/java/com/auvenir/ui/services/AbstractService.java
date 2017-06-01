@@ -35,6 +35,15 @@ public class AbstractService {
     private String baseUrl = "https://ariel.auvenir.com";
     HomePage homePO;
 
+    private String prefixProtocol = "";
+    public String getPrefixProtocol() {
+        return prefixProtocol;
+    }
+
+    public void setPrefixProtocol(String prefixProtocol) {
+        this.prefixProtocol = prefixProtocol;
+    }
+
     public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
@@ -57,7 +66,7 @@ public class AbstractService {
 
     public void setBaseUrl(String serverDomainName) {
         // S3 do not use HTTPS
-        baseUrl = "https://" + serverDomainName;
+        baseUrl = serverDomainName;
         getLogger().info("Url of testing server is: " + baseUrl);
     }
 
@@ -84,7 +93,11 @@ public class AbstractService {
     public void loginWithUserRole(String userId) {
         try {
             getLogger().info("Login with user role: " + userId);
-            setBaseUrl(System.getProperty("serverDomainName"));
+            if(prefixProtocol == "")
+            {
+                prefixProtocol = "https://";
+            }
+            setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String getTokenUrl = getBaseUrl() + "/getToken?email=";
             getLogger().info("gettoken link: " + getTokenUrl);
             driver.get(getTokenUrl + userId);
@@ -134,7 +147,11 @@ public class AbstractService {
      */
     public void goToBaseURL() {
         try {
-            setBaseUrl(System.getProperty("serverDomainName"));
+            if(prefixProtocol == "")
+            {
+                prefixProtocol = "https://";
+            }
+            setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
             driver.get(baseUrl);
@@ -142,7 +159,12 @@ public class AbstractService {
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
+            if(sLanguage == null)
+            {
+                sLanguage = "English";
+            }
             System.out.println(sLanguage);
+
             if (sLanguage.equals("French")) {
                 System.out.println("Language is : " + baseLanguage);
                 homePO.clickOnChangeLanguageBTN();
@@ -176,8 +198,12 @@ public class AbstractService {
     }
 
     public void setHomeAuvenirUrl(String serverDomainName) {
+        if(prefixProtocol == "")
+        {
+            prefixProtocol = "https://";
+        }
         // S3 do not use HTTPS
-        homeAuvenirUrl = "https://" + serverDomainName;
+        homeAuvenirUrl = prefixProtocol + serverDomainName;
         getLogger().info("Url of testing server is: " + homeAuvenirUrl);
     }
 

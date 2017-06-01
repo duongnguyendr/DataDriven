@@ -73,6 +73,7 @@ public class AbstractPage {
     public static final String dropdownCategoryToDoBulkDdlDiv1 = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]";
     public static final String popUpDivCategoryModel = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
+    private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
 
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
@@ -229,6 +230,9 @@ public class AbstractPage {
     public WebElement getEleAuvenirHeaderImg() {
         return eleAuvenirHeaderImg;
     }
+
+    @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show'] //div[@class='send-message-success-alert']/span")
+    private WebElement successToastMesDescriptionEle;
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
@@ -932,7 +936,11 @@ public class AbstractPage {
 
     }
 
-
+    /**
+     * @param eleGetText  Element defined in page class
+     * @param elementName The text name of element
+     * @return The text of web element
+     */
     public String getTextByJavaScripts(WebElement eleGetText, String elementName) {
         getLogger().info("Get text by javascript of element " + elementName);
         String textOfElement = "";
@@ -984,8 +992,11 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]/div[contains(@class,'ui dropdown category')]")
     WebElement categoryDropdownEle;
 
-    @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]//div[@class=\"menu\"]/div[1]")
+    @FindBy(xpath = "//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]")
     WebElement categoryCreateBtnEle;
+
+    @FindBy(xpath = "//tr[@class=\"newRow\"]")
+    List<WebElement> tableTodoList;
 
 
     public void chooseCategoryColorInPopup() throws Exception {
@@ -1018,8 +1029,8 @@ public class AbstractPage {
         } else {
             categoryName = categoryNameInput;
         }
-        // Create new Category
-        clickToNewCategoryDllInList();
+        getLogger().info("Adding new category...");
+        navigateToAddNewCategory();
         waitForClickableOfElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
@@ -1057,6 +1068,15 @@ public class AbstractPage {
         waitForDisappearElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         getLogger().info("isCheckCategory = " + isCheckCategory);
         return isCheckCategory;
+    }
+
+    /*
+    Vien.Pham add new method.
+     */
+    public void waitForNumberOfTodoListIncreased() {
+        getLogger().info("Waiting for number of Todo list change...");
+        int sizeOfTodoListExpected = tableTodoList.size() + 1;
+        waitForSizeListElementChanged(tableTodoList, "Table Todolist", sizeOfTodoListExpected);
     }
 
     public boolean chooseCategoryByNameFromDll(String categoryName) {
@@ -1247,7 +1267,7 @@ public class AbstractPage {
         boolean isCheckTitle = false;
         getLogger().info("Verify category title");
         try {
-            clickToNewCategoryDllInList();
+            navigateToAddNewCategory();
             waitForVisibleElement(idTitleCategory, "wait idTitleCategory");
             String strCategoryTitle = idTitleCategory.getText();
             if (categoryTitleOfAddNew.equals(strCategoryTitle)) {
@@ -1624,7 +1644,7 @@ public class AbstractPage {
         getLogger().info("Verify to click Category cancel button");
         try {
             // click to cancel button
-            clickToNewCategoryDllInList();
+            navigateToAddNewCategory();
             hoverElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo button");
             waitForClickableOfLocator(By.xpath("//div[contains(@class,'au-modal-container modalTransition-popUp-container')]//button[contains(text(),'Cancel')]"));
             waitForClickableOfElement(cancelDeletedToDoButtonEle, "Cancel Delete ToDo Button");
@@ -1689,7 +1709,7 @@ public class AbstractPage {
             sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
             chooseCategoryColorInPopup();
             clickNewCategoryCreateButton();
-            clickToNewCategoryDllInList();
+            navigateToAddNewCategory();
             waitForJSandJQueryToLoad();
             waitForClickableOfLocator(By.id("category-name"));
             clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
@@ -1768,7 +1788,6 @@ public class AbstractPage {
 
 
         }
-
 
     }
 
@@ -1925,11 +1944,13 @@ public class AbstractPage {
     }
 
 
-    //Vien.Pham add for ticket 2291
+    /*
+    Vien.Pham add for ticket 2291
+     */
     public int verifyListOfCurrentCategories(List<WebElement> webElement) {
         int numberOfItemsBefore = 0;
         for (WebElement tdElement : webElement) {
-            String isCheckCategory = nullChars;
+            String isCheckCategory = null;
             try {
                 isCheckCategory = tdElement.getAttribute("data-dbdata");
                 numberOfItemsBefore++;
@@ -1940,6 +1961,10 @@ public class AbstractPage {
         return numberOfItemsBefore;
     }
 
+
+    /*
+    Vien.pham added for 2291
+     */
     public void verifyItemsRemovedOrNot(int numberOfItemsBefore, int numberOfItemsbeRemoved, List<WebElement> webElement) {
         int numberOfItemDisplayed = 0;
         int result = numberOfItemsBefore - numberOfItemsbeRemoved;
@@ -1953,17 +1978,19 @@ public class AbstractPage {
                 } else {
                     numberOfItemDisplayed++;
                 }
-                if (numberOfItemDisplayed == result) {
-                    NXGReports.addStep("Remove completed ", LogAs.PASSED, null);
-
-                } else {
-                    NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                }
-
-
             }
-            System.out.println("The number of items after: " + result);
+
+            if (numberOfItemDisplayed == result) {
+                NXGReports.addStep("Remove completed ", LogAs.PASSED, null);
+
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+
+            System.out.println("Number of items after removed: " + result);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -2633,14 +2660,14 @@ public class AbstractPage {
         }
     }
 
-    public void clickToNewCategoryDllInList() throws Exception {
-        waitForNewTodoNameSaved();
+    /*
+    Vien.Pham modified this method
+     */
+    public void navigateToAddNewCategory() throws Exception {
         clickElement(categoryDropdownEle, "categoryDropdownEle");
         Thread.sleep(smallerTimeOut);
-        waitForClickableOfLocator(By.xpath("//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]//div[@class=\"menu\"]/div[1]"));
+        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
         clickElement(categoryCreateBtnEle, "categoryCreateEle");
-        System.out.println("click Pass2");
-
     }
 
 
@@ -2733,10 +2760,24 @@ public class AbstractPage {
         }
     }
 
+
+
+
     /*
     End of VienPham
      */
 
+    /**
+     * Author: Thuan Duong.
+     * Verify the content of success toast message is displayed.
+     *
+     * @param expectedContent The content is expected to displayed on Success Message.
+     * @return true if the content is displayed, otherwise it returns false.
+     */
+    public boolean verifyContentOfSuccessToastMessage(String expectedContent) {
+        getLogger().info("Try to Verify Content Of Warning Toast Message ");
+        return verifyContentOfToastMessage(successToastMesDescriptionEle, "Success Toast Message Content", expectedContent);
+    }
 
     /**
      * Added by huy.huynh on 31/05/2017.
