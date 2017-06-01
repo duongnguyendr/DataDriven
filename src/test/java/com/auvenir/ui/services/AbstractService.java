@@ -159,7 +159,12 @@ public class AbstractService {
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
+            if(sLanguage == null)
+            {
+                sLanguage = "English";
+            }
             System.out.println(sLanguage);
+
             if (sLanguage.equals("French")) {
                 System.out.println("Language is : " + baseLanguage);
                 homePO.clickOnChangeLanguageBTN();
