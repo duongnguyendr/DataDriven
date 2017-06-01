@@ -10,6 +10,7 @@
 
 package com.auvenir.utilities;
 
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -280,22 +281,22 @@ public class GenericService {
      * @param lenght
      * @return
      */
-    public static String genPassword(int lenght, boolean isContainsUpperCase, boolean isContainsLowerCase, boolean isContainsDigit){
+    public static String genPassword(int lenght, boolean isContainsUpperCase, boolean isContainsLowerCase, boolean isContainsDigit) {
         Random r = new Random();
-        while(true) {
+        while (true) {
             char[] password = new char[lenght];
             boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
-            for(int i=0; i<password.length; i++) {
+            for (int i = 0; i < password.length; i++) {
                 char ch = symbols.charAt(r.nextInt(symbols.length()));
-                if(isContainsUpperCase && Character.isUpperCase(ch))
+                if (isContainsUpperCase && Character.isUpperCase(ch))
                     hasUpper = true;
-                else if(isContainsLowerCase && Character.isLowerCase(ch))
+                else if (isContainsLowerCase && Character.isLowerCase(ch))
                     hasLower = true;
-                else if(isContainsDigit && Character.isDigit(ch))
+                else if (isContainsDigit && Character.isDigit(ch))
                     hasDigit = true;
                 password[i] = ch;
             }
-            if(hasUpper && hasLower && hasDigit) {
+            if (hasUpper && hasLower && hasDigit) {
                 return new String(password);
             }
         }
@@ -306,7 +307,7 @@ public class GenericService {
      * @param rgb
      * @return
      */
-    public static String parseRgbTohex(String rgb){
+    public static String parseRgbTohex(String rgb) {
         String value = null;
         try {
             int indexOpen = rgb.indexOf("(");
@@ -372,7 +373,7 @@ public class GenericService {
     public static void updateExcelData(String fileName, String sheetName, int numberColumn, int numberRow, String data) {
         try {
             //Read the spreadsheet that needs to be updated
-            FileInputStream fis= new FileInputStream(fileName);
+            FileInputStream fis = new FileInputStream(fileName);
 
             // Using XSSF for xlsx format, for xls use HSSF
             Workbook workbook = new XSSFWorkbook(fis);
@@ -547,5 +548,67 @@ public class GenericService {
                 e.printStackTrace();
             }
         }
+    }
+
+    /** huyhuynh 01/06/2017
+     * get all data on given sheet into 2-dimension array
+     *
+     * @param sheetName sheet which we want to get data
+     */
+    public static String[][] readExcelSheetData(String sheetName) {
+        String data[][] = null;
+        try {
+            FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            Workbook wb = WorkbookFactory.create(fis);
+            Sheet sheet = wb.getSheet(sheetName);
+
+            //System.out.println("sheetName = " + sheetName);
+            int rowCount = sheet.getLastRowNum();
+            data = new String[rowCount][sheet.getRow(0).getLastCellNum()];
+            for (int i = 1; i <= rowCount; i++) {
+                Row row = sheet.getRow(i);
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    data[i - 1][j] = row.getCell(j).getStringCellValue();
+                    //System.out.print(row.getCell(j).getStringCellValue() + "/");
+                }
+                //System.out.println("");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /* ===================================================================
+     * @author: LAKSHMI BS Description: To read tests data from excel sheet
+     * Edited by Doai.Tran
+     =================================================================== */
+    public static String[] toReadExcelData(String sTestCaseID, String SheetName) {
+        String sData[] = null;
+        try {
+            FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            Workbook wb = WorkbookFactory.create(fis);
+            Sheet sht = wb.getSheet(SheetName);
+
+            System.out.println(SheetName);
+            int iRowNum = sht.getLastRowNum();
+            int k = 0;
+            for (int i = 1; i <= iRowNum; i++) {
+                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                    int iCellNum = sht.getRow(i).getLastCellNum();
+                    sData = new String[iCellNum];
+                    System.out.println("Dong: " + i);
+                    System.out.println("So Cot:" + iCellNum);
+                    for (int j = 1; j <= iCellNum; j++) {
+                        sData[j] = sht.getRow(i).getCell(j).getStringCellValue();
+                        System.out.println(sData[j]);
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sData;
     }
 }

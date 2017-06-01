@@ -159,7 +159,12 @@ public class AbstractService {
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
+            if(sLanguage == null)
+            {
+                sLanguage = "English";
+            }
             System.out.println(sLanguage);
+
             if (sLanguage.equals("French")) {
                 System.out.println("Language is : " + baseLanguage);
                 homePO.clickOnChangeLanguageBTN();
@@ -193,8 +198,12 @@ public class AbstractService {
     }
 
     public void setHomeAuvenirUrl(String serverDomainName) {
+        if(prefixProtocol == "")
+        {
+            prefixProtocol = "https://";
+        }
         // S3 do not use HTTPS
-        homeAuvenirUrl = "https://" + serverDomainName;
+        homeAuvenirUrl = prefixProtocol + serverDomainName;
         getLogger().info("Url of testing server is: " + homeAuvenirUrl);
     }
 
