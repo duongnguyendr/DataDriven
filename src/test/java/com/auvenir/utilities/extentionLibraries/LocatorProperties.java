@@ -1,11 +1,9 @@
 package com.auvenir.utilities.extentionLibraries;
 
-import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.openqa.selenium.By;
 
-import java.io.FileInputStream;
 import java.util.Properties;
 
 /**
@@ -17,9 +15,9 @@ public class LocatorProperties {
     private LocatorProperties() {
         try {
             if (properties == null) {
-                FileInputStream fis = new FileInputStream(GenericService.LOCATORPROPERTIESFILE);
-                properties = new Properties();
-                properties.load(fis);
+                //FileInputStream fis = new FileInputStream(GenericService.LOCATORPROPERTIESFILE);
+                //properties = new Properties();
+                //properties.load(fis);
             }
         } catch (Exception ex) {
             NXGReports.addStep("Can't find/load DBProperties file", LogAs.FAILED, null);
