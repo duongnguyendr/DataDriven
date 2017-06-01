@@ -11,7 +11,6 @@ import java.util.*;
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -36,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+//import org.testng.log4testng.Logger;
 
 //import org.testng.log4testng.Logger;
 //import org.testng.log4testng.Logger;
@@ -2800,6 +2801,31 @@ public class AbstractPage {
     }
 
     /**
+     * Added by huy.huynh on 31/05/2017.
+     * New for smoke test
+     */
+
+    /**
+     * @param webElement  WebElement
+     * @param elementText Text of Element be presented.
+     */
+    public boolean validateSelectedItemText(WebElement webElement, String elementText) {
+        try {
+            getLogger().info("Check renderd of text: " + elementText);
+            getLogger().info("Actual Text is displayed: " + new Select(webElement).getFirstSelectedOption().getText());
+            Assert.assertEquals(new Select(webElement).getFirstSelectedOption().getText(), elementText);
+            NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
+            return true;
+        } catch (AssertionError error) {
+            getLogger().info(error);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+    /*-----------end of huy.huynh on 31/05/2017.*/
+
+    /**
      * Author: Thuan Duong.
      * @param element     element defined on page class
      * @param elementName Name of element that we want to verify
@@ -2828,6 +2854,7 @@ public class AbstractPage {
             return false;
         }
     }
+
 
     /**
      * Author: Thuan Duong.

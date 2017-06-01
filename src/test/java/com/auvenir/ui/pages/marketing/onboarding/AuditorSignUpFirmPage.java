@@ -36,7 +36,6 @@ public class AuditorSignUpFirmPage extends AbstractPage {
     private WebElement eleFirmName;
     public WebElement getEleFirmName() {return eleFirmName;}
 
-//    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_name']")
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_name']")
     private WebElement eleFirmNameError;
 
@@ -50,7 +49,6 @@ public class AuditorSignUpFirmPage extends AbstractPage {
     private WebElement elePreFirmName;
     public WebElement getElePreFirmName() { return elePreFirmName; }
 
-//    @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='error field']//div[@class='ui input']//input[@name='firm_previous_name']")
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_previous_name']")
     private WebElement elePreFirmNameError;
 
@@ -186,7 +184,7 @@ public class AuditorSignUpFirmPage extends AbstractPage {
     }
 
     @Override*/
-    protected void isLoaded() throws Error{
+    protected void isLoaded() throws Error {
         // Checking Firm Name element is displayed
         validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
         // Checking checkbox Changed Name element is displayed

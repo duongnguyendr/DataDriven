@@ -9,7 +9,7 @@
     <test name="Regression1" preserve-order="true">
         <parameter name="browser" value="chrome"/>
         <parameter name="version" value="lasted"/>
-        <parameter name="os" value="windows10"/>
+        <parameter name="os" value="WIN10"/>
         <classes>
             <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
             <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
@@ -22,7 +22,17 @@
             <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-           <!-- <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>-->
+            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+            <!--<methods>
+                <include name="verifyAboutPageContentTest"></include>
+            </methods>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.CareersTest"/>
+            <class name="com.auvenir.ui.tests.marketing.ContactTest"/>
+            <class name="com.auvenir.ui.tests.marketing.CookiesNoticeTest"/>
+            <class name="com.auvenir.ui.tests.marketing.HomePageTest"/>
+            <class name="com.auvenir.ui.tests.marketing.PrivacyPolicyTest"/>
+            <class name="com.auvenir.ui.tests.marketing.TermsTest"/>-->
+            <!-- <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
             <class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
@@ -43,7 +53,7 @@
     <test name="Regression2" preserve-order="true">
         <parameter name="browser" value="firefox"/>
         <parameter name="version" value="lasted"/>
-        <parameter name="os" value="windows10"/>
+        <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>
         </classes>
