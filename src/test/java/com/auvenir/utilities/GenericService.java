@@ -52,6 +52,7 @@ public class GenericService {
     static public String sDirPath = System.getProperty("user.dir");
     public static String sTestDataFile = sDirPath + "\\TestData.xlsx";
     public final static String MONGODBPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\MongoDB.properties";
+    public final static String LOCATORPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\Locator.properties";
     public static String sConfigFile = null;
     public static String sExecutionDate = null;
     public static String sBrowserData = null;
