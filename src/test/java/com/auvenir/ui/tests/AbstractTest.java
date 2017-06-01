@@ -33,7 +33,7 @@ public class AbstractTest {
      */
     String localPropertiesDest = GenericService.sDirPath + "/local.properties";
     protected String testData  = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
-    protected String SELENIUM_GRID_HUB = "http://localhost:4444/wd/hub";
+    protected String SELENIUM_GRID_HUB = "http://192.168.1.50:4444/wd/hub";
     /*
     We should input 2 options:
         +SeleniumGrid
