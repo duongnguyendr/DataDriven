@@ -84,6 +84,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         }
 
         try {
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
