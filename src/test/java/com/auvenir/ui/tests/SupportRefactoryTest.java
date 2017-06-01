@@ -47,4 +47,28 @@ public class SupportRefactoryTest extends AbstractTest {
             throw e;
         }
     }
+
+    @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Support Page")
+    public void verifySupportPage1() throws Exception {
+        supportService = new SupportService(getLogger(), getDriver());
+        try {
+            //Go to home auvenir page
+            supportService.goToAuvenirHomePage();
+            //Click on career link
+            supportService.clickOnSupportLink();
+            //Verify content of support page
+            supportService.verifyContentSupportPage();
+            //Verify footer of support page
+            supportService.verifyFooterSupportPage();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception e) {
+            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
 }
