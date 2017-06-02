@@ -83,7 +83,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     }
 
 
-    @Test(priority = 3, enabled = false, description = "Verify Client Assignee Combo box")
+    @Test(priority = 3, enabled = true, description = "Verify Client Assignee Combo box")
     public void verifyClientAssigneeComboBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -95,7 +95,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
-//            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyClientAssigneeComboBox();
             auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -136,6 +136,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAuditAssigneeBox();
             auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -201,7 +202,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     }
 
 
-    @Test(priority = 8, enabled = true, description = "Verify realtime Search")
+    @Test(priority = 8, enabled = false, description = "Verify realtime Search")
     public void verifyRealTimeSearch() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -215,16 +216,25 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             getLogger().info("Preparing Todo list data..");
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.InputValidValue("vien118");
+            auditorCreateToDoService.InputValidValue("happy3");
             auditorCreateToDoService.waitForNewTodoNameApplied();
-            auditorCreateToDoService.createCategories("vien119");
+            auditorCreateToDoService.createCategories("valentine3");
             auditorCreateToDoService.selectCategory();
             auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
             auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
             getLogger().info("Verifying realtime search..");
             getLogger().info("Input search full match with todo name, categoryname, assignclient or assignAudit..");
+            auditorCreateToDoService.inputSearchText("happy3");
+            auditorCreateToDoService.verifySearchResult("happy3");
+            getLogger().info("Input search full match with categoryname..");
+            auditorCreateToDoService.inputSearchText("valentine3");
+            auditorCreateToDoService.verifySearchResult("valentine3");
+            getLogger().info("Input search full match with assignclient..");
             auditorCreateToDoService.inputSearchText("VienPham");
             auditorCreateToDoService.verifySearchResult("VienPham");
+            getLogger().info("Input search full match with assignAudit..");
+            auditorCreateToDoService.inputSearchText("nguyen van hien");
+            auditorCreateToDoService.verifySearchResult("nguyen van hien");
             getLogger().info("Input search do not match with todo name, categoryname, assignclient and assignAudit..");
             auditorCreateToDoService.inputSearchText("FATREWAFDFYRETRETE");
             auditorCreateToDoService.verifySearchResutlNotMatch();
@@ -249,6 +259,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
