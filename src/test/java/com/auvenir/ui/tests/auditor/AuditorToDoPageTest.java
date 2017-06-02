@@ -83,7 +83,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     }
 
 
-    @Test(priority = 3, enabled = true, description = "Verify Client Assignee Combo box")
+    @Test(priority = 3, enabled = false, description = "Verify Client Assignee Combo box")
     public void verifyClientAssigneeComboBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -246,7 +246,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     }
 
 
-    @Test(priority = 9, enabled = false, description = "Verify Data Grid")
+    @Test(priority = 9, enabled = true, description = "Verify Data Grid")
     public void verifyDataGrid() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -258,8 +258,19 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            getLogger().info("Verifying column in Grid..");
+            auditorCreateToDoService.verifyColumnsInGrid();
+            getLogger().info("Verifying Sort icon..");
+            auditorCreateToDoService.verifySotleOnTitle();
+            getLogger().info("Verifying Sort action..");
+            auditorCreateToDoService.verifySortDataGridIcon();
+            getLogger().info("Verifying check checkall..");
+            auditorCreateToDoService.verifyCheckAllCheckBox();
+            getLogger().info("Verifying uncheck checkall..");
+            auditorCreateToDoService.verifyUncheckAllCheckbox();
+            getLogger().info("Verifying check multi line");
+            auditorCreateToDoService.verifyCheckBoxToDoName();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
