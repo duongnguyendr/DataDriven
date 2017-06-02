@@ -193,7 +193,7 @@ public class AuditorSignUpPage extends AbstractPage {
     final String warningBorderCSSColor = "rgb(253, 109, 71)";
     final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
-    ///////////////Element from PersonalPO.java
+    ///////////////Element from PersonalPage.java
     // ================================= Element of Content page ==============================================
     @FindBy(xpath = "//div[@class='step-content' and @id='step1']")
     private WebElement eleFrameAuditorPersonal;
@@ -355,7 +355,7 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[contains(text(),'Contain at least one capital letter')]")
     private  WebElement capitalLetterMessage;
 
-    ////////Element from SuccessPO.java
+    ////////Element from SuccessPage.java
     // Element of Success Creation Account
     @FindBy(xpath = "//*[@id='account-created-confirmation']//h1[@class='ui header']")
     private WebElement successPageHeaderEle;
@@ -595,7 +595,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(eleAffFirmError, "affiliated firm's name error", "background-color", warningBackgroundCSSColor);
     }
 
-    ////////////Function from PersonalPO.java
+    ////////////Function from PersonalPage.java
 
     public void verifyPersonalInfoPageContent(){
         //this.driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
@@ -721,7 +721,7 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
 
-    //////////Function from SecurityPO.java
+    //////////Function from SecurityPage.java
     public void verifySecurityInfoPageContent() {
         if(IS_ENGLISH_LANGUAGE) {
             validateElememt(personalInfoCompleteIconEle, "PERSONAL", Element_Type.TEXT_VALUE);
@@ -861,7 +861,7 @@ public class AuditorSignUpPage extends AbstractPage {
         inputValueIntoControl(eleConfirmPass, "password",strName);
     }
 
-    ///////Function from SuccessPO.java
+    ///////Function from SuccessPage.java
     //@Override
     public void verifySuccessPageContent() {
         waitForVisibleElement(successPageHeaderEle, "Success Page Header");

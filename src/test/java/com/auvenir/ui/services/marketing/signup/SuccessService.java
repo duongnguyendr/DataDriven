@@ -9,18 +9,18 @@ import org.openqa.selenium.WebDriver;
  * Created by tan.pham on 5/24/2017.
  */
 public class SuccessService extends AbstractService {
-    private SuccessPO successPO;
+    private SuccessPage successPage;
 
     public SuccessService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        successPO = new SuccessPO(getLogger(),getDriver());
+        successPage = new SuccessPage(getLogger(),getDriver());
     }
 
     public void verifySuccessSignUpPage(){
-        successPO.verifyPageContent();
+        successPage.verifyPageContent();
     }
 
     public void acceptCreateAccountAuditor(){
-        successPO.acceptCreateAccountAuditor();
+        successPage.acceptCreateAccountAuditor();
     }
 }

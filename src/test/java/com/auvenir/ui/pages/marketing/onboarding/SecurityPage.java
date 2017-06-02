@@ -19,9 +19,9 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class SecurityPO extends AbstractPage {
+public class SecurityPage extends AbstractPage {
 
-    public SecurityPO(Logger logger, WebDriver driver) {
+    public SecurityPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }
