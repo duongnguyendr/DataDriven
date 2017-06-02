@@ -245,57 +245,57 @@ public class AuditorDashboardPage extends AbstractPage {
     }
 
     public void verifyDisplayElementOnAuditorDashBoardPage(){
-        validateDisPlayedElement(getEleDashboardLnk(), "Dashboard Link");
-        validateDisPlayedElement(getEleRequestLnk(), "Requests Link");
-        validateDisPlayedElement(getEleFilesLnk(), "Files Link");
-        validateDisPlayedElement(getEleActivityLnk(), "Activity Link");
-        validateDisPlayedElement(getEleTaskDrpDwn(), "Current Tasks Dropdown");
-        for (WebElement eleTaskFormTxt : getEleTaskFormTxts()) {
+        validateDisPlayedElement(eleDashboardLnk, "Dashboard Link");
+        validateDisPlayedElement(eleRequestLnk, "Requests Link");
+        validateDisPlayedElement(eleFilesLnk, "Files Link");
+        validateDisPlayedElement(eleActivityLnk, "Activity Link");
+        validateDisPlayedElement(eleTaskDrpDwn, "Current Tasks Dropdown");
+        for (WebElement eleTaskFormTxt : eleTaskFormTxts) {
             validateDisPlayedElement(eleTaskFormTxt, eleTaskFormTxt.getText());
         }
-        validateDisPlayedElement(getEleSelectBtn(), "Select Button");
-        validateDisPlayedElement(getEleSetBtn(), "Set Button");
-        validateDisPlayedElement(getEleInviteBtn(), "Invite Button");
-        validateDisPlayedElement(getEleArchiveBtn(), "Archive Button");
-        validateDisPlayedElement(getEleMyClientTxt(), "My Client Text");
-        validateDisPlayedElement(getEleProfileImg(), "Profile image");
-        validateDisPlayedElement(getEleNoClientTxt(), "No Client - Text");
-        validateDisPlayedElement(getEleMyClientImg(), "My client image");
+        validateDisPlayedElement(eleSelectBtn, "Select Button");
+        validateDisPlayedElement(eleSetBtn, "Set Button");
+        validateDisPlayedElement(eleInviteBtn, "Invite Button");
+        validateDisPlayedElement(eleArchiveBtn, "Archive Button");
+        validateDisPlayedElement(eleMyClientTxt, "My Client Text");
+        validateDisPlayedElement(eleProfileImg, "Profile image");
+        validateDisPlayedElement(eleNoClientTxt, "No Client - Text");
+        validateDisPlayedElement(eleMyClientImg, "My client image");
     }
 
     public void clickRequestLink(){
-        waitForClickableOfElement(getEleRequestLnk(), "Requests Link");
-        clickElement(getEleRequestLnk(), "Requests Link");
+        waitForClickableOfElement(eleRequestLnk, "Requests Link");
+        clickElement(eleRequestLnk, "Requests Link");
     }
 
     public void clickFilesLink(){
-        waitForClickableOfElement(getEleFilesLnk(), "File Link");
-        clickElement(getEleFilesLnk(), "File link");
+        waitForClickableOfElement(eleFilesLnk, "File Link");
+        clickElement(eleFilesLnk, "File link");
     }
 
     public void clickActivityLink(){
-        waitForClickableOfElement(getEleActivityLnk(), "Activity link");
-        clickElement(getEleActivityLnk(), "Activity link");
+        waitForClickableOfElement(eleActivityLnk, "Activity link");
+        clickElement(eleActivityLnk, "Activity link");
     }
 
     public void verifyDisplayElementInActivityPage(){
-        validateDisPlayedElement(getEleActivityFeedTxt(), "Activity Feed Text");
-        validateDisPlayedElement(getEleActivityDayTxt(), "Activity Day Text");
-        validateDisPlayedElement(getEleYouCreatedTxt(), "You created a new Engagement- Text");
+        validateDisPlayedElement(eleActivityFeedTxt, "Activity Feed Text");
+        validateDisPlayedElement(eleActivityDayTxt, "Activity Day Text");
+        validateDisPlayedElement(eleYouCreatedTxt, "You created a new Engagement- Text");
     }
 
     public void clickArchiveButton(){
-        waitForClickableOfElement(getEleArchiveBtn(), "Archive button");
-        clickElement(getEleArchiveBtn(), "Archive button");
+        waitForClickableOfElement(eleArchiveBtn, "Archive button");
+        clickElement(eleArchiveBtn, "Archive button");
     }
     public void verifyDisplayElementInArchivePage(){
         clickArchiveButton();
-        validateDisPlayedElement(getEleArchiveEngagementTxt(), "Archive Engagement Header Text");
-        validateDisPlayedElement(getEleArchiveEngagementImg(), "Archive Engagement Image");
-        validateDisPlayedElement(getEleYouWillNoTxt(), "You will not longer be able to access - Text");
-        validateDisPlayedElement(getEleCancelBtn(), "Cancel Button");
-        validateDisPlayedElement(getEleYesBtn(), "Yes - Button");
-        validateDisPlayedElement(getEleCloseSmallIcn(), "Close icon");
-        clickElement(getEleCancelBtn(), "Cancel button");
+        validateDisPlayedElement(eleArchiveEngagementTxt, "Archive Engagement Header Text");
+        validateDisPlayedElement(eleArchiveEngagementImg, "Archive Engagement Image");
+        validateDisPlayedElement(eleYouWillNoTxt, "You will not longer be able to access - Text");
+        validateDisPlayedElement(eleCancelBtn, "Cancel Button");
+        validateDisPlayedElement(eleYesBtn, "Yes - Button");
+        validateDisPlayedElement(eleCloseSmallIcn, "Close icon");
+        clickElement(eleCancelBtn, "Cancel button");
     }
 }
