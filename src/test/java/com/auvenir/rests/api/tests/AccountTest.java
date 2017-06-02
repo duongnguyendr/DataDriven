@@ -1,8 +1,8 @@
 package com.auvenir.rests.api.tests;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
-import com.auvenir.utilities.extentionLibraries.Excel;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
@@ -63,7 +63,7 @@ public class AccountTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get all account with Customer ID")
     public void GetAllAccountCustomerID() throws Exception {
         try {
-            sData = Excel.toReadExcelData("Account1", "accounts");
+            sData = GenericService.toReadExcelData("Account1", "accounts");
 
             Response response = given().get(baseUrl + "/v1/account/all?consumerID=" + sData[6]);
             Assert.assertEquals(response.statusCode(), 200);
@@ -111,7 +111,7 @@ public class AccountTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account from Customer ID")
     public void GetAccountCustomerID() throws Exception {
         try {
-            sData = Excel.toReadExcelData("Account1", "accounts");
+            sData = GenericService.toReadExcelData("Account1", "accounts");
             Response response = given().get(baseUrl + "/v1/account/" + sData[1] + "?consumerID=" + sData[6]);
             Assert.assertEquals(response.statusCode(), 200);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
@@ -158,7 +158,7 @@ public class AccountTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account with wromg Customer ID")
     public void GetAccountWrongCustomerID() throws Exception {
         try {
-            sData = Excel.toReadExcelData("Account1", "accounts");
+            sData = GenericService.toReadExcelData("Account1", "accounts");
             Response response = given().get(baseUrl + "/v1/account/" + sData[1] + "?consumerID=12345");
             System.out.println(baseUrl + "/v1/account/" + sData[1] + "?consumerID=12345");
             Assert.assertEquals(response.statusCode(), 400);
@@ -182,7 +182,7 @@ public class AccountTest extends AbstractAPIService {
     @Test(priority = 1, enabled = true, description = "Get account with wromg account ID")
     public void GetAccountWrongAccountID() throws Exception {
         try {
-            sData = Excel.toReadExcelData("Account1", "accounts");
+            sData = GenericService.toReadExcelData("Account1", "accounts");
             System.out.println(baseUrl + "/v1/account/aaaaaaa" + "?consumerID=" + sData[6]);
             Response response = given().get(baseUrl + "/v1/account/aaaaaaa" + "?consumerID=" + sData[6]);
             Assert.assertEquals(response.statusCode(), 400);

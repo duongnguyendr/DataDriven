@@ -11,6 +11,9 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by cuong.nguyen on 4/21/2017.
  */
@@ -32,7 +35,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
 
     @Test(priority = 1,enabled = true, description = "Verify open home page")
     public void openHomePage() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -44,7 +47,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
 
     @Test(priority = 2,enabled = true, description = "Verify open sign up page")
     public void verifyAuditorPersonalPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
@@ -59,7 +62,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
 
     @Test(priority = 3, enabled = true, description = "Input information auditor personal")
     public void inputInformationPersonalAuditor() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
@@ -78,16 +81,44 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         homeService = new HomeService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
-        try {
-            homeService.goToBaseURL();
-            personalService.navigateToSignUpPage();
-            personalService.verifyPersonalSignUpPage();
-            personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
-            firmService.verifyFirmSignUpPage();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify firm sign up page: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify firm sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        //Create List Invalid Data for Firm Name Text Box.
+        List<String> firmNameInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 5; i++)
+        {
+            firmNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 6));
+        }
+        //Create List Invalid Data for Previous Firm Name Text Box.
+        List<String> preFirmNameInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 5; i++)
+        {
+            preFirmNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 7));
+        }
+        //Create List Invalid Data for Firm Website Text Box.
+        List<String> firmWebsiteInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 6; i++)
+        {
+            firmWebsiteInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 8));
+        }
+        //Create List Invalid Data for Zip Code Text Box.
+        List<String> zipCodeInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 7; i++)
+        {
+            zipCodeInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 11));
+        }
+        //Create List Invalid Data for Member Id Text Box.
+        List<String> memberIdInvalidDataList = new ArrayList<>();
+        memberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 2, 14));
+        for(int i = 4 ; i < 6; i++)
+        {
+            memberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 14));
+        }
+        //Create List Invalid Data for Member Id Text Box.
+        List<String> phoneNumberIdInvalidDataList = new ArrayList<>();
+        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 2, 16));
+        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 3, 16));
+        for(int i = 5 ; i < 7; i++)
+        {
+            phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 16));
         }
     }
 
@@ -95,7 +126,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 5, enabled = true, description = "Verify name are highlight when name with one Blank")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyNameWithBlank(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -120,7 +151,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 6,enabled = true, description = "Verify name are highlight when name with two spaces in character")
     //Fail : because current code set border-color is : rgb(230, 123, 99), expected is : rgb(253, 109, 71)
     public void verifyNameWithTwoSpaceInCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -144,7 +175,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 7,enabled = true,description = "Verify name are highlight when name with one blank and character")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyNameWithSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -167,7 +198,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 8,enabled = true, description = "Verify previous name are highlight when name with blank")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyPreviousNameWithBlank(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -191,7 +222,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
 
     @Test(priority = 9,enabled = true, description = "Verify previous name are highlight when name with two space in character")
     public void verifyPreNameWithTwoSpaceInCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -210,20 +241,29 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         } catch (Exception e) {
             NXGReports.addStep("Verify previous name are highlight when name with two space in character: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
+        //Create List Invalid Data for AffFirm Text Box.
+        List<String> affFirmInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 5; i++)
+        {
+            affFirmInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 17));
+        }
 
     @Test(priority = 10,enabled = true, description = "Verify previous name are highlight when name with special character")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyPreviousNameWithSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
             firmService.verifyFirmSignUpPage();
+//            Verify input valid Value on Firm name: with one Blank, two spaces in character, with one blank and character"
+            firmService.verifyInputValidValueOnFirmNameTextBox(firmNameInvalidDataList);
+//            Verify input valid Value on Previous name: with one Blank, two spaces in character and special character"
             firmService.clickOnChangedNameCheckBox();
             firmService.inputValueIntoPreviousFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 4, 7));
             firmService.clickOnRuleLogoCheckBox();
@@ -239,7 +279,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 11,enabled = true, description = "Verify website are highlight when input with blank")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyWebsiteWithBlank(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -261,7 +301,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 12,enabled = true, description = "Verify website are highlight when input with space before character ")
     //Fail : because current code set border-color is : rgb(230, 123, 99), expected is : rgb(253, 109, 71)
     public void verifyWebsiteWithSpaceBeforeCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -283,7 +323,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 13,enabled = true, description = "Verify website are highlight when input with invalid format")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyWebsiteWithInvalidFormat(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -305,7 +345,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 14, enabled = true, description = "Verify website are highlight when input with special character")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyWebsiteWithSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -420,7 +460,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 21,enabled = true, description = "Verify Zip Code are highlight when input with blank")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyZipCodeWithBlank(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -442,7 +482,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 22,enabled = true, description = "Verify Zip Code are highlight when input with five character")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyZipCodeWithFiveCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -464,7 +504,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 23,enabled = true, description = "Verify Zip Code are highlight when input with seventh character")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyZipCodeWithSeventhCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -486,7 +526,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 24,enabled = true, description = "Verify Zip Code are highlight when input with Number and Special Character")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyZipCodeWithNumberSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -508,7 +548,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 25,enabled = true, description = "Verify Zip Code are highlight when input contains Special Character")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyZipCodeContainsSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -531,7 +571,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 29 , enabled = true, description = "Verify Member Id are highlight when input with Blank")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyMemberIDWithBlank(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -553,7 +593,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 30,enabled = true, description = "Verify Member Id are highlight when input with Special Character")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyMemberIDContainSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -575,7 +615,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 31,enabled = true, description = "Verify Member Id are highlight when input with Space between Number")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyMemberIDContainSpaceBetweenNumber(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -597,7 +637,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 32,enabled = true, description = "Verify Phone Number Id are highlight when input with Blank")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyPhoneNumberWithBlank(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -619,7 +659,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 33,enabled = true,description = "Verify Phone Number Id are highlight when input with nine number")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyPhoneNumberWithNineNumber(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -641,7 +681,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 35,enabled = true,description = "Verify Phone Number Id are highlight when input with Character")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyPhoneNumberWithCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -663,7 +703,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 36,enabled = true, description = "Verify Phone Number Id are highlight when input with special character")
     //Fail : because current code set border-color is : rgb(244, 114, 82), expected is : rgb(253, 109, 71)
     public void verifyPhoneNumberWithSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -686,7 +726,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 37,enabled = true, description = "Verify Affiliated Firm's Nam are highlight when input with blank")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyAffFirmWithBlank(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -695,20 +735,17 @@ public class AuditorFirmInvalidTest extends AbstractTest {
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
             firmService.verifyFirmSignUpPage();
             firmService.clickOnAllFirmCheckBox();
-            firmService.inputValueIntoAffiliatedFirmNameTextBox(GenericService.readExcelData(testData, "OnBoarding", 2, 17));
-            firmService.clickOnRuleLogoCheckBox();
-            firmService.verifyColorAffFirmTextBox("border-color","rgb(253, 109, 71)");
-            firmService.verifyColorAffFirmTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            firmService.verifyInputValidValueOnAffFirmTextBox(affFirmInvalidDataList);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Affiliated Firm's Nam are highlight when input with blank: PASSED", LogAs.PASSED, (CaptureScreen) null);
+            NXGReports.addStep("Verify firm sign up page: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Affiliated Firm's Nam are highlight when input with blank: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify firm sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     @Test(priority = 38,enabled = true, description = "Affiliated Firm's Name with 2 Space in character")
     public void verifyAffFirmWithTwoSpaceInCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -731,7 +768,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     @Test(priority = 39,enabled = true, description = "Verify Affiliated Firm's Nam are highlight when input with Special Character")
     //Fail : because current code set border-color is : rgb(251, 110, 73), expected is : rgb(253, 109, 71)
     public void verifyAffFirmContainSpecialCharacter(){
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {

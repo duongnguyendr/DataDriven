@@ -1,6 +1,6 @@
 package com.auvenir.ui.services.marketing.signup;
 
-import com.auvenir.ui.pages.marketing.HomePage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
@@ -11,12 +11,12 @@ import org.openqa.selenium.WebDriver;
  */
 public class PersonalService extends AbstractService {
 
-    private HomePage homePage;
+    private MarketingPage homePage;
     private PersonalPO personalSignupPage;
 
     public PersonalService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        homePage = new HomePage(getLogger(),getDriver());
+        homePage = new MarketingPage(getLogger(),getDriver());
         personalSignupPage = new PersonalPO(getLogger(),getDriver());
     }
 

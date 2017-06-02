@@ -2,20 +2,22 @@ package com.auvenir.ui.pages.admin;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import org.apache.log4j.Logger;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GeneralUtilities;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class AdminLoginPage extends AbstractPage {
 
@@ -743,15 +745,15 @@ public class AdminLoginPage extends AbstractPage {
         Thread.sleep(10000);
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         WebElement getEleClientTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]"));
-        GeneralUtilities.toValidate(getEleClientTxt, "Client Text", "Displayed");
+        validateDisPlayedElement(getEleClientTxt, "Client Text");
         WebElement getEleClientNameTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + ClientName + "')]"));
-        GeneralUtilities.toValidate(getEleClientNameTxt, "Client Name Text", "Displayed");
+        validateDisPlayedElement(getEleClientNameTxt, "Client Name Text");
         WebElement getEleClientEmailTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]"));
-        GeneralUtilities.toValidate(getEleClientEmailTxt, "Client Email Text", "Displayed");
+        validateDisPlayedElement(getEleClientEmailTxt, "Client Email Text");
         WebElement getEleClientDateCreatedTxt = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + DateCreated + "')]"));
-        GeneralUtilities.toValidate(getEleClientDateCreatedTxt, "Client Date Created Text", "Displayed");
+        validateDisPlayedElement(getEleClientDateCreatedTxt, "Client Date Created Text");
         WebElement getEleClientStatusDrpDwn = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + DateCreated + "')]//..//select"));
-        GeneralUtilities.toValidate(getEleClientStatusDrpDwn, "Client Status Drop Down", "Displayed");
+        validateDisPlayedElement(getEleClientStatusDrpDwn, "Client Status Drop Down");
     }
 
 
@@ -817,58 +819,59 @@ public class AdminLoginPage extends AbstractPage {
     public void verifyAdminLoginPage() {
         waitForVisibleElement(eleAdminHdrTxt, "eleAdminHdrTxt");
         validateElementText(eleAdminHdrTxt, "Admin");
+        validateDisPlayedElement(eleAdminHdrTxt, "eleAdminHdrTxt");
     }
 
     public void verifyAdminHeaderText() {
-        GeneralUtilities.toValidate(getEleAdminHdrTxt(), "Auvenir Header Text", "Displayed");
+        validateDisPlayedElement(getEleAdminHdrTxt(), "Auvenir Header Text");
     }
 
     public void verifyAdminDashBoard() {
-        GeneralUtilities.toValidate(getEleViewCredentialsBtn(), "View Credentials Button", "Enabled");
-        GeneralUtilities.toValidate(getEleAuvenirUserCountTxt(), "Auvenir User Count Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAuvenirUserTxt(), "Auvenir User Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAuvenirUserImg(), "Auvenir User Image", "Displayed");
-        GeneralUtilities.toValidate(getEleAuditorsCountTxt(), "Auvenir Count Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAuditorsTxt(), "Auditor Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAuditorsImg(), "Auditor Image", "Displayed");
-        GeneralUtilities.toValidate(getEleBusinessesCountTxt(), "Businesses Count Text", "Displayed");
-        GeneralUtilities.toValidate(getEleBusinessesTxt(), "Businesses Text", "Displayed");
-        GeneralUtilities.toValidate(getEleBusinessesImg(), "Businesses Image", "Displayed");
-        GeneralUtilities.toValidate(getEleEngagementsCountTxt(), "Engagements Count Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEngagementsTxt(), "Engagements Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEngagementsImg(), "Engagements Image", "Displayed");
+        validateEnabledElement(getEleViewCredentialsBtn(), "View Credentials Button");
+        validateDisPlayedElement(getEleAuvenirUserCountTxt(), "Auvenir User Count Text");
+        validateDisPlayedElement(getEleAuvenirUserTxt(), "Auvenir User Text");
+        validateDisPlayedElement(getEleAuvenirUserImg(), "Auvenir User Image");
+        validateDisPlayedElement(getEleAuditorsCountTxt(), "Auvenir Count Text");
+        validateDisPlayedElement(getEleAuditorsTxt(), "Auditor Text");
+        validateDisPlayedElement(getEleAuditorsImg(), "Auditor Image");
+        validateDisPlayedElement(getEleBusinessesCountTxt(), "Businesses Count Text");
+        validateDisPlayedElement(getEleBusinessesTxt(), "Businesses Text");
+        validateDisPlayedElement(getEleBusinessesImg(), "Businesses Image");
+        validateDisPlayedElement(getEleEngagementsCountTxt(), "Engagements Count Text");
+        validateDisPlayedElement(getEleEngagementsTxt(), "Engagements Text");
+        validateDisPlayedElement(getEleEngagementsImg(), "Engagements Image");
     }
 
     public void verifyUserTable() {
-        GeneralUtilities.toValidate(getEleNameTxt(), "Name Text", "Displayed");
-        GeneralUtilities.toValidate(getEleUserTypeTxt(), "User Type Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEmailTxt(), "Email Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDateCreatedTxt(), "Date Created Text", "Displayed");
-        GeneralUtilities.toValidate(getEleStatusTxt(), "Status Text", "Displayed");
+        validateDisPlayedElement(getEleNameTxt(), "Name Text");
+        validateDisPlayedElement(getEleUserTypeTxt(), "User Type Text");
+        validateDisPlayedElement(getEleEmailTxt(), "Email Text");
+        validateDisPlayedElement(getEleDateCreatedTxt(), "Date Created Text");
+        validateDisPlayedElement(getEleStatusTxt(), "Status Text");
     }
 
     public void viewAndVerifyCredentials() {
         getEleViewCredentialsBtn().click();
 
-//        GeneralUtilities.toValidate(getEleAuthIDTxt(), "Auth ID key", "Displayed");
-//        GeneralUtilities.toValidate(getEleAPIKeyTxt(), "API Text", "Displayed");
+//        validateDisPlayedElement(getEleAuthIDTxt(), "Auth ID key");
+//        validateDisPlayedElement(getEleAPIKeyTxt(), "API Text");
     }
 
     public void verifyDropMenuMessage() {
         visibilityOfElementWait(getEleThereNoEmailsTxt(), "Inbox Icon", 15);
         getLogger().info("Check mail box.");
-        GeneralUtilities.toValidate(getEleThereNoEmailsTxt(), "There are no Emails - Text", "Displayed");
+        validateDisPlayedElement(getEleThereNoEmailsTxt(), "There are no Emails - Text");
         getLogger().info("Check View message button.");
-        GeneralUtilities.toValidate(getEleViewMessagesBtn(), "View Messages - Button", "Enabled");
+        validateEnabledElement(getEleViewMessagesBtn(), "View Messages - Button");
         getLogger().info("Check My message text is displayed.");
-        GeneralUtilities.toValidate(getEleMyMessagesTxt(), "My Messages - Text", "Displayed");
+        validateDisPlayedElement(getEleMyMessagesTxt(), "My Messages - Text");
     }
 
     public void verifyBodyMessagePage() {
         visibilityOfElementWait(getEleNewMessageBtn(), "New Messages", 15);
-        GeneralUtilities.toValidate(getEleNewMessageBtn(), "New Messages - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleInboxMsgImg(), "Inbox Messages - Images", "Displayed");
-        GeneralUtilities.toValidate(getEleYouDontHaveTxt(), "You dont have - Text", "Displayed");
+        validateDisPlayedElement(getEleNewMessageBtn(), "New Messages - Button");
+        validateDisPlayedElement(getEleInboxMsgImg(), "Inbox Messages - Images");
+        validateDisPlayedElement(getEleYouDontHaveTxt(), "You dont have - Text");
     }
 
     public void clickNewMessage() {
@@ -876,15 +879,15 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void verifyNewMessagePopup() {
-        GeneralUtilities.toValidate(getEleNewMessageTxt(), "New Message - Title", "Displayed");
-        GeneralUtilities.toValidate(getEleEmailToTxt(), "To: - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEmailToTxtFld(), "Email To: - Text Field", "Displayed");
-        GeneralUtilities.toValidate(getEleSubjectTxt(), "Subject: - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleSubjectTxtFld(), "Subject - Text Field", "Displayed");
-        GeneralUtilities.toValidate(getEleEmailBodyTxtFld(), "Email body - Text Field", "Displayed");
-        GeneralUtilities.toValidate(getEleSendBtn(), "Send - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleAttachmentIcn(), "Attachment - Icon", "Displayed");
-        GeneralUtilities.toValidate(getEleMailCloseIcn(), "Mail Close - Icon", "Displayed");
+        validateDisPlayedElement(getEleNewMessageTxt(), "New Message - Title");
+        validateDisPlayedElement(getEleEmailToTxt(), "To: - Text");
+        validateDisPlayedElement(getEleEmailToTxtFld(), "Email To: - Text Field");
+        validateDisPlayedElement(getEleSubjectTxt(), "Subject: - Text");
+        validateDisPlayedElement(getEleSubjectTxtFld(), "Subject - Text Field");
+        validateDisPlayedElement(getEleEmailBodyTxtFld(), "Email body - Text Field");
+        validateDisPlayedElement(getEleSendBtn(), "Send - Button");
+        validateDisPlayedElement(getEleAttachmentIcn(), "Attachment - Icon");
+        validateDisPlayedElement(getEleMailCloseIcn(), "Mail Close - Icon");
     }
 
     public void closeNewMessagePopup() {
@@ -893,8 +896,8 @@ public class AdminLoginPage extends AbstractPage {
 
     public void verifyDropMenuNotification() {
         visibilityOfElementWait(getEleYouHaveNoNotificationTxt(), "You have no new - Text", 8);
-        GeneralUtilities.toValidate(getEleYouHaveNoNotificationTxt(), "you have no Notifications - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleViewAllLnk(), "View All - Link", "Displayed");
+        validateDisPlayedElement(getEleYouHaveNoNotificationTxt(), "you have no Notifications - Text");
+        validateDisPlayedElement(getEleViewAllLnk(), "View All - Link");
     }
 
     public void clickViewAllNotification() {
@@ -902,10 +905,10 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void verifyBodyNotificationPage() {
-        GeneralUtilities.toValidate(getEleMyNotificationsTxt(), "My Notification - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleNotificationsIcn(), "Notification - Icon", "Displayed");
-        GeneralUtilities.toValidate(getEleYouDontHaveNotificationTxt(), "My Messages - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleClickHereLnk(), "View Messages - Button", "Displayed");
+        validateDisPlayedElement(getEleMyNotificationsTxt(), "My Notification - Text");
+        validateDisPlayedElement(getEleNotificationsIcn(), "Notification - Icon");
+        validateDisPlayedElement(getEleYouDontHaveNotificationTxt(), "My Messages - Text");
+        validateDisPlayedElement(getEleClickHereLnk(), "View Messages - Button");
     }
 
     public void navigateToSettingAccountPage() {
@@ -917,20 +920,20 @@ public class AdminLoginPage extends AbstractPage {
 
     public void verifySettingAccountPage() {
         visibilityOfElementWait(getEleSettingsTxt(), "Settings Title", 20);
-        GeneralUtilities.toValidate(getEleSettingsTxt(), "Settings  - Title", "Displayed");
-        GeneralUtilities.toValidate(getEleAccountLnk(), "Account  - Link", "Displayed");
-        GeneralUtilities.toValidate(getEleDevicesLnk(), "Devices  - Link", "Displayed");
-        GeneralUtilities.toValidate(getEleAccountSettingsTxt(), "Account Settings  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleFirstLastNameTxt(), "First and Last Name  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleFirstLastNameTxtFld(), "First and Last Name  - Text Field", "Displayed");
-        GeneralUtilities.toValidate(getEleEmailAddressTxt(), "Email Address  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEmailAddressTxtFld(), "Email Address  - Text Field", "Displayed");
-        GeneralUtilities.toValidate(getElePhomeNumberTxt(), "Phone Number  - Text", "Displayed");
-        GeneralUtilities.toValidate(getElePhoneNumberTxtFld(), "Phone Number  - Text Field", "Displayed");
-        GeneralUtilities.toValidate(getElePhotoImg(), "Photo  - Image", "Displayed");
-        GeneralUtilities.toValidate(getEleYourPhotoTxt(), "your Photo  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleUpdateBtn(), "Update   - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleDeactivateLnk(), "Deactivate My Account - Link", "Displayed");
+        validateDisPlayedElement(getEleSettingsTxt(), "Settings  - Title");
+        validateDisPlayedElement(getEleAccountLnk(), "Account  - Link");
+        validateDisPlayedElement(getEleDevicesLnk(), "Devices  - Link");
+        validateDisPlayedElement(getEleAccountSettingsTxt(), "Account Settings  - Text");
+        validateDisPlayedElement(getEleFirstLastNameTxt(), "First and Last Name  - Text");
+        validateDisPlayedElement(getEleFirstLastNameTxtFld(), "First and Last Name  - Text Field");
+        validateDisPlayedElement(getEleEmailAddressTxt(), "Email Address  - Text");
+        validateDisPlayedElement(getEleEmailAddressTxtFld(), "Email Address  - Text Field");
+        validateDisPlayedElement(getElePhomeNumberTxt(), "Phone Number  - Text");
+        validateDisPlayedElement(getElePhoneNumberTxtFld(), "Phone Number  - Text Field");
+        validateDisPlayedElement(getElePhotoImg(), "Photo  - Image");
+        validateDisPlayedElement(getEleYourPhotoTxt(), "your Photo  - Text");
+        validateDisPlayedElement(getEleUpdateBtn(), "Update   - Button");
+        validateDisPlayedElement(getEleDeactivateLnk(), "Deactivate My Account - Link");
     }
 
     public void clickDeactiveLink() {
@@ -938,11 +941,11 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void verifyDeactivePopup() {
-        GeneralUtilities.toValidate(getEleDeactivatAccTxt(), "Deactivate Account - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAlertIcn(), "Alert - Icon", "Displayed");
-        GeneralUtilities.toValidate(getEleYouareAboutTxt(), "You are about to - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleCancelBtn(), "Cancel   - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleDeactivateBtn(), "Deactivate   - Button", "Displayed");
+        validateDisPlayedElement(getEleDeactivatAccTxt(), "Deactivate Account - Text");
+        validateDisPlayedElement(getEleAlertIcn(), "Alert - Icon");
+        validateDisPlayedElement(getEleYouareAboutTxt(), "You are about to - Text");
+        validateDisPlayedElement(getEleCancelBtn(), "Cancel   - Button");
+        validateDisPlayedElement(getEleDeactivateBtn(), "Deactivate   - Button");
     }
 
     public void closeDeactivePopup() {
@@ -961,13 +964,13 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void verifySettingDevicesPage() {
-        GeneralUtilities.toValidate(getEleMyDevicesTxt(), "MyDevices  - Title", "Displayed");
-        GeneralUtilities.toValidate(getEleYouRegisteredTxt(), "You Have Registered  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDeviceImg(), "Devices  - Image", "Displayed");
-        GeneralUtilities.toValidate(getEleDeviceCustomerNmTxt(), "Customer Name  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDeviceNameTxt(), "Device Type  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleViewBtn(), "View  - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleAddAnotherLnk(), "Add Another - Link", "Displayed");
+        validateDisPlayedElement(getEleMyDevicesTxt(), "MyDevices  - Title");
+        validateDisPlayedElement(getEleYouRegisteredTxt(), "You Have Registered  - Text");
+        validateDisPlayedElement(getEleDeviceImg(), "Devices  - Image");
+        validateDisPlayedElement(getEleDeviceCustomerNmTxt(), "Customer Name  - Text");
+        validateDisPlayedElement(getEleDeviceNameTxt(), "Device Type  - Text");
+        validateDisPlayedElement(getEleViewBtn(), "View  - Button");
+        validateDisPlayedElement(getEleAddAnotherLnk(), "Add Another - Link");
     }
 
     public void addAnotherDeviceLink() {
@@ -976,13 +979,13 @@ public class AdminLoginPage extends AbstractPage {
 
     public void verifyAddAnotherPopup() {
         visibilityOfElementWait(getEleRegisterDeviceTxt(), "Settings Title", 20);
-        GeneralUtilities.toValidate(getEleRegisterDeviceTxt(), "Register a New Device  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDownloadAuvenirTxt(), "Download the Auvenir  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleTextMeBtn(), "Text me a Link  - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleRegisterMobileImg(), "Register Mobile  - Image", "Displayed");
-        GeneralUtilities.toValidate(getEleDownloadAppStoreImg(), "Download App store - Image", "Displayed");
-        GeneralUtilities.toValidate(getEleGetItGooglePlayImg(), "Google Play - Image", "Displayed");
-        GeneralUtilities.toValidate(getElePopupCloseIcn(), "Register Device Close - Icn", "Displayed");
+        validateDisPlayedElement(getEleRegisterDeviceTxt(), "Register a New Device  - Text");
+        validateDisPlayedElement(getEleDownloadAuvenirTxt(), "Download the Auvenir  - Text");
+        validateDisPlayedElement(getEleTextMeBtn(), "Text me a Link  - Button");
+        validateDisPlayedElement(getEleRegisterMobileImg(), "Register Mobile  - Image");
+        validateDisPlayedElement(getEleDownloadAppStoreImg(), "Download App store - Image");
+        validateDisPlayedElement(getEleGetItGooglePlayImg(), "Google Play - Image");
+        validateDisPlayedElement(getElePopupCloseIcn(), "Register Device Close - Icn");
     }
 
     public void navigateToSettingDevicesDisconnect() {
@@ -991,20 +994,20 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void verifySettingDevicesDisconnectPopup() {
-        GeneralUtilities.toValidate(getEleCustomerNameTxt(), "Customer Name - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDeviceViewImg(), "Device - Image", "Displayed");
-        GeneralUtilities.toValidate(getEleDeviceNameTxt(), "Device Name - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleOSTxt(), "Device OS - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleBrowserTxt(), "Browser - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleLastUsedTxt(), "Last Used: - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDisconnectDeviceBtn(), "Disconnect Devices - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleDisconnectthisDeviceTxt(), "Disconnect this device - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleCancelDisconnectBtn(), "Cancel - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleDisconnectBtn(), "Disconnect - Button", "Displayed");
-        GeneralUtilities.toValidate(getEleCloseIcn(), "Disconnect this device Close - Icon", "Displayed");
+        validateDisPlayedElement(getEleCustomerNameTxt(), "Customer Name - Text");
+        validateDisPlayedElement(getEleDeviceViewImg(), "Device - Image");
+        validateDisPlayedElement(getEleDeviceNameTxt(), "Device Name - Text");
+        validateDisPlayedElement(getEleOSTxt(), "Device OS - Text");
+        validateDisPlayedElement(getEleBrowserTxt(), "Browser - Text");
+        validateDisPlayedElement(getEleLastUsedTxt(), "Last Used: - Text");
+        validateDisPlayedElement(getEleDisconnectDeviceBtn(), "Disconnect Devices - Button");
+        validateDisPlayedElement(getEleDisconnectthisDeviceTxt(), "Disconnect this device - Text");
+        validateDisPlayedElement(getEleCancelDisconnectBtn(), "Cancel - Button");
+        validateDisPlayedElement(getEleDisconnectBtn(), "Disconnect - Button");
+        validateDisPlayedElement(getEleCloseIcn(), "Disconnect this device Close - Icon");
     }
 
-    public void verifyDisplayElementInDeActivePage(){
+    public void verifyDisplayElementInDeActivePage() {
         validateDisPlayedElement(getEleDeactivateLnk(), "Deactivate My Account - Link");
         clickElement(getEleDeactivateLnk(), "Deactive link");
         validateDisPlayedElement(getEleDeactivatAccTxt(), "Deactivate Account - Text");
@@ -1012,6 +1015,82 @@ public class AdminLoginPage extends AbstractPage {
         validateDisPlayedElement(getEleYouareAboutTxt(), "You are about to - Text");
         validateDisPlayedElement(getEleCancelBtn(), "Cancel   - Button");
         validateDisPlayedElement(getEleDeactivateBtn(), "Deactivate   - Button");
-        clickElement(getEleCloseIcn(),"Close button");
+        clickElement(getEleCloseIcn(), "Close button");
     }
+
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+        getLogger().info("Verify user is changed status on the list.");
+        try {
+            String actualStatus = getEleAuditorStatusLst(userType, email, dateCreated);
+            Assert.assertTrue(actualStatus.equals(expectedStatus), String.format("Auditor is not created with %s status", actualStatus));
+            NXGReports.addStep("Verify user is changed status on the list.", LogAs.PASSED, null);
+        } catch (AssertionError e){
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e){
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
+
+    /**
+     * Refactored by huy.huynh on 30/05/2017.
+     * New for smoke test
+     */
+    @FindBy(xpath = "//table[@id='w-mu-table']")
+    private WebElement tableUser;
+
+    @FindBy(xpath = "//p[contains(@id,'msgText')]/div/p[1]")
+    private WebElement textViewOnPopupConfirm;
+
+    private String xpathUserTypeCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[2]";
+    private String xpathEmailCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[3]";
+    private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
+    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[6]/select";
+
+
+    public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
+        try {
+            WebElement type = GeneralUtilities.getElement(getDriver(), xpathUserTypeCellOnUserTableAdminX, userEmail);
+            WebElement email = GeneralUtilities.getElement(getDriver(), xpathEmailCellOnUserTableAdminX, userEmail);
+            WebElement date = GeneralUtilities.getElement(getDriver(), xpathDateCreatedCellOnUserTableAdminX, userEmail);
+
+            validateElementText(type, userType);
+            validateElementText(email, userEmail);
+            validateElementText(date, createdDate);
+
+            verifyAuditorStatusOnAdminUserTable(userEmail, userStatus);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
+        WebElement status = GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail);
+        validateSelectedItemText(status, userStatus);
+    }
+
+    public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
+        try {
+            Select status = new Select(GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
+            status.selectByVisibleText(chooseOption);
+
+            validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
+
+            waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
+            getEleStatusConfirmBtn().click();
+
+            waitForProgressOverlayIsClosed();
+            waitForClickableOfElement(getEleCredentialsCloseIcn(), "Auditor onboarding successful message");
+            getEleCredentialsCloseIcn().click();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    /*-----------end of huy.huynh on 30/05/2017.*/
 }

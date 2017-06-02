@@ -106,3 +106,7 @@ src/test/resources/images/PieChart.png
 .idea/libraries/Maven__org_mongodb_mongo_java_driver_3_2_2.xml
 .idea/libraries/Maven__org_mongodb_mongodb_driver_3_2_2.xml
 .idea/libraries/Maven__org_mongodb_mongodb_driver_core_3_2_2.xml
+/src/test/resources/images/BarChartCHROME.png
+/src/test/resources/images/BarChartFIREFOX.png
+/src/test/resources/images/PieChartCHROME.png
+/src/test/resources/images/PieChartFIREFOX.png
