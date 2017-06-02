@@ -262,28 +262,23 @@ public class AuditorDashboardPage extends AbstractPage {
         validateDisPlayedElement(eleNoClientTxt, "No Client - Text");
         validateDisPlayedElement(eleMyClientImg, "My client image");
     }
-
     public void clickRequestLink(){
         waitForClickableOfElement(eleRequestLnk, "Requests Link");
         clickElement(eleRequestLnk, "Requests Link");
     }
-
     public void clickFilesLink(){
         waitForClickableOfElement(eleFilesLnk, "File Link");
         clickElement(eleFilesLnk, "File link");
     }
-
     public void clickActivityLink(){
         waitForClickableOfElement(eleActivityLnk, "Activity link");
         clickElement(eleActivityLnk, "Activity link");
     }
-
     public void verifyDisplayElementInActivityPage(){
         validateDisPlayedElement(eleActivityFeedTxt, "Activity Feed Text");
         validateDisPlayedElement(eleActivityDayTxt, "Activity Day Text");
         validateDisPlayedElement(eleYouCreatedTxt, "You created a new Engagement- Text");
     }
-
     public void clickArchiveButton(){
         waitForClickableOfElement(eleArchiveBtn, "Archive button");
         clickElement(eleArchiveBtn, "Archive button");
