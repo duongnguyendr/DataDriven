@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.*;
 
 import com.auvenir.ui.tests.AbstractTest;
@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  */
 public class AuditorOnBoardingTest extends AbstractTest {
 
-    private HomeService homeService;
+    private MarketingService homeService;
     PersonalService personalService;
     FirmService firmService;
     SecurityService securityService;
@@ -50,7 +50,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 1,enabled = true, description = "Verify open home page")
     public void openHomePage() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -62,7 +62,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 2,enabled = true, description = "Verify open sign up page")
     public void verifyAuditorPersonalPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
@@ -77,7 +77,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 3, enabled = true, description = "Input information auditor personal")
     public void inputInformationPersonalAuditor() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
@@ -93,7 +93,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 4,enabled = true,description = "Verify firm sign up page")
     public void verifyAuditorFirmPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -111,7 +111,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 5,enabled = true, description = "Input information firm sign up pgae")
     public void registerFirmAuditor() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         try {
@@ -131,7 +131,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 6,enabled = true,description = "Verify security sign up page")
     public void verifySecurityPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -153,7 +153,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 7,enabled = false,description = "Input information security sign up page")
     public void createAuditorPassword() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -176,7 +176,7 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 8, enabled = false, description = "Verify success sign up page")
     public void verifySuccessPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());

@@ -1,6 +1,6 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.marketing.HomePage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -33,7 +33,7 @@ public class AbstractService {
      * Base url this value is set at runtime.
      */
     private String baseUrl = "https://ariel.auvenir.com";
-    HomePage homePO;
+    MarketingPage homePO;
 
     private String prefixProtocol = "";
     public String getPrefixProtocol() {
@@ -48,7 +48,7 @@ public class AbstractService {
         this.logger = logger;
         this.driver = driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
-        homePO = new HomePage(getLogger(), getDriver());
+        homePO = new MarketingPage(getLogger(), getDriver());
     }
 
     public WebDriver getDriver() {

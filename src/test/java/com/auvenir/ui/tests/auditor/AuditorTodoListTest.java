@@ -143,6 +143,28 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
+    @Test(priority = 5, enabled = true, description = "verify displayed of this button filter")
+    public void verifyButtonFilter() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+        try {
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            //auditorDetailsEngagementService.navigateToTodoListPage();
+            auditorCreateToDoService.verifyButtonFilter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("verify displayed of this button filter", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("verify displayed of this button filter", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
 
     @Test(priority = 6, enabled = false, description = "verify default value(Search...) of this Search")
     public void verifySearchPlaceholder() throws Exception {

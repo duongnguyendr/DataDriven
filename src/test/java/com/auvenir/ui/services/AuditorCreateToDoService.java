@@ -70,6 +70,14 @@ public class AuditorCreateToDoService extends AbstractService {
 //        }
 //    }
 
+    public void verifyButtonFilter() {
+        try{
+            todoListPage.verifyButtonFilter();
+            NXGReports.addStep("verify Filter button displayed.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("verify Filter button displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
     public void navigatetoCreateToDoTab() {
         getLogger().info("Navigate to CreateToDo Tab");
