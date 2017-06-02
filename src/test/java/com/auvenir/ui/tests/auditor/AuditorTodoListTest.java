@@ -38,7 +38,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
 
         try {
 
@@ -75,7 +75,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -100,7 +100,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -123,7 +123,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -143,14 +143,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = false, description = "verify displayed of this button filter")
+    @Test(priority = 5, enabled = true, description = "verify displayed of this button filter")
     public void verifyButtonFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -173,8 +172,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -197,8 +195,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -222,8 +219,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -247,8 +243,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -272,7 +267,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
