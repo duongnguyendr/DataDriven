@@ -19,7 +19,6 @@
         <mongodb.version>3.2.2</mongodb.version>
         <commons.logging.version>1.1.1</commons.logging.version>
         <mongo-api.version>0.2.1</mongo-api.version>
-        <mongodb-driver.verison>3.2.2</mongodb-driver.verison>
         <json-schema-validator.version>3.0.2</json-schema-validator.version>
         <mail.version>1.4</mail.version>
     </properties>
@@ -179,7 +178,7 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
-            <version>${mongodb-driver.verison}</version>
+            <version>${mongodb.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
