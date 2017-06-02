@@ -2,7 +2,7 @@ package com.auvenir.ui.tests.marketing.emailtemplate;
 
 
 import com.auvenir.ui.pages.marketing.mailtemplate.*;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import org.testng.annotations.Test;
@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 public class MailAuditorAccessTest extends AbstractTest {
 
     private MailAuditorAccessPO mailAuditorAccessPO;
-    private HomeService homeService;
+    private MarketingService homeService;
 
     /*@Test(priority = 1, description = "")
     public void openAuvenir() {
@@ -22,7 +22,7 @@ public class MailAuditorAccessTest extends AbstractTest {
 
     @Test(priority = 2, description = "Verify template of mail : Admin gives Auditor access")
     public void verifyMailAuditorAccess() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         String email = GenericService.readExcelData(testData, "Login", 1, 1);
         String password = GenericService.readExcelData(testData, "Login", 1, 2);
         homeService.goToBaseURL();

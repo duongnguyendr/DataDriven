@@ -22,16 +22,16 @@
             <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+
+            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
+            <methods>
+                <include name="verifyContactPageContentTest"></include>
+            </methods>
+
+            <!--<class name="com.auvenir.ui.tests.marketing.simplelogin.ForgotPasswordTest"></class>-->
             <!--<methods>
-                <include name="verifyAboutPageContentTest"></include>
-            </methods>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.CareersTest"/>
-            <class name="com.auvenir.ui.tests.marketing.ContactTest"/>
-            <class name="com.auvenir.ui.tests.marketing.CookiesNoticeTest"/>
-            <class name="com.auvenir.ui.tests.marketing.HomePageTest"/>
-            <class name="com.auvenir.ui.tests.marketing.PrivacyPolicyTest"/>
-            <class name="com.auvenir.ui.tests.marketing.TermsTest"/>-->
+                            <include name="verifyAboutPageContentTest"></include>
+                        </methods>-->
             <!-- <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
@@ -50,12 +50,12 @@
             <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
         </classes>
     </test>
-    <test name="Regression2" preserve-order="true">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="version" value="lasted"/>
-        <parameter name="os" value="WIN10"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>
-        </classes>
-    </test>
+    <!--<test name="Regression2" preserve-order="true">-->
+        <!--<parameter name="browser" value="firefox"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="WIN10"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>

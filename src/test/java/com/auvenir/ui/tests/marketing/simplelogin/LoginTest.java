@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.marketing.simplelogin;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -17,12 +17,12 @@ import org.testng.annotations.Test;
  */
 public class LoginTest extends AbstractTest {
     //private LoginTest loginTest;
-    private HomeService homeService;
+    private MarketingService homeService;
 
     @Test(priority = 1,enabled = true, description = "Test positive tests case login and logout")
     public void loginAndLogoutTest() {
         try {
-            homeService = new HomeService(getLogger(),getDriver());
+            homeService = new MarketingService(getLogger(),getDriver());
             String email = GenericService.readExcelData(testData, "Login", 1, 1);
             String password = GenericService.readExcelData(testData, "Login", 1, 2);
             homeService.goToBaseURL();
@@ -39,7 +39,7 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 2, enabled = true,description = "Clear all cookies after user login successfully.")
     public void clearCookieAfterLoginSuccessTest(){
         try {
-            homeService = new HomeService(getLogger(),getDriver());
+            homeService = new MarketingService(getLogger(),getDriver());
             homeService.goToBaseURL();
             homeService.clickLoginButton();
             homeService.loginWithUserNamePassword(GenericService.readExcelData(testData, "Login", 1, 1),
@@ -62,7 +62,7 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 3, enabled = true,description = "Test login when user does not input email and password.")
     public  void loginWithNullEmailAndPassword() {
         try {
-            homeService = new HomeService(getLogger(),getDriver());
+            homeService = new MarketingService(getLogger(),getDriver());
             homeService.loginToMarketingPage("","");
 
             //Verify border and background-color of email input
@@ -85,7 +85,7 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 4, enabled = true,description = "Test login when user input invalid email.")
     public void loginWithEmailInvalid(){
         try {
-            homeService = new HomeService(getLogger(),getDriver());
+            homeService = new MarketingService(getLogger(),getDriver());
             String email = GenericService.readExcelData(testData, "Login", 2, 1);
             String password = GenericService.readExcelData(testData, "Login", 1, 2);
             homeService.loginToMarketingPage(email,password);
@@ -120,7 +120,7 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 5, enabled = true, description = "Test login with incorrect email or password")
     public void loginWithIncorrectEmailOrPassword() {
         try {
-            homeService = new HomeService(getLogger(), getDriver());
+            homeService = new MarketingService(getLogger(), getDriver());
 
             NXGReports.addStep("Test login with incorrect email or password", LogAs.PASSED, null);
             String email = GenericService.readExcelData(testData, "Login", 5, 1);
