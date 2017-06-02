@@ -272,22 +272,22 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void clickClientsLink(){
-        waitForClickableOfElement(getEleClientsLnk(), "Client link");
-        clickElement(getEleClientsLnk(), "Client link");
+        waitForClickableOfElement(eleClientsLnk, "Client link");
+        clickElement(eleClientsLnk, "Client link");
     }
 
     public void clickAddNewButton(){
-        waitForClickableOfElement(getEleAddNewBtn(), "Add new button");
-        clickElement(getEleAddNewBtn(), "Add new button");
+        waitForClickableOfElement(eleAddNewBtn, "Add new button");
+        clickElement(eleAddNewBtn, "Add new button");
     }
 
     public void clickdropDownSetingLink(){
-        waitForClickableOfElement(getEleSettingsLnk(), "Drop down setting");
-        clickElement(getEleSettingsLnk(), "Drop down setting");
+        waitForClickableOfElement(eleSettingsLnk, "Drop down setting");
+        clickElement(eleSettingsLnk, "Drop down setting");
     }
 
     public void clickAuditorNameDropDown(){
-        waitForClickableOfElement(getEleAuditorNameDrpDwn(), "Auditor name drop down");
-        clickElement(getEleAuditorNameDrpDwn(), "Auditor name drop down");
+        waitForClickableOfElement(eleAuditorNameDrpDwn, "Auditor name drop down");
+        clickElement(eleAuditorNameDrpDwn, "Auditor name drop down");
     }
 }
