@@ -1,10 +1,12 @@
 package com.auvenir.ui.services;
 
+import bsh.StringUtil;
 import com.auvenir.ui.pages.marketing.HomePage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,6 +36,18 @@ public class AbstractService {
      */
     private String baseUrl = "https://ariel.auvenir.com";
     HomePage homePO;
+    private final String keywordApiDelete = "/delete";
+    private final String keywordApiUpdateActive = "/update?status=ACTIVE";
+    private final String keywordApiUpdateOnboading = "/update?status=ONBOARDING";
+
+    private String apiUrl = "";
+    public void setApiUrl (String apiURL){
+        this.apiUrl = "https://" + apiURL;
+        getLogger().info("API Url: " + this.apiUrl);
+    }
+    public String getApiUrl(){
+        return apiUrl;
+    }
 
     private String prefixProtocol = "";
     public String getPrefixProtocol() {
@@ -248,5 +262,48 @@ public class AbstractService {
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
+    }
+
+    public void callRestApiUpdateUser(String userId, String keywordUpdate) {
+        try {
+            getLogger().info("Login with user role: " + userId);
+            setApiUrl(System.getProperty("apiURL") + "/api/user/");
+            String apiUpdateUserUrl = getApiUrl() + userId + keywordUpdate;
+            driver.get(apiUpdateUserUrl);
+            String s1 = driver.findElement(By.xpath("//pre")).getText();
+            String[] parts = s1.split("(\")");
+            String statusCode = parts[6];
+            statusCode = StringUtils.replaceChars(statusCode,":","");
+            statusCode = StringUtils.replaceChars(statusCode,"}","");
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
+            System.out.println("Status Code: " + statusCode);
+            if(statusCode.equals("200")){
+                getLogger().info("Existed user is deleted successful.");
+            }
+            else if(statusCode.equals("404")){
+                getLogger().info("The client is not existed in database.");
+            }
+            else {
+                getLogger().info(s1);
+            }
+            NXGReports.addStep("Call API service successfully" + userId, LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Call API service unsuccessfully" + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    public void deleteUserUsingApi(String userEmail) {
+        callRestApiUpdateUser(userEmail, keywordApiDelete);
+    }
+
+    public void updateUserOnboarding(String userEmail) {
+        callRestApiUpdateUser(userEmail, keywordApiUpdateOnboading);
+    }
+
+    public void updateUserActive(String userEmail) {
+        callRestApiUpdateUser(userEmail, keywordApiUpdateActive);
     }
 }

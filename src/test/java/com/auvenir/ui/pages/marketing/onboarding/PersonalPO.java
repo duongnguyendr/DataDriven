@@ -156,48 +156,48 @@ public class PersonalPO extends AbstractPage {
         validateElememt(eleReference,"Element of Reference Auvenir", Element_Type.DISPLAYED);
     }
 
-    public void registerAuditorPersonal(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference){
+    public void registerAuditorPersonal(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
         boolean result;
         try {
-           waitForVisibleElement(eleName, "Full name");
-           sendKeyTextBox(eleName, strName, "Full Name TextBox");
+            waitForVisibleElement(eleName, "Full name");
+            sendKeyTextBox(eleName, strName, "Full Name TextBox");
 
-           waitForVisibleElement(eleEmail, "Email");
-           sendKeyTextBox(eleEmail, strEmail, "Email Name TextBox");
+            waitForVisibleElement(eleEmail, "Email");
+            sendKeyTextBox(eleEmail, strEmail, "Email Name TextBox");
 
-           waitForVisibleElement(eleConfirmEmail, "Email");
-           sendKeyTextBox(eleConfirmEmail, strEmail, "Confirm Email TextBox");
+            waitForVisibleElement(eleConfirmEmail, "Email");
+            sendKeyTextBox(eleConfirmEmail, strEmail, "Confirm Email TextBox");
 
-           waitForClickableOfElement(eleRoleFirm, "Role in Firm Dropdown");
-           clickElement(eleRoleFirm, "Role");
-           waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown","aria-expanded", "true");
-           clickElement(listItemRoleFirmEle.get(0), "First Item on Role Dropdown");
-           waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown","aria-expanded", "false");
+            waitForClickableOfElement(eleRoleFirm, "Role in Firm Dropdown");
+            clickElement(eleRoleFirm, "Role");
+            waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown", "aria-expanded", "true");
+            clickElement(listItemRoleFirmEle.get(0), "First Item on Role Dropdown");
+            waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown", "aria-expanded", "false");
 
-           waitForVisibleElement(elePhoneNumber, "Phone number");
-           sendKeyTextBox(elePhoneNumber, strPhone, "Phone number TextBox");
+            waitForVisibleElement(elePhoneNumber, "Phone number");
+            sendKeyTextBox(elePhoneNumber, strPhone, "Phone number TextBox");
 
-           waitForVisibleElement(eleReference, "Reference check box");
-           clickElement(eleReference, "Reference check box");
-           waitForAtrributeValueChanged(eleReference, "Reference 'Hear' Dropdown","aria-expanded", "true");
-           clickElement(listItemReferenceEle.get(0), "First Item on Reference 'Hear' Dropdown");
-           waitForAtrributeValueChanged(eleReference, "Reference 'Hear' Dropdown","aria-expanded", "false");
+            waitForVisibleElement(eleReference, "Reference check box");
+            clickElement(eleReference, "Reference check box");
+            waitForAtrributeValueChanged(eleReference, "Reference 'Hear' Dropdown", "aria-expanded", "true");
+            clickElement(listItemReferenceEle.get(0), "First Item on Reference 'Hear' Dropdown");
+            waitForAtrributeValueChanged(eleReference, "Reference 'Hear' Dropdown", "aria-expanded", "false");
 
 
-           waitForVisibleElement(chkAgree, "Check box agree");
-           clickElement(chkAgree, " check box agree");
+            waitForVisibleElement(chkAgree, "Check box agree");
+            clickElement(chkAgree, " check box agree");
 
-           waitForVisibleElement(chkConfirm, "Check box confirm");
-           clickElement(chkConfirm, "check box confirm");
+            waitForVisibleElement(chkConfirm, "Check box confirm");
+            clickElement(chkConfirm, "check box confirm");
 
-           waitForVisibleElement(btnContinue, "Continue button");
-           clickElement(btnContinue, "continue button");
+            waitForVisibleElement(btnContinue, "Continue button");
+            clickElement(btnContinue, "continue button");
 
-           result = validateDisPlayedElement(pageProvideFirmInfoEle, "Page Provide Firm Infomation");
-           Assert.assertTrue(result, "Page Provide Your Firm Infomation should be loaded.");
-           NXGReports.addStep("Register Auditor Personal passed", LogAs.PASSED, null);
+            result = validateDisPlayedElement(pageProvideFirmInfoEle, "Page Provide Firm Infomation");
+            Assert.assertTrue(result, "Page Provide Your Firm Infomation should be loaded.");
+            NXGReports.addStep("Register Auditor Personal passed", LogAs.PASSED, null);
 
-       } catch (AssertionError e) {
+        } catch (AssertionError e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Page Provide Your Firm Infomation is not loaded.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

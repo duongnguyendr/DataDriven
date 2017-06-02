@@ -12,31 +12,42 @@ import org.openqa.selenium.support.PageFactory;
  */
 public class SuccessPO extends AbstractPage {
 
-    public SuccessPO(Logger logger, WebDriver driver){
+    public SuccessPO(Logger logger, WebDriver driver) {
         super(logger, driver);
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
     // Element of Success Creation Account
-    @FindBy(css = ".ui.header")
-    private WebElement elePageSuccess;
-    public WebElement getElePageSuccess(){return  elePageSuccess; }
+    @FindBy(xpath = "//*[@id='account-created-confirmation']//h1[@class='ui header']")
+    private WebElement successPageHeaderEle;
+
+    public WebElement getSuccessPageHeaderEle() {
+        return successPageHeaderEle;
+    }
 
     // Element image letter
     @FindBy(css = ".ui.image")
     private WebElement eleImageLetter;
-    public WebElement getEleImageLetter(){return eleImageLetter; }
 
-    // Element button CLose
+    public WebElement getEleImageLetter() {
+        return eleImageLetter;
+    }
+
+    // Element button Continue
     @FindBy(id = "btn-continue")
     private WebElement btnContinue;
-    public WebElement getBtnClose(){return btnContinue; }
+
+    public WebElement getBtnClose() {
+        return btnContinue;
+    }
 
 
     //@Override
-    public void verifyPageContent(){
-        this.validateElememt(elePageSuccess,"Your Account Has Been Created!", Element_Type.TEXT_VALUE);
-        this.isLoaded();
+    public void verifyPageContent() {
+        waitForVisibleElement(successPageHeaderEle, "Success Page Header");
+        validateElememt(successPageHeaderEle, "Success Page Header", Element_Type.DISPLAYED);
+        validateElememt(successPageHeaderEle, "Your Account Is on the Waitlist!", Element_Type.TEXT_VALUE);
+        isLoaded();
     }
 
     /*@Override
@@ -45,19 +56,16 @@ public class SuccessPO extends AbstractPage {
     }
 
     @Override*/
-    public void isLoaded()throws Error{
+    public void isLoaded() throws Error {
         // Checking Image Letter element is displayed
-        this.validateElememt(eleImageLetter,"Element of Image Letter", Element_Type.DISPLAYED);
-
+        waitForVisibleElement(eleImageLetter, "Image Letter");
+        validateElememt(eleImageLetter, "Element of Image Letter", Element_Type.DISPLAYED);
         // Checking button Close element is displayed
-        this.validateElememt(btnContinue,"Element of button Continue", Element_Type.DISPLAYED);
+        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
 
     }
 
-    public void acceptCreateAccountAuditor(){
-        btnContinue.click();
+    public void acceptCreateAccountAuditor() {
+        clickElement(btnContinue, "Continue Button");
     }
-
-
-
 }
