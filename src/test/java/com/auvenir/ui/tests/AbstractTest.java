@@ -92,7 +92,7 @@ public class AbstractTest {
     @Parameters({"browser","version","os"})
     @BeforeMethod
     public void setUp(Method method, String browser, String version, String os) {
-        System.out.println("Before Method.");
+        getLogger().info("Before Method.");
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
             GenericService.sBrowserData="CHROME_";
@@ -104,11 +104,11 @@ public class AbstractTest {
             GenericService.sBrowserData="SAFARI_";
         }
         GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
-        System.out.println("setUp: "+GenericService.sBrowserData);
+        getLogger().info("setUp: " + GenericService.sBrowserData);
         testName = method.getName();
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
-        System.out.println("=====*****======");
+        getLogger().info("=====*****======");
         try {
             if (runMode.equalsIgnoreCase("Local")) {
             /*
@@ -116,18 +116,18 @@ public class AbstractTest {
              */
                 if (GenericService.sBrowserData.equalsIgnoreCase("CHROME_")) {
                     //if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
-                    System.out.println("Chrome is open.");
+                    getLogger().info("Chrome is open.");
                     System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
-                    System.out.println("Chrome is set");
+                    getLogger().info("Chrome is set");
                     driver = new ChromeDriver();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")) {
-                    System.out.println("Firefox is set");
+                    getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
                     DesiredCapabilities capabilities = new DesiredCapabilities();
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     driver = new FirefoxDriver(capabilities);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
-                    System.out.println("Intetnet Explorer is set");
+                    getLogger().info("Intetnet Explorer is set");
                     System.setProperty("webdriver.gecko.intenetexplorer", GenericService.sDirPath + "/src/test/resources/IEDriverServer_64.exe");
                     driver = new InternetExplorerDriver();
                 }
@@ -164,7 +164,7 @@ public class AbstractTest {
                 NXGReports.setWebDriver(driver);
             }
         } catch (Exception e) {
-            System.out.println("Problem in launching driver");
+            getLogger().info("Problem in launching driver");
             e.printStackTrace();
         }
     }
