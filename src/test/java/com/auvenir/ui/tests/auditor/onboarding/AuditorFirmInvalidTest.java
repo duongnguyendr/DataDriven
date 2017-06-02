@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.MarketingService;
+import com.auvenir.ui.services.marketing.HomeService;
 import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class AuditorFirmInvalidTest extends AbstractTest {
 
-    private MarketingService homeService;
+    private HomeService homeService;
     private PersonalService personalService;
     private FirmService firmService;
     private SecurityService securityService;
@@ -78,7 +78,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
 
     @Test(priority = 4,enabled = true,description = "Verify firm sign up page")
     public void verifyAuditorFirmPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        homeService = new HomeService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new FirmService(getLogger(),getDriver());
         //Create List Invalid Data for Firm Name Text Box.
@@ -86,6 +86,39 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         for(int i = 2 ; i < 5; i++)
         {
             firmNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 6));
+        }
+        //Create List Invalid Data for Previous Firm Name Text Box.
+        List<String> preFirmNameInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 5; i++)
+        {
+            preFirmNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 7));
+        }
+        //Create List Invalid Data for Firm Website Text Box.
+        List<String> firmWebsiteInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 6; i++)
+        {
+            firmWebsiteInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 8));
+        }
+        //Create List Invalid Data for Zip Code Text Box.
+        List<String> zipCodeInvalidDataList = new ArrayList<>();
+        for(int i = 2 ; i < 7; i++)
+        {
+            zipCodeInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 11));
+        }
+        //Create List Invalid Data for Member Id Text Box.
+        List<String> memberIdInvalidDataList = new ArrayList<>();
+        memberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 2, 14));
+        for(int i = 4 ; i < 6; i++)
+        {
+            memberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 14));
+        }
+        //Create List Invalid Data for Member Id Text Box.
+        List<String> phoneNumberIdInvalidDataList = new ArrayList<>();
+        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 2, 16));
+        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 3, 16));
+        for(int i = 5 ; i < 7; i++)
+        {
+            phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 16));
         }
     }
 
