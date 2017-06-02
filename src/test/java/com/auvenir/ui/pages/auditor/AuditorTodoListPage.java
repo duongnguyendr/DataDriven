@@ -24,7 +24,7 @@ public class AuditorTodoListPage extends AbstractPage {
 	@FindBy(id = "auv-todo-createToDo")
 	private WebElement eleCreateToDoBtn;
 	
-	@FindBy(id = "auv-todo-filter")
+	@FindBy(id = "todo-filter-dropdown")
 	private WebElement eleFilterBtn;
 	
 	@FindBy(id = "todo-search")

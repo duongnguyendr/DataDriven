@@ -35,7 +35,7 @@ public class AuditorTodoListTest extends AbstractTest {
     String timeStamp;
     String firstEngagementTitleOnWeb;
 
-    @Test(priority = 1, enabled = true, description = "Verify Auditor empty Todo List page.")
+    @Test(priority = 100, enabled = true, description = "Verify Auditor empty Todo List page.")
     public void verifyAuditorEmptyTodoListPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -146,7 +146,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = false, description = "verify displayed of this button filter")
+    @Test(priority = 1, enabled = true, description = "verify displayed of this button filter")
     public void verifyButtonFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
