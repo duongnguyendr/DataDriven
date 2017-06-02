@@ -76,17 +76,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//th[@data-id='name']//i")
     private WebElement sortByToDoNameIconEle;
+    @FindBy(xpath = "//th[@data-id='categoryName']/i")
+    private WebElement sortByCategoryNameIconEle;
 
-    @FindBy(xpath = "//th[@data-id='category']")
+    @FindBy(xpath = "//th[@data-id='categoryName']")
     private WebElement eleCategoryTitleLabel;
 
     @FindBy(xpath = "//th[@data-id='category']//i")
     private WebElement eleSortByCategory;
 
-    @FindBy(xpath = "//th[@data-id='client']")
+    @FindBy(xpath = "//th[@data-id='clientAssigneeName']")
     private WebElement eleClientAssigneeTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='client']//i")
+    @FindBy(xpath = "//th[@data-id='clientAssigneeName']//i")
     private WebElement eleSortByClientAssignee;
 
     @FindBy(xpath = "//th[@data-id='dueDate']")
@@ -95,9 +97,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//th[@data-id='dueDate']//i")
     private WebElement eleSortByDueDate;
 
-    @FindBy(xpath = "//th[@data-id='audit']")
+    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']")
     private WebElement eleAuditAssigneeTitleLabel;
-    @FindBy(xpath = "//th[@data-id='audit']")
+
+    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']/i")
     private WebElement eleSortByAuditAssignee;
 
     @FindBy(xpath = "//div[@class='e-widget-content']")
@@ -402,6 +405,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifySotleOnTitle() throws Exception {
         validateDisPlayedElement(sortByToDoNameIconEle, "Sort By Name Button");
+        validateDisPlayedElement(sortByCategoryNameIconEle, "Sort By Category Name");
         validateDisPlayedElement(eleSortByClientAssignee, "Sort By Client Assignee Button.");
         validateDisPlayedElement(eleSortByDueDate, "Sort By");
         validateDisPlayedElement(eleSortByAuditAssignee, "Sort by Auditor Assignee button.");
@@ -993,7 +997,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verifying todo list disappear..");
             waitForInvisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")), "");
             NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify realtime search", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
