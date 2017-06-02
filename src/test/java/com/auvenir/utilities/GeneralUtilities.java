@@ -3,17 +3,18 @@ package com.auvenir.utilities;
 import com.auvenir.ui.services.AbstractRefactorService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by huy.huynh on 12/05/2017.
@@ -108,5 +109,21 @@ public class GeneralUtilities {
         logger.info("Swithc to new windwos.");
         webDriver.switchTo().window(newWin);
 
+    }
+
+    /**
+     * Refactored by huy.huynh on 01/06/2017.
+     * New for smoke test
+     */
+    public static WebElement getElement(WebDriver webDriver, String xpath, String... arg) {
+        WebElement webElement = null;
+        xpath = String.format(xpath, arg);
+        try {
+            webElement = webDriver.findElement(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return webElement;
     }
 }

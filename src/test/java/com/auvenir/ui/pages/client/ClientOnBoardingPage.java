@@ -146,7 +146,7 @@ public class ClientOnBoardingPage extends AbstractPage {
     public WebElement getEleIAgreeImg() {
         return eleIAgreeImg;
     }
-
+    
     @FindBy(xpath = "//label[text()='I agree to the ']")
     private WebElement eleIAgreeTxt;
 
@@ -469,6 +469,10 @@ public class ClientOnBoardingPage extends AbstractPage {
     public WebElement getEleAgreeSkipSecurityBtn() {
         return eleAgreeSkipSecurityBtn;
     }
+
+    @FindBy (xpath = "//img[@id='agreement-personal-cpa']")
+    private WebElement agreePersonalCPAEle;
+
     /*@FindBy(xpath="//p[@id='onboard-introTitle']")
 	private WebElement eleAuditSmarterTxt;
 	public WebElement getEleAuditSmarterTxt(){
@@ -771,6 +775,136 @@ public class ClientOnBoardingPage extends AbstractPage {
             }
         return monthName;
     }
+
+    public void verifyClientOnBoardingPersonalStep(){
+        getLogger().info("Verify Client On Boarding - Personal Information Step.");
+        waitForVisibleElement(elePleaseConfirmYourInfoTxt, "Please Confirm your Information - Text");
+        validateDisPlayedElement(elePleaseConfirmYourInfoTxt, "Please confirm your information - Text");
+        validateElementText(elePleaseConfirmYourInfoTxt, "Please Confirm your Information");
+        validateDisPlayedElement(eleAuvenirLogoImg, "Auvenir Logo");
+        validateDisPlayedElement(elePERSONALTxt, "Personal Text");
+        // Cannot find the element form old Code R1. Will update later
+//        validateDisPlayedElement(eleBUISNESSTxt, "Buisness - Text");
+//        validateDisPlayedElement(eleFILESTxt, "FILES Text");
+        validateDisPlayedElement(eleSECURITYTxt, "SECURITY -Text");
+        validateDisPlayedElement(elePERSONALImg, "PERSONAL Circle Image");
+        // Cannot find the element form old Code R1. Will update later
+//        validateDisPlayedElement(eleBUISNESSImg, "BUISNESS Circle Image");
+//        validateDisPlayedElement(eleFILESImg, "FILES Circle Image ");
+        validateDisPlayedElement(eleSECURITYImg, "SECURITY Circle Image");
+        validateDisPlayedElement(eleFirstLastNameTxt, "First Name Last Name Text");
+        validateDisPlayedElement(eleFirstLastNameTxtFld, "FirstName LastName TxtFld");
+        validateDisPlayedElement(eleEmailAddressTxt, "Email Address - Text");
+        validateDisPlayedElement(eleEmailAddressTxtFld, "Email Address Text Field");
+        validateDisPlayedElement(elePhoneNumberTxt, "Phone Number - Text");
+        validateDisPlayedElement(elePhoneNumberTxtFld, "Phone Number Text Field");
+        validateDisPlayedElement(eleIAgreeImg, "I Agree - Image");
+        validateDisPlayedElement(eleIAgreeTxt, "I Agree - Text");
+        validateDisPlayedElement(eleCameraImg, "Camera Image");
+        validateDisPlayedElement(eleUploadPhotoBtn, "Update Photo Button");
+        validateDisPlayedElement(eleContinueBtn, "Continue button");
+    }
+
+    public void clickContinuePersonalInformationButton() {
+        getLogger().info("Click Continue Button to confirm Personal Information.");
+        clickElement(eleIAgreeImg, "Agree to the Privacy statament checkbox");
+        clickElement(agreePersonalCPAEle, "Confirm a Chartered Professional Accountant checkbox");
+        clickElement(eleContinueBtn, "Continue Button");
+    }
+
+    public void verifyClientOnBoardingBusinessStep() {
+        getLogger().info("Verify Client On Boarding - Provide your Business Info Step.");
+        waitForVisibleElement(elePleaseConfirmBuisnessTxt, "Please confirm your Business - Text");
+        validateDisPlayedElement(elePleaseConfirmBuisnessTxt, "Please confirm your information - Text");
+        validateElementText(elePleaseConfirmBuisnessTxt, "Please Confirm your Information");
+        validateDisPlayedElement(eleBuisnessNameTxt, "Buisness Name Text");
+        validateDisPlayedElement(eleBuisnessNameTxtFld, "Buisness Name Text Field");
+        validateDisPlayedElement(eleFiscalYearTxt, "Fiscal Year End Text");
+        validateDisPlayedElement(eleFiscalYearTxtFld, "Fiscal Year End Text Field");
+        validateDisPlayedElement(eleAccountingFrameTxt, "Accounting Framework Text");
+        validateDisPlayedElement(eleAccountingFrameTxtFld, "Accounting Framework Text Field");
+        validateDisPlayedElement(eleBuisnessCameraImg, "Buisness Camera Image");
+        validateDisPlayedElement(eleBuisnessUploadBtn, "Upload -Button");
+        validateDisPlayedElement(eleBuisnessContinueBtn, "Continue button");
+    }
+
+    public void clickContinueBusinessInformationButton() {
+        getLogger().info("Click Continue to confirm Business Information");
+        clickElement(eleBuisnessContinueBtn, "Continue button");
+    }
+
+    public void verifyClientOnBoardingIntegrateFileStep(){
+        getLogger().info("Verify Client On Boarding - Integrate File Step.");
+        waitForVisibleElement(eleIntegrateFileTxt, "Integrate with your file storage - Text");
+        validateDisPlayedElement(eleIntegrateFileTxt, "Integrate with your file storage - Text");
+        validateElementText(eleIntegrateFileTxt, "Please Confirm your Information");
+        validateDisPlayedElement(elePleaseSelectTxt, "Please select the directory - Text");
+        validateDisPlayedElement(eleGoogleDriveTxt, "Google Drive - Text");
+        validateDisPlayedElement(eleGoogleDriveImg, "Google Drive - Image");
+        validateDisPlayedElement(eleLocalTxt, "Local - Text");
+        validateDisPlayedElement(eleLocalImg, "Local Image");
+        validateDisPlayedElement(eleSkipBtn, "Skip - Button");
+        validateDisPlayedElement(eleNotReadyTxt, "Not ready to integrate - Text");
+        validateDisPlayedElement(eleYouCanSkipTxt, "You can skip - Text");
+    }
+
+    public void clickSkipIntegrateFileButton() {
+        getLogger().info("Click Skip Button");
+        clickElement(eleSkipBtn, "Skip Button");
+    }
+
+    public void verifyClientOnBoardingSecurityStep() {
+        getLogger().info("Verify Client On Boarding - Set Up Security");
+        waitForVisibleElement(eleSetUpTxt, "Set Up Security - Text");
+        validateDisPlayedElement(eleSetUpTxt, "Set Up Security - Text");
+        validateElementText(eleSetUpTxt, "Set Up Security");
+        validateDisPlayedElement(eleDownloadtheAuvenirTxt, "Download the auvenir - Text");
+        validateDisPlayedElement(elePhoneNumberSmsInputTxtFld, "Phone Number - Text Fld");
+        validateDisPlayedElement(eleTextAppLinkBtn, "Text App Link - Button");
+        validateDisPlayedElement(elePhoneImg, "Phone Image");
+        validateDisPlayedElement(eleAppStoreImg, "App Store Image");
+        validateDisPlayedElement(eleGooglePlayImg, "Google Play Image");
+        validateDisPlayedElement(eleSkipBtn, "Skip Button");
+    }
+
+    public void clickSkipSecurityButton() {
+        getLogger().info("Click Skip Security Button.");
+        clickElement(eleSecuritySkipBtn, "Skip button");
+    }
+
+    public void verifySkipSecurityPopUp() {
+        getLogger().info("Verify Skip Security Popup.");
+        waitForVisibleElement(eleSkipSecurityTxt, "Skip Security Text");
+        validateDisPlayedElement(eleSkipSecurityTxt, "Skip Security Text");
+        validateElementText(eleSkipSecurityTxt, "Skip Security");
+        validateDisPlayedElement(eleWarningImg, "Warning Image");
+        validateDisPlayedElement(eleCloseImg, "Close Image");
+        validateDisPlayedElement(eleByChoosingTxt, "By Choosing Text");
+        validateDisPlayedElement(eleIAmDefaultingChkBox, "I am Defaulting Check Box");
+        validateDisPlayedElement(eleIAmDefaultingTxt, "I am Defaulting Text");
+        validateDisPlayedElement(eleITakeResponsibilityChkBox, "I Take Responsibility Check Box");
+        validateDisPlayedElement(eleITakeResponsibilityTxt, "I Take Responsibility Text");
+        validateDisPlayedElement(eleIAgreeToAuvenirChkBox, "I Agree to Auvenir Check Box");
+        validateDisPlayedElement(eleIAgreeToAuvenirTxt, "I Agree to Auvenir Text");
+        validateDisPlayedElement(eleTermsAndConditionsSkipSecurityLnk, "Terms and Conditions Link");
+        validateDisPlayedElement(eleCancelSkipSecurityBtn, "Cancel Button");
+        validateDisPlayedElement(eleAgreeSkipSecurityBtn, "Agree Button");
+    }
+
+    public void clickSkipSecurityWarning() {
+        getLogger().info("Click Skip the Security Warning Popup.");
+        clickElement(eleIAmDefaultingChkBox, "I am defaulting checkbox");
+        clickElement(eleITakeResponsibilityChkBox, "I take responsibility checkbox");
+        clickElement(eleIAgreeToAuvenirChkBox, "I agree to Auvenir service checkbox");
+        clickElement(eleAgreeSkipSecurityBtn, "Agree Button");
+    }
+
+    public void verifyDashBoardText(){
+        getLogger().info("Click Skip the Security Warning Popup.");
+        waitForVisibleElement(eleWelcomeToDashboardTxt, "Welcome to DashBoard - Text");
+        validateDisPlayedElement(eleWelcomeToDashboardTxt, "Welcome to DashBoard - Text");
+    }
+
 }
 	
 

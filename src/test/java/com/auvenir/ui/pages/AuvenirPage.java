@@ -1,24 +1,16 @@
 package com.auvenir.ui.pages;
 
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.services.AbstractRefactorService;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GeneralUtilities;
-import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidElementStateException;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class AuvenirPage extends AbstractPage {
     Actions actions = null;
@@ -622,86 +614,81 @@ public class AuvenirPage extends AbstractPage {
 
     public void verifyHeader() {
         actions = new Actions(getDriver());
-        GeneralUtilities.toValidate(getEleAuvenirLogoImg(), "Auvenir Logo Image", "Displayed");
-        GeneralUtilities.toValidate(getEleUserNameTxt(), "User Name Text", "Displayed");
+        validateDisPlayedElement(getEleAuvenirLogoImg(), "Auvenir Logo Image");
+        validateDisPlayedElement(getEleUserNameTxt(), "User Name Text");
         actions.moveToElement(getEleUserNameDropDownImg()).release().perform();
-        GeneralUtilities.toValidate(getEleUserNameDropDownImg(), "User Name Drop Down Image", "Displayed");
-        GeneralUtilities.toValidate(getEleInboxImg(), "Inbox Image", "Displayed");
-        GeneralUtilities.toValidate(getEleNotificationImg(), "Notification Image", "Displayed");
-        GeneralUtilities.toValidate(getEleInitialsTxt(), "Initials Text", "Displayed");
-        GeneralUtilities.toValidate(getEleUsernameDropDownTxt(), "User Name Drop Down Text", "Displayed");
-        GeneralUtilities.toValidate(getEleSettingsLnk(), "Settings Link", "Displayed");
-        GeneralUtilities.toValidate(getEleSignOutLnk(), "Sign Out Link", "Displayed");
+        validateDisPlayedElement(getEleUserNameDropDownImg(), "User Name Drop Down Image");
+        validateDisPlayedElement(getEleInboxImg(), "Inbox Image");
+        validateDisPlayedElement(getEleNotificationImg(), "Notification Image");
+        validateDisPlayedElement(getEleInitialsTxt(), "Initials Text");
+        validateDisPlayedElement(getEleUsernameDropDownTxt(), "User Name Drop Down Text");
+        validateDisPlayedElement(getEleSettingsLnk(), "Settings Link");
+        validateDisPlayedElement(getEleSignOutLnk(), "Sign Out Link");
         actions.moveToElement(getEleAuvenirLogoImg()).release().perform();
     }
 
     public void verifyFooter() {
         try {
             if (getEleCareersImg().isDisplayed()) {
-                GeneralUtilities.toValidate(getEleCareersImg(), "Careers Image", "Displayed");
-                GeneralUtilities.toValidate(getEleCareersLnk(), "Careers link", "Displayed");
-                GeneralUtilities.toValidate(getEleSupportImg(), "Support Image", "Displayed");
-                GeneralUtilities.toValidate(getEleSupportLnk(), "Support Link", "Displayed");
-                GeneralUtilities.toValidate(getEleLocatorImg(), "Locator Image", "Displayed");
-                GeneralUtilities.toValidate(getEleTorontoCanadaLnk(), "Toronto Canada location Link", "Displayed");
-                GeneralUtilities.toValidate(getElePhoneImg(), "Phone Image", "Displayed");
-                GeneralUtilities.toValidate(getElePhoneNumberLnk(), "Phone number Link", "Displayed");
-                GeneralUtilities.toValidate(getEleTermsOfServiceFtrLnk(), "Terms of Service - Link", "Displayed");
-                GeneralUtilities.toValidate(getElePrivacyStatementFtrLnk(), "Privacy Statement - Link", "Displayed");
-                GeneralUtilities.toValidate(getEleCookieFtrLnk(), "Cookie Notice footer - Link", "Displayed");
+                validateDisPlayedElement(getEleCareersImg(), "Careers Image");
+                validateDisPlayedElement(getEleCareersLnk(), "Careers link");
+                validateDisPlayedElement(getEleSupportImg(), "Support Image");
+                validateDisPlayedElement(getEleSupportLnk(), "Support Link");
+                validateDisPlayedElement(getEleLocatorImg(), "Locator Image");
+                validateDisPlayedElement(getEleTorontoCanadaLnk(), "Toronto Canada location Link");
+                validateDisPlayedElement(getElePhoneImg(), "Phone Image");
+                validateDisPlayedElement(getElePhoneNumberLnk(), "Phone number Link");
+                validateDisPlayedElement(getEleTermsOfServiceFtrLnk(), "Terms of Service - Link");
+                validateDisPlayedElement(getElePrivacyStatementFtrLnk(), "Privacy Statement - Link");
+                validateDisPlayedElement(getEleCookieFtrLnk(), "Cookie Notice footer - Link");
 
-
-                GeneralUtilities.toValidate(getEleFacebookImg(), "Facebook Image", "Displayed");
-                GeneralUtilities.toValidate(getEleTwitterImg(), "Twitter Image", "Displayed");
-                GeneralUtilities.toValidate(getEleLinkedinImg(), "Linkedin Image", "Displayed");
-
+                validateDisPlayedElement(getEleFacebookImg(), "Facebook Image");
+                validateDisPlayedElement(getEleTwitterImg(), "Twitter Image");
+                validateDisPlayedElement(getEleLinkedinImg(), "Linkedin Image");
             }
         } catch (Exception e) {
-            GeneralUtilities.toValidate(getEleTermsOfUserFtrLnk(), "Terms of Use footer - Link", "Displayed");
-            GeneralUtilities.toValidate(getElePrivacyPolicyFtrLnk(), "Privacy Policy footer - Link", "Displayed");
-            GeneralUtilities.toValidate(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - link", "Displayed");
-
+            validateDisPlayedElement(getEleTermsOfUserFtrLnk(), "Terms of Use footer - Link");
+            validateDisPlayedElement(getElePrivacyPolicyFtrLnk(), "Privacy Policy footer - Link");
+            validateDisPlayedElement(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - link");
         }
-
-        GeneralUtilities.toValidate(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text", "Displayed");
-
+        validateDisPlayedElement(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text");
     }
 
-    public void verifyBodyLoginPage(){
-        GeneralUtilities.toValidate(getEleAuvenirImg(), "Auvenir Header Logo Image", "Displayed");
-        GeneralUtilities.toValidate(getEleAuditorLoginLnk(), "Auditor Login Link", "Displayed");
-        GeneralUtilities.toValidate(getEleAuditorLoginImg(), "Auditor Login Image", "Displayed");
-        GeneralUtilities.toValidate(getEleWeHelpYouAuditTxt(), "We help you audit Text", "Displayed");
-        GeneralUtilities.toValidate(getEleJoinTheWaitlistTxt(), "Join the Waitlist Text", "Displayed");
-        GeneralUtilities.toValidate(getEleWorkEmailTxt(), "Work Email Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAuditorEmailAddressTxtFld(), "Auditor Email Address Text Field", "Displayed");
-        GeneralUtilities.toValidate(getEleJoinBtn(), "Join Button", "Enabled");
-        GeneralUtilities.toValidate(getEleBySigningUpTxt(), "By signing up, you agree to our Terms of Use and Privacy Poclicy - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleSpendLessTimeClockImg(), "Spend Less Time Clock Image", "Displayed");
-        GeneralUtilities.toValidate(getEleSpendLessTimeTxt(), "Spend Less Time Clock Text", "Displayed");
-        GeneralUtilities.toValidate(getEleUseSophisticatedTxt(), "Use Sophisticated Text", "Displayed");
-        GeneralUtilities.toValidate(getEleDevelopDeeperImg(), "Develop Deeper Image", "Displayed");
-        GeneralUtilities.toValidate(getEleDevelopDeeperTxt(), "Develop Deeper Text", "Displayed");
-        GeneralUtilities.toValidate(getEleLeverageMachineTxt(), "Leverage Machine Text", "Displayed");
-        GeneralUtilities.toValidate(getEleSecurelyManageImg(), "Securely Manage Image", "Displayed");
-        GeneralUtilities.toValidate(getEleSecurelyManageTxt(), "Securely Manage Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAccessACloudTxt(), "Access a cloud Text", "Displayed");
-        GeneralUtilities.toValidate(getElePersonalizedForYouImg(), "Personalized for you Image", "Displayed");
-        GeneralUtilities.toValidate(getElePersonalizedForYouTxt(), "Personalized for you Text", "Displayed");
-        GeneralUtilities.toValidate(getEleCustomizeSchedulesTxt(), "Customize Schedules Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAccessAndManageTxt(), "Access and Manage Text", "Displayed");
-        GeneralUtilities.toValidate(getEleStoreAllTxt(), "Store All Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAuvenirFooterImg(), "Auvenir Footer Image", "Displayed");
+    public void verifyBodyLoginPage() {
+        validateDisPlayedElement(getEleAuvenirImg(), "Auvenir Header Logo Image");
+        validateDisPlayedElement(getEleAuditorLoginLnk(), "Auditor Login Link");
+        validateDisPlayedElement(getEleAuditorLoginImg(), "Auditor Login Image");
+        validateDisPlayedElement(getEleWeHelpYouAuditTxt(), "We help you audit Text");
+        validateDisPlayedElement(getEleJoinTheWaitlistTxt(), "Join the Waitlist Text");
+        validateDisPlayedElement(getEleWorkEmailTxt(), "Work Email Text");
+        validateDisPlayedElement(getEleAuditorEmailAddressTxtFld(), "Auditor Email Address Text Field");
+        validateEnabledElement(getEleJoinBtn(), "Join Button");
+        validateDisPlayedElement(getEleBySigningUpTxt(), "By signing up, you agree to our Terms of Use and Privacy Poclicy - Text");
+        validateDisPlayedElement(getEleSpendLessTimeClockImg(), "Spend Less Time Clock Image");
+        validateDisPlayedElement(getEleSpendLessTimeTxt(), "Spend Less Time Clock Text");
+        validateDisPlayedElement(getEleUseSophisticatedTxt(), "Use Sophisticated Text");
+        validateDisPlayedElement(getEleDevelopDeeperImg(), "Develop Deeper Image");
+        validateDisPlayedElement(getEleDevelopDeeperTxt(), "Develop Deeper Text");
+        validateDisPlayedElement(getEleLeverageMachineTxt(), "Leverage Machine Text");
+        validateDisPlayedElement(getEleSecurelyManageImg(), "Securely Manage Image");
+        validateDisPlayedElement(getEleSecurelyManageTxt(), "Securely Manage Text");
+        validateDisPlayedElement(getEleAccessACloudTxt(), "Access a cloud Text");
+        validateDisPlayedElement(getElePersonalizedForYouImg(), "Personalized for you Image");
+        validateDisPlayedElement(getElePersonalizedForYouTxt(), "Personalized for you Text");
+        validateDisPlayedElement(getEleCustomizeSchedulesTxt(), "Customize Schedules Text");
+        validateDisPlayedElement(getEleAccessAndManageTxt(), "Access and Manage Text");
+        validateDisPlayedElement(getEleStoreAllTxt(), "Store All Text");
+        validateDisPlayedElement(getEleAuvenirFooterImg(), "Auvenir Footer Image");
     }
 
-    public void verifyFormLogin(){
+    public void verifyFormLogin() {
         clickElement(getEleAuditorLoginLnk(), "Auditor Login Link");
-        GeneralUtilities.toValidate(getEleEmailAddressTxt(), "Email Address Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEmailAddressPopUpTxtFld(), "Email Address PopUp Text Field", "Displayed");
-        GeneralUtilities.toValidate(getEleGoBtn(), "Go Button", "Enabled");
+        validateDisPlayedElement(getEleEmailAddressTxt(), "Email Address Text");
+        validateDisPlayedElement(getEleEmailAddressPopUpTxtFld(), "Email Address PopUp Text Field");
+        validateEnabledElement(getEleGoBtn(), "Go Button");
     }
 
-    public void verifyLoginWithEmail(String email){
+    public void verifyLoginWithEmail(String email) {
         sendKeyTextBox(getEleEmailAddressPopUpTxtFld(), email, "Email Address PopUp Text Field");
         clickElement(getEleGoBtn(), "Go Button");
         waitForVisibleElement(getEleWaitVerificationTxt(), "Your email is awaiting verification");
@@ -710,10 +697,10 @@ public class AuvenirPage extends AbstractPage {
         getEleJoinBtn().click();
     }
 
-    public void verifyApprovePopupDisplayed(){
+    public void verifyApprovePopupDisplayed() {
         boolean isPopupDisplayed = false;
         isPopupDisplayed = validateDisPlayedElement(getEleAwaitingApprovalTxt(), "Approve popup");
-        if(isPopupDisplayed){
+        if (isPopupDisplayed) {
             NXGReports.addStep("Awaiting approval popup is successfully displayed.", LogAs.PASSED, null);
         } else {
             AbstractService.sStatusCnt++;
@@ -721,7 +708,8 @@ public class AuvenirPage extends AbstractPage {
         }
         clickElement(getEleDoneBtn(), "Awaiting Approval popup");
     }
-    public void verifyFooterPage(){
+
+    public void verifyFooterPage() {
         validateDisPlayedElement(getEleTermsOfUserFtrLnk(), "Terms of Service - Link");
         validateDisPlayedElement(getElePrivacyPolicyFtrLnk(), "Privacy Statement - Link");
         validateDisPlayedElement(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - Link");
@@ -743,13 +731,13 @@ public class AuvenirPage extends AbstractPage {
     }
 
     public void verifyTermsOfServicePage() {
-        GeneralUtilities.toValidate(getEleTOSTitleTxt(), "Terms of Service - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleEffectiveTxt(), "Effective: 16th Jan  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleTheseTermsTxt(), "These terms of service  - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
-        GeneralUtilities.toValidate(getEleVisitDeloitteLnk(), "Visit DEloitte - Link", "Displayed");
-        GeneralUtilities.toValidate(getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
+        validateDisPlayedElement(getEleTOSTitleTxt(), "Terms of Service - Text");
+        validateDisPlayedElement(getEleEnglishFrenchTxt(), "English French - Text");
+        validateDisPlayedElement(getEleEffectiveTxt(), "Effective: 16th Jan  - Text");
+        validateDisPlayedElement(getEleTheseTermsTxt(), "These terms of service  - Text");
+        validateDisPlayedElement(getEleContactInfoLnk(), "Contact info@auvenir.com - Link");
+        validateDisPlayedElement(getEleVisitDeloitteLnk(), "Visit DEloitte - Link");
+        validateDisPlayedElement(getElePrivacyStatementLnk(), "Privacy Statement - Link");
     }
 
     public void clickPrivacyStatementLink() {
@@ -757,12 +745,12 @@ public class AuvenirPage extends AbstractPage {
     }
 
     public void verifyPrivacyStatementPage() {
-        GeneralUtilities.toValidate(getElePrivacyTitleTxt(), "Privacy Statement - Title", "Displayed");
-        GeneralUtilities.toValidate(getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
-        GeneralUtilities.toValidate(getElePrivacyTOSLnk(), "Privacy - TOS - Link", "Displayed");
-        GeneralUtilities.toValidate(getElePrivacyCookiesLnk(), "Privacy Cookies - Link", "Displayed");
+        validateDisPlayedElement(getElePrivacyTitleTxt(), "Privacy Statement - Title");
+        validateDisPlayedElement(getEleEnglishFrenchTxt(), "English French - Text");
+        validateDisPlayedElement(getEleLastRevisedTxt(), "Last Revised - Text");
+        validateDisPlayedElement(getEleContactInfoLnk(), "Contact info@auvenir.com - Link");
+        validateDisPlayedElement(getElePrivacyTOSLnk(), "Privacy - TOS - Link");
+        validateDisPlayedElement(getElePrivacyCookiesLnk(), "Privacy Cookies - Link");
     }
 
     public void clickCookieNoticeLink() {
@@ -770,13 +758,44 @@ public class AuvenirPage extends AbstractPage {
     }
 
     public void verifyCookieNoticePage() {
-        GeneralUtilities.toValidate(getEleCookieNoticeTitleTxt(), "Cookie Notice - Title", "Displayed");
-        GeneralUtilities.toValidate(getEleEnglishFrenchTxt(), "English French - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleLastRevisedTxt(), "Last Revised - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleAuvenirUsesTxt(), "Last Revised - Text", "Displayed");
-        GeneralUtilities.toValidate(getEleContactInfoLnk(), "Contact info@auvenir.com - Link", "Displayed");
-        GeneralUtilities.toValidate(getElePrivacyStatementLnk(), "Privacy Statement - Link", "Displayed");
-        GeneralUtilities.toValidate(getEleAboutCookiesLnk(), "About Cookies - Link", "Displayed");
+        validateDisPlayedElement(getEleCookieNoticeTitleTxt(), "Cookie Notice - Title");
+        validateDisPlayedElement(getEleEnglishFrenchTxt(), "English French - Text");
+        validateDisPlayedElement(getEleLastRevisedTxt(), "Last Revised - Text");
+        validateDisPlayedElement(getEleAuvenirUsesTxt(), "Last Revised - Text");
+        validateDisPlayedElement(getEleContactInfoLnk(), "Contact info@auvenir.com - Link");
+        validateDisPlayedElement(getElePrivacyStatementLnk(), "Privacy Statement - Link");
+        validateDisPlayedElement(getEleAboutCookiesLnk(), "About Cookies - Link");
     }
     /*-----------end of huy.huynh on 24/05/2017.*/
+
+    /**
+     * TanPham 29/05/2017 - Start
+     */
+
+    public void clickOnCareerLink() {
+        waitForVisibleElement(eleCareersLnk, "career link");
+        hoverElement(eleCareersLnk, "career link");
+        clickElement(eleCareersLnk, "carrer link");
+    }
+
+    public void verifyAuvenirImage() {
+        waitForVisibleElement(eleAuvenirImg, "career link");
+    }
+
+    public void clickOnSupportLink() {
+        waitForVisibleElement(eleSupportLnk, "support link");
+        hoverElement(eleSupportLnk, "support link");
+        clickElement(eleSupportLnk, "support link");
+    }
+
+    /**
+     * TanPham 29/05/2017 - End
+     */
+
+    public void verifyWelcomePleaseCheckTxtIsDisplayed(){
+        getLogger().info("Verify Welcome Please Check Text is displayed.");
+        waitForVisibleElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
+        validateDisPlayedElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
+        validateElementText(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login link.");
+    }
 }

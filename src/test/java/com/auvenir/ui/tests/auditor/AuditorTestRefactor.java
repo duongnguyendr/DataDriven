@@ -1,11 +1,11 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.pages.admin.AdminLoginPage;
-import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.AuditorEngagementService;
+import com.auvenir.ui.services.AuditorService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.config.SSLConfig;
 import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -42,7 +42,7 @@ public class AuditorTestRefactor extends AbstractTest{
         String sURL = null;
         try {
 
-            sURL = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/delete";
+            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/delete";
             getLogger().info("Call api to delete existed Audit user: " + sURL);
             //driver.get(sURL);
             Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
@@ -64,11 +64,11 @@ public class AuditorTestRefactor extends AbstractTest{
         AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
             auditorService.verifyBodyLoginPage();
             auditorService.verifyFooterLoginPage();
             auditorService.verifyEmailLoginForm();
-            auditorService.verifyLoginWithEmail(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            auditorService.verifyLoginWithEmail(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -89,7 +89,7 @@ public class AuditorTestRefactor extends AbstractTest{
         try {
             String onBoardingUrl;
             getLogger().info("update status of auditor to onboarding.");
-            onBoardingUrl = GenericService.getCongigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/update?status=ONBOARDING";
+            onBoardingUrl = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/update?status=ONBOARDING";
             Response response = given().keystore(GenericService.sDirPath + "/src/test/resources/auvenircom.jks", "changeit").get(onBoardingUrl);
 //            Response response = given().config(RestAssured.config().sslConfig(new SSLConfig().allowAllHostnames())).get(onBoardingUrl); // Allow all hostname without certificate
             if (response.getStatusCode() == 200) {
@@ -98,7 +98,7 @@ public class AuditorTestRefactor extends AbstractTest{
             }
 
             getLogger().info("Login with auditor role.");
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.verifyPersonalPage();
             auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
             auditorService.verifyFirmPage();
@@ -128,13 +128,13 @@ public class AuditorTestRefactor extends AbstractTest{
             date = new Date();
             CurrentDate = dateFormat.format(date);
 
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "ADMINEMAILID"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"),
-                    GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"),
+                    GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.verifyAdminLoginPage();
             auditorService.verifyChangeActiveStatus("AUDITOR",
-                    GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), CurrentDate);
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+                    GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), CurrentDate);
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.verifyheaderPage();
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorService.verifyFooterPage();
@@ -156,7 +156,7 @@ public class AuditorTestRefactor extends AbstractTest{
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorEngagementService.verifyAuditorPageHeaderContent();
             auditorEngagementService.clickNewEnagementButton();
             auditorService.verifyDisplayElementInAuditorDashBoardPage();
@@ -178,7 +178,7 @@ public class AuditorTestRefactor extends AbstractTest{
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorEngagementService.clickNewEnagementButton();
             auditorService.clickRequestLink();
             auditorService.verifyDisplayElementInEngagementRequestPage();
@@ -200,7 +200,7 @@ public class AuditorTestRefactor extends AbstractTest{
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorEngagementService.clickNewEnagementButton();
             auditorService.clickFilesLink();
             auditorService.verifyDisplayElementInEngagementFilesPage();
@@ -223,7 +223,7 @@ public class AuditorTestRefactor extends AbstractTest{
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorEngagementService.clickNewEnagementButton();
             auditorService.clickActivityLink();
             auditorService.verifyDisplayElementInEngagementActivityPage();
@@ -245,7 +245,7 @@ public class AuditorTestRefactor extends AbstractTest{
         auditorService = new AuditorService(getLogger(), getDriver());
 
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.clickClientsLink();
             auditorService.clickAddNewClientButton();
             auditorService.verifyDisplayElementInAddNewClientPage();
@@ -266,7 +266,7 @@ public class AuditorTestRefactor extends AbstractTest{
         AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.clickClientsLink();
             auditorService.auditorPageHeaderContent();
             auditorService.verifyDisplayElementInClientPage();
@@ -288,7 +288,7 @@ public class AuditorTestRefactor extends AbstractTest{
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
             getLogger().info("Login with auditor user.");
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.clickClientsLink();
             auditorService.clickdropDownSetingLink();
             auditorService.auditorPageHeaderContent();
@@ -311,7 +311,7 @@ public class AuditorTestRefactor extends AbstractTest{
         AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.navigateToAuditorAccountSetting();
             auditorService.auditorPageHeaderContent();
             auditorService.verifyDisplayElementInAuditorNotificationSettingPage();
@@ -333,7 +333,7 @@ public class AuditorTestRefactor extends AbstractTest{
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorEngagementService.clickNewEnagementButton();
             auditorService.verifyDisplayElementInArchivePage();
 
@@ -353,7 +353,7 @@ public class AuditorTestRefactor extends AbstractTest{
         AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
-            auditorService.loadURL(GenericService.getCongigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getCongigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getCongigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
             auditorService.clickClientsLink();
             auditorService.auditorPageHeaderContent();
             auditorService.verifyDisplayElementInClientPage();

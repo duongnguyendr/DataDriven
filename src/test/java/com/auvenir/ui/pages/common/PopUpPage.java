@@ -6,8 +6,6 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
 
 /**
  * Created by tan.pham on 5/22/2017.
@@ -135,7 +133,7 @@ public class PopUpPage extends AbstractPage {
 
         // verify back-ground of one button
         waitForVisibleElement(eleOneButton,txtOneButton);
-        if(!validateCSSValueElement(eleOneButton,BACK_GROUND_BUTTON_TITLE,txtOneButtonBackGround)){
+        if(!validateCssValueElement(eleOneButton,BACK_GROUND_BUTTON_TITLE,txtOneButtonBackGround)){
             NXGReports.addStep(BACK_GROUND_BUTTON_FIRST_MESSAGE_ERROR + txtOneButton   + BACK_GROUND_BUTTON_LAST_MESSAGE_ERROR , LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
@@ -143,7 +141,7 @@ public class PopUpPage extends AbstractPage {
         NXGReports.addStep(BACK_GROUND_BUTTON_FIRST_MESSAGE_SUCCESS + txtOneButton + BACK_GROUND_BUTTON_LAST_MESSAGE_SUCCESS, LogAs.PASSED, null);
 
         // verify color of one button
-        if(!validateCSSValueElement(eleOneButton,COLOR_BUTTON_TITLE,txtOneButtonColor)){
+        if(!validateCssValueElement(eleOneButton,COLOR_BUTTON_TITLE,txtOneButtonColor)){
             NXGReports.addStep(COLOR_BUTTON_FIRST_MESSAGE_ERROR + txtOneButton  + COLOR_BUTTON_LAST_MESSAGE_ERROR, LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
@@ -153,14 +151,14 @@ public class PopUpPage extends AbstractPage {
 
         // verify back-ground of two button
         waitForVisibleElement(eleTwoButton, txtTwoButton);
-        if(!validateCSSValueElement(eleTwoButton,BACK_GROUND_BUTTON_TITLE,txtTwoButtonBackGround)){
+        if(!validateCssValueElement(eleTwoButton,BACK_GROUND_BUTTON_TITLE,txtTwoButtonBackGround)){
             NXGReports.addStep(BACK_GROUND_BUTTON_FIRST_MESSAGE_ERROR + txtTwoButton   + BACK_GROUND_BUTTON_LAST_MESSAGE_ERROR, LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
         NXGReports.addStep(BACK_GROUND_BUTTON_FIRST_MESSAGE_SUCCESS + txtTwoButton + BACK_GROUND_BUTTON_LAST_MESSAGE_SUCCESS, LogAs.PASSED, null);
         // verify color of one button
-        if(!validateCSSValueElement(eleTwoButton,COLOR_BUTTON_TITLE,txtTwoButtonColor)){
+        if(!validateCssValueElement(eleTwoButton,COLOR_BUTTON_TITLE,txtTwoButtonColor)){
             NXGReports.addStep(COLOR_BUTTON_FIRST_MESSAGE_ERROR + txtTwoButton  + COLOR_BUTTON_LAST_MESSAGE_ERROR, LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;

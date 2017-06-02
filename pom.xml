@@ -20,7 +20,6 @@
         <commons.logging.version>1.1.1</commons.logging.version>
         <mongo-api.version>0.2.1</mongo-api.version>
         <mongodb-driver.verison>3.2.2</mongodb-driver.verison>
-        <json.version>20160810</json.version>
         <json-schema-validator.version>3.0.2</json-schema-validator.version>
         <mail.version>1.4</mail.version>
     </properties>
@@ -64,7 +63,7 @@
                             <version>0.0.1</version>
                             <packaging>jar</packaging>
                             <generatePom>true</generatePom>
-                            <file>${basedir}/jars/customizer.jar</file>
+                            <file>${basedir}\jars\customizer.jar</file>
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>com.mylib</groupId>
                             <artifactId>customizer</artifactId>
@@ -91,7 +90,7 @@
             <artifactId>NXGReport</artifactId>
             <version>0.0.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/jars/NXGReport.jar</systemPath>
+            <systemPath>${project.basedir}\jars\NXGReport.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
@@ -181,11 +180,6 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
             <version>${mongodb-driver.verison}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>${json.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>

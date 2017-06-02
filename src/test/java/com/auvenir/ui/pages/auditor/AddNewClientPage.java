@@ -8,6 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
 public class AddNewClientPage extends AbstractPage {
     Logger logger = null;
     WebDriver driver = null;
@@ -332,6 +334,13 @@ public class AddNewClientPage extends AbstractPage {
         return eleAddBtn;
     }
 
+    @FindBy(xpath = "//ul[@class='ddlLink inputDdl inputDdl-after']//li")
+    private List<WebElement> listIteminDropdownListEle;
+
+    public List<WebElement> getListIteminDropdownListEle() {
+        return listIteminDropdownListEle;
+    }
+
     public void verifyDisplayElementInAddNewClientPage(){
         validateDisPlayedElement(getEleAddNewClientTxt(), "Add New Client Text");
         validateEnabledElement(getEleCloseBtn(), "Close Button");
@@ -372,5 +381,50 @@ public class AddNewClientPage extends AbstractPage {
         validateDisPlayedElement(getEleCameraImg(), "Camera Image");
         validateEnabledElement(getEleUploadPhotoBtn(), "Upload Photo Button");
         validateEnabledElement(getEleAddBtn(), "Add Button");
+    }
+
+    public void inputDataKeyContactInfo(String name, String email, String phoneNumber) {
+        getLogger().info("Input Data Contact Information");
+        sendKeyTextBox(eleFirstAndLastNameTxtFld, name,"First And Last Name Textbox");
+        sendKeyTextBox(eleEmailAddressTxtFld, email, "Email Address Textbox");
+        sendKeyTextBox(elePhoneNumberTxtFld, phoneNumber, "Phone Number Textbox");
+    }
+
+    public void inputDataCompanyInfo(String legalName, String pleaseListParent, String address, String unitNumber,
+                                     String city, String provinceState, String country, String postalCode ) {
+        getLogger().info("Input Data Contact Information");
+        sendKeyTextBox(eleLegalNameOfEntityTxtFld, legalName, "Legal Name of Entity Textbox");
+        sendKeyTextBox(elePleaseListParentTxtFld, pleaseListParent, "Please List Parent Listbox");
+        clickElement(eleIndustryDrpDwn, "Industry Dropdown");
+
+        clickElement(listIteminDropdownListEle.get(0), "First Item in Industry Dropdown list.");
+//        Thread.sleep(10000);
+//            addNewClientPage.getElePleaseListParentTxtFld().sendKeys(Keys.PAGE_DOWN);
+
+//        Thread.sleep(5000);
+        clickElement(eleAccountingFrameWorkDrpDwn, "Accounting Framework dropdown");
+        clickElement(listIteminDropdownListEle.get(0), "First Item in Industry Dropdown list.");
+//        clickElement(getEleSelectAccountingFrameWorkDrpDwn().click();
+        sendKeyTextBox(eleAddressTxtFld, address, "Address Textbox");
+        sendKeyTextBox(eleUnitNumberTxtFld, unitNumber, "Unit/Suite Number Textbox");
+        sendKeyTextBox(eleCityTxtFld, city, "City Textbox");
+        sendKeyTextBox(eleProvinceStateTxtFld, provinceState, "Province/State Textbox");
+        sendKeyTextBox(eleCountryTxtFld, country,"Country Textbox");
+        sendKeyTextBox(elePostalCodeTxtFld, postalCode, "Postal Code");
+//        getLogger().info("click country field.");
+//        addNewClientPage.getElePleaseListParentTxtFld().click();
+    }
+
+    public void selectAllCheckboxInCompanyInformation() {
+        getLogger().info("Select three checkbox in Company Information field.");
+        clickElement(eleTheLegalNameChkBox, "Legal Name checkbox");
+        clickElement(eleTheEntityIsPubliclyListedChkBox, "The Entity Publicly checkbox");
+        clickElement(eleTheEntityHasOperationsChkBox, "The Entity Operations Overseas checkbox");
+    }
+
+    public void clickAddNewClientButton() {
+        getLogger().info("Click Add New Client Button.");
+        waitForVisibleElement(eleAddBtn, "Add New Client button");
+        clickElement(eleAddBtn, "Add New Client button");
     }
 }

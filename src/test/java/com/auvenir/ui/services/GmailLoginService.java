@@ -1,40 +1,44 @@
 package com.auvenir.ui.services;
 
-import java.util.concurrent.TimeUnit;
-
-import com.auvenir.utilities.GenericService;
 import com.auvenir.ui.pages.common.GmailPage;
-import org.testng.Assert;
-
+import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
-//import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+import java.util.concurrent.TimeUnit;
+
+//import org.testng.log4testng.Logger;
 
 public class GmailLoginService extends AbstractRefactorService {
     Logger logger = Logger.getLogger(GmailLoginService.class);
     GmailPage gmailLoginPo = null;
-
+    public GmailLoginService(Logger logger, WebDriver driver) {
+        super(logger, driver);
+        gmailLoginPo = new GmailPage(getLogger(), getDriver());
+    }
     public void gmailLogin() throws Exception {
         try {
             gmailLoginPo = new GmailPage(getLogger(), getDriver());
-            getDriver().get(GenericService.getCongigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             getDriver().manage().timeouts().implicitlyWait(10000, TimeUnit.SECONDS);
             if (gmailLoginPo.getEleEmailIDTxtFld().isDisplayed()) {
                 gmailLoginPo.getEleEmailIDTxtFld()
-                        .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
+                        .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
                 gmailLoginPo.getEleNextBtn().click();
             }
             Thread.sleep(5000);
             gmailLoginPo.getElePasswordTxtFld()
-                    .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
             gmailLoginPo.getEleSignInBtn().click();
             Assert.assertTrue(gmailLoginPo.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
             Thread.sleep(5000);
             gmailLoginPo.getEleSearchTxtFld()
-                    .sendKeys(GenericService.getCongigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
+                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
             gmailLoginPo.getEleSearchBtn().click();
             Thread.sleep(5000);
             gmailLoginPo.getEleInviteMailLnk().click();
@@ -61,5 +65,10 @@ public class GmailLoginService extends AbstractRefactorService {
         getDriver().switchTo().window(gmailWindow);
         gmailLoginPo.getEleProfileIcn().click();
         gmailLoginPo.getEleSignOutBtn().click();
+    }
+    //////////////////
+    public void openGmailIndexForgotPassword(String email, String password) throws InterruptedException {
+        gmailLoginPo.goGMail();
+        gmailLoginPo.openGmailIndexForgotPassword(email,password);
     }
 }

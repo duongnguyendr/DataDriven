@@ -1,35 +1,43 @@
 <suite name="Suite" verbose="1">
     <listeners>
-        <parameter name="server" value="local"/>
+        <parameter name="browser" value="chrome"/>
+        <parameter name="version" value="lasted"/>
+        <parameter name="os" value="windows10"/>
         <listener class-name="com.auvenir.utilities.listeners.TestngListener"/>
         <listener class-name="com.kirwa.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
-    <test name="Regression" preserve-order="true">
+    <test name="Regression1" preserve-order="true">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="version" value="lasted"/>
+        <parameter name="os" value="WIN10"/>
         <classes>
+            <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
             <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
             <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
-             <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
-            <class name="com.auvenir.ui.tests.auditor.AuditorTestRefactor"/>
-            <methods>
-                <include name="verifyAuditorLoginPage"></include>
-            </methods>
             <!--
+             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <class name="com.auvenir.ui.tests.AdminTest"/>
             <class name="com.auvenir.ui.tests.SupportTest"/>
             <class name="com.auvenir.ui.tests.CareerTest"/>
+            <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
-            <!--<methods>-->
-                <!--<include name="verifyCompletedFieldUpdateSuccessful"></include>-->
-            <!--</methods>-->
-
+            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+            <!--<methods>
+                <include name="verifyAboutPageContentTest"></include>
+            </methods>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.CareersTest"/>
+            <class name="com.auvenir.ui.tests.marketing.ContactTest"/>
+            <class name="com.auvenir.ui.tests.marketing.CookiesNoticeTest"/>
+            <class name="com.auvenir.ui.tests.marketing.HomePageTest"/>
+            <class name="com.auvenir.ui.tests.marketing.PrivacyPolicyTest"/>
+            <class name="com.auvenir.ui.tests.marketing.TermsTest"/>-->
+            <!-- <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.UndoOptionTest"/>-->
             <!--<class name="com.auvenir.ui.tests.auditor.ContactsTest"/>
             <class nacom.auvenir.ui.tests.auditor.AuditorSettingsTestTest"/>
             <class name="com.auvenir.ui.tests.auditor.NotificationsSettingsTest"/>
             <class name="com.auvenir.ui.tests.auditor.DevicesSettingsTest"/>
-
             <class name="com.auvenir.ui.tests.client.HomeTest"/>
             <class name="com.auvenir.ui.tests.client.AccountSettingsTest"/>
             <class name="com.auvenir.ui.tests.client.NotificationsSettingsTest"/>
@@ -40,8 +48,30 @@
             <class name="com.auvenir.rests.api.tests.AccountTest"/>
             <class name="com.auvenir.rests.api.tests.InstitutionTest"/>
             <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
-			<!--<class name="com.auvenir.ui.tests.auditor.AddDeleteIconTest"/>-->
-
-	    </classes>
-	 </test>  	
+        </classes>
+    </test>
+    <test name="Regression2" preserve-order="true">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="version" value="lasted"/>
+        <parameter name="os" value="WIN10"/>
+        <classes>
+            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+        </classes>
+    </test>
+    <test name="Regression3" preserve-order="true">
+        <parameter name="browser" value="safari"/>
+        <parameter name="version" value="lasted"/>
+        <parameter name="os" value="MAC"/>
+        <classes>
+            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+        </classes>
+    </test>
+    <test name="Regression4" preserve-order="true">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="version" value="lasted"/>
+        <parameter name="os" value="WIN8"/>
+        <classes>
+            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+        </classes>
+    </test>
 </suite>

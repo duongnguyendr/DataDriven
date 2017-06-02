@@ -1,26 +1,22 @@
 package com.auvenir.utilities;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
-import com.auvenir.utilities.extentionLibraries.Excel;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
+import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static com.auvenir.utilities.GenericService.sDirPath;
 import static com.mongodb.MongoClientOptions.builder;
+import static javax.sql.rowset.spi.SyncFactory.getLogger;
 
 /*===================================================================
  * Created by doai.tran on 4/24/2017.
@@ -56,7 +52,7 @@ public class MongoDBService {
     In order to create a connection to DB server.
     Improve: 5/18/2017
      =================================================================== */
-    public static MongoClient connectDBServer(String ServerHost, int portNo, String DB, String username, String password, String SSL) throws UnknownHostException {
+    public static MongoClient connectDBServer(String ServerHost, int portNo, String DB, String username, String password, String SSL) throws UnknownHostException, SyncFactoryException {
         try {
             if (SSL.equals("yes")) {
                 char[] pwd = password.toCharArray();
@@ -72,10 +68,12 @@ public class MongoDBService {
                 System.out.println("AAAAAAA");
                 return mongoClient;
             }
-            System.out.println("Connected");
+            //getLogger().info("Connected successfully.");
+            System.out.println("Connected successfully.");
         } catch (Exception e) {
+            //getLogger().info("Unable to connect to DB: "+ e.getMessage());
+            System.out.println("Unable to connect to DB: " + e.getMessage());
             e.printStackTrace();
-            System.out.println("unable to connect.");
         }
         return null;
     }
@@ -84,9 +82,9 @@ public class MongoDBService {
     Created by: Doai.Tran    - 24-Apr-2017 -
     In order to insert a new owner to DB server.
      =================================================================== */
-    public static void insertOwner(String valueId) throws UnknownHostException {
+    public static void insertOwner(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "owners");
+            sData = GenericService.toReadExcelData(valueId, "owners");
 
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
@@ -107,8 +105,9 @@ public class MongoDBService {
             array.add(documentfin);
             document.put("finCustomer", array);
             table.insert(document);
-
+            getLogger().info("Insert owner successfully.");
         } catch (Exception e) {
+            getLogger().info("Insert owner successfully." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -117,9 +116,9 @@ public class MongoDBService {
     Created by: Doai.Tran    - 24-Apr-2017 -
     In order to delete a new owner to DB server.
      =================================================================== */
-    public static void deleteOwner(String valueId) throws UnknownHostException {
+    public static void deleteOwner(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "owners");
+            sData = GenericService.toReadExcelData(valueId, "owners");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -127,7 +126,9 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("ownerUID", sData[2]);
             table.remove(document);
+            getLogger().info("Delete owner successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to delete owner." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -136,9 +137,9 @@ public class MongoDBService {
     Created by: DoaiTran    - 24-Apr-2017 -
     In order to insert a new Customer to DB server.
      =================================================================== */
-    public static void insertConsumer(String valueId) throws UnknownHostException {
+    public static void insertConsumer(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "consumers");
+            sData = GenericService.toReadExcelData(valueId, "consumers");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -154,8 +155,9 @@ public class MongoDBService {
             document.put("dateCreated", sData[9]);
             document.put("finLoginID", sData[10]);
             table.insert(document);
-
+            getLogger().info("Insert consumer successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to insert consumer." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -164,9 +166,9 @@ public class MongoDBService {
     Created by: Doai.Tran    - 24-Apr-2017 -
     In order to delete a customer to DB server.
      =================================================================== */
-    public static void deleteConsumer(String valueId) throws UnknownHostException {
+    public static void deleteConsumer(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "consumers");
+            sData = GenericService.toReadExcelData(valueId, "consumers");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -174,7 +176,9 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("consumerUID", sData[4]);
             table.remove(document);
+            getLogger().info("Delete consumer successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to delete consumer." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -183,9 +187,9 @@ public class MongoDBService {
     Created by: DoaiTran    - 25-Apr-2017 -
     In order to insert a new institution to DB server.
      =================================================================== */
-    public static void insertInstitution(String valueId) throws UnknownHostException {
+    public static void insertInstitution(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "institutions");
+            sData = GenericService.toReadExcelData(valueId, "institutions");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -207,7 +211,9 @@ public class MongoDBService {
             document.put("address", sData[14]);
             document.put("raw", sData[15]);
             table.insert(document);
+            getLogger().info("Insert Institution successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to insert Institution." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -216,9 +222,9 @@ public class MongoDBService {
     Created by: Doai.Tran    - 25-Apr-2017 -
     In order to delete a customer to DB server.
      =================================================================== */
-    public static void deleteInstitution(String valueId) throws UnknownHostException {
+    public static void deleteInstitution(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "institutions");
+            sData = GenericService.toReadExcelData(valueId, "institutions");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -226,7 +232,9 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("finID", sData[4]);
             table.remove(document);
+            getLogger().info("Delete Institution successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to delete Institution." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -235,9 +243,9 @@ public class MongoDBService {
     Created by: DoaiTran    - 25-Apr-2017 -
     In order to insert a new ConsumerAccount to DB server.
      =================================================================== */
-    public static void insertConsumerAccount(String valueId) throws UnknownHostException {
+    public static void insertConsumerAccount(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "consumerAccounts");
+            sData = GenericService.toReadExcelData(valueId, "consumerAccounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -260,7 +268,9 @@ public class MongoDBService {
             document.put("txnFromDate", sData[14]);
             document.put("txnToDate", sData[15]);
             table.insert(document);
+            getLogger().info("Insert ConsumerAccount successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to insert ConsumerAccount." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -269,9 +279,9 @@ public class MongoDBService {
     Created by: Doai.Tran    - 25-Apr-2017 -
     In order to delete a ConsumerAccount to DB server.
      =================================================================== */
-    public static void deleteConsumerAccount(String valueId) throws UnknownHostException {
+    public static void deleteConsumerAccount(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "consumerAccounts");
+            sData = GenericService.toReadExcelData(valueId, "consumerAccounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -279,7 +289,9 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("finAccountID", sData[7]);
             table.remove(document);
+            getLogger().info("Delete ConsumerAccount successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to delete ConsumerAccount." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -288,9 +300,9 @@ public class MongoDBService {
     Created by: DoaiTran    - 25-Apr-2017 -
     In order to insert a new Account to DB server.
      =================================================================== */
-    public static void insertAccount(String valueId) throws UnknownHostException {
+    public static void insertAccount(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "accounts");
+            sData = GenericService.toReadExcelData(valueId, "accounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -316,7 +328,9 @@ public class MongoDBService {
             document.put("lastTransactionDate", sData[18]);
             document.put("raw", sData[19]);
             table.insert(document);
+            getLogger().info("Insert Account successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to Insert Account." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -325,9 +339,9 @@ public class MongoDBService {
     Created by: Doai.Tran    - 25-Apr-2017 -
     In order to delete a Account to DB server.
      =================================================================== */
-    public static void deleteAccount(String valueId) throws UnknownHostException {
+    public static void deleteAccount(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "accounts");
+            sData = GenericService.toReadExcelData(valueId, "accounts");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -335,7 +349,9 @@ public class MongoDBService {
             BasicDBObject document = new BasicDBObject();
             document.put("institutionID", sData[3]);
             table.remove(document);
+            getLogger().info("Delete Account successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to delete Account." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -344,9 +360,9 @@ public class MongoDBService {
     Created by: DoaiTran    - 26-Apr-2017 -
     In order to insert a new AuthSession to DB server.
      =================================================================== */
-    public static void insertAuthSession(String valueId) throws UnknownHostException {
+    public static void insertAuthSession(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "authSessions");
+            sData = GenericService.toReadExcelData(valueId, "authSessions");
             configurateDatabase();
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
@@ -399,7 +415,9 @@ public class MongoDBService {
 
             document.put("accounts", sData[26]);
             table.insert(document);
+            getLogger().info("Insert AuthSession successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to insert AuthSession." + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -408,35 +426,35 @@ public class MongoDBService {
     Created by: Doai.Tran    - 26-Apr-2017 -
     In order to delete a AuthSession to DB server.
      =================================================================== */
-    public static void deleteAuthSession(String valueId) throws UnknownHostException {
+    public static void deleteAuthSession(String valueId) throws UnknownHostException, SyncFactoryException {
         try {
-            sData = Excel.toReadExcelData(valueId, "authSessions");
+            sData = GenericService.toReadExcelData(valueId, "authSessions");
             MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
             com.mongodb.DB db = MongoClient.getDB(DB);
             DBCollection table = db.getCollection("authSessions");
             BasicDBObject document = new BasicDBObject();
             document.put("_id", sData[1]);
             table.remove(document);
+            getLogger().info("Delete AuthSession successfully.");
         } catch (Exception e) {
+            getLogger().info("Unable to delete AuthSession." + e.getMessage());
             e.printStackTrace();
         }
     }
 
     /**
      * Merged by huy.huynh on 22/05/2017.
-     * TODO move db config to properties file
      */
 
     /**
      * get DBCollection object of given DB name and collection
      *
-     * @param dbName         engagement field chosen as key
      * @param collectionName engagement value chosen as value
      */
-    public static DBCollection getCollection(String dbName, String collectionName) throws UnknownHostException {
+    public static DBCollection getCollection(String collectionName) throws Exception {
         configurateDatabase();
         MongoClient mongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
-        com.mongodb.DB db = mongoClient.getDB(dbName);
+        com.mongodb.DB db = mongoClient.getDB(DB);
         return db.getCollection(collectionName);
     }
 
@@ -448,7 +466,7 @@ public class MongoDBService {
      * @param value        of engagement want to query
      * @param name         of to-do
      */
-    public static JSONObject getToDoObject(DBCollection dBCollection, String field, String value, String name) {
+    public static JSONObject getToDoObject(DBCollection dBCollection, String field, String value, String name) throws Exception {
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put(field, value);
         DBCursor cursor = dBCollection.find(searchQuery);
@@ -471,7 +489,7 @@ public class MongoDBService {
      * @param dBCollection DBCollection object
      * @param value        of engagement want to query
      */
-    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) {
+    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) throws Exception {
         String[] assignee = value.split(" ");
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put("firstName", assignee[0]);
@@ -480,5 +498,20 @@ public class MongoDBService {
         DBObject dBbject = cursor.next();
 
         return dBbject.get("_id").toString();
+    }
+
+    public static void removeUserObjectByEmail(DBCollection dBCollection, String value) {
+        try {
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("email", value);
+            DBCursor cursor = dBCollection.find(searchQuery);
+            DBObject dBbject = cursor.next();
+
+            dBCollection.remove(dBbject);
+        } catch (NoSuchElementException ex) {
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

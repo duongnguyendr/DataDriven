@@ -1,8 +1,8 @@
 package com.auvenir.utilities.initialize;
 
-import com.auvenir.utilities.GeneralUtilities;
+import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
-import com.auvenir.utilities.extentionLibraries.Excel;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -20,28 +19,8 @@ import java.util.Set;
  * Run one time before Regression Testing with config on properties file ./resources/properties/MongoDB.properties
  * Execute this main() to run
  */
-public class InitData {
-
-    private static String server;
-    private static int port;
-    private static String dbName;
-    private static String username;
-    private static String password;
-    private static String ssl;
-    private Properties properties = GeneralUtilities.getMongoDBProperties();
-
-    public InitData() {
-        server = properties.getProperty("server");
-        port = Integer.parseInt(properties.getProperty("port"));
-        dbName = properties.getProperty("dbName");
-        if (!properties.getProperty("username").isEmpty()) {
-            username = properties.getProperty("username");
-        }
-        if (!properties.getProperty("password").isEmpty()) {
-            password = properties.getProperty("password");
-        }
-        ssl = properties.getProperty("ssl");
-    }
+public class InitData extends AbstractAPIService {
+    //private Properties properties = GeneralUtilities.getMongoDBProperties();
 
     /**
      * create some users for init regresstion test with multiple roles
@@ -49,16 +28,17 @@ public class InitData {
     @Test(priority = 1, enabled = true, description = "Initialize data before testing.")
     public void initUserAndMapping() throws UnknownHostException {
         try {
-            String[][] data = Excel.readExcelSheetData(properties.getProperty("sheetForInitMongoDB"));
+            String[][] data = GenericService.readExcelSheetData("usersRegression");
 
 //            MongoClient mongoClient = new MongoClient("34.205.90.145", 27017);
 //            DB db = mongoClient.getDB("huytest");
-            MongoClient MongoClient = MongoDBService.connectDBServer(server, port, dbName, username, password, ssl);
-            DB db = MongoClient.getDB(dbName);
+            MongoClient MongoClient = MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
+            System.out.println("MongoClient = " + MongoClient);
+            DB db = MongoClient.getDB(dataBase);
 
-            DBCollection usersCollection = db.getCollection(properties.getProperty("usersCollection"));
-            DBCollection firmsCollection = db.getCollection(properties.getProperty("firmsCollection"));
-            DBCollection businessesCollection = db.getCollection(properties.getProperty("businessesCollection"));
+            DBCollection usersCollection = db.getCollection("users");
+            DBCollection firmsCollection = db.getCollection("firms");
+            DBCollection businessesCollection = db.getCollection("businesses");
 
             //code to drop all records of collections on DB
             dropAllCollections(db);

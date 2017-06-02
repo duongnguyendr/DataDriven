@@ -1,6 +1,11 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.AuvenirPage;
+import com.auvenir.ui.pages.CreateNewAuditPage;
+import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.auditor.AddNewClientPage;
 import com.auvenir.ui.pages.client.*;
+import com.auvenir.ui.pages.common.GmailPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -19,9 +24,18 @@ public class ClientService extends AbstractService {
     ClientIntegrationsSettingsPage clientIntegrationsSettingsPage;
     ClientDevicesSettingsPage clientDevicesSettingsPage;
     ClientHomePage clientHomePage;
+    ClientRequestPage clientRequestPage;
+    ClientFilesPage clientFilesPage;
+    ClientOnBoardingPage clientOnBoardingPage;
+    ClientLoginPage clientLoginPage;
+    AuvenirPage auvenirPage;
+    GmailPage gmailPage;
+    CreateNewAuditPage createNewAuditPage;
+    AddNewClientPage addNewClientPage;
+    AdminLoginPage adminLoginPage;
+
 
     public ClientService(Logger logger, WebDriver driver) {
-
         super(logger, driver);
         clientDashboardPage = new ClientDashboardPage(getLogger(), getDriver());
         clientSettingsPage = new ClientSettingsPage(getLogger(), getDriver());
@@ -30,6 +44,15 @@ public class ClientService extends AbstractService {
         clientIntegrationsSettingsPage = new ClientIntegrationsSettingsPage(getLogger(), getDriver());
         clientDevicesSettingsPage = new ClientDevicesSettingsPage(getLogger(), getDriver());
         clientHomePage = new ClientHomePage(getLogger(), getDriver());
+        clientRequestPage = new ClientRequestPage(getLogger(), getDriver());
+        clientFilesPage = new ClientFilesPage(getLogger(), getDriver());
+        clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
+        clientLoginPage = new ClientLoginPage(getLogger(), getDriver());
+        auvenirPage = new AuvenirPage(getLogger(), getDriver());
+        gmailPage = new GmailPage(getLogger(), getDriver());
+        createNewAuditPage = new CreateNewAuditPage(getLogger(), getDriver());
+        addNewClientPage = new AddNewClientPage(getLogger(), getDriver());
+        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
     }
 
 
@@ -51,23 +74,9 @@ public class ClientService extends AbstractService {
 
     }
 
-    public void verifyClientFooter() {
-
-        try {
-            clientDashboardPage.scrollPageDown();
+    public void verifyClientFooter(){
             getLogger().info("verify footer page.");
             clientDashboardPage.verifyClientFooter();
-            getLogger().info("verfify term of service link.");
-            clientDashboardPage.verifyTermsOfServiceLink();
-            getLogger().info("verify privacy state link.");
-            clientDashboardPage.verifyPrivacyStateLink();
-            getLogger().info("verify cookies notice link.");
-            clientDashboardPage.verifyCookieNotice();
-            clientDashboardPage.scrollPageUp();
-            NXGReports.addStep("verify footer page", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
     }
 
     public void navigateToCompletedTab() {
@@ -180,14 +189,8 @@ public class ClientService extends AbstractService {
     }
 
     public void verifyClientHomePage() {
-        try {
-            getLogger().info("verify client home page.");
-            clientDashboardPage.verifyClientHomePage();
-            NXGReports.addStep("verify Client home page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            getLogger().info(e);
-            NXGReports.addStep("verify Client home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("verify client home page.");
+        clientDashboardPage.verifyClientHomePage();
     }
 
     public void verifyClientHeader() {
@@ -202,8 +205,128 @@ public class ClientService extends AbstractService {
         clientHomePage.verifyMyAuditsPage();
     }
 
-    public void verifyClientFooterRefactor() {
-        clientDashboardPage.verifyClientFooter();
+    public void verifyClientRequestPage() { clientRequestPage.verifyClientRequestPage(); }
+
+    public void clickRequestLnk() { clientDashboardPage.clickRequestLink(); }
+
+    public void verifyGeneralLedgerTab() { clientRequestPage.verifyGeneralLedgerTab(); }
+
+    public void clickTrialBalanceMenuLink() { clientRequestPage.clickTrialBalanceMenuLink(); }
+
+    public void verifyTrialBalanceTab() { clientRequestPage.verifyTrialBalanceTab(); }
+
+    public void clickBankStatementsMenuLink() { clientRequestPage.clickBankStatementsMenuLink(); }
+
+    public void verifyBankStatementsTab() { clientRequestPage.verifyBankStatementsTab(); }
+
+    public void clickFilesLink() { clientDashboardPage.clickFilesLink(); }
+
+    public void verifyFilesTab() { clientFilesPage.verifyFilesTab(); }
+
+    public void clickDashBoardLink() { clientDashboardPage.clickDashBoardLink(); }
+
+    public void clickNewMessageButton() { clientDashboardPage.clickNewMessageButton(); }
+
+    public void verifyNewMessageForm() { clientDashboardPage.verifyNewMessageForm(); }
+
+    public void clickCloseMessageButton() { clientDashboardPage.clickCloseMessageButton(); }
+
+    public void verifyDashboardPage() { clientDashboardPage.verifyDashboardPage(); }
+
+    public void clickInboxMessage() { clientDashboardPage.clickInboxMessage(); }
+
+    public void verifyClientOnBoardingPersonalStep() { clientOnBoardingPage.verifyClientOnBoardingPersonalStep(); }
+
+    public void clickContinuePersonalInformationButton() { clientOnBoardingPage.clickContinuePersonalInformationButton(); }
+
+    public void verifyClientOnBoardingBusinessStep() { clientOnBoardingPage.verifyClientOnBoardingBusinessStep(); }
+
+    public void clickContinueBusinessInformationButton() { clientOnBoardingPage.clickContinueBusinessInformationButton(); }
+
+    public void verifyClientOnBoardingIntegrateFileStep() { clientOnBoardingPage.verifyClientOnBoardingIntegrateFileStep(); }
+
+    public void clickSkipIntegrateFileButton() { clientOnBoardingPage.clickSkipIntegrateFileButton(); }
+
+    public void verifyClientOnBoardingSecurityStep() { clientOnBoardingPage.verifyClientOnBoardingSecurityStep(); }
+
+    public void clickSkipSecurityButton(){ clientOnBoardingPage.clickSkipSecurityButton(); }
+
+    public void verifySkipSecurityPopUp(){ clientOnBoardingPage.verifySkipSecurityPopUp(); }
+
+    public void clickSkipSecurityWarning(){ clientOnBoardingPage.clickSkipSecurityWarning(); }
+
+    public void verifyDashBoardText(){ clientOnBoardingPage.verifyDashBoardText(); }
+
+    public void signInEmailOnClientLoginPage(String clientID) { clientLoginPage.signInEmailOnClientLoginPage(clientID);}
+
+    public void verifyWelcomePleaseCheckTxtIsDisplayed() { auvenirPage.verifyWelcomePleaseCheckTxtIsDisplayed(); }
+
+    public void gmailLogin(String gmailUserName, String gmailPassword) throws InterruptedException {
+        gmailPage.gmailLogin(gmailUserName, gmailPassword);
     }
 
+    public void searchGmail(String GMAIL_SEARCHMAIL) { gmailPage.searchGmail(GMAIL_SEARCHMAIL); }
+
+    public void signInEmail() { gmailPage.signInEmail(); }
+
+    public void verifyClientLoginPageAfterSignIn() { clientLoginPage.verifyClientLoginPageAfterSignIn(); }
+
+    public void accountActiveEmail() { gmailPage.accountActiveEmail(); }
+
+    public void verifyClientLoginPageAfterActiveAccount() { clientLoginPage.verifyClientLoginPageAfterActiveAccount(); }
+
+    public void inviteEmail() { gmailPage.inviteEmail(); }
+
+    public void verifyClientLoginPageInvitationEmail() { clientLoginPage.verifyClientLoginPageInvitationEmail(); }
+
+    public void clickStartAuditButton() { clientLoginPage.clickStartAuditButton(); }
+
+    public void clickSelectClientButton() { createNewAuditPage.clickSelectClientButton(); }
+
+    public void verifyPleaseSelectClientText() { createNewAuditPage.verifyPleaseSelectClientText(); }
+
+    public void clickCreateNewClient() { createNewAuditPage.clickCreateNewClient(); }
+
+    public void verifyAddNewClientPopUpDisplayed() { createNewAuditPage.verifyAddNewClientPopUpDisplayed(); }
+
+    public void inputDataKeyContactInfo(String name, String email, String phoneNumber) {
+        addNewClientPage.inputDataKeyContactInfo(name, email, phoneNumber);
+    }
+
+    public void inputDataCompanyInfo(String legalName, String pleaseListParent, String address, String unitNumber,
+                                     String city, String provinceState, String country, String postalCode ) {
+        addNewClientPage.inputDataCompanyInfo(legalName, pleaseListParent, address, unitNumber,
+                city, provinceState, country, postalCode );
+    }
+
+    public void selectAllCheckboxInCompanyInformation() {
+        addNewClientPage.selectAllCheckboxInCompanyInformation();
+    }
+
+    public void clickAddNewClientButton() {
+        addNewClientPage.clickAddNewClientButton();
+    }
+
+    public void clickSelectClient(String clientName){
+        createNewAuditPage.clickSelectClient(clientName);
+    }
+
+    public void verifyClientIsSelected(String clientFirstName){
+        createNewAuditPage.verifyClientIsSelected(clientFirstName);
+    }
+
+    public void sendInvitationName() {
+        createNewAuditPage.sendInvitationName();
+    }
+    public void closeSuccessToastMes() {
+        createNewAuditPage.closeSuccessToastMes();
+    }
+
+    public void verifyAdminLoginPage() {
+        adminLoginPage.verifyAdminLoginPage();
+    }
+
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+        adminLoginPage.verifyUserIsChangeStatusOnTheList(userType, email, dateCreated, expectedStatus);
+    }
 }
