@@ -97,4 +97,7 @@ public class HomeService extends AbstractService {
     public void goToPrivacyPolicyPage(){
         homePO.goToPrivacyPolicyPage();
     }
+    public void goToTermsOfService(){
+        homePO.goToTermOfService();
+    }
 }

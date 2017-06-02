@@ -1,29 +1,17 @@
 package com.auvenir.ui.tests;
 
-import com.auvenir.ui.services.AbstractRefactorService;
-import com.auvenir.utilities.GeneralUtilities;
-import com.auvenir.utilities.GenericService;
-import com.auvenir.ui.pages.CareerPage;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import com.auvenir.ui.pages.AuvenirPage;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.CareerService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
-//import org.testng.log4testng.Logger;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 
-public class CareerTest extends AbstractRefactorService {
-    public CareerTest(Logger logger, WebDriver driver) {
-        super(logger, driver);
-    }
-    //Logger logger = Logger.getLogger(CareerTest.class);
-    CareerPage careerPage = null;
-    String auditorLoginPageHandles = null;
-    AuvenirPage auvenirPage = null;
+public class CareerTest extends AbstractTest {
+    private CareerService careerService;
 
     /*
      * @Description: To Verify the display of Elements in Career Page
@@ -31,30 +19,21 @@ public class CareerTest extends AbstractRefactorService {
      */
     @Test(priority = 1, enabled = true, description = "To Verify the display of Elements in Career Page")
     public void verifyCareerPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
-        careerPage = new CareerPage(getLogger(), getDriver());
-        auvenirPage = new AuvenirPage(getLogger(), getDriver());
+        careerService = new CareerService(getLogger(), getDriver());
         try {
-            getLogger().info("Log into home page.");
-            loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
-            auditorLoginPageHandles = getDriver().getWindowHandle();
-            getLogger().info("Switch to New page.");
-            auvenirPage.getEleCareersLnk().click();
-
-            switchToWindow();
-            GeneralUtilities.toValidate(auvenirPage.getEleAuvenirImg(), "Auvenir Header Logo Image", "Displayed");
-            GeneralUtilities.toValidate(careerPage.getEleWeAreGrowingTxt(), "We are Growing Text", "Displayed");
-            GeneralUtilities.toValidate(careerPage.getEleCareersAtAuvenirTxt(), "Careers at Auvenir Text", "Displayed");
-            //GeneralUtilities.toValidate(careerPage.getEleBusinessTxt(),"Business Text","Displayed");
-            GeneralUtilities.toValidate(careerPage.getEleProductLeadLnk(), "Product text", "Displayed");
-            //GeneralUtilities.toValidate(careerPage.getEleMarketingTxt(),"Marketing Text","Displayed");
-            //GeneralUtilities.toValidate(careerPage.getEleSalesBizDevelopmentLnk(),"Sales/Biz Development link","Displayed");
-            GeneralUtilities.toValidate(careerPage.getEleTechnologyTxt(), "Technology Text", "Displayed");
-            GeneralUtilities.toValidate(careerPage.getEleDeveloperLnk(), "Developer Link", "Displayed");
-            //GeneralUtilities.toValidate(careerPage.getEleSeniorDevOpsLnk(),"Senior Dev Ops Link","Displayed");
-            auvenirPage.verifyFooter();
-            getDriver().close();
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            //Go to home auvenir page
+            careerService.goToAuvenirHomePage();
+            //Click on career link
+            careerService.clickOnCareerLink();
+            // Switch to window
+            careerService.switchToWindow();
+            // Verify header career path page
+            careerService.verifyHeaderCareerPathPage();
+            // Verify coneten in career path page
+            careerService.verifyContenCareerPathPage();
+            // Verify footer of career path page
+            careerService.verifyFooterCareerPathPage();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
             //	driver.switchTo().window(AbstractRefactorService.newWin).close();
 
