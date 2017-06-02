@@ -116,7 +116,21 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifySearchInputNumber();
     }
 
+    public void verifySearchInputSpecialChar(){
 
+        createToDoPage.verifySearchInputSpecialChar();
+    }
+
+    public void inputSearchText(String inputSearch){
+        createToDoPage.inputSearchText(inputSearch);
+    }
+    public void verifySearchResult(String inputSearch){
+        createToDoPage.checkSearchData(inputSearch);
+    }
+
+    public void verifySearchResutlNotMatch(){
+        createToDoPage.verifySearchResutlNotMatch();
+    }
 //	public void verifySearchLimit255(){
 //		try {
 //			createToDoTask.verifySearchLimit255();
@@ -292,7 +306,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void createToDoPage() {
 
         try {
-            createToDoPage.createToDoTask(1);
+            createToDoPage.createToDoTask();
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Create To-Do page", LogAs.FAILED,
@@ -300,18 +314,6 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
-    //Vien.Pham add new Create Multicategories
-    public void createMultiCategories() {
-        try {
-            createToDoPage.createToDoTask(2);
-            NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Create To-Do page", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-
-    }
 
     /*
         public void verifyGUIAddNewToDoNameTextBox() {
@@ -346,13 +348,14 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyHoverCategoryComboBox() {
+
         createToDoPage.verifyHoverCategoryComboBox();
     }
 
-    public void verifyCreateNewCategory() {
-        getLogger().info("Verify create new Category");
-        createToDoPage.verifyCreateNewCategory();
-    }
+//    public void verifyCreateNewCategory() {
+//        getLogger().info("Verify create new Category");
+//        createToDoPage.verifyCreateNewCategory();
+//    }
 
     public void verifyAddNewCategoryPopupTitle() {
         getLogger().info("Verify title of add new category popup");
@@ -885,16 +888,18 @@ public class AuditorCreateToDoService extends AbstractService {
     Vien add new method for PLAT 2326-2301 TO verify To-dos textbox
      */
 
-    public void createCategories(String newValue) throws Exception {
 
-        createToDoPage.createNewCategory("", newValue);
-
+    public void waitForNewTodoNameApplied(){
+       createToDoPage.waitForNewTodoNameSaved();
+    }
+    public void createCategories(String cate1) throws Exception {
+        createToDoPage.createNewCategory(cate1);
     }
 
     public void createMultiCategory(String cate1, String cate2, String cate3) throws Exception {
-        createToDoPage.createNewCategory("", cate1);
-        createToDoPage.createNewCategory("",cate2);
-        createToDoPage.createNewCategory("",cate3);
+        createToDoPage.createNewCategory(cate1);
+        createToDoPage.createNewCategory(cate2);
+        createToDoPage.createNewCategory(cate3);
     }
 
     public void navigateToEditNewCategory() throws InterruptedException {
@@ -902,51 +907,117 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyTodosTextBox() throws InterruptedException {
-        getLogger().info("Verifying Todos Textbox...");
-        createToDoPage.verifyTodoTextbox_DefaultValue();
+    public void verifyTodosTextBox_DefaultGUI() throws InterruptedException {
+        createToDoPage.verifyTodoTextbox_DefaultName();
         createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
         createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
         createToDoPage.verifyTodoTextboxBorder_Default();
         createToDoPage.verifyTodoTextboxBorder_WhileHovered();
-        createToDoPage.verifyTodoTextboxBorder_WhileMissedName();
-        createToDoPage.verifyTodoTextbox_InputText();
-        createToDoPage.verifyTodoTextbox_InputNumber();
-        createToDoPage.verifyTodoTextbox_InputSpecialChars();
-        createToDoPage.verifyTodoTextbox_NullChars();
+    }
+
+    public void InputValidValue(String validValue) {
+
+        createToDoPage.InputValue_TodoName(validValue);
+    }
+
+    public void verifyInputValidValue(String validValue) {
+        createToDoPage.verifyInputValidValue(validValue);
+    }
+
+    public void InputOnlyNumber(int number) {
+        createToDoPage.InputValue_TodoName(Integer.toString(number));
+    }
+
+    public void verifyInputNumber(int number) {
+        createToDoPage.verifyInputValidValue(Integer.toString(number));
 
     }
 
-    public void verifyCategoryComboBox() {
+    public void InputSpecialChar(String specialChar) {
+
+        createToDoPage.InputValue_TodoName(specialChar);
+    }
+
+    public void verifyInputSpecialChar(String specialChar) {
+
+        createToDoPage.verifyInputInvalidValue(specialChar);
+    }
+
+    public void InputNullChar(String nullChar) {
+        createToDoPage.InputValue_TodoName(nullChar);
+
+    }
+
+    public void verifyInputNullChar(String nullChar) {
+        createToDoPage.verifyInputInvalidValue(nullChar);
+
+    }
+
+    public void verifyCategoryComboBox_DefaultGUI() {
         getLogger().info("Verifying Category ComboBox...");
         createToDoPage.verifyCategoryBox_DefaultValue();
         createToDoPage.verifyBorderCategoryBox_WhileHovered();
-        getLogger().info("Trying to create some category items...");
-        createToDoPage.verifyAddNewCategories();
-        createToDoPage.verifyCategoryIsSelectedCorrectly();
+    }
+
+    public void verifyNewCategorySaved(String cate1) {
+        createToDoPage.verifyCreateNewCategory(cate1);
+    }
+
+    public void selectCategory() {
+        createToDoPage.selectCategory();
+    }
+
+    public void verifyNewCategoryChosenCorrectly(String cate1) {
+        createToDoPage.verifyCategoryIsSelectedCorrectly(cate1);
     }
 
     public void verifyClientAssigneeComboBox() {
         getLogger().info("Verifying Client Assignee ComboBox...");
         createToDoPage.verifyClientAssignee_DefaultValue();
         createToDoPage.verifyBorderClientAssignee_WhileHovered();
+//        createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
+    }
+
+    public void verifyClientAssigneeIsSelectedCorrectly(){
         createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
     }
+
 
     public void verifyDuedateTimebox() {
         getLogger().info("Verifying DueDate Timebox...");
 //        createToDoPage.verifyDuedate_DefaultValue();
         createToDoPage.verifyBorderDuedate_WhileHovered();
         createToDoPage.verifyDuedateTable();
-//        createToDoPage.verifyselectDuedate();
+
     }
 
     public void verifyAuditAssigneeBox() {
         getLogger().info("Verifying AuditAssignee box..");
-//        createToDoPage.verifyAditAssignee_DefaultValue();
+        createToDoPage.verifyAditAssignee_DefaultValue();
         createToDoPage.verifyBorderAuditAssignee_WhileHoverd();
+    }
+    public void verifyAuditAssigneeIsSelectedCorrectly(){
         createToDoPage.verifyAuditAssigneeIsSelectedCorrectly();
     }
 
+    public void verifyCreateTodoBtn() {
+        createToDoPage.verifyCreateTodoBtn_DefaultValue();
+//        createToDoPage.verifyCreateTodoBtn_Click();
+    }
+
+    public void verifyFilterBtn() {
+        createToDoPage.verifyFilterBtn_Position();
+    }
+
+    public void verifyBulkActionBtn() {
+        createToDoPage.verifyBulkActionBtn_Position();
+    }
+
+    public void verifySearchBox_DefaultGUI() {
+        getLogger().info("Verifying default value: Search...");
+        createToDoPage.verifySearchDefault();
+        getLogger().info("Verifying Search border is Green when hovered...");
+        createToDoPage.verifySearchHover();
+    }
 }
 

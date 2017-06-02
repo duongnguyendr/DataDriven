@@ -1,5 +1,6 @@
 package com.auvenir.ui.services.marketing.signup;
 
+import com.auvenir.ui.pages.marketing.HomePage;
 import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
@@ -10,16 +11,18 @@ import java.util.List;
 /**
  * Created by tan.pham on 5/24/2017.
  */
-public class FirmService extends AbstractService {
-    private AuditorSignUpFirmPage auditorSignUpFirmPage;
+public class AuditorSignUpService extends AbstractService {
+    private AuditorSignUpPage auditorSignUpFirmPage;
+    private HomePage homePage;
 
-    public FirmService(Logger logger, WebDriver driver) {
+    public AuditorSignUpService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        auditorSignUpFirmPage = new AuditorSignUpFirmPage(getLogger(),getDriver());
+        auditorSignUpFirmPage = new AuditorSignUpPage(getLogger(),getDriver());
+        homePage = new HomePage(getLogger(), getDriver());
     }
 
     public void verifyFirmSignUpPage(){
-        auditorSignUpFirmPage.verifyPageContent();
+        auditorSignUpFirmPage.verifyFirmInfoPageContent();
     }
 
     public void registerFirmInfo(String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
@@ -122,5 +125,85 @@ public class FirmService extends AbstractService {
         for(int i = 0 ; i < invalidValue.size(); i++){
             auditorSignUpFirmPage.verifyInputValidValueOnAffFirmTextBox(invalidValue.get(i));
         }
+    }
+
+    public void navigateToSignUpPage(){
+        homePage.clickOnSignupButton();
+    }
+
+    public void verifyPersonalSignUpPage(){
+        auditorSignUpFirmPage.verifyPersonalInfoPageContent();
+    }
+
+    public void registerAuditorPersonal(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference){
+        auditorSignUpFirmPage.registerAuditorPersonal(strName,strEmail,strRoleFirm,strPhone,strReference);
+    }
+
+    public void clickOnCheckBoxConfirm(){
+        auditorSignUpFirmPage.clickOnCheckBoxConfirm();
+    }
+
+    public void inputValueIntoFullNameTexBox(String strName){
+        auditorSignUpFirmPage.inputValueIntoFullNameInput(strName);
+    }
+
+    public void verifyColorFullNameTxtBox(String attributeName, String attributeValue){
+        auditorSignUpFirmPage.verifyColorFullNameTxtBox(attributeName,attributeValue);
+    }
+
+    public void inputValueIntoEmailTexBox(String strName){
+        auditorSignUpFirmPage.inputValueIntoEmailTextBox(strName);
+    }
+
+    public void verifyColorEmailTxtBox(String attributeName, String attributeValue){
+        auditorSignUpFirmPage.verifyColorEmailTxtBox(attributeName,attributeValue);
+    }
+
+    public void inputValueIntoConfirmEmailTextBox(String strName){
+        auditorSignUpFirmPage.inputValueIntoConfirmEmailTextBox(strName);
+    }
+
+    public void verifyColorConfirmEmailTxtBox(String attributeName, String attributeValue){
+        auditorSignUpFirmPage.verifyColorConfirmEmailTxtBox(attributeName,attributeValue);
+    }
+
+    public void inputValueIntoPhoneNumberTextBox(String strName){
+        auditorSignUpFirmPage.inputValueIntoPhoneNumberTextBox(strName);
+    }
+
+    public void verifyColorPhoneNumberTxtBox(String attributeName, String attributeValue){
+        auditorSignUpFirmPage.verifyColorPhoneNumberTxtBox(attributeName,attributeValue);
+    }
+
+    public void verifySecuritySignUpPage(){
+        auditorSignUpFirmPage.verifySecurityInfoPageContent();
+    }
+
+    public void createPassword(String strPass, String strCaptcha){
+        auditorSignUpFirmPage.createPassword(strPass,strCaptcha);
+    }
+
+    public void verifyCreatePasswordPopupWarning(int passwordLength, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber){
+        auditorSignUpFirmPage.verifyCreatePasswordPopupWarning(passwordLength, isContainsCapialLetter, isContainsLetter, isContainsNumber);
+    }
+
+    public void verifyConfirmPasswordPopupWarning(){
+        auditorSignUpFirmPage.verifyConfirmPasswordPopupWarning();
+    }
+
+    public void inputValueIntoPaswordInput(String strName){
+        auditorSignUpFirmPage.inputValueIntoPaswordInput(strName);
+    }
+
+    public void inputValueIntoConfirmPaswordInput(String strName){
+        auditorSignUpFirmPage.inputValueIntoConfirmPaswordInput(strName);
+    }
+
+    public void verifySuccessSignUpPage(){
+        auditorSignUpFirmPage.verifySuccessPageContent();
+    }
+
+    public void acceptCreateAccountAuditor(){
+        auditorSignUpFirmPage.acceptCreateAccountAuditor();
     }
 }
