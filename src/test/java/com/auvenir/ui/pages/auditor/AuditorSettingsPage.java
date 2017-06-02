@@ -317,48 +317,46 @@ public class AuditorSettingsPage extends AbstractPage {
     }
 
     public void clickNotificationLink(){
-        waitForClickableOfElement(getEleNotificationsLnk(), "Notification link");
-        clickElement(getEleNotificationsLnk(), "Notification link");
+        waitForClickableOfElement(eleNotificationsLnk, "Notification link");
+        clickElement(eleNotificationsLnk, "Notification link");
     }
-
     public void verifyDisplayElementInAuditorAccountSettingPage(){
-        validateDisPlayedElement(getEleSettingsTxt(), "Settings  - Title");
-        validateDisPlayedElement(getEleAccountLnk(), "Account  - Link");
-        validateDisPlayedElement(getEleNotificationsLnk(), "Notification  - Link");
-        validateDisPlayedElement(getEleDevicesLnk(), "Devices  - Link");
-        validateDisPlayedElement(getEleAccountSettingsTxt(), "Account Settings  - Text");
-        validateDisPlayedElement(getEleFirstLastNameTxt(), "First and Last Name  - Text");
-        validateDisPlayedElement(getEleFirstAndLastNameTxtFld(), "First and Last Name  - Text Field");
-        validateDisPlayedElement(getEleEmailAddressTxt(), "Email Address  - Text");
-        validateDisPlayedElement(getEleEmailAddressTxtFld(), "Email Address  - Text Field");
-        validateDisPlayedElement(getElePhoneNumberTxt(), "Phone Number  - Text");
-        validateDisPlayedElement(getElePhoneNumberTxtFld(), "Phone Number  - Text Field");
-        validateDisPlayedElement(getEleProfilePictureImg(), "Photo  - Image");
-        validateDisPlayedElement(getEleYourPhotoTxt(), "your Photo  - Text");
-        validateDisPlayedElement(getEleUpdateBtn(), "Update   - Button");
+        validateDisPlayedElement(eleSettingsTxt, "Settings  - Title");
+        validateDisPlayedElement(eleAccountLnk, "Account  - Link");
+        validateDisPlayedElement(eleNotificationsLnk, "Notification  - Link");
+        validateDisPlayedElement(eleDevicesLnk, "Devices  - Link");
+        validateDisPlayedElement(eleAccountSettingsTxt, "Account Settings  - Text");
+        validateDisPlayedElement(eleFirstLastNameTxt, "First and Last Name  - Text");
+        validateDisPlayedElement(eleFirstAndLastNameTxtFld, "First and Last Name  - Text Field");
+        validateDisPlayedElement(eleEmailAddressTxt, "Email Address  - Text");
+        validateDisPlayedElement(eleEmailAddressTxtFld, "Email Address  - Text Field");
+        validateDisPlayedElement(elePhoneNumberTxt, "Phone Number  - Text");
+        validateDisPlayedElement(elePhoneNumberTxtFld, "Phone Number  - Text Field");
+        validateDisPlayedElement(eleProfilePictureImg, "Photo  - Image");
+        validateDisPlayedElement(eleYourPhotoTxt, "your Photo  - Text");
+        validateDisPlayedElement(eleUpdateBtn, "Update   - Button");
     }
-
     public void verifyDisplayElementInAuditorNotificationSettingPage(){
         clickNotificationLink();
-        validateDisPlayedElement(getEleNotificationsSettingsTxt(), "Notification Settings Text");
-        validateDisPlayedElement(getEleWeWillAlertTxt(), "We Will Alert Text");
-        validateDisPlayedElement(getEleByEmailTxt(), "By Email Text");
-        validateDisPlayedElement(getEleGetNotifiedTxt(), "Get Notified Text");
-        validateDisPlayedElement(getEleIsInventedTxt(), "Is Invented Text");
-        validateDisPlayedElement(getEleIsInventedSliderBtn(), "Is Invented Slider Button");
-        validateDisPlayedElement(getEleHasJoinedTxt(), "Has Joined Text");
-        validateDisPlayedElement(getEleHasJoinedSliderBtn(), "Has Joined Slider Button");
-        validateDisPlayedElement(getEleSendYouTxt(), "Send You Text");
-        validateDisPlayedElement(getEleSendYouSliderBtn(), "Send You Slider Button");
-        validateDisPlayedElement(getEleUploadATxt(), "Upload A Text");
-        validateDisPlayedElement(getEleUploadASliderBtn(), "Upload A Slider Button");
-        validateDisPlayedElement(getEleCommentsTxt(), "Comment Text");
-        validateDisPlayedElement(getEleCommentsSliderBtn(), "Comment Slider Button");
-        validateDisPlayedElement(getEleCreateATxt(), "Create A Text");
-        validateDisPlayedElement(getEleCreateASliderBtn(), "Create A Slider Button");
-        clickElement(getEleDevicesLnk(), "Device link");
-        validateDisPlayedElement(getEleMyDevicesTxt(), "My Devices Text");
-        validateDisPlayedElement(getEleYouHaveRegisteredTxt(), "You Have Registered Text");
-        validateEnabledElement(getEleAddAnotherBtn(), "Add Another Button");
+        validateDisPlayedElement(eleNotificationsSettingsTxt, "Notification Settings Text");
+        validateDisPlayedElement(eleWeWillAlertTxt, "We Will Alert Text");
+        validateDisPlayedElement(eleByEmailTxt, "By Email Text");
+        validateDisPlayedElement(eleGetNotifiedTxt, "Get Notified Text");
+        validateDisPlayedElement(eleIsInventedTxt, "Is Invented Text");
+        validateDisPlayedElement(eleIsInventedSliderBtn, "Is Invented Slider Button");
+        validateDisPlayedElement(eleHasJoinedTxt, "Has Joined Text");
+        validateDisPlayedElement(eleHasJoinedSliderBtn, "Has Joined Slider Button");
+        validateDisPlayedElement(eleSendYouTxt, "Send You Text");
+        validateDisPlayedElement(eleSendYouSliderBtn, "Send You Slider Button");
+        validateDisPlayedElement(eleUploadATxt, "Upload A Text");
+        validateDisPlayedElement(eleUploadASliderBtn, "Upload A Slider Button");
+        validateDisPlayedElement(eleCommentsTxt, "Comment Text");
+        validateDisPlayedElement(eleCommentsSliderBtn, "Comment Slider Button");
+        validateDisPlayedElement(eleCreateATxt, "Create A Text");
+        validateDisPlayedElement(eleCreateASliderBtn, "Create A Slider Button");
+        clickElement(eleDevicesLnk, "Device link");
+        validateDisPlayedElement(eleMyDevicesTxt, "My Devices Text");
+        validateDisPlayedElement(eleYouHaveRegisteredTxt, "You Have Registered Text");
+        validateEnabledElement(eleAddAnotherBtn, "Add Another Button");
     }
 }
