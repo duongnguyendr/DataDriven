@@ -6,6 +6,7 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -23,21 +24,37 @@ public class AuditorToDoPageTest extends AbstractTest {
     public void verifyTodosTextBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.verifyTodosTextBox();
+            getLogger().info("Verifying Todo Textbox default value..");
+            auditorCreateToDoService.verifyTodosTextBox_DefaultGUI();
+            getLogger().info("Verifying input valid Todo name..");
+            auditorCreateToDoService.InputValidValue("New todo 2708");
+            auditorCreateToDoService.verifyInputValidValue("New todo 2708");
+            getLogger().info("Verifying input Only number..");
+            auditorCreateToDoService.InputOnlyNumber(13082016);
+            auditorCreateToDoService.verifyInputNumber(13082016);
+            getLogger().info("Verifying input Special Char..");
+            auditorCreateToDoService.InputSpecialChar("1308@#%^&*()");
+            auditorCreateToDoService.verifyInputSpecialChar("1308@#%^&*()");
+            getLogger().info("Verifying input Nullchar...");
+            auditorCreateToDoService.InputNullChar("");
+            auditorCreateToDoService.verifyInputNullChar("");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Todos Textbox.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Todos Textbox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify Category Combo box")
+    @Test(priority = 2, enabled = false, description = "Verify Category Combo box")
     public void verifyCategoryComboBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -50,7 +67,15 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.verifyCategoryComboBox();
+            getLogger().info("Verifying Category box default value..");
+            auditorCreateToDoService.verifyCategoryComboBox_DefaultGUI();
+            getLogger().info("Verifying new Category was created correctly..");
+            auditorCreateToDoService.createCategories("NewCategory 6969");
+            auditorCreateToDoService.verifyNewCategorySaved("NewCategory 6969");
+//            getLogger().info("Verifying new Category was chosen and displayed correctly..");
+//            auditorCreateToDoService.selectCategory();
+//            auditorCreateToDoService.verifyNewCategoryChosenCorrectly("NewCategory 33333");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Category Combo box.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Category Combo box.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -70,8 +95,10 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
-            auditorCreateToDoService.navigatetoCreateToDoTab();
+//            auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyClientAssigneeComboBox();
+            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -103,18 +130,130 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             auditorCreateToDoService.verifyAuditAssigneeBox();
+            auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    @Test(priority = 6, enabled = false, description = "Verify CreateNewTodo, Filter, BulkAction buttons")
+    public void verifyTodoPage_Buttons() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            getLogger().info("Verifying Create Todo Button..");
+            auditorCreateToDoService.verifyCreateTodoBtn();
+            getLogger().info("Verifying Filter Btn next to Createtodo Btn..");
+            auditorCreateToDoService.verifyFilterBtn();
+            getLogger().info("Verifying BulkAction Btn next to Filter Btn..");
+            auditorCreateToDoService.verifyBulkActionBtn();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Buttons of Todo Page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Buttons of Todo Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    @Test(priority = 7, enabled = false, description = "Verify SearchBox")
+    public void verifySearchBox() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            getLogger().info("Verifying Search Box default value..");
+            auditorCreateToDoService.verifySearchBox_DefaultGUI();
+            getLogger().info("Verifying input text on Search box..");
+            auditorCreateToDoService.verifySearchInputText();
+            getLogger().info("Verifying input number on Search box..");
+            auditorCreateToDoService.verifySearchInputNumber();
+            getLogger().info("Verifying iput special chars Search box..");
+            auditorCreateToDoService.verifySearchInputSpecialChar();
+            getLogger().info("Verifying search max length..");
+            auditorCreateToDoService.verifyCheckMaxLength();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    @Test(priority = 8, enabled = true, description = "Verify realtime Search")
+    public void verifyRealTimeSearch() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            getLogger().info("Preparing Todo list data..");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.InputValidValue("vien");
+            auditorCreateToDoService.waitForNewTodoNameApplied();
+            auditorCreateToDoService.createCategories("helper");
+            auditorCreateToDoService.selectCategory();
+            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
+            auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
+            getLogger().info("Verifying realtime search..");
+            getLogger().info("Input full search match with todo name..");
+            auditorCreateToDoService.inputSearchText("helper");
+            auditorCreateToDoService.verifySearchResult("helper");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+
+
+    @Test(priority = 9, enabled = false, description = "Verify Data Grid")
+    public void verifyDataGrid() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        try {
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
 
 
 
