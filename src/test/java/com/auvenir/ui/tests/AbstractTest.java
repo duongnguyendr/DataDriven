@@ -2,20 +2,24 @@ package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
+import com.kirwa.nxgreport.NXGReports;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
 
 import java.lang.reflect.Method;
+import java.net.URL;
 
 /**
  * Created by cuong.nguyen on 4/24/2017.
@@ -29,7 +33,7 @@ public class AbstractTest {
      */
     String localPropertiesDest = GenericService.sDirPath + "/local.properties";
     protected String testData  = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
-    protected String SELENIUM_GRID_HUB = "http://localhost:4444/wd/hub";
+    protected String SELENIUM_GRID_HUB = "http://192.168.1.50:4444/wd/hub";
     /*
     We should input 2 options:
         +SeleniumGrid
@@ -89,13 +93,15 @@ public class AbstractTest {
     @BeforeMethod
     public void setUp(Method method, String browser, String version, String os) {
         System.out.println("Before Method.");
-        //getRunMode();
+        getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
             GenericService.sBrowserData="CHROME_";
         }else if (browser.equalsIgnoreCase("firefox")){
             GenericService.sBrowserData="FIREFOX_";
         }else if (browser.equalsIgnoreCase("internet explorer")){
-            GenericService.sBrowserData="INTERNET_EXPLORER_";
+            GenericService.sBrowserData="IE_";
+        }else if (browser.equalsIgnoreCase("safari")){
+            GenericService.sBrowserData="SAFARI_";
         }
         GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
         System.out.println("setUp: "+GenericService.sBrowserData);
@@ -104,7 +110,7 @@ public class AbstractTest {
         AbstractService.sStatusCnt = 0;
         System.out.println("=====*****======");
         try {
-            //if (runMode.equalsIgnoreCase("Local")) {
+            if (runMode.equalsIgnoreCase("Local")) {
             /*
             Initialize Selenium Local WebDriver
              */
@@ -120,23 +126,26 @@ public class AbstractTest {
                     DesiredCapabilities capabilities = new DesiredCapabilities();
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     driver = new FirefoxDriver(capabilities);
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("INTERNET_EXPLORER_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     System.out.println("Intetnet Explorer is set");
                     System.setProperty("webdriver.gecko.intenetexplorer", GenericService.sDirPath + "/src/test/resources/IEDriverServer_64.exe");
                     driver = new InternetExplorerDriver();
                 }
-            /*}else {
-            *//*
-            Initialize Selenium for Selenium Grid
-             *//*
+            }else if(runMode.equalsIgnoreCase("SeleniumGrid")){
+
+            /*Initialize Selenium for Selenium Grid*/
+
                 DesiredCapabilities capabilities;
                 if (GenericService.sBrowserData.equalsIgnoreCase("CHROME_")) {
                     capabilities = DesiredCapabilities.firefox();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")) {
                     capabilities = DesiredCapabilities.chrome();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("INTERNET_EXPLORER_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     capabilities = DesiredCapabilities.internetExplorer();
-                } else {
+                }else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
+                    capabilities = DesiredCapabilities.safari();
+                }
+                else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
 
@@ -151,9 +160,9 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown platform - " + os);
                 }
-                WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
+                driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
                 NXGReports.setWebDriver(driver);
-            }*/
+            }
         } catch (Exception e) {
             System.out.println("Problem in launching driver");
             e.printStackTrace();
