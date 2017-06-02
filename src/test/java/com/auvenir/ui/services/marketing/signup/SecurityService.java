@@ -9,11 +9,11 @@ import org.openqa.selenium.WebDriver;
  * Created by tan.pham on 5/24/2017.
  */
 public class SecurityService extends AbstractService {
-    private SecurityPO securityPO;
+    private SecurityPage securityPO;
 
     public SecurityService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        securityPO = new SecurityPO(getLogger(),getDriver());
+        securityPO = new SecurityPage(getLogger(),getDriver());
     }
 
     public void verifySecuritySignUpPage(){

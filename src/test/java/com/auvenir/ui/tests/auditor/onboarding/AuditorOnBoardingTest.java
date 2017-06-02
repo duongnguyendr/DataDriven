@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  */
 public class AuditorOnBoardingTest extends AbstractTest {
 
-    private MarketingService homeService;
+    private MarketingService marketingService;
     PersonalService personalService;
     AuditorSignUpService firmService;
     SecurityService securityService;
@@ -50,10 +50,10 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 1,enabled = false, description = "Verify open home page")
     public void openHomePage() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Open home page successful: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
@@ -63,11 +63,11 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 2,enabled = false, description = "Verify open sign up page")
     public void verifyAuditorPersonalPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -79,11 +79,11 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 3, enabled = false, description = "Input information auditor personal")
     public void inputInformationPersonalAuditor() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -96,12 +96,12 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 4,enabled = false,description = "Verify firm sign up page")
     public void verifyAuditorFirmPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -115,12 +115,12 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 5,enabled = true, description = "Input information firm sign up pgae")
     public void registerFirmAuditor() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -136,13 +136,13 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 6,enabled = false,description = "Verify security sign up page")
     public void verifySecurityPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -159,14 +159,14 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 7,enabled = false,description = "Input information security sign up page")
     public void createAuditorPassword() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
 
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -183,14 +183,14 @@ public class AuditorOnBoardingTest extends AbstractTest {
 
     @Test(priority = 8, enabled = false, description = "Verify success sign up page")
     public void verifySuccessPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         successService = new SuccessService(getLogger(),getDriver());
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);

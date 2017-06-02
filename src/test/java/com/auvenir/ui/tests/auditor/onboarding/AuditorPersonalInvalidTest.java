@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 public class AuditorPersonalInvalidTest extends AbstractTest {
 
     private MarketingPage home = null;
-    PersonalPO personal = null;
+    PersonalPage personal = null;
     private MarketingService homeService;
     PersonalService personalService;
 

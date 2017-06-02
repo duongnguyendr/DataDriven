@@ -128,7 +128,7 @@ public class AbstractTest {
                     driver = new FirefoxDriver(capabilities);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     getLogger().info("Intetnet Explorer is set");
-                    System.setProperty("webdriver.gecko.intenetexplorer", GenericService.sDirPath + "/src/test/resources/IEDriverServer_64.exe");
+                    System.setProperty("webdriver.gecko.ie", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
                 }
             }else if(runMode.equalsIgnoreCase("SeleniumGrid")){
