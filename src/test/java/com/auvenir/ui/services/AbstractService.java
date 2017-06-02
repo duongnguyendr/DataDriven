@@ -1,7 +1,6 @@
 package com.auvenir.ui.services;
 
-import bsh.StringUtil;
-import com.auvenir.ui.pages.marketing.HomePage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -35,7 +34,7 @@ public class AbstractService {
      * Base url this value is set at runtime.
      */
     private String baseUrl = "https://ariel.auvenir.com";
-    HomePage homePO;
+    MarketingPage homePO;
     private final String keywordApiDelete = "/delete";
     private final String keywordApiUpdateActive = "/update?status=ACTIVE";
     private final String keywordApiUpdateOnboading = "/update?status=ONBOARDING";
@@ -62,7 +61,7 @@ public class AbstractService {
         this.logger = logger;
         this.driver = driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
-        homePO = new HomePage(getLogger(), getDriver());
+        homePO = new MarketingPage(getLogger(), getDriver());
     }
 
     public WebDriver getDriver() {
@@ -161,7 +160,7 @@ public class AbstractService {
      */
     public void goToBaseURL() {
         try {
-            if(prefixProtocol == "")
+            if("".equals(prefixProtocol))
             {
                 prefixProtocol = "https://";
             }

@@ -38,7 +38,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
 
         try {
 
@@ -75,7 +75,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -94,28 +94,28 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify to create new Category")
-    public void verifyCreateNewCategory() throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        try {
-            auditorEngagementService.loginWithUserRole(userId);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + GeneralUtilities.getTimeStampForNameSuffix());
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.verifyCreateNewCategory();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify to create new Category", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
+//    @Test(priority = 3, enabled = true, description = "Verify to create new Category")
+//    public void verifyCreateNewCategory() throws Exception {
+//        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+//        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+//        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+//        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+//        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        try {
+//            auditorEngagementService.loginWithUserRole(userId);
+//            auditorEngagementService.verifyAuditorEngagementPage();
+//            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+//            auditorCreateToDoService.createToDoPage();
+//            auditorCreateToDoService.verifyCreateNewCategory();
+//            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+//            NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
+//        } catch (Exception e) {
+//            NXGReports.addStep("Verify to create new Category", LogAs.FAILED,
+//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//            getLogger().info(e);
+//            throw e;
+//        }
+//    }
 
     @Test(priority = 4, enabled = true, description = "Verify new Category popup")
     public void verifyNewCategoryPopup() throws Exception {
@@ -123,7 +123,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -143,14 +143,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = false, description = "verify displayed of this button filter")
+    @Test(priority = 5, enabled = true, description = "verify displayed of this button filter")
     public void verifyButtonFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -173,8 +172,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -197,8 +195,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -222,8 +219,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -247,8 +243,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -272,7 +267,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1350,7 +1345,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     Vien Pham merged editCategoriesTEst into this page
      */
-    @Test(priority = 40, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
+    @Test(priority = 40, enabled = false, description = "Verify EditCategories GUI ")
     public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -1361,7 +1356,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.createMultiCategories();
+            auditorCreateToDoService.createMultiCategory("cate4","cate5","cate6");
             auditorEditCategoryService.returnToCreateNewTodoPage();
             auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.verifyEditCategoriesTitle();

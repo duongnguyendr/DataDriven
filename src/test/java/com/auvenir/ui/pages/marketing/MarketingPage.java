@@ -14,12 +14,254 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by toan.nguyenp on 4/11/2017.
  */
-public class TermsPage extends AbstractPage {
+public class MarketingPage extends AbstractPage {
 
-    public TermsPage(Logger logger, WebDriver driver) {
+    public MarketingPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }
+
+    /**
+     * About page
+     */
+    //@FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
+    //private WebElement avenirLogo;
+    //@FindBy(xpath = ".//*[@id='marketing-header']//div[@class='ui center aligned header header-main-text']")
+    //private WebElement headerText;
+    @FindBy(xpath = ".//*[@id='about-league']/h2")
+    private WebElement meetTheAuvyLeagueText;
+    @FindBy(xpath = ".//img[@src='/static/images/about/img_teammember_01.png']")
+    private WebElement alexImage;
+    @FindBy(xpath = ".//*[@id='about-league']//h4[contains(text(),'Alex McCooey')]")
+    private WebElement alextNameText;
+    @FindBy(xpath = ".//*[@id='about-league']/div/div[1]/p")
+    private WebElement alextTitleText;
+    @FindBy(xpath = ".//*[@id='about-joinUs']/div/h2")
+    private WebElement wannaJoinUsText;
+    @FindBy(xpath = ".//*[@id='about-joinUs']/div/a")
+    private WebElement viewCareerBTN;
+    @FindBy(xpath = ".//*[@id='about-highlightPhotos']/h2")
+    private WebElement highlightSoFourWeekendText;
+    @FindBy(xpath = ".//img[@src='/static/images/about/img-wkphoto_01.png']")
+    private WebElement firstImage;
+
+    /**
+     * Careers page
+     */
+    private String marketingHeaderTextCst = "We are growing. Come join our team.";
+    private String careersAtAuvenirTextCst = "Careers at Auvenir";
+    //@FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
+    //private WebElement auvenirLogoImage;
+    @FindBy(xpath = ".//*[@id='marketing-header']//div[@class='row']/div")
+    private WebElement marketingHeaderText;
+    @FindBy(xpath = ".//*[@id='career']//h1[@class='page-title']")
+    private WebElement careersAtAuvenirText;
+    @FindBy(xpath = ".//*[@id='career']//div[contains(text(),'Engineering')]")
+    private WebElement EngineeringText;
+    @FindBy(xpath = ".//*[@id='career']//div[contains(text(),'Product')]")
+    private WebElement ProductText;
+    @FindBy(xpath = ".//*[@id='career']//div[contains(text(),'Sales')]")
+    private WebElement SalesText;
+
+    /**
+     * Contact page
+     */
+    private String headerTextCst = "Get In Touch! We are here to support you and would love to hear your feedback.";
+    private String getInTouchTextCst = "Get in Touch with Auvenir\n" + "We will respond within 24 hours.";
+    //@FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
+    //private WebElement auvenirLogoImage;
+    @FindBy(xpath = ".//*/div[@class='ui center aligned header header-main-text']")
+    private WebElement headerText;
+    @FindBy(xpath = ".//*[@id='contact-form']/div[1]/div/h2")
+    private WebElement getInTouchText;
+    @FindBy(xpath = ".//input[@name='name']")
+    private WebElement nameTextBox;
+    @FindBy(xpath = ".//input[@name='email']")
+    private  WebElement contactEmailTextBox;
+    @FindBy(xpath = "//div[@class='ui selection dropdown']")
+    private WebElement directMessageDropdown;
+    @FindBy(xpath = "//textarea[@name='message']")
+    private WebElement messageTextBox;
+    @FindBy(xpath = ".//*[@id='contact-form']/form/button")
+    private WebElement sendMessageBTN;
+    @FindBy(xpath = ".//*[@id='contact_map']")
+    private WebElement contactMapImage;
+
+    /**
+     * Cookie Notice Page
+     */
+    //@FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
+    //private WebElement auvenirLogoImage;
+    @FindBy(xpath = ".//*[@id='marketing-header']//div[@class='ui text container cookie-banner']")
+    private WebElement cookiesNoticeText;
+    @FindBy(xpath = ".//*[@id='cookie-page']//h1/div")
+    private WebElement auvenirCookieNoticeText;
+    @FindBy(xpath = ".//*[@id='cookie-page']//div[@class='ui text container cookie-content']")
+    private WebElement ookiesNoticecontentText;
+    private String cookiesNoticeTextCst = "Cookie Notice";
+    private String auvenirCookieText = "Auvenir Cookie Notice";
+    private String auvenirCookiesNoticeTextCst = "Auvenir uses cookies to improve the user experience and ensure that it is functioning effectively.\n" +
+            "This Cookie Notice is part of our Privacy Statement. For more information about us, and how we protect visitor information, please see our Privacy Statement.\n" +
+            "In order to provide you with a more personalized and responsive service we need to remember and store information about how you use Auvenir. This is done using small text files called cookies. Cookies contain small amounts of information and are downloaded to your computer or other device by a server for Auvenir. Your web browser then sends these cookies back to Auvenir on each subsequent visit so that it can recognize you and remember things like your user preferences. You can find more detailed information about cookies and how they work at http://www.aboutcookies.org/.\n" +
+            "Whenever you use Auvenir, information may be collected through the use of cookies and other technologies. By using Auvenir you agree to our use of cookies as described in this Cookie Notice and also to the use of cookies on the other country, regional or practice specific websites contained in deloitte.com that you may visit, as described in their accompanying cookie notices.\n" +
+            "What Cookies Do We Use and Why?\n" +
+            "Some of the cookies we use are necessary to enable you to move around Auvenir and use its features such as accessing secure areas that may contain content for registered users.\n" +
+            "We also use functional cookies to record information about the choices you have made and to allow us to tailor the site to our users; for example, to remember your language or region or that you have already completed a survey. This information is usually anonymized and is not used for any other purpose.\n" +
+            "We or our service providers also use analytic services to help us understand how effective our content is, what interests our users have, and to improve how Auvenir works. In addition, we use web beacons or tracking pixels to count visitor numbers and performance cookies to track how many individual users access Auvenir and how often. This information is used for statistical purposes only and it is not our intention to use such information to personally identify any user. However, if you have registered and signed into Auvenir we may combine this information with information from our web analytic services and cookies to analyze how you use Auvenir in more detail.\n" +
+            "Auvenir does not use Targeting Cookies to deliver targeted advertising to visitors.\n" +
+            "Please contact us at info@auvenir.com if you would like more detailed information on the cookies we use.\n" +
+            "How To Control Cookies\n" +
+            "By using Auvenir you agree that we can place cookies on your computer or device as explained above. However, you can control and manage cookies in various ways. Please bear in mind that removing or blocking cookies can impact on your user experience and parts of Auvenir may no longer be fully accessible.\n" +
+            "Browser Controls\n" +
+            "Most browsers will allow you to see what cookies you have and delete them on an individual basis or block cookies from particular or all websites. Be aware that any preference you have set will be lost if you delete all cookies, including your preference to opt-out from cookies as this itself requires an opt-out cookie to have been set. For more information on how to modify your browser settings to block or filter cookies, see http://www.aboutcookies.org/ or http://www.cookiecentral.com/faq/.\n" +
+            "Managing Analytics cookies\n" +
+            "You can opt-out of having your anonymized browsing activity within websites recorded by analytics cookies. We use the following service providers and you can learn more about their privacy policies and how to opt-out of their cookies by clicking on following links:\n" +
+            "Adobe: http://www.adobe.com/privacy/opt-out.html\n" +
+            "Google Analytics: http://www.google.com/analytics/learn/privacy.html\n" +
+            "Managing Local Shared Objects or Flash Cookies\n" +
+            "A local shared object or flash cookie is like most other browser cookies except that it can store additional types of information. These cookies cannot be controlled using the mechanisms listed above. Some parts of Auvenir use these types of cookies to store user preferences for media player functionality and without them some video content may not play properly. These cookies can be controlled manually by visiting the Adobe website.\n" +
+            "http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager07.html\n" +
+            "Social Buttons\n" +
+            "We use ‘social buttons’ to enable our users to share or bookmark web pages. These are buttons for third party social media sites and these sites may log information about your activities on the Internet including on Auvenir. Please review the respective terms of service and privacy statement of these sites to understand exactly how they use your information and to find out how to opt-out, or delete, such information.\n" +
+            "External Web Services\n" +
+            "We sometimes use external web services on Auvenir to display content within the web pages of Auvenir, for example to display images, show videos or run polls. As with the social buttons, we cannot prevent these sites, or external domains, from collecting information on your use of this embedded content.\n" +
+            "Email Communications\n" +
+            "We may also use tracking technologies to determine whether you have read, clicked on, or forwarded certain email communications we send to you so that we can make our communications more helpful and interesting. If you do not wish us to confirm whether you have opened, clicked on or forwarded our communications, you will need to unsubscribe, as it is not possible for us to send these emails without tracking enabled. Registered subscribers can update their communication preferences at any time by contacting us at info@auvenir.com, or you can unsubscribe following the instructions in the individual email communications you receive from us.\n" +
+            "Changes To This Cookie Notice\n" +
+            "We may modify or amend this Cookie Notice from time to time at our discretion. When we make changes to this notice, we will amend the revision date at the top of this page, and such modified or amended Cookie Notice shall be effective as to you and your information as of that revision date. We encourage you to periodically review this Cookie Notice to be informed about how we are using cookies.";
+
+    /**
+     * Home page
+     */
+    private String ourMissionText1Cst = "Auvenir is on a mission to enable a Smarter Audit. The Auvenir platform seamlessly integrates advanced technology to enhance the financial audit workflow, improving efficiency for auditors and minimizing the opportunity cost for their clients.";
+    private String ourMissionText2Cst = "As a Deloitte venture, Auvenir benefits from the agility of a start-up culture while leveraging deep world-class technology and audit expertise. Our people are dedicated to continuously improving our offering to make the audit process better for auditors and their clients.";
+    private String ourMissionText3Cst = "Our long term vision is to inspire full trust and confidence in financial reporting through accessible, timely, and reliable communication of financial performance between companies and their financiers.";
+    private String whyAuvenirText2Cct = "We have developed a robust collaboration tool for auditors and their clients as well as patent pending machine learning software that automates a great deal of the audit process.";
+    private String belowProductFeaturesTextCst = "Our platform re-imagines the audit, making it smarter for all parties.";
+    private String spendLessTimeDescriptionTextCst = "Automate mundane tasks, freeing up time for higher value services and a better ROI";
+    @FindBy(xpath = "//*[@id='language-flag']/button")
+    private WebElement changeLanguageBTN;
+    @FindBy(xpath = "//*[@class='ui right aligned container']/button")
+    private WebElement loginBTN;
+
+    @FindBy(xpath = ".//*[@id='login-popup']//div/input[@name='email']")
+    private WebElement emailTextBox;
+
+    @FindBy(xpath = ".//*[@id='login-popup']//div/input[@name='password']")
+    private WebElement passwordTextBox;
+    @FindBy(xpath = ".//*[@id='login-popup']//button")
+    private WebElement submitBTN;
+    @FindBy(xpath = "//*[@class='ui label userAligment']")
+    private WebElement profileLink;
+    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+    private WebElement logoutBTN;
+    @FindBy(xpath = "//*/a[@class='ui large basic inverted button']")
+    private WebElement signUpBTN;
+    @FindBy(xpath = "//div[@class='ui center aligned container']//div[@class='ui error message']//div/p")
+    private WebElement errorMessage;
+    @FindBy(xpath = "//div[@class='ui center aligned container']//div[@class='ui error message']")
+    private WebElement errorMessageBorder;
+    @FindBy(xpath = "//*/form[@class='ui error form login-form']//input[@name='email']")
+    private WebElement userError;
+    @FindBy(xpath = "//*/form[@class='ui error form login-form']//input[@name='password']")
+    private WebElement passwordError;
+    @FindBy(xpath = "//form[@class='ui form login-form']//a[@class='ui label forgot-password']")
+    private WebElement forgotPasswordLink;
+    @FindBy(xpath = "//span[@class='forgot-title']")
+    private WebElement forgotPasswordTitle;
+    @FindBy(xpath = "//form[@class='ui form forgot-form']//input")
+    private WebElement emailForgotPasswordTextBox;
+    @FindBy(xpath = "//button[contains(text(),'Request Reset Link')]")
+    private WebElement requestResetLinkBTN;
+    @FindBy(xpath = "//div[@class='error field']//input")
+    private WebElement EmailForgotPasswordTextBox;
+    @FindBy(xpath = "//div[@id='forgot-popup']//div[@class='ui error message']")
+    private WebElement EmailForgotPasswordMessage;
+    @FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
+    private WebElement avenirLogo;
+    @FindBy(xpath = ".//*[@id='marketing-header']//h1")
+    private WebElement weHelpYouAuditSmarterText;
+    @FindBy(xpath = ".//*[@id='marketing-header']//a[contains(text(),'Join as an Auditor Today')]")
+    private WebElement joinAsAnAuditorTodayText;
+    @FindBy(xpath = ".//*[@id='home_mission']/h2[contains(text(),'Our Mission')]")
+    private WebElement ourMissionText;
+    @FindBy(xpath = ".//*[@id='home_mission']/p[1]")
+    private WebElement ourMissionText1;
+    @FindBy(xpath = ".//*[@id='home_mission']/p[2]")
+    private WebElement ourMissionText2;
+    @FindBy(xpath = ".//*[@id='home_mission']/p[3]")
+    private WebElement ourMissionText3;
+    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//h2[contains(text(),'Why Auvenir?')]")
+    private WebElement whyAuvenirText;
+    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//div[@class='middle aligned column why-auvenir-content']/p[1]")
+    private WebElement whyAuvenirText1;
+    @FindBy(xpath = ".//*[@id='home_whyAuvenir']//div[@class='middle aligned column why-auvenir-content']/p[2]")
+    private WebElement whyAuvenirText2;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']/header/h2")
+    private WebElement productFeaturesText;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']/header/p")
+    private WebElement belowProductFeaturesText;
+    @FindBy(xpath = "//img[@src='/static/images/home/img_feature_1.png']")
+    private WebElement spendLessTimeImage;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']//h4[contains(text(),'Spend Less Time, Earn More')]")
+    private WebElement spendLessTimeText;
+    @FindBy(xpath = ".//*[@id='home_productFeatures']//div[1]/p")
+    private WebElement spendLessTimeDescriptionText;
+    @FindBy(xpath = "//a[@href='/about']")
+    private WebElement aBoutLink;
+    @FindBy(xpath = "//a[@href='/contact']")
+    private WebElement contactLink;
+    @FindBy(xpath = "//a[@href='/cookies']")
+    private WebElement cookiesNoticeLink;
+    @FindBy(xpath = "//a[@href='/privacy']")
+    private WebElement privacyPolicyLink;
+    @FindBy(xpath = "//a[@href='/terms']")
+    private WebElement termsOfService;
+
+    /**
+     * Privacy Policy page
+     */
+    private String privacyPolicyTextContentCst = "Introduction\n" +
+            "This Privacy Statement applies to the Auvenir.com website (the “Auvenir Site”) and all related software, mobile applications, documentation, services, products, and content (collectively, and together with the Auvenir Site, “Auvenir”)\n" +
+            "When used in this Privacy Statement, “we,” “us,” and “our” refers to Auvenir, a general partnership formed under the laws of Canada. This Privacy Statement explains how we protect visitors’ information gathered via Auvenir. By using Auvenir you are agreeing to the use of your information as described in this Privacy Statement.\n" +
+            "Auvenir may contain links to other sites which may not be governed by this privacy statement. We encourage users to review each website’s privacy statement before disclosing any personal information. If you have any questions regarding this Privacy Statement, please contact info@auvenir.com.\n" +
+            "Information Collection\n" +
+            "To use Auvenir, you must first complete a registration form and provide certain personal information to sign up for an Auvenir account. We only collect personal information that is specifically and voluntarily provided by you. Such information may consist of, but is not limited to, your name, email, phone number, position, organization, and profile photo.\n" +
+            "We do not usually seek information relating to your race or ethnic origin, religious beliefs, criminal record, physical or mental health, or sexual orientation. We will, if applicable, obtain your explicit consent to collect and use such information in accordance with applicable laws.\n" +
+            "Log Information, Cookies, and Web Beacons\n" +
+            "Auvenir may collect standard internet log information including your IP address, browser type and language, access times, and referring website addresses. We may also automatically collect information about you such as your device type, mobile network, and version of the app being used.\n" +
+            "Auvenir may use cookies (small text files stored in a user’s browser) to identify users when they connect to Auvenir. If Auvenir uses cookies, a user’s browser must be enabled to allow cookies in order to access Auvenir. Upon successful login, cookies are created and placed on the user’s computer or device. In addition to information related to authentication, information may be stored in the cookies in order to direct a user to the correct site location. To ensure that Auvenir is well managed and to facilitate improved navigation, we or our service providers may also use cookies or Web beacons (electronic images that allow the Website to count visitors who have accessed a particular page and to access certain cookies) to collect aggregate data. Additional information on how we use cookies and other tracking technologies and how you can control these can be found in our cookie notice. By using this Website, you agree that we can place cookies on your computer or device.\n" +
+            "Most browsers can be set to inform you when a cookie has been sent to you and provide you with the opportunity to reject that cookie. However, refusing a cookie may, in some cases, preclude you from using, or negatively impact the display or function of, Auvenir or some of its areas or features.\n" +
+            "Information Use\n" +
+            "This Privacy Statement applies to the Auvenir.com website (the “Auvenir Site”) and all related software, mobile applications, documentation, services, products, and content (collectively, and together with the Auvenir Site, “Auvenir”)\n" +
+            "When used in this Privacy Statement, “we,” “us,” and “our” refers to Auvenir, a general partnership formed under the laws of Canada. This Privacy Statement explains how we protect visitors’ information gathered via Auvenir. By using Auvenir you are agreeing to the use of your information as described in this Privacy Statement.\n" +
+            "Auvenir may contain links to other sites which may not be governed by this privacy statement. We encourage users to review each website’s privacy statement before disclosing any personal information. If you have any questions regarding this Privacy Statement, please contact info@auvenir.com.\n" +
+            "Disclosure of Information to Third Parties\n" +
+            "Personal information may be disclosed to other Deloitte Network entities and other third parties in order to respond to your requests or inquiries, as part of a corporate transaction (such as a sale, divestiture, reorganization, merger or acquisition), or where those parties handle information on our behalf. All of these disclosures may involve the transfer of personal information to countries, regions, or areas where other Deloitte Network entities, our service providers, and other third parties are located, and these may not have data protection rules similar to those in effect in your area of residence. As used in this Privacy Statement, the “Deloitte Network” refers to Deloitte Touche Tohmatsu Limited, a UK private company limited by guarantee (“DTTL”), its network of member firms, and their related entities.\n" +
+            "Personal information may also be disclosed to law enforcement, regulatory, or other government agencies, or to other third parties, in each case to comply with legal or regulatory obligations or requests.\n" +
+            "By using or providing information through Auvenir, you are consenting to the disclosures described above.\n" +
+            "Blogs, Forums, Wikis and Other Social Media\n" +
+            "Auvenir may host or provide access to various blogs, forums, wikis, and other social media applications or services that allow you to share content with other users (collectively, “Social Media Applications”). Any personal information or other information that you contribute to any Social Media Application can be read, collected, and used by other users of that Social Media Application over whom we have little or no control. Therefore, we are not responsible for any other user’s use, misuse, or misappropriation of any personal information or other information that you contribute to any Social Media Application.\n" +
+            "Access to Information\n" +
+            "Visitors who choose to register on or with Auvenir may access their user profile, correct, and update their details, or unsubscribe from communications at any time. Visitors who have any problem accessing their profiles, or would like to request a copy of their personal information should contact webmaster services using the contact us link in Auvenir. In all cases we will treat requests to access information or change information in accordance with applicable legal requirements.\n" +
+            "Information Security\n" +
+            "We have in place reasonable commercial standards of technology and operational security to protect all information provided by visitors via Auvenir from unauthorized access, disclosure, alteration, or destruction.\n" +
+            "Changes to Our Privacy Statement\n" +
+            "We may modify or amend this Privacy Statement from time to time at our discretion. When we make changes to this Privacy Statement, we will amend the revision date at the top of this page, and such modified or amended Privacy Statement shall be effective as to you and your information as of that revision date. We encourage you to periodically review this Privacy Statement to be informed about how we are protecting your information.\n" +
+            "Questions\n" +
+            "If you have any questions or concerns regarding your privacy while using Auvenir, please send an email to info@auvenir.com.";
+    //@FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
+    //private WebElement auvenirLogoImage;
+    @FindBy(xpath = ".//*[@id='marketing-header']//div[contains(text(),'Privacy Policy')]")
+    private WebElement privacyHeaderText;
+    @FindBy(xpath = ".//*[@id='privacy-page']//h1/div")
+    private WebElement auvenirPrivacyPolicyText;
+    @FindBy(xpath = ".//*[@id='privacy-page']//div[@class='ui text container privacy-content']")
+    private WebElement privacyPolicyTextContent;
+
+    /**
+     * Terms page
+     */
     private String termsContentTextCst = "These Terms of Service (these “Terms”) govern your access to and use of the Auvenir.com website (the “Auvenir Site”) and all related software, mobile applications, documentation, services, products, and content (collectively, and together with the Auvenir Site, “Auvenir”).\n" +
             "You agree to these Terms either by using Auvenir or by clicking the “I AGREE” (or similar) box when creating your Auvenir user account. If you do not agree with these Terms, then you are not allowed to use Auvenir, and you should stop using it immediately.\n" +
             "If you have questions about these Terms or Auvenir, you should contact info@auvenir.com.\n" +
@@ -132,8 +374,342 @@ public class TermsPage extends AbstractPage {
     @FindBy(xpath = "//p[@class='ui aligned center header sub-title']")
     private WebElement auvenirTermsOfServiceText;
     @FindBy(xpath = "//div[@id='term']//div[@class='ui container term-container']//div[@class='ui basic segment']//div[@class='terms-detail']")
-
     private WebElement termsContentText;
+
+    public void verifyAboutContentPage(){
+        getLogger().info("Verify about content page");
+        boolean isCheckAboutContentPage,isCheckAboutContentPage1,isCheckAboutContentPage2,isCheckAboutContentPage3,isCheckAboutContentPage4
+                ,isCheckAboutContentPage5,isCheckAboutContentPage6,isCheckAboutContentPage7,isCheckAboutContentPage8,isCheckAboutContentPage9 = false;
+
+        isCheckAboutContentPage = waitForVisibleElement(avenirLogo,"avenirLogo");
+        isCheckAboutContentPage1 = validateElementText(headerText,"Auvenir is a Toronto-based technology company that makes the audit process better for auditors and clients. We are proud to be a Deloitte venture.");
+        isCheckAboutContentPage2 = waitForVisibleElement(meetTheAuvyLeagueText,"meetTheAuvyLeagueText");
+        isCheckAboutContentPage3 = waitForVisibleElement(alexImage,"alexImage");
+        isCheckAboutContentPage4 = waitForVisibleElement(alextNameText,"alextNameText");
+        isCheckAboutContentPage5 = waitForVisibleElement(alextTitleText,"alextTitleText");
+        isCheckAboutContentPage6 = waitForVisibleElement(wannaJoinUsText,"wannaJoinUsText");
+        isCheckAboutContentPage7 = waitForVisibleElement(viewCareerBTN,"viewCareerBTN");
+        isCheckAboutContentPage8 = waitForVisibleElement(highlightSoFourWeekendText,"highlightSoFourWeekendText");
+        isCheckAboutContentPage9 = waitForVisibleElement(firstImage,"firstImage");
+
+        if(isCheckAboutContentPage & isCheckAboutContentPage1 & isCheckAboutContentPage2 & isCheckAboutContentPage3 & isCheckAboutContentPage4 & isCheckAboutContentPage5
+                & isCheckAboutContentPage6 & isCheckAboutContentPage7 & isCheckAboutContentPage8 & isCheckAboutContentPage9)
+        {
+            NXGReports.addStep("Verify about content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify about content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+    public void goToCareersPage(){
+        clickElement(viewCareerBTN,"viewCareerBTN");
+    }
+
+    public void verifyCareersContentPage(){
+        getLogger().info("Verify careers content page");
+        boolean checkMarketingHeaderText = false;
+        boolean checkCareersAuvenirText = false;
+        boolean isCheckCareersContentPage,isCheckCareersContentPage1, isCheckCareersContentPage2, isCheckCareersContentPage3, isCheckCareersContentPage4
+                ,isCheckCareersContentPage5  = false;
+        isCheckCareersContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
+        isCheckCareersContentPage1 = waitForVisibleElement(marketingHeaderText,"auvenmarketingHeaderTextirLogoImage");
+        if(marketingHeaderText.getText().equals(marketingHeaderTextCst))
+        {
+            checkMarketingHeaderText = true;
+        }
+        getLogger().info("marketingHeaderText = " + marketingHeaderText.getText());
+        isCheckCareersContentPage2 = waitForVisibleElement(careersAtAuvenirText,"careersAtAuvenirText");
+        if(careersAtAuvenirText.getText().equals(careersAtAuvenirTextCst))
+        {
+            checkCareersAuvenirText = true;
+        }
+        isCheckCareersContentPage3 = waitForVisibleElement(EngineeringText,"EngineeringText");
+        isCheckCareersContentPage4 = waitForVisibleElement(ProductText,"ProductText");
+        isCheckCareersContentPage5 = waitForVisibleElement(SalesText,"SalesText");
+        if(isCheckCareersContentPage & isCheckCareersContentPage1 & isCheckCareersContentPage2 & isCheckCareersContentPage3 & isCheckCareersContentPage4
+                & isCheckCareersContentPage5 & checkMarketingHeaderText & checkCareersAuvenirText)
+        {
+            NXGReports.addStep("Verify careers content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt ++;
+            NXGReports.addStep("Verify careers content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    public void verifyContactContentPage(){
+        getLogger().info("Verify contact content page");
+        boolean checkHeaderText = false;
+        String strGetTouchText = "";
+        boolean isCheckContactContentPage,isCheckContactContentPage1,isCheckContactContentPage2,isCheckContactContentPage3,isCheckContactContentPage4,
+                isCheckContactContentPage5, isCheckContactContentPage6, isCheckContactContentPage7,isCheckContactContentPage8= false;
+        isCheckContactContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
+        isCheckContactContentPage1 = waitForVisibleElement(headerText,"headerText");
+        if(headerText.getText().equals(headerTextCst))
+        {
+            checkHeaderText = true;
+        }
+        isCheckContactContentPage2 = waitForVisibleElement(getInTouchText,"getInTouchText");
+        strGetTouchText = getInTouchText.getText();
+        boolean isCheckTouchText = false;
+        if(strGetTouchText.equals(getInTouchTextCst))
+        {
+            isCheckTouchText = true;
+        }
+        getLogger().info("strGetTouchText = " + strGetTouchText);
+        isCheckContactContentPage3 = waitForVisibleElement(nameTextBox,"nameTextBox");
+        isCheckContactContentPage4 = waitForVisibleElement(contactEmailTextBox,"contactEmailTextBox");
+        isCheckContactContentPage5 = waitForVisibleElement(directMessageDropdown,"directMessageDropdown");
+        isCheckContactContentPage6 = waitForVisibleElement(messageTextBox,"messageTextBox");
+        isCheckContactContentPage7 = waitForVisibleElement(sendMessageBTN,"sendMessageBTN");
+        isCheckContactContentPage8 = waitForVisibleElement(contactMapImage,"contactMapImage");
+        if(isCheckTouchText & isCheckContactContentPage & isCheckContactContentPage1 & isCheckContactContentPage2 & isCheckContactContentPage3
+                & isCheckContactContentPage4 & isCheckContactContentPage5 & isCheckContactContentPage6 & isCheckContactContentPage7 & isCheckContactContentPage8
+                & checkHeaderText)
+        {
+            NXGReports.addStep("Verify contact content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        }
+        else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify contact content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    public void verifyCookiesNoticeContentPage(){
+        getLogger().info("Verify cookies notice content page");
+        String strCookiesNotice = "";
+        String strAuvenirCookieNotice = "";
+        String strCookieNoticeContent = "";
+        boolean checkCookiesNotie = false;
+        boolean checkAuvenirCookiesNotice = false;
+        boolean checkCookiesNoticecontent = false;
+        boolean checkCookiesNoticeContentPage,checkCookiesNoticeContentPage1 = false;
+        checkCookiesNoticeContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
+        checkCookiesNoticeContentPage1 = waitForVisibleElement(cookiesNoticeText,"cookiesNoticeText");
+        strCookiesNotice = cookiesNoticeText.getText();
+        getLogger().info("strCookiesNotice = " + strCookiesNotice);
+        if(strCookiesNotice.equals(cookiesNoticeTextCst))
+        {
+            checkCookiesNotie = true;
+        }
+        waitForVisibleElement(auvenirCookieNoticeText,"auvenirCookieNoticeText");
+        strAuvenirCookieNotice = auvenirCookieNoticeText.getText();
+        if(strAuvenirCookieNotice.equals(auvenirCookieText))
+        {
+            checkAuvenirCookiesNotice = true;
+        }
+        waitForVisibleElement(ookiesNoticecontentText,"ookiesNoticecontentText");
+        strCookieNoticeContent = ookiesNoticecontentText.getText();
+        getLogger().info("strCookieNoticeContent = " + strCookieNoticeContent);
+        if(strCookieNoticeContent.equals(auvenirCookiesNoticeTextCst))
+        {
+            checkCookiesNoticecontent = true;
+        }
+        if(checkCookiesNoticeContentPage & checkCookiesNoticeContentPage1 & checkCookiesNotie & checkAuvenirCookiesNotice & checkCookiesNoticecontent)
+        {
+            NXGReports.addStep("Verify cookies notice content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify cookies notice content page", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    public void clickOnChangeLanguageBTN(){
+        clickElement(changeLanguageBTN,"changeLanguageBTN");
+    }
+    public void clickOnLoginBTN(){
+        clickElement(loginBTN,"loginBTN");
+    }
+    public void inputUserNamePassword(String username, String password){
+        sendKeyTextBox(emailTextBox, username,"emailTextBox");
+        sendKeyTextBox(passwordTextBox,password,"passwordTextBox");
+    }
+    public void clickOnSubmitBTN(){
+        clickElement(submitBTN,"loginBTN");
+    }
+    public void clickOnProfile(){
+        clickAndHold(profileLink,"profileLink");
+    }
+    public void clickOnLogoutBTN(){
+        clickElement(logoutBTN,"logoutBTN");
+    }
+    public void verifyLoginBTN(){
+        waitForClickableOfElement(loginBTN,"loginBTN");
+    }
+    public void verifySignUpBTN(){
+        waitForClickableOfElement(signUpBTN,"signUpBTN");
+    }
+    public void verifyLogoutBTNIsNotPresented(){
+        validateNotExistedElement(logoutBTN,"logoutBTN");
+    }
+    public void verifyColorUserNameTxtBox(String attributeName, String attributeValue){
+        waitForVisibleElement(userError,"userError");
+        validateCssValueElement(userError,attributeName,attributeValue);
+    }
+    public void verifyColorPasswordTxtBox(String attributeName, String attributeValue){
+        waitForVisibleElement(passwordError,"passwordError");
+        validateCssValueElement(passwordError,attributeName,attributeValue);
+    }
+    public void verifyErrorLoginMessage(String messsage){
+        validateElementText(errorMessage,messsage);
+    }
+    public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
+        waitForVisibleElement(errorMessageBorder,"errorMessageBorder");
+        validateCssValueElement(errorMessageBorder,attributeName,attributeValue);
+    }
+    public void clickOnForgotPasswordLink(){
+        waitForClickableOfElement(forgotPasswordLink,"forgotPasswordLink");
+        clickElement(forgotPasswordLink,"forgotPasswordLink");
+    }
+    public void verifyForgotPasswordTitle(){
+        waitForVisibleElement(forgotPasswordTitle,"forgotPasswordTitle");
+        validateElementText(forgotPasswordTitle,"Forgot Your Password?");
+    }
+    public void inputEmailForgotPassword(String text){
+        clearTextBox(emailForgotPasswordTextBox,"emailForgotPasswordTextBox");
+        sendKeyTextBox(emailForgotPasswordTextBox,text,"emailForgotPasswordTextBox");
+    }
+    public void clickOnRequestResetLinkBTN(){
+        clickElement(requestResetLinkBTN,"requestResetLinkBTN");
+    }
+    public void verifyColorEmailForgotPasswordTextBox(String attributeName, String attributeValue){
+        waitForVisibleElement(EmailForgotPasswordTextBox,"EmailForgotPasswordTextBox");
+        validateCssValueElement(EmailForgotPasswordTextBox,attributeName,attributeValue);
+    }
+    public void verifyColorEmailForgotPasswordMessage(String attributeName, String attributeValue){
+        waitForVisibleElement(EmailForgotPasswordMessage,"EmailForgotPasswordMessage");
+        validateCssValueElement(EmailForgotPasswordMessage,attributeName,attributeValue);
+    }
+    public void verifyContentEmailForgotPasswordMessage(String text){
+        validateElementText(EmailForgotPasswordMessage,text);
+    }
+
+    public void clickOnSignupButton(){
+        waitForClickableOfElement(signUpBTN,"signup button");
+        clickElement(signUpBTN,"signup button");
+    }
+    public void verifyHomeContentPage() {
+        getLogger().info("Verify home content page");
+        boolean checkOurMissionText1 = false;
+        boolean checkOurMissionText2 = false;
+        boolean checkOurMissionText3 = false;
+        boolean checkWhyAuvenir2 = false;
+        boolean checkProductFeatures = false;
+        boolean checkBelowProductFeatures = false;
+        boolean checkSpendLessTimeDescription = false;
+        boolean checkHomePageContentPage, checkHomePageContentPage1, checkHomePageContentPage2, checkHomePageContentPage3,checkHomePageContentPage4
+                ,checkHomePageContentPage5, checkHomePageContentPage6, checkHomePageContentPage7, checkHomePageContentPage8 = false;
+        checkHomePageContentPage = waitForVisibleElement(avenirLogo, "avenirLogo");
+        checkHomePageContentPage1 = waitForVisibleElement(weHelpYouAuditSmarterText, "weHelpYouAuditSmarterText");
+        checkHomePageContentPage2 = waitForVisibleElement(joinAsAnAuditorTodayText, "joinAsAnAuditorTodayText");
+        checkHomePageContentPage3 = waitForVisibleElement(ourMissionText, "ourMissionText");
+
+        waitForVisibleElement(ourMissionText1, "ourMissionText1");
+        if (ourMissionText1.getText().equals(ourMissionText1Cst)) {
+            checkOurMissionText1 = true;
+        }
+        waitForVisibleElement(ourMissionText2, "ourMissionText2");
+        if (ourMissionText2.getText().equals(ourMissionText2Cst)) {
+            checkOurMissionText2 = true;
+        }
+        waitForVisibleElement(ourMissionText3, "ourMissionText3");
+        if (ourMissionText3.getText().equals(ourMissionText3Cst)) {
+            checkOurMissionText3 = true;
+        }
+        checkHomePageContentPage4 = waitForVisibleElement(whyAuvenirText, "whyAuvenirText");
+        checkHomePageContentPage5 = waitForVisibleElement(whyAuvenirText1, "whyAuvenirText1");
+        checkHomePageContentPage6 = waitForVisibleElement(whyAuvenirText2, "whyAuvenirText2");
+        if (whyAuvenirText2.getText().equals(whyAuvenirText2Cct)) {
+            checkWhyAuvenir2 = true;
+        }
+
+        waitForVisibleElement(productFeaturesText, "productFeaturesText");
+        if (productFeaturesText.getText().contains("Product Features"))
+        {
+            checkProductFeatures = true;
+        }
+        waitForVisibleElement(belowProductFeaturesText,"belowProductFeaturesText");
+        if(belowProductFeaturesText.getText().equals(belowProductFeaturesTextCst))
+        {
+            checkBelowProductFeatures = true;
+        }
+        checkHomePageContentPage7 = waitForVisibleElement(spendLessTimeImage,"spendLessTimeImage");
+        checkHomePageContentPage8 = waitForVisibleElement(spendLessTimeText,"spendLessTimeText");
+
+        waitForVisibleElement(spendLessTimeDescriptionText,"spendLessTimeDescriptionText");
+        if(spendLessTimeDescriptionText.getText().equals(spendLessTimeDescriptionTextCst))
+        {
+            checkSpendLessTimeDescription = true;
+        }
+        if(checkHomePageContentPage & checkHomePageContentPage1 & checkHomePageContentPage2 & checkHomePageContentPage3 & checkHomePageContentPage4 & checkHomePageContentPage5
+                & checkHomePageContentPage6 & checkHomePageContentPage7 & checkHomePageContentPage8 & checkOurMissionText1 & checkOurMissionText2 & checkOurMissionText3
+                & checkWhyAuvenir2 & checkProductFeatures & checkBelowProductFeatures & checkSpendLessTimeDescription)
+        {
+            NXGReports.addStep("Verify home content page", LogAs.PASSED, null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify home content page", LogAs.FAILED, null);
+        }
+    }
+
+    public void goToAboutPage(){
+        clickElement(aBoutLink,"aBoutLink");
+    }
+    public void goToContactPage(){
+        clickElement(contactLink,"contactLink");
+    }
+    public void goToCookiesNoticePage(){
+        clickElement(cookiesNoticeLink,"cookiesNoticeLink");
+    }
+    public void goToPrivacyPolicyPage(){
+        clickElement(privacyPolicyLink,"privacyPolicyLink");
+    }
+    public void goToTermOfService()
+    {
+        clickElement(termsOfService,"termsOfService");
+    }
+
+    public void verifyPrivacyPolicyContentPage(){
+        getLogger().info("Verify privacy policy content page");
+        boolean checkPrivacyPolicyTextContent = false;
+        boolean checkAuvenirPrivacyText = false;
+        boolean checkPrivacyHeaderText = false;
+        boolean checkAuvenirLogoImage = false;
+        checkAuvenirLogoImage = waitForVisibleElement(auvenirLogoImage,"auvenirImageLogo");
+        waitForVisibleElement(privacyHeaderText,"privacyHeaderText");
+        if(privacyHeaderText.getText().equals("Privacy Policy"))
+        {
+            checkPrivacyHeaderText = true;
+        }
+        waitForVisibleElement(auvenirPrivacyPolicyText,"auvenirPrivacyPolicyText");
+        if(auvenirPrivacyPolicyText.getText().equals("Auvenir Privacy Policy"))
+        {
+            checkAuvenirPrivacyText = true;
+        }
+        waitForVisibleElement(privacyPolicyTextContent,"privacyPolicyTextContent");
+        if(privacyPolicyTextContent.getText().equals(privacyPolicyTextContentCst))
+        {
+            checkPrivacyPolicyTextContent = true;
+        }
+        getLogger().info("privacyPolicyTextContent = " + privacyPolicyTextContent.getText());
+        if(checkPrivacyPolicyTextContent & checkAuvenirPrivacyText & checkPrivacyHeaderText & checkAuvenirLogoImage)
+        {
+            NXGReports.addStep("Verify privacy policy content page", LogAs.PASSED, (CaptureScreen) null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify privacy policy content page", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
     public void verifyTermsContentPage(){
         getLogger().info("Verify terms content page");
         boolean checkTermsHeaderText = false;
@@ -167,4 +743,5 @@ public class TermsPage extends AbstractPage {
             NXGReports.addStep("Verify terms content page", LogAs.FAILED, (CaptureScreen) null);
         }
     }
+
 }

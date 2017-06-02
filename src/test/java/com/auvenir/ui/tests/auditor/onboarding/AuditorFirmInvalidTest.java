@@ -1,7 +1,8 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.HomeService;
+//import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class AuditorFirmInvalidTest extends AbstractTest {
 
-    private HomeService homeService;
+    private MarketingService homeService;
     private PersonalService personalService;
     private AuditorSignUpService auditorSignUpService;
     private SecurityService securityService;
@@ -27,14 +28,14 @@ public class AuditorFirmInvalidTest extends AbstractTest {
 
     // personal information
     String strFullName = GenericService.readExcelData(testData, "OnBoarding", 1, 1);
-    String strEmail =  GenericService.readExcelData(testData, "OnBoarding", 1, 2);
+    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
     String strRoleFirm = GenericService.readExcelData(testData, "OnBoarding", 1, 3);
     String strPhone = GenericService.readExcelData(testData, "OnBoarding", 1, 4);
     String strReference = GenericService.readExcelData(testData, "OnBoarding", 1, 5);
 
     @Test(priority = 1,enabled = false,description = "Verify firm sign up page and Input Invalid Test.")
     public void verifyAuditorFirmInputInvalidValue() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         auditorSignUpService = new AuditorSignUpService(getLogger(),getDriver());
         //Create List Invalid Data for Firm Name Text Box.

@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
  */
 public class AuditorSecurityInvalidTest extends AbstractTest {
 
-    private HomeService homeService;
+    private MarketingService homeService;
     PersonalService personalService;
     AuditorSignUpService firmService;
     SecurityService securityService;
@@ -44,7 +44,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 1,enabled = true, description = "Verify open home page")
     public void openHomePage() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -56,7 +56,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 2,enabled = true, description = "Verify open sign up page")
     public void verifyAuditorPersonalPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
@@ -71,7 +71,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 3, enabled = true, description = "Input information auditor personal")
     public void inputInformationPersonalAuditor() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
             homeService.goToBaseURL();
@@ -87,7 +87,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 4,enabled = true,description = "Verify firm sign up page")
     public void verifyAuditorFirmPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         try {
@@ -105,7 +105,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 5,enabled = true, description = "Input information firm sign up pgae")
     public void registerFirmAuditor() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         try {
@@ -125,7 +125,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 6,enabled = true,description = "Verify security sign up page")
     public void verifySecurityPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -146,7 +146,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 7,enabled = true,description = "Verify GUI when input password random blank")
     public void verifyGUIWhenInputRandomPasswordBlank() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -170,7 +170,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 8,enabled = true,description = "Verify GUI when input password random have invalid length")
     public void verifyGUIWhenInputRandomPasswordInValidLength() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -194,7 +194,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 9,enabled = true,description = "Verify GUI when input random password not contain upper case")
     public void verifyGUIWhenInputRandomPasswordNotContaintUpperCase() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -218,7 +218,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 10,enabled = true,description = "Verify GUI when input random password not contain lower character")
     public void verifyGUIWhenInputRandomPasswordNotContainLowerCharacter() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -242,7 +242,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 11,enabled = true,description = "Verify GUI when input random password not contain digits")
     public void verifyGUIWhenInputRandomPasswordNotContainDigits() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -266,7 +266,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 12,enabled = true,description = "Verify GUI when input random password not contain character")
     public void verifyGUIWhenInputRandomPasswordNotContainCharacter() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
@@ -291,7 +291,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 13,enabled = true,description = "Verify GUI when input confirm password invalid")
     public void verifyConfirmPasswordWithInvalid() {
-        homeService = new HomeService(getLogger(),getDriver());
+        homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
