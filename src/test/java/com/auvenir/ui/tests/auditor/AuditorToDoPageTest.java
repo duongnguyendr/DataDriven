@@ -215,24 +215,25 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             getLogger().info("Preparing Todo list data..");
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.InputValidValue("vien");
+            auditorCreateToDoService.InputValidValue("vien118");
             auditorCreateToDoService.waitForNewTodoNameApplied();
-            auditorCreateToDoService.createCategories("helper");
+            auditorCreateToDoService.createCategories("vien119");
             auditorCreateToDoService.selectCategory();
             auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
             auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
             getLogger().info("Verifying realtime search..");
-            getLogger().info("Input full search match with todo name..");
-            auditorCreateToDoService.inputSearchText("helper");
-            auditorCreateToDoService.verifySearchResult("helper");
+            getLogger().info("Input search full match with todo name, categoryname, assignclient or assignAudit..");
+            auditorCreateToDoService.inputSearchText("VienPham");
+            auditorCreateToDoService.verifySearchResult("VienPham");
+            getLogger().info("Input search do not match with todo name, categoryname, assignclient and assignAudit..");
+            auditorCreateToDoService.inputSearchText("FATREWAFDFYRETRETE");
+            auditorCreateToDoService.verifySearchResutlNotMatch();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
-
 
 
     @Test(priority = 9, enabled = false, description = "Verify Data Grid")

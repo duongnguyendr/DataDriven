@@ -23,6 +23,7 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
+import javax.xml.soap.Text;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -938,7 +939,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /*
-    Vien modified checkSearchData
+    Vien modified checkSearchData: to search with TodoName, categoryName, auditAssign, clientAssign..
      */
 
     public void checkSearchData(String inputSearch) {
@@ -951,13 +952,20 @@ public class AuditorCreateToDoPage extends AbstractPage {
             for (WebElement trElement : tr_collection) {
                 List<WebElement> td_collection = trElement.findElements(By.xpath("td"));
                 for (WebElement tdElement : td_collection) {
-                    String strSearchValue = "";
+                    String strSearchValueTodoName = "";
+                    String strSearchValueCategoryName = "";
+                    String strSearchValueClientAssignee = "";
+                    String strSearchValueAuditAssignee = "";
                     try {
-                        strSearchValue = tdElement.findElement(By.tagName("input")).getAttribute("value");
+                        strSearchValueTodoName = tdElement.findElement(By.tagName("input")).getAttribute("value");
+                        strSearchValueCategoryName = tdElement.findElement(By.xpath("//*[contains(@class,'ui dropdown category')]")).getText();
+                        strSearchValueAuditAssignee = tdElement.findElement(By.xpath("//*[contains(@class,'ui dropdown auditor')]")).getText();
+                        strSearchValueClientAssignee = tdElement.findElement(By.xpath("//*[contains(@class,'ui dropdown client')]")).getText();
+
                     } catch (Exception ex) {
                     }
-                    getLogger().info("SearchValue = " + strSearchValue);
-                    if (strSearchValue.equals(inputSearch)) {
+                    getLogger().info("SearchValue = " + strSearchValueTodoName);
+                    if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
                         isCheckData = true;
                         break;
                     }
@@ -978,6 +986,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify realtime search", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public void verifySearchResutlNotMatch() {
+        try {
+            getLogger().info("Verifying todo list disappear..");
+            waitForInvisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")), "");
+            NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 
     public void checkContentTextSearch() {
