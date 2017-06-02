@@ -4,7 +4,7 @@ import com.auvenir.ui.pages.marketing.forgotpassword.ResetPasswordPO;
 import com.auvenir.ui.pages.marketing.mailtemplate.EmailResetPassPO;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  * Created by toan.nguyenp on 4/21/2017.
  */
 public class ValidateForgotPasswordTest extends AbstractTest {
-    private HomeService homeService;
+    private MarketingService homeService;
     /*private LoginModalPO loginPO = null;
     private ForgotPassModalPO forgotPassModalPO = null;
     private ResetLinkSentModalPO resetLinkSentModalPO = null;
@@ -33,7 +33,7 @@ public class ValidateForgotPasswordTest extends AbstractTest {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            homeService = new HomeService(getLogger(), getDriver());
+            homeService = new MarketingService(getLogger(), getDriver());
             homeService.goToBaseURL();
             homeService.clickLoginButton();
             homeService.goToForgotPassword();
@@ -128,7 +128,7 @@ public class ValidateForgotPasswordTest extends AbstractTest {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            homeService = new HomeService(getLogger(), getDriver());
+            homeService = new MarketingService(getLogger(), getDriver());
             homeService.goToBaseURL();
             homeService.clickLoginButton();
             homeService.goToForgotPassword();

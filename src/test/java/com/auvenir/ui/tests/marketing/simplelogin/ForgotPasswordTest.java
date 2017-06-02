@@ -1,16 +1,16 @@
 package com.auvenir.ui.tests.marketing.simplelogin;
 
 
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.pages.marketing.forgotpassword.ForgotPassModalPO;
 import com.auvenir.ui.pages.marketing.forgotpassword.PasswordResetSuccessPO;
 import com.auvenir.ui.pages.marketing.forgotpassword.ResetLinkSentModalPO;
 import com.auvenir.ui.pages.marketing.forgotpassword.ResetPasswordPO;
 import com.auvenir.ui.pages.marketing.mailtemplate.EmailResetPassPO;
-import com.auvenir.ui.pages.marketing.HomePage;
 import com.auvenir.ui.pages.marketing.LoginModalPO;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -23,9 +23,9 @@ import org.testng.annotations.Test;
  * Created by toan.nguyenp on 4/18/2017.
  */
 public class ForgotPasswordTest extends AbstractTest {
-    private HomeService homeService;
+    private MarketingService homeService;
     private GmailLoginService gmailLoginService;
-    private HomePage homePO = null;
+    private MarketingPage homePO = null;
     private LoginModalPO loginPO = null;
     private ForgotPassModalPO forgotPassModalPO = null;
     private ResetLinkSentModalPO resetLinkSentModalPO = null;
@@ -41,7 +41,8 @@ public class ForgotPasswordTest extends AbstractTest {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            homeService = new HomeService(getLogger(), getDriver());
+            homeService = new MarketingService(getLogger(), getDriver());
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.clickLoginButton();
             homeService.goToForgotPassword();
@@ -87,7 +88,8 @@ public class ForgotPasswordTest extends AbstractTest {
     @Test(priority = 2, enabled= true, description = "Forgot password with blank email address.")
     public void forgotPasswordWithBlankEmail(){
         try {
-            homeService = new HomeService(getLogger(), getDriver());
+            homeService = new MarketingService(getLogger(), getDriver());
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.clickLoginButton();
             homeService.goToForgotPassword();
@@ -128,7 +130,8 @@ public class ForgotPasswordTest extends AbstractTest {
             NXGReports.addStep("Enter " + invalidEmailAddress + " into email address.", LogAs.PASSED, null);
             Assert.assertFalse(GenericService.isValidEmailAddress(invalidEmailAddress), "Email address is readed from excel file which is a invalid.");
 
-            homeService = new HomeService(getLogger(), getDriver());
+            homeService = new MarketingService(getLogger(), getDriver());
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.clickLoginButton();
             homeService.goToForgotPassword();
@@ -254,8 +257,9 @@ public class ForgotPasswordTest extends AbstractTest {
     @Test(priority = 4, enabled= true, description = "Forgot password with email is not exist.")
     public void forgotPasswordWithEmailIsNotExist(){
         try {
-            homeService = new HomeService(getLogger(), getDriver());
+            homeService = new MarketingService(getLogger(), getDriver());
             String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 5, 1);
+            homeService.setPrefixProtocol("http://");
             homeService.goToBaseURL();
             homeService.clickLoginButton();
             homeService.goToForgotPassword();
