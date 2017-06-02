@@ -14,14 +14,14 @@ import java.util.concurrent.TimeUnit;
 
 //import org.testng.log4testng.Logger;
 
-public class GmailLoginService extends AbstractRefactorService {
+public class GmailLoginService extends AbstractService {
     Logger logger = Logger.getLogger(GmailLoginService.class);
     GmailPage gmailLoginPo = null;
     public GmailLoginService(Logger logger, WebDriver driver) {
         super(logger, driver);
         gmailLoginPo = new GmailPage(getLogger(), getDriver());
     }
-    public void gmailLogin() throws Exception {
+    public void gmailLogin(){
         try {
             gmailLoginPo = new GmailPage(getLogger(), getDriver());
             getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
@@ -55,6 +55,9 @@ public class GmailLoginService extends AbstractRefactorService {
             }
         } catch (AssertionError e) {
             NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
+
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 
@@ -71,4 +74,13 @@ public class GmailLoginService extends AbstractRefactorService {
         gmailLoginPo.goGMail();
         gmailLoginPo.openGmailIndexForgotPassword(email,password);
     }
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+    public void signInGmail(String email, String password) {
+        gmailLoginPo.signInGmail(email, password);
+    }
+    /*-----------end of huy.huynh on 02/06/2017.*/
 }

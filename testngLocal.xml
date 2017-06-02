@@ -14,6 +14,10 @@
             <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
             <!--<class name="com.auvenir.ui.tests.admin.AdminSettingsTest"/>
             <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
+            <class name="com.auvenir.ui.tests.SmokeTestt"/>
+            <methods>
+                <include name="clientLogsInAndOnBoards"></include>
+            </methods>
             <!--
              <class name="com.auvenir.ui.tests.SmokeTest"/>
             <class name="com.auvenir.ui.tests.AdminTest"/>
@@ -22,7 +26,7 @@
             <class name="com.auvenir.ui.tests.AuditorTest"/>
             <class name="com.auvenir.ui.tests.ClientTest"/>
              -->
-            <class name="com.auvenir.ui.tests.marketing.AboutTest"/>
+            <!--<class name="com.auvenir.ui.tests.marketing.AboutTest"/>-->
             <!--<methods>
                 <include name="verifyAboutPageContentTest"></include>
             </methods>-->
@@ -55,7 +59,7 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>-->
         </classes>
     </test>
 </suite>

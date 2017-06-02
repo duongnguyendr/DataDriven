@@ -24,6 +24,7 @@ public class AbstractService {
     private WebDriver driver;
     private Logger logger;
     private static final int waitTime = 60;
+    public static String gmailWindow;
     /*
     Variable to validate Passed - Failed of a TestCases
      */

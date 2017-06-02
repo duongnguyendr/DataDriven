@@ -178,7 +178,7 @@ public class AbstractTest {
     public void tearDown(Method method) {
         testName = method.getName();
         logger.info("Close .the browser.");
-        closeAllTab();
+        //closeAllTab();
         logCurrentStepEnd();
     }
 

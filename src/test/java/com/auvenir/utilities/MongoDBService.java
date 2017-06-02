@@ -509,7 +509,7 @@ public class MongoDBService {
 
             dBCollection.remove(dBbject);
         } catch (NoSuchElementException ex) {
-
+            ex.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
