@@ -122,8 +122,10 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void inputSearchText(String inputSearch){
+
         createToDoPage.inputSearchText(inputSearch);
     }
+
     public void verifySearchResult(String inputSearch){
         createToDoPage.checkSearchData(inputSearch);
     }
@@ -998,6 +1000,10 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBorderDuedate_WhileHovered();
     }
 
+    public void verifyUnableToInputDuedate(String dateInput){
+        createToDoPage.verifyUnableToInputDuedate(dateInput);
+    }
+
     public void verifyAuditAssigneeBox() {
         getLogger().info("Verifying AuditAssignee box..");
         createToDoPage.verifyAditAssignee_DefaultValue();
@@ -1025,6 +1031,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifySearchDefault();
         getLogger().info("Verifying Search border is Green when hovered...");
         createToDoPage.verifySearchHover();
+    }
+
+    public void verifyNameReturnDefault(){
+        createToDoPage.verifyNameReturnDefault();
+
     }
 }
 

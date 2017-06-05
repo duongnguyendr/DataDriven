@@ -2652,13 +2652,13 @@ public class AbstractPage {
             getLogger().info("Verifying the Todo TextName border is transfered from Green to White or not...");
             boolean i = waitForCssValueChanged(listTodosTextboxEle.get(0), "To Do Name textbox", "border", deFaultBorder);
             if (i) {
-                NXGReports.addStep("Data is saved.", LogAs.PASSED, null);
+                NXGReports.addStep("Border is White.", LogAs.PASSED, null);
             } else {
-                NXGReports.addStep("Data is not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Border is White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             }
         } catch (Exception e) {
-            NXGReports.addStep("Data is not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border is White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
     }
