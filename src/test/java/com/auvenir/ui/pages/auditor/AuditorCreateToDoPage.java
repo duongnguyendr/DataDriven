@@ -350,9 +350,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement closeAddNewRequest;
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div")
     private WebElement deleteRequestBtn;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]//a[@class='details-delete item']")
     private WebElement deleteRequestMenu;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]//a[@class='details-duplicate item']")
     private WebElement copyTaskMenu;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
