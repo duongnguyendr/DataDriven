@@ -972,7 +972,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
                         strSearchValueAuditAssignee=DropdownAuditAssignee.get(i).getText();
                     } catch (Exception ex) {
                     }
-                    getLogger().info("SearchValue = " + strSearchValueTodoName);
                     if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
                         isCheckData = true;
                         break;
