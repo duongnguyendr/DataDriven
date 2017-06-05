@@ -4,6 +4,7 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="windows10"/>-->
         <listener class-name="com.auvenir.utilities.listeners.TestngListener"/>
+        <listener class-name="com.auvenir.utilities.listeners.SuiteListener"/>
         <listener class-name="com.kirwa.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
     <test name="Regression1" preserve-order="false">
@@ -11,9 +12,9 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
+            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
             <methods>
-                <include name="verifyAboutPageContentTest"></include>
+                <include name="verifyButtonFilter"></include>
             </methods>
         </classes>
     </test>
@@ -22,37 +23,37 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
+            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
             <methods>
-                <include name="verifyAboutPageContentTest"></include>
+                <include name="verifyButtonFilter"></include>
             </methods>
         </classes>
     </test>
-    <test name="Regression2-1" preserve-order="false">
-        <parameter name="browser" value="internet explorer"/>
-        <parameter name="version" value="lasted"/>
-        <parameter name="os" value="WIN10"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
-            <methods>
-                <include name="verifyAboutPageContentTest"></include>
-            </methods>
-        </classes>
-    </test>
-    <test name="Regression3" preserve-order="true">
-        <parameter name="browser" value="safari"/>
-        <parameter name="version" value="lasted"/>
-        <parameter name="os" value="MAC"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
-        </classes>
-    </test>
-    <test name="Regression4" preserve-order="true">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="version" value="lasted"/>
-        <parameter name="os" value="WIN8"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
-        </classes>
-    </test>
+    <!--<test name="Regression2-1" preserve-order="false">-->
+        <!--<parameter name="browser" value="internet explorer"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="WIN10"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+            <!--<methods>-->
+                <!--<include name="verifyAboutPageContentTest"></include>-->
+            <!--</methods>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="Regression3" preserve-order="true">-->
+        <!--<parameter name="browser" value="safari"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="MAC"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="Regression4" preserve-order="true">-->
+        <!--<parameter name="browser" value="firefox"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="WIN8"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>

@@ -33,6 +33,7 @@ public class TestngListener implements ITestListener {
 	public static ArrayList sStatus= new ArrayList<String>();
 	public static ArrayList sDescription= new ArrayList<String>();
 	public static File pdfReports;
+	public static PdfGenerater pdf;
 	
 	public TestngListener() throws IOException 
 	{
@@ -107,8 +108,8 @@ public class TestngListener implements ITestListener {
 		//GenericService.getBarChart(iPassCount,iFailCount,iSkippedCount);
 		 GenericService.getPieChartFollowBrowser(sTestName,sStatus);
 		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);
-         PdfGenerater pdf = new PdfGenerater();
-         pdf.toExecute(sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount, pdfReports);
+         pdf = new PdfGenerater();
+
      	try
         {
      		FileUtils.copyDirectoryToDirectory(testOuput,new File(sTestngReports));
