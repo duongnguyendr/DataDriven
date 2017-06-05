@@ -9,10 +9,12 @@ import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -24,6 +26,8 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
     PersonalPage personal = null;
     private MarketingService marketingService;
     PersonalService personalService;
+    private AuditorSignUpService auditorSignUpService;
+    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
 
 
     @Test(priority = 1, enabled = true, description = "Navigate to  Home Page")
@@ -57,8 +61,13 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
     public void verifyNameWithOneCharacter() {
         marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try {
-            marketingService.goToBaseURL();
+            auditorSignUpService.deleteUserUsingApi(strEmail);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            auditorSignUpService.setPrefixProtocol("http://");
+
+            auditorSignUpService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 2, 1));

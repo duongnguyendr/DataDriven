@@ -151,6 +151,7 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
+            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();

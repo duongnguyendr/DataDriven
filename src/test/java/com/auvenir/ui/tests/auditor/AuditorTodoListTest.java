@@ -166,7 +166,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = false, description = "verify default value(Search...) of this Search")
+    @Test(priority = 6, enabled = true, description = "verify default value(Search...) of this Search")
     public void verifySearchPlaceholder() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -189,7 +189,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = false, description = "verify when hover on Search change bounary color to green.")
+    @Test(priority = 7, enabled = true, description = "verify when hover on Search change bounary color to green.")
     public void verifySearchHover() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -213,7 +213,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = false, description = "verify input text.")
+    @Test(priority = 8, enabled = true, description = "verify input text.")
     public void verifySearchInputText() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -237,7 +237,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = false, description = "verify input number to field search.")
+    @Test(priority = 9, enabled = true, description = "verify input number to field search.")
     public void verifySearchInputNumber() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -261,7 +261,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
+    @Test(priority = 10, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
     public void verifyGUIToDoSaveIcon() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -291,7 +291,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 11, enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
+    @Test(priority = 11, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
 
     public void verifyGUIToDoCloseIcon() throws Exception {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -383,7 +383,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     TestCase to cover ticket: PLAT 2283
      */
-    @Test(priority = 14, enabled = false, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
+    @Test(priority = 14, enabled = true, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
     public void verifyFilterButton() throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -402,7 +402,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 15, enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
+    @Test(priority = 15, enabled = true, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
     public void verifyDefaultValueFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -424,7 +424,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 16, enabled = false, description = "[PLAT 2283]: Verify border on Filter dropdown.")
+    @Test(priority = 16, enabled = true, description = "[PLAT 2283]: Verify border on Filter dropdown.")
     public void verifyBorderOnFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -446,7 +446,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 17, enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
+    @Test(priority = 17, enabled = true, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
     public void verifyChooseAnOptionFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -475,7 +475,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
     }
 
-    @Test(priority = 18, enabled = false, description = "[PLAT 2283]: verify Unable Add More Option Filter DropDownList")
+    @Test(priority = 18, enabled = true, description = "[PLAT 2283]: verify Unable Add More Option Filter DropDownList")
     public void verifyUnableAddMoreOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -498,7 +498,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
     }
 
-    @Test(priority = 19, enabled = false, description = "[PLAT 2283]: verify select An VaLue On Assign Option Filter")
+    @Test(priority = 19, enabled = true, description = "[PLAT 2283]: verify select An VaLue On Assign Option Filter")
     public void selectAnVaLueOnAssignOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -608,7 +608,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 23, enabled = false, description = "Verify GUI of select date drop down in add new to-do page.")
+    @Test(priority = 23, enabled = true, description = "Verify GUI of select date drop down in add new to-do page.")
     public void verifyGUISelectDateDropDownInNewToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -634,7 +634,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 24, enabled = false, description = "Verify due date drop down in add new to-do page.")
+    @Test(priority = 24, enabled = true, description = "Verify due date drop down in add new to-do page.")
     /**
      * Fail :
      * 1. default value due date date picker is not match with engagement due date :
@@ -692,7 +692,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 25, enabled = false, description = "Verify due date drop down in to-do list page.")
+    @Test(priority = 25, enabled = true, description = "Verify due date drop down in to-do list page.")
     /**
      * Fail :
      * 1. Current code does not against when user input text and special character :
@@ -1346,7 +1346,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     Vien Pham merged editCategoriesTEst into this page
      */
-    @Test(priority = 40, enabled = false, description = "Verify EditCategories GUI ")
+    @Test(priority = 40, enabled = true, description = "Verify EditCategories GUI ")
     public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -1445,7 +1445,7 @@ End of merged VienPham.
      */
     int ToDoItemNumber = 4;
 
-    @Test(priority = 45, enabled = false, description = "Verify work flow of delete multi ToDo item in ToDo page.")
+    @Test(priority = 45, enabled = true, description = "Verify work flow of delete multi ToDo item in ToDo page.")
     public void verifyWorkFlowOfDeleteMultiToDoInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1481,7 +1481,7 @@ End of merged VienPham.
         }
     }
 
-    @Test(priority = 46, enabled = false, description = "Verify work flow of delete all ToDo item in ToDo page.")
+    @Test(priority = 46, enabled = true, description = "Verify work flow of delete all ToDo item in ToDo page.")
     public void verifyWorkFlowOfDeleteAllToDoInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
