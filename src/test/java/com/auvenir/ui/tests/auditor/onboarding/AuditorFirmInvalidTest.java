@@ -33,7 +33,7 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     String strPhone = GenericService.readExcelData(testData, "OnBoarding", 1, 4);
     String strReference = GenericService.readExcelData(testData, "OnBoarding", 1, 5);
 
-    @Test(priority = 1,enabled = false,description = "Verify firm sign up page and Input Invalid Test.")
+    @Test(priority = 1,enabled = true,description = "Verify firm sign up page and Input Invalid Test.")
     public void verifyAuditorFirmInputInvalidValue() {
         marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());

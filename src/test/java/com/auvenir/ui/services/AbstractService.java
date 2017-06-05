@@ -1,7 +1,9 @@
 package com.auvenir.ui.services;
 
+import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.WebService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -9,8 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -25,6 +31,9 @@ public class AbstractService {
     private WebDriver driver;
     private Logger logger;
     private static final int waitTime = 60;
+    public static WebDriverWait sWebDriverWait = null;
+    public static String gmailWindow;
+
     /*
     Variable to validate Passed - Failed of a TestCases
      */
@@ -304,5 +313,88 @@ public class AbstractService {
 
     public void updateUserActive(String userEmail) {
         callRestApiUpdateUser(userEmail, keywordApiUpdateActive);
+    }
+
+    /*
+    Refactoring to join AbstractRefactorService
+     */
+    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+        driver.get(sGetTokenURL + sEmailID);
+        String s1 = driver.findElement(By.xpath("//pre")).getText();
+        String[] parts = s1.split("(\")");
+        String token = parts[3];
+        GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
+        driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+    }
+
+    //Getting the URl by passing Dev Auth ID and Authentication key
+
+    public void setURL(String sEMAILID, String sAUTHID, String sLOGINURL, String sDevAuthID, String sApiKey) throws Exception {
+        try {
+            WebService http = new WebService(logger);
+            http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
+            http.gettingURL(sEMAILID, sLOGINURL, sDevAuthID, sApiKey);
+            System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
+        } catch (AssertionError e) {
+            NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+
+    public void visibilityOfElementWait(WebElement webElement, String elementName, int waitTime) {
+        try {
+            sWebDriverWait = new WebDriverWait(driver, waitTime);
+            sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
+        }
+    }
+
+    public void gmaillLogin() throws Exception {
+        try {
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            driver.manage().timeouts().implicitlyWait(10000, TimeUnit.SECONDS);
+            driver.manage().window().maximize();
+
+            //gmailLoginPo.getEleSignInLink().click();
+            if (gmailLoginPo.getEleEmailIDTxtFld().isDisplayed()) {
+                gmailLoginPo.getEleEmailIDTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
+                gmailLoginPo.getEleNextBtn().click();
+            }
+            Thread.sleep(5000);
+            gmailLoginPo.getElePasswordTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+            gmailLoginPo.getEleSignInBtn().click();
+            Assert.assertTrue(gmailLoginPo.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
+            Thread.sleep(5000);
+            gmailLoginPo.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
+            gmailLoginPo.getEleSearchBtn().click();
+            gmailLoginPo.getEleInviteMailLnk().click();
+            gmailWindow = driver.getWindowHandle();
+
+            gmailLoginPo.getEleStartBtn().click();
+            switchToWindow();
+
+            driver.close();
+            driver.switchTo().window(parentWin);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void auditorLogout() throws Exception {
+        Thread.sleep(10000);
+        GmailPage gmailLoginPo = new GmailPage(logger, driver);
+        driver.close();
+
+        driver.switchTo().window(gmailWindow);
+        gmailLoginPo.getEleProfileIcn().click();
+        gmailLoginPo.getEleSignOutBtn().click();
     }
 }

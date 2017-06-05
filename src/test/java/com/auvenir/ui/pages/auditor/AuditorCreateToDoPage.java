@@ -350,9 +350,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement closeAddNewRequest;
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div")
     private WebElement deleteRequestBtn;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]//a[@class='details-delete item']")
     private WebElement deleteRequestMenu;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]//a[@class='details-duplicate item']")
     private WebElement copyTaskMenu;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
@@ -1618,6 +1618,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         return isThisDateValid(eleIdDueDate.getAttribute("value").trim(), "mm/dd/yyyy");
     }
 
+
+    /*
+    Vien.Pham added new checkFormatDueDate at todolistPage
+
+     */
+
+    public boolean checkFormatDueDate_TodoListPage() {
+        waitForVisibleElement(eleToDoNewRowDueDateText.get(0), "Due date");
+        return isThisDateValid(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim(), "mm/dd/yyyy");
+    }
+
     /**
      * Verify data on date picker
      */
@@ -1701,6 +1712,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 waitForClickableOfElement(eleXpathChooseDate, "Date picker");
                 eleXpathChooseDate.click();
                 result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
+                System.out.println("date selected is: "+ eleToDoNewRowDueDateText.get(0).getAttribute("value"));
+                Thread.sleep(smallerTimeOut);
             }
             //If result = true : before and after value as same --> data picker not work
             if (result) {
@@ -3801,6 +3814,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(DropdownDuedateBtn, "border", GreenBorder);
             NXGReports.addStep("Border of DueDate is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Border of DueDate is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
