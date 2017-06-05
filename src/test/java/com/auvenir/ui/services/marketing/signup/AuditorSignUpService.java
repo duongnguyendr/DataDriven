@@ -1,7 +1,7 @@
 package com.auvenir.ui.services.marketing.signup;
 
 import com.auvenir.ui.pages.marketing.MarketingPage;
-import com.auvenir.ui.pages.marketing.onboarding.AuditorSignUpPage;
+import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -12,118 +12,118 @@ import java.util.List;
  * Created by tan.pham on 5/24/2017.
  */
 public class AuditorSignUpService extends AbstractService {
-    private AuditorSignUpPage auditorSignUpFirmPage;
+    private AuditorSignUpPage auditorSignUpPage;
     private MarketingPage marketingPage;
 
     public AuditorSignUpService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        auditorSignUpFirmPage = new AuditorSignUpPage(getLogger(),getDriver());
+        auditorSignUpPage = new AuditorSignUpPage(getLogger(),getDriver());
         marketingPage = new MarketingPage(getLogger(), getDriver());
     }
 
     public void verifyFirmSignUpPage(){
-        auditorSignUpFirmPage.verifyFirmInfoPageContent();
+        auditorSignUpPage.verifyFirmInfoPageContent();
     }
 
     public void registerFirmInfo(String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
-        auditorSignUpFirmPage.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState,  strMemberID,  strNumEmp,  strPhone,  strAffName,  strPathLogo);
+        auditorSignUpPage.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState,  strMemberID,  strNumEmp,  strPhone,  strAffName,  strPathLogo);
     }
 
     public void clickOnChangedNameCheckBox(){
-        auditorSignUpFirmPage.clickOnChangedNameCheckBox();
+        auditorSignUpPage.clickOnChangedNameCheckBox();
     }
 
     public void clickOnAllFirmCheckBox(){
-        auditorSignUpFirmPage.clickOnAllFirmCheckBox();
+        auditorSignUpPage.clickOnAllFirmCheckBox();
     }
 
     public void clickOnRuleLogoCheckBox(){
-        auditorSignUpFirmPage.clickOnRuleLogoCheckBox();
+        auditorSignUpPage.clickOnRuleLogoCheckBox();
     }
 
     public void inputValueIntoFirmNameTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoFirmNameTextBox(strName);
+        auditorSignUpPage.inputValueIntoFirmNameTextBox(strName);
     }
 
     public void inputValueIntoPreviousFirmNameTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoPreviousFirmNameTextBox(strName);
+        auditorSignUpPage.inputValueIntoPreviousFirmNameTextBox(strName);
     }
 
 
     public void verifyInputValidValueOnFirmNameTextBox(List<String> invalidValue) {
-        System.out.println("Size Invalid Data: " + invalidValue.size());
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpFirmPage.verifyInputValidValueOnFirmNameTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputValidValueOnFirmNameTextBox(invalidValue.get(i));
         }
     }
 
     public void verifyInputValidValueOnPreFirmNameTextBox(List<String> invalidValue) {
-        System.out.println("Size Invalid Data: " + invalidValue.size());
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpFirmPage.verifyInputValidValueOnPreFirmNameTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputValidValueOnPreFirmNameTextBox(invalidValue.get(i));
         }
     }
 
     public void inputValueIntoFirmWebsiteTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoWebsiteTextBox(strName);
+        auditorSignUpPage.inputValueIntoWebsiteTextBox(strName);
     }
 
     public void verifyInputValidValueOnFirmWebsiteTextBox(List<String> invalidValue) {
-        System.out.println("Size Invalid Data: " + invalidValue.size());
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpFirmPage.verifyInputValidValueOnFirmWebsiteTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputValidValueOnFirmWebsiteTextBox(invalidValue.get(i));
         }
     }
 
     public void inputValueIntoFullAddressTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoFullAddressTextBox(strName);
+        auditorSignUpPage.inputValueIntoFullAddressTextBox(strName);
     }
 
     public void verifyInputValidValueOnFullAddressTextBox(String invalidValue) {
-        auditorSignUpFirmPage.verifyInputValidValueOnFullAddressTextBox(invalidValue);
+        auditorSignUpPage.verifyInputValidValueOnFullAddressTextBox(invalidValue);
     }
 
     public void inputValueIntoZipCodeTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoZipCodeTextBox(strName);
+        auditorSignUpPage.inputValueIntoZipCodeTextBox(strName);
     }
 
     public void verifyInputValidValueOnZipCodeTextBox(List<String> invalidValue) {
-        System.out.println("Size Invalid Data: " + invalidValue.size());
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpFirmPage.verifyInputValidValueOnZipCodeTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputValidValueOnZipCodeTextBox(invalidValue.get(i));
         }
     }
 
     public void inputValueIntoMemberIdTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoMemberIdTextBox(strName);
+        auditorSignUpPage.inputValueIntoMemberIdTextBox(strName);
     }
 
     public void verifyInputValidValueOnMemberIdTextBox(List<String> invalidValue) {
-        System.out.println("Size Invalid Data: " + invalidValue.size());
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpFirmPage.verifyInputValidValueOnMemberIdTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputValidValueOnMemberIdTextBox(invalidValue.get(i));
         }
     }
 
     public void inputValueIntoPhoneNumberIdTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoPhoneNumberIdTextBox(strName);
+        auditorSignUpPage.inputValueIntoPhoneNumberIdTextBox(strName);
     }
 
     public void verifyInputValidValueOnPhoneNumberIdTextBox(List<String> invalidValue) {
-        System.out.println("Size Invalid Data: " + invalidValue.size());
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpFirmPage.verifyInputValidValueOnPhoneNumberIdTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputValidValueOnPhoneNumberIdTextBox(invalidValue.get(i));
         }
     }
 
     public void inputValueIntoAffiliatedFirmNameTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoAffiliatedFirmNameTextBox(strName);
+        auditorSignUpPage.inputValueIntoAffiliatedFirmNameTextBox(strName);
     }
 
     public void verifyInputValidValueOnAffFirmTextBox(List<String> invalidValue) {
-        System.out.println("Size Invalid Data: " + invalidValue.size());
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpFirmPage.verifyInputValidValueOnAffFirmTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputValidValueOnAffFirmTextBox(invalidValue.get(i));
         }
     }
 
@@ -132,78 +132,88 @@ public class AuditorSignUpService extends AbstractService {
     }
 
     public void verifyPersonalSignUpPage(){
-        auditorSignUpFirmPage.verifyPersonalInfoPageContent();
+        auditorSignUpPage.verifyPersonalInfoPageContent();
     }
 
     public void registerAuditorPersonal(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference){
-        auditorSignUpFirmPage.registerAuditorPersonal(strName,strEmail,strRoleFirm,strPhone,strReference);
+        auditorSignUpPage.registerAuditorPersonal(strName,strEmail,strRoleFirm,strPhone,strReference);
     }
 
     public void clickOnCheckBoxConfirm(){
-        auditorSignUpFirmPage.clickOnCheckBoxConfirm();
+        auditorSignUpPage.clickOnCheckBoxConfirm();
     }
 
     public void inputValueIntoFullNameTexBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoFullNameInput(strName);
+        auditorSignUpPage.inputValueIntoFullNameInput(strName);
     }
 
-    public void verifyColorFullNameTxtBox(String attributeName, String attributeValue){
-        auditorSignUpFirmPage.verifyColorFullNameTxtBox(attributeName,attributeValue);
+    public void verifyInputValidValueOnFullNameTxtBox(List<String> invalidValue){
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
+        for(int i = 0 ; i < invalidValue.size(); i++){
+            auditorSignUpPage.verifyInputValidValueOnFullNameTxtBox(invalidValue.get(i));
+        }
     }
 
-    public void inputValueIntoEmailTexBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoEmailTextBox(strName);
+    public void inputValueIntoEmailTextBox(String strName){
+        auditorSignUpPage.inputValueIntoEmailTextBox(strName);
     }
 
-    public void verifyColorEmailTxtBox(String attributeName, String attributeValue){
-        auditorSignUpFirmPage.verifyColorEmailTxtBox(attributeName,attributeValue);
+    public void verifyInputValidValueOnEmailTxtBox(List<String> invalidValue){
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
+        for(int i = 0 ; i < invalidValue.size(); i++){
+            auditorSignUpPage.verifyInputValidValueOnEmailTxtBox(invalidValue.get(i));
+        }
     }
 
     public void inputValueIntoConfirmEmailTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoConfirmEmailTextBox(strName);
+        auditorSignUpPage.inputValueIntoConfirmEmailTextBox(strName);
     }
 
-    public void verifyColorConfirmEmailTxtBox(String attributeName, String attributeValue){
-        auditorSignUpFirmPage.verifyColorConfirmEmailTxtBox(attributeName,attributeValue);
+    public void verifyInputValidValueOnConfirmEmailTxtBox(String invalidValue){
+        auditorSignUpPage.verifyInputValidValueOnConfirmEmailTxtBox(invalidValue);
     }
 
     public void inputValueIntoPhoneNumberTextBox(String strName){
-        auditorSignUpFirmPage.inputValueIntoPhoneNumberTextBox(strName);
+        auditorSignUpPage.inputValueIntoPhoneNumberTextBox(strName);
     }
 
-    public void verifyColorPhoneNumberTxtBox(String attributeName, String attributeValue){
-        auditorSignUpFirmPage.verifyColorPhoneNumberTxtBox(attributeName,attributeValue);
+    public void verifyInputValidValueOnPhoneNumberTxtBox(List<String> invalidValue){
+        getLogger().info("Size Invalid Data: " + invalidValue.size());
+        for(int i = 0 ; i < invalidValue.size(); i++){
+            auditorSignUpPage.verifyInputValidValueOnPhoneNumberTxtBox(invalidValue.get(i));
+        }
+//        auditorSignUpPage.verifyInputValidValueOnPhoneNumberTxtBox(invalidValue);
     }
 
     public void verifySecuritySignUpPage(){
-        auditorSignUpFirmPage.verifySecurityInfoPageContent();
+        auditorSignUpPage.verifySecurityInfoPageContent();
     }
 
     public void createPassword(String strPass, String strCaptcha){
-        auditorSignUpFirmPage.createPassword(strPass,strCaptcha);
+        auditorSignUpPage.createPassword(strPass,strCaptcha);
     }
 
-    public void verifyCreatePasswordPopupWarning(int passwordLength, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber){
-        auditorSignUpFirmPage.verifyCreatePasswordPopupWarning(passwordLength, isContainsCapialLetter, isContainsLetter, isContainsNumber);
+    public void verifyCreateInvalidPassword(String password, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber){
+        auditorSignUpPage.verifyCreateInvalidPassword(password, isContainsCapialLetter, isContainsLetter, isContainsNumber);
     }
 
     public void verifyConfirmPasswordPopupWarning(){
-        auditorSignUpFirmPage.verifyConfirmPasswordPopupWarning();
+        auditorSignUpPage.verifyConfirmPasswordPopupWarning();
     }
 
     public void inputValueIntoPaswordInput(String strName){
-        auditorSignUpFirmPage.inputValueIntoPaswordInput(strName);
+        auditorSignUpPage.inputValueIntoPaswordInput(strName);
     }
 
     public void inputValueIntoConfirmPaswordInput(String strName){
-        auditorSignUpFirmPage.inputValueIntoConfirmPaswordInput(strName);
+        auditorSignUpPage.inputValueIntoConfirmPaswordInput(strName);
     }
 
     public void verifySuccessSignUpPage(){
-        auditorSignUpFirmPage.verifySuccessPageContent();
+        auditorSignUpPage.verifySuccessPageContent();
     }
 
     public void acceptCreateAccountAuditor(){
-        auditorSignUpFirmPage.acceptCreateAccountAuditor();
+        auditorSignUpPage.acceptCreateAccountAuditor();
     }
 }

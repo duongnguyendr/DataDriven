@@ -901,15 +901,15 @@ public class AbstractPage {
         try {
             getLogger().info("CurrentL: " + element.getCssValue(attributeName).trim());
             Assert.assertEquals(element.getCssValue(attributeName).trim(), attributeValue);
-            NXGReports.addStep(element.getTagName() + " has style with  " + attributeName, LogAs.PASSED, null);
+            NXGReports.addStep("Element has expected style with  " + attributeName, LogAs.PASSED, null);
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(element.getTagName() + " has style with  " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element has a unexpected style " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(element.getTagName() + " has style with  " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element has a unexpected style  " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
 
@@ -1787,12 +1787,10 @@ public class AbstractPage {
                         return false;
                 }
             });
-            NXGReports.addStep(String.format("CSS '%s' of element '%s' is changed to '%s'", cssName, elementName, cssValue), LogAs.PASSED, null);
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("CSS Value is not changed");
-            NXGReports.addStep(String.format("CSS '%s' of element '%s' is NOT changed", cssName, elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -2486,6 +2484,7 @@ public class AbstractPage {
         try {
 
             String actualValue = webElement.getCssValue(cssName);
+            System.out.println("Actual CSS Value: " + actualValue);
             if (cssName.contains("color")) {
                 actualValue = GenericService.parseRgbTohex(actualValue);
             }
@@ -2652,13 +2651,13 @@ public class AbstractPage {
             getLogger().info("Verifying the Todo TextName border is transfered from Green to White or not...");
             boolean i = waitForCssValueChanged(listTodosTextboxEle.get(0), "To Do Name textbox", "border", deFaultBorder);
             if (i) {
-                NXGReports.addStep("Data is saved.", LogAs.PASSED, null);
+                NXGReports.addStep("Border is White.", LogAs.PASSED, null);
             } else {
-                NXGReports.addStep("Data is not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Border is White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             }
         } catch (Exception e) {
-            NXGReports.addStep("Data is not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border is White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
     }

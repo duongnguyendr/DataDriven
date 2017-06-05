@@ -45,7 +45,7 @@ public class AuditorSignUpTest extends AbstractTest {
 
 
     @Test(priority = 1, enabled = true, description = "Verify Firm sign up page and Input Invalid Test.")
-    public void verifyAuditorFirmInputInvalidValue() {
+    public void verifyAuditorFirmInputInvalidValue() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         //Create List Invalid Data for Firm Name Text Box.
         List<String> firmNameInvalidDataList = new ArrayList<>();
@@ -116,11 +116,12 @@ public class AuditorSignUpTest extends AbstractTest {
         } catch (Exception e) {
             getLogger().info(e);
             NXGReports.addStep("Verify firm sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
         }
     }
 
-    @Test(priority = 2, enabled = false, description = "Verify Register Auditor User")
-    public void verifyRegisterAuditorUser() {
+    @Test(priority = 2, enabled = true, description = "Verify Register Auditor User")
+    public void verifyRegisterAuditorUser() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
@@ -141,6 +142,76 @@ public class AuditorSignUpTest extends AbstractTest {
         } catch (Exception e) {
             getLogger().info(e);
             NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 3, enabled = true, description = "Verify Personal sign up page and Input Invalid Test.")
+    public void verifyAuditorPersonalInputInvalidValue() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        //Create List Invalid Data for First Last Name Text Box.
+        List<String> firstLastNameInvalidDataList = new ArrayList<>();
+        for (int i = 2; i < 8; i++) {
+            firstLastNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 1));
+        }
+        List<String> emailInvalidDataList = new ArrayList<>();
+        for (int i = 2; i < 6; i++) {
+            emailInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 2));
+        }
+        final String confirmemailInvalidData = "test";
+        List<String> phoneInvalidDataList = new ArrayList<>();
+        for (int i = 2; i < 4; i++) {
+            phoneInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 4));
+        }
+        for (int i = 5; i < 7; i++) {
+            phoneInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 4));
+        }
+        try {
+            auditorSignUpService.deleteUserUsingApi(strEmail);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            auditorSignUpService.setPrefixProtocol("http://");
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.navigateToSignUpPage();
+            auditorSignUpService.verifyPersonalSignUpPage();
+//            Verify input valid Value on Full Name Text box: with one character, only two blank, with one character and one blank, two spaces in character, one special Characters, with number"
+            auditorSignUpService.verifyInputValidValueOnFullNameTxtBox(firstLastNameInvalidDataList);
+//            Verify input valid Value on Email Text box: with one character, input blank, input invalid format Name, input invalid format Style
+            auditorSignUpService.verifyInputValidValueOnEmailTxtBox(emailInvalidDataList);
+//            Verify input valid Value on Confirm Email Text box: with invalid value"
+            auditorSignUpService.inputValueIntoEmailTextBox(strEmail);
+            auditorSignUpService.verifyInputValidValueOnConfirmEmailTxtBox(confirmemailInvalidData);
+//            Verify input valid Value on Phone Number Text box: with blank, with 9 number, with character, with Special Character
+            auditorSignUpService.verifyInputValidValueOnPhoneNumberTxtBox(phoneInvalidDataList);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Full Name are highlight when input only with 1 character: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        } catch (Exception e) {
+            NXGReports.addStep("Full Name are highlight when input only with 1 character: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 4, enabled = true, description = "Verify GUI when input password random blank")
+    public void verifyGUIWhenInputRandomPasswordBlank() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        final String blankPassword = "";
+        final String invalidLengthPassword = "aA12345";
+        try {
+            auditorSignUpService.setPrefixProtocol("http://");
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.navigateToSignUpPage();
+            auditorSignUpService.verifyPersonalSignUpPage();
+            auditorSignUpService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
+            auditorSignUpService.verifyFirmSignUpPage();
+            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService.verifySecuritySignUpPage();
+//            auditorSignUpService.inputValueIntoPaswordInput(blankPassword);
+            auditorSignUpService.verifyCreateInvalidPassword(blankPassword, false, false, false);
+//            auditorSignUpService.inputValueIntoPaswordInput(invalidLengthPassword);
+            auditorSignUpService.verifyCreateInvalidPassword(invalidLengthPassword, true, true, true);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify GUI when input password random have invalid length: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify GUI when input password random have invalid length: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 }
