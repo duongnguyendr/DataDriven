@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by hungcuong1105 on 4/15/2017.
  */
-public class SmokeTestService extends AbstractRefactorService {
+public class SmokeTestService extends AbstractService {
 
     public SmokeTestService(Logger logger, WebDriver driver) {
         super(logger, driver);

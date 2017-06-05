@@ -61,7 +61,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 1, enabled = true, description = "To Verify the display of Elements in Auditor Login Page")
     public void verifyAuditorLoginPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
             auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
@@ -82,7 +81,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page")
     public void verifyAuditorOnboardingPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         testCaseId = "auditor_Onboarding";
         sData = GenericService.toReadExcelData(testCaseId);
         auditorService = new AuditorService(getLogger(), getDriver());
@@ -120,7 +118,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Engagement Page")
     public void verifyAuditorEngagementPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
@@ -152,7 +149,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Auditor Dashboard Page")
     public void verifyAuditorDashboardPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
@@ -174,7 +170,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 5, enabled = true, description = "To Verify the display of Elements in Engagement Requests Page")
     public void verifyEngagementRequestsPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
@@ -196,7 +191,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Engagement File Manager Page")
     public void verifyEngagementFilesPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
@@ -219,7 +213,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Engagement Activity Page")
     public void verifyEngagementActivityPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
@@ -241,7 +234,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Add New Client Page")
     public void verifyAddNewClientPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
 
         try {
@@ -263,7 +255,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Auditor Client Page")
     public void verifyAuditorClientPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
             auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
@@ -284,7 +275,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 10, enabled = true, description = "To Verify the display of Elements in Auditor Settings Account Page")
     public void auditorSettingsAccountPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
             getLogger().info("Login with auditor user.");
@@ -308,7 +298,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 11, enabled = true, description = "To Verify the display of Elements in Auditor Settings Notification Page")
     public void verifyAuditorSettingsNotificationPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
             auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
@@ -329,7 +318,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 12, enabled = true, description = "To Verify the display of Elements in Archive Page")
     public void verifyEngagementArchivePage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         try {
@@ -350,7 +338,6 @@ public class AuditorTestRefactor extends AbstractTest{
 
     @Test(priority = 13, enabled = true, description = "To Verify the display of Elements in Clients Page")
     public void verifyEngagementClientPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
             auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));

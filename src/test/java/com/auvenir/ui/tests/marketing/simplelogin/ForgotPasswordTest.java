@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
  * Created by toan.nguyenp on 4/18/2017.
  */
 public class ForgotPasswordTest extends AbstractTest {
-    private MarketingService homeService;
+    private MarketingService marketingService;
     private GmailLoginService gmailLoginService;
     private MarketingPage homePO = null;
     private LoginModalPO loginPO = null;
@@ -41,14 +41,14 @@ public class ForgotPasswordTest extends AbstractTest {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            homeService = new MarketingService(getLogger(), getDriver());
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.inputEmailForgotPassword(emailId);
-            homeService.clickOnRequestResetLinkBTN();
+            marketingService = new MarketingService(getLogger(), getDriver());
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(emailId);
+            marketingService.clickOnRequestResetLinkBTN();
             //NXGReports.addStep("Open login modal", LogAs.PASSED, null);
             //loginPO = homePO.getHeaderPage().openLoginModal().get();
             //NXGReports.addStep("Open forgot password modal", LogAs.PASSED, null);
@@ -72,10 +72,10 @@ public class ForgotPasswordTest extends AbstractTest {
             NXGReports.addStep("Login again after user resets password successfully.", LogAs.PASSED, null);
             /*homePO.getHeaderPage().login(emailId, ranPassword);
             homePO.getHeaderPage().logOut();*/
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.loginWithUserNamePassword(emailId, ranPassword);
-            homeService.logout();
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(emailId, ranPassword);
+            marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test positive behavior forgot password: PASSED", LogAs.PASSED, (CaptureScreen) null);
 
@@ -88,17 +88,17 @@ public class ForgotPasswordTest extends AbstractTest {
     @Test(priority = 2, enabled= true, description = "Forgot password with blank email address.")
     public void forgotPasswordWithBlankEmail(){
         try {
-            homeService = new MarketingService(getLogger(), getDriver());
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.clickOnRequestResetLinkBTN();
-            homeService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
-            homeService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
-            homeService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            homeService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
+            marketingService = new MarketingService(getLogger(), getDriver());
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.clickOnRequestResetLinkBTN();
+            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with blank email address: PASSED", LogAs.PASSED, (CaptureScreen) null);
             /*homePO = new HomePage(webDriver);
@@ -130,43 +130,43 @@ public class ForgotPasswordTest extends AbstractTest {
             NXGReports.addStep("Enter " + invalidEmailAddress + " into email address.", LogAs.PASSED, null);
             Assert.assertFalse(GenericService.isValidEmailAddress(invalidEmailAddress), "Email address is readed from excel file which is a invalid.");
 
-            homeService = new MarketingService(getLogger(), getDriver());
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.inputEmailForgotPassword(invalidEmailAddress);
-            homeService.clickOnRequestResetLinkBTN();
-            homeService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
-            homeService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
-            homeService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            homeService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
-            homeService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
-            homeService.refreshHomePage();
+            marketingService = new MarketingService(getLogger(), getDriver());
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(invalidEmailAddress);
+            marketingService.clickOnRequestResetLinkBTN();
+            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
+            marketingService.refreshHomePage();
             String invalidEmailAddress1 = GenericService.readExcelData(testData, "ForgotPassword", 3, 1);
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.inputEmailForgotPassword(invalidEmailAddress1);
-            homeService.clickOnRequestResetLinkBTN();
-            homeService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
-            homeService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
-            homeService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            homeService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
-            homeService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
-            homeService.refreshHomePage();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(invalidEmailAddress1);
+            marketingService.clickOnRequestResetLinkBTN();
+            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
+            marketingService.refreshHomePage();
             String invalidEmailAddress2 = GenericService.readExcelData(testData, "ForgotPassword", 4, 1);
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.inputEmailForgotPassword(invalidEmailAddress2);
-            homeService.clickOnRequestResetLinkBTN();
-            homeService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
-            homeService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
-            homeService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            homeService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
-            homeService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(invalidEmailAddress2);
+            marketingService.clickOnRequestResetLinkBTN();
+            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with email is invalid: PASSED", LogAs.PASSED, (CaptureScreen) null);
 
@@ -257,20 +257,20 @@ public class ForgotPasswordTest extends AbstractTest {
     @Test(priority = 4, enabled= true, description = "Forgot password with email is not exist.")
     public void forgotPasswordWithEmailIsNotExist(){
         try {
-            homeService = new MarketingService(getLogger(), getDriver());
+            marketingService = new MarketingService(getLogger(), getDriver());
             String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 5, 1);
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.inputEmailForgotPassword(invalidEmailAddress);
-            homeService.clickOnRequestResetLinkBTN();
-            homeService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
-            homeService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
-            homeService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            homeService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
-            homeService.verifyContentEmailForgotPasswordMessage("The email does not exist!");
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(invalidEmailAddress);
+            marketingService.clickOnRequestResetLinkBTN();
+            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyContentEmailForgotPasswordMessage("The email does not exist!");
             /*webDriver.navigate().refresh();
 
             NXGReports.addStep("Open login modal", LogAs.PASSED, null);

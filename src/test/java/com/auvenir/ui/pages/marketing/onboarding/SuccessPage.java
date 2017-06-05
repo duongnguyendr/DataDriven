@@ -10,9 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class SuccessPO extends AbstractPage {
+public class SuccessPage extends AbstractPage {
 
-    public SuccessPO(Logger logger, WebDriver driver) {
+    public SuccessPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }

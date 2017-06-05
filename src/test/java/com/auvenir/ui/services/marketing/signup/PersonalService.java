@@ -11,17 +11,17 @@ import org.openqa.selenium.WebDriver;
  */
 public class PersonalService extends AbstractService {
 
-    private MarketingPage homePage;
-    private PersonalPO personalSignupPage;
+    private MarketingPage marketingPage;
+    private PersonalPage personalSignupPage;
 
     public PersonalService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        homePage = new MarketingPage(getLogger(),getDriver());
-        personalSignupPage = new PersonalPO(getLogger(),getDriver());
+        marketingPage = new MarketingPage(getLogger(),getDriver());
+        personalSignupPage = new PersonalPage(getLogger(),getDriver());
     }
 
     public void navigateToSignUpPage(){
-        homePage.clickOnSignupButton();
+        marketingPage.clickOnSignupButton();
     }
 
     public void verifyPersonalSignUpPage(){

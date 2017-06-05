@@ -260,9 +260,10 @@ public class AuditorCreateToDoService extends AbstractService {
 
         try {
             createToDoPage.verifyColumnsInGrid();
-            NXGReports.addStep("[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.PASSED, null);
+            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-14: verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.FAILED,
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -287,6 +288,14 @@ public class AuditorCreateToDoService extends AbstractService {
             NXGReports.addStep("[PLAT 2288]-16: verify checkbox will change green color a have stick icon", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public void verifyCheckAllCheckBox() throws Exception {
+        createToDoPage.verifyCheckAllCheckboxToDoName();
+    }
+
+    public void verifyUncheckAllCheckbox() throws Exception {
+        createToDoPage.verifyUnCheckAllCheckboxToDoName();
     }
 
     public void verifyUnCheckOnCheckBox() {
@@ -339,7 +348,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCheckBoxToDoName() throws Exception {
         // bug for check all button so we skip
         //createToDoPage.verifyCheckAllCheckboxToDoName();
-        createToDoPage.verifyUnCheckAllCheckboxToDoName();
+//        createToDoPage.verifyUnCheckAllCheckboxToDoName();
         createToDoPage.verifyCheckMultipleCheckBoxToDoName();
     }
 
@@ -555,7 +564,7 @@ public class AuditorCreateToDoService extends AbstractService {
      * Check deafult format due date
      */
     public void checkFormatDueDate() {
-        boolean result = createToDoPage.checkFormatDueDate();
+        boolean result = createToDoPage.checkFormatDueDate_TodoListPage();
         if (!result)
             AbstractService.sStatusCnt++;
     }
@@ -975,7 +984,6 @@ public class AuditorCreateToDoService extends AbstractService {
         getLogger().info("Verifying Client Assignee ComboBox...");
         createToDoPage.verifyClientAssignee_DefaultValue();
         createToDoPage.verifyBorderClientAssignee_WhileHovered();
-//        createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
     }
 
     public void verifyClientAssigneeIsSelectedCorrectly(){
@@ -984,11 +992,10 @@ public class AuditorCreateToDoService extends AbstractService {
 
 
     public void verifyDuedateTimebox() {
+//        getLogger().info("Verifying default value..");
+        //Will added after fixed
         getLogger().info("Verifying DueDate Timebox...");
-//        createToDoPage.verifyDuedate_DefaultValue();
         createToDoPage.verifyBorderDuedate_WhileHovered();
-        createToDoPage.verifyDuedateTable();
-
     }
 
     public void verifyAuditAssigneeBox() {

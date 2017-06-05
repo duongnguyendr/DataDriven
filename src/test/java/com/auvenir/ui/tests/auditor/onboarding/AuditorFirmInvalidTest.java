@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
-//import com.auvenir.ui.services.marketing.HomeService;
+//import com.auvenir.ui.services.marketing.marketingService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class AuditorFirmInvalidTest extends AbstractTest {
 
-    private MarketingService homeService;
+    private MarketingService marketingService;
     private PersonalService personalService;
     private AuditorSignUpService auditorSignUpService;
     private SecurityService securityService;
@@ -33,9 +33,9 @@ public class AuditorFirmInvalidTest extends AbstractTest {
     String strPhone = GenericService.readExcelData(testData, "OnBoarding", 1, 4);
     String strReference = GenericService.readExcelData(testData, "OnBoarding", 1, 5);
 
-    @Test(priority = 1,enabled = false,description = "Verify firm sign up page and Input Invalid Test.")
+    @Test(priority = 1,enabled = true,description = "Verify firm sign up page and Input Invalid Test.")
     public void verifyAuditorFirmInputInvalidValue() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         auditorSignUpService = new AuditorSignUpService(getLogger(),getDriver());
         //Create List Invalid Data for Firm Name Text Box.
@@ -85,8 +85,8 @@ public class AuditorFirmInvalidTest extends AbstractTest {
         }
 
         try {
-            homeService.setPrefixProtocol("http://");
-            homeService.goToBaseURL();
+            marketingService.setPrefixProtocol("http://");
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
