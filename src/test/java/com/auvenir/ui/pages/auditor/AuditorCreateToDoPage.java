@@ -10,6 +10,7 @@ import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.mongodb.AggregationOptions;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
+import javax.xml.soap.Text;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,17 +76,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//th[@data-id='name']//i")
     private WebElement sortByToDoNameIconEle;
+    @FindBy(xpath = "//th[@data-id='categoryName']/i")
+    private WebElement sortByCategoryNameIconEle;
 
-    @FindBy(xpath = "//th[@data-id='category']")
+    @FindBy(xpath = "//th[@data-id='categoryName']")
     private WebElement eleCategoryTitleLabel;
 
     @FindBy(xpath = "//th[@data-id='category']//i")
     private WebElement eleSortByCategory;
 
-    @FindBy(xpath = "//th[@data-id='client']")
+    @FindBy(xpath = "//th[@data-id='clientAssigneeName']")
     private WebElement eleClientAssigneeTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='client']//i")
+    @FindBy(xpath = "//th[@data-id='clientAssigneeName']//i")
     private WebElement eleSortByClientAssignee;
 
     @FindBy(xpath = "//th[@data-id='dueDate']")
@@ -93,9 +97,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//th[@data-id='dueDate']//i")
     private WebElement eleSortByDueDate;
 
-    @FindBy(xpath = "//th[@data-id='audit']")
+    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']")
     private WebElement eleAuditAssigneeTitleLabel;
-    @FindBy(xpath = "//th[@data-id='audit']")
+
+    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']/i")
     private WebElement eleSortByAuditAssignee;
 
     @FindBy(xpath = "//div[@class='e-widget-content']")
@@ -164,7 +169,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
     private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
@@ -345,9 +350,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement closeAddNewRequest;
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div")
     private WebElement deleteRequestBtn;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[1]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]//a[@class='details-delete item']")
     private WebElement deleteRequestMenu;
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]/span/div/div/a[2]")
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]//a[@class='details-duplicate item']")
     private WebElement copyTaskMenu;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
@@ -400,6 +405,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifySotleOnTitle() throws Exception {
         validateDisPlayedElement(sortByToDoNameIconEle, "Sort By Name Button");
+        validateDisPlayedElement(sortByCategoryNameIconEle, "Sort By Category Name");
         validateDisPlayedElement(eleSortByClientAssignee, "Sort By Client Assignee Button.");
         validateDisPlayedElement(eleSortByDueDate, "Sort By");
         validateDisPlayedElement(eleSortByAuditAssignee, "Sort by Auditor Assignee button.");
@@ -564,10 +570,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void verifyCreateNewCategory() {
+    public void verifyCreateNewCategory(String value) {
         try {
-            getLogger().info("Verify create new category");
-            boolean isCheckCategory = createNewCategory(categoryIndiMode, "");
+            getLogger().info("Verifying create new category..");
+            boolean isCheckCategory = findNewCategory(value);
             if (isCheckCategory) {
                 NXGReports.addStep("Create new category", LogAs.PASSED, null);
             } else {
@@ -626,7 +632,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForJSandJQueryToLoad();
         createToDoNameTextBoxEle.sendKeys(toDoName);
         // Create new category
-        createNewCategory("", "");
+        createNewCategory("");
         waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
         categoryDropdownEle.click();
         waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
@@ -650,7 +656,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
         clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
         createToDoNameTextBoxEle.sendKeys(todoNamePage);
-        createNewCategory("", "");
+        createNewCategory("");
         hoverElement(categoryDropdownEle, "eleDdlCategory");
         waitForClickableOfElement(categoryDropdownEle, "eleDdlCategory");
         Thread.sleep(smallTimeOut);
@@ -668,51 +674,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         Thread.sleep(smallTimeOut);
     }
 
-    /*
-        Vien added new switch case 22/5/2017
-    */
-    public void createToDoTask(int numberOfNewCategories) throws Exception {
-        getLogger().info("Run createToDoTask()");
-        todoNamePage = "To-do name " + randomNumber();
-        waitForClickableOfElement(createToDoBtnEle, "create todo button.");
-        clickElement(createToDoBtnEle, "click to createToDoBtnEle");
-        waitForClickableOfElement(TodosTextboxEle.get(0), "wait for eleIdToDoName");
-        clickElement(TodosTextboxEle.get(0), "click to eleIdToDoName");
-        createToDoNameTextBoxEle.sendKeys(todoNamePage);
-        switch (numberOfNewCategories) {
-
-            case 1:
-                createNewCategory("", "");
-                break;
-            case 2:
-                createNewCategory("", "");
-                createNewCategory("", "");
-                break;
-
-            case 3:
-                createNewCategory("", "");
-                createNewCategory("", "");
-                createNewCategory("", "");
-                break;
-
-            case 4:
-                createNewCategory("", "");
-                createNewCategory("", "");
-                createNewCategory("", "");
-                createNewCategory("", "");
-                break;
-
-        }
-        waitForClickableOfLocator(By.id("due-date"));
-        waitForClickableOfElement(dueDateFieldEle, "eleIdDueDate");
-        clickElement(dueDateFieldEle, "click to eleIdDueDate");
-        waitForClickableOfElement(dateItemonCalendarEle, "eleXpathChooseDate");
-        clickElement(dateItemonCalendarEle, "click to eleXpathChooseDate");
-        waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
-        clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
-        //Wait for new task is displayed.
-        waitForClickableOfLocator(By.xpath(todoPageAddRequestImg));
-    }
 
     public void verifyToDoNameInputLimitCharacter(int maxLength) throws Exception {
         waitForVisibleElement(toDoNameInputEle, "eleToDoNameInput");
@@ -828,11 +789,27 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
+    /*
+    Vien.pham add new method inputSearchText
+     */
+
+    public void inputSearchText(String searchValue) {
+        try {
+            clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+            sendKeyTextBox(eleToDoSearchInput, searchValue, "send key to searchTextToDoListPage");
+            NXGReports.addStep("Ending Input Search.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Ending Input Search.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
     public void verifySearchInputText() {
         try {
             clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
             sendKeyTextBox(eleToDoSearchInput, searchTextToDoListPage, "send key to searchTextToDoListPage");
-            System.out.println(this.eleToDoSearchInput.getText());
+            System.out.println(eleToDoSearchInput.getText());
             boolean isCheckSearchInput = validateAttributeElement(this.eleToDoSearchInput, "value", searchTextToDoListPage);
             if (isCheckSearchInput) {
                 NXGReports.addStep("verify input text.", LogAs.PASSED, null);
@@ -873,6 +850,27 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("verify input number to field search.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public void verifySearchInputSpecialChar() {
+        try {
+            waitForClickableOfElement(eleToDoSearchInput, "wait for eleToDoSearchInput");
+            clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
+            sendKeyTextBox(eleToDoSearchInput, specialCharacter, "send key to numberSequence");
+            boolean isCheckSearchNumber = validateAttributeElement(this.eleToDoSearchInput, "value", specialCharacter);
+            if (isCheckSearchNumber) {
+                NXGReports.addStep("verify input special char to field search.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify input special char to field search.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify input special char to field search.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 
     public void verifyCheckOnCheckBox() throws Exception {
@@ -942,6 +940,70 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify realtime search", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    /*
+    Vien modified checkSearchData: to search with TodoName, categoryName, auditAssign, clientAssign..
+
+    and remove By.xpath....
+     */
+
+
+    @FindBy(xpath = "id('todo-table')/tbody/tr")
+    List<WebElement> trTodoTable;
+    @FindBy(xpath = "id('todo-table')/tbody/tr/td")
+    List<WebElement> tdTodoTable;
+
+
+    public void checkSearchData(String inputSearch) {
+        getLogger().info("Run checkSearchData()");
+        try {
+            boolean isCheckData = false;
+            getLogger().info("Size row: " + trTodoTable.size());
+                for (int i=0;i<trTodoTable.size();i++) {
+                    String strSearchValueTodoName = "";
+                    String strSearchValueCategoryName = "";
+                    String strSearchValueClientAssignee = "";
+                    String strSearchValueAuditAssignee = "";
+                    try {
+                        strSearchValueTodoName = TodosTextboxEle.get(i).getAttribute("value");
+                        strSearchValueCategoryName= DropdownCategoryEle.get(i).getText();
+                        strSearchValueClientAssignee=DropdownClientAssignee.get(i).getText();
+                        strSearchValueAuditAssignee=DropdownAuditAssignee.get(i).getText();
+                    } catch (Exception ex) {
+                    }
+                    getLogger().info("SearchValue = " + strSearchValueTodoName);
+                    if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
+                        isCheckData = true;
+                        break;
+                    }
+                }
+
+            if (isCheckData) {
+                NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
+            }
+            getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifySearchResutlNotMatch() {
+        try {
+            getLogger().info("Verifying todo list disappear..");
+            waitForInvisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")), "");
+            NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 
     public void checkContentTextSearch() {
@@ -1085,7 +1147,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         Thread.sleep(smallTimeOut);
         createToDoNameTextBoxEle.sendKeys(toDoName);
         // Create new category
-        createNewCategory("", categoryName);
+        createNewCategory(categoryName);
         // Will changed after finding new solution for waiting Element
         //Thread.sleep(smallTimeOut);
         waitForClickableOfLocator(By.xpath("//*[@class='ui dropdown category todo-bulkDdl ']"));
@@ -1557,6 +1619,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         return isThisDateValid(eleIdDueDate.getAttribute("value").trim(), "mm/dd/yyyy");
     }
 
+
+    /*
+    Vien.Pham added new checkFormatDueDate at todolistPage
+
+     */
+
+    public boolean checkFormatDueDate_TodoListPage() {
+        waitForVisibleElement(eleToDoNewRowDueDateText.get(0), "Due date");
+        return isThisDateValid(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim(), "mm/dd/yyyy");
+    }
+
     /**
      * Verify data on date picker
      */
@@ -1640,6 +1713,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 waitForClickableOfElement(eleXpathChooseDate, "Date picker");
                 eleXpathChooseDate.click();
                 result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
+                System.out.println("date selected is: " + eleToDoNewRowDueDateText.get(0).getAttribute("value"));
+                Thread.sleep(smallerTimeOut);
             }
             //If result = true : before and after value as same --> data picker not work
             if (result) {
@@ -3403,7 +3478,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     List<WebElement> DropdownClientAssignee;
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown auditor')]")
-    List<WebElement> DropdoownAuditAssignee;
+    List<WebElement> DropdownAuditAssignee;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[@class=\"item\"]")
     List<WebElement> listOfCategoryItemsDropdown;
@@ -3433,7 +3508,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement eleAuvenirIncTxt;
 
 
-    public void verifyTodoTextbox_DefaultValue() {
+    public void verifyTodoTextbox_DefaultName() {
         getLogger().info("Verifying Untitle Todo text...");
         String title = "Untitled Todo";
         try {
@@ -3441,27 +3516,27 @@ public class AuditorCreateToDoPage extends AbstractPage {
             if (TodosTextboxEle.get(0).getAttribute("value").equals(title)) {
                 NXGReports.addStep("Untitle Todo displayed as expected.", LogAs.PASSED, null);
             } else {
+                AbstractService.sStatusCnt++;
                 NXGReports.addStep("Untitle Todo does not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
             }
-
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Untitle Todo does not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
         }
     }
 
     public void verifyFirstTodoTextbox_PlaceHolderValue() {
         getLogger().info("Verifying Hint text on first todo...");
         String firstHintValue = "Write your first To-Do here";
-
         try {
             if (TodosTextboxEle.get(0).getAttribute("placeholder").equals(firstHintValue)) {
                 NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
             } else {
+                AbstractService.sStatusCnt++;
                 NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -3495,6 +3570,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(textbox1, "border", deFaultBorder);
             NXGReports.addStep("Default border is White as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Default border is not White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
@@ -3511,103 +3587,70 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(textbox1, "border-color", GreenBorder);
             NXGReports.addStep("Border is Green while hovered on it.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Border is not Green while hovered on it.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
 
-    public void verifyTodoTextboxBorder_WhileMissedName() {
-
-        String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
+    public void InputValue_TodoName(String value) {
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Clear todo Textbox...");
-            sendKeyTextBox(textbox1, nullChars, "Todos Textbox");
-            verifyBorderOfTextBoxTobeOrange();
-            NXGReports.addStep("Border is Orange while missed name as expected.", LogAs.PASSED, null);
+            getLogger().info("Inputting a value..");
+            sendKeyTextBox(textbox1, value, "Todos Textbox");
+            NXGReports.addStep("Ending input a value.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Border is not Orange while missed name.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Ending input a value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
     }
 
-    public void verifyTodoTextbox_InputText() {
+    public void verifyInputValidValue(String validValue) {
         try {
-            String value1 = "To-do" + randomNumber();
-            verifyValidTodoNameSaved(value1);
-            NXGReports.addStep("Valid Name was saved as expected.", LogAs.PASSED, null);
+            getLogger().info("Verifying show all Text..");
+            verifyShowAllTextTodoName(validValue);
+            getLogger().info("Verifying the border of todo name..");
+            verifyBorderTodoTextBox_InputValidValue();
+            getLogger().info("Verifying valid value should be saved..");
+            verifyValidTodoNameSaved(validValue);
+            NXGReports.addStep("Verify Input valid Value complete.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Valid Name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Input valid Value complete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+
     }
 
-
-    public void verifyTodoTextbox_InputNumber() {
+    public void verifyInputInvalidValue(String invalidValue) {
         try {
-            String value1 = Integer.toString(randomNumber());
-            verifyValidTodoNameSaved(value1);
-            NXGReports.addStep("Valid Number was saved as expected.", LogAs.PASSED, null);
+            getLogger().info("Verifying show all Text..");
+            verifyShowAllTextTodoName(invalidValue);
+            getLogger().info("Verifying the border of todo name..");
+            verifyBorderTodoTextBox_InputInvalidValue();
+            getLogger().info("Verifying valid value should be saved..");
+            verifyInvalidTodoNameNotSaved(invalidValue);
+            NXGReports.addStep("Verify Input invalid Value complete.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Valid Number still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Input invalid Value complete.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
 
-    public void verifyTodoTextbox_MissingInput() {
-        String valueName = TodosTextboxEle.get(0).getAttribute("value");
-        try {
-            WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Clear todo Textbox...");
-            sendKeyTextBox(textbox1, nullChars, "Todos Textbox");
-            verifyBorderOfTextBoxTobeOrange();
-            verifyInvalidTodoNameNotSaved(nullChars);
-//            getLogger().info("Verifing null value was saved or not...");
-//            if (!valueName.equals(nullChars)) {
-            NXGReports.addStep("Null Todo name was not saved as expected.", LogAs.PASSED, null);
-//            } else {
-//                NXGReports.addStep("Null Todo name was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//            }
-        } catch (Exception e) {
-            NXGReports.addStep("Null Todo name was saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        }
-    }
-
-    public void verifyTodoTextbox_NullChars() {
-        try {
-            String value1 = nullChars;
-            verifyInvalidTodoNameNotSaved(value1);
-            NXGReports.addStep("Nullchars was not saved as expected.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Nullchars still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
-
-
-    public void verifyTodoTextbox_InputSpecialChars() {
-        try {
-            String value1 = specialCharacter;
-            verifyInvalidTodoNameNotSaved(value1);
-            NXGReports.addStep("Special character was not saved as expected.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Special character still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
 
     public void verifyCategoryBox_DefaultValue() {
         String defaultValue = "Select";
         try {
-            Thread.sleep(500);
+            Thread.sleep(smallerTimeOut);
             if (DropdownCategoryEle.get(0).getText().equals(defaultValue)) {
-                NXGReports.addStep("Default value of CategoryBox is Select.", LogAs.PASSED, null);
+                NXGReports.addStep("Verify default value of CategoryBox.", LogAs.PASSED, null);
             } else {
-                NXGReports.addStep("Default value of CategoryBox is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify default value of CategoryBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
-            NXGReports.addStep("Default value of CategoryBox is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify default value of CategoryBoxt.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3616,43 +3659,22 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             hoverElement(DropdownCategoryEle.get(0), "Category Dropdown Menu");
             validateCssValueElement(DropdownCategoryEle.get(0), "border", GreenBorder);
-            NXGReports.addStep("Border of Categorybox is Green when hovered.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Border of Categorybox when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Border of Categorybox is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Border of Categorybox when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
-
-
-    public void verifyAddNewCategory() {
-        try {
-            createToDoTask(2);
-            NXGReports.addStep("Add new Category successfully.", LogAs.PASSED, null);
-
-        } catch (Exception e) {
-            NXGReports.addStep("Add new Category failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        }
-
-    }
-
-    /*
-    Vien Pham
-     */
-    public void verifyAddNewCategories() {
-        try {
-            createNewCategory("", "");
-            NXGReports.addStep("Add new Category successfully.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Add new Category failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
     }
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[2]")
-   WebElement editCategoryBtn;
+    WebElement editCategoryBtn;
 
     @FindBy(xpath = "//*[@id=\"todo-table\"]/tbody/tr[1]/td[3]/div[contains(@class,'ui dropdown category')]")
     WebElement categoryDropdownEle;
+
+    @FindBy(xpath = "//table[@id=\"todo-table\"]/tbody/tr[1]//td[3]//div[@class=\"item\"]")
+    List<WebElement> tableOfCategoryDropdown;
+
 
     public void navigateToEditCategory() throws InterruptedException {
         //        waitForNewTodoNameSaved();
@@ -3664,22 +3686,64 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(editCategoryBtn, "editCategory");
     }
 
-    public void verifyCategoryIsSelectedCorrectly() {
+    /*
+    Vien.Pham seperated new method from createNewCategory() of aMinh.Nguyen.
+     */
+    public boolean findNewCategory(String value) {
+        Boolean isCheckCategory = null;
+        waitForClickableOfElement(categoryDropdownEle, "CategoryDropdown");
+        waitForJSandJQueryToLoad();
+        clickElement(categoryDropdownEle, "CategoryDropdown");
+        for (WebElement tdElement : tableOfCategoryDropdown) {
+            String strSearchValue = null;
+            try {
+                waitForVisibleElement(tdElement, "Get category name in list");
+                strSearchValue = tdElement.getText();
+            } catch (Exception ex) {
+            }
+            getLogger().info("SearchValue = " + strSearchValue);
+            if (strSearchValue.equals(value)) {
+                isCheckCategory = true;
+                //Click anywhere to exit vefify
+                eleAuvenirIncTxt.click();
+                break;
+            } else {
+                isCheckCategory = false;
+            }
+        }
+        getLogger().info("isCheckCategory is: " + isCheckCategory);
+        return isCheckCategory;
+    }
+
+
+    public void selectCategory() {
         try {
-            clickElement(DropdownCategoryEle.get(0), "CategoryDropdown");
-            String value1 = listOfCategoryItemsDropdown.get(0).getText();
+            waitForClickableOfElement(DropdownCategoryEle.get(0));
+            clickElement(DropdownCategoryEle.get(0),"Dropdown Cate");
             clickElement(listOfCategoryItemsDropdown.get(0), "");
+            Thread.sleep(smallerTimeOut);
+            NXGReports.addStep("Ending select category.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            System.out.println("Error is: "+ e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Ending select category.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+    }
+
+    public void verifyCategoryIsSelectedCorrectly(String value1) {
+        try {
             Thread.sleep(smallerTimeOut);
             String value2 = DropdownCategoryEle.get(0).getText();
             if (value1.equals(value2)) {
                 NXGReports.addStep("Category is selected successfully.", LogAs.PASSED, null);
-
             } else {
+                AbstractService.sStatusCnt++;
                 NXGReports.addStep("Category is selected failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
             }
-
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Category is selected failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -3689,13 +3753,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyClientAssignee_DefaultValue() {
         String defaultValue = "Unassigned";
         try {
-            Thread.sleep(500);
+            Thread.sleep(smallerTimeOut);
             if (DropdownClientAssignee.get(0).getText().equals(defaultValue)) {
                 NXGReports.addStep("Default value of Assignee is Select.", LogAs.PASSED, null);
             } else {
+                AbstractService.sStatusCnt++;
                 NXGReports.addStep("Default value of Assignee is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Default value of Assignee is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -3709,6 +3775,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(DropdownClientAssignee.get(0), "border", GreenBorder);
             NXGReports.addStep("Border of ClientAssigneebox is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Border of ClientAssigneebox is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -3723,7 +3790,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             String value1 = listOfClientAssigneesDropdown.get(0).getText();
             getLogger().info("Trying to select First one..");
             clickElement(listOfClientAssigneesDropdown.get(0), "First client Assignee");
-//            waitForClickableOfLocator(By.xpath(""));
             getLogger().info("Verifying selection is correctly..");
             Thread.sleep(smallerTimeOut);
             String value2 = DropdownClientAssignee.get(0).getText();
@@ -3732,9 +3798,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Client assignee is selected correctly.", LogAs.PASSED, null);
 
             } else {
+                AbstractService.sStatusCnt++;
                 NXGReports.addStep("Client assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             System.out.println("error is: " + e);
             NXGReports.addStep("Client assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
@@ -3748,6 +3816,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(DropdownDuedateBtn, "border", GreenBorder);
             NXGReports.addStep("Border of DueDate is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Border of DueDate is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -3783,6 +3852,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(DropdownDuedateBtn, "border", GreenBorder);
             NXGReports.addStep("Border of AuditAssignee  is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Border of AuditAssignee is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -3790,7 +3860,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyAuditAssigneeIsSelectedCorrectly() {
         try {
             getLogger().info("List of Audit Assignee..");
-            clickElement(DropdoownAuditAssignee.get(0), "AuditAssignee Dropdown");
+            Thread.sleep(smallerTimeOut);
+            clickElement(DropdownAuditAssignee.get(0), "AuditAssignee Dropdown");
             getLogger().info("the number of Audit assignee is: " + listOfAuditAssigneeDropdown.size());
             getLogger().info("First audit Assignee is: " + listOfAuditAssigneeDropdown.get(0).getText());
             String value1 = listOfAuditAssigneeDropdown.get(0).getText();
@@ -3799,20 +3870,87 @@ public class AuditorCreateToDoPage extends AbstractPage {
 //            waitForClickableOfLocator(By.xpath(""));
             getLogger().info("Verifying selection is correctly..");
             Thread.sleep(smallerTimeOut);
-            String value2 = DropdoownAuditAssignee.get(0).getText();
+            String value2 = DropdownAuditAssignee.get(0).getText();
             if (value1.equals(value2)) {
                 getLogger().info("After selected, audit assignee is: " + value2);
                 NXGReports.addStep("Audit assignee is selected correctly.", LogAs.PASSED, null);
 
             } else {
+                AbstractService.sStatusCnt++;
                 NXGReports.addStep("Audit assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             System.out.println("error is: " + e);
             NXGReports.addStep("Audit assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
 
+    }
+
+    public void verifyAditAssignee_DefaultValue() {
+        String defaultValue = "Unassigned";
+        try {
+            Thread.sleep(smallerTimeOut);
+            if (DropdownAuditAssignee.get(0).getText().equals(defaultValue)) {
+                NXGReports.addStep("Default value of Auditor Assignee .", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Default value of Auditor Assignee .", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Default value of Auditor Assignee .", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    public void verifyCreateTodoBtn_DefaultValue() {
+        String Green_Background = "rgba(89, 155, 161, 1)";
+        String White_Text = "rgba(255, 255, 255, 1)";
+        try {
+            getLogger().info("Verifying Background color of Create New Btn");
+            validateCssValueElement(createToDoBtnEle, "background-color", Green_Background);
+            getLogger().info("Verifying Text color of Create New Btn");
+            validateCssValueElement(createToDoBtnEle, "color", White_Text);
+            NXGReports.addStep("Default value of Create Todo Btn.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Default value of Create Todo Btn.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyFilterBtn_Position() {
+    }
+
+    public void verifyBulkActionBtn_Position() {
+    }
+
+    public void verifyUnableToInputDuedate(String inputText) {
+        try {
+            clickElement(eleToDoNewRowDueDateText.get(0), "");
+            sendKeyTextBox(eleToDoNewRowDueDateText.get(0), inputText, "");
+            if (eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(inputText)) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            } else {
+                NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.PASSED, null);
+            }
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyNameReturnDefault() {
+        try {
+            validateAttributeElement(TodosTextboxEle.get(0), "value", "Untitled Todo");
+            NXGReports.addStep("Verify Name return default.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Name return default.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
 
     }
 

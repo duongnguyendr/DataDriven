@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.marketing.simplelogin;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -17,18 +17,18 @@ import org.testng.annotations.Test;
  */
 public class LoginTest extends AbstractTest {
     //private LoginTest loginTest;
-    private HomeService homeService;
+    private MarketingService marketingService;
 
     @Test(priority = 1,enabled = true, description = "Test positive tests case login and logout")
     public void loginAndLogoutTest() {
         try {
-            homeService = new HomeService(getLogger(),getDriver());
+            marketingService = new MarketingService(getLogger(),getDriver());
             String email = GenericService.readExcelData(testData, "Login", 1, 1);
             String password = GenericService.readExcelData(testData, "Login", 1, 2);
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.loginWithUserNamePassword(email, password);
-            homeService.logout();
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(email, password);
+            marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test positive tests case login and logout: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
@@ -39,17 +39,17 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 2, enabled = true,description = "Clear all cookies after user login successfully.")
     public void clearCookieAfterLoginSuccessTest(){
         try {
-            homeService = new HomeService(getLogger(),getDriver());
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.loginWithUserNamePassword(GenericService.readExcelData(testData, "Login", 1, 1),
+            marketingService = new MarketingService(getLogger(),getDriver());
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(GenericService.readExcelData(testData, "Login", 1, 1),
                     GenericService.readExcelData(testData, "Login", 1, 2));
-            homeService.deleteCookieName("token_data");
-            homeService.deleteCookieName("au_urs_info");
-            homeService.refreshHomePage();
-            homeService.verifyLoginBTN();
-            homeService.verifySignUpBTN();
-            homeService.verifyLogoutBTNIsNotPresented();
+            marketingService.deleteCookieName("token_data");
+            marketingService.deleteCookieName("au_urs_info");
+            marketingService.refreshHomePage();
+            marketingService.verifyLoginBTN();
+            marketingService.verifySignUpBTN();
+            marketingService.verifyLogoutBTNIsNotPresented();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Clear all cookies after user login successfully: PASSED", LogAs.PASSED, (CaptureScreen) null);
             //homePO.validateElememt(homePO.getHeaderPage().getBtnLogout(), "Button Logout", AbstractPage.Element_Type.NOT_EXIST);
@@ -62,18 +62,18 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 3, enabled = true,description = "Test login when user does not input email and password.")
     public  void loginWithNullEmailAndPassword() {
         try {
-            homeService = new HomeService(getLogger(),getDriver());
-            homeService.loginToMarketingPage("","");
+            marketingService = new MarketingService(getLogger(),getDriver());
+            marketingService.loginToMarketingPage("","");
 
             //Verify border and background-color of email input
 
-            homeService.verifyColorUserNameTxtBox("border-color","rgb(253, 109, 71)");
-            homeService.verifyColorUserNameTxtBox("background-color","rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorUserNameTxtBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyColorUserNameTxtBox("background-color","rgba(241, 103, 57, 0.2)");
 
             //Verify border and background-color of password input
 
-            homeService.verifyColorPasswordTxtBox("border-color","rgb(253, 109, 71)");
-            homeService.verifyColorPasswordTxtBox("background-color","rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorPasswordTxtBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyColorPasswordTxtBox("background-color","rgba(241, 103, 57, 0.2)");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Email input and password input are highlight when user does not input value.", LogAs.PASSED, null);
             NXGReports.addStep("Test login when user does not input email and password: PASSED", LogAs.PASSED, null);
@@ -85,31 +85,31 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 4, enabled = true,description = "Test login when user input invalid email.")
     public void loginWithEmailInvalid(){
         try {
-            homeService = new HomeService(getLogger(),getDriver());
+            marketingService = new MarketingService(getLogger(),getDriver());
             String email = GenericService.readExcelData(testData, "Login", 2, 1);
             String password = GenericService.readExcelData(testData, "Login", 1, 2);
-            homeService.loginToMarketingPage(email,password);
+            marketingService.loginToMarketingPage(email,password);
             //The error message should be displayed.
-            homeService.verifyErrorLoginMessage("The email is invalid!");
-            homeService.verifyColorErrorLoginMessage("color","rgba(159, 58, 56, 1)");
-            homeService.verifyColorErrorLoginMessage("background-color","rgba(255, 246, 246, 1)");
-            homeService.refreshHomePage();
+            marketingService.verifyErrorLoginMessage("The email is invalid!");
+            marketingService.verifyColorErrorLoginMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyColorErrorLoginMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.refreshHomePage();
             String email1 = GenericService.readExcelData(testData, "Login", 3, 1);
             String password1 = GenericService.readExcelData(testData, "Login", 1, 2);
-            homeService.loginToMarketingPage(email1,password1);
+            marketingService.loginToMarketingPage(email1,password1);
             //The error message should be displayed.
-            homeService.verifyErrorLoginMessage("The email is invalid!");
-            homeService.verifyColorErrorLoginMessage("color","rgba(159, 58, 56, 1)");
-            homeService.verifyColorErrorLoginMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.verifyErrorLoginMessage("The email is invalid!");
+            marketingService.verifyColorErrorLoginMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyColorErrorLoginMessage("background-color","rgba(255, 246, 246, 1)");
 
-            homeService.refreshHomePage();
+            marketingService.refreshHomePage();
             String email2 = GenericService.readExcelData(testData, "Login", 4, 1);
             String password2 = GenericService.readExcelData(testData, "Login", 1, 2);
-            homeService.loginToMarketingPage(email1,password1);
+            marketingService.loginToMarketingPage(email1,password1);
             //The error message should be displayed.
-            homeService.verifyErrorLoginMessage("The email is invalid!");
-            homeService.verifyColorErrorLoginMessage("color","rgba(159, 58, 56, 1)");
-            homeService.verifyColorErrorLoginMessage("background-color","rgba(255, 246, 246, 1)");
+            marketingService.verifyErrorLoginMessage("The email is invalid!");
+            marketingService.verifyColorErrorLoginMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyColorErrorLoginMessage("background-color","rgba(255, 246, 246, 1)");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test login when user input invalid email: PASSED", LogAs.PASSED, null);
         }catch (Exception e){
@@ -120,20 +120,20 @@ public class LoginTest extends AbstractTest {
     @Test(priority = 5, enabled = true, description = "Test login with incorrect email or password")
     public void loginWithIncorrectEmailOrPassword() {
         try {
-            homeService = new HomeService(getLogger(), getDriver());
+            marketingService = new MarketingService(getLogger(), getDriver());
 
             NXGReports.addStep("Test login with incorrect email or password", LogAs.PASSED, null);
             String email = GenericService.readExcelData(testData, "Login", 5, 1);
             String password = GenericService.readExcelData(testData, "Login", 5, 2);
-            homeService.loginToMarketingPage(email, password);
+            marketingService.loginToMarketingPage(email, password);
             //Verify border and background-color of email input
-            homeService.verifyColorUserNameTxtBox("border-color", "rgb(253, 109, 71)");
-            homeService.verifyColorUserNameTxtBox("background-color", "rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorUserNameTxtBox("border-color", "rgb(253, 109, 71)");
+            marketingService.verifyColorUserNameTxtBox("background-color", "rgba(241, 103, 57, 0.2)");
             //Verify border and background-color of password input
-            homeService.verifyColorPasswordTxtBox("border-color", "rgb(253, 109, 71)");
-            homeService.verifyColorPasswordTxtBox("background-color", "rgba(241, 103, 57, 0.2)");
+            marketingService.verifyColorPasswordTxtBox("border-color", "rgb(253, 109, 71)");
+            marketingService.verifyColorPasswordTxtBox("background-color", "rgba(241, 103, 57, 0.2)");
             //The error message should be displayed.
-            homeService.verifyErrorLoginMessage("Wrong username or password!");
+            marketingService.verifyErrorLoginMessage("Wrong username or password!");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test login when user input invalid email: PASSED", LogAs.PASSED, null);
         } catch (Exception e) {

@@ -3,6 +3,7 @@ package com.auvenir.ui.pages.marketing.onboarding;
 //import com.auvenir.utilities.PropertiesHelper;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -18,9 +19,9 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class SecurityPO extends AbstractPage {
+public class SecurityPage extends AbstractPage {
 
-    public SecurityPO(Logger logger, WebDriver driver) {
+    public SecurityPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }
@@ -83,13 +84,13 @@ public class SecurityPO extends AbstractPage {
     //@Override
     public void verifyPageContent() {
         if(IS_ENGLISH_LANGUAGE) {
-            this.validateElememt(elePagePersonal, "PERSONAL", Element_Type.TEXT_VALUE);
-            this.validateElememt(elePageFirm, "FIRM", Element_Type.TEXT_VALUE);
+            validateElememt(elePagePersonal, "PERSONAL", Element_Type.TEXT_VALUE);
+            validateElememt(elePageFirm, "FIRM", Element_Type.TEXT_VALUE);
         }else {
-            this.validateElememt(elePagePersonal, "PERSONNEL", Element_Type.TEXT_VALUE);
-            this.validateElememt(elePageFirm, "RAFFERMIR", Element_Type.TEXT_VALUE);
+            validateElememt(elePagePersonal, "PERSONNEL", Element_Type.TEXT_VALUE);
+            validateElememt(elePageFirm, "RAFFERMIR", Element_Type.TEXT_VALUE);
         }
-        this.isLoaded();
+        isLoaded();
     }
 
     /*@Override
@@ -100,23 +101,24 @@ public class SecurityPO extends AbstractPage {
     @Override*/
     protected void isLoaded() throws Error {
         // Checking Create Password element is displayed
-        this.validateElememt(elePassword, "Element of Password", Element_Type.DISPLAYED);
-
+        validateElememt(elePassword, "Element of Password", Element_Type.DISPLAYED);
         // Checking Confirm Password element is displayed
-        this.validateElememt(eleConfirmPass, "Element of Confirm Password", Element_Type.DISPLAYED);
-
+        validateElememt(eleConfirmPass, "Element of Confirm Password", Element_Type.DISPLAYED);
         // Checking button Continue element is displayed
-        this.validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
-
+        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
     }
 
     public void createPassword(String strPass, String strCaptcha) {
         try {
-            elePassword.sendKeys(strPass);
-            NXGReports.addStep("Input Password", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            waitForVisibleElement(elePassword, "Password Input");
+            sendKeyTextBox(elePassword, strPass, "Password Input");
+//            elePassword.sendKeys(strPass);
+//            NXGReports.addStep("Input Password", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
-            eleConfirmPass.sendKeys(strPass);
-            NXGReports.addStep("Input confirm Password", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            waitForVisibleElement(eleConfirmPass, "Confirm Password Input");
+            sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
+//            eleConfirmPass.sendKeys(strPass);
+//            NXGReports.addStep("Input confirm Password", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             /*waitForVisibleElement(captchaCheckBox,"captcha check box");
             clickElement(captchaCheckBox,"captcha check box");*/
@@ -136,40 +138,50 @@ public class SecurityPO extends AbstractPage {
             //btnContinue.click();
 
         } catch (NoSuchElementException e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Element is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw new AssertionError(e.getMessage());
         }
 
         // Verify Register Auditor Security Page is passed
-        try {
-            this.validateElememt(elePageActive,"Page Register Auditor SECURITY ", Element_Type.NOT_EXIST);
-            NXGReports.addStep("Register Auditor Security passed", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (NoSuchElementException e) {
-            NXGReports.addStep("Register Auditor Security failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(e.getMessage());
-        }
+//        try {
+//            this.validateElememt(elePageActive,"Page Register Auditor SECURITY ", Element_Type.NOT_EXIST);
+//            NXGReports.addStep("Register Auditor Security passed", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//        } catch (NoSuchElementException e) {
+//            NXGReports.addStep("Register Auditor Security failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//            throw new AssertionError(e.getMessage());
+//        }
     }
 
 
     public void verifyCreatePasswordPopupWarning(int passwordLength, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber) {
-        String expectedColor = GenericService.getConfigValue("auvenir.properties", "TEXT_COLOR_ERROR");
+//        String expectedColor = GenericService.getConfigValue("auvenir.properties", "TEXT_COLOR_ERROR");
+        String expectedColor = "#eb502c";
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         waitForVisibleElement(resetPasswordWarningPopup, "password error message");
         if (IS_ENGLISH_LANGUAGE) {
             if (passwordLength < 8) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Consist of at least 8 characters']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
+                validateCssValueElement(elert, "color", expectedColor);
                 verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsLetter) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least 1 letter']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
+//                validateCssValueElement(elert, "color", expectedColor);
                 verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsNumber) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least 1 number']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
+//                validateCssValueElement(elert, "color", expectedColor);
                 verifyCssValue(elert, "color", expectedColor);
             }
 

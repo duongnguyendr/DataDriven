@@ -13,6 +13,7 @@ import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.PdfGenerater;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestContext;
+import org.testng.ISuite;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.annotations.Parameters;
@@ -31,6 +32,8 @@ public class TestngListener implements ITestListener {
 	public static ArrayList sTestName= new ArrayList<String>();
 	public static ArrayList sStatus= new ArrayList<String>();
 	public static ArrayList sDescription= new ArrayList<String>();
+	public static File pdfReports;
+	public static PdfGenerater pdf;
 	
 	public TestngListener() throws IOException 
 	{
@@ -96,7 +99,7 @@ public class TestngListener implements ITestListener {
 	{
 		 File testOuput = new File(GenericService.sDirPath+"\\tests-output");
 		 String sTestngReports= GenericService.sDirPath+"\\..\\Reports\\TestNGReports\\TestNG_"+sdateTime;
-		 File pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");
+		 pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");
 		 iPassCount=context.getPassedTests().size(); 
 	     iFailCount=context.getFailedTests().size(); 
 	     iSkippedCount=context.getSkippedTests().size(); 
@@ -105,9 +108,8 @@ public class TestngListener implements ITestListener {
 		//GenericService.getBarChart(iPassCount,iFailCount,iSkippedCount);
 		 GenericService.getPieChartFollowBrowser(sTestName,sStatus);
 		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);
-         PdfGenerater pdf = new PdfGenerater();
-         pdf.toExecute(sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount, pdfReports);
-         //File reports = new File(sTestngReports);
+         pdf = new PdfGenerater();
+
      	try
         {
      		FileUtils.copyDirectoryToDirectory(testOuput,new File(sTestngReports));

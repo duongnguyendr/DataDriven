@@ -36,6 +36,7 @@ public class PdfGenerater {
     private static Font tableHeaderbold = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD, BaseColor.BLACK);
     private static Font tableCellText = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
     private static Font tableCellValue = new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
+    private static String browserAutomationTest[] = new String[] {"CHROME","FIREFOX","IE","SAFARI"};
 
     public static void toExecute(ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkippedCount, File pdfReports) {
         PdfWriter writer = null;
@@ -152,46 +153,69 @@ public class PdfGenerater {
 
     private static void createSummaryTable(Paragraph preface, int iPassCount, int iFailCount, int iSkipCount,
                                            ArrayList sTestNames, ArrayList sStatus) throws DocumentException {
-        int total = iPassCount + iFailCount + iSkipCount;
         List<String> browserList = getBrowserList();
-        int totalBrowser = browserList.size();
-        int totalColumn =  totalBrowser + 1;
+        int totalColumn = browserAutomationTest.length + 1;
         PdfPTable table = new PdfPTable(totalColumn );
         float[] columnWidths = new float[totalColumn];
-        columnWidths[0] = (float) 1;
+        columnWidths[0] = (float) 1.5;
         for(int i=1; i <totalColumn; i++){
-            columnWidths[i] = (float) 0.50;
+            columnWidths[i] = (float) 1;
         }
-        table.setWidthPercentage(50);
+        table.setWidthPercentage(75);
         table.setWidths(columnWidths);
 
         // table.setWidths(new int[]{1, 1});
         table.addCell(new PdfPCell(new Phrase("Test Summary", tableHeaderbold)));
-        for(int i=0; i<browserList.size(); i++){
-            table.addCell(new PdfPCell(new Phrase(browserList.get(i).substring(0,browserList.get(i).length()-1),tableHeaderbold)));
+        for(int i=0; i<browserAutomationTest.length; i++){
+            table.addCell(new PdfPCell(new Phrase(browserAutomationTest[i],
+                                        tableHeaderbold)));
         }
-
+        List<String> sTestNameList = getTestNameList(sTestNames);
         table.addCell(new PdfPCell(new Phrase("Total Test cases", tableCellText)));
-        for(int i=0; i<browserList.size(); i++){
-            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
-                                                          browserList.get(i).toString())),tableHeaderbold)));
+        for(int i=0; i<browserAutomationTest.length; i++){
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(sTestNameList.size()),tableHeaderbold)));
         }
 
         table.addCell(new PdfPCell(new Phrase("Passed", tableCellText)));
-        for(int i=0; i<browserList.size(); i++){
-            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
-                    browserList.get(i).toString(), sStatus, "Passed")),tableHeaderbold)));
+        for(int i=0; i<browserAutomationTest.length; i++){
+            if(checkBrowserIsSkip(browserAutomationTest[i],browserList)){
+                table.addCell(new PdfPCell(new Phrase("0",tableHeaderbold)));
+            }else{
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Passed")),tableHeaderbold)));
+            }
+
         }
+
         table.addCell(new PdfPCell(new Phrase("Failed", tableCellText)));
-        for(int i=0; i<browserList.size(); i++){
-            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
-                    browserList.get(i).toString(), sStatus, "Failed")),tableHeaderbold)));
+        for(int i=0; i<browserAutomationTest.length; i++){
+            if(checkBrowserIsSkip(browserAutomationTest[i],browserList)){
+                table.addCell(new PdfPCell(new Phrase("0",tableHeaderbold)));
+            }else {
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames, GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Failed")), tableHeaderbold)));
+            }
         }
 
         table.addCell(new PdfPCell(new Phrase("Skipped", tableCellText)));
-        for(int i=0; i<browserList.size(); i++){
-            table.addCell(new PdfPCell(new Phrase(String.valueOf(countTotalTestNameStatusFollowBrowser(sTestNames,GenericService.sBrowserTestNameList,
-                    browserList.get(i).toString(), sStatus, "Skipped")),tableHeaderbold)));
+        for(int i=0; i<browserAutomationTest.length; i++){
+            int totalTestCase = sTestNameList.size();
+            int totalPassedCount = 0;
+            int totalFailedCount = 0;
+            int totalSkippedCase = 0;
+            if(!checkBrowserIsSkip(browserAutomationTest[i],browserList)){
+
+                totalPassedCount = countTotalTestNameStatusFollowBrowser(sTestNames, GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Passed");
+
+                totalFailedCount = countTotalTestNameStatusFollowBrowser(sTestNames, GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Failed");
+
+                totalSkippedCase = countTotalTestNameStatusFollowBrowser(sTestNames, GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Skipped");
+
+            }
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(totalTestCase - (totalSkippedCase + totalPassedCount + totalFailedCount)), tableHeaderbold)));
         }
         preface.add(table);
     }
@@ -217,7 +241,7 @@ public class PdfGenerater {
         Font statusFont = null;
         String image = null;
         List<String> browserList = getBrowserList();
-        int totalBrowser = browserList.size();
+        int totalBrowser = browserAutomationTest.length;
         int totalColumn =  totalBrowser + 3;
         PdfPTable table = new PdfPTable(totalColumn);
         table.setWidthPercentage(95);
@@ -226,7 +250,7 @@ public class PdfGenerater {
         columnWidths[1] = (float) 0.90;
         columnWidths[2] = (float) 1.2;
         for(int i=3; i <totalColumn; i++){
-            columnWidths[i] = (float) 0.30;
+            columnWidths[i] = (float) 0.6;
         }
         table.setWidths(columnWidths);
         PdfPCell c1 = new PdfPCell(new Phrase("No.", tableHeaderbold));
@@ -242,8 +266,7 @@ public class PdfGenerater {
         c1.setBackgroundColor(BaseColor.GRAY);
         table.addCell(c1);
         for(int i=0; i<totalBrowser; i++){
-            String browserName = browserList.get(i);
-            c1 = new PdfPCell(new Phrase(browserName.substring(0,browserName.length()-1), tableHeaderbold));
+            c1 = new PdfPCell(new Phrase(browserAutomationTest[i], tableHeaderbold));
             c1.setVerticalAlignment(Element.ALIGN_CENTER);
             c1.setBackgroundColor(BaseColor.GRAY);
             table.addCell(c1);
@@ -261,11 +284,14 @@ public class PdfGenerater {
             table.addCell(new PdfPCell(new Phrase(sTestNameList.get(i).toString(), tableCellValue)));
             table.addCell(new PdfPCell(new Phrase(sDescriptionTestName, tableCellValue)));
             for(int j=0;  j< totalBrowser; j++){
-                String browserName = browserList.get(j);
-                String statusTestName = getStatusTestNameFollowBrowser(sTestName,
-                                                                       sTestNameList.get(i).toString(),
-                                                                       GenericService.sBrowserTestNameList,browserName,
-                                                                       sStatus);
+                String statusTestName = "Skipped";
+                if(!checkBrowserIsSkip(browserAutomationTest[j],browserList)){
+                    String browserName = browserAutomationTest[j] + "_";
+                    statusTestName = getStatusTestNameFollowBrowser(sTestName,
+                                                                    sTestNameList.get(i).toString(),
+                                                                    GenericService.sBrowserTestNameList, browserName,
+                                                                    sStatus);
+                }
                 if (statusTestName.equals("Passed")) {
                     statusFont = passFont;
                 } else if (statusTestName.equals("Failed")) {
@@ -325,7 +351,7 @@ public class PdfGenerater {
      * @param sTestNames : test name list
      * @return null | test name list
      */
-    private static List<String> getTestNameList(ArrayList sTestNames)
+    public static List<String> getTestNameList(ArrayList sTestNames)
     {
         List<String> result = new ArrayList<String>();
         int totalRow = sTestNames.size();
@@ -349,7 +375,7 @@ public class PdfGenerater {
     private static String getStatusTestNameFollowBrowser(ArrayList sTestNames, String sTestName,
                                                          List<String> sBrowserList, String sBrowser,
                                                          ArrayList sStatus){
-        String result = "";
+        String result = "Skipped";
         for (int i = 0; i < sTestNames.size(); i++) {
             if (sTestNames.get(i).equals(sTestName) &&
                 sBrowserList.get(i).equals(sBrowser)){
@@ -388,7 +414,7 @@ public class PdfGenerater {
                                                        ArrayList sBrowserList, String sBrowser){
         int count =0 ;
         for (int i = 0; i < sTestNames.size(); i++) {
-            if (sBrowserList.get(i).equals(sBrowser)){
+            if (sBrowserList.get(i).equals(sBrowser + "_")){
                 count++;
             }
         }
@@ -404,17 +430,26 @@ public class PdfGenerater {
      * @param statusTest : status need check
      * @return 0 | >0
      */
-    private static int countTotalTestNameStatusFollowBrowser(ArrayList sTestNames,
+    public static int countTotalTestNameStatusFollowBrowser(ArrayList sTestNames,
                                                              ArrayList sBrowserList, String sBrowser,
                                                              ArrayList sStatus, String statusTest){
         int count =0 ;
         for (int i = 0; i < sTestNames.size(); i++) {
-            if (sBrowserList.get(i).equals(sBrowser) &&
+            if (sBrowserList.get(i).equals(sBrowser + "_") &&
                 sStatus.get(i).equals(statusTest)){
                 count++;
             }
         }
         return  count;
+    }
+
+    public static boolean checkBrowserIsSkip(String browserName,List sBrowserList){
+        for (int i = 0; i < sBrowserList.size(); i++) {
+            if (sBrowserList.get(i).equals(browserName + "_")){
+                    return false;
+            }
+        }
+        return true;
     }
 }
    

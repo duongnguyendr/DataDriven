@@ -2,17 +2,19 @@ package com.auvenir.ui.tests.auditor.onboarding;
 
 //import com.auvenir.utilities.PropertiesHelper;
 
-import com.auvenir.ui.pages.marketing.HomePage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.*;
-import com.auvenir.ui.services.marketing.HomeService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -20,17 +22,19 @@ import org.testng.annotations.Test;
  */
 public class AuditorPersonalInvalidTest extends AbstractTest {
 
-    private HomePage home = null;
-    PersonalPO personal = null;
-    private HomeService homeService;
+    private MarketingPage home = null;
+    PersonalPage personal = null;
+    private MarketingService marketingService;
     PersonalService personalService;
+    private AuditorSignUpService auditorSignUpService;
+    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
 
 
     @Test(priority = 1, enabled = true, description = "Navigate to  Home Page")
     public void openHomePage() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Open home page successful: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
@@ -40,10 +44,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 2, enabled = true, description = "Navigate to Auditor OnBoarding Page")
     public void verifyAuditorPersonalPageContent() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -55,10 +59,15 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 3, enabled = true, description = "Verify GUI of full name when put one character.")
     public void verifyNameWithOneCharacter() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            auditorSignUpService.deleteUserUsingApi(strEmail);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            auditorSignUpService.setPrefixProtocol("http://");
+
+            auditorSignUpService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 2, 1));
@@ -74,10 +83,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 4, enabled = true, description = "Verify GUI of full name when input one character and one blank")
     public void verifyNameWithOneCharacterAndSpace() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 3, 1));
@@ -93,10 +102,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 5, enabled = true, description = "Verify GUI of full name when input only two blank")
     public void verifyNameWithTwoBlank() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 4, 1));
@@ -112,10 +121,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 6, enabled = true, description = "Verify GUI of full name when input two special Characters")
     public void verifyNameWithTwoSpecialCharacter() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 5, 1));
@@ -131,10 +140,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 7, enabled = true, description = "Verify GUI of full name when input one special Characters")
     public void verifyNameWithSpecialCharacter() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 6, 1));
@@ -150,10 +159,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 8, enabled = true, description = "Verify GUI of full name when input with number")
     public void verifyNameWithNumber() {
-        homeService = new HomeService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 7, 1));
@@ -169,10 +178,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 9, enabled = true, description = "Verify GUI of email when input one character")
     public void verifyEmailWithOneCharacter() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoEmailTexBox(GenericService.readExcelData(testData, "OnBoarding", 2, 2));
@@ -188,10 +197,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 10, enabled = true, description = "Verify GUI of email when input blank")
     public void verifyEmailWithBlank() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoEmailTexBox(GenericService.readExcelData(testData, "OnBoarding", 3, 2));
@@ -207,10 +216,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 11, enabled = true, description = "Verify GUI of email when input invalid format Name")
     public void verifyEmailWithInvalidFormatName() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoEmailTexBox(GenericService.readExcelData(testData, "OnBoarding", 4, 2));
@@ -226,10 +235,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 12, enabled = true, description = "Verify GUI of email when input invalid format Style")
     public void verifyEmailWithInvalidFormatStyle() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoEmailTexBox(GenericService.readExcelData(testData, "OnBoarding", 5, 2));
@@ -245,10 +254,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 13, enabled = true, description = "Verify GUI of confirm email with invalid value")
     public void verifyConfirmEmailWithInvalidValue() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoEmailTexBox(GenericService.readExcelData(testData, "OnBoarding", 1, 2));
@@ -266,10 +275,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 14, enabled = true, description = "Verify GUI of phone with blank")
     public void verifyPhoneWithBlank() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoPhoneNumberTextBox(GenericService.readExcelData(testData, "OnBoarding", 2, 4));
@@ -286,10 +295,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 15, enabled = true, description = "Verify GUI of phone with 9 number")
     public void verifyPhoneNineNumber() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoPhoneNumberTextBox(GenericService.readExcelData(testData, "OnBoarding", 3, 4));
@@ -306,10 +315,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 16, enabled = true,description = "Verify GUI of phone with character")
     public void verifyPhoneWithCharacter() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoPhoneNumberTextBox(GenericService.readExcelData(testData, "OnBoarding", 5, 4));
@@ -326,10 +335,10 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
 
     @Test(priority = 17, enabled = true, description = "Verify GUI of phone with Special Character")
     public void verifyPhoneWithSpecialCharacter() {
-        homeService = new HomeService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoPhoneNumberTextBox(GenericService.readExcelData(testData, "OnBoarding", 6, 4));

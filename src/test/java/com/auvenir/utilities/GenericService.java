@@ -57,6 +57,7 @@ public class GenericService {
     public static String sExecutionDate = null;
     public static String sBrowserData = null;
     public static ArrayList sBrowserTestNameList = new ArrayList<String>();
+    public static String [] browserAutomationTest = new String [] {"CHROME", "FIREFOX", "IE", "SAFARI"};
 
 	/*
      * @author: LAKSHMI BS Description: To read the basic environment settings
@@ -212,11 +213,58 @@ public class GenericService {
         }
     }
 
-    public static void sendMail(int iPassCount, int iFailCount, int skippedCount, int iTotalExecuted, File pdfReports) {
+    public static void sendMail(int iPassCount, int iFailCount, int skippedCount, int iTotalExecuted, File pdfReports, ArrayList sTestName, ArrayList sStatus) {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         sExecutionDate = simpleDateFormat.format(date);
         Properties properties = new Properties();
+        List<String> sTestNameList = PdfGenerater.getTestNameList(sTestName);
+        ArrayList<Integer> listTestCasePassed = new ArrayList<>();
+        ArrayList<Integer> listTestCaseFailed = new ArrayList<>();
+        ArrayList<Integer> listTestCaseSkipped = new ArrayList<>();
+        String passedRow = "";
+        String failedRow = "";
+        String skippedRow = "";
+        for(int i=0; i<browserAutomationTest.length; i++){
+            if(PdfGenerater.checkBrowserIsSkip(browserAutomationTest[i],sBrowserTestNameList)){
+                listTestCasePassed.add(0);
+            }else{
+                listTestCasePassed.add(PdfGenerater.countTotalTestNameStatusFollowBrowser(sTestName, sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Passed"));
+            }
+        }
+        for(int i=0; i<browserAutomationTest.length; i++){
+            if(PdfGenerater.checkBrowserIsSkip(browserAutomationTest[i],sBrowserTestNameList)){
+                listTestCaseFailed.add(0);
+            }else{
+                listTestCaseFailed.add(PdfGenerater.countTotalTestNameStatusFollowBrowser(sTestName, sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Failed"));
+            }
+        }
+        for(int i=0; i<browserAutomationTest.length; i++){
+            int totalTestCase = sTestNameList.size();
+            int totalPassedCount = 0;
+            int totalFailedCount = 0;
+            int totalSkippedCase = 0;
+            if(!PdfGenerater.checkBrowserIsSkip(browserAutomationTest[i],sBrowserTestNameList)){
+                totalPassedCount = PdfGenerater.countTotalTestNameStatusFollowBrowser(sTestName, GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Passed");
+                totalFailedCount = PdfGenerater.countTotalTestNameStatusFollowBrowser(sTestName, GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Failed");
+                totalSkippedCase = PdfGenerater.countTotalTestNameStatusFollowBrowser(sTestName, GenericService.sBrowserTestNameList,
+                        browserAutomationTest[i], sStatus, "Skipped");
+            }
+            listTestCaseSkipped.add(totalTestCase - (totalSkippedCase + totalPassedCount + totalFailedCount));
+        }
+        for(int i = 0; i < listTestCasePassed.size(); i++){
+            passedRow += "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + listTestCasePassed.get(i) + "</td>";
+        }
+        for(int i = 0; i < listTestCaseFailed.size(); i++){
+            failedRow += "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + listTestCaseFailed.get(i) + "</td>";
+        }
+        for(int i = 0; i < listTestCaseSkipped.size(); i++){
+            skippedRow += "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + listTestCaseSkipped.get(i) + "</td>";
+        }
         String message = "<p>Team,</p><div style=\"font-family:Verdana;\">Find the tests automation execution status as below. For detail information, find the attached pdf file.</div><p></p><p></p><p></p><p></p>"
                 + "<p><div style=\"font-family:Verdana;\"><b> EXECUTION SUMMARY : </b></div></p>"
                 + "<table bgcolor=\"#BDE4F6\" style=\"border-radius: 20px; padding: 25px;\"><tr><td>&nbsp;&nbsp;&nbsp;<table style=\"height:180px; width:200px; border-width:2px; border-style:groove; float: left\"><tbody>"
@@ -228,7 +276,29 @@ public class GenericService {
                 + iFailCount + "&nbsp;&nbsp;</td></tr>"
                 + "<tr style=\"outline: thin solid; font-family:Verdana; color: #000000; text-align: left; border-width:2px; \"><th style=\"outline: thin solid;\">Skipped</th><td style=\"outline: thin solid; font-weight: bold;\">&nbsp;&nbsp;"
                 + skippedCount + "&nbsp;&nbsp;</td></tr>" + "</tbody></table></td>" + "&nbsp;&nbsp;&nbsp;"
-                + "<td><img src=\"cid:image\" style=\"height:200px; width: 200px; outline: thin solid;\"></td></tr></table>"
+                + "<td><img src=\"cid:image\" style=\"height:200px; width: 200px; outline: thin solid;\"></td></tr></table><p></p><p></p><p></p><p></p>"
+                + "<p><div style=\"font-family:Verdana;\"><b> EXECUTION SUMMARY FOR BROWSER: </b></div></p>"
+                + "<table style=\"border: 1px solid black;border-collapse: collapse;\"><col width=\"130\"><col width=\"80\"><col width=\"80\"><col width=\"80\"><col width=\"80\">"
+                + "<tr style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">"
+                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">Test Summary</th>"
+                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">CHROME</th>"
+                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\" >FIREFOX</th>"
+                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">IE</th>"
+                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">SAFARY</th></tr>"
+                + "<tr><td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">Total Test case</td>"
+                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td>"
+                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td>"
+                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td>"
+                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td></tr>"
+                + "<tr><td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">Passed</td>"
+                + passedRow
+                + "</tr>"
+                + "<tr><td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">Failed</td>"
+                + failedRow
+                + "</tr>"
+                + "<tr><td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">Skiped</td>"
+                + skippedRow
+                + "</tr></table>"
                 + "<p></p><div style=\"font-family:Verdana;\">Regards,</div><p></p>"
                 + "<div style=\"font-family:Verdana;\">Automation Team</div>";
         properties.put("mail.smtp.auth", "true");
@@ -258,7 +328,7 @@ public class GenericService {
             textPart.setContent(message, "text/html");
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             DataSource fds = new FileDataSource(
-                    System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart.png");
+                    System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChartCHROME.png");
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "<image>");
             multipart.addBodyPart(textPart);

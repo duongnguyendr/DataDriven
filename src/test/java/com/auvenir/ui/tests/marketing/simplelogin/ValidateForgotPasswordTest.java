@@ -4,7 +4,7 @@ import com.auvenir.ui.pages.marketing.forgotpassword.ResetPasswordPO;
 import com.auvenir.ui.pages.marketing.mailtemplate.EmailResetPassPO;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
-import com.auvenir.ui.services.marketing.HomeService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
  * Created by toan.nguyenp on 4/21/2017.
  */
 public class ValidateForgotPasswordTest extends AbstractTest {
-    private HomeService homeService;
+    private MarketingService marketingService;
     /*private LoginModalPO loginPO = null;
     private ForgotPassModalPO forgotPassModalPO = null;
     private ResetLinkSentModalPO resetLinkSentModalPO = null;
@@ -33,13 +33,13 @@ public class ValidateForgotPasswordTest extends AbstractTest {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            homeService = new HomeService(getLogger(), getDriver());
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.inputEmailForgotPassword(emailId);
-            homeService.clickOnRequestResetLinkBTN();
+            marketingService = new MarketingService(getLogger(), getDriver());
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(emailId);
+            marketingService.clickOnRequestResetLinkBTN();
             gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             gmailLoginService.openGmailIndexForgotPassword(emailId, emailPassword);
             EmailResetPassPO emailResetPassPO = new EmailResetPassPO(getDriver());
@@ -69,7 +69,7 @@ public class ValidateForgotPasswordTest extends AbstractTest {
             NXGReports.addStep("Enter new valid password: " + ranPassword, LogAs.PASSED, null);
             resetPassPO.getEleNewPasword().sendKeys(ranPassword);
             resetPassPO.verifyPopupWarning(ranPassword.length(), true, true, true);
-            homeService.refreshHomePage();
+            marketingService.refreshHomePage();
             //getDriver().navigate().refresh();
             resetPassPO.getEleNewPasword().click();
             /*try {
@@ -81,7 +81,7 @@ public class ValidateForgotPasswordTest extends AbstractTest {
             NXGReports.addStep("Enter new  invalid password is: " + ranPasswordNotContainsUpperCase, LogAs.PASSED, null);
             resetPassPO.getEleNewPasword().sendKeys(ranPasswordNotContainsUpperCase);
             resetPassPO.verifyPopupWarning(ranPasswordNotContainsUpperCase.length(), false, true, true);
-            homeService.refreshHomePage();
+            marketingService.refreshHomePage();
             //webDriver.navigate().refresh();
             resetPassPO.getEleNewPasword().click();
             /*try {
@@ -93,7 +93,7 @@ public class ValidateForgotPasswordTest extends AbstractTest {
             NXGReports.addStep("Enter new  invalid password is: " + ranPasswordNotContainsLowerCase, LogAs.PASSED, null);
             resetPassPO.getEleNewPasword().sendKeys(ranPasswordNotContainsLowerCase);
             resetPassPO.verifyPopupWarning(ranPasswordNotContainsLowerCase.length(), true, true, true);
-            homeService.refreshHomePage();
+            marketingService.refreshHomePage();
             //webDriver.navigate().refresh();
             resetPassPO.getEleNewPasword().click();
             /*try {
@@ -105,7 +105,7 @@ public class ValidateForgotPasswordTest extends AbstractTest {
             NXGReports.addStep("Enter new  invalid password is: " + ranPasswordNotContainsDigit, LogAs.PASSED, null);
             resetPassPO.getEleNewPasword().sendKeys(ranPasswordNotContainsDigit);
             resetPassPO.verifyPopupWarning(ranPasswordNotContainsDigit.length(), true, true, false);
-            homeService.refreshHomePage();
+            marketingService.refreshHomePage();
             //webDriver.navigate().refresh();
             resetPassPO.getEleNewPasword().click();
             /*try {
@@ -128,13 +128,13 @@ public class ValidateForgotPasswordTest extends AbstractTest {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            homeService = new HomeService(getLogger(), getDriver());
-            homeService.goToBaseURL();
-            homeService.clickLoginButton();
-            homeService.goToForgotPassword();
-            homeService.verifyForgotPasswordTitle();
-            homeService.inputEmailForgotPassword(emailId);
-            homeService.clickOnRequestResetLinkBTN();
+            marketingService = new MarketingService(getLogger(), getDriver());
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(emailId);
+            marketingService.clickOnRequestResetLinkBTN();
             gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             gmailLoginService.openGmailIndexForgotPassword(emailId, emailPassword);
             EmailResetPassPO emailResetPassPO = new EmailResetPassPO(getDriver());

@@ -45,10 +45,10 @@ public class AuditorClientPage extends AbstractPage {
     }
 
     public void verifyDisplayElementInClientPage(){
-        validateDisPlayedElement(getEleMyClientTxt(), "My Client Text");
-        validateDisPlayedElement(getEleNoClientsImg(), "No Client - Image");
-        validateEnabledElement(getEleAddNewBtn(), "Add New Button");
-        validateEnabledElement(getEleYouDontHaveTxt(), "Add New Button");
+        validateDisPlayedElement(eleMyClientTxt, "My Client Text");
+        validateDisPlayedElement(eleNoClientsImg, "No Client - Image");
+        validateEnabledElement(eleAddNewBtn, "Add New Button");
+        validateEnabledElement(eleYouDontHaveTxt, "Add New Button");
     }
 
 }

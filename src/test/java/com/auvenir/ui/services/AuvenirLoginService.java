@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriver;
 import java.util.concurrent.TimeUnit;
 
 
-public class AuvenirLoginService extends AbstractRefactorService {
+public class AuvenirLoginService extends AbstractService {
     public AuvenirLoginService(Logger logger, WebDriver driver) {
         super(logger, driver);
     }

@@ -1,6 +1,6 @@
 package com.auvenir.utilities;
 
-import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -54,7 +54,7 @@ public class GeneralUtilities {
                     element.isDisplayed();
                     NXGReports.addStep(sExpectedText + " is displayed", LogAs.PASSED, null);
                 } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
+                    AbstractService.sStatusCnt++;
                     NXGReports.addStep(sExpectedText + " is not displayed", LogAs.FAILED, null);
                 }
 
@@ -64,7 +64,7 @@ public class GeneralUtilities {
                     element.isEnabled();
                     NXGReports.addStep(sExpectedText + " is enabled", LogAs.PASSED, null);
                 } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
+                    AbstractService.sStatusCnt++;
                     NXGReports.addStep(sExpectedText + " is not enabled", LogAs.FAILED, null);
                 }
 
@@ -74,7 +74,7 @@ public class GeneralUtilities {
                     element.isSelected();
                     NXGReports.addStep(sExpectedText + " is selected", LogAs.PASSED, null);
                 } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
+                    AbstractService.sStatusCnt++;
                     NXGReports.addStep(sExpectedText + " is not selected", LogAs.FAILED, null);
                 }
 
@@ -83,7 +83,7 @@ public class GeneralUtilities {
                     element.getText().equals(sExpectedText);
                     NXGReports.addStep(sExpectedText + " text is displayed", LogAs.PASSED, null);
                 } catch (Exception e) {
-                    AbstractRefactorService.sStatusCnt++;
+                    AbstractService.sStatusCnt++;
                     NXGReports.addStep(sExpectedText + " text is displayed", LogAs.FAILED, null);
                 }
                 break;
@@ -133,7 +133,7 @@ public class GeneralUtilities {
             WebDriverWait webDriverWait = new WebDriverWait(webDriver, waitTime);
             webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
         }
     }
