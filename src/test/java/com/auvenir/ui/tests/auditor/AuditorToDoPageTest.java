@@ -105,7 +105,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = false, description = "Verify Due date Time box")
+    @Test(priority = 4, enabled = true, description = "Verify Due date Time box")
     public void verifyDuedateTimebox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -113,11 +113,22 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
+            boolean isNewToDoPage=false;
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            getLogger().info("Verifying Duedate Timebox..");
             auditorCreateToDoService.verifyDuedateTimebox();
+            getLogger().info("Choosing date in table due-date..");
+            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
+            getLogger().info("Verifying format is mm/dd/yyy..");
+            auditorCreateToDoService.checkFormatDueDate();
+            getLogger().info("Verifying click to Prev Date..");
+            auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
+            getLogger().info("Verifying click to Next Date..");
+            auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Due date Time box.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Due date Time box.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -246,7 +257,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     }
 
 
-    @Test(priority = 9, enabled = true, description = "Verify Data Grid")
+    @Test(priority = 9, enabled = false, description = "Verify Data Grid")
     public void verifyDataGrid() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
