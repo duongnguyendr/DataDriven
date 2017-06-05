@@ -155,24 +155,33 @@ public class SecurityPO extends AbstractPage {
 
 
     public void verifyCreatePasswordPopupWarning(int passwordLength, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber) {
-        String expectedColor = GenericService.getConfigValue("auvenir.properties", "TEXT_COLOR_ERROR");
+//        String expectedColor = GenericService.getConfigValue("auvenir.properties", "TEXT_COLOR_ERROR");
+        String expectedColor = "#eb502c";
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         waitForVisibleElement(resetPasswordWarningPopup, "password error message");
         if (IS_ENGLISH_LANGUAGE) {
             if (passwordLength < 8) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Consist of at least 8 characters']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
+                validateCssValueElement(elert, "color", expectedColor);
                 verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsLetter) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least 1 letter']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
+//                validateCssValueElement(elert, "color", expectedColor);
                 verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsNumber) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least 1 number']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
+//                validateCssValueElement(elert, "color", expectedColor);
                 verifyCssValue(elert, "color", expectedColor);
             }
 

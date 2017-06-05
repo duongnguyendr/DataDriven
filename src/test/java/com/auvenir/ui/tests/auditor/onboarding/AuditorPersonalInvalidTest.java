@@ -9,10 +9,12 @@ import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -24,9 +26,11 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
     PersonalPO personal = null;
     private MarketingService homeService;
     PersonalService personalService;
+    private AuditorSignUpService auditorSignUpService;
+    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
 
 
-    @Test(priority = 1, enabled = true, description = "Navigate to  Home Page")
+    @Test(priority = 1, enabled = false, description = "Navigate to  Home Page")
     public void openHomePage() {
         homeService = new MarketingService(getLogger(),getDriver());
         try {
@@ -38,7 +42,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Navigate to Auditor OnBoarding Page")
+    @Test(priority = 2, enabled = false, description = "Navigate to Auditor OnBoarding Page")
     public void verifyAuditorPersonalPageContent() {
         homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
@@ -53,12 +57,17 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify GUI of full name when put one character.")
+    @Test(priority = 3, enabled = false, description = "Verify GUI of full name when put one character.")
     public void verifyNameWithOneCharacter() {
         homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try {
-            homeService.goToBaseURL();
+            auditorSignUpService.deleteUserUsingApi(strEmail);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            auditorSignUpService.setPrefixProtocol("http://");
+
+            auditorSignUpService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.inputValueIntoFullNameTexBox(GenericService.readExcelData(testData, "OnBoarding", 2, 1));
@@ -72,7 +81,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify GUI of full name when input one character and one blank")
+    @Test(priority = 4, enabled = false, description = "Verify GUI of full name when input one character and one blank")
     public void verifyNameWithOneCharacterAndSpace() {
         homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
@@ -91,7 +100,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify GUI of full name when input only two blank")
+    @Test(priority = 5, enabled = false, description = "Verify GUI of full name when input only two blank")
     public void verifyNameWithTwoBlank() {
         homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
@@ -110,7 +119,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify GUI of full name when input two special Characters")
+    @Test(priority = 6, enabled = false, description = "Verify GUI of full name when input two special Characters")
     public void verifyNameWithTwoSpecialCharacter() {
         homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
@@ -129,7 +138,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "Verify GUI of full name when input one special Characters")
+    @Test(priority = 7, enabled = false, description = "Verify GUI of full name when input one special Characters")
     public void verifyNameWithSpecialCharacter() {
         homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
@@ -148,7 +157,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "Verify GUI of full name when input with number")
+    @Test(priority = 8, enabled = false, description = "Verify GUI of full name when input with number")
     public void verifyNameWithNumber() {
         homeService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
@@ -167,7 +176,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "Verify GUI of email when input one character")
+    @Test(priority = 9, enabled = false, description = "Verify GUI of email when input one character")
     public void verifyEmailWithOneCharacter() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -186,7 +195,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify GUI of email when input blank")
+    @Test(priority = 10, enabled = false, description = "Verify GUI of email when input blank")
     public void verifyEmailWithBlank() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -205,7 +214,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 11, enabled = true, description = "Verify GUI of email when input invalid format Name")
+    @Test(priority = 11, enabled = false, description = "Verify GUI of email when input invalid format Name")
     public void verifyEmailWithInvalidFormatName() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -224,7 +233,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 12, enabled = true, description = "Verify GUI of email when input invalid format Style")
+    @Test(priority = 12, enabled = false, description = "Verify GUI of email when input invalid format Style")
     public void verifyEmailWithInvalidFormatStyle() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -243,7 +252,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 13, enabled = true, description = "Verify GUI of confirm email with invalid value")
+    @Test(priority = 13, enabled = false, description = "Verify GUI of confirm email with invalid value")
     public void verifyConfirmEmailWithInvalidValue() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -264,7 +273,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
     }
 
 
-    @Test(priority = 14, enabled = true, description = "Verify GUI of phone with blank")
+    @Test(priority = 14, enabled = false, description = "Verify GUI of phone with blank")
     public void verifyPhoneWithBlank() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -284,7 +293,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 15, enabled = true, description = "Verify GUI of phone with 9 number")
+    @Test(priority = 15, enabled = false, description = "Verify GUI of phone with 9 number")
     public void verifyPhoneNineNumber() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -304,7 +313,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 16, enabled = true,description = "Verify GUI of phone with character")
+    @Test(priority = 16, enabled = false,description = "Verify GUI of phone with character")
     public void verifyPhoneWithCharacter() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());
@@ -324,7 +333,7 @@ public class AuditorPersonalInvalidTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 17, enabled = true, description = "Verify GUI of phone with Special Character")
+    @Test(priority = 17, enabled = false, description = "Verify GUI of phone with Special Character")
     public void verifyPhoneWithSpecialCharacter() {
         homeService = new MarketingService(getLogger(), getDriver());
         personalService = new PersonalService(getLogger(), getDriver());

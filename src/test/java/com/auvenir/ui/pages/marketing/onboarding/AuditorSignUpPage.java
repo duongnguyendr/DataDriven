@@ -8,7 +8,6 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -192,6 +191,8 @@ public class AuditorSignUpPage extends AbstractPage {
 
     final String warningBorderCSSColor = "rgb(253, 109, 71)";
     final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
+    // This constant is used with color - CSS name;
+    final String warningTextCSSColor = "rgba(235, 80, 44, 1)";
 
     ///////////////Element from PersonalPO.java
     // ================================= Element of Content page ==============================================
@@ -254,7 +255,7 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     // Element of checkbox I confirm
-    @FindBy(xpath = "//div[@class='ui checkbox']/label[contains(text(),'confirm')]")
+    @FindBy(xpath = "//div[@class='ui checkbox']/label[contains(text(),'confirm')]/..")
     private WebElement chkConfirm;
     public WebElement getChkConfirm(){
         return chkConfirm;
@@ -267,16 +268,16 @@ public class AuditorSignUpPage extends AbstractPage {
 //        return btnContinue;
 //    }
 
-    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='error field']//div[@class='ui input']//input[@name='member_fullname']")
+    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_fullname']")
     private WebElement fullNameError;
 
-    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='error field']//div[@class='ui input']//input[@name='member_email']")
+    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email']")
     private WebElement emailError;
 
-    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='error field']//div[@class='ui input']//input[@name='member_email_confirm']")
+    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email_confirm']")
     private  WebElement confirmEmailError;
 
-    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='error field']//div[@class='ui input']//input[@name='member_phone_number']")
+    @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_phone_number']")
     private  WebElement phoneError;
 
     // List Item of ListBox Role in Firm
@@ -297,6 +298,11 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='step-content' and @id='step2']")
     private WebElement pageProvideFirmInfoEle;
     public WebElement getPageProvideFirmInfoEle(){ return pageProvideFirmInfoEle; }
+
+    //Header Provide Personal Info form.
+    @FindBy(xpath = "//*[@id='step1']/h2")
+    private WebElement personalPageSignUpHeaderEle;
+    public WebElement getPersonalPageSignUpHeaderEle(){ return personalPageSignUpHeaderEle; }
 
 
     ///////////////Element from SuPO.java
@@ -338,6 +344,9 @@ public class AuditorSignUpPage extends AbstractPage {
     // Element of Create password warning
     @FindBy(id = "reset-password-warning-popup")
     private WebElement resetPasswordWarningPopup;
+
+    @FindBy(xpath = "//div[@class='item' and i[@class='warning sign icon']]/div[text()='Consist of at least 8 characters']")
+    private WebElement warning8charPasswordEngEle;
 
     // Element of Create password warning
     @FindBy(id = "create-password-warning-popup")
@@ -533,6 +542,7 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     public void verifyColorControl(WebElement eleError, String strDescription, String attributeName, String attributeValue) {
+        getLogger().info("Verify Color of Control.");
         waitForVisibleElement(eleError, strDescription);
         waitForCssValueChanged(eleError, strDescription, attributeName, attributeValue);
         validateCssValueElement(eleError, attributeName, attributeValue);
@@ -671,16 +681,16 @@ public class AuditorSignUpPage extends AbstractPage {
         }
     }
 
-    public void clickOnCheckBoxConfirm(){
-        try{
-            waitForVisibleElement(chkConfirm,"check confirm checkbox");
-            clickElement(chkConfirm, "continue button");
-            NXGReports.addStep("Click on check box confirm", LogAs.PASSED, null);
+    public void clickOnCheckBoxConfirm() {
+        waitForVisibleElement(chkConfirm, "check confirm checkbox");
+        hoverElement(chkConfirm, " check confirm checkbox");
+        clickElement(chkConfirm, "check confirm checkbox");
+    }
 
-        }catch (NoSuchElementException e){
-            NXGReports.addStep("Element is not found", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(e.getMessage());
-        }
+    public void clickOnHeaderPersonalPage(){
+        waitForVisibleElement(personalPageSignUpHeaderEle,"check confirm checkbox");
+        hoverElement(personalPageSignUpHeaderEle, "Personal Page Header");
+        clickElement(personalPageSignUpHeaderEle, "check confirm checkbox");
     }
 
     public void inputValueIntoFullNameInput(String strName){
@@ -692,32 +702,46 @@ public class AuditorSignUpPage extends AbstractPage {
 //        validateCssValueElement(eleError,attributeName,attributeValue);
 //    }
 
-    public void verifyColorFullNameTxtBox(String attributeName, String attributeValue) {
-        verifyColorControl(fullNameError, "full name error", attributeName, attributeValue);
+    public void verifyInputValidValueOnFullNameTxtBox(String invalidValue) {
+        inputValueIntoFullNameInput(invalidValue);
+        clickOnHeaderPersonalPage();
+        verifyColorControl(fullNameError, "full name error", "border-color", warningBorderCSSColor);
+        verifyColorControl(fullNameError, "full name error", "background-color", warningBackgroundCSSColor);
+//        verifyColorControl(fullNameError, "full name error", attributeName, attributeValue);
     }
 
     public void inputValueIntoEmailTextBox(String strName) {
         inputValueIntoControl(eleEmail, "email", strName);
     }
 
-    public void verifyColorEmailTxtBox(String attributeName, String attributeValue){
-        verifyColorControl(emailError,"email error", attributeName,attributeValue);
+    public void verifyInputValidValueOnEmailTxtBox(String invalidValue){
+        inputValueIntoEmailTextBox(invalidValue);
+        clickOnHeaderPersonalPage();
+        verifyColorControl(emailError, "email error", "border-color", warningBorderCSSColor);
+        verifyColorControl(emailError, "email error", "background-color", warningBackgroundCSSColor);
     }
 
     public void inputValueIntoConfirmEmailTextBox(String strName){
         inputValueIntoControl(eleConfirmEmail, "confirm email",strName);
     }
 
-    public void verifyColorConfirmEmailTxtBox(String attributeName, String attributeValue){
-        verifyColorControl(confirmEmailError, "confirm email error" ,attributeName,attributeValue);
+    public void verifyInputValidValueOnConfirmEmailTxtBox(String invalidValue){
+        inputValueIntoConfirmEmailTextBox(invalidValue);
+        clickOnHeaderPersonalPage();
+        verifyColorControl(confirmEmailError, "confirm email error", "border-color", warningBorderCSSColor);
+        verifyColorControl(confirmEmailError, "confirm email error", "background-color", warningBackgroundCSSColor);
     }
 
     public void inputValueIntoPhoneNumberTextBox(String strName){
         inputValueIntoControl(elePhoneNumber, "phone number",strName);
     }
 
-    public void verifyColorPhoneNumberTxtBox(String attributeName, String attributeValue){
-        verifyColorControl(phoneError, "phone name error" ,attributeName,attributeValue);
+    public void verifyInputValidValueOnPhoneNumberTxtBox(String invalidValue){
+        inputValueIntoPhoneNumberTextBox(invalidValue);
+        clickOnHeaderPersonalPage();
+        verifyColorControl(phoneError, "phone nunber error", "border-color", warningBorderCSSColor);
+        verifyColorControl(phoneError, "phone nunber error", "background-color", warningBackgroundCSSColor);
+//        verifyColorControl(phoneError, "phone name error" ,attributeName,attributeValue);
     }
 
 
@@ -761,76 +785,91 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
 
-    public void verifyCreatePasswordPopupWarning(int passwordLength, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber) {
-        String expectedColor = GenericService.getConfigValue("auvenir.properties", "TEXT_COLOR_ERROR");
+    public void verifyCreateInvalidPassword(String password, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber) {
+//        String expectedColor = GenericService.getConfigValue("auvenir.properties", "TEXT_COLOR_ERROR");
+        String expectedColor = "#eb502c1";
+        inputValueIntoPaswordInput(password);
+        final int passwordLength = password.length();
         waitForVisibleElement(resetPasswordWarningPopup, "password error message");
         if (IS_ENGLISH_LANGUAGE) {
             if (passwordLength < 8) {
-                WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Consist of at least 8 characters']"));
-                validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+//                WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Consist of at least 8 characters']"));
+                validateElememt(warning8charPasswordEngEle, "Alert message.", Element_Type.DISPLAYED);
+                verifyColorControl(warning8charPasswordEngEle, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsLetter) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least 1 letter']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+                verifyColorControl(elert, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsNumber) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least 1 number']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+                verifyColorControl(elert, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsCapialLetter) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least one capital letter']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+                verifyColorControl(elert, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsCapialLetter && !isContainsLetter) {
                 WebElement elertMessageOfCapialLetter = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least one capital letter']"));
                 validateElememt(elertMessageOfCapialLetter, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elertMessageOfCapialLetter, "color", expectedColor);
+                verifyColorControl(elertMessageOfCapialLetter, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elertMessageOfCapialLetter, "color", expectedColor);
 
                 WebElement elertMessageOfLowerLetter = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contain at least 1 letter']"));
                 validateElememt(elertMessageOfLowerLetter, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elertMessageOfLowerLetter, "color", expectedColor);
+                verifyColorControl(elertMessageOfLowerLetter, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elertMessageOfLowerLetter, "color", expectedColor);
             }
         } else {
             if (passwordLength < 8) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[contains(text(), 'moins 8 caractères')]"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+                verifyColorControl(elert, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsLetter) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contenir au moins 1 lettre']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+                verifyColorControl(elert, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsNumber) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contenir au moins 1 numéro']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+                verifyColorControl(elert, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsCapialLetter) {
                 WebElement elert = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contenir au moins une lettre majuscule']"));
                 validateElememt(elert, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elert, "color", expectedColor);
+                verifyColorControl(elert, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elert, "color", expectedColor);
             }
 
             if (!isContainsCapialLetter && !isContainsLetter) {
                 WebElement elertMessageOfCapialLetter = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contenir au moins une lettre majuscule']"));
                 validateElememt(elertMessageOfCapialLetter, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elertMessageOfCapialLetter, "color", expectedColor);
+                verifyColorControl(elertMessageOfCapialLetter, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elertMessageOfCapialLetter, "color", expectedColor);
 
                 WebElement elertMessageOfLowerLetter = this.resetPasswordWarningPopup.findElement(By.xpath("//div[@class='item' and i[@class='warning sign icon']]/div[text()='Contenir au moins 1 lettre']"));
                 validateElememt(elertMessageOfLowerLetter, "Alert message.", Element_Type.DISPLAYED);
-                verifyCssValue(elertMessageOfLowerLetter, "color", expectedColor);
+                verifyColorControl(elertMessageOfLowerLetter, "Password Error Description", "color", warningTextCSSColor);
+//                verifyCssValue(elertMessageOfLowerLetter, "color", expectedColor);
             }
         }
     }
