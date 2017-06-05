@@ -509,7 +509,7 @@ public class MongoDBService {
 
             dBCollection.remove(dBbject);
         } catch (NoSuchElementException ex) {
-
+            System.out.println("This email not exist on database.");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

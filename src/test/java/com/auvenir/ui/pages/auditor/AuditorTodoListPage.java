@@ -381,4 +381,16 @@ public class AuditorTodoListPage extends AbstractPage {
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
     }
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+    @FindBy(id= "engagementUserBtn")
+    private WebElement btnInviteClient;
+
+    public void navigateToInviteClientPage(){
+        clickElement(btnInviteClient);
+    }
+    /*-----------end of huy.huynh on 02/06/2017.*/
 }

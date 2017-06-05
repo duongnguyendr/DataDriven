@@ -1,12 +1,12 @@
 package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class AuditorOnBoardingPage extends AbstractPage {
 
@@ -642,4 +642,53 @@ public class AuditorOnBoardingPage extends AbstractPage {
         validateEnabledElement(eleCancelSkipSecurityBtn, "Cancel Button");
         validateEnabledElement(eleAgreeSkipSecurityBtn, "Agree Button");
     }
+
+    /**
+     * Refactored by huy.huynh on 01/06/2017.
+     * New for smoke test
+     */
+
+    @FindBy(id = "onboard-firm-continue")
+    private WebElement buttonFirmContinue;
+
+    @FindBy(id = "security-title")
+    private WebElement titleSecurity;
+
+    @FindBy(xpath = "//input[@id='first-password']")
+    private WebElement inputFirstPassword;
+
+    @FindBy(xpath = "//input[@id='second-password']")
+    private WebElement inputSecondPassword;
+
+    @FindBy(id = "security-continueBtn")
+    private WebElement buttonSecurityContinue;
+
+    @FindBy(id = "epilogue-title")
+    private WebElement titleEpilogue;
+
+    @FindBy(id = "epilogue-description")
+    private WebElement textViewEpilogueDescription;
+
+    @FindBy(id = "epilogue-closeBtn")
+    private WebElement buttonElilogueClose;
+
+    public void verifySecurityOnBoardingPageSimplelize() {
+        clickElement(buttonFirmContinue);
+
+        validateElementText(titleSecurity, "Create Your Password");
+
+        sendKeyTextBox(inputFirstPassword, "abcd1234", "First password");
+        sendKeyTextBox(inputSecondPassword, "abcd1234", "Second password");
+
+        clickElement(buttonSecurityContinue);
+    }
+
+    public void verifyEpilogueOnBoardingPage(String email) {
+
+        validateElementText(titleEpilogue, "Your Account Has Been Created!");
+        validateElementText(textViewEpilogueDescription, "Thank you for creating an account. We will be sending a verification email to " + email + " within 24 hours. Please click the link in the email to get started on your engagements.");
+
+        clickElement(buttonElilogueClose);
+    }
+    /*-----------end of huy.huynh on 01/06/2017.*/
 }

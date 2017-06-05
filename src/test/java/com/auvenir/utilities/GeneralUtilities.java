@@ -6,6 +6,8 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by huy.huynh on 12/05/2017.
@@ -123,5 +126,29 @@ public class GeneralUtilities {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         return webElement;
+    }
+
+    public static void visibilityOfElementWait(WebDriver webDriver, WebElement webElement, String elementName, int waitTime) {
+        try {
+            WebDriverWait webDriverWait = new WebDriverWait(webDriver, waitTime);
+            webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
+        }
+    }
+
+    // Loading the URL by keeping in config properties
+    public static void loadURL(WebDriver webDriver, String sUrl) {
+        try {
+            System.out.println(sUrl);
+            webDriver.get(sUrl);
+            webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            webDriver.manage().window().maximize();
+        } catch (AssertionError e) {
+            NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
     }
 }

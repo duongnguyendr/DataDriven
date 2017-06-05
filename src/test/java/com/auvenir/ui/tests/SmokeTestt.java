@@ -1,178 +1,345 @@
 package com.auvenir.ui.tests;
 
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AdminService;
-import com.auvenir.ui.services.AuditorService;
-import com.auvenir.ui.services.AuvenirService;
+import com.auvenir.ui.services.*;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
-import com.jayway.restassured.response.Response;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static com.jayway.restassured.RestAssured.given;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by huy.huynh on 26/05/2017.
+ * Refactor for SmokeTest(runable)
  */
 public class SmokeTestt extends AbstractTest {
-    AdminService adminService;
-    AuvenirService auvenirService;
-    AuditorService auditorService;
+    private AdminService adminService;
+    private AuvenirService auvenirService;
+    private AuditorService auditorService;
+    private AuditorEngagementService auditorEngagementService;
+    private AuditorNewEngagementService auditorNewEngagementService;
+    private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    private AuditorTodoListService auditorTodoListService;
+    private ClientService clientService;
+    private GmailLoginService gmailLoginService;
 
-    String adminId;
-    String sData[] = null;
-    String testCaseId = null;
-
-    private void initVariable() {
-        adminService = new AdminService(getLogger(), getDriver());
-        auvenirService = new AuvenirService(getLogger(), getDriver());
-
-        adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-    }
-
-    private void navigationPreconditions() {
-        adminService.loginWithUserRole(adminId);
-        adminService.verifyPageLoad();
-    }
-
-    public void preRequiste() {
-
-        String sURL = null;
-
-        try {
-            getLogger().info("Delete existed user before create.");
-
-            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + GenericService.getConfigValue(GenericService.sConfigFile, " ") + "/delete";
-            getLogger().info("Call rest api:  " + sURL);
-
-            Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
-            if (response.getStatusCode() == 200) {
-                getLogger().info("The Auditor has been delete.");
-            } else if (response.getStatusCode() == 404) {
-                getLogger().info("The auditor is not existed in database.");
-            } else {
-            }
-
-            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID") + "/delete";
-            getLogger().info("Call rest api: " + sURL);
-            Response response1 = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
-            if (response1.getStatusCode() == 200) {
-                getLogger().info("The client has been deleted successful.");
-                NXGReports.addStep("Auditor is deleted sucessfully.", LogAs.PASSED, null);
-            } else if (response1.getStatusCode() == 404) {
-                getLogger().info("the client is not existed in database.");
-            } else {
-            }
-        } catch (Exception e) {
-            System.out.println("Problem in launching driver");
-            e.printStackTrace();
-        }
-    }
+    private String adminId, auditorId;
+    private String sData[];
+    private String testCaseId;
+    private SimpleDateFormat dateFormat;
+    private String timeStamp;
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login")
-    public void adminLogin() throws Exception {
+    public void adminLogin() {
+        getLogger().info("Verify admin is able to login.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            initVariable();
-            navigationPreconditions();
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify admin is able to login.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
+            e.printStackTrace();
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "To verify auditor is created with status as pending in admin panel")
-    public void auditorCreation() throws Exception {
-//        try {
-//            //precondition
+    @Test(priority = 2, enabled = true, description = "To verify auditor is created with status as Wait Listed in admin panel")
+    public void auditorCreation() {
+        getLogger().info("Verify auditor is created with status as Wait Listed in admin panel.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        try {
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+            dateFormat = new SimpleDateFormat("MM/d/yyyy");
+
+            //precondition
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
+
+            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            auvenirService.verifyPageLoad();
+            auvenirService.inputEmailAndJoin(auditorId);
+            auvenirService.actionWithApprovalDialog();
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
+            GeneralUtilities.scrollToFooter(getDriver());
+            adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), dateFormat.format(new Date()), "Wait Listed");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 3, enabled = true, description = "Change the status of the Auditor to OnBoarding", dependsOnMethods = {"auditorCreation"})
+    public void changeTheStatusAuditorToOnBoarding() {
+        getLogger().info("Verify change the status of the Auditor to OnBoarding.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+
+        try {
+            //precondition setted by tc auditorCreation
 //            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
 //
-//            initVariable();
+//            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+//            testCaseId = "auditor_Onboarding";
+//            sData = GenericService.toReadExcelData(testCaseId);
 //
 //            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
 //
-//            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
+//            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+//            auvenirService.verifyPageLoad();
+//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            auvenirService.actionWithApprovalDialog();
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
+            GeneralUtilities.scrollToFooter(getDriver());
+
+            adminService.changeTheStatusAuditorToOnBoarding(auditorId, "Onboarding");
+            adminService.verifyUserStatusOnAdminUserTable(auditorId, "Onboarding");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page", dependsOnMethods = {"changeTheStatusAuditorToOnBoarding"})
+    public void verifyAuditorOnboardingPage() {
+        getLogger().info("Verify the display of Elements in Auditor Onboarding Page.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        auditorService = new AuditorService(getLogger(), getDriver());
+
+        try {
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+            testCaseId = "auditor_Onboarding";
+            sData = GenericService.toReadExcelData(testCaseId);
+            //precondition setted by tc changeTheStatusAuditorToOnBoarding
+//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//
+//            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+//            testCaseId = "auditor_Onboarding";
+//            sData = GenericService.toReadExcelData(testCaseId);
+//
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
+//
+//            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 //            auvenirService.verifyPageLoad();
 //            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
 //            auvenirService.actionWithApprovalDialog();
 //
-//            navigationPreconditions();
-//
+//            adminService.loginWithUserRole(adminId);
+//            adminService.verifyPageLoad();
 //            GeneralUtilities.scrollToFooter(getDriver());
-//            adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), dateFormat.format(new Date()), "Wait Listed");
 //
-//            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-//            NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
-//        } catch (Exception e) {
-//            NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.FAILED,
-//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//            throw e;
-//        }
-    }
+//            adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
+//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
 
-    @Test(priority = 3, enabled = true, description = "Change the status of the Auditor to OnBoarding")
-    public void changeTheStatusAuditorToOnBoarding() throws Exception {
-//        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
-//
-//        initVariable();
-//
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
-//
-//        GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
-//        auvenirService.verifyPageLoad();
-//        auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
-//        auvenirService.actionWithApprovalDialog();
-//
-//        navigationPreconditions();
-//        GeneralUtilities.scrollToFooter(getDriver());
-//
-//        adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
-//        adminService.verifyAuditorStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
-    }
-
-    @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page")
-    public void verifyAuditorOnboardingPage() throws Exception {
-        AbstractService.sStatusCnt = 0;
-        testCaseId = "auditor_Onboarding";
-        sData = GenericService.toReadExcelData(testCaseId);
-        auditorService = new AuditorService(getLogger(), getDriver());
-        try {
-            String onBoardingUrl;
-            getLogger().info("update status of auditor to onboarding .");
-            onBoardingUrl = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/update?status=ONBOARDING";
-            Response response = given().keystore(GenericService.sDirPath + "/src/test/resources/auvenircom.jks", "changeit").get(onBoardingUrl);
-//            Response response = given().config(RestAssured.config().sslConfig(new SSLConfig().allowAllHostnames())).get(onBoardingUrl); // Allow all hostname without certificate
-            if (response.getStatusCode() == 200) {
-                getLogger().info("The Auditor is on boarding.");
-            } else {
-            }
-
-            getLogger().info("Login with auditor role.");
-            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+            adminService.loginWithUserRole(auditorId);
             auditorService.verifyPersonalPage();
             auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
             auditorService.verifyFirmPage();
             auditorService.verifyInputFirmInformation(sData[3], sData[4], sData[5], sData[6] + ", " + sData[7], sData[8], sData[9], sData[10], sData[9], sData[11]);
-//            auditorService.verifyInputAffliateField(sData[9]); Affiliate checkbox disabled.
             auditorService.verifyFooterPage();
-            auditorService.verifySecurityOnBoardingPage();
+            auditorService.verifySecurityOnBoardingPageSimplelize();
+            auditorService.verifyEpilogueOnBoardingPage(auditorId);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
+            NXGReports.addStep("Verify the display of Elements in Auditor Onboarding Page.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
+            NXGReports.addStep("Verify the display of Elements in Auditor Onboarding Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 5, enabled = true, description = "Check the status of the Auditor to Active", dependsOnMethods = {"verifyAuditorOnboardingPage"})
+    public void verifyTheStatusAuditorToActive() {
+        getLogger().info("Verify the status of the Auditor to Active.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        auditorService = new AuditorService(getLogger(), getDriver());
+        try {
+//            testCaseId = "auditor_Onboarding";
+//            sData = GenericService.toReadExcelData(testCaseId);
+//
+//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//
+//            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+//            testCaseId = "auditor_Onboarding";
+//            sData = GenericService.toReadExcelData(testCaseId);
+//
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
+//
+//            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+//            auvenirService.verifyPageLoad();
+//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            auvenirService.actionWithApprovalDialog();
+//            adminService.loginWithUserRole(adminId);
+//            adminService.verifyPageLoad();
+//            GeneralUtilities.scrollToFooter(getDriver());
+//
+//            adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
+//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
+//
+//            getLogger().info("Login with auditor role. ");
+//            //auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+//            adminService.loginWithUserRole(auditorId);
+//            auditorService.verifyPersonalPage();
+//            auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
+//            auditorService.verifyFirmPage();
+//            auditorService.verifyInputFirmInformation(sData[3], sData[4], sData[5], sData[6] + ", " + sData[7], sData[8], sData[9], sData[10], sData[9], sData[11]);
+//            auditorService.verifyFooterPage();
+//            auditorService.verifySecurityOnBoardingPageSimplelize();
+//            auditorService.verifyEpilogueOnBoardingPage();
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
+            GeneralUtilities.scrollToFooter(getDriver());
+
+            adminService.verifyUserStatusOnAdminUserTable(auditorId, "Active");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify the status of the Auditor to Active.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify the status of the Auditor to Active.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 6, enabled = true, description = "Inviting a client")
+    public void invitingTheClient() {
+        getLogger().info("Verify inviting a client.");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        try {
+            String clientUserId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientUserId);
+
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorEngagementService.verifyAuditorEngagementPage();
+
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.navigateToTodoListPage();
+
+            auditorTodoListService.navigateToInviteClientPage();
+            clientService.selectAddNewClient();
+            clientService.inviteNewClient("Titan client", clientUserId, "Leader");
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
+            GeneralUtilities.scrollToFooter(getDriver());
+            adminService.verifyUserStatusOnAdminUserTable(clientUserId, "Pending");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify inviting a client.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 7, enabled = true, description = "Client logs in and OnBoarding page is displayed")
+    public void clientLogsInAndOnBoards() {
+        getLogger().info("Verify client logs in and OnBoarding page is displayed.");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        try {
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+
+            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL_PASSWORD"));
+            gmailLoginService.filterEmail();
+            gmailLoginService.clickOnboardingInvitationLink();
+
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
+            GeneralUtilities.scrollToFooter(getDriver());
+
+            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), "Onboarding");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 8, enabled = true, description = "Admin is able to delete the existing Auditor and Client")
+    public void adminIsAbleToDeleteClientAndAuditor() {
+        getLogger().info("Verify delete the existing Auditor and Client via API");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        try {
+            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+
+            String auditorDeleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                    + auditorId + "/delete";
+            GeneralUtilities.loadURL(getDriver(), auditorDeleteURL);
+            String auditorMessageBack = getDriver().findElement(By.xpath("//pre")).getText();
+            getLogger().info(auditorMessageBack);
+            if (!auditorMessageBack.contains("\"code\":200")) {
+                NXGReports.addStep("Auditor is delete fail. Message: " + auditorMessageBack, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                getLogger().info("Auditor is delete fail");
+            }
+
+            String clientDeleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                    + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL") + "/delete";
+            GeneralUtilities.loadURL(getDriver(), clientDeleteURL);
+            String clientMessageBack = getDriver().findElement(By.xpath("//pre")).getText();
+            getLogger().info(clientMessageBack);
+            if (!clientMessageBack.contains("\"code\":200")) {
+                NXGReports.addStep("Client is delete fail. Message: " + clientMessageBack, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                getLogger().info("Client is delete fail");
+            }
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify delete the existing Auditor and Client via API.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify delete the existing Auditor and Client via API.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
         }
     }
 }

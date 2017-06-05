@@ -338,7 +338,7 @@ public class AbstractPage {
         getLogger().info("verify Displayed of: " + elementName);
         try {
             element.isDisplayed();
-            getLogger().info("Element : " + elementName + "is presented");
+            getLogger().info("Element : " + elementName + " is presented");
             NXGReports.addStep("Element : " + elementName + " is presented.", LogAs.PASSED, null);
             return true;
         } catch (Exception e) {

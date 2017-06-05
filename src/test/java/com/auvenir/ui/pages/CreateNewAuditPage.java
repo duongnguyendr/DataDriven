@@ -1,13 +1,13 @@
 package com.auvenir.ui.pages;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class CreateNewAuditPage extends AbstractPage {
 
@@ -185,4 +185,55 @@ public class CreateNewAuditPage extends AbstractPage {
         verifyContentOfSuccessToastMessage(expectedContent);
         clickElement(eleResendBtn, "Resend Button");
     }
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+
+    @FindBy(className = "m-ic-subTitle")
+    private WebElement titleInviteClient;
+
+    @FindBy(xpath = "//ul[@class='ddlLink inputDdl inputDdl-after']//a")
+    private WebElement optionAddNewClient;
+
+    @FindBy(xpath = "//p[@class='addClient-header']")
+    private WebElement titleInviteNewClient;
+
+    @FindBy(id = "m-ac-name")
+    private WebElement inputFullName;
+
+    @FindBy(id = "m-ac-email")
+    private WebElement inputEmail;
+
+    @FindBy(id = "m-ac-emailVerify")
+    private WebElement inputVerifyEmail;
+
+    @FindBy(id = "m-ac-role")
+    private WebElement inputRoleEmail;
+
+    @FindBy(id = "m-ac-addBtn")
+    private WebElement buttonInviteNewClient;
+
+    public void selectAddNewClient() {
+        validateElementText(titleInviteClient, "Invite Your Client");
+        clickElement(eleSelectYourClientDrpDwn, "Select Client");
+        clickElement(optionAddNewClient, "Option Add New Client");
+    }
+
+    public void inviteNewClient(String fullName, String email, String role) {
+        waitForTextValueChanged(titleInviteNewClient, "Invite New Client", "Invite New Client");
+        sendKeyTextBox(inputFullName, fullName, "Full Name Input");
+        sendKeyTextBox(inputEmail, email, "Email Input");
+        sendKeyTextBox(inputVerifyEmail, email, "Verify Email Input");
+        sendKeyTextBox(inputRoleEmail, role, "Role Input");
+
+        clickElement(buttonInviteNewClient, "Button Invite");
+    }
+
+    public void verifyInviteClientSuccess(String message){
+        verifyContentOfSuccessToastMessage(message);
+    }
+
+	 /*-----------end of huy.huynh on 02/06/2017.*/
 }

@@ -5,6 +5,7 @@ import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -792,10 +793,37 @@ public class AuvenirPage extends AbstractPage {
      * TanPham 29/05/2017 - End
      */
 
-    public void verifyWelcomePleaseCheckTxtIsDisplayed(){
+    public void verifyWelcomePleaseCheckTxtIsDisplayed() {
         getLogger().info("Verify Welcome Please Check Text is displayed.");
         waitForVisibleElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
         validateDisPlayedElement(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login popup is not displayed");
         validateElementText(eleWelcomePleaseCheckTxt, "Welcome! Please check your email for a login link.");
     }
+
+    /**
+     * Refactored by huy.huynh on 30/05/2017.
+     * Restructure only
+     */
+
+    public void verifyPageLoad() {
+        validateDisPlayedElement(getEleAuditorEmailAddressTxtFld(), "Join email");
+    }
+
+    public void actionWithApprovalDialog() {
+//        visibilityOfElementWait(getEleAwaitingApprovalTxt(), "Awaiting Approval", 20);
+//        visibilityOfElementWait(getEleDoneBtn(), "Approval Done Button", 20);
+        try {
+            //TODO temproryly
+            //Thread.sleep(2000);
+//            System.out.println("Value Awaiting: " + getDriver().findElement(By.id("audLand-modal-loginHeader")).getAttribute("value"));
+//            validateElementText(getDriver().findElement(By.id("audLand-modal-loginHeader")), "Awaiting approval!");
+            waitForTextValueChanged(getDriver().findElement(By.id("audLand-modal-loginHeader")),"Awaiting approval", "Awaiting approval!");
+            getEleDoneBtn().click();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    /*-----------end of huy.huynh on 30/05/2017.*/
 }
