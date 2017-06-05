@@ -12,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -504,6 +506,9 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Start Your Engagement']")
     private WebElement buttonStartEngagement;
 
+    @FindBy(xpath = "//h3[@id='welcome-body']")
+    private WebElement titleWelcome;
+
     //div[@class='AO']//div[@class='nH']
     //input[@type='email']
     //div[@id='identifierNext']passwordNext
@@ -541,21 +546,29 @@ public class GmailPage extends AbstractPage {
         try {
             sendKeyTextBox(inputSearch, GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"), "Search Email");
             clickElement(buttonSearch, "Button Search");
-            Thread.sleep(5000) ;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }}
-
-    public String getOnboardingInvitationLink() {
-        String link = null;
-        try {
-            clickElement(rowSentEmail, "Row Sent Email");
-            link = buttonStartEngagement.getAttribute("href");
-            link = link.replace(":3083", "");
+            Thread.sleep(5000);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return link;
+    }
+
+    public void clickOnboardingInvitationLink() {
+        try {
+            clickElement(rowSentEmail, "Row Sent Email");
+            clickElement(buttonStartEngagement, "Button Start Engagement");
+            validateElementText(titleWelcome,"Welcome to Auvenir!");
+
+            /* TODO code for wrong link on invited client email unfixed - still unfixed
+            String link = buttonStartEngagement.getAttribute("href");
+            link = link.replace(":3083", "");
+            GeneralUtilities.loadURL(getDriver(), link);*/
+
+//            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+//            wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
+            getLogger().info("Client invited link loaded.(Status change: Pending->Onboarding)");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 

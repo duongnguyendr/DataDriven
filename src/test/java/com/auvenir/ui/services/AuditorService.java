@@ -281,7 +281,7 @@ public class AuditorService extends AbstractService {
             auditorDashboardPage.verifyDisplayElementInArchivePage();
             NXGReports.addStep("verify element in auditor archive page displayed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("verify element in auditor archive setting page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("verify element in auditor archive page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -294,8 +294,8 @@ public class AuditorService extends AbstractService {
         auditorOnBoardingPage.verifySecurityOnBoardingPageSimplelize();
     }
 
-    public void verifyEpilogueOnBoardingPage() {
-        auditorOnBoardingPage.verifyEpilogueOnBoardingPage();
+    public void verifyEpilogueOnBoardingPage(String email) {
+        auditorOnBoardingPage.verifyEpilogueOnBoardingPage(email);
     }
     /*-----------end of huy.huynh on 01/06/2017.*/
 }

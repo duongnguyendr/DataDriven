@@ -681,18 +681,18 @@ public class AuditorOnBoardingPage extends AbstractPage {
     public void verifySecurityOnBoardingPageSimplelize() {
         clickElement(buttonFirmContinue);
 
-        validateElementText(titleSecurity,"Create Your Password");
+        validateElementText(titleSecurity, "Create Your Password");
 
-        sendKeyTextBox(inputFirstPassword,"abcd1234","First password");
-        sendKeyTextBox(inputSecondPassword,"abcd1234","Second password");
+        sendKeyTextBox(inputFirstPassword, "abcd1234", "First password");
+        sendKeyTextBox(inputSecondPassword, "abcd1234", "Second password");
 
         clickElement(buttonSecurityContinue);
     }
 
-    public void verifyEpilogueOnBoardingPage() {
+    public void verifyEpilogueOnBoardingPage(String email) {
 
-        validateElementText(titleEpilogue,"Your Account Has Been Created!");
-        validateElementText(textViewEpilogueDescription,"Thank you for creating an account. We will be sending a verification email to auvautoaudit01@gmail.com within 24 hours. Please click the link in the email to get started on your engagements.");
+        validateElementText(titleEpilogue, "Your Account Has Been Created!");
+        validateElementText(textViewEpilogueDescription, "Thank you for creating an account. We will be sending a verification email to " + email + " within 24 hours. Please click the link in the email to get started on your engagements.");
 
         clickElement(buttonElilogueClose);
     }

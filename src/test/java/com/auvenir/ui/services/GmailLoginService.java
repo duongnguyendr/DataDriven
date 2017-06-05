@@ -90,8 +90,8 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.filterEmail();
     }
 
-    public String getOnboardingInvitationLink() {
-        return gmailLoginPo.getOnboardingInvitationLink();
+    public void clickOnboardingInvitationLink() {
+        gmailLoginPo.clickOnboardingInvitationLink();
     }
     /*-----------end of huy.huynh on 02/06/2017.*/
 }

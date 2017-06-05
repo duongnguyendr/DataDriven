@@ -143,7 +143,7 @@ public class GeneralUtilities {
         try {
             System.out.println(sUrl);
             webDriver.get(sUrl);
-            webDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+            webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             webDriver.manage().window().maximize();
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED,
