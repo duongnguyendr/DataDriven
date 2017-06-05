@@ -4,6 +4,7 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="windows10"/>
         <listener class-name="com.auvenir.utilities.listeners.TestngListener"/>
+        <listener class-name="com.auvenir.utilities.listeners.SuiteListener"/>
         <listener class-name="com.kirwa.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
     <test name="Regression1" preserve-order="true">
@@ -25,7 +26,6 @@
             <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
             <methods>
                 <include name="verifyButtonFilter"></include>
-                <include name="verifyCreateToDoPageCategorySearchData"></include>
                 <!--<include name="verifyCreateNewCategory"></include>-->
             </methods>
             <!--<class name="com.auvenir.ui.tests.marketing.CareersTest"/>
@@ -52,14 +52,18 @@
             <class name="com.auvenir.rests.api.tests.AuthSessionTest"/>-->
         </classes>
     </test>
-    <!--<test name="Regression2" preserve-order="true">-->
-        <!--<parameter name="browser" value="firefox"/>-->
-        <!--<parameter name="version" value="lasted"/>-->
-        <!--<parameter name="os" value="WIN10"/>-->
-        <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.AboutTest"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Regression2" preserve-order="true">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="version" value="lasted"/>
+        <parameter name="os" value="WIN10"/>
+        <classes>
+            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
+            <methods>
+                <include name="verifyButtonFilter"></include>
+                <!--<include name="verifyCreateNewCategory"></include>-->
+            </methods>
+        </classes>
+    </test>
     <!--<test name="Regression3" preserve-order="true">-->
         <!--<parameter name="browser" value="safari"/>-->
         <!--<parameter name="version" value="lasted"/>-->

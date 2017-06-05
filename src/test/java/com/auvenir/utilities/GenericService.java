@@ -222,7 +222,6 @@ public class GenericService {
         ArrayList<Integer> listTestCasePassed = new ArrayList<>();
         ArrayList<Integer> listTestCaseFailed = new ArrayList<>();
         ArrayList<Integer> listTestCaseSkipped = new ArrayList<>();
-        String totalRow = "";
         String passedRow = "";
         String failedRow = "";
         String skippedRow = "";
