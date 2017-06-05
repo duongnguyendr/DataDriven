@@ -8,7 +8,7 @@ import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorOnBoardingPage;
 import com.auvenir.ui.pages.client.ClientOnBoardingPage;
 import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.jayway.restassured.response.Response;
@@ -40,7 +40,7 @@ import static com.jayway.restassured.RestAssured.given;
 
 //import org.testng.log4testng.Logger;
 
-public class SmokeTest extends AbstractRefactorService {
+public class SmokeTest extends AbstractService {
     public SmokeTest(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
@@ -294,7 +294,7 @@ public class SmokeTest extends AbstractRefactorService {
     public void verifyAuditorOnboardingPage() throws Exception {
         getLogger().info("Verify Auditor onboarding page.");
         String sData[] = null;
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
@@ -467,7 +467,7 @@ public class SmokeTest extends AbstractRefactorService {
             getLogger().info("wait for new page is loaded.");
             visibilityOfElementWait(auditorEngagementPage.getEleCreateNewBtn(), "Create New Button", waittime);
             GeneralUtilities.toValidate(auditorEngagementPage.getEleCreateNewBtn(), "'Create New' Button", "Displayed");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -841,7 +841,7 @@ public class SmokeTest extends AbstractRefactorService {
             sWebDriverWait = new WebDriverWait(getDriver(), waitTime);
             sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
         } catch (Exception e) {
-            AbstractRefactorService.sStatusCnt++;
+            AbstractService.sStatusCnt++;
             NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
         }
     }
