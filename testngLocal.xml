@@ -16,7 +16,7 @@
             <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>-->
             <class name="com.auvenir.ui.tests.SmokeTestt"/>
             <methods>
-                <include name="clientLogsInAndOnBoards"></include>
+                <include name="adminIsAbleToDeleteClientAndAuditor"></include>
             </methods>
             <!--
              <class name="com.auvenir.ui.tests.SmokeTest"/>

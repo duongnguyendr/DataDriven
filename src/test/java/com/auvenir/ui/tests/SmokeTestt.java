@@ -11,6 +11,8 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -297,17 +299,58 @@ public class SmokeTestt extends AbstractTest {
     ClientOnBoardingPage clientOnBoardingPage;
     AdminLoginPage adminLoginPage;
     GmailLoginService gmailLoginService;
+
     @Test(priority = 7, enabled = true, description = "Client logs in and OnBoarding page is displayed")
     public void clientLogsInAndOnBoards() throws Exception {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
         clientOnBoardingPage = new ClientOnBoardingPage(getLogger(), getDriver());
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
-        gmailLoginService=new GmailLoginService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         initVariable();
 
         getLogger().info("Client login and onboard.");
         GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-        System.out.println("aaagetDriver().findElement(By.xpath(\"\")) = " + getDriver().findElement(By.xpath("//*[@id='headingText']")).getText());
-        gmailLoginService.signInGmail(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"),GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL_PASSWORD"));
+        //System.out.println("aaagetDriver().findElement(By.xpath(\"\")) = " + getDriver().findElement(By.xpath("//*[@id='headingText']")).getText());
+        gmailLoginService.signInGmail(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL_PASSWORD"));
+        gmailLoginService.filterEmail();
+        String link = gmailLoginService.getOnboardingInvitationLink();
+        System.out.println("link= " + link);
+        GeneralUtilities.loadURL(getDriver(), link);
+        WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+        wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
+        System.out.println("page loaded");
+//        Thread.sleep(1000);
+//        getDriver().close();
+        navigationPreconditions();
+        GeneralUtilities.scrollToFooter(getDriver());
+
+        adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), "Onboarding");
+    }
+
+    @Test(priority = 8, enabled = true, description = "Admin is able to delete the existing Auditor and Client")
+    public void adminIsAbleToDeleteClientAndAuditor() {
+        initVariable();
+        getLogger().info("Admin is able to delete the existing Auditor and Client");
+        String auditorDeleteURL=GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID") + "/delete";
+        GeneralUtilities.loadURL(getDriver(), auditorDeleteURL);
+        String auditorMessageBack = getDriver().findElement(By.xpath("//pre")).getText();
+        getLogger().info(auditorMessageBack);
+        if(!auditorMessageBack.contains("\"code\":200")){
+            NXGReports.addStep("Auditor is delete fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Auditor is delete fail");
+        }
+        WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+        wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
+
+        String clientDeleteURL=GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID") + "/delete";
+        GeneralUtilities.loadURL(getDriver(), clientDeleteURL);
+        String clientMessageBack = getDriver().findElement(By.xpath("//pre")).getText();
+        getLogger().info(clientMessageBack);
+        if(!clientMessageBack.contains("\"code\":200")){
+            NXGReports.addStep("Client is delete fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Client is delete fail");
+        }
     }
 }

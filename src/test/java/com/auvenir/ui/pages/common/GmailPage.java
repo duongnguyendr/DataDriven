@@ -117,7 +117,7 @@ public class GmailPage extends AbstractPage {
         return lsEleSignInMailLnk;
     }
         /*@FindBy(xpath = "(//span[contains(text(),'Sign in to Auvenir!')])[position()=1]")
-		private WebElement eleSignInMailLnk;
+        private WebElement eleSignInMailLnk;
 		public WebElement getEleSignInMailLnk() {
 			return eleSignInMailLnk;
 		}*/
@@ -461,7 +461,7 @@ public class GmailPage extends AbstractPage {
     }
 
     /**
-     * Refactored by huy.huynh on 02/06/2017.
+     * Refactored by huy.huynh on 02/06/2017 - 05/06/2017.
      * New for smoke test
      */
     @FindBy(xpath = "//a[text()='Sign In']")
@@ -494,7 +494,8 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//button[@id='gbqfb']")
     private WebElement buttonSearch;
 
-    @FindBy(xpath = "//div[@class='AO']//div[@class='nH']")
+    //@FindBy(xpath = "//div[@class='AO']//div[@class='nH']")
+    @FindBy(xpath = "//div[@class='nH']/div[@role='main']//tbody")
     private WebElement rowSentEmail;
 
     @FindBy(xpath = "//h2[@class='hP']")
@@ -514,28 +515,49 @@ public class GmailPage extends AbstractPage {
 //a[text()='Start Your Engagement']
     //h2[@class='hP']
     public void signInGmail(String email, String password) {
-        try{
-            clickElement(buttonSignIn, "Button Sign In");
+        try {
+            //clickElement(buttonSignIn, "Button Sign In");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         try {
-            Thread.sleep(5000);
+            //Thread.sleep(5000);
             //System.out.println("getDriver().findElement(By.xpath(\"\")) = " + getDriver().findElement(By.xpath("//*[@id='headingText']")).getText());
 
             //validateElementText(titleSignIn,"Sign in");
             sendKeyTextBox(inputEmail, email, "Input Email");
             clickElement(buttonNextToPassword, "Button Next To Password");
-            Thread.sleep(5000);
-            validateElementText(titleForgotPassword,"Forgot password?");
-            sendKeyTextBox(inputEmail, password, "Input Password");
+            //Thread.sleep(5000);
+            validateElementText(titleForgotPassword, "Forgot password?");
+            sendKeyTextBox(inputPassword, password, "Input Password");
             clickElement(buttonPasswordNext, "Button Password Next");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-	 /*-----------end of huy.huynh on 02/06/2017.*/
+    public void filterEmail() {
+        try {
+            sendKeyTextBox(inputSearch, GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"), "Search Email");
+            clickElement(buttonSearch, "Button Search");
+            Thread.sleep(5000) ;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }}
 
+    public String getOnboardingInvitationLink() {
+        String link = null;
+        try {
+            clickElement(rowSentEmail, "Row Sent Email");
+            link = buttonStartEngagement.getAttribute("href");
+            link = link.replace(":3083", "");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return link;
+    }
+
+
+	 /*-----------end of huy.huynh on 02/06/2017 - 05/06/2017.*/
 }
