@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 //import org.testng.log4testng.Logger;
 
-public class GmailLoginService extends AbstractRefactorService {
+public class GmailLoginService extends AbstractService {
     Logger logger = Logger.getLogger(GmailLoginService.class);
     GmailPage gmailLoginPo = null;
     public GmailLoginService(Logger logger, WebDriver driver) {

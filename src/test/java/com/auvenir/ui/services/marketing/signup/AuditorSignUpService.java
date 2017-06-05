@@ -1,7 +1,7 @@
 package com.auvenir.ui.services.marketing.signup;
 
-import com.auvenir.ui.pages.marketing.HomePage;
-import com.auvenir.ui.pages.marketing.onboarding.*;
+import com.auvenir.ui.pages.marketing.MarketingPage;
+import com.auvenir.ui.pages.marketing.onboarding.AuditorSignUpPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class AuditorSignUpService extends AbstractService {
     private AuditorSignUpPage auditorSignUpFirmPage;
-    private HomePage homePage;
+    private MarketingPage marketingPage;
 
     public AuditorSignUpService(Logger logger, WebDriver driver) {
         super(logger, driver);
         auditorSignUpFirmPage = new AuditorSignUpPage(getLogger(),getDriver());
-        homePage = new HomePage(getLogger(), getDriver());
+        marketingPage = new MarketingPage(getLogger(), getDriver());
     }
 
     public void verifyFirmSignUpPage(){
@@ -128,7 +128,7 @@ public class AuditorSignUpService extends AbstractService {
     }
 
     public void navigateToSignUpPage(){
-        homePage.clickOnSignupButton();
+        marketingPage.clickOnSignupButton();
     }
 
     public void verifyPersonalSignUpPage(){

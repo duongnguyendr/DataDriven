@@ -4,7 +4,7 @@ import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.EngagementRequestPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.pages.auditor.*;
-import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.jayway.restassured.response.Response;
@@ -28,7 +28,7 @@ import static com.jayway.restassured.RestAssured.given;
 
 //import org.testng.log4testng.Logger;
 
-public class AuditorTest extends AbstractRefactorService {
+public class AuditorTest extends AbstractService {
     public AuditorTest(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
@@ -84,7 +84,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 1, enabled = true, description = "To Verify the display of Elements in Auditor Login Page")
     public void verifyAuditorLoginPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         try {
@@ -148,7 +148,7 @@ public class AuditorTest extends AbstractRefactorService {
 			GeneralUtilities.toValidate(auvenirPage.getEleDoneBtn(),"Done Button","Enabled");
 			auvenirPage.getEleDoneBtn().click();*/
             //Assert.assertTrue(driver.switchTo().frame("intercom-container").findElement(By.className("intercom-launcher-close-icon")).isDisplayed(),"Intercom chatting launcher is not displayed");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -165,7 +165,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page")
     public void verifyAuditorOnboardingPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         testCaseId = "auditor_Onboarding";
@@ -307,7 +307,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(auditorOnBoardingPage.getEleCancelSkipSecurityBtn(), "Cancel Button", "Enabled");
             GeneralUtilities.toValidate(auditorOnBoardingPage.getEleAgreeSkipSecurityBtn(), "Agree Button", "Enabled");
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -326,7 +326,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Engagement Page")
     public void verifyAuditorEngagementPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
@@ -373,7 +373,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Auditor Dashboard Page")
     public void verifyAuditorDashboardPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
@@ -399,7 +399,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(auditorDashboardPage.getEleNoClientTxt(), "No Client - Text", "Displayed");
             GeneralUtilities.toValidate(auditorDashboardPage.getEleMyClientImg(), "My client image", "Displayed");
             //GeneralUtilities.toValidate(auditorDashboardPage.getEleSelectClientBtn(),"Select Client Button","Displayed");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -417,7 +417,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 5, enabled = true, description = "To Verify the display of Elements in Engagement Requests Page")
     public void verifyEngagementRequestsPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
         engagementRequestPage = new EngagementRequestPage(getLogger(), getDriver());
@@ -442,7 +442,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(engagementRequestPage.getEleCompleteTxt(), "Complete - Text", "Displayed");
 
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -459,7 +459,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Engagement File Manager Page")
     public void verifyEngagementFilesPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
         engagementFilesPage = new EngagementFilesPage(getLogger(), getDriver());
@@ -473,7 +473,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(engagementFilesPage.getEleFilesTxt(), "Files Text", "Displayed");
             GeneralUtilities.toValidate(engagementFilesPage.getEleEmptyClipbrdImg(), "Empty Clipboard Image", "Displayed");
             GeneralUtilities.toValidate(engagementFilesPage.getEleNoFilesTxt(), "'You haven't added any files yet.' text", "Displayed");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -491,7 +491,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Engagement Activity Page")
     public void verifyEngagementActivityPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
 
@@ -506,7 +506,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(auditorDashboardPage.getEleActivityDayTxt(), "Activity Day Text", "Displayed");
             GeneralUtilities.toValidate(auditorDashboardPage.getEleYouCreatedTxt(), "You created a new Engagement- Text", "Displayed");
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -523,7 +523,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Add New Client Page")
     public void verifyAddNewClientPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         addNewClientPage = new AddNewClientPage(getLogger(), getDriver());
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
@@ -576,7 +576,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(addNewClientPage.getEleCameraImg(), "Camera Image", "Displayed");
             GeneralUtilities.toValidate(addNewClientPage.getEleUploadPhotoBtn(), "Upload Photo Button", "Enabled");
             GeneralUtilities.toValidate(addNewClientPage.getEleAddBtn(), "Add Button", "Enabled");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -593,7 +593,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Auditor Client Page")
     public void verifyAuditorClientPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorClientPage = new AuditorClientPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
@@ -607,7 +607,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(auditorClientPage.getEleAddNewBtn(), "Add New Button", "Enabled");
             GeneralUtilities.toValidate(auditorClientPage.getEleYouDontHaveTxt(), "Add New Button", "Enabled");
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -624,7 +624,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 10, enabled = true, description = "To Verify the display of Elements in Auditor Settings Account Page")
     public void auditorSettingsAccountPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auditorSettingsPage = new AuditorSettingsPage(getLogger(), getDriver());
@@ -663,7 +663,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(adminLoginPage.getEleDeactivateBtn(), "Deactivate   - Button", "Displayed");
             adminLoginPage.getEleCloseIcn().click();
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -681,7 +681,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 11, enabled = true, description = "To Verify the display of Elements in Auditor Settings Notification Page")
     public void verifyAuditorSettingsNotificationPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auditorSettingsPage = new AuditorSettingsPage(getLogger(), getDriver());
@@ -717,7 +717,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(auditorSettingsPage.getEleMyDevicesTxt(), "My Devices Text", "Displayed");
             GeneralUtilities.toValidate(auditorSettingsPage.getEleYouHaveRegisteredTxt(), "You Have Registered Text", "Displayed");
             GeneralUtilities.toValidate(auditorSettingsPage.getEleAddAnotherBtn(), "Add Another Button", "Enabled");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -735,7 +735,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 12, enabled = true, description = "To Verify the display of Elements in Archive Page")
     public void verifyEngagementArchivePage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
 
@@ -755,7 +755,7 @@ public class AuditorTest extends AbstractRefactorService {
             auditorDashboardPage.getEleCancelBtn().click();
 
             //GeneralUtilities.toValidate(engagementActivityPo.getEleActivityFeedTxt(),"Activity Feed Text","Displayed");
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -772,7 +772,7 @@ public class AuditorTest extends AbstractRefactorService {
      */
     @Test(priority = 13, enabled = true, description = "To Verify the display of Elements in Clients Page")
     public void verifyEngagementClientPage() throws Exception {
-        AbstractRefactorService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
         auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
@@ -784,7 +784,7 @@ public class AuditorTest extends AbstractRefactorService {
             GeneralUtilities.toValidate(auditorDashboardPage.getEleMyClientTxt(), "Activity Feed Text", "Displayed");
             GeneralUtilities.toValidate(auditorDashboardPage.getEleAddNewBtn(), "Add New Button", "Displayed");
 
-            Assert.assertTrue(AbstractRefactorService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
@@ -803,7 +803,7 @@ public class AuditorTest extends AbstractRefactorService {
 
 	@Test(priority=12,enabled=false, description="To Verify the display of Elements in Auditor Gmail Login Page")
 	public void auditorGmailLoginPage() throws Exception
-	{   AbstractRefactorService.sStatusCnt=0;
+	{   AbstractService.sStatusCnt=0;
 		auditorEngagementPage = new AuditorEngagementPage(driver);
 
 		auvenirPage=new AuvenirPage(driver);
@@ -846,7 +846,7 @@ public class AuditorTest extends AbstractRefactorService {
 	    	GeneralUtilities.toValidate(auditorGmailLoginPo.getEleClickToLoginLnk(),"Click to Login Link","Displayed");
 	    	GeneralUtilities.toValidate(auditorGmailLoginPo.getEleWeWelcomeYourTxt(),"We Welcome Your Text","Displayed");
 	    	GeneralUtilities.toValidate(auditorGmailLoginPo.getEleFeedbackLnk(),"Feedback Link","Displayed");
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e)

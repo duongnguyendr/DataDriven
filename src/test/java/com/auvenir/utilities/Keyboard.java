@@ -1,4 +1,4 @@
-package com.auvenir.utilities.library;
+package com.auvenir.utilities;
 
 import java.awt.*;
 

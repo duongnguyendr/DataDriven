@@ -1,4 +1,5 @@
 package com.auvenir.ui.tests.client;
+
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.CreateNewAuditPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
@@ -6,7 +7,7 @@ import com.auvenir.ui.pages.auditor.AddNewClientPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.client.*;
 import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.ui.services.AbstractRefactorService;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.jayway.restassured.response.Response;
@@ -33,7 +34,7 @@ import static com.jayway.restassured.RestAssured.given;
 
 //import org.testng.log4testng.Logger;
 
-public class ClientTest extends AbstractRefactorService
+public class ClientTest extends AbstractService
 {
 	public ClientTest(Logger logger, WebDriver driver) {
 		super(logger, driver);
@@ -252,7 +253,7 @@ public class ClientTest extends AbstractRefactorService
 	 */
 	@Test(priority=2,enabled=true, description="To Verify the display of Elements in Email: Invitation from to complete your financial audit")
 	public void verifyInvitationEmail() throws Exception
-	{	AbstractRefactorService.sStatusCnt=0;
+	{	AbstractService.sStatusCnt=0;
 		clientLoginPage = new ClientLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		gmailPage =new GmailPage(getLogger(),getDriver());
@@ -284,7 +285,7 @@ public class ClientTest extends AbstractRefactorService
 			GeneralUtilities.toValidate(clientLoginPage.getEleClickHereLnk(), "Click Here - Link", "Displayed");
 			clientLoginPage.getEleStartAuditBtn().click();
 			Thread.sleep(3000);
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 			
 		}
@@ -309,7 +310,7 @@ public class ClientTest extends AbstractRefactorService
 	 */
 	@Test(priority=3,enabled=true, description="To Verify the display of Elements in Auditor Onboarding Page")
 	public void VerifyClientOnboardingPage() throws Exception
-	{	AbstractRefactorService.sStatusCnt=0;
+	{	AbstractService.sStatusCnt=0;
 		clientOnBoardingPage = new ClientOnBoardingPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		
@@ -424,7 +425,7 @@ public class ClientTest extends AbstractRefactorService
 			*/
 		
 			
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e) 
@@ -447,7 +448,7 @@ public class ClientTest extends AbstractRefactorService
 	 */
 	@Test(priority=4,enabled=true, description="To Verify the content of Login email received at clients account")
 	public void verifySignInEmail() throws Exception
-	{	AbstractRefactorService.sStatusCnt=0;
+	{	AbstractService.sStatusCnt=0;
 		clientLoginPage = new ClientLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		gmailPage =new GmailPage(getLogger(),getDriver());
@@ -487,7 +488,7 @@ public class ClientTest extends AbstractRefactorService
 			GeneralUtilities.toValidate(clientLoginPage.getElePrivacyStatementLnk(), "Privacy statement - Link", "Displayed");
 			GeneralUtilities.toValidate(clientLoginPage.getEleClickHereLnk(), "Click Here - Link", "Displayed");
 			//gmailPage.gmailLogout();
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 			
 		}
@@ -511,7 +512,7 @@ public class ClientTest extends AbstractRefactorService
 	 */	
 	@Test(priority=5,enabled=true, description="To Verify the display of Elements in Email: Your Auvenir Account is Active!")
 	public void verifyCLientActiveEmail() throws Exception
-	{	AbstractRefactorService.sStatusCnt=0;
+	{	AbstractService.sStatusCnt=0;
 		gmailPage =new GmailPage(getLogger(),getDriver());
 		clientLoginPage =new ClientLoginPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
@@ -553,7 +554,7 @@ public class ClientTest extends AbstractRefactorService
 
 			gmailPage.gmailLogout();
 			*/
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 
 			}	
@@ -579,7 +580,7 @@ public class ClientTest extends AbstractRefactorService
 	@Test(priority=6,enabled=true, description="To Verify the display of Elements in Client Dashboard Page")
 	public void verifyClientDashboardPage() throws Exception
 	{	
-		AbstractRefactorService.sStatusCnt=0;
+		AbstractService.sStatusCnt=0;
 		clientDashboardPage =new ClientDashboardPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
 		try
@@ -633,7 +634,7 @@ public class ClientTest extends AbstractRefactorService
 			GeneralUtilities.toValidate(clientDashboardPage.getEleJoinedToTheTxt(),"Joined To The Text", "Displayed");
 			GeneralUtilities.toValidate(clientDashboardPage.getEleUntitledTxt(),"Untitled Text", "Displayed");
 			clientDashboardPage.verifyClientFooter();
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e) 
@@ -656,7 +657,7 @@ public class ClientTest extends AbstractRefactorService
 	@Test(priority=7,enabled=true, description="To Verify the display of Elements in Client Home Page")
 	public void verifyClientHomePage() throws Exception
 	{	
-		AbstractRefactorService.sStatusCnt=0;
+		AbstractService.sStatusCnt=0;
 		clientDashboardPage =new ClientDashboardPage(getLogger(),getDriver());
 		clientHomePage =new ClientHomePage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
@@ -684,7 +685,7 @@ public class ClientTest extends AbstractRefactorService
 			GeneralUtilities.toValidate(clientHomePage.getEleUntitledTxt(),"Untitled Text", "Displayed");
 			GeneralUtilities.toValidate(clientHomePage.getEleUpdatedTxt(),"Updated Text", "Displayed");
 			clientDashboardPage.verifyClientFooter();
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e) 
@@ -707,7 +708,7 @@ public class ClientTest extends AbstractRefactorService
 	@Test(priority=8,enabled=true, description="To Verify the display of Elements in Client Request Page")
 	public void verifyClientRequestPage() throws Exception
 	{	
-		AbstractRefactorService.sStatusCnt=0;
+		AbstractService.sStatusCnt=0;
 		clientDashboardPage =new ClientDashboardPage(getLogger(),getDriver());
 		clientRequestPage =new ClientRequestPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
@@ -752,7 +753,7 @@ public class ClientTest extends AbstractRefactorService
 			GeneralUtilities.toValidate(clientRequestPage.getEleDragAndDropBankStatementsTxt(),"Drag and Drop Bank Statements Text", "Displayed");
 			GeneralUtilities.toValidate(clientRequestPage.getEleBrowseBankStatementsTxt(),"My Audits Text", "Displayed");
 			clientDashboardPage.verifyClientFooter();
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e) 
@@ -775,7 +776,7 @@ public class ClientTest extends AbstractRefactorService
 	@Test(priority=9,enabled=true, description="To Verify the display of Elements in Client Files Page")
 	public void verifyClientFilesPage() throws Exception
 	{	
-		AbstractRefactorService.sStatusCnt=0;
+		AbstractService.sStatusCnt=0;
 		clientDashboardPage =new ClientDashboardPage(getLogger(),getDriver());
 		clientFilesPage =new ClientFilesPage(getLogger(),getDriver());
 		auvenirPage =new AuvenirPage(getLogger(),getDriver());
@@ -795,7 +796,7 @@ public class ClientTest extends AbstractRefactorService
 			GeneralUtilities.toValidate(clientFilesPage.getEleYouHaventAddedTxt(),"You Havent Added Text", "Displayed");
 			
 			clientDashboardPage.verifyClientFooter();
-			Assert.assertTrue(AbstractRefactorService.sStatusCnt==0, "Script Failed");
+			Assert.assertTrue(AbstractService.sStatusCnt==0, "Script Failed");
 			NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
 		}
 		catch (AssertionError e) 

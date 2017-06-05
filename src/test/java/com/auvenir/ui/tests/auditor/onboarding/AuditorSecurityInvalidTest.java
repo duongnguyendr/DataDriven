@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
  */
 public class AuditorSecurityInvalidTest extends AbstractTest {
 
-    private MarketingService homeService;
+    private MarketingService marketingService;
     PersonalService personalService;
     AuditorSignUpService firmService;
     SecurityService securityService;
@@ -44,9 +44,9 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 1,enabled = true, description = "Verify open home page")
     public void openHomePage() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Open home page successful: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
@@ -56,10 +56,10 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 2,enabled = true, description = "Verify open sign up page")
     public void verifyAuditorPersonalPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -71,10 +71,10 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 3, enabled = true, description = "Input information auditor personal")
     public void inputInformationPersonalAuditor() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -87,11 +87,11 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 4,enabled = true,description = "Verify firm sign up page")
     public void verifyAuditorFirmPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -105,11 +105,11 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 5,enabled = true, description = "Input information firm sign up pgae")
     public void registerFirmAuditor() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -125,12 +125,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 6,enabled = true,description = "Verify security sign up page")
     public void verifySecurityPageContent() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -146,12 +146,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 7,enabled = true,description = "Verify GUI when input password random blank")
     public void verifyGUIWhenInputRandomPasswordBlank() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -170,12 +170,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 8,enabled = true,description = "Verify GUI when input password random have invalid length")
     public void verifyGUIWhenInputRandomPasswordInValidLength() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -194,12 +194,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 9,enabled = true,description = "Verify GUI when input random password not contain upper case")
     public void verifyGUIWhenInputRandomPasswordNotContaintUpperCase() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -218,12 +218,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 10,enabled = true,description = "Verify GUI when input random password not contain lower character")
     public void verifyGUIWhenInputRandomPasswordNotContainLowerCharacter() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -242,12 +242,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 11,enabled = true,description = "Verify GUI when input random password not contain digits")
     public void verifyGUIWhenInputRandomPasswordNotContainDigits() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -266,12 +266,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 12,enabled = true,description = "Verify GUI when input random password not contain character")
     public void verifyGUIWhenInputRandomPasswordNotContainCharacter() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
@@ -291,12 +291,12 @@ public class AuditorSecurityInvalidTest extends AbstractTest {
 
     @Test(priority = 13,enabled = true,description = "Verify GUI when input confirm password invalid")
     public void verifyConfirmPasswordWithInvalid() {
-        homeService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         personalService = new PersonalService(getLogger(),getDriver());
         firmService = new AuditorSignUpService(getLogger(),getDriver());
         securityService = new SecurityService(getLogger(),getDriver());
         try {
-            homeService.goToBaseURL();
+            marketingService.goToBaseURL();
             personalService.navigateToSignUpPage();
             personalService.verifyPersonalSignUpPage();
             personalService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);

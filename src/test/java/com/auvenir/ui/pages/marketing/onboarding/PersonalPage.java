@@ -18,9 +18,9 @@ import java.util.List;
 /**
  * Created by cuong.nguyen on 4/12/2017.
  */
-public class PersonalPO extends AbstractPage {
+public class PersonalPage extends AbstractPage {
 
-    public PersonalPO(Logger logger,WebDriver driver){
+    public PersonalPage(Logger logger, WebDriver driver){
         super(logger,driver);
         PageFactory.initElements(driver,this);
     }
