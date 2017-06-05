@@ -25,6 +25,8 @@
             <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
             <methods>
                 <include name="verifyButtonFilter"></include>
+                <include name="verifyCreateToDoPageCategorySearchData"></include>
+                <!--<include name="verifyCreateNewCategory"></include>-->
             </methods>
             <!--<class name="com.auvenir.ui.tests.marketing.CareersTest"/>
             <class name="com.auvenir.ui.tests.marketing.ContactTest"/>

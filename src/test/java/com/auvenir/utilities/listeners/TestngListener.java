@@ -107,7 +107,7 @@ public class TestngListener implements ITestListener {
 		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);
          PdfGenerater pdf = new PdfGenerater();
          pdf.toExecute(sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount, pdfReports);
-         GenericService.sendMail(iPassCount, iFailCount, iSkippedCount, iTotalExecuted, pdfReports);
+         GenericService.sendMail(iPassCount, iFailCount, iSkippedCount, iTotalExecuted, pdfReports, sTestName, sStatus);
          //File reports = new File(sTestngReports);
      	try
         {
