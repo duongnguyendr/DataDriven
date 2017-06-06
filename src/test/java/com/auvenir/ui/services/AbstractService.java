@@ -171,7 +171,7 @@ public class AbstractService {
         try {
             if("".equals(prefixProtocol))
             {
-                prefixProtocol = "https://";
+                prefixProtocol = "http://";
             }
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();

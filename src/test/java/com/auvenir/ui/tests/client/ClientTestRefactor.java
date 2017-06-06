@@ -29,17 +29,18 @@ public class ClientTestRefactor extends AbstractTest {
     @BeforeClass
     public void preCondition() {
 
-         String sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
-                + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID") + "/delete";
-        getLogger().info("Call rest api to delete existed client user :" + sURL);
-        Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
-        if (response.getStatusCode() == 200) {
-            getLogger().info("Existed user is deleted successful.");
-
-        } else if (response.getStatusCode() == 404) {
-            getLogger().info("The client is not existed in database.");
-        } else {
-        }
+//         String sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+//                + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID") + "/delete";
+//        getLogger().info("Call rest api to delete existed client user :" + sURL);
+//        Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
+//        if (response.getStatusCode() == 200) {
+//            getLogger().info("Existed user is deleted successful.");
+//
+//        } else if (response.getStatusCode() == 404) {
+//            getLogger().info("The client is not existed in database.");
+//        } else {
+//        }
+        auditorEngagementService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID"));
     }
     @AfterMethod
     public void deleteCookies() {

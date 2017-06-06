@@ -28,7 +28,6 @@ public class MailAuditorAccessTest extends AbstractTest {
         marketingService.goToBaseURL();
         marketingService.clickLoginButton();
         marketingService.loginWithUserNamePassword(email, password);
-
         mailAuditorAccessPO = new MailAuditorAccessPO(getLogger(),getDriver());
         mailAuditorAccessPO.verifyPageContent();
     }
