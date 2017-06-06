@@ -6,14 +6,19 @@ import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
+import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.jayway.restassured.RestAssured.given;
 
 /**
  * Created by thuan.duong on 5/24/2017.
@@ -21,9 +26,27 @@ import java.util.Date;
 public class ClientTestRefactor extends AbstractTest {
     private ClientService clientService;
     private AuditorEngagementService auditorEngagementService;
+    @BeforeClass
+    public void preCondition() {
 
+         String sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID") + "/delete";
+        getLogger().info("Call rest api to delete existed client user :" + sURL);
+        Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
+        if (response.getStatusCode() == 200) {
+            getLogger().info("Existed user is deleted successful.");
+
+        } else if (response.getStatusCode() == 404) {
+            getLogger().info("The client is not existed in database.");
+        } else {
+        }
+    }
+    @AfterMethod
+    public void deleteCookies() {
+        getDriver().manage().deleteAllCookies();
+    }
     /*
-	 * @Description: Inviting a client
+     * @Description: Inviting a client
 	 * @Author:Lakshmi BS
 	 */
     @Test(priority = 1, enabled = true, description = "Inviting a client from Auditor")
@@ -72,6 +95,7 @@ public class ClientTestRefactor extends AbstractTest {
             NXGReports.addStep("Testscript Failed: Verify Inviting New Client", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     /*
      * @Description: To Verify the display of Elements in Email: Invitation from to complete your financial audit
 	 * @Author: Lakshmi BS
