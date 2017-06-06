@@ -182,7 +182,6 @@ public class AuditorSignUpService extends AbstractService {
         for(int i = 0 ; i < invalidValue.size(); i++){
             auditorSignUpPage.verifyInputValidValueOnPhoneNumberTxtBox(invalidValue.get(i));
         }
-//        auditorSignUpPage.verifyInputValidValueOnPhoneNumberTxtBox(invalidValue);
     }
 
     public void verifySecuritySignUpPage(){
@@ -197,8 +196,8 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.verifyCreateInvalidPassword(password, isContainsCapialLetter, isContainsLetter, isContainsNumber);
     }
 
-    public void verifyConfirmPasswordPopupWarning(){
-        auditorSignUpPage.verifyConfirmPasswordPopupWarning();
+    public void verifyInputWrongConfirmPassword(String password){
+        auditorSignUpPage.verifyInputWrongConfirmPassword(password);
     }
 
     public void inputValueIntoPaswordInput(String strName){

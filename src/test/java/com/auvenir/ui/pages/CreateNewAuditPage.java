@@ -215,12 +215,22 @@ public class CreateNewAuditPage extends AbstractPage {
     @FindBy(id = "m-ac-addBtn")
     private WebElement buttonInviteNewClient;
 
+    /**
+     * Choose 'Add New Client' option
+     */
     public void selectAddNewClient() {
         validateElementText(titleInviteClient, "Invite Your Client");
         clickElement(eleSelectYourClientDrpDwn, "Select Client");
         clickElement(optionAddNewClient, "Option Add New Client");
     }
 
+    /**
+     * Input info to invite a client
+     *
+     * @param fullName name of client
+     * @param email    email
+     * @param role     role on company
+     */
     public void inviteNewClient(String fullName, String email, String role) {
         waitForTextValueChanged(titleInviteNewClient, "Invite New Client", "Invite New Client");
         sendKeyTextBox(inputFullName, fullName, "Full Name Input");
@@ -231,7 +241,12 @@ public class CreateNewAuditPage extends AbstractPage {
         clickElement(buttonInviteNewClient, "Button Invite");
     }
 
-    public void verifyInviteClientSuccess(String message){
+    /**
+     * Verify if show success Toast message
+     *
+     * @param message toast message
+     */
+    public void verifyInviteClientSuccess(String message) {
         verifyContentOfSuccessToastMessage(message);
     }
 

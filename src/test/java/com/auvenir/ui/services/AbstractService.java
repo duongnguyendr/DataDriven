@@ -2,6 +2,7 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
 import com.kirwa.nxgreport.NXGReports;
@@ -10,6 +11,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -49,15 +51,18 @@ public class AbstractService {
     private final String keywordApiUpdateOnboading = "/update?status=ONBOARDING";
 
     private String apiUrl = "";
-    public void setApiUrl (String apiURL){
+
+    public void setApiUrl(String apiURL) {
         this.apiUrl = "https://" + apiURL;
         getLogger().info("API Url: " + this.apiUrl);
     }
-    public String getApiUrl(){
+
+    public String getApiUrl() {
         return apiUrl;
     }
 
     private String prefixProtocol = "";
+
     public String getPrefixProtocol() {
         return prefixProtocol;
     }
@@ -115,8 +120,7 @@ public class AbstractService {
     public void loginWithUserRole(String userId) {
         try {
             getLogger().info("Login with user role: " + userId);
-            if(prefixProtocol == "")
-            {
+            if (prefixProtocol == "") {
                 prefixProtocol = "https://";
             }
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
@@ -169,8 +173,7 @@ public class AbstractService {
      */
     public void goToBaseURL() {
         try {
-            if("".equals(prefixProtocol))
-            {
+            if ("".equals(prefixProtocol)) {
                 prefixProtocol = "https://";
             }
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
@@ -181,14 +184,12 @@ public class AbstractService {
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
-            if(sLanguage == null)
-            {
+            if (sLanguage == null) {
                 sLanguage = "English";
             }
-            System.out.println(sLanguage);
-
+            getLogger().info(sLanguage);
             if (sLanguage.equals("French")) {
-                System.out.println("Language is : " + baseLanguage);
+                getLogger().info("Language is : " + baseLanguage);
                 homePO.clickOnChangeLanguageBTN();
             }
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
@@ -215,13 +216,13 @@ public class AbstractService {
 
     //Loading the URL by keeping in config properties
     private String homeAuvenirUrl = "https://ariel.auvenir.com";
+
     public String getHomeAuvenirUrl() {
         return homeAuvenirUrl;
     }
 
     public void setHomeAuvenirUrl(String serverDomainName) {
-        if(prefixProtocol == "")
-        {
+        if (prefixProtocol == "") {
             prefixProtocol = "https://";
         }
         // S3 do not use HTTPS
@@ -233,7 +234,7 @@ public class AbstractService {
         try {
             setHomeAuvenirUrl(System.getProperty("serverDomainName"));
             String homeAuvenir = getHomeAuvenirUrl();
-            getLogger().info("Go to home auvenri url : "+ homeAuvenir);
+            getLogger().info("Go to home auvenri url : " + homeAuvenir);
             System.out.println(homeAuvenir);
             driver.get(homeAuvenir);
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -260,6 +261,7 @@ public class AbstractService {
         driver.switchTo().window(newWin);
 
     }
+
     public void loadURL(String sUrl) {
         try {
             System.out.println(sUrl);
@@ -281,19 +283,17 @@ public class AbstractService {
             String s1 = driver.findElement(By.xpath("//pre")).getText();
             String[] parts = s1.split("(\")");
             String statusCode = parts[6];
-            statusCode = StringUtils.replaceChars(statusCode,":","");
-            statusCode = StringUtils.replaceChars(statusCode,"}","");
+            statusCode = StringUtils.replaceChars(statusCode, ":", "");
+            statusCode = StringUtils.replaceChars(statusCode, "}", "");
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
             System.out.println("Status Code: " + statusCode);
-            if(statusCode.equals("200")){
+            if (statusCode.equals("200")) {
                 getLogger().info("Existed user is deleted successful.");
-            }
-            else if(statusCode.equals("404")){
+            } else if (statusCode.equals("404")) {
                 getLogger().info("The client is not existed in database.");
-            }
-            else {
+            } else {
                 getLogger().info(s1);
             }
             NXGReports.addStep("Call API service successfully" + userId, LogAs.PASSED, null);
@@ -397,4 +397,52 @@ public class AbstractService {
         gmailLoginPo.getEleProfileIcn().click();
         gmailLoginPo.getEleSignOutBtn().click();
     }
+
+    /**
+     * Refactored by huy.huynh on 06/06/2017.
+     * New for smoke test
+     */
+
+    /**
+     * Scroll to footer of current page
+     *
+     * @param webDriver current webDriver
+     */
+    public void scrollToFooter(WebDriver webDriver) {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    /**
+     * Delete given email user
+     *
+     * @param email current webDriver
+     */
+    public String deleteUserViaAPI(String email) {
+        String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                + email + "/delete";
+        loadURL(deleteURL);
+        return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
+    }
+
+    /**
+     * Check if response code equal 200(success code)
+     *
+     * @param message response message
+     * @param role    role of user: Admin, Auditor, Client..(for log n report only)
+     */
+    public void verifyAPIResponseSuccessCode(String message, String role) {
+        getLogger().info(message);
+        if (!message.contains("\"code\":200")) {
+            NXGReports.addStep(role + " is delete fail. Message: " + message, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(role + " is delete fail");
+            sStatusCnt++;
+        } else {
+            NXGReports.addStep(role + " is delete success. " + message, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(role + " is delete success.");
+        }
+    }
+
+    /*-----------end of huy.huynh on 06/06/2017.*/
 }

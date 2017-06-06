@@ -19,8 +19,8 @@ public class MarketingTest extends AbstractTest {
 
     @Test(priority = 1,enabled = true,description = "Verify about page content.")
     public void verifyAboutPageContentTest(){
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToAboutPage();
@@ -34,8 +34,8 @@ public class MarketingTest extends AbstractTest {
     }
     @Test(priority = 2,enabled = true,description = "Verify about Careers page content.")
     public void verifyCareersPageContentTest(){
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToAboutPage();
@@ -50,8 +50,8 @@ public class MarketingTest extends AbstractTest {
     }
     @Test(priority = 3,enabled = true,description = "Verify about contact page content.")
     public void verifyContactPageContentTest(){
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToContactPage();
@@ -65,8 +65,8 @@ public class MarketingTest extends AbstractTest {
     }
     @Test(priority = 4,enabled = true,description = "Verify about CookiesNotice page content.")
     public void verifyCookiesNoticePageContent(){
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToCookiesNoticePage();
@@ -80,8 +80,8 @@ public class MarketingTest extends AbstractTest {
     }
     @Test(priority = 5,enabled = true,description = "Verify about page content- Home.")
     public void verifyHomePageContent(){
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.verifyHomeContentPage();
@@ -94,8 +94,8 @@ public class MarketingTest extends AbstractTest {
     }
     @Test(priority = 6,enabled = true,description = "Verify about Privacy Policy page content.")
     public void verifyPrivacyPolicyPageContent(){
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToPrivacyPolicyPage();
@@ -109,8 +109,8 @@ public class MarketingTest extends AbstractTest {
     }
     @Test(priority = 7,enabled = true,description = "Verify about terms page content.")
     public void verifyTermsPageContent() {
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToTermsOfService();

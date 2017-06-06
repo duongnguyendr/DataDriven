@@ -12,8 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -509,31 +507,26 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//h3[@id='welcome-body']")
     private WebElement titleWelcome;
 
-    //div[@class='AO']//div[@class='nH']
-    //input[@type='email']
-    //div[@id='identifierNext']passwordNext
-    //input[@type='password']
-    //div/span[text()='Gmail']
-//input[@id='gbqfq']
-    //button[@id='gbqfb']
-    //https://auvenir-qa-2283.com:3083/acceptInvite?token=f9iTv8LxPmo76h2Dx6873WqiK6aHhadf&eid=59313810b872d88a70bb0eaa&email=auvenirtest01@gmail.com
-//a[text()='Start Your Engagement']
-    //h2[@class='hP']
+    @FindBy(id = "BltHke nH oy8Mbf aE3")
+    private WebElement divSearchResultHidden;
+
+    /**
+     * Sign in to gmail with given email and password
+     *
+     * @param email    email to login
+     * @param password password of email
+     */
     public void signInGmail(String email, String password) {
         try {
-            //clickElement(buttonSignIn, "Button Sign In");
+            clickElement(buttonSignIn, "Button Sign In");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         try {
-            //Thread.sleep(5000);
-            //System.out.println("getDriver().findElement(By.xpath(\"\")) = " + getDriver().findElement(By.xpath("//*[@id='headingText']")).getText());
-
-            //validateElementText(titleSignIn,"Sign in");
             sendKeyTextBox(inputEmail, email, "Input Email");
             clickElement(buttonNextToPassword, "Button Next To Password");
-            //Thread.sleep(5000);
+
             validateElementText(titleForgotPassword, "Forgot password?");
             sendKeyTextBox(inputPassword, password, "Input Password");
             clickElement(buttonPasswordNext, "Button Password Next");
@@ -542,21 +535,27 @@ public class GmailPage extends AbstractPage {
         }
     }
 
+    /**
+     * Sign in to gmail with given email and password
+     */
     public void filterEmail() {
         try {
             sendKeyTextBox(inputSearch, GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"), "Search Email");
             clickElement(buttonSearch, "Button Search");
-            Thread.sleep(5000);
+            waitForCssValueChanged(divSearchResultHidden, "Hidden div", "display", "none");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    /**
+     * Enter the email(after search) n click 'Start Engagement' button to go to Auvenir site
+     */
     public void clickOnboardingInvitationLink() {
         try {
             clickElement(rowSentEmail, "Row Sent Email");
             clickElement(buttonStartEngagement, "Button Start Engagement");
-            validateElementText(titleWelcome,"Welcome to Auvenir!");
+            validateElementText(titleWelcome, "Welcome to Auvenir!");
 
             /* TODO code for wrong link on invited client email unfixed - still unfixed
             String link = buttonStartEngagement.getAttribute("href");
