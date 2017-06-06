@@ -7,8 +7,6 @@ import com.auvenir.utilities.GeneralUtilities;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GeneralUtilities;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -1056,12 +1054,19 @@ public class AdminLoginPage extends AbstractPage {
     private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
     private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[6]/select";
 
-
+    /**
+     * verify info of user
+     *
+     * @param userType      type of user
+     * @param userEmail     email
+     * @param createdDate   create date(today)
+     * @param userStatus    status
+     */
     public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
         try {
-            WebElement type = GeneralUtilities.getElement(getDriver(), xpathUserTypeCellOnUserTableAdminX, userEmail);
-            WebElement email = GeneralUtilities.getElement(getDriver(), xpathEmailCellOnUserTableAdminX, userEmail);
-            WebElement date = GeneralUtilities.getElement(getDriver(), xpathDateCreatedCellOnUserTableAdminX, userEmail);
+            WebElement type = GeneralUtilities.getElementByXpath(getDriver(), xpathUserTypeCellOnUserTableAdminX, userEmail);
+            WebElement email = GeneralUtilities.getElementByXpath(getDriver(), xpathEmailCellOnUserTableAdminX, userEmail);
+            WebElement date = GeneralUtilities.getElementByXpath(getDriver(), xpathDateCreatedCellOnUserTableAdminX, userEmail);
 
             validateElementText(type, userType);
             validateElementText(email, userEmail);
@@ -1074,14 +1079,26 @@ public class AdminLoginPage extends AbstractPage {
 
     }
 
+    /**
+     * verify status of user
+     *
+     * @param userEmail     email
+     * @param userStatus    status
+     */
     public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
-        WebElement status = GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail);
+        WebElement status = GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail);
         validateSelectedItemText(status, userStatus);
     }
 
+    /**
+     * verify status of user
+     *
+     * @param userEmail         email
+     * @param chooseOption      status wanna change to
+     */
     public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
         try {
-            Select status = new Select(GeneralUtilities.getElement(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
+            Select status = new Select(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
             status.selectByVisibleText(chooseOption);
 
             validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");

@@ -88,7 +88,7 @@ public class AuditorSignUpTest extends AbstractTest {
 
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -125,7 +125,7 @@ public class AuditorSignUpTest extends AbstractTest {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -168,7 +168,7 @@ public class AuditorSignUpTest extends AbstractTest {
         }
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -191,11 +191,19 @@ public class AuditorSignUpTest extends AbstractTest {
     }
 
     @Test(priority = 4, enabled = true, description = "Verify GUI when input password random blank")
-    public void verifyGUIWhenInputRandomPasswordBlank() throws Exception {
+    public void verifyAuditorSecurityInputInvalidPassword() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         final String blankPassword = "";
         final String invalidLengthPassword = "aA12345";
+        final String noUpperCasePassword = "abc1234d";
+        final String noLowerCasePassword = "1234ABCD";
+        final String noDigitsPassword =  "abcdABCD";
+        final String noCharPassword = "12345678";
+        final String successPassword = "12345678X";
+        final String confirmPassword = "1";
         try {
+            auditorSignUpService.deleteUserUsingApi(strEmail);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -204,14 +212,19 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyFirmSignUpPage();
             auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySecuritySignUpPage();
-//            auditorSignUpService.inputValueIntoPaswordInput(blankPassword);
             auditorSignUpService.verifyCreateInvalidPassword(blankPassword, false, false, false);
-//            auditorSignUpService.inputValueIntoPaswordInput(invalidLengthPassword);
             auditorSignUpService.verifyCreateInvalidPassword(invalidLengthPassword, true, true, true);
+            auditorSignUpService.verifyCreateInvalidPassword(noUpperCasePassword, false, true, true);
+            auditorSignUpService.verifyCreateInvalidPassword(noLowerCasePassword, true, true, true);
+            auditorSignUpService.verifyCreateInvalidPassword(noDigitsPassword, true, true, false);
+            auditorSignUpService.verifyCreateInvalidPassword(noCharPassword, false, false, true);
+            auditorSignUpService.inputValueIntoPaswordInput(successPassword);
+            auditorSignUpService.verifyInputWrongConfirmPassword(confirmPassword);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify GUI when input password random have invalid length: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
             NXGReports.addStep("Verify GUI when input password random have invalid length: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
         }
     }
 }

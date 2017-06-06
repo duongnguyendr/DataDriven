@@ -2861,6 +2861,7 @@ public class AbstractPage {
      */
     public void inputValueIntoControl(WebElement element, String elementName, String textValue) {
         try {
+            getLogger().info("Input Value Into Control " + elementName);
             waitForVisibleElement(element, elementName);
             clickElement(element, elementName);
             sendKeyTextBox(element, textValue, elementName);

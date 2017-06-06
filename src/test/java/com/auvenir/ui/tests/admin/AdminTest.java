@@ -4,7 +4,6 @@ import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AdminService;
 import com.auvenir.ui.services.AuvenirService;
 import com.auvenir.ui.tests.AbstractTest;
-import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -31,8 +30,9 @@ public class AdminTest extends AbstractTest {
             adminService.verifyPageLoad();
             adminService.verifyHeader();
             adminService.verifyBody();
-            getLogger().info("Scroll down to see page footer.");
-            GeneralUtilities.scrollToFooter(getDriver());
+
+            adminService.scrollToFooter(getDriver());
+
             adminService.verifyFooter();
             adminService.viewAndVerifyCredentials();
 
@@ -163,9 +163,10 @@ public class AdminTest extends AbstractTest {
         try {
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
+
+            adminService.scrollToFooter(getDriver());
             auvenirService.clickTermsOfServiceLink();
-            GeneralUtilities.switchToWindow(getLogger(), getDriver());
+            adminService.switchToWindow();
             auvenirService.verifyTermsOfServicePage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -185,9 +186,10 @@ public class AdminTest extends AbstractTest {
         try {
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
+
+            auvenirService.scrollToFooter(getDriver());
             auvenirService.clickPrivacyStatementLink();
-            GeneralUtilities.switchToWindow(getLogger(), getDriver());
+            auvenirService.switchToWindow();
             auvenirService.verifyPrivacyStatementPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -207,9 +209,10 @@ public class AdminTest extends AbstractTest {
         try {
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
+
+            auvenirService.scrollToFooter(getDriver());
             auvenirService.clickCookieNoticeLink();
-            GeneralUtilities.switchToWindow(getLogger(), getDriver());
+            auvenirService.switchToWindow();
             auvenirService.verifyCookieNoticePage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

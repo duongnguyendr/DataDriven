@@ -53,10 +53,7 @@ public class AuvenirService extends AbstractService {
     }
 
     public void inputEmailAndJoin(String email){
-        auvenirPage.getEleAuditorEmailAddressTxtFld()
-                .sendKeys(email);
-        getLogger().info("click to regedit auditor user.");
-        auvenirPage.getEleJoinBtn().click();
+        auvenirPage.inputEmailAndJoin(email);
     }
 
     public void actionWithApprovalDialog(){
