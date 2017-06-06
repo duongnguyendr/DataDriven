@@ -47,4 +47,16 @@ public class AuvenirService extends AbstractService {
     public void verifyCookieNoticePage() {
         auvenirPage.verifyCookieNoticePage();
     }
+
+    public void verifyPageLoad() {
+        auvenirPage.verifyPageLoad();
+    }
+
+    public void inputEmailAndJoin(String email){
+        auvenirPage.inputEmailAndJoin(email);
+    }
+
+    public void actionWithApprovalDialog(){
+        auvenirPage.actionWithApprovalDialog();
+    }
 }

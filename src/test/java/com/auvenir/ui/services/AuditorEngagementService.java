@@ -112,7 +112,11 @@ public class AuditorEngagementService extends AbstractService {
     public void viewEngagementDetailsPage(String engagementName) {
         try {
             getLogger().info("navigate to Engagement detail page.(Hard code)");
-            auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            final String companyName = "Company Auvenir";
+            int index = auditorEngagementPage.findEngagementName(engagementName);
+            if(index == -1){
+                createAndSelectNewEnagement(engagementName, "", companyName);
+            }else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -149,6 +153,7 @@ public class AuditorEngagementService extends AbstractService {
         int index = auditorEngagementPage.findNewEngagement(listIdEngagementBefore, listIdEngagementAfter);
         auditorEngagementPage.clickEngagementByPosition(index);
     }
+
 
     public void verifyAuditorPageHeaderContent(){
         try {
