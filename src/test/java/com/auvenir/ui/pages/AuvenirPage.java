@@ -828,13 +828,13 @@ public class AuvenirPage extends AbstractPage {
      * Check dialog and click done
      */
     public void actionWithApprovalDialog() {
-//        visibilityOfElementWait(getEleAwaitingApprovalTxt(), "Awaiting Approval", 20);
-//        visibilityOfElementWait(getEleDoneBtn(), "Approval Done Button", 20);
+        /*visibilityOfElementWait(getEleAwaitingApprovalTxt(), "Awaiting Approval", 20);
+        visibilityOfElementWait(getEleDoneBtn(), "Approval Done Button", 20);*/
         try {
-            //TODO temproryly
-            //Thread.sleep(2000); //
-//            System.out.println("Value Awaiting: " + getDriver().findElement(By.id("audLand-modal-loginHeader")).getAttribute("value"));
-//            validateElementText(getDriver().findElement(By.id("audLand-modal-loginHeader")), "Awaiting approval!");
+            /*TODO temproryly
+            Thread.sleep(2000);
+            System.out.println("Value Awaiting: " + getDriver().findElement(By.id("audLand-modal-loginHeader")).getAttribute("value"));
+            validateElementText(getDriver().findElement(By.id("audLand-modal-loginHeader")), "Awaiting approval!");*/
             waitForTextValueChanged(titleApproval, "Awaiting approval", "Awaiting approval!");
             getEleDoneBtn().click();
         } catch (Exception ex) {
