@@ -214,7 +214,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "Verify realtime Search")
+    @Test(priority = 8, enabled = false, description = "Verify realtime Search")
     public void verifyRealTimeSearch() throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -264,7 +264,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = false, description = "Verify Data Grid")
+    @Test(priority = 9, enabled = true, description = "Verify Data Grid")
     public void verifyDataGrid() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -276,6 +276,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
             getLogger().info("Verifying column in Grid..");
             auditorCreateToDoService.verifyColumnsInGrid();
             getLogger().info("Verifying Sort icon..");
