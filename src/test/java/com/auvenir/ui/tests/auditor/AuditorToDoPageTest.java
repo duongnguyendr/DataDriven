@@ -6,6 +6,7 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.junit.experimental.theories.Theories;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -112,7 +113,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
-            boolean isNewToDoPage=false;
+            boolean isNewToDoPage = false;
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
@@ -158,6 +159,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     @Test(priority = 6, enabled = false, description = "Verify CreateNewTodo, Filter, BulkAction buttons")
     public void verifyTodoPage_Buttons() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -212,7 +214,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "Verify realtime Search")
+    @Test(priority = 8, enabled = false, description = "Verify realtime Search")
     public void verifyRealTimeSearch() throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -221,38 +223,40 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         try {
-            boolean isNewToDoPage=false;
+            boolean isNewToDoPage = false;
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
             getLogger().info("Preparing Todo list data..");
-//            auditorCreateToDoService.navigatetoCreateToDoTab();
-//            auditorCreateToDoService.InputValidValue("happytime5");
-//            auditorCreateToDoService.waitForNewTodoNameApplied();
-//            auditorCreateToDoService.createCategories("automation113");
-//            auditorCreateToDoService.selectCategory();
-//            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
-//            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
-//            auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.InputValidValue("happytime6969");
+            auditorCreateToDoService.waitForNewTodoNameApplied();
+            auditorCreateToDoService.createCategories("automation114");
+            auditorCreateToDoService.selectCategory();
+            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
+            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
+            auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
             getLogger().info("Verifying realtime search..");
             getLogger().info("Input search full match with todo name, categoryname, assignclient or assignAudit..");
-            auditorCreateToDoService.inputSearchText("Untitled Todo");
+            auditorCreateToDoService.inputSearchText("happytime6969");
             Thread.sleep(500);
-            auditorCreateToDoService.verifySearchResult("Untitled Todo");
-//            getLogger().info("Input search full match with categoryname..");
-//            auditorCreateToDoService.inputSearchText("automation008");
-//            Thread.sleep(500);
-//            auditorCreateToDoService.verifySearchResult("automation008");
-//            getLogger().info("Input search full match with assignclient..");
-//            auditorCreateToDoService.inputSearchText("Lead Client");
-//            auditorCreateToDoService.verifySearchResult("Lead Client");
-//            getLogger().info("Input search full match with assignAudit..");
-//            auditorCreateToDoService.inputSearchText("nguyen van hien");
-//            auditorCreateToDoService.verifySearchResult("nguyen van hien");
-//            getLogger().info("Input search do not match with todo name, categoryname, assignclient and assignAudit..");
-//            auditorCreateToDoService.inputSearchText("FATREWAFDFYRETRETE");
-//            auditorCreateToDoService.verifySearchResutlNotMatch();
+            auditorCreateToDoService.verifySearchResult("happytime6969");
+            getLogger().info("Input search full match with categoryname..");
+            auditorCreateToDoService.inputSearchText("automation114");
+            Thread.sleep(500);
+            auditorCreateToDoService.verifySearchResult("automation114");
+            getLogger().info("Input search full match with assignclient..");
+            auditorCreateToDoService.inputSearchText("admin client");
+            Thread.sleep(500);
+            auditorCreateToDoService.verifySearchResult("admin client");
+             getLogger().info("Input search full match with assignAudit..");
+            auditorCreateToDoService.inputSearchText("Admin Auditor");
+            Thread.sleep(500);
+            auditorCreateToDoService.verifySearchResult("Admin Auditor");
+            getLogger().info("Input search do not match with todo name, categoryname, assignclient and assignAudit..");
+            auditorCreateToDoService.inputSearchText("FATREWAFDFYRETRETE");
+            auditorCreateToDoService.verifySearchResutlNotMatch();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -260,7 +264,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = false, description = "Verify Data Grid")
+    @Test(priority = 9, enabled = true, description = "Verify Data Grid")
     public void verifyDataGrid() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -272,6 +276,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
             getLogger().info("Verifying column in Grid..");
             auditorCreateToDoService.verifyColumnsInGrid();
             getLogger().info("Verifying Sort icon..");

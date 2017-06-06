@@ -93,6 +93,10 @@ public class AuditorTodoListPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='filter-container']//button[contains(text(),'Flagged For Request')]")
     private WebElement eleFlaggedForRequest;
 
+
+    @FindBy(xpath = "//tr[@class=\"newRow\"]")
+    List<WebElement> tableTodoList;
+
     /////////////////////////////////////////////////
     public void verifyTodoListPageColumnHeader() throws Exception {
         getLogger().info("verify create to do button.");
@@ -138,6 +142,9 @@ public class AuditorTodoListPage extends AbstractPage {
 
     }
 
+    /*
+    Vien.Pham changed Boolean for verifyEmptyTodoList.
+     */
     public void verifyEmptyTodoList() throws Exception {
         waitForVisibleElement(eleImgEmtyToDo, "Empty Todo Image");
         validateDisPlayedElement(eleImgEmtyToDo, "Empty Todo Image");
@@ -381,4 +388,27 @@ public class AuditorTodoListPage extends AbstractPage {
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
     }
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+    @FindBy(id= "engagementUserBtn")
+    private WebElement btnInviteClient;
+
+    public void navigateToInviteClientPage(){
+        clickElement(btnInviteClient);
+    }
+    /*-----------end of huy.huynh on 02/06/2017.*/
+
+    /*
+ Vien.Pham add new method.
+  */
+    public void waitForNumberOfTodoListIncreased() throws Exception {
+        getLogger().info("Waiting for number of Todo list change...");
+        int sizeOfTodoListExpected = tableTodoList.size() + 1;
+        waitForSizeListElementChanged(tableTodoList, "Table Todolist", sizeOfTodoListExpected);
+    }
+
+
 }

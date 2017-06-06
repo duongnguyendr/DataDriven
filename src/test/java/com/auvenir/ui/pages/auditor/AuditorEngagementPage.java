@@ -191,15 +191,18 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Click on the Engagement with the engagement Name.
+     *
      * @param engagementName The Engagement Name which be found on Engagement page.
      */
-	public void viewEngagementDetailsPage(String engagementName) throws Exception{
+    public void viewEngagementDetailsPage(String engagementName) throws Exception {
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-		hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
-		waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
-		clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
-	}
+        hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+        waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+        clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+
+    }
+
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
         WebElement webElement = getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
         System.out.println("+++++++++++++++++++++++++++++  " + engagementTitle);
@@ -209,6 +212,10 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(webElement, engagementName);
         clickAndHold(webElement, engagementName);
     }
+
+    /*
+    Vien.Pham moved createAndSelectNewEnagement Method
+     */
 
     /*
      * Find the index(position) of Engagement in the list Engagement by Engagement Name
