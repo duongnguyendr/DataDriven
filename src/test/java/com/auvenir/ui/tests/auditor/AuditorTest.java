@@ -1,12 +1,10 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.AuditorService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -17,8 +15,6 @@ import org.testng.annotations.Test;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static com.jayway.restassured.RestAssured.given;
 
 
 /**
@@ -36,35 +32,36 @@ public class AuditorTest extends AbstractTest{
     Date date = null;
     static String CurrentDate = null;
 
-//    @BeforeClass
-//    public void preCondition() {
-//        getLogger().info("Delete existed Auditor user.");
-//        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
-//        String sURL = null;
-//        try {
-//
-//            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/delete";
-//            getLogger().info("Call api to delete existed Audit user: " + sURL);
-//            //driver.get(sURL);
-//            Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
-//            if (response.getStatusCode() == 200) {
-//                getLogger().info("Existed auditor user has been deleted.");
-//                NXGReports.addStep("Auditor is deleted sucessfully", LogAs.PASSED, null);
-//            } else if (response.getStatusCode() == 404) {
-//                getLogger().info("the auditor is not existed in database.");
-//            } else {
-//            }
-//        } catch (Exception e) {
-//
-//        }
-//    }
+    @BeforeClass
+    public void preCondition() {
+        /*getLogger().info("Delete existed Auditor user.");
+        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        String sURL = null;
+        try {
+
+            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/delete";
+            getLogger().info("Call api to delete existed Audit user: " + sURL);
+            //driver.get(sURL);
+            Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
+            if (response.getStatusCode() == 200) {
+                getLogger().info("Existed auditor user has been deleted.");
+                NXGReports.addStep("Auditor is deleted sucessfully", LogAs.PASSED, null);
+            } else if (response.getStatusCode() == 404) {
+                getLogger().info("the auditor is not existed in database.");
+            } else {
+            }
+        } catch (Exception e) {
+
+        }*/
+        abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+    }
 
     @Test(priority = 1, enabled = true, description = "To Verify the display of Elements in Auditor Login Page")
     public void verifyAuditorLoginPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
         try {
-            abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            //abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
             auditorService.verifyBodyLoginPage();
             auditorService.verifyFooterLoginPage();
