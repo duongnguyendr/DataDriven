@@ -185,10 +185,9 @@ public class AbstractService {
             {
                 sLanguage = "English";
             }
-            System.out.println(sLanguage);
-
+            getLogger().info(sLanguage);
             if (sLanguage.equals("French")) {
-                System.out.println("Language is : " + baseLanguage);
+                getLogger().info("Language is : " + baseLanguage);
                 homePO.clickOnChangeLanguageBTN();
             }
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
