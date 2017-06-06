@@ -74,9 +74,9 @@ public class ClientService extends AbstractService {
 
     }
 
-    public void verifyClientFooter(){
-            getLogger().info("verify footer page.");
-            clientDashboardPage.verifyClientFooter();
+    public void verifyClientFooter() {
+        getLogger().info("verify footer page.");
+        clientDashboardPage.verifyClientFooter();
     }
 
     public void navigateToCompletedTab() {
@@ -205,98 +205,178 @@ public class ClientService extends AbstractService {
         clientHomePage.verifyMyAuditsPage();
     }
 
-    public void verifyClientRequestPage() { clientRequestPage.verifyClientRequestPage(); }
+    public void verifyClientRequestPage() {
+        clientRequestPage.verifyClientRequestPage();
+    }
 
-    public void clickRequestLnk() { clientDashboardPage.clickRequestLink(); }
+    public void clickRequestLnk() {
+        clientDashboardPage.clickRequestLink();
+    }
 
-    public void verifyGeneralLedgerTab() { clientRequestPage.verifyGeneralLedgerTab(); }
+    public void verifyGeneralLedgerTab() {
+        clientRequestPage.verifyGeneralLedgerTab();
+    }
 
-    public void clickTrialBalanceMenuLink() { clientRequestPage.clickTrialBalanceMenuLink(); }
+    public void clickTrialBalanceMenuLink() {
+        clientRequestPage.clickTrialBalanceMenuLink();
+    }
 
-    public void verifyTrialBalanceTab() { clientRequestPage.verifyTrialBalanceTab(); }
+    public void verifyTrialBalanceTab() {
+        clientRequestPage.verifyTrialBalanceTab();
+    }
 
-    public void clickBankStatementsMenuLink() { clientRequestPage.clickBankStatementsMenuLink(); }
+    public void clickBankStatementsMenuLink() {
+        clientRequestPage.clickBankStatementsMenuLink();
+    }
 
-    public void verifyBankStatementsTab() { clientRequestPage.verifyBankStatementsTab(); }
+    public void verifyBankStatementsTab() {
+        clientRequestPage.verifyBankStatementsTab();
+    }
 
-    public void clickFilesLink() { clientDashboardPage.clickFilesLink(); }
+    public void clickFilesLink() {
+        clientDashboardPage.clickFilesLink();
+    }
 
-    public void verifyFilesTab() { clientFilesPage.verifyFilesTab(); }
+    public void verifyFilesTab() {
+        clientFilesPage.verifyFilesTab();
+    }
 
-    public void clickDashBoardLink() { clientDashboardPage.clickDashBoardLink(); }
+    public void clickDashBoardLink() {
+        clientDashboardPage.clickDashBoardLink();
+    }
 
-    public void clickNewMessageButton() { clientDashboardPage.clickNewMessageButton(); }
+    public void clickNewMessageButton() {
+        clientDashboardPage.clickNewMessageButton();
+    }
 
-    public void verifyNewMessageForm() { clientDashboardPage.verifyNewMessageForm(); }
+    public void verifyNewMessageForm() {
+        clientDashboardPage.verifyNewMessageForm();
+    }
 
-    public void clickCloseMessageButton() { clientDashboardPage.clickCloseMessageButton(); }
+    public void clickCloseMessageButton() {
+        clientDashboardPage.clickCloseMessageButton();
+    }
 
-    public void verifyDashboardPage() { clientDashboardPage.verifyDashboardPage(); }
+    public void verifyDashboardPage() {
+        clientDashboardPage.verifyDashboardPage();
+    }
 
-    public void clickInboxMessage() { clientDashboardPage.clickInboxMessage(); }
+    public void clickInboxMessage() {
+        clientDashboardPage.clickInboxMessage();
+    }
 
-    public void verifyClientOnBoardingPersonalStep() { clientOnBoardingPage.verifyClientOnBoardingPersonalStep(); }
+    public void verifyClientOnBoardingPersonalStep() {
+        clientOnBoardingPage.verifyClientOnBoardingPersonalStep();
+    }
 
-    public void clickContinuePersonalInformationButton() { clientOnBoardingPage.clickContinuePersonalInformationButton(); }
+    public void clickContinuePersonalInformationButton() {
+        clientOnBoardingPage.clickContinuePersonalInformationButton();
+    }
 
-    public void verifyClientOnBoardingBusinessStep() { clientOnBoardingPage.verifyClientOnBoardingBusinessStep(); }
+    public void verifyClientOnBoardingBusinessStep() {
+        clientOnBoardingPage.verifyClientOnBoardingBusinessStep();
+    }
 
-    public void clickContinueBusinessInformationButton() { clientOnBoardingPage.clickContinueBusinessInformationButton(); }
+    public void clickContinueBusinessInformationButton() {
+        clientOnBoardingPage.clickContinueBusinessInformationButton();
+    }
 
-    public void verifyClientOnBoardingIntegrateFileStep() { clientOnBoardingPage.verifyClientOnBoardingIntegrateFileStep(); }
+    public void verifyClientOnBoardingIntegrateFileStep() {
+        clientOnBoardingPage.verifyClientOnBoardingIntegrateFileStep();
+    }
 
-    public void clickSkipIntegrateFileButton() { clientOnBoardingPage.clickSkipIntegrateFileButton(); }
+    public void clickSkipIntegrateFileButton() {
+        clientOnBoardingPage.clickSkipIntegrateFileButton();
+    }
 
-    public void verifyClientOnBoardingSecurityStep() { clientOnBoardingPage.verifyClientOnBoardingSecurityStep(); }
+    public void verifyClientOnBoardingSecurityStep() {
+        clientOnBoardingPage.verifyClientOnBoardingSecurityStep();
+    }
 
-    public void clickSkipSecurityButton(){ clientOnBoardingPage.clickSkipSecurityButton(); }
+    public void clickSkipSecurityButton() {
+        clientOnBoardingPage.clickSkipSecurityButton();
+    }
 
-    public void verifySkipSecurityPopUp(){ clientOnBoardingPage.verifySkipSecurityPopUp(); }
+    public void verifySkipSecurityPopUp() {
+        clientOnBoardingPage.verifySkipSecurityPopUp();
+    }
 
-    public void clickSkipSecurityWarning(){ clientOnBoardingPage.clickSkipSecurityWarning(); }
+    public void clickSkipSecurityWarning() {
+        clientOnBoardingPage.clickSkipSecurityWarning();
+    }
 
-    public void verifyDashBoardText(){ clientOnBoardingPage.verifyDashBoardText(); }
+    public void verifyDashBoardText() {
+        clientOnBoardingPage.verifyDashBoardText();
+    }
 
-    public void signInEmailOnClientLoginPage(String clientID) { clientLoginPage.signInEmailOnClientLoginPage(clientID);}
+    public void signInEmailOnClientLoginPage(String clientID) {
+        clientLoginPage.signInEmailOnClientLoginPage(clientID);
+    }
 
-    public void verifyWelcomePleaseCheckTxtIsDisplayed() { auvenirPage.verifyWelcomePleaseCheckTxtIsDisplayed(); }
+    public void verifyWelcomePleaseCheckTxtIsDisplayed() {
+        auvenirPage.verifyWelcomePleaseCheckTxtIsDisplayed();
+    }
 
     public void gmailLogin(String gmailUserName, String gmailPassword) throws InterruptedException {
         gmailPage.gmailLogin(gmailUserName, gmailPassword);
     }
 
-    public void searchGmail(String GMAIL_SEARCHMAIL) { gmailPage.searchGmail(GMAIL_SEARCHMAIL); }
+    public void searchGmail(String GMAIL_SEARCHMAIL) {
+        gmailPage.searchGmail(GMAIL_SEARCHMAIL);
+    }
 
-    public void signInEmail() { gmailPage.signInEmail(); }
+    public void signInEmail() {
+        gmailPage.signInEmail();
+    }
 
-    public void verifyClientLoginPageAfterSignIn() { clientLoginPage.verifyClientLoginPageAfterSignIn(); }
+    public void verifyClientLoginPageAfterSignIn() {
+        clientLoginPage.verifyClientLoginPageAfterSignIn();
+    }
 
-    public void accountActiveEmail() { gmailPage.accountActiveEmail(); }
+    public void accountActiveEmail() {
+        gmailPage.accountActiveEmail();
+    }
 
-    public void verifyClientLoginPageAfterActiveAccount() { clientLoginPage.verifyClientLoginPageAfterActiveAccount(); }
+    public void verifyClientLoginPageAfterActiveAccount() {
+        clientLoginPage.verifyClientLoginPageAfterActiveAccount();
+    }
 
-    public void inviteEmail() { gmailPage.inviteEmail(); }
+    public void inviteEmail() {
+        gmailPage.inviteEmail();
+    }
 
-    public void verifyClientLoginPageInvitationEmail() { clientLoginPage.verifyClientLoginPageInvitationEmail(); }
+    public void verifyClientLoginPageInvitationEmail() {
+        clientLoginPage.verifyClientLoginPageInvitationEmail();
+    }
 
-    public void clickStartAuditButton() { clientLoginPage.clickStartAuditButton(); }
+    public void clickStartAuditButton() {
+        clientLoginPage.clickStartAuditButton();
+    }
 
-    public void clickSelectClientButton() { createNewAuditPage.clickSelectClientButton(); }
+    public void clickSelectClientButton() {
+        createNewAuditPage.clickSelectClientButton();
+    }
 
-    public void verifyPleaseSelectClientText() { createNewAuditPage.verifyPleaseSelectClientText(); }
+    public void verifyPleaseSelectClientText() {
+        createNewAuditPage.verifyPleaseSelectClientText();
+    }
 
-    public void clickCreateNewClient() { createNewAuditPage.clickCreateNewClient(); }
+    public void clickCreateNewClient() {
+        createNewAuditPage.clickCreateNewClient();
+    }
 
-    public void verifyAddNewClientPopUpDisplayed() { createNewAuditPage.verifyAddNewClientPopUpDisplayed(); }
+    public void verifyAddNewClientPopUpDisplayed() {
+        createNewAuditPage.verifyAddNewClientPopUpDisplayed();
+    }
 
     public void inputDataKeyContactInfo(String name, String email, String phoneNumber) {
         addNewClientPage.inputDataKeyContactInfo(name, email, phoneNumber);
     }
 
     public void inputDataCompanyInfo(String legalName, String pleaseListParent, String address, String unitNumber,
-                                     String city, String provinceState, String country, String postalCode ) {
+                                     String city, String provinceState, String country, String postalCode) {
         addNewClientPage.inputDataCompanyInfo(legalName, pleaseListParent, address, unitNumber,
-                city, provinceState, country, postalCode );
+                city, provinceState, country, postalCode);
     }
 
     public void selectAllCheckboxInCompanyInformation() {
@@ -307,17 +387,18 @@ public class ClientService extends AbstractService {
         addNewClientPage.clickAddNewClientButton();
     }
 
-    public void clickSelectClient(String clientName){
+    public void clickSelectClient(String clientName) {
         createNewAuditPage.clickSelectClient(clientName);
     }
 
-    public void verifyClientIsSelected(String clientFirstName){
+    public void verifyClientIsSelected(String clientFirstName) {
         createNewAuditPage.verifyClientIsSelected(clientFirstName);
     }
 
     public void sendInvitationName() {
         createNewAuditPage.sendInvitationName();
     }
+
     public void closeSuccessToastMes() {
         createNewAuditPage.closeSuccessToastMes();
     }
@@ -326,7 +407,24 @@ public class ClientService extends AbstractService {
         adminLoginPage.verifyAdminLoginPage();
     }
 
-    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus) {
         adminLoginPage.verifyUserIsChangeStatusOnTheList(userType, email, dateCreated, expectedStatus);
     }
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+    public void selectAddNewClient() {
+        createNewAuditPage.selectAddNewClient();
+    }
+
+    public void inviteNewClient(String fullName, String email, String role) {
+        createNewAuditPage.inviteNewClient(fullName, email, role);
+    }
+
+    public void verifyInviteClientSuccess(String message) {
+        createNewAuditPage.verifyInviteClientSuccess(message);
+    }
+     /*-----------end of huy.huynh on 02/06/2017.*/
 }

@@ -122,8 +122,10 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void inputSearchText(String inputSearch){
+
         createToDoPage.inputSearchText(inputSearch);
     }
+
     public void verifySearchResult(String inputSearch){
         createToDoPage.checkSearchData(inputSearch);
     }
@@ -564,7 +566,7 @@ public class AuditorCreateToDoService extends AbstractService {
      * Check deafult format due date
      */
     public void checkFormatDueDate() {
-        boolean result = createToDoPage.checkFormatDueDate();
+        boolean result = createToDoPage.checkFormatDueDate_TodoListPage();
         if (!result)
             AbstractService.sStatusCnt++;
     }
@@ -984,7 +986,6 @@ public class AuditorCreateToDoService extends AbstractService {
         getLogger().info("Verifying Client Assignee ComboBox...");
         createToDoPage.verifyClientAssignee_DefaultValue();
         createToDoPage.verifyBorderClientAssignee_WhileHovered();
-//        createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
     }
 
     public void verifyClientAssigneeIsSelectedCorrectly(){
@@ -993,11 +994,14 @@ public class AuditorCreateToDoService extends AbstractService {
 
 
     public void verifyDuedateTimebox() {
+//        getLogger().info("Verifying default value..");
+        //Will added after fixed
         getLogger().info("Verifying DueDate Timebox...");
-//        createToDoPage.verifyDuedate_DefaultValue();
         createToDoPage.verifyBorderDuedate_WhileHovered();
-        createToDoPage.verifyDuedateTable();
+    }
 
+    public void verifyUnableToInputDuedate(String dateInput){
+        createToDoPage.verifyUnableToInputDuedate(dateInput);
     }
 
     public void verifyAuditAssigneeBox() {
@@ -1027,6 +1031,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifySearchDefault();
         getLogger().info("Verifying Search border is Green when hovered...");
         createToDoPage.verifySearchHover();
+    }
+
+    public void verifyNameReturnDefault(){
+        createToDoPage.verifyNameReturnDefault();
+
     }
 }
 

@@ -487,10 +487,10 @@ public class MongoDBService {
      * get User object of given string first name and last name(ex: 'huy huynh')
      *
      * @param dBCollection DBCollection object
-     * @param value        of engagement want to query
+     * @param name        user name
      */
-    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String value) throws Exception {
-        String[] assignee = value.split(" ");
+    public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String name) throws Exception {
+        String[] assignee = name.split(" ");
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put("firstName", assignee[0]);
         searchQuery.put("lastName", assignee[1]);
@@ -500,16 +500,22 @@ public class MongoDBService {
         return dBbject.get("_id").toString();
     }
 
-    public static void removeUserObjectByEmail(DBCollection dBCollection, String value) {
+    /**
+     * remove given email user on database
+     *
+     * @param dBCollection DBCollection object
+     * @param email        of engagement want to query
+     */
+    public static void removeUserObjectByEmail(DBCollection dBCollection, String email) {
         try {
             BasicDBObject searchQuery = new BasicDBObject();
-            searchQuery.put("email", value);
+            searchQuery.put("email", email);
             DBCursor cursor = dBCollection.find(searchQuery);
             DBObject dBbject = cursor.next();
 
             dBCollection.remove(dBbject);
         } catch (NoSuchElementException ex) {
-
+            System.out.println("This email not exist on database.");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

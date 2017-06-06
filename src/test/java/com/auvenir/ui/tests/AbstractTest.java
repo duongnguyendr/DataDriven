@@ -32,7 +32,7 @@ public class AbstractTest {
     refactor to fix hardcode
      */
     String localPropertiesDest = GenericService.sDirPath + "/local.properties";
-    protected String testData  = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
+    protected String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
     protected String SELENIUM_GRID_HUB = "http://192.168.1.50:4444/wd/hub";
     /*
     We should input 2 options:
@@ -40,6 +40,7 @@ public class AbstractTest {
         +Local
      */
     private String runMode = "Local";
+
     public String getRunMode() {
         setRunMode(System.getProperty("runSeleniumMode"));
         return runMode;
@@ -89,19 +90,19 @@ public class AbstractTest {
         }*/
     }
 
-    @Parameters({"browser","version","os"})
+    @Parameters({"browser", "version", "os"})
     @BeforeMethod
     public void setUp(Method method, String browser, String version, String os) {
         getLogger().info("Before Method.");
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
-            GenericService.sBrowserData="CHROME_";
-        }else if (browser.equalsIgnoreCase("firefox")){
-            GenericService.sBrowserData="FIREFOX_";
-        }else if (browser.equalsIgnoreCase("internet explorer")){
-            GenericService.sBrowserData="IE_";
-        }else if (browser.equalsIgnoreCase("safari")){
-            GenericService.sBrowserData="SAFARI_";
+            GenericService.sBrowserData = "CHROME_";
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            GenericService.sBrowserData = "FIREFOX_";
+        } else if (browser.equalsIgnoreCase("internet explorer")) {
+            GenericService.sBrowserData = "IE_";
+        } else if (browser.equalsIgnoreCase("safari")) {
+            GenericService.sBrowserData = "SAFARI_";
         }
         GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
         getLogger().info("setUp: " + GenericService.sBrowserData);
@@ -131,7 +132,7 @@ public class AbstractTest {
                     System.setProperty("webdriver.gecko.ie", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
                 }
-            }else if(runMode.equalsIgnoreCase("SeleniumGrid")){
+            } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
 
             /*Initialize Selenium for Selenium Grid*/
 
@@ -142,10 +143,9 @@ public class AbstractTest {
                     capabilities = DesiredCapabilities.chrome();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     capabilities = DesiredCapabilities.internetExplorer();
-                }else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
                     capabilities = DesiredCapabilities.safari();
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
 

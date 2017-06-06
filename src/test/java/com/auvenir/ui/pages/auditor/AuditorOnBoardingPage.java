@@ -1,12 +1,11 @@
 package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class AuditorOnBoardingPage extends AbstractPage {
 
@@ -540,8 +539,8 @@ public class AuditorOnBoardingPage extends AbstractPage {
         return eleAgreeSkipSecurityBtn;
     }
 
-    public void verifyOnBoardingPersonalInformationPage(){
-        validateDisPlayedElement(eleAuvenirLogoImg,"Auvenir Logo");
+    public void verifyOnBoardingPersonalInformationPage() {
+        validateDisPlayedElement(eleAuvenirLogoImg, "Auvenir Logo");
         validateDisPlayedElement(elePersonalTxt, "Personal Text");
         validateDisPlayedElement(eleFirmTxt, "Firm Text");
         validateDisPlayedElement(eleSecurityTxt, "Security Text");
@@ -566,14 +565,16 @@ public class AuditorOnBoardingPage extends AbstractPage {
         validateEnabledElement(eleContinueBtn, "Continue button");
         validateDisPlayedElement(eleNortonBadgesImg, "Norton and Truste Image");
     }
-    public void verifyInputPersonalInfomation(String auditorName, String phoneNumber){
+
+    public void verifyInputPersonalInfomation(String auditorName, String phoneNumber) {
         sendKeyTextBox(eleFirstAndLastNameTxtFld, auditorName, "First and Last name Text Field");
         sendKeyTextBox(elePersonalPhoneNumberTxtFld, phoneNumber, "Personal Phone Number Text Field");
         clickOnCheckBox(eleIAgreeToChkBox, "I Agree to Check Box");
         clickOnCheckBox(eleIHerebyConfirmChkBox, "I hereby confirm Check Box");
         clickElement(eleContinueBtn, "Continue button");
     }
-    public void verifyOnBoardingFirmInfomationPage(){
+
+    public void verifyOnBoardingFirmInfomationPage() {
         validateDisPlayedElement(elePleaseProvideTxt, "Please Provide Your Text");
         validateDisPlayedElement(eleNameTxt, "Name Text");
         validateDisPlayedElement(eleNameTxtFld, "Name Text Field");
@@ -598,9 +599,10 @@ public class AuditorOnBoardingPage extends AbstractPage {
         validateDisPlayedElement(eleCameraFirmImg, "Camera Firm Image");
         validateEnabledElement(eleUpdatePhotoFirmBtn, "Update Photo Firm Button");
     }
+
     public void verifyInputFirmInformationOnboardingPage(String firmName, String numberEmployee, String phoneNumber,
                                                          String address, String unitNumber, String cityName, String provinceState,
-                                                         String countryName, String zipCode){
+                                                         String countryName, String zipCode) {
         sendKeyTextBox(eleNameTxtFld, firmName, "Name Text Field");
         sendKeyTextBox(eleNumberOfEmployeesTxtFld, numberEmployee, "Number of Employees Text Field");
         sendKeyTextBox(eleFirmPhoneNumberTxtFld, phoneNumber, "Phone Number Text Field");
@@ -612,12 +614,14 @@ public class AuditorOnBoardingPage extends AbstractPage {
         sendKeyTextBox(elePostalCodeZipCodeTxtFld, zipCode, "Postal Code / Zip Code Text Field");
 //        clickOnCheckBox(getEleIAmAffiliatedChkBox(), "I am affiliated Check Box");
     }
-    public void verifyInputAffliateField(String affliateName){
+
+    public void verifyInputAffliateField(String affliateName) {
         validateDisPlayedElement(eleAffliatedNameTxt, "Affliated Name - Text");
         validateDisPlayedElement(eleAffliatedNameTxtFld, "Affliated Name - Text Field");
         sendKeyTextBox(eleAffliatedNameTxtFld, affliateName, "Affliated Name - Text Field");
     }
-    public void verifySecurityOnBoardingPage(){
+
+    public void verifySecurityOnBoardingPage() {
         clickElement(eleContinueFirmBtn, "Continue button");
         validateDisPlayedElement(eleSetUpTxt, "Set Up Security Text");
         validateDisPlayedElement(eleDownloadtheAuvenirTxt, "Download the Auvenir Text");
@@ -642,4 +646,63 @@ public class AuditorOnBoardingPage extends AbstractPage {
         validateEnabledElement(eleCancelSkipSecurityBtn, "Cancel Button");
         validateEnabledElement(eleAgreeSkipSecurityBtn, "Agree Button");
     }
+
+    /**
+     * Refactored by huy.huynh on 01/06/2017.
+     * New for smoke test
+     */
+
+    @FindBy(id = "onboard-firm-continue")
+    private WebElement buttonFirmContinue;
+
+    @FindBy(id = "security-title")
+    private WebElement titleSecurity;
+
+    @FindBy(xpath = "//input[@id='first-password']")
+    private WebElement inputFirstPassword;
+
+    @FindBy(xpath = "//input[@id='second-password']")
+    private WebElement inputSecondPassword;
+
+    @FindBy(id = "security-continueBtn")
+    private WebElement buttonSecurityContinue;
+
+    @FindBy(id = "epilogue-title")
+    private WebElement titleEpilogue;
+
+    @FindBy(id = "epilogue-description")
+    private WebElement textViewEpilogueDescription;
+
+    @FindBy(id = "epilogue-closeBtn")
+    private WebElement buttonElilogueClose;
+
+    /**
+     * input password and confirm for Security Onboarding page
+     * Simplelize: other version seem have more element- this version only have 2 password inputs
+     *
+     * @param password password to set
+     */
+    public void verifySecurityOnBoardingPageSimplelize(String password) {
+        clickElement(buttonFirmContinue);
+
+        validateElementText(titleSecurity, "Create Your Password");
+
+        sendKeyTextBox(inputFirstPassword, password, "First password");
+        sendKeyTextBox(inputSecondPassword, password, "Second password");
+
+        clickElement(buttonSecurityContinue);
+    }
+
+    /**
+     * Announcement that account created n thanks
+     *
+     * @param email email on thanks message
+     */
+    public void verifyEpilogueOnBoardingPage(String email) {
+        validateElementText(titleEpilogue, "Your Account Has Been Created!");
+        validateElementText(textViewEpilogueDescription, "Thank you for creating an account. We will be sending a verification email to " + email + " within 24 hours. Please click the link in the email to get started on your engagements.");
+
+        clickElement(buttonElilogueClose);
+    }
+    /*-----------end of huy.huynh on 01/06/2017.*/
 }

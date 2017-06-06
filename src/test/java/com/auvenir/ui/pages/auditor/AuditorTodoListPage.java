@@ -2,74 +2,73 @@ package com.auvenir.ui.pages.auditor;
 
 //import library
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.auvenir.ui.pages.common.AbstractPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-
 import java.util.List;
 
 public class AuditorTodoListPage extends AbstractPage {
 
-	public AuditorTodoListPage(Logger logger, WebDriver driver) {
-		super(logger, driver);
-	}
-	
-	@FindBy(id = "auv-todo-createToDo")
-	private WebElement eleCreateToDoBtn;
-	
-	@FindBy(id = "todo-filter-dropdown")
-	private WebElement eleFilterBtn;
-	
-	@FindBy(id = "todo-search")
-	private WebElement eleToDoSearchInput;
-	@FindBy(xpath = "//button[contains(text(),'Create To-Do')]")
-	private WebElement createTodoTextEle;
-	
-	@FindBy(xpath = "//table[@id='todo-table']//..//..//th//input[@type='checkbox']")
-	private WebElement eleCheckBox;
-	
-	@FindBy(xpath = "//th[@data-id='name']")
-	private WebElement eleNameToDoTitleLabel;
-	
-	@FindBy(xpath = "//th[@data-id='name']//i")
-	private WebElement eleSortByNameToDo;
-	
-	@FindBy(xpath = "//th[@data-id='categoryName']")
-	private WebElement eleCategoryTitleLabel;
-	
-	@FindBy(xpath = "//th[@data-id='categoryName']//i")
-	private WebElement eleSortByCategory;
-	
-	@FindBy(xpath = "//th[@data-id='clientAssigneeName']")
-	private WebElement eleClientAssigneeTitleLabel;
-	
-	@FindBy(xpath = "//th[@data-id='clientAssigneeName']//i")
-	private WebElement eleSortByClientAssignee;
-	
-	@FindBy(xpath = "//th[@data-id='dueDate']")
-	private WebElement eleDueDateTitleLabel;
-	
-	@FindBy(xpath = "//th[@data-id='dueDate']//i")
-	private WebElement eleSortByDueDate;
-	
-	@FindBy(xpath = "//th[@data-id='auditorAssigneeName']")
-	private WebElement eleAuditAssigneeTitleLabel;	
-	@FindBy(xpath = "//th[@data-id='auditorAssigneeName']//i")
-	private WebElement eleSortByAuditAssignee;
-	
-	
-	@FindBy(xpath = "//tr[@id='empty-todo']//..//..//img")
-	private WebElement eleImgEmtyToDo;
-	
-	@FindBy(xpath = "//tr[@id='empty-todo']//td//div//div")
-	private WebElement eleNotesEmtyToDo;
+    public AuditorTodoListPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+    }
+
+    @FindBy(id = "auv-todo-createToDo")
+    private WebElement eleCreateToDoBtn;
+
+    @FindBy(id = "todo-filter-dropdown")
+    private WebElement eleFilterBtn;
+
+    @FindBy(id = "todo-search")
+    private WebElement eleToDoSearchInput;
+    @FindBy(xpath = "//button[contains(text(),'Create To-Do')]")
+    private WebElement createTodoTextEle;
+
+    @FindBy(xpath = "//table[@id='todo-table']//..//..//th//input[@type='checkbox']")
+    private WebElement eleCheckBox;
+
+    @FindBy(xpath = "//th[@data-id='name']")
+    private WebElement eleNameToDoTitleLabel;
+
+    @FindBy(xpath = "//th[@data-id='name']//i")
+    private WebElement eleSortByNameToDo;
+
+    @FindBy(xpath = "//th[@data-id='categoryName']")
+    private WebElement eleCategoryTitleLabel;
+
+    @FindBy(xpath = "//th[@data-id='categoryName']//i")
+    private WebElement eleSortByCategory;
+
+    @FindBy(xpath = "//th[@data-id='clientAssigneeName']")
+    private WebElement eleClientAssigneeTitleLabel;
+
+    @FindBy(xpath = "//th[@data-id='clientAssigneeName']//i")
+    private WebElement eleSortByClientAssignee;
+
+    @FindBy(xpath = "//th[@data-id='dueDate']")
+    private WebElement eleDueDateTitleLabel;
+
+    @FindBy(xpath = "//th[@data-id='dueDate']//i")
+    private WebElement eleSortByDueDate;
+
+    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']")
+    private WebElement eleAuditAssigneeTitleLabel;
+    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']//i")
+    private WebElement eleSortByAuditAssignee;
+
+
+    @FindBy(xpath = "//tr[@id='empty-todo']//..//..//img")
+    private WebElement eleImgEmtyToDo;
+
+    @FindBy(xpath = "//tr[@id='empty-todo']//td//div//div")
+    private WebElement eleNotesEmtyToDo;
 
     /*
     Filter elements
@@ -92,6 +91,10 @@ public class AuditorTodoListPage extends AbstractPage {
     private WebElement eleOutstandingBTN;
     @FindBy(xpath = "//*[@id='filter-container']//button[contains(text(),'Flagged For Request')]")
     private WebElement eleFlaggedForRequest;
+
+
+    @FindBy(xpath = "//tr[@class=\"newRow\"]")
+    List<WebElement> tableTodoList;
 
     /////////////////////////////////////////////////
     public void verifyTodoListPageColumnHeader() throws Exception {
@@ -138,6 +141,9 @@ public class AuditorTodoListPage extends AbstractPage {
 
     }
 
+    /*
+    Vien.Pham changed Boolean for verifyEmptyTodoList.
+     */
     public void verifyEmptyTodoList() throws Exception {
         waitForVisibleElement(eleImgEmtyToDo, "Empty Todo Image");
         validateDisPlayedElement(eleImgEmtyToDo, "Empty Todo Image");
@@ -381,4 +387,30 @@ public class AuditorTodoListPage extends AbstractPage {
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
     }
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+    @FindBy(id = "engagementUserBtn")
+    private WebElement btnInviteClient;
+
+    /**
+     * Click Invite button
+     */
+    public void navigateToInviteClientPage() {
+        clickElement(btnInviteClient);
+    }
+    /*-----------end of huy.huynh on 02/06/2017.*/
+
+    /*
+ Vien.Pham add new method.
+  */
+    public void waitForNumberOfTodoListIncreased() throws Exception {
+        getLogger().info("Waiting for number of Todo list change...");
+        int sizeOfTodoListExpected = tableTodoList.size() + 1;
+        waitForSizeListElementChanged(tableTodoList, "Table Todolist", sizeOfTodoListExpected);
+    }
+
+
 }
