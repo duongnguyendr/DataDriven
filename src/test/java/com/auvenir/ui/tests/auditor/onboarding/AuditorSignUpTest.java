@@ -88,7 +88,7 @@ public class AuditorSignUpTest extends AbstractTest {
 
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -125,7 +125,7 @@ public class AuditorSignUpTest extends AbstractTest {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -168,7 +168,7 @@ public class AuditorSignUpTest extends AbstractTest {
         }
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -203,7 +203,7 @@ public class AuditorSignUpTest extends AbstractTest {
         final String confirmPassword = "1";
         try {
             auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "bb@gmail.com");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
