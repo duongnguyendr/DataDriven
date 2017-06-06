@@ -57,6 +57,7 @@ public class ClientTestRefactor extends AbstractTest {
             clientService.clickSelectClient(newClientData[2]);
             clientService.verifyClientIsSelected(newClientData[2]);
             clientService.sendInvitationName();
+            //
             clientService.loginWithUserRole(adminUserId);
             clientService.verifyAdminLoginPage();
             //Will be update later. User cannot accept the link invitation to change the status "Onboarding"

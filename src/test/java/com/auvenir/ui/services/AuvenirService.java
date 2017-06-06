@@ -47,4 +47,19 @@ public class AuvenirService extends AbstractService {
     public void verifyCookieNoticePage() {
         auvenirPage.verifyCookieNoticePage();
     }
+
+    public void verifyPageLoad() {
+        auvenirPage.verifyPageLoad();
+    }
+
+    public void inputEmailAndJoin(String email){
+        auvenirPage.getEleAuditorEmailAddressTxtFld()
+                .sendKeys(email);
+        getLogger().info("click to regedit auditor user.");
+        auvenirPage.getEleJoinBtn().click();
+    }
+
+    public void actionWithApprovalDialog(){
+        auvenirPage.actionWithApprovalDialog();
+    }
 }

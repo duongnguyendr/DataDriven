@@ -2,13 +2,12 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
 import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 import javax.sql.rowset.spi.SyncFactoryException;
 
@@ -284,12 +283,24 @@ public class AuditorTodoListService extends AbstractService {
      * verify button Undo exist
      */
 
-    /**-----end of huy.huynh PLAT-2285-----*/
+    /**
+     * -----end of huy.huynh PLAT-2285-----
+     */
 
     public void verifyCompletedFieldUpdated(String engagementValue, String todoName, String status) throws SyncFactoryException {
         auditorCreateToDoPage.verifyMarkAsCompleteBackend("name", engagementValue, todoName, status);
     }
 
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+
+    public void navigateToInviteClientPage() {
+        auditorTodoListPage.navigateToInviteClientPage();
+    }
+
+    /*-----------end of huy.huynh on 02/06/2017.*/
 }
 
 
