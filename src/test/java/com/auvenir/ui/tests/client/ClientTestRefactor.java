@@ -1,12 +1,11 @@
 package com.auvenir.ui.tests.client;
 
-import com.auvenir.ui.pages.client.*;
+import com.auvenir.ui.pages.client.ClientOnBoardingPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.jayway.restassured.response.Response;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -18,18 +17,17 @@ import org.testng.annotations.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.jayway.restassured.RestAssured.given;
-
 /**
  * Created by thuan.duong on 5/24/2017.
  */
 public class ClientTestRefactor extends AbstractTest {
     private ClientService clientService;
     private AuditorEngagementService auditorEngagementService;
+    AbstractService abstractService;
     @BeforeClass
     public void preCondition() {
 
-         String sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+         /*String sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID") + "/delete";
         getLogger().info("Call rest api to delete existed client user :" + sURL);
         Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
@@ -39,7 +37,8 @@ public class ClientTestRefactor extends AbstractTest {
         } else if (response.getStatusCode() == 404) {
             getLogger().info("The client is not existed in database.");
         } else {
-        }
+        }*/
+        abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
     }
     @AfterMethod
     public void deleteCookies() {
