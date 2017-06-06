@@ -5,7 +5,6 @@ import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -805,19 +804,38 @@ public class AuvenirPage extends AbstractPage {
      * Restructure only
      */
 
+    @FindBy(id = "audLand-modal-loginHeader")
+    private WebElement titleApproval;
+
+    /**
+     * verify page loaded
+     */
     public void verifyPageLoad() {
         validateDisPlayedElement(getEleAuditorEmailAddressTxtFld(), "Join email");
     }
 
+    /**
+     * join action
+     */
+    public void inputEmailAndJoin(String email) {
+        getEleAuditorEmailAddressTxtFld()
+                .sendKeys(email);
+        getLogger().info("click to regedit auditor user.");
+        getEleJoinBtn().click();
+    }
+
+    /**
+     * Check dialog and click done
+     */
     public void actionWithApprovalDialog() {
 //        visibilityOfElementWait(getEleAwaitingApprovalTxt(), "Awaiting Approval", 20);
 //        visibilityOfElementWait(getEleDoneBtn(), "Approval Done Button", 20);
         try {
             //TODO temproryly
-            //Thread.sleep(2000);
+            //Thread.sleep(2000); //
 //            System.out.println("Value Awaiting: " + getDriver().findElement(By.id("audLand-modal-loginHeader")).getAttribute("value"));
 //            validateElementText(getDriver().findElement(By.id("audLand-modal-loginHeader")), "Awaiting approval!");
-            waitForTextValueChanged(getDriver().findElement(By.id("audLand-modal-loginHeader")),"Awaiting approval", "Awaiting approval!");
+            waitForTextValueChanged(titleApproval, "Awaiting approval", "Awaiting approval!");
             getEleDoneBtn().click();
         } catch (Exception ex) {
             ex.printStackTrace();

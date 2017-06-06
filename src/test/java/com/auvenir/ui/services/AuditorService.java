@@ -290,8 +290,8 @@ public class AuditorService extends AbstractService {
      * New for smoke test
      */
 
-    public void verifySecurityOnBoardingPageSimplelize() {
-        auditorOnBoardingPage.verifySecurityOnBoardingPageSimplelize();
+    public void verifySecurityOnBoardingPageSimplelize(String password) {
+        auditorOnBoardingPage.verifySecurityOnBoardingPageSimplelize(password);
     }
 
     public void verifyEpilogueOnBoardingPage(String email) {

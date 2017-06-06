@@ -29,14 +29,14 @@ public class SmokeTestt extends AbstractTest {
     private ClientService clientService;
     private GmailLoginService gmailLoginService;
 
-    private String adminId, auditorId;
+    private String adminId, auditorId, clientId;
     private String sData[];
     private String testCaseId;
     private SimpleDateFormat dateFormat;
     private String timeStamp;
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login")
-    public void adminLogin() {
+    public void verifyAdminLogin() {
         getLogger().info("Verify admin is able to login.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
@@ -56,7 +56,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 2, enabled = true, description = "To verify auditor is created with status as Wait Listed in admin panel")
-    public void auditorCreation() {
+    public void verifyAuditorCreation() {
         getLogger().info("Verify auditor is created with status as Wait Listed in admin panel.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
@@ -68,14 +68,14 @@ public class SmokeTestt extends AbstractTest {
             //precondition
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
 
-            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            auvenirService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
             auvenirService.verifyPageLoad();
             auvenirService.inputEmailAndJoin(auditorId);
             auvenirService.actionWithApprovalDialog();
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
+            adminService.scrollToFooter(getDriver());
             adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), dateFormat.format(new Date()), "Wait Listed");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -88,7 +88,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 3, enabled = true, description = "Change the status of the Auditor to OnBoarding", dependsOnMethods = {"auditorCreation"})
-    public void changeTheStatusAuditorToOnBoarding() {
+    public void verifyChangeTheStatusAuditorToOnBoarding() {
         getLogger().info("Verify change the status of the Auditor to OnBoarding.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
@@ -112,7 +112,7 @@ public class SmokeTestt extends AbstractTest {
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
+            adminService.scrollToFooter(getDriver());
 
             adminService.changeTheStatusAuditorToOnBoarding(auditorId, "Onboarding");
             adminService.verifyUserStatusOnAdminUserTable(auditorId, "Onboarding");
@@ -165,7 +165,7 @@ public class SmokeTestt extends AbstractTest {
             auditorService.verifyFirmPage();
             auditorService.verifyInputFirmInformation(sData[3], sData[4], sData[5], sData[6] + ", " + sData[7], sData[8], sData[9], sData[10], sData[9], sData[11]);
             auditorService.verifyFooterPage();
-            auditorService.verifySecurityOnBoardingPageSimplelize();
+            auditorService.verifySecurityOnBoardingPageSimplelize("abcd1234");
             auditorService.verifyEpilogueOnBoardingPage(auditorId);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -221,7 +221,7 @@ public class SmokeTestt extends AbstractTest {
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
+            adminService.scrollToFooter(getDriver());
 
             adminService.verifyUserStatusOnAdminUserTable(auditorId, "Active");
 
@@ -234,7 +234,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 6, enabled = true, description = "Inviting a client")
-    public void invitingTheClient() {
+    public void verifyInvitingTheClient() {
         getLogger().info("Verify inviting a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -243,12 +243,12 @@ public class SmokeTestt extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         try {
-            String clientUserId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
+            clientId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
             adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
             auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientUserId);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
 
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -263,13 +263,13 @@ public class SmokeTestt extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientUserId, "Leader");
+            clientService.inviteNewClient("Titan client", clientId, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
-            adminService.verifyUserStatusOnAdminUserTable(clientUserId, "Pending");
+            adminService.scrollToFooter(getDriver());
+            adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify inviting a client.", LogAs.PASSED, null);
@@ -280,7 +280,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 7, enabled = true, description = "Client logs in and OnBoarding page is displayed")
-    public void clientLogsInAndOnBoards() {
+    public void verifyClientLogsInAndOnBoards() {
         getLogger().info("Verify client logs in and OnBoarding page is displayed.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
@@ -288,14 +288,14 @@ public class SmokeTestt extends AbstractTest {
         try {
             adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
 
-            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL_PASSWORD"));
             gmailLoginService.filterEmail();
             gmailLoginService.clickOnboardingInvitationLink();
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-            GeneralUtilities.scrollToFooter(getDriver());
+            adminService.scrollToFooter(getDriver());
 
             adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), "Onboarding");
 
@@ -308,33 +308,19 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 8, enabled = true, description = "Admin is able to delete the existing Auditor and Client")
-    public void adminIsAbleToDeleteClientAndAuditor() {
+    public void verifyAdminIsAbleToDeleteClientAndAuditor() {
         getLogger().info("Verify delete the existing Auditor and Client via API");
         adminService = new AdminService(getLogger(), getDriver());
-        auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
+            clientId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
             auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
 
-            String auditorDeleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + auditorId + "/delete";
-            GeneralUtilities.loadURL(getDriver(), auditorDeleteURL);
-            String auditorMessageBack = getDriver().findElement(By.xpath("//pre")).getText();
-            getLogger().info(auditorMessageBack);
-            if (!auditorMessageBack.contains("\"code\":200")) {
-                NXGReports.addStep("Auditor is delete fail. Message: " + auditorMessageBack, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                getLogger().info("Auditor is delete fail");
-            }
+            String auditorMessageBack = adminService.deleteUserViaAPI(auditorId);
+            adminService.verifyAPIResponseSuccessCode(auditorMessageBack,"Auditor");
 
-            String clientDeleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
-                    + GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL") + "/delete";
-            GeneralUtilities.loadURL(getDriver(), clientDeleteURL);
-            String clientMessageBack = getDriver().findElement(By.xpath("//pre")).getText();
-            getLogger().info(clientMessageBack);
-            if (!clientMessageBack.contains("\"code\":200")) {
-                NXGReports.addStep("Client is delete fail. Message: " + clientMessageBack, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                getLogger().info("Client is delete fail");
-            }
+            String clientMessageBack = adminService.deleteUserViaAPI(clientId);
+            adminService.verifyAPIResponseSuccessCode(clientMessageBack,"Client");
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify delete the existing Auditor and Client via API.", LogAs.PASSED, null);
         } catch (Exception e) {
