@@ -68,6 +68,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
     @FindBy(id = "customize-create-btn")
     private WebElement eleCustomizeCreateBtn;
+
     @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
     private WebElement newEngagementHeaderTextEle;
 
@@ -214,4 +215,73 @@ public class AuditorNewEngagementPage extends AbstractPage {
         clickElement(eleCustomizeCreateBtn, "Customize Create Button");
     }
 
+    /**
+     * Added by huy.huynh on 06/06/2017.
+     * check element on dev-branch
+     */
+    @FindBy(id = "link-ce-setuptitle")
+    private WebElement tabProgressNameSetUp;
+
+    @FindBy(id = "link-ce-teamtitle")
+    private WebElement tabProgressNameTeam;
+
+    @FindBy(id = "link-ce-customizetitle")
+    private WebElement tabProgressNameCustomize;
+
+    @FindBy(id = "link-ce-setupcircle")
+    private WebElement tabProgressCircleSetUp;
+
+    @FindBy(id = "link-ce-teamcircle")
+    private WebElement tabProgressCircleTeam;
+
+    @FindBy(id = "link-ce-customizecircle")
+    private WebElement tabProgressCircleCustomize;
+
+    @FindBy(xpath = "//p[@id='setup-component-body']/h3[@class='setup-header']")
+    private WebElement titleSetUpHeader;
+
+    @FindBy(xpath = "//p[@for='engagement-name']")
+    private WebElement titleEngagementName;
+    //eleEngagementNameInput
+    @FindBy(xpath = "//p[@for='engagement-type']")
+    private WebElement titleEngagementType;
+
+    @FindBy(xpath = "//input[@id='engagement-type']")
+    private WebElement inputEngagementType;
+
+    @FindBy(xpath = "//div[@id='engagement-type-container']//a[@class='ddlText auv-inputDdl-text']")
+    private List<WebElement> listEngagementTypeContain;
+
+    @FindBy(xpath = "//p[@for='engagement-company']")
+    private WebElement titleEngagementCompany;
+
+    @FindBy(xpath = "//input[@id='engagement-company']")
+    private WebElement inputEngagementCompany;
+
+    public void verifyUINewEngagementSetUpHeader(){
+        validateElementText(tabProgressNameSetUp,"SET-UP");
+        validateElementText(tabProgressNameTeam,"TEAM");
+        validateElementText(tabProgressNameCustomize,"CUSTOMIZE");
+        validateElementText(tabProgressCircleSetUp,"1");
+        validateElementText(tabProgressCircleTeam,"2");
+        validateElementText(tabProgressCircleCustomize,"3");
+        validateAttributeElement(tabProgressCircleSetUp,"class","ce-numberCircle ce-numberCircle-active");
+        validateElementText(titleSetUpHeader,"Set Up Your Engagement");
+    }
+
+    public void verifyUINewEngagementSetUpBody(){
+        validateElementText(titleEngagementName,"Name Your Engagement");
+        sendKeyTextBox(eleEngagementNameInput,"param","Engagement Name Input");
+        validateElementText(titleEngagementType,"Select Engagement Type");
+        clickElement(inputEngagementType,"Engagement Type");
+        validateElementsQuantity(listEngagementTypeContain, 4,"List Engagement Type");
+        selectEngagementType("");
+//        validateElementText(tabProgressNameCustomize,"CUSTOMIZE");
+//        validateElementText(tabProgressCircleSetUp,"1 ");
+//        validateElementText(tabProgressCircleTeam,"2");
+//        validateElementText(tabProgressCircleCustomize,"3");
+//        validateAttributeElement(tabProgressCircleSetUp,"class","ce-numberCircle ce-numberCircle-active");
+//        validateElementText(titleSetUpHeader,"Set Up Your Engagement");
+    }
+    /*-----------end of huy.huynh on 06/06/2017.*/
 }

@@ -1033,8 +1033,6 @@ public class AbstractPage {
     }
 
 
-
-
     /*
     Vien Pham edited
      */
@@ -2872,4 +2870,25 @@ public class AbstractPage {
             throw new AssertionError(e.getMessage());
         }
     }
+
+    /**
+     * Added by huy.huynh on 06/06/2017.
+     * check element on dev-branch
+     */
+
+    /**
+     * validate element list size equal
+     *
+     * @param elements list element
+     * @param quantity Expected quantity
+     */
+    public void validateElementsQuantity(List<WebElement> elements, int quantity, String elementName) {
+        if (elements.size() == quantity) {
+            NXGReports.addStep(elementName+" quantity equal: " + quantity, LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementName+"Elements quantity not equal: [Expected]= " + quantity + " /[Actual]= " + elements.size(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /*-----------end of huy.huynh on 06/06/2017.*/
 }
