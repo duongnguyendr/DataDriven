@@ -135,5 +135,4 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
 
     }
 
-
 }
