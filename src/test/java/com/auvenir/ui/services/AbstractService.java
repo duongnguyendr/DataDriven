@@ -44,7 +44,7 @@ public class AbstractService {
     /**
      * Base url this value is set at runtime.
      */
-    private String baseUrl = "https://ariel.auvenir.com";
+    public static String baseUrl = "https://ariel.auvenir.com";
     MarketingPage homePO;
     private final String keywordApiDelete = "/delete";
     private final String keywordApiUpdateActive = "/update?status=ACTIVE";
@@ -97,6 +97,10 @@ public class AbstractService {
         getLogger().info("Url of testing server is: " + baseUrl);
     }
 
+    /*
+    Closed by Doai Tran
+    Refactor => Currently, we do not use this method to login. we will use only userid to login.
+
     public void loginWithUserRole(String userId, String getTokenUrl, String checkTokenUrl) {
         try {
             getLogger().info("Login with user role: " + userId);
@@ -104,7 +108,7 @@ public class AbstractService {
             String s1 = driver.findElement(By.xpath("//pre")).getText();
             String[] parts = s1.split("(\")");
             String token = parts[3];
-            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -116,6 +120,7 @@ public class AbstractService {
             throw e;
         }
     }
+    */
 
     public void loginWithUserRole(String userId) {
         try {
@@ -132,7 +137,7 @@ public class AbstractService {
             String token = parts[3];
             String checkTokenUrl = getBaseUrl() + "/checkToken?email=";
             getLogger().info("checktokenurl: " + checkTokenUrl);
-            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -323,7 +328,7 @@ public class AbstractService {
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
         String token = parts[3];
-        GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
+        //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
         driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
@@ -338,7 +343,7 @@ public class AbstractService {
             WebService http = new WebService(logger);
             http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
             http.gettingURL(sEMAILID, sLOGINURL, sDevAuthID, sApiKey);
-            System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
+            //System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -414,11 +419,14 @@ public class AbstractService {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    /**
+    /*
+        Deleted by Doai.Tran
+        Review and refactor duplicate methods.
+     *
      * Delete given email user
      *
      * @param email current webDriver
-     */
+     *//*
     public String deleteUserViaAPI(String email) {
         String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + email + "/delete";
@@ -426,12 +434,12 @@ public class AbstractService {
         return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
     }
 
-    /**
+    *//**
      * Check if response code equal 200(success code)
      *
      * @param message response message
      * @param role    role of user: Admin, Auditor, Client..(for log n report only)
-     */
+     *//*
     public void verifyAPIResponseSuccessCode(String message, String role) {
         getLogger().info(message);
         if (!message.contains("\"code\":200")) {
@@ -443,6 +451,7 @@ public class AbstractService {
             getLogger().info(role + " is delete success.");
         }
     }
+    */
 
     /*-----------end of huy.huynh on 06/06/2017.*/
     /*

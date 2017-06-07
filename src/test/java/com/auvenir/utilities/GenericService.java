@@ -10,6 +10,7 @@
 
 package com.auvenir.utilities;
 
+import com.auvenir.ui.services.AbstractService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -81,7 +82,7 @@ public class GenericService {
     }
 
     /*
-     * @author: LAKSHMI BS Description: To read the basic environment settings
+     * @author: LAKSHMI BS Description: To write the basic environment settings
      * data from config file
      */
     public static void setConfigValue(String sFile, String sKey, String sValue) {
@@ -320,9 +321,11 @@ public class GenericService {
             msg.setRecipients(Message.RecipientType.CC,
                     GenericService.getConfigValue(GenericService.sConfigFile, "CC_EMAILID"));
             // msg.setSubject("Auvenir_Execution_Report_"+GenericService.getCongigValue(GenericService.sConfigFile,"EXECUTION_REPORT_DATE"));
-            msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
+            /*msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
+                    + " " + sExecutionDate);*/
+            msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, AbstractService.baseUrl)
                     + " " + sExecutionDate);
-            msg.setSentDate(new Date());
+                    msg.setSentDate(new Date());
             Multipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
             textPart.setContent(message, "text/html");

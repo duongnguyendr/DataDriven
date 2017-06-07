@@ -7,7 +7,6 @@ import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -62,13 +61,13 @@ public class SmokeTest extends AbstractTest {
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
             adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
             dateFormat = new SimpleDateFormat("MM/d/yyyy");
 
             //precondition
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
 
-            auvenirService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            auvenirService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auvenirService.verifyPageLoad();
             auvenirService.inputEmailAndJoin(auditorId);
             auvenirService.actionWithApprovalDialog();
@@ -76,7 +75,7 @@ public class SmokeTest extends AbstractTest {
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-            adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), dateFormat.format(new Date()), "Wait Listed");
+            adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), dateFormat.format(new Date()), "Wait Listed");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
@@ -95,10 +94,10 @@ public class SmokeTest extends AbstractTest {
 
         try {
             //precondition setted by tc auditorCreation
-//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //
 //            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
 //            testCaseId = "auditor_Onboarding";
 //            sData = GenericService.toReadExcelData(testCaseId);
 //
@@ -106,9 +105,9 @@ public class SmokeTest extends AbstractTest {
 //
 //            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 //            auvenirService.verifyPageLoad();
-//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -134,14 +133,14 @@ public class SmokeTest extends AbstractTest {
         auditorService = new AuditorService(getLogger(), getDriver());
 
         try {
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
             testCaseId = "auditor_Onboarding";
             sData = GenericService.toReadExcelData(testCaseId);
             //precondition setted by tc changeTheStatusAuditorToOnBoarding
-//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //
 //            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
 //            testCaseId = "auditor_Onboarding";
 //            sData = GenericService.toReadExcelData(testCaseId);
 //
@@ -149,15 +148,15 @@ public class SmokeTest extends AbstractTest {
 //
 //            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 //            auvenirService.verifyPageLoad();
-//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
 //
 //            adminService.loginWithUserRole(adminId);
 //            adminService.verifyPageLoad();
 //            GeneralUtilities.scrollToFooter(getDriver());
 //
-//            adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
-//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
+//            adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), "Onboarding");
+//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), "Onboarding");
 
             adminService.loginWithUserRole(auditorId);
             auditorService.verifyPersonalPage();
@@ -186,10 +185,10 @@ public class SmokeTest extends AbstractTest {
 //            testCaseId = "auditor_Onboarding";
 //            sData = GenericService.toReadExcelData(testCaseId);
 //
-//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //
 //            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
 //            testCaseId = "auditor_Onboarding";
 //            sData = GenericService.toReadExcelData(testCaseId);
 //
@@ -197,17 +196,17 @@ public class SmokeTest extends AbstractTest {
 //
 //            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 //            auvenirService.verifyPageLoad();
-//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"));
+//            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
 //            adminService.loginWithUserRole(adminId);
 //            adminService.verifyPageLoad();
 //            GeneralUtilities.scrollToFooter(getDriver());
 //
-//            adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
-//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), "Onboarding");
+//            adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), "Onboarding");
+//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), "Onboarding");
 //
 //            getLogger().info("Login with auditor role. ");
-//            //auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+//            //auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 //            adminService.loginWithUserRole(auditorId);
 //            auditorService.verifyPersonalPage();
 //            auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
@@ -217,7 +216,7 @@ public class SmokeTest extends AbstractTest {
 //            auditorService.verifySecurityOnBoardingPageSimplelize();
 //            auditorService.verifyEpilogueOnBoardingPage();
             adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -313,13 +312,13 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         try {
             clientId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_LOGIN_EMAILID");
+            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
 
-            String auditorMessageBack = adminService.deleteUserViaAPI(auditorId);
-            adminService.verifyAPIResponseSuccessCode(auditorMessageBack,"Auditor");
+            adminService.deleteUserUsingApi(auditorId);
+            //adminService.verifyAPIResponseSuccessCode(auditorMessageBack,"Auditor");
 
-            String clientMessageBack = adminService.deleteUserViaAPI(clientId);
-            adminService.verifyAPIResponseSuccessCode(clientMessageBack,"Client");
+            adminService.deleteUserUsingApi(clientId);
+            //adminService.verifyAPIResponseSuccessCode(clientMessageBack,"Client");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify delete the existing Auditor and Client via API.", LogAs.PASSED, null);
