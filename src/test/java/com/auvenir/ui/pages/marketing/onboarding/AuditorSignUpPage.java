@@ -1061,6 +1061,7 @@ public class AuditorSignUpPage extends AbstractPage {
     public void acceptCreateAccountAuditor() {
         clickElement(btnContinue, "Continue Button");
     }
+
     public void registerNewAuditorUser(String fullName, String strEmail, String strPassword){
         marketingPage = new MarketingPage(getLogger(), getDriver());
 //            deleteUserUsingApi(strEmail);

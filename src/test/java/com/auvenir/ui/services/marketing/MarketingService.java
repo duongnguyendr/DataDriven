@@ -126,4 +126,14 @@ public class MarketingService extends AbstractService {
     public void verifyTermsContentPage(){
         marketingPage.verifyTermsContentPage();
     }
+
+    /*
+Vien.Pham added login With New User Role
+*/
+    public void loginWithNewUserRole(String adminEmail, String adminPwd) throws Exception {
+        setPrefixProtocol("http://");
+        goToBaseURL();
+        clickLoginButton();
+        loginWithUserNamePassword(adminEmail,adminPwd);
+    }
 }
