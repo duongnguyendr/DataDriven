@@ -53,28 +53,37 @@ public class GmailPage extends AbstractPage {
         return eleSignOutBtn;
     }
 
-    @FindBy(id = "Email")
-    private WebElement eleEmailIDTxtFld;
+//    @FindBy(id = "Email")
+//    private WebElement eleEmailIDTxtFld;
+    @FindBy(xpath = "//input[@type='email']")
+    private  WebElement eleEmailIDTxtFld;
 
     public WebElement getEleEmailIDTxtFld() {
         return eleEmailIDTxtFld;
     }
 
-    @FindBy(id = "next")
+//    @FindBy(id = "next")
+//    private WebElement eleNextBtn;
+
+    @FindBy(xpath = "//*[@id=\"identifierNext\"]/content/span")
     private WebElement eleNextBtn;
 
     public WebElement getEleNextBtn() {
         return eleNextBtn;
     }
 
-    @FindBy(id = "Passwd")
-    private WebElement elePasswordTxtFld;
+//    @FindBy(id = "Passwd")
+//    private WebElement elePasswordTxtFld;
 
+    @FindBy(xpath = "//input[@type='password']")
+    private  WebElement elePasswordTxtFld;
     public WebElement getElePasswordTxtFld() {
         return elePasswordTxtFld;
     }
 
-    @FindBy(id = "signIn")
+//    @FindBy(id = "signIn")
+//    private WebElement eleSignInBtn;
+    @FindBy(xpath = "//*[@id=\"passwordNext\"]/content/span")
     private WebElement eleSignInBtn;
 
     public WebElement getEleSignInBtn() {
