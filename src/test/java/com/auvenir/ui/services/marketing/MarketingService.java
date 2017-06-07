@@ -3,6 +3,7 @@ package com.auvenir.ui.services.marketing;
 import com.auvenir.ui.pages.marketing.*;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -37,7 +38,7 @@ public class MarketingService extends AbstractService {
         getLogger().info("Click on login button.");
         marketingPage.clickOnLoginBTN();
     }
-    public void loginWithUserNamePassword(String UserName, String Password){
+    public void loginWithUserNamePassword(String UserName, String Password) throws InterruptedException {
         getLogger().info("Input Username and Password.");
         marketingPage.inputUserNamePassword(UserName,Password);
         getLogger().info("Click on Login button.");

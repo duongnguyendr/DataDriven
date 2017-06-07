@@ -498,6 +498,7 @@ public class GenericService {
 
     /**
      * Get pie chart follow browser list
+     * Author : TanPham 01/06/2017
      * @param sTestNames : test name list
      * @param sStatus : status test name list
      */
@@ -550,6 +551,12 @@ public class GenericService {
         }
     }
 
+    /**
+     * Get bar chart follow browser list
+     * Author : TanPham 01/06/2017
+     * @param sTestNames : test name list
+     * @param sStatus : status test name list
+     */
     public static void getBarChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus) {
         List<String> browserList = getBrowserList();
         int totalBrowser = browserList.size();
