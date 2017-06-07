@@ -2,6 +2,7 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -160,5 +161,8 @@ public class AdminService extends AbstractService {
         adminLoginPage.changeTheStatusAuditorToOnBoarding(userEmail, chooseOption);
     }
     /*-----------end of huy.huynh on 30/05/2017.*/
+
+
+
 }
 

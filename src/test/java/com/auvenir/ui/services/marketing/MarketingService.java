@@ -3,6 +3,7 @@ package com.auvenir.ui.services.marketing;
 import com.auvenir.ui.pages.marketing.*;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -39,7 +40,7 @@ public class MarketingService extends AbstractService {
         getLogger().info("Click on login button.");
         marketingPage.clickOnLoginBTN();
     }
-    public void loginWithUserNamePassword(String UserName, String Password){
+    public void loginWithUserNamePassword(String UserName, String Password) throws InterruptedException {
         getLogger().info("Input Username and Password.");
         marketingPage.inputUserNamePassword(UserName,Password);
         getLogger().info("Click on Login button.");
@@ -127,5 +128,15 @@ public class MarketingService extends AbstractService {
 
     public void verifyTermsContentPage(){
         marketingPage.verifyTermsContentPage();
+    }
+
+    /*
+Vien.Pham added login With New User Role
+*/
+    public void loginWithNewUserRole(String adminEmail, String adminPwd) throws Exception {
+        setPrefixProtocol("http://");
+        goToBaseURL();
+        clickLoginButton();
+        loginWithUserNamePassword(adminEmail,adminPwd);
     }
 }

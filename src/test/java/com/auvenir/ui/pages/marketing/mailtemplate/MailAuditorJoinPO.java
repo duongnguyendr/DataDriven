@@ -8,18 +8,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by cuong.nguyen on 4/25/2017.
  */
 public class MailAuditorJoinPO extends BaseMailTemplatePO {
 
     // Element of title mail
-    @FindBy(xpath = "//center/table[1]/tbody/tr/td/p[contains(text(),'Hello')]")
+    @FindBy(xpath = "//p[contains(text(),'Hello')]")
     private WebElement eleTitle;
     public WebElement getEleTitle(){return  eleTitle; }
 
     // Element of content mail
-    @FindBy(xpath = "//center/table[1]/tbody/tr/td/p[contains(text(),'We')]")
+    @FindBy(xpath = "//p[contains(text(),'We ')]")
     private WebElement eleContent;
     public WebElement getEleContent(){return  eleContent;}
 
@@ -29,27 +31,27 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
     public WebElement getBtnGoToSiteAuvenir(){return btnGoToSiteAuvenir; }
 
     // Element of Twitter link
-    @FindBy(xpath = "//center/table[1]/tbody/tr/td/p/a[@href='https://twitter.com/auvenir']")
+    @FindBy(xpath = "//a[@href='https://twitter.com/auvenir']")
     private WebElement lnkTwitter;
     public WebElement getLnkTwitter(){ return lnkTwitter; }
 
     // Element of LinkedIn link
-    @FindBy(xpath = "//center/table[1]/tbody/tr/td/p/a[@href='https://www.linkedin.com/company/auvenir']")
+    @FindBy(xpath = "//a[@href='https://www.linkedin.com/company/auvenir']")
     private WebElement lnkLinked;
     public WebElement getLnkLinked(){ return lnkLinked; }
 
     // Element of Facebook link
-    @FindBy(xpath = "//center/table[1]/tbody/tr/td/p/a[@href='https://www.facebook.com/auvenir/']")
+    @FindBy(xpath = "//a[@href='https://www.facebook.com/auvenir/']")
     private WebElement lnkFacebook;
     public WebElement getLnkFacebook(){ return lnkFacebook; }
 
     // Element of InfoAuvenir link
-    @FindBy(xpath = "//center/table[1]/tbody/tr/td/p/a[@href='mailto:info@auvenir.com']")
+    @FindBy(xpath = "//a[@href='mailto:info@auvenir.com']")
     private WebElement lnkInfoAuvenir;
     public WebElement getLnkInfoAuvenir(){return lnkInfoAuvenir; }
 
     // Element of footer content mail
-    @FindBy(xpath = "//center/table[1]/tbody/tr/td/p[contains(text(),'Best Regards,') and contains(.,'Auvenir Customer Success Team')]")
+    @FindBy(xpath = "//p[contains(text(),'Best Regards,') and contains(.,'Auvenir Customer Success Team')]")
     private WebElement eleSignatureMail;
     public WebElement getEleSignatureMail(){return eleSignatureMail; }
 
@@ -59,12 +61,17 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         PageFactory.initElements(webDriver,this);
     }
 
+    public MailAuditorJoinPO(Logger logger, WebDriver webDriver){
+        super(logger ,webDriver);
+        PageFactory.initElements(webDriver,this);
+    }
+
+
     @Override
     public void verifyPageContent() {
         // Checking Title Email element is displayed
         NXGReports.addStep("Verify title of Email", LogAs.PASSED,  null);
         this.validateElememt(eleTitle, "Element of Title of Mail", Element_Type.DISPLAYED);
-        this.validateElememt(eleTitle,"Hello Test Auditor,", Element_Type.TEXT_VALUE);
 
         // Checking content mail
         NXGReports.addStep("Verify content mail", LogAs.PASSED, null);
@@ -72,8 +79,8 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         this.validateElememt(eleContent,"We are excited about your interest in Auvenir, where we are on a mission to make the audit process better for auditors and their clients. We'll make sure to keep you up to date on our progress and will let you know when you can start using the platform.", Element_Type.TEXT_VALUE);
 
         // Checking button Go to Site Auvenir
-        NXGReports.addStep("Verify button Go to Site Auvenir", LogAs.PASSED, null);
-        this.validateElememt(btnGoToSiteAuvenir,"Element of button Go to Site Auvenir", Element_Type.DISPLAYED);
+//        NXGReports.addStep("Verify button Go to Site Auvenir", LogAs.PASSED, null);
+//        this.validateElememt(btnGoToSiteAuvenir,"Element of button Go to Site Auvenir", Element_Type.DISPLAYED);
 
         // Checking link Twitter
         NXGReports.addStep("Verify link Twitter", LogAs.PASSED, null);
@@ -127,6 +134,5 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         this.validateElememt(this.getEleLinkUnSubscribeFooter(),"Element of unsubscribe", Element_Type.DISPLAYED);
 
     }
-
 
 }

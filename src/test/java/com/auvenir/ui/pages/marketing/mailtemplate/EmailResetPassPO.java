@@ -40,7 +40,8 @@ public class EmailResetPassPO extends BaseMailTemplatePO {
      * Navigate to reset password
      */
     public ResetPasswordPO navigateResetPasswordPage(){
-        btnResetPassword.click();
+        //clickElement(btnResetPassword, "click to btnResetPassword");
+        //btnResetPassword.click();
         //Switch to Reset password tab
         switchToOtherTab(1);
         return new ResetPasswordPO(getLogger(),getDriver());
