@@ -86,7 +86,7 @@ public class AuditorTest extends AbstractTest{
         try {
             sData = GenericService.toReadExcelData(testCaseId);
             getLogger().info("update status of auditor to onboarding.");
-            abstractService.updateUserOnboarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            abstractService.updateUserOnboardingUsingAPI(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             getLogger().info("Login with auditor role.");
             abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auditorService.verifyPersonalPage();
