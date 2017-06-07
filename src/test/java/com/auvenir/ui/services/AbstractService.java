@@ -445,4 +445,32 @@ public class AbstractService {
     }
 
     /*-----------end of huy.huynh on 06/06/2017.*/
+    /*
+    Method to delete all existed mail in GMail.
+     */
+    public void deleteAllExistedGMail(String eGMail,String ePassword){
+        getLogger().info("Try to delete all existed eGMail");
+        try{
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginPo.signInGmail(eGMail,ePassword);
+            gmailLoginPo.deleteAllMail();
+        }catch (Exception e){
+            getLogger().info("Unable to delete all existed mail.");
+        }
+    }
+    /*
+    Method to the lasted mail in GMail.
+     */
+    public void deleteTheLastedGMail(String eGMail,String ePassword){
+        getLogger().info("Try to delete all existed eGMail");
+        try{
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginPo.signInGmail(eGMail,ePassword);
+            gmailLoginPo.deleteLastedMail();
+        }catch (Exception e){
+            getLogger().info("Unable to delete all existed mail.");
+        }
+    }
 }

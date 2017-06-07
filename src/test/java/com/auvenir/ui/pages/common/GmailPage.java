@@ -12,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -332,14 +334,14 @@ public class GmailPage extends AbstractPage {
         return eleEmail;
     }
 
-    @FindBy(xpath = "//span[contains(text(),'Next')]")
+    @FindBy(xpath = "//*//span[contains(text(),'Next')]")
     private WebElement eleNext;
 
     public WebElement getEleNext() {
         return eleNext;
     }
 
-    @FindBy(xpath = "//div[@id='password']//input[@type='password']")
+    @FindBy(xpath = "//input[@type='password']")
     private WebElement elePassword;
 
     public WebElement getElePassword() {
@@ -517,19 +519,36 @@ public class GmailPage extends AbstractPage {
      * @param password password of email
      */
     public void signInGmail(String email, String password) {
-        try {
+        /*try {
             clickElement(buttonSignIn, "Button Sign In");
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
+        }*/
 
         try {
-            sendKeyTextBox(inputEmail, email, "Input Email");
+            /*sendKeyTextBox(inputEmail, email, "Input Email");
             clickElement(buttonNextToPassword, "Button Next To Password");
 
             validateElementText(titleForgotPassword, "Forgot password?");
             sendKeyTextBox(inputPassword, password, "Input Password");
-            clickElement(buttonPasswordNext, "Button Password Next");
+            clickElement(buttonPasswordNext, "Button Password Next");*/
+            getLogger().info("Try to login GMail");
+            sendKeyTextBox(eleEmail, email, "eleEmail");
+            sendTabkey(eleEmail,"eleEmail");
+            getLogger().info("Send email: " + email);
+            //Clicking on "Next" button
+            Thread.sleep(1000);
+            clickAndHold(eleNext, "eleNext");
+            //Sending password
+            //Thread.sleep(500);
+            //sendKeyTextBox(elePassword,password,"eleEmail");
+            elePassword.sendKeys(password);
+            getLogger().info("Send password: " + password);
+            //Clicking on "Next" button
+            Thread.sleep(1000);
+            clickAndHold(eleNext, "eleNext");
+            //eleNext.click();
+            getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -572,4 +591,47 @@ public class GmailPage extends AbstractPage {
 
 
 	 /*-----------end of huy.huynh on 02/06/2017 - 05/06/2017.*/
+	 @FindBy(xpath = "//div[contains(text(),'COMPOSE')]")
+     private WebElement composeBtn;
+	 @FindBy(xpath = "//div[@class='ae4 aDM']//div[@role=\"checkbox\"]/div")
+     private List <WebElement> lastedMailCheckBox;
+	 @FindBy(xpath = "//div[@class='J-J5-Ji J-JN-M-I-Jm']//div[@role='presentation']")
+     private WebElement allMailCheckBox;
+	 @FindBy(xpath = "//div[@class='ar9 T-I-J3 J-J5-Ji']")
+     private WebElement deleteBTN;
+
+    public void deleteAllMail() throws InterruptedException {
+        waitForVisibleElement(composeBtn, "composeBtn");
+        getLogger().info("Try to delete all existed mail.");
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), 60);
+            wait.until(ExpectedConditions.elementToBeClickable(allMailCheckBox));
+            allMailCheckBox.click();
+            getLogger().info("Select all Delete mail: ");
+            Thread.sleep(200);
+            clickElement(deleteBTN,"deleteBTN");
+            Thread.sleep(500);
+            getLogger().info("Delete all mail successfully");
+        } catch (org.openqa.selenium.StaleElementReferenceException e) {
+            getLogger().info(e.getMessage());
+        }
+
+    }
+
+    public void deleteLastedMail() throws InterruptedException {
+        waitForVisibleElement(composeBtn, "composeBtn");
+        getLogger().info("Try to delete the lasted mail.");
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), 60);
+            wait.until(ExpectedConditions.elementToBeClickable(lastedMailCheckBox.get(0)));
+            lastedMailCheckBox.get(0).click();
+            getLogger().info("Select Delete the lasted mail.");
+            Thread.sleep(200);
+            clickElement(deleteBTN, "deleteBTN");
+            Thread.sleep(500);
+            getLogger().info("Delete the lasted mail successfully");
+        } catch (org.openqa.selenium.StaleElementReferenceException e) {
+            getLogger().info(e.getMessage());
+        }
+    }
 }
