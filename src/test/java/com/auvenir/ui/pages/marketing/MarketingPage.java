@@ -376,6 +376,9 @@ public class MarketingPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='term']//div[@class='ui container term-container']//div[@class='ui basic segment']//div[@class='terms-detail']")
     private WebElement termsContentText;
 
+    @FindBy(xpath="//*[@id=\"preview-header-left\"]/span")
+    private WebElement allEngagementsEle;
+
     public void verifyAboutContentPage(){
         getLogger().info("Verify about content page");
         boolean isCheckAboutContentPage,isCheckAboutContentPage1,isCheckAboutContentPage2,isCheckAboutContentPage3,isCheckAboutContentPage4
@@ -531,6 +534,7 @@ public class MarketingPage extends AbstractPage {
     }
     public void clickOnSubmitBTN(){
         clickElement(submitBTN,"loginBTN");
+        waitForVisibleElement(allEngagementsEle, "wait for visible allEngagementsEle");
     }
     public void clickOnProfile(){
         clickAndHold(profileLink,"profileLink");
@@ -742,6 +746,11 @@ public class MarketingPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify terms content page", LogAs.FAILED, (CaptureScreen) null);
         }
+    }
+
+    public void verifyResetPassword()
+    {
+
     }
 
 }
