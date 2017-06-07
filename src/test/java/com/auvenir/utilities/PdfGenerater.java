@@ -457,7 +457,7 @@ public class PdfGenerater {
      * @param sBrowserList : browser list
      * @return true | false
      */
-    private static boolean checkBrowserIsSkip(String browserName,List sBrowserList){
+    public static boolean checkBrowserIsSkip(String browserName,List sBrowserList){
         for (int i = 0; i < sBrowserList.size(); i++) {
             if (sBrowserList.get(i).equals(browserName + "_")){
                     return false;
