@@ -53,10 +53,10 @@ public class GmailPage extends AbstractPage {
         return eleSignOutBtn;
     }
 
-//    @FindBy(id = "Email")
+    //    @FindBy(id = "Email")
 //    private WebElement eleEmailIDTxtFld;
     @FindBy(xpath = "//input[@type='email']")
-    private  WebElement eleEmailIDTxtFld;
+    private WebElement eleEmailIDTxtFld;
 
     public WebElement getEleEmailIDTxtFld() {
         return eleEmailIDTxtFld;
@@ -76,12 +76,13 @@ public class GmailPage extends AbstractPage {
 //    private WebElement elePasswordTxtFld;
 
     @FindBy(xpath = "//input[@type='password']")
-    private  WebElement elePasswordTxtFld;
+    private WebElement elePasswordTxtFld;
+
     public WebElement getElePasswordTxtFld() {
         return elePasswordTxtFld;
     }
 
-//    @FindBy(id = "signIn")
+    //    @FindBy(id = "signIn")
 //    private WebElement eleSignInBtn;
     @FindBy(xpath = "//*[@id=\"passwordNext\"]/content/span")
     private WebElement eleSignInBtn;
@@ -430,6 +431,7 @@ public class GmailPage extends AbstractPage {
         }
     }
 
+
     public void openGmailIndexRegisterAccount(String email, String password) {
 
         try {
@@ -543,7 +545,7 @@ public class GmailPage extends AbstractPage {
             clickElement(buttonPasswordNext, "Button Password Next");*/
             getLogger().info("Try to login GMail");
             sendKeyTextBox(eleEmail, email, "eleEmail");
-            sendTabkey(eleEmail,"eleEmail");
+            sendTabkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
             //Clicking on "Next" button
             Thread.sleep(1000);
@@ -599,15 +601,15 @@ public class GmailPage extends AbstractPage {
     }
 
 
-	 /*-----------end of huy.huynh on 02/06/2017 - 05/06/2017.*/
-	 @FindBy(xpath = "//div[contains(text(),'COMPOSE')]")
-     private WebElement composeBtn;
-	 @FindBy(xpath = "//div[@class='ae4 aDM']//div[@role=\"checkbox\"]/div")
-     private List <WebElement> lastedMailCheckBox;
-	 @FindBy(xpath = "//div[@class='J-J5-Ji J-JN-M-I-Jm']//div[@role='presentation']")
-     private WebElement allMailCheckBox;
-	 @FindBy(xpath = "//div[@class='ar9 T-I-J3 J-J5-Ji']")
-     private WebElement deleteBTN;
+    /*-----------end of huy.huynh on 02/06/2017 - 05/06/2017.*/
+    @FindBy(xpath = "//div[contains(text(),'COMPOSE')]")
+    private WebElement composeBtn;
+    @FindBy(xpath = "//div[@class='ae4 aDM']//div[@role=\"checkbox\"]/div")
+    private List<WebElement> lastedMailCheckBox;
+    @FindBy(xpath = "//div[@class='J-J5-Ji J-JN-M-I-Jm']//div[@role='presentation']")
+    private WebElement allMailCheckBox;
+    @FindBy(xpath = "//div[@class='ar9 T-I-J3 J-J5-Ji']")
+    private WebElement deleteBTN;
 
     public void deleteAllMail() throws InterruptedException {
         waitForVisibleElement(composeBtn, "composeBtn");
@@ -618,7 +620,7 @@ public class GmailPage extends AbstractPage {
             allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
             Thread.sleep(200);
-            clickElement(deleteBTN,"deleteBTN");
+            clickElement(deleteBTN, "deleteBTN");
             Thread.sleep(500);
             getLogger().info("Delete all mail successfully");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {
@@ -641,6 +643,41 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Delete the lasted mail successfully");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {
             getLogger().info(e.getMessage());
+        }
+    }
+
+
+    /*
+    Vien.pham edited method gmailNewLogin
+     */
+    public void gmailNewLogin(String userName, String pwd) {
+        try {
+            getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+            //Wait for clickable of userName txtbox
+            waitForClickableOfElement(getEleEmail(), "UserName textbox");
+            sendKeyTextBox(getEleEmail(), userName, "UserName textbox");
+            getEleNextBtn().click();
+            //Wait for clickable of pwd txtbox
+            waitForClickableOfElement(getElePasswordTxtFld(), "Passwd textbox");
+            sendKeyTextBox(getElePasswordTxtFld(), pwd, "Passwd textbox");
+            getEleSignInBtn().click();
+//            //Wait for clickable of Searchbox
+//            waitForClickableOfElement(getEleSearchBtn(),"Search box");
+//            gmailLoginPo.getEleSearchTxtFld()
+//                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
+//            gmailLoginPo.getEleSearchBtn().click();
+//            Thread.sleep(5000);
+//            gmailLoginPo.getEleInviteMailLnk().click();
+//            gmailLoginPo.getEleStartBtn().click();
+//            gmailWindow = getDriver().getWindowHandle();
+//            for (String winHandle : getDriver().getWindowHandles()) {
+//                getDriver().switchTo().window(winHandle);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
