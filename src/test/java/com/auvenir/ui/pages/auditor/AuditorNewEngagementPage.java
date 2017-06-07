@@ -1,22 +1,18 @@
 package com.auvenir.ui.pages.auditor;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-
+import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.DatePicker;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.jfree.data.time.Second;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.auvenir.ui.pages.common.AbstractPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.List;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by cuong.nguyen on 5/8/2017.
  */
@@ -135,20 +131,20 @@ public class AuditorNewEngagementPage extends AbstractPage {
         NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
 
         getLogger().info("Enter deadline date.");
-        clickAndHold(eleReportDeadlineInput,"Deadline date Input");
+        clickAndHold(eleReportDeadlineInput, "Deadline date Input");
         enterDeadLineDate(getDate(10));
-        clickElement(eleEngagementNameInput,"engagement Name");
+        clickElement(eleEngagementNameInput, "engagement Name");
         NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
 
         getLogger().info("Enter end date.");
         enterEndDate(getDate(10));
-        clickElement(eleEngagementNameInput,"engagement Name");
+        clickElement(eleEngagementNameInput, "engagement Name");
         NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
 
         getLogger().info("Enter start date.");
-        clickAndHold(eleStartDateInput,"Start Date Input");
+        clickAndHold(eleStartDateInput, "Start Date Input");
         enterStartDate(getDate(0));
-        clickElement(eleEngagementNameInput,"engagement Name");
+        clickElement(eleEngagementNameInput, "engagement Name");
         NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
 
         getLogger().info("Click Continue button.");
@@ -181,10 +177,10 @@ public class AuditorNewEngagementPage extends AbstractPage {
         clickElement(eleEngagementTypeSelect, "Select Engagement Type");
         eleEngagementTypeList.get(0).click();
     }
-    
-    
-    public void enterCompanyName(String conpanyName){
-    	sendKeyTextBox(eleCompanyNameInput, conpanyName,"Company field");
+
+
+    public void enterCompanyName(String conpanyName) {
+        sendKeyTextBox(eleCompanyNameInput, conpanyName, "Company field");
     }
 
     public void enterDeadLineDate(String dateLineDate) {
@@ -202,7 +198,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     public void clickContinueBtn() {
         clickElement(eleContinueBtn, "Continue Button");
     }
-    
+
     public void clickNoMemberBtn() {
         //waitForVisibleElement(eleContinueNoMemberBtn, "Continue No Member button");
 //        waitForClickableOfLocator(By.xpath("//*[@id='team-continue-btn']"));
@@ -219,23 +215,35 @@ public class AuditorNewEngagementPage extends AbstractPage {
      * Added by huy.huynh on 06/06/2017.
      * check element on dev-branch
      */
+    @FindBy(className = "ce-headerTitle")
+    private WebElement titleHeader;
+
     @FindBy(id = "link-ce-setuptitle")
-    private WebElement tabProgressNameSetUp;
-
-    @FindBy(id = "link-ce-teamtitle")
-    private WebElement tabProgressNameTeam;
-
-    @FindBy(id = "link-ce-customizetitle")
-    private WebElement tabProgressNameCustomize;
+    private WebElement tabProgressSetUpName;
 
     @FindBy(id = "link-ce-setupcircle")
-    private WebElement tabProgressCircleSetUp;
+    private WebElement tabProgressSetUpCircle;
+
+    @FindBy(id = "link-ce-setupnum")
+    private WebElement tabProgressSetUpNumber;
+
+    @FindBy(id = "link-ce-teamtitle")
+    private WebElement tabProgressTeamName;
 
     @FindBy(id = "link-ce-teamcircle")
-    private WebElement tabProgressCircleTeam;
+    private WebElement tabProgressTeamCircle;
+
+    @FindBy(id = "link-ce-teamnum")
+    private WebElement tabProgressTeamNumber;
+
+    @FindBy(id = "link-ce-customizetitle")
+    private WebElement tabProgressCustomizeName;
 
     @FindBy(id = "link-ce-customizecircle")
-    private WebElement tabProgressCircleCustomize;
+    private WebElement tabProgressCustomizeCircle;
+
+    @FindBy(id = "link-ce-customizenum")
+    private WebElement tabProgressCustomizeNumber;
 
     @FindBy(xpath = "//p[@id='setup-component-body']/h3[@class='setup-header']")
     private WebElement titleSetUpHeader;
@@ -252,36 +260,264 @@ public class AuditorNewEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='engagement-type-container']//a[@class='ddlText auv-inputDdl-text']")
     private List<WebElement> listEngagementTypeContain;
 
+    @FindBy(xpath = "//ul[@class='ddlLink inputDdl inputDdl-after']//a[contains(text(),'Financial Audit')]")
+    private WebElement optionFirstEngagementType;
+
     @FindBy(xpath = "//p[@for='engagement-company']")
     private WebElement titleEngagementCompany;
 
     @FindBy(xpath = "//input[@id='engagement-company']")
     private WebElement inputEngagementCompany;
 
-    public void verifyUINewEngagementSetUpHeader(){
-        validateElementText(tabProgressNameSetUp,"SET-UP");
-        validateElementText(tabProgressNameTeam,"TEAM");
-        validateElementText(tabProgressNameCustomize,"CUSTOMIZE");
-        validateElementText(tabProgressCircleSetUp,"1");
-        validateElementText(tabProgressCircleTeam,"2");
-        validateElementText(tabProgressCircleCustomize,"3");
-        validateAttributeElement(tabProgressCircleSetUp,"class","ce-numberCircle ce-numberCircle-active");
-        validateElementText(titleSetUpHeader,"Set Up Your Engagement");
+    @FindBy(xpath = "//p[@for='engagement-deadline']")
+    private WebElement titleEngagementReportDeadline;
+
+    @FindBy(xpath = "//input[@id='engagement-deadline']")
+    private WebElement inputEngagementReportDeadline;
+
+    @FindBy(xpath = "//p[@for='engagement-date-range-start']")
+    private WebElement titleEngagementDateRange;
+
+    @FindBy(xpath = "//input[@id='engagement-date-range-start']")
+    private WebElement inputEngagementDateRangeStart;
+
+    @FindBy(xpath = "//input[@id='engagement-date-range-end']")
+    private WebElement inputEngagementDateRangeEnd;
+
+    @FindBy(xpath = "//button[@id='m-ce-addBtn']/following-sibling::button")
+    private WebElement buttonEngagementCancel;
+
+    @FindBy(id = "m-ce-addBtn")
+    private WebElement buttonEngagementContinue;
+
+    @FindBy(id = "team-component-header")
+    private WebElement titleTeamHeader;
+
+    @FindBy(xpath = "//button[@id='team-continue-btn']/preceding-sibling::img")
+    private WebElement imageNotAddMember;
+
+    @FindBy(xpath = "//button[@id='team-continue-btn']/preceding-sibling::p")
+    private WebElement titleNotAddMember;
+
+    @FindBy(id = "team-continue-btn")
+    private WebElement buttonNotAddMember;
+
+    @FindBy(xpath = "//button[@id='team-add-btn']/preceding-sibling::img")
+    private WebElement imageAddMember;
+
+    @FindBy(xpath = "//button[@id='team-add-btn']/preceding-sibling::p")
+    private WebElement titleAddMember;
+
+    @FindBy(id = "team-add-btn")
+    private WebElement buttonAddMember;
+
+    @FindBy(xpath = "//button[@id='customize-rollover-btn']/preceding-sibling::img")
+    private WebElement imageRollover;
+
+    @FindBy(xpath = "//button[@id='customize-rollover-btn']/preceding-sibling::p")
+    private WebElement titleRollover;
+
+    @FindBy(id = "customize-rollover-btn")
+    private WebElement buttonRollover;
+
+    @FindBy(xpath = "//button[@id='customize-create-btn']/preceding-sibling::img")
+    private WebElement imageCreateToDoList;
+
+    @FindBy(xpath = "//button[@id='customize-create-btn']/preceding-sibling::p")
+    private WebElement titleCreateToDoList;
+
+    @FindBy(id = "customize-create-btn")
+    private WebElement buttonCreateToDoList;
+
+    @FindBy(id = "ui-datepicker-div")
+    private WebElement widgetDatePicker;
+
+    DatePicker datePicker;
+
+    /**
+     * verify UI of New Engagement page - Header SetUp
+     */
+    public void verifyUINewEngagementHeaderSetUp() {
+        try {
+            waitUtilTextPresent(titleHeader, 5, "New Engagement");
+            validateElementText(titleHeader, "New Engagement");
+            validateElementText(tabProgressSetUpName, "SET-UP");
+            validateElementText(tabProgressSetUpNumber, "1");
+            validateElementText(tabProgressTeamName, "TEAM");
+            validateElementText(tabProgressTeamNumber, "2");
+            validateElementText(tabProgressCustomizeName, "CUSTOMIZE");
+            validateElementText(tabProgressCustomizeNumber, "3");
+            validateElementText(titleSetUpHeader, "Set Up Your Engagement");
+            validateAttributeElement(tabProgressSetUpCircle, "class", "ce-numberCircle ce-numberCircle-active");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement - Header SetUp ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
     }
 
-    public void verifyUINewEngagementSetUpBody(){
-        validateElementText(titleEngagementName,"Name Your Engagement");
-        sendKeyTextBox(eleEngagementNameInput,"param","Engagement Name Input");
-        validateElementText(titleEngagementType,"Select Engagement Type");
-        clickElement(inputEngagementType,"Engagement Type");
-        validateElementsQuantity(listEngagementTypeContain, 4,"List Engagement Type");
-        selectEngagementType("");
-//        validateElementText(tabProgressNameCustomize,"CUSTOMIZE");
-//        validateElementText(tabProgressCircleSetUp,"1 ");
-//        validateElementText(tabProgressCircleTeam,"2");
-//        validateElementText(tabProgressCircleCustomize,"3");
-//        validateAttributeElement(tabProgressCircleSetUp,"class","ce-numberCircle ce-numberCircle-active");
-//        validateElementText(titleSetUpHeader,"Set Up Your Engagement");
+    /**
+     * verify UI of New Engagement page - Body SetUp
+     */
+    public void verifyUINewEngagementBodySetUp() {
+        try {
+            validateElementText(titleEngagementName, "Name Your Engagement");
+            sendKeyTextBox(eleEngagementNameInput, "name", "Engagement Name Input");
+            validateElementText(titleEngagementType, "Select Engagement Type");
+            clickElement(inputEngagementType, "Engagement Type");
+            validateElementsQuantity(listEngagementTypeContain, 4, "List Engagement Type");
+            clickElement(optionFirstEngagementType);
+            validateElementText(titleEngagementCompany, "Company Name");
+            sendKeyTextBox(inputEngagementCompany, "company", "Engagement Name Input");
+            validateElementText(titleEngagementReportDeadline, "Set Reporting Deadline");
+            validatePlaceholder(inputEngagementReportDeadline, "DD/MM/YY", "Engagement Report Deadline");
+            clickElement(inputEngagementReportDeadline);
+            validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
+            datePicker = new DatePicker(getDriver(), widgetDatePicker);
+            datePicker.pickADate("26");
+            validateElementText(titleEngagementDateRange, "Select a Date Range of Bank Statements to be requested from your client.");
+            validatePlaceholder(inputEngagementDateRangeStart, "DD/MM/YY", "Engagement DateRange Start");
+            clickElement(inputEngagementDateRangeStart);
+            validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
+            datePicker = new DatePicker(getDriver(), widgetDatePicker);
+            datePicker.pickADate("27");
+            validatePlaceholder(inputEngagementDateRangeEnd, "DD/MM/YY", "Engagement DateRange End");
+            clickElement(inputEngagementDateRangeEnd);
+            validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
+            datePicker = new DatePicker(getDriver(), widgetDatePicker);
+            datePicker.pickADate("28");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Body SetUp ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of New Engagement page - Footer Setup
+     */
+    public void verifyUINewEngagementFooterSetup() {
+        try {
+            validateElementText(buttonEngagementCancel, "Cancel");
+            validateElementText(buttonEngagementContinue, "Continue");
+
+            clickElement(buttonEngagementContinue, "Button Engagement Continue");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Footer Setup ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of New Engagement page - Header Team
+     */
+    public void verifyUINewEngagementHeaderTeam() {
+        try {
+            validateElementText(titleHeader, "New Engagement");
+            validateElementText(tabProgressSetUpName, "SET-UP");
+            validateElementText(tabProgressTeamName, "TEAM");
+            validateElementText(tabProgressTeamNumber, "2");
+            validateElementText(tabProgressCustomizeName, "CUSTOMIZE");
+            validateElementText(tabProgressCustomizeNumber, "3");
+            validateAttributeElement(tabProgressSetUpCircle, "class", "ce-numberCircle ce-numberCircle-active");
+            validateAttributeElement(tabProgressSetUpNumber, "class", "ce-number auvicon-checkmark ce-nav-checkmark");
+            validateAttributeElement(tabProgressTeamCircle, "class", "ce-numberCircle ce-numberCircle-active");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Header Team", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of New Engagement page - Body Team
+     */
+    public void verifyUINewEngagementBodyTeam() {
+        try {
+            validateAttributeContain(imageNotAddMember, "src", "images/create-engagement/single-man.png", "Image Not Add Member");
+            validateElementText(titleNotAddMember, "I don't need to add any team members to this engagement");
+            validateElementText(buttonNotAddMember, "Continue");
+            validateAttributeContain(imageAddMember, "src", "images/create-engagement/three-men.png", "Image Add Member");
+            validateElementText(titleAddMember, "I'd like to add team members to this engagement");
+            validateElementText(buttonAddMember, "Add Members");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Body Team ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of New Engagement page - Footer Team
+     */
+    public void verifyUINewEngagementFooterTeam() {
+        try {
+            validateElementText(buttonEngagementCancel, "Cancel");
+            validateElementText(buttonEngagementContinue, "Continue");
+
+            clickElement(buttonNotAddMember, "Button Engagement Continue");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Footer Team ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of New Engagement page - Header Customize
+     */
+    public void verifyUINewEngagementHeaderCustomize() {
+        try {
+            validateElementText(titleHeader, "New Engagement");
+            validateElementText(tabProgressSetUpName, "SET-UP");
+            validateElementText(tabProgressTeamName, "TEAM");
+            validateElementText(tabProgressCustomizeName, "CUSTOMIZE");
+            validateElementText(tabProgressCustomizeNumber, "3");
+            validateAttributeElement(tabProgressSetUpCircle, "class", "ce-numberCircle ce-numberCircle-active");
+            validateAttributeElement(tabProgressSetUpNumber, "class", "ce-number auvicon-checkmark ce-nav-checkmark");
+            validateAttributeElement(tabProgressTeamCircle, "class", "ce-numberCircle ce-numberCircle-active");
+            validateAttributeElement(tabProgressTeamNumber, "class", "ce-number auvicon-checkmark ce-nav-checkmark");
+            validateAttributeElement(tabProgressCustomizeCircle, "class", "ce-numberCircle ce-numberCircle-active");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Header Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of New Engagement page - Body Customize
+     */
+    public void verifyUINewEngagementBodyCustomize() {
+        try {
+            validateAttributeContain(imageRollover, "src", "images/create-engagement/file-box-grey.png", "Image Rollover");
+            validateElementText(titleRollover, "Rollover a Saved Template");
+            validateElementText(buttonRollover, "Rollover");
+            validateAttributeContain(imageCreateToDoList, "src", "images/create-engagement/clipboard.png", "Image Create ToDo List");
+            validateElementText(titleCreateToDoList, "Create a new To-Do list");
+            validateElementText(buttonCreateToDoList, "Create");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Body Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of New Engagement page - Footer Customize
+     */
+    public void verifyUINewEngagementFooterCustomize() {
+        try {
+            validateElementText(buttonEngagementCancel, "Cancel");
+            validateElementText(buttonEngagementContinue, "Continue");
+
+            clickElement(buttonCreateToDoList, "Button Create ToDo List");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  New Engagement Footer Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
     }
     /*-----------end of huy.huynh on 06/06/2017.*/
 }

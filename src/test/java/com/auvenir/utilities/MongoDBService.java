@@ -504,7 +504,7 @@ public class MongoDBService {
      * remove given email user on database
      *
      * @param dBCollection DBCollection object
-     * @param email        of engagement want to query
+     * @param email        email want to query
      */
     public static void removeUserObjectByEmail(DBCollection dBCollection, String email) {
         try {
@@ -514,6 +514,29 @@ public class MongoDBService {
             DBObject dBbject = cursor.next();
 
             dBCollection.remove(dBbject);
+        } catch (NoSuchElementException ex) {
+            System.out.println("This email not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * change user object field
+     *
+     * @param dBCollection DBCollection object
+     * @param email        email want to query
+     * @param field        field wanna change
+     * @param value        new value for this field
+     */
+    public static void changeUserObjectField(DBCollection dBCollection, String email, String field, String value) {
+        try {
+            BasicDBObject changeQuery = new BasicDBObject();
+            changeQuery.append("$set", new BasicDBObject().append(field, value));
+
+            BasicDBObject searchQuery = new BasicDBObject().append("email", email);
+
+            dBCollection.update(searchQuery, changeQuery);
         } catch (NoSuchElementException ex) {
             System.out.println("This email not exist on database.");
         } catch (Exception ex) {
