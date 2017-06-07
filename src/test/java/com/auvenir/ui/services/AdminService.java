@@ -2,6 +2,7 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -143,5 +144,25 @@ public class AdminService extends AbstractService {
         adminLoginPage.verifySettingDevicesDisconnectPopup();
     }
     /*-----------end of huy.huynh on 24/05/2017.*/
+
+    /**
+     * Refactored by huy.huynh on 30/05/2017.
+     * New for smoke test
+     */
+    public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
+        adminLoginPage.verifyAuditorRowOnAdminUserTable(userType, userEmail, createdDate, userStatus);
+    }
+
+    public void verifyUserStatusOnAdminUserTable(String userEmail, String userStatus) {
+        adminLoginPage.verifyAuditorStatusOnAdminUserTable(userEmail, userStatus);
+    }
+
+    public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
+        adminLoginPage.changeTheStatusAuditorToOnBoarding(userEmail, chooseOption);
+    }
+    /*-----------end of huy.huynh on 30/05/2017.*/
+
+
+
 }
 

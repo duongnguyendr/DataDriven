@@ -191,15 +191,18 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Click on the Engagement with the engagement Name.
+     *
      * @param engagementName The Engagement Name which be found on Engagement page.
      */
-	public void viewEngagementDetailsPage(String engagementName) throws Exception{
+    public void viewEngagementDetailsPage(String engagementName) throws Exception {
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-		hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
-		waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
-		clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)),engagementName);
-	}
+        hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+        waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+        clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+
+    }
+
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
         WebElement webElement = getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
         System.out.println("+++++++++++++++++++++++++++++  " + engagementTitle);
@@ -209,6 +212,10 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(webElement, engagementName);
         clickAndHold(webElement, engagementName);
     }
+
+    /*
+    Vien.Pham moved createAndSelectNewEnagement Method
+     */
 
     /*
      * Find the index(position) of Engagement in the list Engagement by Engagement Name
@@ -272,22 +279,19 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void clickClientsLink(){
-        waitForClickableOfElement(getEleClientsLnk(), "Client link");
-        clickElement(getEleClientsLnk(), "Client link");
+        waitForClickableOfElement(eleClientsLnk, "Client link");
+        clickElement(eleClientsLnk, "Client link");
     }
-
     public void clickAddNewButton(){
-        waitForClickableOfElement(getEleAddNewBtn(), "Add new button");
-        clickElement(getEleAddNewBtn(), "Add new button");
+        waitForClickableOfElement(eleAddNewBtn, "Add new button");
+        clickElement(eleAddNewBtn, "Add new button");
     }
-
     public void clickdropDownSetingLink(){
-        waitForClickableOfElement(getEleSettingsLnk(), "Drop down setting");
-        clickElement(getEleSettingsLnk(), "Drop down setting");
+        waitForClickableOfElement(eleSettingsLnk, "Drop down setting");
+        clickElement(eleSettingsLnk, "Drop down setting");
     }
-
     public void clickAuditorNameDropDown(){
-        waitForClickableOfElement(getEleAuditorNameDrpDwn(), "Auditor name drop down");
-        clickElement(getEleAuditorNameDrpDwn(), "Auditor name drop down");
+        waitForClickableOfElement(eleAuditorNameDrpDwn, "Auditor name drop down");
+        clickElement(eleAuditorNameDrpDwn, "Auditor name drop down");
     }
 }

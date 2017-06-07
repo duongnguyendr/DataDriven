@@ -1,15 +1,24 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.marketing.HomePage;
+import com.auvenir.ui.pages.common.GmailPage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.WebService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -24,6 +33,9 @@ public class AbstractService {
     private WebDriver driver;
     private Logger logger;
     private static final int waitTime = 60;
+    public static WebDriverWait sWebDriverWait = null;
+    public static String gmailWindow;
+
     /*
     Variable to validate Passed - Failed of a TestCases
      */
@@ -33,9 +45,24 @@ public class AbstractService {
      * Base url this value is set at runtime.
      */
     private String baseUrl = "https://ariel.auvenir.com";
-    HomePage homePO;
+    MarketingPage homePO;
+    private final String keywordApiDelete = "/delete";
+    private final String keywordApiUpdateActive = "/update?status=ACTIVE";
+    private final String keywordApiUpdateOnboading = "/update?status=ONBOARDING";
+
+    private String apiUrl = "";
+
+    public void setApiUrl(String apiURL) {
+        this.apiUrl = "https://" + apiURL;
+        getLogger().info("API Url: " + this.apiUrl);
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
 
     private String prefixProtocol = "";
+
     public String getPrefixProtocol() {
         return prefixProtocol;
     }
@@ -48,7 +75,7 @@ public class AbstractService {
         this.logger = logger;
         this.driver = driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
-        homePO = new HomePage(getLogger(), getDriver());
+        homePO = new MarketingPage(getLogger(), getDriver());
     }
 
     public WebDriver getDriver() {
@@ -93,8 +120,7 @@ public class AbstractService {
     public void loginWithUserRole(String userId) {
         try {
             getLogger().info("Login with user role: " + userId);
-            if(prefixProtocol == "")
-            {
+            if (prefixProtocol == "") {
                 prefixProtocol = "https://";
             }
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
@@ -117,7 +143,6 @@ public class AbstractService {
             NXGReports.addStep("Login with userid: " + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
-
     }
 
     public void executeAutoITScriptUploadImage(String AutoITScripDirectory, String fileDirectory) throws IOException {
@@ -147,8 +172,7 @@ public class AbstractService {
      */
     public void goToBaseURL() {
         try {
-            if("".equals(prefixProtocol))
-            {
+            if ("".equals(prefixProtocol)) {
                 prefixProtocol = "https://";
             }
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
@@ -159,14 +183,12 @@ public class AbstractService {
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
-            if(sLanguage == null)
-            {
+            if (sLanguage == null) {
                 sLanguage = "English";
             }
-            System.out.println(sLanguage);
-
+            getLogger().info(sLanguage);
             if (sLanguage.equals("French")) {
-                System.out.println("Language is : " + baseLanguage);
+                getLogger().info("Language is : " + baseLanguage);
                 homePO.clickOnChangeLanguageBTN();
             }
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
@@ -193,13 +215,13 @@ public class AbstractService {
 
     //Loading the URL by keeping in config properties
     private String homeAuvenirUrl = "https://ariel.auvenir.com";
+
     public String getHomeAuvenirUrl() {
         return homeAuvenirUrl;
     }
 
     public void setHomeAuvenirUrl(String serverDomainName) {
-        if(prefixProtocol == "")
-        {
+        if (prefixProtocol == "") {
             prefixProtocol = "https://";
         }
         // S3 do not use HTTPS
@@ -211,7 +233,7 @@ public class AbstractService {
         try {
             setHomeAuvenirUrl(System.getProperty("serverDomainName"));
             String homeAuvenir = getHomeAuvenirUrl();
-            getLogger().info("Go to home auvenri url : "+ homeAuvenir);
+            getLogger().info("Go to home auvenri url : " + homeAuvenir);
             System.out.println(homeAuvenir);
             driver.get(homeAuvenir);
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -238,6 +260,7 @@ public class AbstractService {
         driver.switchTo().window(newWin);
 
     }
+
     public void loadURL(String sUrl) {
         try {
             System.out.println(sUrl);
@@ -247,6 +270,207 @@ public class AbstractService {
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
+        }
+    }
+
+    public void callRestApiUpdateUser(String userId, String keywordUpdate) {
+        try {
+            getLogger().info("Login with user role: " + userId);
+            setApiUrl(System.getProperty("apiURL") + "/api/user/");
+            String apiUpdateUserUrl = getApiUrl() + userId + keywordUpdate;
+            driver.get(apiUpdateUserUrl);
+            String s1 = driver.findElement(By.xpath("//pre")).getText();
+            String[] parts = s1.split("(\")");
+            String statusCode = parts[6];
+            statusCode = StringUtils.replaceChars(statusCode, ":", "");
+            statusCode = StringUtils.replaceChars(statusCode, "}", "");
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
+            System.out.println("Status Code: " + statusCode);
+            if (statusCode.equals("200")) {
+                getLogger().info("Existed user is deleted successful.");
+            } else if (statusCode.equals("404")) {
+                getLogger().info("The client is not existed in database.");
+            } else {
+                getLogger().info(s1);
+            }
+            NXGReports.addStep("Call API service successfully" + userId, LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Call API service unsuccessfully" + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    public void deleteUserUsingApi(String userEmail) {
+        System.out.println("This is email: " + userEmail);
+        callRestApiUpdateUser(userEmail, keywordApiDelete);
+    }
+
+    public void updateUserOnboarding(String userEmail) {
+        callRestApiUpdateUser(userEmail, keywordApiUpdateOnboading);
+    }
+
+    public void updateUserActive(String userEmail) {
+        callRestApiUpdateUser(userEmail, keywordApiUpdateActive);
+    }
+
+    /*
+    Refactoring to join AbstractRefactorService
+     */
+    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+        driver.get(sGetTokenURL + sEmailID);
+        String s1 = driver.findElement(By.xpath("//pre")).getText();
+        String[] parts = s1.split("(\")");
+        String token = parts[3];
+        GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
+        driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+    }
+
+    //Getting the URl by passing Dev Auth ID and Authentication key
+
+    public void setURL(String sEMAILID, String sAUTHID, String sLOGINURL, String sDevAuthID, String sApiKey) throws Exception {
+        try {
+            WebService http = new WebService(logger);
+            http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
+            http.gettingURL(sEMAILID, sLOGINURL, sDevAuthID, sApiKey);
+            System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
+        } catch (AssertionError e) {
+            NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+
+    public void visibilityOfElementWait(WebElement webElement, String elementName, int waitTime) {
+        try {
+            sWebDriverWait = new WebDriverWait(driver, waitTime);
+            sWebDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep(elementName + " is not Visible", LogAs.FAILED, null);
+        }
+    }
+
+    public void gmaillLogin() throws Exception {
+        try {
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            driver.manage().timeouts().implicitlyWait(10000, TimeUnit.SECONDS);
+            driver.manage().window().maximize();
+
+            //gmailLoginPo.getEleSignInLink().click();
+            if (gmailLoginPo.getEleEmailIDTxtFld().isDisplayed()) {
+                gmailLoginPo.getEleEmailIDTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
+                gmailLoginPo.getEleNextBtn().click();
+            }
+            Thread.sleep(5000);
+            gmailLoginPo.getElePasswordTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+            gmailLoginPo.getEleSignInBtn().click();
+            Assert.assertTrue(gmailLoginPo.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
+            Thread.sleep(5000);
+            gmailLoginPo.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
+            gmailLoginPo.getEleSearchBtn().click();
+            gmailLoginPo.getEleInviteMailLnk().click();
+            gmailWindow = driver.getWindowHandle();
+
+            gmailLoginPo.getEleStartBtn().click();
+            switchToWindow();
+
+            driver.close();
+            driver.switchTo().window(parentWin);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void auditorLogout() throws Exception {
+        Thread.sleep(10000);
+        GmailPage gmailLoginPo = new GmailPage(logger, driver);
+        driver.close();
+
+        driver.switchTo().window(gmailWindow);
+        gmailLoginPo.getEleProfileIcn().click();
+        gmailLoginPo.getEleSignOutBtn().click();
+    }
+
+    /**
+     * Refactored by huy.huynh on 06/06/2017.
+     * New for smoke test
+     */
+
+    /**
+     * Scroll to footer of current page
+     *
+     * @param webDriver current webDriver
+     */
+    public void scrollToFooter(WebDriver webDriver) {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    /**
+     * Delete given email user
+     *
+     * @param email current webDriver
+     */
+    public String deleteUserViaAPI(String email) {
+        String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
+                + email + "/delete";
+        loadURL(deleteURL);
+        return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
+    }
+
+    /**
+     * Check if response code equal 200(success code)
+     *
+     * @param message response message
+     * @param role    role of user: Admin, Auditor, Client..(for log n report only)
+     */
+    public void verifyAPIResponseSuccessCode(String message, String role) {
+        getLogger().info(message);
+        if (!message.contains("\"code\":200")) {
+            NXGReports.addStep(role + " is delete fail. Message: " + message, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(role + " is delete fail");
+            sStatusCnt++;
+        } else {
+            NXGReports.addStep(role + " is delete success. " + message, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(role + " is delete success.");
+        }
+    }
+
+    /*-----------end of huy.huynh on 06/06/2017.*/
+    /*
+    Method to delete all existed mail in GMail.
+     */
+    public void deleteAllExistedGMail(String eGMail,String ePassword){
+        getLogger().info("Try to delete all existed eGMail");
+        try{
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginPo.signInGmail(eGMail,ePassword);
+            gmailLoginPo.deleteAllMail();
+        }catch (Exception e){
+            getLogger().info("Unable to delete all existed mail.");
+        }
+    }
+    /*
+    Method to the lasted mail in GMail.
+     */
+    public void deleteTheLastedGMail(String eGMail,String ePassword){
+        getLogger().info("Try to delete all existed eGMail");
+        try{
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginPo.signInGmail(eGMail,ePassword);
+            gmailLoginPo.deleteLastedMail();
+        }catch (Exception e){
+            getLogger().info("Unable to delete all existed mail.");
         }
     }
 }

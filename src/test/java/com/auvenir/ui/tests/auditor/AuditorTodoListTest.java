@@ -38,7 +38,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
 
         try {
 
@@ -75,7 +75,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -94,28 +94,28 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify to create new Category")
-    public void verifyCreateNewCategory() throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        try {
-            auditorEngagementService.loginWithUserRole(userId);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + GeneralUtilities.getTimeStampForNameSuffix());
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.verifyCreateNewCategory();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify to create new Category", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
+//    @Test(priority = 3, enabled = true, description = "Verify to create new Category")
+//    public void verifyCreateNewCategory() throws Exception {
+//        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+//        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+//        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+//        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+//        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        try {
+//            auditorEngagementService.loginWithUserRole(userId);
+//            auditorEngagementService.verifyAuditorEngagementPage();
+//            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+//            auditorCreateToDoService.createToDoPage();
+//            auditorCreateToDoService.verifyCreateNewCategory();
+//            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+//            NXGReports.addStep("Verify to create new Category", LogAs.PASSED, null);
+//        } catch (Exception e) {
+//            NXGReports.addStep("Verify to create new Category", LogAs.FAILED,
+//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//            getLogger().info(e);
+//            throw e;
+//        }
+//    }
 
     @Test(priority = 4, enabled = true, description = "Verify new Category popup")
     public void verifyNewCategoryPopup() throws Exception {
@@ -123,7 +123,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -143,14 +143,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = false, description = "verify displayed of this button filter")
+    @Test(priority = 5, enabled = true, description = "verify displayed of this button filter")
     public void verifyButtonFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -167,14 +166,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = false, description = "verify default value(Search...) of this Search")
+    @Test(priority = 6, enabled = true, description = "verify default value(Search...) of this Search")
     public void verifySearchPlaceholder() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -191,14 +189,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = false, description = "verify when hover on Search change bounary color to green.")
+    @Test(priority = 7, enabled = true, description = "verify when hover on Search change bounary color to green.")
     public void verifySearchHover() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -216,14 +213,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = false, description = "verify input text.")
+    @Test(priority = 8, enabled = true, description = "verify input text.")
     public void verifySearchInputText() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -241,14 +237,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = false, description = "verify input number to field search.")
+    @Test(priority = 9, enabled = true, description = "verify input number to field search.")
     public void verifySearchInputNumber() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -266,13 +261,13 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
+    @Test(priority = 10, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
     public void verifyGUIToDoSaveIcon() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
         try {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -296,7 +291,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 11, enabled = false, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
+    @Test(priority = 11, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
 
     public void verifyGUIToDoCloseIcon() throws Exception {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -388,7 +383,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     TestCase to cover ticket: PLAT 2283
      */
-    @Test(priority = 14, enabled = false, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
+    @Test(priority = 14, enabled = true, description = "[PLAT 2283]: Verify Filter button next to create to-do button.")
     public void verifyFilterButton() throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -407,7 +402,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 15, enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
+    @Test(priority = 15, enabled = true, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
     public void verifyDefaultValueFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -429,7 +424,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 16, enabled = false, description = "[PLAT 2283]: Verify border on Filter dropdown.")
+    @Test(priority = 16, enabled = true, description = "[PLAT 2283]: Verify border on Filter dropdown.")
     public void verifyBorderOnFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -451,7 +446,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 17, enabled = false, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
+    @Test(priority = 17, enabled = true, description = "[PLAT 2283]: Verify default value on Filter dropdown.")
     public void verifyChooseAnOptionFilterButton() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -480,7 +475,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
     }
 
-    @Test(priority = 18, enabled = false, description = "[PLAT 2283]: verify Unable Add More Option Filter DropDownList")
+    @Test(priority = 18, enabled = true, description = "[PLAT 2283]: verify Unable Add More Option Filter DropDownList")
     public void verifyUnableAddMoreOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -503,7 +498,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
     }
 
-    @Test(priority = 19, enabled = false, description = "[PLAT 2283]: verify select An VaLue On Assign Option Filter")
+    @Test(priority = 19, enabled = true, description = "[PLAT 2283]: verify select An VaLue On Assign Option Filter")
     public void selectAnVaLueOnAssignOptionFilter() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -613,7 +608,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 23, enabled = false, description = "Verify GUI of select date drop down in add new to-do page.")
+    @Test(priority = 23, enabled = true, description = "Verify GUI of select date drop down in add new to-do page.")
     public void verifyGUISelectDateDropDownInNewToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -639,7 +634,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 24, enabled = false, description = "Verify due date drop down in add new to-do page.")
+    @Test(priority = 24, enabled = true, description = "Verify due date drop down in add new to-do page.")
     /**
      * Fail :
      * 1. default value due date date picker is not match with engagement due date :
@@ -697,7 +692,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 25, enabled = false, description = "Verify due date drop down in to-do list page.")
+    @Test(priority = 25, enabled = true, description = "Verify due date drop down in to-do list page.")
     /**
      * Fail :
      * 1. Current code does not against when user input text and special character :
@@ -839,7 +834,7 @@ public class AuditorTodoListTest extends AbstractTest {
      */
     //TODO
     //@BeforeMethod(dependsOnMethods = {"setUp"})
-    public void initVariable() {
+    /*public void initVariable() {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -861,14 +856,14 @@ public class AuditorTodoListTest extends AbstractTest {
 
         auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
         auditorDetailsEngagementService.navigateToTodoListPage();
-    }
+    }*/
 
     /**
      * (precondition)flow to Needed-To-Test page
      * dependsOnMethods: initVariable
      */
     //@BeforeMethod(dependsOnMethods = {"initVariable"})
-    public void navigationPreconditions() {
+    /*public void navigationPreconditions() {
         auditorEngagementService.loginWithUserRole(auditorId);
         auditorEngagementService.verifyAuditorEngagementPage();
         auditorEngagementService.clickNewEnagementButton();
@@ -882,35 +877,34 @@ public class AuditorTodoListTest extends AbstractTest {
 
         auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
         auditorDetailsEngagementService.navigateToTodoListPage();
-    }
+    }*/
 
     /**
      * (case)verify button Undo action exist
      */
     @Test(priority = 28, enabled = true, testName = "Verify GUI.", description = "verify Undo Button exist ", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoExist() throws Exception {
-        try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-
         auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        try {
 
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
+            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
 
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorEngagementService.verifyAuditorEngagementPage();
 
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
+            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.uiVerifyButtonUndoExist();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -928,28 +922,28 @@ public class AuditorTodoListTest extends AbstractTest {
      */
     @Test(priority = 29, enabled = true, testName = "Undo arrow.", description = "verify button Undo action disable", groups = "ui"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void uiVerifyButtonUndoStatus() throws Exception {
-        try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        try {
+            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
 
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorEngagementService.verifyAuditorEngagementPage();
 
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
 
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.uiVerifyButtonUndoDisable();
 
@@ -971,28 +965,29 @@ public class AuditorTodoListTest extends AbstractTest {
      */
     @Test(priority = 30, enabled = true, testName = "Undo successfully", description = "verify Undo action Complete a To-Do, verified change on database but UI", groups = "workflow")
     public void verifyUndoActionWithCompleteCase() {
-        try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        try {
 
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
+            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
 
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorEngagementService.verifyAuditorEngagementPage();
 
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
+            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -1017,28 +1012,28 @@ public class AuditorTodoListTest extends AbstractTest {
      */
     @Test(priority = 31, enabled = true, testName = "Undo successfully", description = "verify Undo action Assign to a To-Do, verified change on UI but database", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithAssignToCase() throws Exception {
-        try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        try {
+            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
 
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorEngagementService.verifyAuditorEngagementPage();
 
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
 
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -1063,28 +1058,29 @@ public class AuditorTodoListTest extends AbstractTest {
      */
     @Test(priority = 32, enabled = true, testName = "Undo successfully", description = "verify Undo action Delete a To-Do, verified change on database but UI", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyUndoActionWithDeleteCase() {
-        try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        try {
 
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
+            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
 
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorEngagementService.verifyAuditorEngagementPage();
 
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
+            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -1109,28 +1105,28 @@ public class AuditorTodoListTest extends AbstractTest {
      */
     @Test(priority = 33, enabled = true, testName = "Undo fail", description = "verify Undo action Download Attachments disable", groups = "workflow"/*, dependsOnMethods = {"verifyUndoActionWithCompleteCase"}*/)
     public void verifyDownloadAttachmentsDisable() {
-        try {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-
         auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        try {
 
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
+            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
 
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorEngagementService.verifyAuditorEngagementPage();
 
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
+            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+
+            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.verifyToDoDownloadAttachmentsDisable("toDoName01" + timeStamp);
@@ -1350,7 +1346,7 @@ public class AuditorTodoListTest extends AbstractTest {
     /*
     Vien Pham merged editCategoriesTEst into this page
      */
-    @Test(priority = 40, enabled = false, description = "Verify EditCategories GUI at Create New Todo Page")
+    @Test(priority = 40, enabled = true, description = "Verify EditCategories GUI ")
     public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -1361,7 +1357,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.createMultiCategories();
+            auditorCreateToDoService.createMultiCategory("cate4","cate5","cate6");
             auditorEditCategoryService.returnToCreateNewTodoPage();
             auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.verifyEditCategoriesTitle();
@@ -1449,7 +1445,7 @@ End of merged VienPham.
      */
     int ToDoItemNumber = 4;
 
-    @Test(priority = 45, enabled = false, description = "Verify work flow of delete multi ToDo item in ToDo page.")
+    @Test(priority = 45, enabled = true, description = "Verify work flow of delete multi ToDo item in ToDo page.")
     public void verifyWorkFlowOfDeleteMultiToDoInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1485,7 +1481,7 @@ End of merged VienPham.
         }
     }
 
-    @Test(priority = 46, enabled = false, description = "Verify work flow of delete all ToDo item in ToDo page.")
+    @Test(priority = 46, enabled = true, description = "Verify work flow of delete all ToDo item in ToDo page.")
     public void verifyWorkFlowOfDeleteAllToDoInToDoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());

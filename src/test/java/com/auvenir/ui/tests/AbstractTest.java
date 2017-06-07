@@ -32,14 +32,16 @@ public class AbstractTest {
     refactor to fix hardcode
      */
     String localPropertiesDest = GenericService.sDirPath + "/local.properties";
-    protected String testData  = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
-    protected String SELENIUM_GRID_HUB = "http://localhost:4444/wd/hub";
+    protected String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
+    protected String SELENIUM_GRID_HUB = "http://192.168.1.50:4444/wd/hub";
     /*
     We should input 2 options:
         +SeleniumGrid
         +Local
      */
+    public static final String httpProtocol = "http://";
     private String runMode = "Local";
+
     public String getRunMode() {
         setRunMode(System.getProperty("runSeleniumMode"));
         return runMode;
@@ -89,26 +91,26 @@ public class AbstractTest {
         }*/
     }
 
-    @Parameters({"browser","version","os"})
+    @Parameters({"browser", "version", "os"})
     @BeforeMethod
     public void setUp(Method method, String browser, String version, String os) {
-        System.out.println("Before Method.");
+        getLogger().info("Before Method.");
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
-            GenericService.sBrowserData="CHROME_";
-        }else if (browser.equalsIgnoreCase("firefox")){
-            GenericService.sBrowserData="FIREFOX_";
-        }else if (browser.equalsIgnoreCase("internet explorer")){
-            GenericService.sBrowserData="IE_";
-        }else if (browser.equalsIgnoreCase("safari")){
-            GenericService.sBrowserData="SAFARI_";
+            GenericService.sBrowserData = "CHROME_";
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            GenericService.sBrowserData = "FIREFOX_";
+        } else if (browser.equalsIgnoreCase("internet explorer")) {
+            GenericService.sBrowserData = "IE_";
+        } else if (browser.equalsIgnoreCase("safari")) {
+            GenericService.sBrowserData = "SAFARI_";
         }
         GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
-        System.out.println("setUp: "+GenericService.sBrowserData);
+        getLogger().info("setUp: " + GenericService.sBrowserData);
         testName = method.getName();
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
-        System.out.println("=====*****======");
+        getLogger().info("=====*****======");
         try {
             if (runMode.equalsIgnoreCase("Local")) {
             /*
@@ -116,22 +118,22 @@ public class AbstractTest {
              */
                 if (GenericService.sBrowserData.equalsIgnoreCase("CHROME_")) {
                     //if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
-                    System.out.println("Chrome is open.");
+                    getLogger().info("Chrome is open.");
                     System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
-                    System.out.println("Chrome is set");
+                    getLogger().info("Chrome is set");
                     driver = new ChromeDriver();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")) {
-                    System.out.println("Firefox is set");
+                    getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
                     DesiredCapabilities capabilities = new DesiredCapabilities();
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     driver = new FirefoxDriver(capabilities);
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("INTERNET_EXPLORER_")) {
-                    System.out.println("Intetnet Explorer is set");
-                    System.setProperty("webdriver.gecko.intenetexplorer", GenericService.sDirPath + "/src/test/resources/IEDriverServer_64.exe");
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
+                    getLogger().info("Intetnet Explorer is set");
+                    System.setProperty("webdriver.gecko.ie", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
                 }
-            }else if(runMode.equalsIgnoreCase("SeleniumGrid")){
+            } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
 
             /*Initialize Selenium for Selenium Grid*/
 
@@ -140,12 +142,11 @@ public class AbstractTest {
                     capabilities = DesiredCapabilities.firefox();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")) {
                     capabilities = DesiredCapabilities.chrome();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("INTERNET_EXPLORER_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     capabilities = DesiredCapabilities.internetExplorer();
-                }else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
                     capabilities = DesiredCapabilities.safari();
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
 
@@ -160,11 +161,11 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown platform - " + os);
                 }
-                WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
+                driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
                 NXGReports.setWebDriver(driver);
             }
         } catch (Exception e) {
-            System.out.println("Problem in launching driver");
+            getLogger().info("Problem in launching driver");
             e.printStackTrace();
         }
     }

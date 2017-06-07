@@ -353,7 +353,7 @@ public class PdfGenerater {
      * @param sTestNames : test name list
      * @return null | test name list
      */
-    private static List<String> getTestNameList(ArrayList sTestNames)
+    public static List<String> getTestNameList(ArrayList sTestNames)
     {
         List<String> result = new ArrayList<String>();
         int totalRow = sTestNames.size();
@@ -436,7 +436,7 @@ public class PdfGenerater {
      * @param statusTest : status need check
      * @return 0 | >0
      */
-    private static int countTotalTestNameStatusFollowBrowser(ArrayList sTestNames,
+    public static int countTotalTestNameStatusFollowBrowser(ArrayList sTestNames,
                                                              ArrayList sBrowserList, String sBrowser,
                                                              ArrayList sStatus, String statusTest){
         int count =0 ;
@@ -449,6 +449,7 @@ public class PdfGenerater {
         return  count;
     }
 
+    
     /**
      * Check browser is skipped.
      * Auditor : TanPham 01/06/2017

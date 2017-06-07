@@ -1,24 +1,13 @@
 package com.auvenir.utilities;
 
-import com.auvenir.utilities.MongoDBService;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.mongodb.*;
-import com.mongodb.util.JSON;
-import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
-import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by huy.huynh on 15/05/2017.
