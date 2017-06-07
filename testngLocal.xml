@@ -12,13 +12,13 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
+            <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>
             <methods>
-                <include name="verifyButtonFilter"></include>
+                <include name="verifyTodosTextBox"></include>
             </methods>
         </classes>
     </test>
-    <test name="Regression2" preserve-order="false">
+    <!--<test name="Regression2" preserve-order="false">
         <parameter name="browser" value="firefox"/>
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
@@ -28,7 +28,7 @@
                 <include name="verifyButtonFilter"></include>
             </methods>
         </classes>
-    </test>
+    </test>-->
     <!--<test name="Regression2-1" preserve-order="false">-->
         <!--<parameter name="browser" value="internet explorer"/>-->
         <!--<parameter name="version" value="lasted"/>-->
