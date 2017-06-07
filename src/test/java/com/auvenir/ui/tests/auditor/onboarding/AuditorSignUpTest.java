@@ -113,7 +113,7 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyInputValidValueOnAffFirmTextBox(affFirmInvalidDataList);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify firm sign up page: PASSED", LogAs.PASSED, null);
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             getLogger().info(e);
             NXGReports.addStep("Verify firm sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -139,7 +139,7 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.acceptCreateAccountAuditor();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             getLogger().info(e);
             NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -184,7 +184,7 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyInputValidValueOnPhoneNumberTxtBox(phoneInvalidDataList);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Full Name are highlight when input only with 1 character: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             NXGReports.addStep("Full Name are highlight when input only with 1 character: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
@@ -222,7 +222,7 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyInputWrongConfirmPassword(confirmPassword);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify GUI when input password random have invalid length: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             NXGReports.addStep("Verify GUI when input password random have invalid length: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

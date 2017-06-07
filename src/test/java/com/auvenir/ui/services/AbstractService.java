@@ -4,6 +4,7 @@ import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -276,22 +277,22 @@ public class AbstractService {
 
     public void callRestApiUpdateUser(String userId, String keywordUpdate) {
         try {
-            getLogger().info("Login with user role: " + userId);
+            getLogger().info("Update user role: " + userId);
             setApiUrl(System.getProperty("apiURL") + "/api/user/");
             String apiUpdateUserUrl = getApiUrl() + userId + keywordUpdate;
             driver.get(apiUpdateUserUrl);
             String s1 = driver.findElement(By.xpath("//pre")).getText();
-            String[] parts = s1.split("(\")");
-            String statusCode = parts[6];
-            statusCode = StringUtils.replaceChars(statusCode, ":", "");
-            statusCode = StringUtils.replaceChars(statusCode, "}", "");
+//            String[] parts = s1.split("(\")");
+//            String statusCode = parts[6];
+//            statusCode = StringUtils.replaceChars(statusCode, ":", "");
+//            statusCode = StringUtils.replaceChars(statusCode, "}", "");
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
-            System.out.println("Status Code: " + statusCode);
-            if (statusCode.equals("200")) {
+            System.out.println("Status Code: " + s1);
+            if (s1.contains("\"code\":200")) {
                 getLogger().info("Existed user is deleted successful.");
-            } else if (statusCode.equals("404")) {
+            } else if (s1.contains("\"code\":400")) {
                 getLogger().info("The client is not existed in database.");
             } else {
                 getLogger().info(s1);
@@ -303,15 +304,27 @@ public class AbstractService {
         }
     }
 
+    /**
+     * Delete User using API Url
+     * @param userEmail The email which is deleted.
+     */
     public void deleteUserUsingApi(String userEmail) {
         callRestApiUpdateUser(userEmail, keywordApiDelete);
     }
 
-    public void updateUserOnboarding(String userEmail) {
+    /**
+     * Update status of user to Onboarding using API Url
+     * @param userEmail The email which is updated.
+     */
+    public void updateUserOnboardingUsingAPI(String userEmail) {
         callRestApiUpdateUser(userEmail, keywordApiUpdateOnboading);
     }
 
-    public void updateUserActive(String userEmail) {
+    /**
+     * Update status of user to Active using API Url
+     * @param userEmail The email which is updated.
+     */
+    public void updateUserActiveUsingAPI(String userEmail) {
         callRestApiUpdateUser(userEmail, keywordApiUpdateActive);
     }
 
@@ -445,4 +458,46 @@ public class AbstractService {
     }
 
     /*-----------end of huy.huynh on 06/06/2017.*/
+
+    /**
+     * Delete user using MongoDB service.
+     * @param email The email which is deleted.
+     */
+    public void deleteUserUsingMongoDB(String email) {
+        try {
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), email);
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep("User cannot be deleted.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
+
+    /**
+     * Update status of user to ONBOARDING using MongoDB service.
+     * @param email The email which is deleted.
+     */
+    public void updateUserOnboardingUsingMongoDB(String email) {
+        try {
+            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), email, "status", "ONBOARDING");
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep("User cannot be deleted.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
+
+    /**
+     * Update status of user to ACTIVE using MongoDB service.
+     * @param email The email which is updated.
+     */
+    public void updateUserActiveUsingMongoDB(String email) {
+        try {
+            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), email, "status", "ACTIVE");
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep("User cannot be deleted.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
 }
