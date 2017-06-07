@@ -1,13 +1,6 @@
-package com.auvenir.ui.tests.marketing.simplelogin;
+package com.auvenir.ui.tests.marketing;
 
 
-import com.auvenir.ui.pages.marketing.MarketingPage;
-import com.auvenir.ui.pages.marketing.forgotpassword.ForgotPassModalPO;
-import com.auvenir.ui.pages.marketing.forgotpassword.PasswordResetSuccessPO;
-import com.auvenir.ui.pages.marketing.forgotpassword.ResetLinkSentModalPO;
-import com.auvenir.ui.pages.marketing.forgotpassword.ResetPasswordPO;
-import com.auvenir.ui.pages.marketing.mailtemplate.EmailResetPassPO;
-import com.auvenir.ui.pages.marketing.LoginModalPO;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.LoginMarketingService;
@@ -21,9 +14,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * Created by toan.nguyenp on 4/18/2017.
+ * Created by toan.nguyenp on 4/11/2017.
+ * Update by minh.nguyen on 06/02/2017
  */
-public class ForgotPasswordTest extends AbstractTest {
+public class LoginMarketingTest extends AbstractTest {
     private MarketingService marketingService;
     private GmailLoginService gmailLoginService;
     //private MarketingPage homePO = null;

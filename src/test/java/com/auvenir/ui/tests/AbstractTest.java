@@ -39,6 +39,7 @@ public class AbstractTest {
         +SeleniumGrid
         +Local
      */
+    public static final String httpProtocol = "http://";
     private String runMode = "Local";
 
     public String getRunMode() {

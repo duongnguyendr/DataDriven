@@ -356,6 +356,16 @@ public class GmailPage extends AbstractPage {
     public WebElement getElePassword() {
         return elePassword;
     }
+//	@FindBy(xpath = "//div[@id='password']//input[@type='password']")
+//	private WebElement elePassword;
+
+//	public WebElement getElePassword() { return elePassword; }
+
+    @FindBy(xpath = "//div[contains(@class, 'y6')]/span[contains(text(), 'Auvenir')]")
+    private WebElement eleEmailAuvenir;
+
+	@FindBy(xpath = "//img[@src='//ssl.gstatic.com/ui/v1/icons/mail/profile_mask2.png']")
+	private WebElement eleEmailAuvenir01;
 
     @FindBy(id = "signIn")
     private WebElement eleSignIn;
@@ -364,27 +374,23 @@ public class GmailPage extends AbstractPage {
         return eleSignIn;
     }
 
-    @FindBy(xpath = "//div[contains(@class, 'y6')]/span[contains(text(), 'Auvenir')]")
-    private WebElement eleEmailAuvenir;
+//	@FindBy(xpath = "//div[contains(@class, 'y6')]/span[contains(text(), 'Auvenir')]")
+//	private WebElement eleEmailAuvenir;
 
-    public WebElement getEleEmailAuvenir() {
-        return eleEmailAuvenir;
-    }
+	public WebElement getEleEmailAuvenir() { return eleEmailAuvenir; }
 
-    public void goGMail() {
-        try {
-            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
-        } catch (Exception e) {
-            getLogger().info("Unable to go to Gmail.");
-        }
-    }
-
-    /**
-     * Login gmail
-     *
-     * @param email
-     * @param password
-     */
+	public void goGMail(){
+		try{
+			getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
+		}catch (Exception e){
+			getLogger().info("Unable to go to Gmail.");
+		}
+	}
+	/**
+	 * Login gmail
+	 * @param email
+	 * @param password
+	 */
     public void openGmailIndexForgotPassword(String email, String password) throws InterruptedException {
         try {
             //Sending email address
@@ -430,24 +436,25 @@ public class GmailPage extends AbstractPage {
         }
     }
 
-    public void openGmailIndexRegisterAccount(String email, String password) {
-        //Sending email address
-        sendKeyTextBox(eleEmail, email, "Email text box");
-        //Clicking on "Next" button
-        clickElement(eleNext);
-        //Sending password
-        sendKeyTextBox(elePassword, password, "Password text box");
-        //Clicking on "Next" button
-        clickElement(eleNext);
-        //Open email details
-        eleEmailAuvenir.click();
-    }
 
-    public void searchGmail(String GMAIL_SEARCHMAIL) {
-        clearTextBox(eleSearchTxtFld, "Search Field");
-        sendKeyTextBox(eleSearchTxtFld, GMAIL_SEARCHMAIL, "Search Field");
-        clickElement(eleSearchBtn, "Search button");
-    }
+        public void openGmailIndexRegisterAccount(String email, String password) {
+            //Sending email address
+            sendKeyTextBox(eleEmail, email, "Email text box");
+            //Clicking on "Next" button
+            clickElement(eleNext);
+            //Sending password
+            sendKeyTextBox(elePassword, password, "Password text box");
+            //Clicking on "Next" button
+            clickElement(eleNext);
+            //Open email details
+            eleEmailAuvenir.click();
+        }
+
+        public void searchGmail(String GMAIL_SEARCHMAIL) {
+            clearTextBox(eleSearchTxtFld, "Search Field");
+            sendKeyTextBox(eleSearchTxtFld, GMAIL_SEARCHMAIL, "Search Field");
+            clickElement(eleSearchBtn, "Search button");
+        }
 
     /**
      * Refactored by huy.huynh on 02/06/2017 - 05/06/2017.
