@@ -143,7 +143,7 @@ public class AbstractService {
             NXGReports.addStep("Login with userid: " + userId, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
-
+z
     }
 
     public void executeAutoITScriptUploadImage(String AutoITScripDirectory, String fileDirectory) throws IOException {
@@ -304,6 +304,7 @@ public class AbstractService {
     }
 
     public void deleteUserUsingApi(String userEmail) {
+        System.out.println("This is email: " + userEmail);
         callRestApiUpdateUser(userEmail, keywordApiDelete);
     }
 

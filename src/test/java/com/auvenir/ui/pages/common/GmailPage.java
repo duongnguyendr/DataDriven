@@ -420,38 +420,16 @@ public class GmailPage extends AbstractPage {
     }
 
     public void openGmailIndexRegisterAccount(String email, String password) {
-
-        try {
-            //Sending email address
-            eleEmail.sendKeys(email);
-            //Clicking on "Next" button
-            eleNext.click();
-            //Waiting for element Sign In button is displayed
-            waitUtilElementClickable(eleSignIn, 30);
-            //Sending password
-            elePassword.sendKeys(password);
-            //Clicking on "Sign In" button
-            eleSignIn.click();
-        } catch (NoSuchElementException e) {
-            WebElement elementEmail = getDriver().findElement(By.id("identifierId"));
-            elementEmail.sendKeys(email);
-            getDriver().findElement(By.xpath("//div[@id='identifierNext']")).click();
-            waitUtilElementClickable(getDriver().findElement(By.id("passwordNext")), 60);
-            getDriver().findElement(By.cssSelector("#password input")).sendKeys(password);
-            getDriver().findElement(By.id("passwordNext")).click();
-        }
-        //Waiting for email receiver form Auvenir in 30s
-        waitUtilElementClickable(eleEmailAuvenir, 30);
+        //Sending email address
+        sendKeyTextBox(eleEmail, email, "Email text box");
+        //Clicking on "Next" button
+        clickElement(eleNext);
+        //Sending password
+        sendKeyTextBox(elePassword, password, "Password text box");
+        //Clicking on "Next" button
+        clickElement(eleNext);
         //Open email details
         eleEmailAuvenir.click();
-        try {
-            WebElement showTrimmedContent = getDriver().findElement(By.xpath("//div[@aria-label='Show trimmed content']"));
-            if (showTrimmedContent.isDisplayed()) {
-                showTrimmedContent.click();
-            }
-        } catch (NoSuchElementException e) {
-
-        }
     }
 
     public void searchGmail(String GMAIL_SEARCHMAIL) {
