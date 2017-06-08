@@ -224,6 +224,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyRegisterNewAuditorUser(String fullName, String strEmail, String password) throws  Exception{
         deleteUserUsingApi(strEmail);
         MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
+        setPrefixProtocol("http://");
         goToBaseURL();
         auditorSignUpPage.registerNewAuditorUser(fullName, strEmail, password);
     }
