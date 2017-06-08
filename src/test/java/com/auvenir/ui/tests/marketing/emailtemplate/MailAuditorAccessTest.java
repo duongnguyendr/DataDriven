@@ -30,7 +30,6 @@ public class MailAuditorAccessTest extends AbstractTest {
     private GmailLoginService gmailLoginService;
     private AdminService adminService;
     private AuditorSignUpService auditorSignUpService;
-    private GmailPage gmailPage;
     private EmailTemplateService emailTemplateService;
 
     /*@Test(priority = 1, description = "")
@@ -51,24 +50,24 @@ public class MailAuditorAccessTest extends AbstractTest {
 //	 */
 
 
-    @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set")
+    @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set status to On-boarding")
     public void verifyAdminGiveAditorAccess() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-//        gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
+        gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
         getLogger().info("Auditor sign up..");
         auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham", "auvenirtestor@gmail.com", "Change@123");
         getLogger().info("Admin gives Auditor access..");
         marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
         getLogger().info("Admin find auditor email and status to On boarding..");
-        adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", "auvenirtestor@gmail.com", "06/7/2017", "Wait listed");
+//        adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", "auvenirtestor@gmail.com", "06/7/2017", "Wait listed");
         adminService.changeTheStatusAuditorToOnBoarding("auvenirtestor@gmail.com", "Onboarding");
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify template of mail : Admin gives Auditor access")
-    public void verifyMailAuditorAccess() throws Exception {
+    @Test(priority = 2, enabled = true, description = "Verify template of Active Email")
+    public void verifyActiveEmailTemplate() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         mailAuditorAccessPO = new MailAuditorAccessPO(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(),getDriver());
