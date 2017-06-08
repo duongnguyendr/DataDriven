@@ -470,6 +470,7 @@ public class AbstractService {
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginPage.signInGmail(eGMail,ePassword);
             gmailLoginPage.deleteAllMail();
+            gmailLoginPage.gmailLogout();
         }catch (Exception e){
             getLogger().info("Unable to delete all existed mail.");
         }
@@ -484,6 +485,7 @@ public class AbstractService {
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginPage.signInGmail(eGMail,ePassword);
             gmailLoginPage.deleteLastedMail();
+            gmailLoginPage.gmailLogout();
         }catch (Exception e){
             getLogger().info("Unable to delete all existed mail.");
         }
