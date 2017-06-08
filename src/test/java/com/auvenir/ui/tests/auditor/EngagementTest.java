@@ -47,13 +47,22 @@ public class EngagementTest extends AbstractTest {
     @Test(priority = 2, enabled = true, description = "Verify UI of New Engagement page.")
     public void verifyUINewEngagement() {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorNewEngagementService= new AuditorNewEngagementService(getLogger(), getDriver());
-        String auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        try {
+            String auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
 
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyUINewEngagement();
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+
+            auditorNewEngagementService.verifyUINewEngagement();
+
+            NXGReports.addStep("Finish: Verify UI of New Engagement page.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  Verify UI of New Engagement page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
     }
 }
 
