@@ -2,6 +2,7 @@ package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuditorEngagementService;
+import com.auvenir.ui.services.AuditorNewEngagementService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -16,14 +17,14 @@ import org.testng.annotations.Test;
 
 public class EngagementTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
+    private AuditorNewEngagementService auditorNewEngagementService;
 
     @Test(priority = 1, enabled = true, description = "Verify Footer in Auditor Engagements page.")
     public void verifyFooterAuditorEngagementPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
-
+        /*String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");*/
         try {
             //logCurrentStepStart();
             auditorEngagementService.loginWithUserRole(userId);
@@ -39,6 +40,29 @@ public class EngagementTest extends AbstractTest {
         }
     }
 
+    /**
+     * verify UI of New Engagement flow
+     */
+    @Test(priority = 2, enabled = true, description = "Verify UI of New Engagement page.")
+    public void verifyUINewEngagement() {
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        try {
+            String auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+
+            auditorNewEngagementService.verifyUINewEngagement();
+
+            NXGReports.addStep("Finish: Verify UI of New Engagement page.", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  Verify UI of New Engagement page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
 }
 
 

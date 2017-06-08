@@ -16,11 +16,11 @@ import org.openqa.selenium.support.PageFactory;
  */
 public class ResetPasswordPO extends BaseMarketingPO {
 
-    @FindBy(css = "#reset-password input[name='password']")
+    @FindBy(xpath = "//input[@name='password']")
     private WebElement eleNewPasword;
     public WebElement getEleNewPasword(){ return eleNewPasword; }
 
-    @FindBy(css = "#reset-password input[name='retype_password']")
+    @FindBy(xpath = "//input[@name='retype_password']")
     private WebElement eleRetypeNewPassword;
     public WebElement getEleRetypeNewPassword() { return eleRetypeNewPassword; }
 
@@ -43,6 +43,7 @@ public class ResetPasswordPO extends BaseMarketingPO {
     public ResetPasswordPO(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
+        //resetPasswordPO = new ResetPasswordPO(getLogger(),getDriver());
     }
 
     /**
@@ -68,11 +69,13 @@ public class ResetPasswordPO extends BaseMarketingPO {
         validateElememt(eleRetypeNewPassword, "New retype password input", Element_Type.DISPLAYED);
     }
 
-    public PasswordResetSuccessPO reset(String newPass, String retypeResetPass){
-        this.eleNewPasword.sendKeys(newPass);
-        this.eleRetypeNewPassword.sendKeys(retypeResetPass);
-        this.btnReset.click();
-
+    public PasswordResetSuccessPO reset(String newPass, String retypeResetPass) throws InterruptedException {
+        Thread.sleep(smallTimeOut);
+        switchToOtherTab(1);
+        sendKeyTextBox(eleNewPasword,newPass,"send key to eleNewPasword");
+        Thread.sleep(smallTimeOut);
+        sendKeyTextBox(eleRetypeNewPassword,retypeResetPass,"send key to eleRetypeNewPassword");
+        clickElement(btnReset, "click to btnReset");
         return new PasswordResetSuccessPO(getLogger(),getDriver());
     }
 

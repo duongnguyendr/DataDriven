@@ -153,6 +153,9 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='cpa-main']//p[@class='e-widget-auditTitle']")
     private List<WebElement> engagementTitleListEle;
 
+    @FindBy(xpath = "//tbody[@id='engagement-tbody']/tr/td/a")
+    private List<WebElement> newEngagementTitleListEle;
+
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
     }
@@ -197,9 +200,12 @@ public class AuditorEngagementPage extends AbstractPage {
     public void viewEngagementDetailsPage(String engagementName) throws Exception {
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-        hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
-        waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
-        clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+//        hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+//        waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+//        clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+        waitForClickableOfElement(newEngagementTitleListEle.get(index));
+        clickElement(newEngagementTitleListEle.get(index));
+        Thread.sleep(3000);
 
     }
 
@@ -225,7 +231,8 @@ public class AuditorEngagementPage extends AbstractPage {
      */
     public int findEngagementName(String engagementName) {
         getLogger().info("Find Position of Engagement Name");
-        return findElementByText(engagementTitleListEle, engagementName);
+//        return findElementByText(engagementTitleListEle, engagementName);
+        return findElementByText(newEngagementTitleListEle, engagementName);
     }
 
     /**

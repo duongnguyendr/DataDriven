@@ -11,6 +11,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by toan.nguyenp on 4/11/2017.
  */
@@ -151,9 +153,11 @@ public class MarketingPage extends AbstractPage {
     private WebElement passwordTextBox;
     @FindBy(xpath = ".//*[@id='login-popup']//button")
     private WebElement submitBTN;
-    @FindBy(xpath = "//*[@class='ui label userAligment']")
+//    @FindBy(xpath = "//*[@class='ui label userAligment']")
+    @FindBy(xpath = "//*[@class='au-dropdown-trigger']")
     private WebElement profileLink;
-    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+//    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+    @FindBy(xpath = "//*[@id='h-ddl-signOut']")
     private WebElement logoutBTN;
     @FindBy(xpath = "//*/a[@class='ui large basic inverted button']")
     private WebElement signUpBTN;
@@ -376,6 +380,41 @@ public class MarketingPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='term']//div[@class='ui container term-container']//div[@class='ui basic segment']//div[@class='terms-detail']")
     private WebElement termsContentText;
 
+    @FindBy(xpath="//*[@id=\"preview-header-left\"]/span")
+    private WebElement allEngagementsEle;
+
+    @FindBy(xpath = "//*[@id='reset-password']//input[@name='password']")
+    private WebElement eleNewPasword;
+    public WebElement getEleNewPasword(){ return eleNewPasword; }
+
+    @FindBy(xpath = "//*[@id='reset-password']//input[@name='retype_password']")
+    private WebElement eleRetypeNewPassword;
+    public WebElement getEleRetypeNewPassword() { return eleRetypeNewPassword; }
+
+    @FindBy(xpath = "//div/button[contains(@class, 'button') and (text()='Cancel' or text()='Annuler')]")
+    private WebElement btnCancel;
+    public WebElement getBtnCancel() { return btnCancel; }
+
+    @FindBy(xpath = "//div/button[contains(@class, 'button') and (text()='Reset' or text()='Réinitialiser')]")
+    private WebElement btnReset;
+    public WebElement getBtnReset() { return btnReset; }
+
+    @FindBy(id = "reset-password-warning-popup")
+    private WebElement resetPasswordWarningPopup;
+    public WebElement getResetPasswordWarningPopup() { return resetPasswordWarningPopup; }
+
+    @FindBy(id= "confirm-password-message")
+    private WebElement confirmPasswordMessage;
+    public WebElement getConfirmPasswordMessage() { return  confirmPasswordMessage; }
+
+    @FindBy(css = "#reset-password .exit")
+    private WebElement btnExit;
+    public WebElement getBtnExit() { return btnExit; }
+
+    @FindBy(css = "#reset-password .login")
+    private WebElement btnLogin;
+    public WebElement getBtnLogin() { return btnLogin; }
+
     public void verifyAboutContentPage(){
         getLogger().info("Verify about content page");
         boolean isCheckAboutContentPage,isCheckAboutContentPage1,isCheckAboutContentPage2,isCheckAboutContentPage3,isCheckAboutContentPage4
@@ -547,18 +586,35 @@ public class MarketingPage extends AbstractPage {
     public void verifyLogoutBTNIsNotPresented(){
         validateNotExistedElement(logoutBTN,"logoutBTN");
     }
-    public void verifyColorUserNameTxtBox(String attributeName, String attributeValue){
-        waitForVisibleElement(userError,"userError");
-        validateCssValueElement(userError,attributeName,attributeValue);
+
+    public void verifyColorUserNameTxtBox() {
+        waitForVisibleElement(userError, "User Name Text Box");
+        waitForCssValueChanged(userError, "User Name Text Box", borderColor, warningBorderCSSColor);
+        validateCssValueElement(userError, borderColor, warningBorderCSSColor);
+        waitForCssValueChanged(userError, "User Name Text Box", backgroundColor, warningBackgroundCSSColor);
+        validateCssValueElement(userError, backgroundColor, warningBackgroundCSSColor);
     }
-    public void verifyColorPasswordTxtBox(String attributeName, String attributeValue){
-        waitForVisibleElement(passwordError,"passwordError");
-        validateCssValueElement(passwordError,attributeName,attributeValue);
+    public void verifyColorPasswordTxtBox(){
+        waitForVisibleElement(passwordError,"Password Text Box");
+        waitForCssValueChanged(passwordError, "Password Text Box", borderColor, warningBorderCSSColor);
+        validateCssValueElement(passwordError, borderColor, warningBorderCSSColor);
+        waitForCssValueChanged(passwordError, "Password Text Box", backgroundColor, warningBackgroundCSSColor);
+        validateCssValueElement(passwordError, backgroundColor, warningBackgroundCSSColor);
+//        validateCssValueElement(passwordError,attributeName,attributeValue);
     }
     public void verifyErrorLoginMessage(String messsage){
+        getLogger().info("Verify Error Login Message.");
+        final String errorColorOfLoginMeesage= "rgba(159, 58, 56, 1)";
+        final String errorBackgroundColorOfLoginMeesage= "rgba(255, 246, 246, 1)";
+        waitForVisibleElement(errorMessageBorder,"errorMessageBorder");
         validateElementText(errorMessage,messsage);
+        verifyColorErrorLoginMessage(color, errorColorOfLoginMeesage);
+        verifyColorErrorLoginMessage(backgroundColor, errorBackgroundColorOfLoginMeesage);
+////        validateCssValueElement(errorMessageBorder,color, errorColorOfLoginMeesage);
+//        validateCssValueElement(errorMessageBorder,color, errorColorOfLoginMeesage);
     }
     public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
+        getLogger().info("Verify Error Color of Login Message.");
         waitForVisibleElement(errorMessageBorder,"errorMessageBorder");
         validateCssValueElement(errorMessageBorder,attributeName,attributeValue);
     }
@@ -744,4 +800,56 @@ public class MarketingPage extends AbstractPage {
         }
     }
 
+
+
+    protected void isLoadedExitLogin() throws Error {
+        validateElememt(btnExit, "Exit button", Element_Type.DISPLAYED);
+        validateElememt(btnLogin, "Login button", Element_Type.DISPLAYED);
+    }
+
+    public void exit(){
+        clickElement(btnExit, "click to btnExit");
+    }
+
+    public void login(){
+        clickElement(btnLogin, "click to btnLogin");
+    }
+
+    protected void isLoaded() throws Error {
+        validateElememt(eleNewPasword, "New password input", Element_Type.DISPLAYED);
+        validateElememt(eleRetypeNewPassword, "New retype password input", Element_Type.DISPLAYED);
+    }
+
+    public void resetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+        try {
+            getLogger().info("Verify to reset password");
+            Thread.sleep(smallTimeOut);
+            switchToOtherTab(1);
+            sendKeyTextBox(eleNewPasword, newPass, "send key to eleNewPasword");
+            Thread.sleep(smallTimeOut);
+            sendKeyTextBox(eleRetypeNewPassword, retypeResetPass, "send key to eleRetypeNewPassword");
+            clickElement(btnReset, "click to btnReset");
+            NXGReports.addStep("Verify to reset password", LogAs.PASSED, (CaptureScreen) null);
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to reset password", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    public void setNewPassword(String newPassword) throws InterruptedException {
+        try {
+
+            Thread.sleep(smallTimeOut);
+            switchToOtherTab(1);
+            sendKeyTextBox(eleNewPasword, newPassword, "send key to eleNewPasword");
+            NXGReports.addStep("Verify to set new password", LogAs.PASSED, (CaptureScreen) null);
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to set new password", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
 }

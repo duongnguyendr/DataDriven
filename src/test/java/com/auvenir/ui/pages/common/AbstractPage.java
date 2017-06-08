@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    private static final int waitTime = 60;
+    public static final int waitTime = 60;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -67,6 +67,8 @@ public class AbstractPage {
     public static final String popUpDivCategoryModel = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
     private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
+    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
@@ -1033,8 +1035,6 @@ public class AbstractPage {
     }
 
 
-
-
     /*
     Vien Pham edited
      */
@@ -1779,7 +1779,6 @@ public class AbstractPage {
             });
             return true;
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info("CSS Value is not changed");
             return false;
         }
@@ -2570,6 +2569,7 @@ public class AbstractPage {
 
     public void deleteCookieName(String cookieName) {
         try {
+            getLogger().info("Delete Cookie Name.");
             driver.manage().deleteCookieNamed(cookieName);
             NXGReports.addStep("Delete all cookies :" + cookieName, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -2581,6 +2581,7 @@ public class AbstractPage {
 
     public void refreshPage() {
         try {
+            getLogger().info("Refresh Page.");
             driver.navigate().refresh();
             NXGReports.addStep("Refresh page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -2609,14 +2610,25 @@ public class AbstractPage {
         }
     }
 
-    public void validateNotExistedElement(WebElement element, String elementName) {
+    public boolean validateNotExistedElement(WebElement element, String elementName) {
         try {
+            getLogger().info("Try to validate Element is not existed.");
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             element.click();
-            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(elementName + " is still displayed.");
-        } catch (NoSuchElementException e) {
             AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        } catch (NoSuchElementException e) {
+            getLogger().info("Element is not existed.");
             NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            return true;
+        } catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is still displayed.");
+            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            return false;
         }
     }
 
@@ -2872,4 +2884,128 @@ public class AbstractPage {
             throw new AssertionError(e.getMessage());
         }
     }
+
+    /**
+     * Added by huy.huynh on 06/06/2017.
+     * check element on dev-branch
+     */
+
+    /**
+     * validate element list size equal
+     *
+     * @param elements    list element
+     * @param quantity    Expected quantity
+     * @param elementName Element name
+     */
+    public void validateElementsQuantity(List<WebElement> elements, int quantity, String elementName) {
+        try {
+            getLogger().info("Validate elements quantity" + elementName);
+            if (elements.size() == quantity) {
+                NXGReports.addStep(elementName + " quantity equal: " + quantity, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + " quantity not equal: [Expected]= " + quantity + " /[Actual]= " + elements.size(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Check quantity fail: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate placeholder text
+     *
+     * @param webElement  element need to validate
+     * @param value       Expected placeholder text
+     * @param elementName Element name
+     */
+    public void validatePlaceholder(WebElement webElement, String value, String elementName) {
+        try {
+            getLogger().info("Validate placeholder " + elementName);
+            if (webElement.getAttribute("placeholder").equals(value)) {
+                NXGReports.addStep(elementName + " placeholder equal: " + value, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + " placeholder not equal: [Expected]= " + value + " /[Actual]= " + webElement.getAttribute("placeholder"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate placeholder " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate if attribute contain given value
+     *
+     * @param webElement  element need to validate
+     * @param attribute   attribute name
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
+        try {
+            getLogger().info("Validate Style Attribute Exist " + elementName);
+            if (webElement.getAttribute(attribute).contains(value)) {
+                NXGReports.addStep(value + " exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate if attribute not contain given value
+     *
+     * @param webElement  element need to validate
+     * @param attribute   attribute name
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateAttributeNotContain(WebElement webElement, String attribute, String value, String elementName) {
+        try {
+            getLogger().info("Validate Style Attribute Not Exist " + elementName);
+            if (!webElement.getAttribute(attribute).contains(value)) {
+                NXGReports.addStep(value + " not exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate not exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate text get by JS contain given value
+     *
+     * @param webElement  element need to validate
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateElementJSTextContain(WebElement webElement, String value, String elementName) {
+        try {
+            getLogger().info("Validate Element Text Contain " + elementName);
+            if (getTextByJavaScripts(webElement,elementName).contains(value)) {
+                NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + "'s text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /*-----------end of huy.huynh on 06/06/2017.*/
 }

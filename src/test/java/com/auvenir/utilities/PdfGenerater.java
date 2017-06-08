@@ -333,6 +333,7 @@ public class PdfGenerater {
 
     /**
      * Get browser list not duplicate
+     * Auditor : TanPham 01/06/2017
      * @return browser list
      */
     private static List<String> getBrowserList(){
@@ -347,7 +348,8 @@ public class PdfGenerater {
     }
 
     /**
-     * Get test name list not duplciate
+     * Get test name list not duplicate
+     * Auditor : TanPham 01/06/2017
      * @param sTestNames : test name list
      * @return null | test name list
      */
@@ -365,6 +367,7 @@ public class PdfGenerater {
 
     /**
      * get status test name follow browser
+     * Auditor : TanPham 01/06/2017
      * @param sTestNames : test name list
      * @param sTestName : test name need check
      * @param sBrowserList : browser list
@@ -387,6 +390,7 @@ public class PdfGenerater {
 
     /**
      * Get description test name follow browser
+     * Auditor : TanPham 01/06/2017
      * @param sTestNames : test name list
      * @param sTestName : test name check
      * @param sDescription : description test name list
@@ -405,6 +409,7 @@ public class PdfGenerater {
 
     /**
      * Count total test name follow browser
+     * Auditor : TanPham 01/06/2017
      * @param sTestNames : test name list
      * @param sBrowserList : browser list
      * @param sBrowser : browser need check
@@ -423,6 +428,7 @@ public class PdfGenerater {
 
     /**
      * Count total test name follow status
+     * Auditor : TanPham 01/06/2017
      * @param sTestNames : test name list
      * @param sBrowserList : browser list
      * @param sBrowser : browser need check
@@ -443,6 +449,14 @@ public class PdfGenerater {
         return  count;
     }
 
+    
+    /**
+     * Check browser is skipped.
+     * Auditor : TanPham 01/06/2017
+     * @param browserName : browser need check
+     * @param sBrowserList : browser list
+     * @return true | false
+     */
     public static boolean checkBrowserIsSkip(String browserName,List sBrowserList){
         for (int i = 0; i < sBrowserList.size(); i++) {
             if (sBrowserList.get(i).equals(browserName + "_")){
