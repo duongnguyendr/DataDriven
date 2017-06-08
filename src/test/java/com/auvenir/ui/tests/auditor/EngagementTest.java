@@ -23,9 +23,8 @@ public class EngagementTest extends AbstractTest {
     public void verifyFooterAuditorEngagementPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
-
+        /*String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
+        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");*/
         try {
             //logCurrentStepStart();
             auditorEngagementService.loginWithUserRole(userId);
