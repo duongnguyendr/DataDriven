@@ -157,6 +157,9 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='engagement-tbody']/tr//td[8]")
     private List<WebElement> engagementTitleListEle;
 
+    @FindBy(xpath = "//tbody[@id='engagement-tbody']/tr/td/a")
+    private List<WebElement> newEngagementTitleListEle;
+
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
     }

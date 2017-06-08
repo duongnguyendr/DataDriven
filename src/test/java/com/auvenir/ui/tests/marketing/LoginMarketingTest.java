@@ -3,7 +3,6 @@ package com.auvenir.ui.tests.marketing;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
-import com.auvenir.ui.services.marketing.LoginMarketingService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -21,7 +20,7 @@ import org.testng.annotations.Test;
 public class LoginMarketingTest extends AbstractTest {
     private MarketingService marketingService;
     private GmailLoginService gmailLoginService;
-    private LoginMarketingService loginMarketingService;
+
     //private LoginTest loginTest;
     private AuditorSignUpService auditorSignUpService;
 
@@ -36,12 +35,11 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.")
     public void forgotPasswordTest() throws InterruptedException {
+        emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+        emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
-            emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            marketingService = new MarketingService(getLogger(), getDriver());
-            loginMarketingService = new LoginMarketingService(getLogger(),getDriver());
-            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             Thread.sleep(2000);
@@ -52,10 +50,12 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.inputEmailForgotPassword(emailId);
             marketingService.clickOnRequestResetLinkBTN();
             gmailLoginService.openGmailIndexForgotPassword(emailId, emailPassword);
+
             String ranPassword = GenericService.genPassword(8, true, true, true);
             NXGReports.addStep("Enter new password: " + ranPassword, LogAs.PASSED, null);
-            loginMarketingService.verifyResetPassword(ranPassword,ranPassword);
-            loginMarketingService.exitClick();
+            marketingService.verifyResetPassword(ranPassword,ranPassword);
+
+            marketingService.exitClick();
             GenericService.updateExcelData(testData, "ForgotPassword", 1, 3, ranPassword);
             NXGReports.addStep("Login again after user resets password successfully.", LogAs.PASSED, null);
             marketingService.goToBaseURL();
@@ -71,8 +71,8 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 2, enabled= true, description = "Forgot password with blank email address.")
     public void forgotPasswordWithBlankEmail() throws InterruptedException {
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
@@ -93,11 +93,11 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 3, enabled= true, description = "Forgot password with email is invalid")
     public void forgotPasswordWithInvalidEmail() throws InterruptedException {
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
             String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 2, 1);
             NXGReports.addStep("Enter " + invalidEmailAddress + " into email address.", LogAs.PASSED, null);
             Assert.assertFalse(GenericService.isValidEmailAddress(invalidEmailAddress), "Email address is readed from excel file which is a invalid.");
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
@@ -144,8 +144,8 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 4, enabled= true, description = "Forgot password with email is not exist.")
     public void forgotPasswordWithEmailIsNotExist() throws InterruptedException {
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 5, 1);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
@@ -165,9 +165,9 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
     public void loginAndLogoutTest() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-            marketingService = new MarketingService(getLogger(),getDriver());
             auditorSignUpService.setPrefixProtocol(httpProtocol);
             auditorSignUpService.verifyRegisterNewAuditorUser(fullName, strEmail, password);
             marketingService.setPrefixProtocol("http://");
@@ -187,8 +187,8 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 6, enabled = true,description = "Clear all cookies after user login successfully.")
     public void clearCookieAfterLoginSuccessTest(){
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            marketingService = new MarketingService(getLogger(),getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
@@ -223,8 +223,8 @@ public class LoginMarketingTest extends AbstractTest {
         String emailInvalid3 = GenericService.readExcelData(testData, "Login", 4, 1);
         String emailNotExists = GenericService.readExcelData(testData, "Login", 5, 1);
         String passwordNotExists = GenericService.readExcelData(testData, "Login", 5, 2);
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            marketingService = new MarketingService(getLogger(),getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             //Verify Test login when user does not input email and password.
@@ -251,6 +251,78 @@ public class LoginMarketingTest extends AbstractTest {
             NXGReports.addStep("Test login when user does not input email and password: PASSED", LogAs.PASSED, null);
         }catch (Exception e){
             NXGReports.addStep("Test login when user does not input email and password: FAILED", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    @Test(priority = 8, enabled = true, description = "Forgot password with password is invalid.")
+    public void forgotPasswordWithInvalidValue() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        try {
+            emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+            emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
+            marketingService.setPrefixProtocol(httpProtocol);
+            marketingService.deleteGmail(emailId,emailPassword);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(emailId);
+            marketingService.clickOnRequestResetLinkBTN();
+            gmailLoginService.openGmailIndexForgotPassword(emailId, emailPassword);
+
+            String ranPassword = GenericService.genPassword(7, true, true, true);
+            NXGReports.addStep("Enter new password: " + ranPassword, LogAs.PASSED, null);
+            marketingService.verifyNewPassword(ranPassword);
+            marketingService.verifyPopupWarning(ranPassword, true, true, true);
+
+            String ranPasswordNotContainsUpperCase = "abc1234d";
+            NXGReports.addStep("Enter new  invalid password is: " + ranPasswordNotContainsUpperCase, LogAs.PASSED, null);
+            marketingService.verifyNewPassword(ranPasswordNotContainsUpperCase);
+            marketingService.verifyPopupWarning(ranPasswordNotContainsUpperCase, false, true, true);
+
+            String ranPasswordNotContainsDigit = "abcdABCD";
+            NXGReports.addStep("Enter new  invalid password is: " + ranPasswordNotContainsDigit, LogAs.PASSED, null);
+            marketingService.verifyNewPassword(ranPasswordNotContainsDigit);
+            marketingService.verifyPopupWarning(ranPasswordNotContainsDigit, true, true, false);
+
+            String randomPasswordContaintDigit = "12345678";
+            NXGReports.addStep("Enter new  invalid password is: " + randomPasswordContaintDigit, LogAs.PASSED, null);
+            marketingService.verifyNewPassword(randomPasswordContaintDigit);
+            marketingService.verifyPopupWarning(randomPasswordContaintDigit, false, false, true);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Forgot password with password is invalid: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        } catch (Exception e) {
+            NXGReports.addStep("Forgot password with password is invalid: FAILED", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+    @Test(priority = 9, enabled = true , description = "Verify alert when user re-types new password not match.")
+    public void forgotPasswordWithRetypePasswordNotMatchTest(){
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        try {
+            emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+            emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
+            marketingService.setPrefixProtocol(httpProtocol);
+            marketingService.deleteGmail(emailId,emailPassword);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(emailId);
+            marketingService.clickOnRequestResetLinkBTN();
+            gmailLoginService.openGmailIndexForgotPassword(emailId, emailPassword);
+            String ranPassword = GenericService.genPassword(8, true, true, true);
+            String ranReNewPassword = GenericService.genPassword(7, true, true, true);
+            NXGReports.addStep("Enter new valid password: " + ranPassword, LogAs.PASSED, null);
+            marketingService.verifyNewPassword(ranPassword);
+            marketingService.verifyPopupWarning(ranPassword, true, true, true);
+            marketingService.verifyEnterRenewPassword(ranReNewPassword);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify alert when user re-types new password not match: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify alert when user re-types new password not match: FAILED", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 }
