@@ -57,6 +57,10 @@ public class MailAuditorAccessTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
         getLogger().info("Auditor sign up..");
+        auditorSignUpService.deleteUserUsingApi("auvenirtestor@gmail.com");
+        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "auvenirtestor@gmail.com");
+        auditorSignUpService.setPrefixProtocol("http://");
+        auditorSignUpService.goToBaseURL();
         auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham", "auvenirtestor@gmail.com", "Change@123");
         getLogger().info("Admin gives Auditor access..");
         marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);

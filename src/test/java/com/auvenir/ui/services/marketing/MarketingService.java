@@ -138,11 +138,8 @@ public class MarketingService extends AbstractService {
     /*
 Vien.Pham added login With New User Role
 */
-    public void loginWithNewUserRole(String adminEmail, String adminPwd) throws Exception {
-        setPrefixProtocol("http://");
-        goToBaseURL();
-        clickLoginButton();
-        loginWithUserNamePassword(adminEmail,adminPwd);
+    public void loginWithNewUserRole(String userEmail, String usePwd) throws Exception {
+        loginWithUserNamePassword(userEmail,usePwd);
     }
 
 }
