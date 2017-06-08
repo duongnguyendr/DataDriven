@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by doai.tran on 5/25/2017.
  */
@@ -78,6 +80,10 @@ public class MarketingService extends AbstractService {
     }
     public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
         marketingPage.verifyColorErrorLoginMessage(attributeName, attributeValue);
+    }
+    public void deleteGmail(String emailAddress, String password)
+    {
+        deleteAllExistedGMail(emailAddress,password);
     }
     public void goToForgotPassword(){
         marketingPage.clickOnForgotPasswordLink();

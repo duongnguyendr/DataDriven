@@ -82,6 +82,7 @@ public class GmailLoginService extends AbstractService {
 
     //////////////////
     public void openGmailIndexForgotPassword(String email, String password) throws InterruptedException {
+        Thread.sleep(5000);
         gmailLoginPo.goGMail();
         gmailLoginPo.openGmailIndexForgotPassword(email, password);
     }

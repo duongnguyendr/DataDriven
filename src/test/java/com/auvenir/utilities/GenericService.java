@@ -10,6 +10,7 @@
 
 package com.auvenir.utilities;
 
+import com.auvenir.ui.services.AbstractService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -81,7 +82,7 @@ public class GenericService {
     }
 
     /*
-     * @author: LAKSHMI BS Description: To read the basic environment settings
+     * @author: LAKSHMI BS Description: To write the basic environment settings
      * data from config file
      */
     public static void setConfigValue(String sFile, String sKey, String sValue) {
@@ -320,9 +321,11 @@ public class GenericService {
             msg.setRecipients(Message.RecipientType.CC,
                     GenericService.getConfigValue(GenericService.sConfigFile, "CC_EMAILID"));
             // msg.setSubject("Auvenir_Execution_Report_"+GenericService.getCongigValue(GenericService.sConfigFile,"EXECUTION_REPORT_DATE"));
-            msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
+            /*msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
+                    + " " + sExecutionDate);*/
+            msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, AbstractService.baseUrl)
                     + " " + sExecutionDate);
-            msg.setSentDate(new Date());
+                    msg.setSentDate(new Date());
             Multipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
             textPart.setContent(message, "text/html");
@@ -674,8 +677,8 @@ public class GenericService {
                 if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
                     int iCellNum = sht.getRow(i).getLastCellNum();
                     sData = new String[iCellNum];
-                    System.out.println("Dong: " + i);
-                    System.out.println("So Cot:" + iCellNum);
+                    System.out.println("Row: " + i);
+                    System.out.println("The number of Columns:" + iCellNum);
                     for (int j = 1; j <= iCellNum; j++) {
                         sData[j] = sht.getRow(i).getCell(j).getStringCellValue();
                         System.out.println(sData[j]);
@@ -687,5 +690,48 @@ public class GenericService {
             e.printStackTrace();
         }
         return sData;
+    }
+
+    /**
+     * Description: This method to read from Excel file to
+     *              get the value of userID following Chrome parameter
+     *              that we input on testNG.XML
+     *              Data file: TestData.xlsx
+     * @param SheetName
+     * @param sTestCaseID
+     * @param userRole
+     * @return
+     */
+    public static String getUserFromExcelData(String SheetName,String sTestCaseID, String userRole){
+        String userData = null;
+        try{
+            String userDataExcel=null;
+            FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            Workbook wb = WorkbookFactory.create(fis);
+            Sheet sht = wb.getSheet(SheetName);
+            System.out.println(SheetName);
+            int iRowNum = sht.getLastRowNum();
+            int k = 0;
+            for (int i = 1; i <= iRowNum; i++) {
+                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                    int iCellNum = sht.getRow(i).getLastCellNum();
+                    System.out.println("Row: " + i);
+                    System.out.println("The number of Columns:" + iCellNum);
+                    System.out.println(userRole);
+                    for (int j = 1; j <= iCellNum; j++) {
+                        if(sht.getRow(0).getCell(j).toString().equals(userRole)){
+                            userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
+                            System.out.println("Data login: "+userDataExcel);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            userData = GenericService.sBrowserData+ userDataExcel;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return userData;
     }
 }

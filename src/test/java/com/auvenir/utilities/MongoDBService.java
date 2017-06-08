@@ -520,4 +520,27 @@ public class MongoDBService {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Update attribute of users.
+     *
+     * @param dBCollection DBCollection object
+     * @param email        email want to query
+     * @param field        field wanna change
+     * @param value        new value for this field
+     */
+    public static void changeUserObjectField(DBCollection dBCollection, String email, String field, String value) {
+        try {
+            BasicDBObject changeQuery = new BasicDBObject();
+            changeQuery.append("$set", new BasicDBObject().append(field, value));
+
+            BasicDBObject searchQuery = new BasicDBObject().append("email", email);
+
+            dBCollection.update(searchQuery, changeQuery);
+        } catch (NoSuchElementException ex) {
+            System.out.println("This email not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

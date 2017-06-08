@@ -32,13 +32,6 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    /*@FindBy(xpath = "//a[text()='Sign In']")
-    private WebElement eleSignInLink;
-    public WebElement getEleSignInLink()
-    {
-        return eleSignInLink;
-    }
-        */
     @FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
     private WebElement eleProfileIcn;
 
@@ -346,23 +339,25 @@ public class GmailPage extends AbstractPage {
 
     @FindBy(xpath = "//*//span[contains(text(),'Next')]")
     private WebElement eleNext;
+    private String xpathResetPassword = "//a[contains(text(),'Reset Password')]";
 
     public WebElement getEleNext() {
         return eleNext;
     }
 
-    @FindBy(xpath = "//input[@type='password']")
-    private WebElement elePassword;
+//    @FindBy(xpath = "//input[@type='password']")
+//    private WebElement elePassword;
 
-    public WebElement getElePassword() {
-        return elePassword;
-    }
-//	@FindBy(xpath = "//div[@id='password']//input[@type='password']")
-//	private WebElement elePassword;
+//    public WebElement getElePassword() {
+//        return elePassword;
+//    }
 
-//	public WebElement getElePassword() { return elePassword; }
+	@FindBy(xpath = "//div[@id='password']//input[@type='password']")
+	private WebElement elePassword;
 
-    @FindBy(xpath = "//div[contains(@class, 'y6')]/span[contains(text(), 'Auvenir')]")
+	public WebElement getElePassword() { return elePassword; }
+
+    @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
     private WebElement eleEmailAuvenir;
 
 	@FindBy(xpath = "//img[@src='//ssl.gstatic.com/ui/v1/icons/mail/profile_mask2.png']")
@@ -394,39 +389,28 @@ public class GmailPage extends AbstractPage {
 	 */
     public void openGmailIndexForgotPassword(String email, String password) throws InterruptedException {
         try {
-            //Sending email address
-            sendKeyTextBox(eleEmail, email, "eleEmail");
-            getLogger().info("Send email: " + email);
-            //Clicking on "Next" button
-            clickAndHold(eleNext, "eleNext");
-            //Sending password
-            //Thread.sleep(500);
-            //sendKeyTextBox(elePassword,password,"eleEmail");
-            elePassword.sendKeys(password);
-            getLogger().info("Send password: " + password);
-            //Clicking on "Next" button
-            Thread.sleep(500);
-            clickAndHold(eleNext, "eleNext");
-            //eleNext.click();
             getLogger().info("DONE => LOGIN");
         } catch (NoSuchElementException e) {
             getLogger().info("Errors ..... ");
             WebElement elementEmail = getDriver().findElement(By.id("identifierId"));
             elementEmail.sendKeys(email);
             getDriver().findElement(By.xpath("//div[@id='identifierNext']")).click();
-            waitUtilElementClickable(getDriver().findElement(By.id("passwordNext")), 60);
+            waitUtilElementClickable(getDriver().findElement(By.id("passwordNext")), waitTime);
             getDriver().findElement(By.cssSelector("#password input")).sendKeys(password);
             getDriver().findElement(By.id("passwordNext")).click();
         }
         //Waiting for email receiver form Auvenir in 30s
-        waitUtilElementClickable(eleEmailAuvenir, 30);
+        waitUtilElementClickable(eleEmailAuvenir, waitTime);
         //Open email details
-        eleEmailAuvenir.click();
+        Thread.sleep(smallTimeOut);
+        clickElement(eleEmailAuvenir);
+        Thread.sleep(smallTimeOut);
+        clickElement(eleEmailAuvenir01);
         getLogger().info("Click on mail.");
         try {
-            Thread.sleep(500);
+            //Thread.sleep(smallerTimeOut);
             //WebElement showTrimmedContent = getDriver().findElement(By.xpath("//div[@aria-label='Show trimmed content']"));
-            WebElement showTrimmedContent = getDriver().findElement(By.xpath("//a[contains(text(),'Reset Password')]"));
+            WebElement showTrimmedContent = getDriver().findElement(By.xpath(xpathResetPassword));
             getLogger().info("Find element reset password link.");
             if (showTrimmedContent.isDisplayed()) {
                 showTrimmedContent.click();
@@ -438,24 +422,24 @@ public class GmailPage extends AbstractPage {
     }
 
 
-        public void openGmailIndexRegisterAccount(String email, String password) {
-            //Sending email address
-            sendKeyTextBox(eleEmail, email, "Email text box");
-            //Clicking on "Next" button
-            clickElement(eleNext);
-            //Sending password
-            sendKeyTextBox(elePassword, password, "Password text box");
-            //Clicking on "Next" button
-            clickElement(eleNext);
-            //Open email details
-            eleEmailAuvenir.click();
-        }
+    public void openGmailIndexRegisterAccount(String email, String password) {
+        //Sending email address
+        sendKeyTextBox(eleEmail, email, "Email text box");
+        //Clicking on "Next" button
+        clickElement(eleNext);
+        //Sending password
+        sendKeyTextBox(elePassword, password, "Password text box");
+        //Clicking on "Next" button
+        clickElement(eleNext);
+        //Open email details
+        eleEmailAuvenir.click();
+    }
 
-        public void searchGmail(String GMAIL_SEARCHMAIL) {
-            clearTextBox(eleSearchTxtFld, "Search Field");
-            sendKeyTextBox(eleSearchTxtFld, GMAIL_SEARCHMAIL, "Search Field");
-            clickElement(eleSearchBtn, "Search button");
-        }
+    public void searchGmail(String GMAIL_SEARCHMAIL) {
+        clearTextBox(eleSearchTxtFld, "Search Field");
+        sendKeyTextBox(eleSearchTxtFld, GMAIL_SEARCHMAIL, "Search Field");
+        clickElement(eleSearchBtn, "Search button");
+    }
 
     /**
      * Refactored by huy.huynh on 02/06/2017 - 05/06/2017.
@@ -586,7 +570,7 @@ public class GmailPage extends AbstractPage {
 
 
 	 /*-----------end of huy.huynh on 02/06/2017 - 05/06/2017.*/
-	 @FindBy(xpath = "//div[contains(text(),'COMPOSE')]")
+	 @FindBy(xpath = "//div[@class='T-I J-J5-Ji T-I-KE L3']")
      private WebElement composeBtn;
 	 @FindBy(xpath = "//div[@class='ae4 aDM']//div[@role=\"checkbox\"]/div")
      private List <WebElement> lastedMailCheckBox;
@@ -602,8 +586,9 @@ public class GmailPage extends AbstractPage {
         waitForVisibleElement(composeBtn, "composeBtn");
         getLogger().info("Try to delete all existed mail.");
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 60);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
             wait.until(ExpectedConditions.elementToBeClickable(allMailCheckBox));
+            Thread.sleep(2000);
             allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
             Thread.sleep(200);
