@@ -56,7 +56,7 @@ public class LoginTest extends AbstractTest {
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithUserNamePassword(strEmail, password);
+//            marketingService.loginWithUserNamePassword(strEmail, password);
 //            marketingService.deleteCookieName("token_data");
 //            marketingService.deleteCookieName("au_urs_info");
             marketingService.deleteCookieName("_ga");

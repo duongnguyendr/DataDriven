@@ -46,7 +46,7 @@ public class GmailPage extends AbstractPage {
         return eleSignOutBtn;
     }
 
-//    @FindBy(id = "Email")
+    //    @FindBy(id = "Email")
 //    private WebElement eleEmailIDTxtFld;
     @FindBy(xpath = "//input[@type='email']")
     private WebElement eleEmailIDTxtFld;
@@ -75,7 +75,7 @@ public class GmailPage extends AbstractPage {
         return elePasswordTxtFld;
     }
 
-//    @FindBy(id = "signIn")
+    //    @FindBy(id = "signIn")
 //    private WebElement eleSignInBtn;
     @FindBy(xpath = "//*[@id=\"passwordNext\"]/content/span")
     private WebElement eleSignInBtn;
@@ -352,16 +352,18 @@ public class GmailPage extends AbstractPage {
 //        return elePassword;
 //    }
 
-	@FindBy(xpath = "//div[@id='password']//input[@type='password']")
-	private WebElement elePassword;
+    @FindBy(xpath = "//div[@id='password']//input[@type='password']")
+    private WebElement elePassword;
 
-	public WebElement getElePassword() { return elePassword; }
+    public WebElement getElePassword() {
+        return elePassword;
+    }
 
     @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
     private WebElement eleEmailAuvenir;
 
-	@FindBy(xpath = "//img[@src='//ssl.gstatic.com/ui/v1/icons/mail/profile_mask2.png']")
-	private WebElement eleEmailAuvenir01;
+    @FindBy(xpath = "//img[@src='//ssl.gstatic.com/ui/v1/icons/mail/profile_mask2.png']")
+    private WebElement eleEmailAuvenir01;
 
     @FindBy(id = "signIn")
     private WebElement eleSignIn;
@@ -373,20 +375,24 @@ public class GmailPage extends AbstractPage {
 //	@FindBy(xpath = "//div[contains(@class, 'y6')]/span[contains(text(), 'Auvenir')]")
 //	private WebElement eleEmailAuvenir;
 
-	public WebElement getEleEmailAuvenir() { return eleEmailAuvenir; }
+    public WebElement getEleEmailAuvenir() {
+        return eleEmailAuvenir;
+    }
 
-	public void goGMail(){
-		try{
-			getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
-		}catch (Exception e){
-			getLogger().info("Unable to go to Gmail.");
-		}
-	}
-	/**
-	 * Login gmail
-	 * @param email
-	 * @param password
-	 */
+    public void goGMail() {
+        try {
+            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
+        } catch (Exception e) {
+            getLogger().info("Unable to go to Gmail.");
+        }
+    }
+
+    /**
+     * Login gmail
+     *
+     * @param email
+     * @param password
+     */
     public void openGmailIndexForgotPassword(String email, String password) throws InterruptedException {
         try {
             getLogger().info("DONE => LOGIN");
@@ -513,7 +519,7 @@ public class GmailPage extends AbstractPage {
             clickElement(buttonPasswordNext, "Button Password Next");*/
             getLogger().info("Try to login GMail");
             sendKeyTextBox(eleEmail, email, "eleEmail");
-            sendTabkey(eleEmail,"eleEmail");
+            sendTabkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
             //Clicking on "Next" button
             Thread.sleep(1000);
@@ -569,18 +575,21 @@ public class GmailPage extends AbstractPage {
     }
 
 
-	 /*-----------end of huy.huynh on 02/06/2017 - 05/06/2017.*/
-	 @FindBy(xpath = "//div[@class='T-I J-J5-Ji T-I-KE L3']")
-     private WebElement composeBtn;
-	 @FindBy(xpath = "//div[@class='ae4 aDM']//div[@role=\"checkbox\"]/div")
-     private List <WebElement> lastedMailCheckBox;
-	 @FindBy(xpath = "//div[@class='J-J5-Ji J-JN-M-I-Jm']//div[@role='presentation']")
-     private WebElement allMailCheckBox;
-	 @FindBy(xpath = "//div[@class='ar9 T-I-J3 J-J5-Ji']")
-     private WebElement deleteBTN;
+    /*-----------end of huy.huynh on 02/06/2017 - 05/06/2017.*/
+    @FindBy(xpath = "//div[@class='T-I J-J5-Ji T-I-KE L3']")
+    private WebElement composeBtn;
+    @FindBy(xpath = "//div[@class='ae4 aDM']//div[@role=\"checkbox\"]/div")
+    private List<WebElement> lastedMailCheckBox;
+    @FindBy(xpath = "//div[@class='J-J5-Ji J-JN-M-I-Jm']//div[@role='presentation']")
+    private WebElement allMailCheckBox;
+    @FindBy(xpath = "//div[@class='ar9 T-I-J3 J-J5-Ji']")
+    private WebElement deleteBTN;
 
-	 @FindBy(xpath = "//*[@id=\":8q\"]/b")
-     WebElement nonReplyActiveEmail;
+    @FindBy(xpath = "//*[@id=\":8q\"]/b")
+    private WebElement nonReplyActiveEmail;
+    public WebElement getNonReplyActiveEmail(){
+        return nonReplyActiveEmail;
+    }
 
     public void deleteAllMail() throws InterruptedException {
         waitForVisibleElement(composeBtn, "composeBtn");
@@ -592,7 +601,7 @@ public class GmailPage extends AbstractPage {
             allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
             Thread.sleep(200);
-            clickElement(deleteBTN,"deleteBTN");
+            clickElement(deleteBTN, "deleteBTN");
             Thread.sleep(500);
             getLogger().info("Delete all mail successfully");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {
@@ -634,7 +643,8 @@ public class GmailPage extends AbstractPage {
             waitForClickableOfElement(getElePasswordTxtFld(), "Passwd textbox");
             sendKeyTextBox(getElePasswordTxtFld(), pwd, "Passwd textbox");
             getEleSignInBtn().click();
-          getEleInviteMailLnk().click();
+            getEleInviteMailLnk().click();
+//          Thread.sleep(2000);
 //            gmailLoginPo.getEleStartBtn().click();
 //            gmailWindow = getDriver().getWindowHandle();
 //            for (String winHandle : getDriver().getWindowHandles()) {
@@ -647,7 +657,8 @@ public class GmailPage extends AbstractPage {
         }
     }
 
-    public void selectActiveEmaill(){
-        clickElement(nonReplyActiveEmail);
+    public void selectActiveEmaill() {
+        waitForClickableOfElement(eleEmailAuvenir,"Non-reply Active email");
+        clickElement(eleEmailAuvenir);
     }
 }

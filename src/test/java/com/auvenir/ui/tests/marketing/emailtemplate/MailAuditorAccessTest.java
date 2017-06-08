@@ -78,4 +78,8 @@ public class MailAuditorAccessTest extends AbstractTest {
         gmailLoginService.selectActiveEmaill();
         emailTemplateService.verifyActiveEmailTemplateContent();
     }
+
+    /*
+    Vien.Pham refactor
+     */
 }
