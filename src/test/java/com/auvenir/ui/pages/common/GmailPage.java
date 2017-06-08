@@ -32,7 +32,8 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
+    //@FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
+    @FindBy(xpath = "//span[@class='gb_8a gbii']")
     private WebElement eleProfileIcn;
 
     public WebElement getEleProfileIcn() {
@@ -177,8 +178,10 @@ public class GmailPage extends AbstractPage {
 
     public void gmailLogout() throws Exception {
         try {
-            getEleProfileIcn().click();
-            getEleSignOutBtn().click();
+            //getEleProfileIcn().click();
+            waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+            //getEleSignOutBtn().click();
+            waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
