@@ -808,11 +808,11 @@ public class MarketingPage extends AbstractPage {
     }
 
     public void exit(){
-        btnExit.click();
+        clickElement(btnExit, "click to btnExit");
     }
 
     public void login(){
-        btnLogin.click();
+        clickElement(btnLogin, "click to btnLogin");
     }
 
     protected void isLoaded() throws Error {
@@ -844,11 +844,12 @@ public class MarketingPage extends AbstractPage {
             Thread.sleep(smallTimeOut);
             switchToOtherTab(1);
             sendKeyTextBox(eleNewPasword, newPassword, "send key to eleNewPasword");
+            NXGReports.addStep("Verify to set new password", LogAs.PASSED, (CaptureScreen) null);
         }
         catch (Exception ex)
         {
-            NXGReports.addStep("Verify to set new password", LogAs.FAILED, (CaptureScreen) null);
             AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to set new password", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 }
