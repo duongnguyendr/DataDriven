@@ -46,8 +46,6 @@ public class GmailPage extends AbstractPage {
         return eleSignOutBtn;
     }
 
-    //    @FindBy(id = "Email")
-//    private WebElement eleEmailIDTxtFld;
     @FindBy(xpath = "//input[@type='email']")
     private WebElement eleEmailIDTxtFld;
 
@@ -55,18 +53,12 @@ public class GmailPage extends AbstractPage {
         return eleEmailIDTxtFld;
     }
 
-//    @FindBy(id = "next")
-//    private WebElement eleNextBtn;
-
     @FindBy(xpath = "//*[@id=\"identifierNext\"]/content/span")
     private WebElement eleNextBtn;
 
     public WebElement getEleNextBtn() {
         return eleNextBtn;
     }
-
-//    @FindBy(id = "Passwd")
-//    private WebElement elePasswordTxtFld;
 
     @FindBy(xpath = "//input[@type='password']")
     private WebElement elePasswordTxtFld;
@@ -308,7 +300,6 @@ public class GmailPage extends AbstractPage {
                         if (getDriver().findElement(By.xpath("//div[@aria-label='Show trimmed content']/img")).isDisplayed()) {
                             getDriver().findElement(By.xpath("(//div[@aria-label='Show trimmed content']/img)[last()]")).click();
                             Thread.sleep(2000);
-
                             Robot rb = new Robot();
                             rb.keyPress(KeyEvent.VK_PAGE_DOWN);
                         }
@@ -344,13 +335,6 @@ public class GmailPage extends AbstractPage {
     public WebElement getEleNext() {
         return eleNext;
     }
-
-//    @FindBy(xpath = "//input[@type='password']")
-//    private WebElement elePassword;
-
-//    public WebElement getElePassword() {
-//        return elePassword;
-//    }
 
     @FindBy(xpath = "//div[@id='password']//input[@type='password']")
     private WebElement elePassword;
