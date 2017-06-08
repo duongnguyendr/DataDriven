@@ -383,6 +383,38 @@ public class MarketingPage extends AbstractPage {
     @FindBy(xpath="//*[@id=\"preview-header-left\"]/span")
     private WebElement allEngagementsEle;
 
+    @FindBy(xpath = "//*[@id='reset-password']//input[@name='password']")
+    private WebElement eleNewPasword;
+    public WebElement getEleNewPasword(){ return eleNewPasword; }
+
+    @FindBy(xpath = "//*[@id='reset-password']//input[@name='retype_password']")
+    private WebElement eleRetypeNewPassword;
+    public WebElement getEleRetypeNewPassword() { return eleRetypeNewPassword; }
+
+    @FindBy(xpath = "//div/button[contains(@class, 'button') and (text()='Cancel' or text()='Annuler')]")
+    private WebElement btnCancel;
+    public WebElement getBtnCancel() { return btnCancel; }
+
+    @FindBy(xpath = "//div/button[contains(@class, 'button') and (text()='Reset' or text()='Réinitialiser')]")
+    private WebElement btnReset;
+    public WebElement getBtnReset() { return btnReset; }
+
+    @FindBy(id = "reset-password-warning-popup")
+    private WebElement resetPasswordWarningPopup;
+    public WebElement getResetPasswordWarningPopup() { return resetPasswordWarningPopup; }
+
+    @FindBy(id= "confirm-password-message")
+    private WebElement confirmPasswordMessage;
+    public WebElement getConfirmPasswordMessage() { return  confirmPasswordMessage; }
+
+    @FindBy(css = "#reset-password .exit")
+    private WebElement btnExit;
+    public WebElement getBtnExit() { return btnExit; }
+
+    @FindBy(css = "#reset-password .login")
+    private WebElement btnLogin;
+    public WebElement getBtnLogin() { return btnLogin; }
+
     public void verifyAboutContentPage(){
         getLogger().info("Verify about content page");
         boolean isCheckAboutContentPage,isCheckAboutContentPage1,isCheckAboutContentPage2,isCheckAboutContentPage3,isCheckAboutContentPage4
@@ -768,8 +800,55 @@ public class MarketingPage extends AbstractPage {
         }
     }
 
-    public void verifyResetPassword()
-    {
 
+
+    protected void isLoadedExitLogin() throws Error {
+        validateElememt(btnExit, "Exit button", Element_Type.DISPLAYED);
+        validateElememt(btnLogin, "Login button", Element_Type.DISPLAYED);
+    }
+
+    public void exit(){
+        btnExit.click();
+    }
+
+    public void login(){
+        btnLogin.click();
+    }
+
+    protected void isLoaded() throws Error {
+        validateElememt(eleNewPasword, "New password input", Element_Type.DISPLAYED);
+        validateElememt(eleRetypeNewPassword, "New retype password input", Element_Type.DISPLAYED);
+    }
+
+    public void resetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+        try {
+            getLogger().info("Verify to reset password");
+            Thread.sleep(smallTimeOut);
+            switchToOtherTab(1);
+            sendKeyTextBox(eleNewPasword, newPass, "send key to eleNewPasword");
+            Thread.sleep(smallTimeOut);
+            sendKeyTextBox(eleRetypeNewPassword, retypeResetPass, "send key to eleRetypeNewPassword");
+            clickElement(btnReset, "click to btnReset");
+            NXGReports.addStep("Verify to reset password", LogAs.PASSED, (CaptureScreen) null);
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to reset password", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    public void setNewPassword(String newPassword) throws InterruptedException {
+        try {
+
+            Thread.sleep(smallTimeOut);
+            switchToOtherTab(1);
+            sendKeyTextBox(eleNewPasword, newPassword, "send key to eleNewPasword");
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to set new password", LogAs.FAILED, (CaptureScreen) null);
+            AbstractService.sStatusCnt++;
+        }
     }
 }

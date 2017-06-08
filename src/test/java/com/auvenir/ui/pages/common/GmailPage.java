@@ -489,7 +489,6 @@ public class GmailPage extends AbstractPage {
      */
     public void signInGmail(String email, String password) {
         try {
-            clickElement(buttonSignIn, "Button Sign In");
             Thread.sleep(1000);
             /*sendKeyTextBox(inputEmail, email, "Input Email");
             clickElement(buttonNextToPassword, "Button Next To Password");
@@ -503,10 +502,11 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Send email: " + email);
             //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
+            //clickAndHold(eleNext, "eleNext");
             //Sending password
             //Thread.sleep(500);
             //sendKeyTextBox(elePassword,password,"eleEmail");
+            //Thread.sleep(1000);
             elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
             //Clicking on "Next" button
@@ -581,8 +581,8 @@ public class GmailPage extends AbstractPage {
             allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
             Thread.sleep(200);
-            clickElement(deleteBTN, "deleteBTN");
-            Thread.sleep(500);
+            clickElement(deleteBTN,"deleteBTN");
+            Thread.sleep(2000);
             getLogger().info("Delete all mail successfully");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {
             getLogger().info(e.getMessage());
