@@ -538,7 +538,6 @@ public class MarketingPage extends AbstractPage {
     }
     public void clickOnSubmitBTN(){
         clickElement(submitBTN,"loginBTN");
-        waitForProgressOverlayIsClosed();
     }
     public void clickOnProfile(){
         clickAndHold(profileLink,"profileLink");
@@ -555,18 +554,35 @@ public class MarketingPage extends AbstractPage {
     public void verifyLogoutBTNIsNotPresented(){
         validateNotExistedElement(logoutBTN,"logoutBTN");
     }
-    public void verifyColorUserNameTxtBox(String attributeName, String attributeValue){
-        waitForVisibleElement(userError,"userError");
-        validateCssValueElement(userError,attributeName,attributeValue);
+
+    public void verifyColorUserNameTxtBox() {
+        waitForVisibleElement(userError, "User Name Text Box");
+        waitForCssValueChanged(userError, "User Name Text Box", borderColor, warningBorderCSSColor);
+        validateCssValueElement(userError, borderColor, warningBorderCSSColor);
+        waitForCssValueChanged(userError, "User Name Text Box", backgroundColor, warningBackgroundCSSColor);
+        validateCssValueElement(userError, backgroundColor, warningBackgroundCSSColor);
     }
-    public void verifyColorPasswordTxtBox(String attributeName, String attributeValue){
-        waitForVisibleElement(passwordError,"passwordError");
-        validateCssValueElement(passwordError,attributeName,attributeValue);
+    public void verifyColorPasswordTxtBox(){
+        waitForVisibleElement(passwordError,"Password Text Box");
+        waitForCssValueChanged(passwordError, "Password Text Box", borderColor, warningBorderCSSColor);
+        validateCssValueElement(passwordError, borderColor, warningBorderCSSColor);
+        waitForCssValueChanged(passwordError, "Password Text Box", backgroundColor, warningBackgroundCSSColor);
+        validateCssValueElement(passwordError, backgroundColor, warningBackgroundCSSColor);
+//        validateCssValueElement(passwordError,attributeName,attributeValue);
     }
     public void verifyErrorLoginMessage(String messsage){
+        getLogger().info("Verify Error Login Message.");
+        final String errorColorOfLoginMeesage= "rgba(159, 58, 56, 1)";
+        final String errorBackgroundColorOfLoginMeesage= "rgba(255, 246, 246, 1)";
+        waitForVisibleElement(errorMessageBorder,"errorMessageBorder");
         validateElementText(errorMessage,messsage);
+        verifyColorErrorLoginMessage(color, errorColorOfLoginMeesage);
+        verifyColorErrorLoginMessage(backgroundColor, errorBackgroundColorOfLoginMeesage);
+////        validateCssValueElement(errorMessageBorder,color, errorColorOfLoginMeesage);
+//        validateCssValueElement(errorMessageBorder,color, errorColorOfLoginMeesage);
     }
     public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
+        getLogger().info("Verify Error Color of Login Message.");
         waitForVisibleElement(errorMessageBorder,"errorMessageBorder");
         validateCssValueElement(errorMessageBorder,attributeName,attributeValue);
     }
@@ -756,5 +772,4 @@ public class MarketingPage extends AbstractPage {
     {
 
     }
-
 }

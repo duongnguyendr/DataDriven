@@ -3,11 +3,7 @@ package com.auvenir.ui.services.marketing.signup;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -58,14 +54,14 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnFirmNameTextBox(List<String> invalidValue) {
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnFirmNameTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnFirmNameTextBox(invalidValue.get(i));
         }
     }
 
     public void verifyInputValidValueOnPreFirmNameTextBox(List<String> invalidValue) {
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnPreFirmNameTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnPreFirmNameTextBox(invalidValue.get(i));
         }
     }
 
@@ -76,7 +72,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnFirmWebsiteTextBox(List<String> invalidValue) {
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnFirmWebsiteTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnFirmWebsiteTextBox(invalidValue.get(i));
         }
     }
 
@@ -85,7 +81,7 @@ public class AuditorSignUpService extends AbstractService {
     }
 
     public void verifyInputValidValueOnFullAddressTextBox(String invalidValue) {
-        auditorSignUpPage.verifyInputValidValueOnFullAddressTextBox(invalidValue);
+        auditorSignUpPage.verifyInputInValidValueOnFullAddressTextBox(invalidValue);
     }
 
     public void inputValueIntoZipCodeTextBox(String strName){
@@ -95,7 +91,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnZipCodeTextBox(List<String> invalidValue) {
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnZipCodeTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnZipCodeTextBox(invalidValue.get(i));
         }
     }
 
@@ -106,7 +102,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnMemberIdTextBox(List<String> invalidValue) {
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnMemberIdTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnMemberIdTextBox(invalidValue.get(i));
         }
     }
 
@@ -117,7 +113,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnPhoneNumberIdTextBox(List<String> invalidValue) {
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnPhoneNumberIdTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnPhoneNumberIdTextBox(invalidValue.get(i));
         }
     }
 
@@ -128,7 +124,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnAffFirmTextBox(List<String> invalidValue) {
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnAffFirmTextBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnAffFirmTextBox(invalidValue.get(i));
         }
     }
 
@@ -155,7 +151,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnFullNameTxtBox(List<String> invalidValue){
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnFullNameTxtBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnFullNameTxtBox(invalidValue.get(i));
         }
     }
 
@@ -166,7 +162,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnEmailTxtBox(List<String> invalidValue){
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnEmailTxtBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnEmailTxtBox(invalidValue.get(i));
         }
     }
 
@@ -175,7 +171,7 @@ public class AuditorSignUpService extends AbstractService {
     }
 
     public void verifyInputValidValueOnConfirmEmailTxtBox(String invalidValue){
-        auditorSignUpPage.verifyInputValidValueOnConfirmEmailTxtBox(invalidValue);
+        auditorSignUpPage.verifyInputInValidValueOnConfirmEmailTxtBox(invalidValue);
     }
 
     public void inputValueIntoPhoneNumberTextBox(String strName){
@@ -185,7 +181,7 @@ public class AuditorSignUpService extends AbstractService {
     public void verifyInputValidValueOnPhoneNumberTxtBox(List<String> invalidValue){
         getLogger().info("Size Invalid Data: " + invalidValue.size());
         for(int i = 0 ; i < invalidValue.size(); i++){
-            auditorSignUpPage.verifyInputValidValueOnPhoneNumberTxtBox(invalidValue.get(i));
+            auditorSignUpPage.verifyInputInValidValueOnPhoneNumberTxtBox(invalidValue.get(i));
         }
     }
 
