@@ -504,7 +504,7 @@ public class MongoDBService {
      * remove given email user on database
      *
      * @param dBCollection DBCollection object
-     * @param email        email want to query
+     * @param email        of engagement want to query
      */
     public static void removeUserObjectByEmail(DBCollection dBCollection, String email) {
         try {
@@ -522,7 +522,7 @@ public class MongoDBService {
     }
 
     /**
-     * change user object field
+     * Update attribute of users.
      *
      * @param dBCollection DBCollection object
      * @param email        email want to query

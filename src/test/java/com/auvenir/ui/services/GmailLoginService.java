@@ -74,6 +74,7 @@ public class GmailLoginService extends AbstractService {
 
     //////////////////
     public void openGmailIndexForgotPassword(String email, String password) throws InterruptedException {
+        Thread.sleep(5000);
         gmailLoginPo.goGMail();
         gmailLoginPo.openGmailIndexForgotPassword(email, password);
     }
@@ -94,4 +95,9 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.clickOnboardingInvitationLink();
     }
     /*-----------end of huy.huynh on 02/06/2017.*/
+
+    public void verifyOpenGmailIndexRegisterAccount(String strEmail, String strPassword){
+        gmailLoginPo.goGMail();
+        gmailLoginPo.openGmailIndexRegisterAccount(strEmail, strPassword);
+    }
 }

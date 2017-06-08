@@ -11,6 +11,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by toan.nguyenp on 4/11/2017.
  */
@@ -151,9 +153,11 @@ public class MarketingPage extends AbstractPage {
     private WebElement passwordTextBox;
     @FindBy(xpath = ".//*[@id='login-popup']//button")
     private WebElement submitBTN;
-    @FindBy(xpath = "//*[@class='ui label userAligment']")
+//    @FindBy(xpath = "//*[@class='ui label userAligment']")
+    @FindBy(xpath = "//*[@class='au-dropdown-trigger']")
     private WebElement profileLink;
-    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+//    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+    @FindBy(xpath = "//*[@id='h-ddl-signOut']")
     private WebElement logoutBTN;
     @FindBy(xpath = "//*/a[@class='ui large basic inverted button']")
     private WebElement signUpBTN;
@@ -376,6 +380,9 @@ public class MarketingPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='term']//div[@class='ui container term-container']//div[@class='ui basic segment']//div[@class='terms-detail']")
     private WebElement termsContentText;
 
+    @FindBy(xpath="//*[@id=\"preview-header-left\"]/span")
+    private WebElement allEngagementsEle;
+
     public void verifyAboutContentPage(){
         getLogger().info("Verify about content page");
         boolean isCheckAboutContentPage,isCheckAboutContentPage1,isCheckAboutContentPage2,isCheckAboutContentPage3,isCheckAboutContentPage4
@@ -531,6 +538,7 @@ public class MarketingPage extends AbstractPage {
     }
     public void clickOnSubmitBTN(){
         clickElement(submitBTN,"loginBTN");
+        waitForProgressOverlayIsClosed();
     }
     public void clickOnProfile(){
         clickAndHold(profileLink,"profileLink");
@@ -742,6 +750,11 @@ public class MarketingPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify terms content page", LogAs.FAILED, (CaptureScreen) null);
         }
+    }
+
+    public void verifyResetPassword()
+    {
+
     }
 
 }

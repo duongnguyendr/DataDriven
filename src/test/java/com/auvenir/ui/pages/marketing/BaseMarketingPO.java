@@ -18,7 +18,7 @@ public abstract class BaseMarketingPO extends AbstractPage {
     public abstract void verifyContentPage();
 
     public BaseMarketingPO(Logger logger, WebDriver driver){
-        super(driver);
+        super(logger, driver);
         this.headerPage = new HeaderPage(driver);
         this.footerPage = new FooterPage(driver);
     }

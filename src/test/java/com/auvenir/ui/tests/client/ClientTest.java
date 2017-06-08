@@ -52,9 +52,9 @@ public class ClientTest extends AbstractTest {
     public void verifyInvitingNewClient() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String auditUserId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDIT_ID");
+        String auditUserId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         String clientUserId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
-        String adminUserId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID");
+        String adminUserId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
         String userType = "CLIENT";
         String expectedStatus = "Onboarding";
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");

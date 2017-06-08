@@ -3,20 +3,19 @@
  * @description		: 		Implemented ITestListener interface and overrided methods as per requirement. It listenes to all the events performed by Testng and keep track of it.
  */
 package com.auvenir.utilities.listeners;
+import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.PdfGenerater;
+import org.apache.commons.io.FileUtils;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+import org.testng.annotations.Parameters;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.PdfGenerater;
-import org.apache.commons.io.FileUtils;
-import org.testng.ITestContext;
-import org.testng.ISuite;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
-import org.testng.annotations.Parameters;
 
 
 @Parameters({"server"})
@@ -60,7 +59,7 @@ public class TestngListener implements ITestListener {
 
 	public void onTestStart(ITestResult result) 
 	{
-		GenericService.setConfigValue(GenericService.sConfigFile, "DATE", sdateTime);
+		//GenericService.setConfigValue(GenericService.sConfigFile, "DATE", sdateTime);
 	}
 
 	public void onTestSuccess(ITestResult result) 

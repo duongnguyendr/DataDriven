@@ -1,7 +1,10 @@
 package com.auvenir.ui.pages.marketing.onboarding;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -18,7 +21,7 @@ import java.util.List;
  * Created by cuong.nguyen on 4/12/2017.
  */
 public class AuditorSignUpPage extends AbstractPage {
-
+    MarketingPage marketingPage;
     public AuditorSignUpPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
@@ -1057,5 +1060,24 @@ public class AuditorSignUpPage extends AbstractPage {
 
     public void acceptCreateAccountAuditor() {
         clickElement(btnContinue, "Continue Button");
+    }
+
+    public void registerNewAuditorUser(String fullName, String strEmail, String strPassword){
+        marketingPage = new MarketingPage(getLogger(), getDriver());
+//            deleteUserUsingApi(strEmail);
+//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
+//            setPrefixProtocol("http://");
+//            goToBaseURL();
+        marketingPage.clickOnSignupButton();
+        verifyPersonalInfoPageContent();
+        registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
+        verifyFirmInfoPageContent();
+        registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
+                "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
+                "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
+        verifySecurityInfoPageContent();
+        createPassword(strPassword, strPassword);
+        verifySuccessPageContent();
+        acceptCreateAccountAuditor();
     }
 }

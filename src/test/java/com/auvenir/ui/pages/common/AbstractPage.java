@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    private static final int waitTime = 60;
+    public static final int waitTime = 60;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -2568,6 +2568,7 @@ public class AbstractPage {
 
     public void deleteCookieName(String cookieName) {
         try {
+            getLogger().info("Delete Cookie Name.");
             driver.manage().deleteCookieNamed(cookieName);
             NXGReports.addStep("Delete all cookies :" + cookieName, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -2579,6 +2580,7 @@ public class AbstractPage {
 
     public void refreshPage() {
         try {
+            getLogger().info("Refresh Page.");
             driver.navigate().refresh();
             NXGReports.addStep("Refresh page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -2607,14 +2609,25 @@ public class AbstractPage {
         }
     }
 
-    public void validateNotExistedElement(WebElement element, String elementName) {
+    public boolean validateNotExistedElement(WebElement element, String elementName) {
         try {
+            getLogger().info("Try to validate Element is not existed.");
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             element.click();
-            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(elementName + " is still displayed.");
-        } catch (NoSuchElementException e) {
             AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        } catch (NoSuchElementException e) {
+            getLogger().info("Element is not existed.");
             NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            return true;
+        } catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is still displayed.");
+            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            return false;
         }
     }
 

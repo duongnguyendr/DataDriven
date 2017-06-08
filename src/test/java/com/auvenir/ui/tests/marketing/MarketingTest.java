@@ -29,7 +29,7 @@ public class MarketingTest extends AbstractTest {
             NXGReports.addStep("Verify about page content: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
             NXGReports.addStep("Verify about page content: FAILED", LogAs.FAILED, (CaptureScreen) null);
-
+            throw e;
         }
     }
     @Test(priority = 2,enabled = true,description = "Verify about Careers page content.")

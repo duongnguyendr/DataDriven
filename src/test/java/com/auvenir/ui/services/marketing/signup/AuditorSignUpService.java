@@ -3,6 +3,11 @@ package com.auvenir.ui.services.marketing.signup;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -214,5 +219,12 @@ public class AuditorSignUpService extends AbstractService {
 
     public void acceptCreateAccountAuditor(){
         auditorSignUpPage.acceptCreateAccountAuditor();
+    }
+
+    public void verifyRegisterNewAuditorUser(String fullName, String strEmail, String password) throws  Exception{
+        deleteUserUsingApi(strEmail);
+        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
+        goToBaseURL();
+        auditorSignUpPage.registerNewAuditorUser(fullName, strEmail, password);
     }
 }

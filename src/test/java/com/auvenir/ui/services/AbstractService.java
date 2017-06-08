@@ -4,6 +4,7 @@ import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -44,7 +45,7 @@ public class AbstractService {
     /**
      * Base url this value is set at runtime.
      */
-    private String baseUrl = "https://ariel.auvenir.com";
+    public static String baseUrl = "https://ariel.auvenir.com";
     MarketingPage homePO;
     private final String keywordApiDelete = "/delete";
     private final String keywordApiUpdateActive = "/update?status=ACTIVE";
@@ -97,6 +98,10 @@ public class AbstractService {
         getLogger().info("Url of testing server is: " + baseUrl);
     }
 
+    /*
+    Closed by Doai Tran
+    Refactor => Currently, we do not use this method to login. we will use only userid to login.
+
     public void loginWithUserRole(String userId, String getTokenUrl, String checkTokenUrl) {
         try {
             getLogger().info("Login with user role: " + userId);
@@ -104,7 +109,7 @@ public class AbstractService {
             String s1 = driver.findElement(By.xpath("//pre")).getText();
             String[] parts = s1.split("(\")");
             String token = parts[3];
-            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -116,6 +121,7 @@ public class AbstractService {
             throw e;
         }
     }
+    */
 
     public void loginWithUserRole(String userId) {
         try {
@@ -132,7 +138,7 @@ public class AbstractService {
             String token = parts[3];
             String checkTokenUrl = getBaseUrl() + "/checkToken?email=";
             getLogger().info("checktokenurl: " + checkTokenUrl);
-            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -276,22 +282,22 @@ public class AbstractService {
 
     public void callRestApiUpdateUser(String userId, String keywordUpdate) {
         try {
-            getLogger().info("Login with user role: " + userId);
+            getLogger().info("Update user role: " + userId);
             setApiUrl(System.getProperty("apiURL") + "/api/user/");
             String apiUpdateUserUrl = getApiUrl() + userId + keywordUpdate;
             driver.get(apiUpdateUserUrl);
             String s1 = driver.findElement(By.xpath("//pre")).getText();
-            String[] parts = s1.split("(\")");
-            String statusCode = parts[6];
-            statusCode = StringUtils.replaceChars(statusCode, ":", "");
-            statusCode = StringUtils.replaceChars(statusCode, "}", "");
+//            String[] parts = s1.split("(\")");
+//            String statusCode = parts[6];
+//            statusCode = StringUtils.replaceChars(statusCode, ":", "");
+//            statusCode = StringUtils.replaceChars(statusCode, "}", "");
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
-            System.out.println("Status Code: " + statusCode);
-            if (statusCode.equals("200")) {
+            System.out.println("Status Code: " + s1);
+            if (s1.contains("\"code\":200")) {
                 getLogger().info("Existed user is deleted successful.");
-            } else if (statusCode.equals("404")) {
+            } else if (s1.contains("\"code\":400")) {
                 getLogger().info("The client is not existed in database.");
             } else {
                 getLogger().info(s1);
@@ -303,15 +309,27 @@ public class AbstractService {
         }
     }
 
+    /**
+     * Delete User using API Url
+     * @param userEmail The email which is deleted.
+     */
     public void deleteUserUsingApi(String userEmail) {
         callRestApiUpdateUser(userEmail, keywordApiDelete);
     }
 
-    public void updateUserOnboarding(String userEmail) {
+    /**
+     * Update status of user to Onboarding using API Url
+     * @param userEmail The email which is updated.
+     */
+    public void updateUserOnboardingUsingAPI(String userEmail) {
         callRestApiUpdateUser(userEmail, keywordApiUpdateOnboading);
     }
 
-    public void updateUserActive(String userEmail) {
+    /**
+     * Update status of user to Active using API Url
+     * @param userEmail The email which is updated.
+     */
+    public void updateUserActiveUsingAPI(String userEmail) {
         callRestApiUpdateUser(userEmail, keywordApiUpdateActive);
     }
 
@@ -323,7 +341,7 @@ public class AbstractService {
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
         String token = parts[3];
-        GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
+        //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
         driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
@@ -338,7 +356,7 @@ public class AbstractService {
             WebService http = new WebService(logger);
             http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
             http.gettingURL(sEMAILID, sLOGINURL, sDevAuthID, sApiKey);
-            System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
+            //System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -414,11 +432,14 @@ public class AbstractService {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    /**
+    /*
+        Deleted by Doai.Tran
+        Review and refactor duplicate methods.
+     *
      * Delete given email user
      *
      * @param email current webDriver
-     */
+     *//*
     public String deleteUserViaAPI(String email) {
         String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + email + "/delete";
@@ -426,12 +447,12 @@ public class AbstractService {
         return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
     }
 
-    /**
+    *//**
      * Check if response code equal 200(success code)
      *
      * @param message response message
      * @param role    role of user: Admin, Auditor, Client..(for log n report only)
-     */
+     *//*
     public void verifyAPIResponseSuccessCode(String message, String role) {
         getLogger().info(message);
         if (!message.contains("\"code\":200")) {
@@ -443,6 +464,77 @@ public class AbstractService {
             getLogger().info(role + " is delete success.");
         }
     }
+    */
 
     /*-----------end of huy.huynh on 06/06/2017.*/
+    /*
+    Method to delete all existed mail in GMail.
+     */
+    public void deleteAllExistedGMail(String eGMail,String ePassword){
+        getLogger().info("Try to delete all existed eGMail");
+        try{
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginPo.signInGmail(eGMail,ePassword);
+            gmailLoginPo.deleteAllMail();
+        }catch (Exception e){
+            getLogger().info("Unable to delete all existed mail.");
+        }
+    }
+    /*
+    Method to the lasted mail in GMail.
+     */
+    public void deleteTheLastedGMail(String eGMail,String ePassword){
+        getLogger().info("Try to delete all existed eGMail");
+        try{
+            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginPo.signInGmail(eGMail,ePassword);
+            gmailLoginPo.deleteLastedMail();
+        }catch (Exception e){
+            getLogger().info("Unable to delete all existed mail.");
+        }
+    }
+
+    /**
+     * Delete user using MongoDB service.
+     * @param email The email which is deleted.
+     */
+    public void deleteUserUsingMongoDB(String email) {
+        try {
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), email);
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep("User cannot be deleted.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
+
+    /**
+     * Update status of user to ONBOARDING using MongoDB service.
+     * @param email The email which is deleted.
+     */
+    public void updateUserOnboardingUsingMongoDB(String email) {
+        try {
+            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), email, "status", "ONBOARDING");
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep("User cannot be deleted.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
+
+    /**
+     * Update status of user to ACTIVE using MongoDB service.
+     * @param email The email which is updated.
+     */
+    public void updateUserActiveUsingMongoDB(String email) {
+        try {
+            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), email, "status", "ACTIVE");
+        } catch (Exception e) {
+            sStatusCnt++;
+            NXGReports.addStep("User cannot be deleted.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
 }
