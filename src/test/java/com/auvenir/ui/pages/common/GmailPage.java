@@ -178,8 +178,10 @@ public class GmailPage extends AbstractPage {
 
     public void gmailLogout() throws Exception {
         try {
-            getEleProfileIcn().click();
-            getEleSignOutBtn().click();
+            //getEleProfileIcn().click();
+            waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+            //getEleSignOutBtn().click();
+            waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
