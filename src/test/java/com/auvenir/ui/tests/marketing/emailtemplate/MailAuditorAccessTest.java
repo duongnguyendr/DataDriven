@@ -1,8 +1,6 @@
 package com.auvenir.ui.tests.marketing.emailtemplate;
 
 
-import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.ui.pages.marketing.mailtemplate.*;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AdminService;
 import com.auvenir.ui.services.GmailLoginService;
@@ -16,7 +14,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 /**
  * Created by cuong.nguyen on 4/27/2017.
@@ -51,11 +49,11 @@ public class MailAuditorAccessTest extends AbstractTest {
 
     @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set status to On-boarding")
     public void verifyAdminGiveAditorAccess() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-            marketingService = new MarketingService(getLogger(), getDriver());
-            adminService = new AdminService(getLogger(), getDriver());
-            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
             getLogger().info("Auditor sign up..");
             auditorSignUpService.deleteUserUsingApi("auvenirtestor@gmail.com");
@@ -77,9 +75,9 @@ public class MailAuditorAccessTest extends AbstractTest {
 
     @Test(priority = 2, enabled = true, description = "Verify template of Active Email")
     public void verifyActiveEmailTemplate() throws Exception {
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         try {
-            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-            emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
             gmailLoginService.gmailLogin("auvenirtestor@gmail.com", "Change@123");
