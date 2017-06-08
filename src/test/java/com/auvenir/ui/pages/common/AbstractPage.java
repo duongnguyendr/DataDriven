@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    private static final int waitTime = 60;
+    public static final int waitTime = 60;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -1033,8 +1033,6 @@ public class AbstractPage {
         clickNewCategoryCreateButton();
         closeSuccessToastMes();
     }
-
-
 
 
     /*
@@ -2886,4 +2884,128 @@ public class AbstractPage {
             throw new AssertionError(e.getMessage());
         }
     }
+
+    /**
+     * Added by huy.huynh on 06/06/2017.
+     * check element on dev-branch
+     */
+
+    /**
+     * validate element list size equal
+     *
+     * @param elements    list element
+     * @param quantity    Expected quantity
+     * @param elementName Element name
+     */
+    public void validateElementsQuantity(List<WebElement> elements, int quantity, String elementName) {
+        try {
+            getLogger().info("Validate elements quantity" + elementName);
+            if (elements.size() == quantity) {
+                NXGReports.addStep(elementName + " quantity equal: " + quantity, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + " quantity not equal: [Expected]= " + quantity + " /[Actual]= " + elements.size(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Check quantity fail: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate placeholder text
+     *
+     * @param webElement  element need to validate
+     * @param value       Expected placeholder text
+     * @param elementName Element name
+     */
+    public void validatePlaceholder(WebElement webElement, String value, String elementName) {
+        try {
+            getLogger().info("Validate placeholder " + elementName);
+            if (webElement.getAttribute("placeholder").equals(value)) {
+                NXGReports.addStep(elementName + " placeholder equal: " + value, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + " placeholder not equal: [Expected]= " + value + " /[Actual]= " + webElement.getAttribute("placeholder"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate placeholder " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate if attribute contain given value
+     *
+     * @param webElement  element need to validate
+     * @param attribute   attribute name
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
+        try {
+            getLogger().info("Validate Style Attribute Exist " + elementName);
+            if (webElement.getAttribute(attribute).contains(value)) {
+                NXGReports.addStep(value + " exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate if attribute not contain given value
+     *
+     * @param webElement  element need to validate
+     * @param attribute   attribute name
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateAttributeNotContain(WebElement webElement, String attribute, String value, String elementName) {
+        try {
+            getLogger().info("Validate Style Attribute Not Exist " + elementName);
+            if (!webElement.getAttribute(attribute).contains(value)) {
+                NXGReports.addStep(value + " not exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate not exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * validate text get by JS contain given value
+     *
+     * @param webElement  element need to validate
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateElementJSTextContain(WebElement webElement, String value, String elementName) {
+        try {
+            getLogger().info("Validate Element Text Contain " + elementName);
+            if (getTextByJavaScripts(webElement,elementName).contains(value)) {
+                NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + "'s text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /*-----------end of huy.huynh on 06/06/2017.*/
 }

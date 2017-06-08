@@ -82,6 +82,10 @@ public class MarketingService extends AbstractService {
     public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
         marketingPage.verifyColorErrorLoginMessage(attributeName, attributeValue);
     }
+    public void deleteGmail(String emailAddress, String password)
+    {
+        deleteAllExistedGMail(emailAddress,password);
+    }
     public void goToForgotPassword(){
         marketingPage.clickOnForgotPasswordLink();
     }

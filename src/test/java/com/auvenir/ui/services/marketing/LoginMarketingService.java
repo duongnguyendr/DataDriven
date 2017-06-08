@@ -16,6 +16,7 @@ public class LoginMarketingService extends AbstractService {
         loginMarketingPage = new LoginMarketingPage(getLogger(), getDriver());
     }
     public void verifyResetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+
         loginMarketingPage.resetPassword(newPass, retypeResetPass);
     }
     public  void exitClick()

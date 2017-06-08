@@ -2,14 +2,12 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
-import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -45,8 +43,8 @@ public class AbstractService {
     /**
      * Base url this value is set at runtime.
      */
-    private String baseUrl = "https://ariel.auvenir.com";
-    MarketingPage homePO;
+    public static String baseUrl = "https://ariel.auvenir.com";
+    MarketingPage marketingPage;
     private final String keywordApiDelete = "/delete";
     private final String keywordApiUpdateActive = "/update?status=ACTIVE";
     private final String keywordApiUpdateOnboading = "/update?status=ONBOARDING";
@@ -76,7 +74,7 @@ public class AbstractService {
         this.logger = logger;
         this.driver = driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
-        homePO = new MarketingPage(getLogger(), getDriver());
+        marketingPage = new MarketingPage(getLogger(), getDriver());
     }
 
     public WebDriver getDriver() {
@@ -98,6 +96,10 @@ public class AbstractService {
         getLogger().info("Url of testing server is: " + baseUrl);
     }
 
+    /*
+    Closed by Doai Tran
+    Refactor => Currently, we do not use this method to login. we will use only userid to login.
+
     public void loginWithUserRole(String userId, String getTokenUrl, String checkTokenUrl) {
         try {
             getLogger().info("Login with user role: " + userId);
@@ -105,7 +107,7 @@ public class AbstractService {
             String s1 = driver.findElement(By.xpath("//pre")).getText();
             String[] parts = s1.split("(\")");
             String token = parts[3];
-            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -117,6 +119,7 @@ public class AbstractService {
             throw e;
         }
     }
+    */
 
     public void loginWithUserRole(String userId) {
         try {
@@ -133,7 +136,7 @@ public class AbstractService {
             String token = parts[3];
             String checkTokenUrl = getBaseUrl() + "/checkToken?email=";
             getLogger().info("checktokenurl: " + checkTokenUrl);
-            GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
+            //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
@@ -191,7 +194,7 @@ public class AbstractService {
             getLogger().info(sLanguage);
             if (sLanguage.equals("French")) {
                 getLogger().info("Language is : " + baseLanguage);
-                homePO.clickOnChangeLanguageBTN();
+                marketingPage.clickOnChangeLanguageBTN();
             }
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -201,14 +204,15 @@ public class AbstractService {
 
     public void loginToMarketingPageWithInvalidValue(String UserName, String Password) {
         try {
-            homePO.clickOnLoginBTN();
+//            goToBaseURL();
+            marketingPage.clickOnLoginBTN();
             getLogger().info("Input Username and Password.");
-            homePO.inputUserNamePassword(UserName, Password);
+            marketingPage.inputUserNamePassword(UserName, Password);
             getLogger().info("Click on Login button.");
-            homePO.clickOnSubmitBTN();
+            marketingPage.clickOnSubmitBTN();
             //driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
-            homePO.waitPageLoad();
-            homePO.waitForJSandJQueryToLoad();
+            marketingPage.waitPageLoad();
+            marketingPage.waitForJSandJQueryToLoad();
         } catch (Exception e) {
             NXGReports.addStep("unable to login to Marketing page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -335,7 +339,7 @@ public class AbstractService {
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
         String token = parts[3];
-        GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
+        //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
         driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
@@ -350,7 +354,7 @@ public class AbstractService {
             WebService http = new WebService(logger);
             http.gettingUserID(sEMAILID, sAUTHID, sDevAuthID, sApiKey);
             http.gettingURL(sEMAILID, sLOGINURL, sDevAuthID, sApiKey);
-            System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
+            //System.out.println(GenericService.getConfigValue(GenericService.sConfigFile, sLOGINURL));
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load Logged-In Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -370,27 +374,27 @@ public class AbstractService {
 
     public void gmaillLogin() throws Exception {
         try {
-            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             driver.manage().timeouts().implicitlyWait(10000, TimeUnit.SECONDS);
             driver.manage().window().maximize();
 
-            //gmailLoginPo.getEleSignInLink().click();
-            if (gmailLoginPo.getEleEmailIDTxtFld().isDisplayed()) {
-                gmailLoginPo.getEleEmailIDTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
-                gmailLoginPo.getEleNextBtn().click();
+            //gmailLoginPage.getEleSignInLink().click();
+            if (gmailLoginPage.getEleEmailIDTxtFld().isDisplayed()) {
+                gmailLoginPage.getEleEmailIDTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_EMAIL_ID"));
+                gmailLoginPage.getEleNextBtn().click();
             }
             Thread.sleep(5000);
-            gmailLoginPo.getElePasswordTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
-            gmailLoginPo.getEleSignInBtn().click();
-            Assert.assertTrue(gmailLoginPo.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
+            gmailLoginPage.getElePasswordTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_PWD"));
+            gmailLoginPage.getEleSignInBtn().click();
+            Assert.assertTrue(gmailLoginPage.getEleSearchTxtFld().isDisplayed(), "User is not logged into gmail");
             Thread.sleep(5000);
-            gmailLoginPo.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
-            gmailLoginPo.getEleSearchBtn().click();
-            gmailLoginPo.getEleInviteMailLnk().click();
+            gmailLoginPage.getEleSearchTxtFld().sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
+            gmailLoginPage.getEleSearchBtn().click();
+            gmailLoginPage.getEleInviteMailLnk().click();
             gmailWindow = driver.getWindowHandle();
 
-            gmailLoginPo.getEleStartBtn().click();
+            gmailLoginPage.getEleStartBtn().click();
             switchToWindow();
 
             driver.close();
@@ -402,12 +406,12 @@ public class AbstractService {
 
     public void auditorLogout() throws Exception {
         Thread.sleep(10000);
-        GmailPage gmailLoginPo = new GmailPage(logger, driver);
+        GmailPage gmailLoginPage = new GmailPage(logger, driver);
         driver.close();
 
         driver.switchTo().window(gmailWindow);
-        gmailLoginPo.getEleProfileIcn().click();
-        gmailLoginPo.getEleSignOutBtn().click();
+        gmailLoginPage.getEleProfileIcn().click();
+        gmailLoginPage.getEleSignOutBtn().click();
     }
 
     /**
@@ -426,11 +430,14 @@ public class AbstractService {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    /**
+    /*
+        Deleted by Doai.Tran
+        Review and refactor duplicate methods.
+     *
      * Delete given email user
      *
      * @param email current webDriver
-     */
+     *//*
     public String deleteUserViaAPI(String email) {
         String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + email + "/delete";
@@ -438,12 +445,7 @@ public class AbstractService {
         return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
     }
 
-    /**
-     * Check if response code equal 200(success code)
-     *
-     * @param message response message
-     * @param role    role of user: Admin, Auditor, Client..(for log n report only)
-     */
+
     public void verifyAPIResponseSuccessCode(String message, String role) {
         getLogger().info(message);
         if (!message.contains("\"code\":200")) {
@@ -455,6 +457,7 @@ public class AbstractService {
             getLogger().info(role + " is delete success.");
         }
     }
+    */
 
     /*-----------end of huy.huynh on 06/06/2017.*/
     /*
@@ -463,10 +466,10 @@ public class AbstractService {
     public void deleteAllExistedGMail(String eGMail,String ePassword){
         getLogger().info("Try to delete all existed eGMail");
         try{
-            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            gmailLoginPo.signInGmail(eGMail,ePassword);
-            gmailLoginPo.deleteAllMail();
+            gmailLoginPage.signInGmail(eGMail,ePassword);
+            gmailLoginPage.deleteAllMail();
         }catch (Exception e){
             getLogger().info("Unable to delete all existed mail.");
         }
@@ -477,10 +480,10 @@ public class AbstractService {
     public void deleteTheLastedGMail(String eGMail,String ePassword){
         getLogger().info("Try to delete all existed eGMail");
         try{
-            GmailPage gmailLoginPo = new GmailPage(logger, driver);
+            GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            gmailLoginPo.signInGmail(eGMail,ePassword);
-            gmailLoginPo.deleteLastedMail();
+            gmailLoginPage.signInGmail(eGMail,ePassword);
+            gmailLoginPage.deleteLastedMail();
         }catch (Exception e){
             getLogger().info("Unable to delete all existed mail.");
         }

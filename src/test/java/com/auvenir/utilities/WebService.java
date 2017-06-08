@@ -66,7 +66,8 @@ public class WebService {
         //System.out.println(sKey);
         logger.info("Value of  sValue: " + sValue);
         //System.out.println(sValue);
-        GenericService.setConfigValue(GenericService.sConfigFile, sKey, sValue);
+
+        /*GenericService.setConfigValue(GenericService.sConfigFile, sKey, sValue);*/
     }
 
     public void gettingURL(String sEmailID, String sKey, String sDevAuthID, String sApiKey) throws Exception {
@@ -102,6 +103,6 @@ public class WebService {
         //System.out.println("--------------------------");
         logger.info("Skey value is: " + sKey);
         //System.out.println(sKey);
-        GenericService.setConfigValue(GenericService.sConfigFile, sKey, sValue);
+        /*GenericService.setConfigValue(GenericService.sConfigFile, sKey, sValue);*/
     }
 }
