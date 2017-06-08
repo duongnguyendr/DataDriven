@@ -504,13 +504,9 @@ public class GmailPage extends AbstractPage {
      * @param password password of email
      */
     public void signInGmail(String email, String password) {
-        /*try {
-            clickElement(buttonSignIn, "Button Sign In");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
-
         try {
+            clickElement(buttonSignIn, "Button Sign In");
+            Thread.sleep(1000);
             /*sendKeyTextBox(inputEmail, email, "Input Email");
             clickElement(buttonNextToPassword, "Button Next To Password");
 
