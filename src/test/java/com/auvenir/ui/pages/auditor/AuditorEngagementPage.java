@@ -3,16 +3,16 @@ package com.auvenir.ui.pages.auditor;
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.utilities.GeneralUtilities;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-//import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//import org.testng.log4testng.Logger;
 
 public class AuditorEngagementPage extends AbstractPage {
 
@@ -144,7 +144,10 @@ public class AuditorEngagementPage extends AbstractPage {
 
     @FindBy(id = "newAuditBtn")
     private WebElement newEngagementButtonEle;
-    @FindBy(xpath = "//div[@id='cpa-main']/div")
+
+    // Old version
+//    @FindBy(xpath = "//div[@id='cpa-main']/div")
+    @FindBy(xpath = "//div[@id='engagement-container']//tbody[@id='engagement-tbody']//td/a")
     private List<WebElement> engagementListEle;
 
     @FindBy(xpath = "//button[contains(text(),'Add New')]")
@@ -197,10 +200,13 @@ public class AuditorEngagementPage extends AbstractPage {
     public void viewEngagementDetailsPage(String engagementName) throws Exception {
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-        hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
-        waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
-        clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
-
+        // Old version
+//        hoverElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+//        waitForClickableOfElement(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+//        clickAndHold(engagementListEle.get(index).findElement(By.xpath(viewButtonOnEngagement)), engagementName);
+        hoverElement(engagementListEle.get(index), engagementName);
+        waitForClickableOfElement(engagementListEle.get(index), engagementName);
+        clickAndHold(engagementListEle.get(index), engagementName);
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
@@ -225,7 +231,7 @@ public class AuditorEngagementPage extends AbstractPage {
      */
     public int findEngagementName(String engagementName) {
         getLogger().info("Find Position of Engagement Name");
-        return findElementByText(engagementTitleListEle, engagementName);
+        return findElementByText(engagementListEle, engagementName);
     }
 
     /**
