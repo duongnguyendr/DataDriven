@@ -75,6 +75,8 @@ public class LoginTest extends AbstractTest {
         }catch (AssertionError e){
             NXGReports.addStep("Clear all cookies after user login successfully: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 

@@ -375,17 +375,22 @@ public class AuditorNewEngagementPage extends AbstractPage {
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("26");
+            validateElementJSTextContain(inputEngagementReportDeadline, "26", "Engagement Report Deadline");
             validateElementText(titleEngagementDateRange, "Select a Date Range of Bank Statements to be requested from your client.");
             validatePlaceholder(inputEngagementDateRangeStart, "DD/MM/YY", "Engagement DateRange Start");
+            waitForInvisibleElement(widgetDatePicker,"Date Picker");
             clickElement(inputEngagementDateRangeStart);
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("27");
+            validateElementJSTextContain(inputEngagementDateRangeStart, "27", "Engagement Report Deadline");
             validatePlaceholder(inputEngagementDateRangeEnd, "DD/MM/YY", "Engagement DateRange End");
             clickElement(inputEngagementDateRangeEnd);
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("28");
+            validateElementJSTextContain(inputEngagementDateRangeEnd, "28", "Engagement Report Deadline");
+
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Error:  New Engagement Body SetUp ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
