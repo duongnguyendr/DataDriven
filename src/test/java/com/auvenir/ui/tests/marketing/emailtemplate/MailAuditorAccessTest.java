@@ -7,6 +7,7 @@ import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AdminService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.MarketingService;
+import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -30,15 +31,16 @@ public class MailAuditorAccessTest extends AbstractTest {
     private AdminService adminService;
     private AuditorSignUpService auditorSignUpService;
     private GmailPage gmailPage;
+    private EmailTemplateService emailTemplateService;
 
     /*@Test(priority = 1, description = "")
     Vien.Pham refactor
    */
-    @BeforeSuite
-    public void preCondition() {
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
-    }
+//    @BeforeSuite
+//    public void preCondition() {
+//        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+//        gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
+//    }
 //    @AfterMethod
 //    public void deleteCookies() {
 //        getDriver().manage().deleteAllCookies();
@@ -49,13 +51,13 @@ public class MailAuditorAccessTest extends AbstractTest {
 //	 */
 
 
-    @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin gives Auditor access")
+    @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set")
     public void verifyAdminGiveAditorAccess() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
+//        gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
         getLogger().info("Auditor sign up..");
         auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham", "auvenirtestor@gmail.com", "Change@123");
         getLogger().info("Admin gives Auditor access..");
@@ -69,11 +71,11 @@ public class MailAuditorAccessTest extends AbstractTest {
     public void verifyMailAuditorAccess() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         mailAuditorAccessPO = new MailAuditorAccessPO(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(),getDriver());
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
         gmailLoginService.gmailLogin("auvenirtestor@gmail.com", "Change@123");
-//        getLogger().info("Finding new email..");
-//        gmailLoginService.
-//        mailAuditorAccessPO.verifyPageContent();
+        gmailLoginService.selectActiveEmaill();
+        emailTemplateService.verifyActiveEmailTemplateContent();
     }
 }

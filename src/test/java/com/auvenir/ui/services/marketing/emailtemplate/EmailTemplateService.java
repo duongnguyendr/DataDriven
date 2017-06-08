@@ -19,4 +19,11 @@ public class EmailTemplateService extends AbstractService{
     public void verifyWaitListPageContent(){
         mailAuditorJoinPO.verifyPageContent();
     }
+
+    /*
+    Vien.Pham added
+     */
+    public void verifyActiveEmailTemplateContent(){
+        mailAuditorJoinPO.verifyActiveEmailContent();
+    }
 }

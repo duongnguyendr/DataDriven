@@ -63,8 +63,12 @@ public class GmailLoginService extends AbstractService {
 //        }
 //    }
 
-    public  void gmailLogin(String gmailAccount, String gmailPwd) throws InterruptedException {
-        gmailLoginPo.gmailNewLogin(gmailAccount,gmailPwd);
+    public void gmailLogin(String gmailAccount, String gmailPwd) throws InterruptedException {
+        gmailLoginPo.gmailNewLogin(gmailAccount, gmailPwd);
+    }
+
+    public void selectActiveEmaill() {
+        gmailLoginPo.selectActiveEmaill();
     }
 
     public void gmailLogout() throws Exception {
@@ -99,12 +103,12 @@ public class GmailLoginService extends AbstractService {
     }
     /*-----------end of huy.huynh on 02/06/2017.*/
 
-    public void verifyOpenGmailIndexRegisterAccount(String strEmail, String strPassword){
+    public void verifyOpenGmailIndexRegisterAccount(String strEmail, String strPassword) {
         gmailLoginPo.goGMail();
         gmailLoginPo.openGmailIndexRegisterAccount(strEmail, strPassword);
     }
 
-    public void deleteAllExistedEmail(String userName, String pwd){
-        deleteAllExistedGMail(userName,pwd);
+    public void deleteAllExistedEmail(String userName, String pwd) {
+        deleteAllExistedGMail(userName, pwd);
     }
 }

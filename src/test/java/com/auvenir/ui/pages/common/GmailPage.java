@@ -595,6 +595,9 @@ public class GmailPage extends AbstractPage {
 	 @FindBy(xpath = "//div[@class='ar9 T-I-J3 J-J5-Ji']")
      private WebElement deleteBTN;
 
+	 @FindBy(xpath = "//*[@id=\":8q\"]/b")
+     WebElement nonReplyActiveEmail;
+
     public void deleteAllMail() throws InterruptedException {
         waitForVisibleElement(composeBtn, "composeBtn");
         getLogger().info("Try to delete all existed mail.");
@@ -646,13 +649,7 @@ public class GmailPage extends AbstractPage {
             waitForClickableOfElement(getElePasswordTxtFld(), "Passwd textbox");
             sendKeyTextBox(getElePasswordTxtFld(), pwd, "Passwd textbox");
             getEleSignInBtn().click();
-//            //Wait for clickable of Searchbox
-//            waitForClickableOfElement(getEleSearchBtn(),"Search box");
-//            gmailLoginPo.getEleSearchTxtFld()
-//                    .sendKeys(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"));
-//            gmailLoginPo.getEleSearchBtn().click();
-//            Thread.sleep(5000);
-//            gmailLoginPo.getEleInviteMailLnk().click();
+          getEleInviteMailLnk().click();
 //            gmailLoginPo.getEleStartBtn().click();
 //            gmailWindow = getDriver().getWindowHandle();
 //            for (String winHandle : getDriver().getWindowHandles()) {
@@ -663,5 +660,9 @@ public class GmailPage extends AbstractPage {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void selectActiveEmaill(){
+        clickElement(nonReplyActiveEmail);
     }
 }
