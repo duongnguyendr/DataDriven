@@ -5,6 +5,7 @@ import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.LoginMarketingService;
 import com.auvenir.ui.services.marketing.MarketingService;
+import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -21,6 +22,15 @@ public class LoginMarketingTest extends AbstractTest {
     private MarketingService marketingService;
     private GmailLoginService gmailLoginService;
     private LoginMarketingService loginMarketingService;
+    //private LoginTest loginTest;
+    private AuditorSignUpService auditorSignUpService;
+
+    final String fullName = "Test Login Auditor";
+    //    final String fullName = "Duong Nguyen";
+    final String strEmail = GenericService.readExcelData(testData, "Login", 1, 1);
+    //    final String strEmail = "auvenirinfo@gmail.com";
+    final String password = GenericService.readExcelData(testData, "Login", 1, 2);
+
     private String emailId = null;
     private String emailPassword = null;
 
@@ -150,6 +160,97 @@ public class LoginMarketingTest extends AbstractTest {
         }catch (Exception e) {
             NXGReports.addStep("Forgot password with email is not exist: FAILED", LogAs.FAILED, (CaptureScreen) null);
             throw e;
+        }
+    }
+
+    @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
+    public void loginAndLogoutTest() throws Exception {
+        try {
+            auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+            marketingService = new MarketingService(getLogger(),getDriver());
+            auditorSignUpService.setPrefixProtocol(httpProtocol);
+            auditorSignUpService.verifyRegisterNewAuditorUser(fullName, strEmail, password);
+            marketingService.setPrefixProtocol("http://");
+            marketingService.updateUserActiveUsingAPI(strEmail);
+            marketingService.updateUserActiveUsingMongoDB(strEmail);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(strEmail, password);
+            marketingService.logout();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Test positive tests case login and logout: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Test positive tests case login and logout: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 6, enabled = true,description = "Clear all cookies after user login successfully.")
+    public void clearCookieAfterLoginSuccessTest(){
+        try {
+            marketingService = new MarketingService(getLogger(),getDriver());
+            marketingService.setPrefixProtocol(httpProtocol);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(strEmail, password);
+            //Will uncomment this code when web app is redirect to right website.
+//            marketingService.deleteCookieName("token_data");
+//            marketingService.deleteCookieName("au_urs_info");
+            marketingService.deleteCookieName("_ga");
+            marketingService.deleteCookieName("_gat");
+            marketingService.deleteCookieName("_gid");
+            marketingService.deleteCookieName("_hjIncludedInSample");
+            marketingService.deleteCookieName("connect.sid");
+            marketingService.deleteCookieName("io");
+            marketingService.refreshHomePage();
+            //Will uncomment this code when web app is redirect to right website.
+//            marketingService.verifyLoginBTN();
+//            marketingService.verifySignUpBTN();
+            marketingService.verifyLogoutBTNIsNotPresented();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Clear all cookies after user login successfully: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        }catch (AssertionError e){
+            NXGReports.addStep("Clear all cookies after user login successfully: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 7, enabled = true,description = "Test login when user input invalid email and password.")
+    public  void loginWithInvalidEmailAndPassword() {
+        String emailInvalid1 = GenericService.readExcelData(testData, "Login", 2, 1);
+        String password = GenericService.readExcelData(testData, "Login", 1, 2);
+        String emailInvalid2 = GenericService.readExcelData(testData, "Login", 3, 1);
+        String emailInvalid3 = GenericService.readExcelData(testData, "Login", 4, 1);
+        String emailNotExists = GenericService.readExcelData(testData, "Login", 5, 1);
+        String passwordNotExists = GenericService.readExcelData(testData, "Login", 5, 2);
+        try {
+            marketingService = new MarketingService(getLogger(),getDriver());
+            marketingService.setPrefixProtocol(httpProtocol);
+            marketingService.goToBaseURL();
+            //Verify Test login when user does not input email and password.
+            marketingService.loginToMarketingPageWithInvalidValue("","");
+            marketingService.verifyColorUserNameTxtBox();
+            marketingService.verifyColorPasswordTxtBox();
+            //Verify Test login when user input invalid email.
+            marketingService.refreshHomePage();
+            marketingService.loginToMarketingPageWithInvalidValue(emailInvalid1,password);
+            marketingService.verifyErrorLoginMessage("The email is invalid!");
+            marketingService.refreshHomePage();
+            marketingService.loginToMarketingPageWithInvalidValue(emailInvalid2,password);
+            marketingService.verifyErrorLoginMessage("The email is invalid!");
+            marketingService.refreshHomePage();
+            marketingService.loginToMarketingPageWithInvalidValue(emailInvalid3,password);
+            marketingService.verifyErrorLoginMessage("The email is invalid!");
+            //Verify Test login with incorrect email or password.
+            marketingService.refreshHomePage();
+            marketingService.loginToMarketingPageWithInvalidValue(emailNotExists, passwordNotExists);
+            marketingService.verifyColorUserNameTxtBox();
+            marketingService.verifyColorPasswordTxtBox();
+            marketingService.verifyErrorLoginMessage("Wrong username or password!");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Test login when user does not input email and password: PASSED", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Test login when user does not input email and password: FAILED", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 }

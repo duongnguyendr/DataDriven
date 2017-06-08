@@ -202,9 +202,9 @@ public class AbstractService {
         }
     }
 
-    public void loginToMarketingPage(String UserName, String Password) {
+    public void loginToMarketingPageWithInvalidValue(String UserName, String Password) {
         try {
-            goToBaseURL();
+//            goToBaseURL();
             marketingPage.clickOnLoginBTN();
             getLogger().info("Input Username and Password.");
             marketingPage.inputUserNamePassword(UserName, Password);

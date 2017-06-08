@@ -67,6 +67,8 @@ public class AbstractPage {
     public static final String popUpDivCategoryModel = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
     private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
+    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
@@ -1777,7 +1779,6 @@ public class AbstractPage {
             });
             return true;
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info("CSS Value is not changed");
             return false;
         }

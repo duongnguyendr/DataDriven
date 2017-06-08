@@ -22,7 +22,8 @@ public class AuditorSignUpTest extends AbstractTest {
 
     // personal information
     String strFullName = GenericService.readExcelData(testData, "OnBoarding", 1, 1);
-    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
+//    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
+    String strEmail = "thuan.duong@titancorpvn.com";
     String strRoleFirm = GenericService.readExcelData(testData, "OnBoarding", 1, 3);
     String strPhone = GenericService.readExcelData(testData, "OnBoarding", 1, 4);
     String strReference = GenericService.readExcelData(testData, "OnBoarding", 1, 5);
