@@ -32,7 +32,8 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
+    //@FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
+    @FindBy(xpath = "//span[@class='gb_8a gbii']")
     private WebElement eleProfileIcn;
 
     public WebElement getEleProfileIcn() {
