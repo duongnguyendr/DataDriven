@@ -2,13 +2,19 @@ package com.auvenir.ui.tests.marketing.emailtemplate;
 
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.marketing.mailtemplate.*;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AdminService;
 import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.MarketingService;
+import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.MongoDBService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -21,6 +27,8 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     private MailAuditorInviteClientPO mailAuditorInviteClientPO;
     private AuditorEngagementService auditorEngagementService;
     private AuditorDetailsEngagementPage auditorDetailsEngagementPage;
+    private GmailLoginService gmailLoginService;
+    private EmailTemplateService emailTemplateService;
 
     @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Active")
     public void verifyAuditorSignUp() throws Exception {
@@ -48,6 +56,23 @@ public class MailAuditorInviteClientTest extends AbstractTest {
         auditorEngagementService.viewEngagementDetailsPage("vienpham");
         auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham");
 
+    }
+
+    @Test(priority = 3, enabled = true, description = "Verify template of Invite Client")
+    public void verifyClentInviteEmailTemplate() throws Exception {
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        try {
+            getLogger().info("Auditor open Email and verify it.. ");
+            getLogger().info("Auditor login his email to verify Welcome email template");
+            gmailLoginService.gmailLogin("clientauvenir@gmail.com", "Change@123");
+            gmailLoginService.selectActiveEmaill();
+            emailTemplateService.verifyActiveEmailTemplateContent();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify template of Invite Client.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify template of Invite Client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
 

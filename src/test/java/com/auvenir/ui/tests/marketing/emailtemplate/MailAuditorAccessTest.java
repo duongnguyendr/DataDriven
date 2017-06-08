@@ -89,7 +89,6 @@ public class MailAuditorAccessTest extends AbstractTest {
             NXGReports.addStep("Verify template of Active Email.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify template of Active Email.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
         }
     }
 
