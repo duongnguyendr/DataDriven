@@ -254,7 +254,7 @@ public class LoginMarketingTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Forgot password with password is invalid.")
+    @Test(priority = 8, enabled = true, description = "Forgot password with password is invalid.")
     public void forgotPasswordWithInvalidValue() {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
@@ -298,7 +298,7 @@ public class LoginMarketingTest extends AbstractTest {
             NXGReports.addStep("Forgot password with password is invalid: FAILED", LogAs.FAILED, (CaptureScreen) null);
         }
     }
-    @Test(priority = 6, enabled = true , description = "Verify alert when user re-types new password not match.")
+    @Test(priority = 9, enabled = true , description = "Verify alert when user re-types new password not match.")
     public void forgotPasswordWithRetypePasswordNotMatchTest(){
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
