@@ -25,7 +25,6 @@ public class MailAuditorAccessTest extends AbstractTest {
 
     String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
     String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
-    private MailAuditorAccessPO mailAuditorAccessPO;
     private MarketingService marketingService;
     private GmailLoginService gmailLoginService;
     private AdminService adminService;
@@ -69,8 +68,7 @@ public class MailAuditorAccessTest extends AbstractTest {
     @Test(priority = 2, enabled = true, description = "Verify template of Active Email")
     public void verifyActiveEmailTemplate() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        mailAuditorAccessPO = new MailAuditorAccessPO(getLogger(), getDriver());
-        emailTemplateService = new EmailTemplateService(getLogger(),getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
         gmailLoginService.gmailLogin("auvenirtestor@gmail.com", "Change@123");
