@@ -159,8 +159,9 @@ public class AuditorNewEngagementPage extends AbstractPage {
         clickNoMemberBtn();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
         waitForVisibleElement(createNewTodoListTextEle, "Create new todo list text");
-
-        clickContinueBtn();
+        //old version
+//        clickContinueBtn();
+        clickCreateToDoBtn();
     }
 
     private void verifyTeamMemberWizardPage() {

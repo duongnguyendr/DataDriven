@@ -1,6 +1,5 @@
 package com.auvenir.ui.pages.marketing.mailtemplate;
 
-
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.openqa.selenium.WebDriver;
@@ -55,7 +54,6 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
     private WebElement eleSignatureMail;
     public WebElement getEleSignatureMail(){return eleSignatureMail; }
 
-
     public MailAuditorJoinPO(WebDriver webDriver){
         super(webDriver);
         PageFactory.initElements(webDriver,this);
@@ -65,7 +63,6 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         super(logger ,webDriver);
         PageFactory.initElements(webDriver,this);
     }
-
 
     @Override
     public void verifyPageContent() {
@@ -77,10 +74,6 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         NXGReports.addStep("Verify content mail", LogAs.PASSED, null);
         this.validateElememt(eleContent,"Element of content mail", Element_Type.DISPLAYED);
         this.validateElememt(eleContent,"We are excited about your interest in Auvenir, where we are on a mission to make the audit process better for auditors and their clients. We'll make sure to keep you up to date on our progress and will let you know when you can start using the platform.", Element_Type.TEXT_VALUE);
-
-        // Checking button Go to Site Auvenir
-//        NXGReports.addStep("Verify button Go to Site Auvenir", LogAs.PASSED, null);
-//        this.validateElememt(btnGoToSiteAuvenir,"Element of button Go to Site Auvenir", Element_Type.DISPLAYED);
 
         // Checking link Twitter
         NXGReports.addStep("Verify link Twitter", LogAs.PASSED, null);
@@ -104,12 +97,6 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         this.validateElememt(eleSignatureMail,"Verify Element of Signature footer", Element_Type.DISPLAYED);
     }
 
-    /*@Override
-    protected void load() {
-        //
-    }
-
-    @Override*/
     protected void isLoaded() throws Error {
 
         // checking header of Email is displayed
@@ -134,6 +121,4 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         this.validateElememt(this.getEleLinkUnSubscribeFooter(),"Element of unsubscribe", Element_Type.DISPLAYED);
 
     }
-
-
 }
