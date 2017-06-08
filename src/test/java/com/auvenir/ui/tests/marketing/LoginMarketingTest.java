@@ -35,11 +35,11 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.")
     public void forgotPasswordTest() throws InterruptedException {
+        emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+        emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
-            emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            marketingService = new MarketingService(getLogger(), getDriver());
-            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             Thread.sleep(2000);
@@ -71,8 +71,8 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 2, enabled= true, description = "Forgot password with blank email address.")
     public void forgotPasswordWithBlankEmail() throws InterruptedException {
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
@@ -93,11 +93,11 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 3, enabled= true, description = "Forgot password with email is invalid")
     public void forgotPasswordWithInvalidEmail() throws InterruptedException {
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
             String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 2, 1);
             NXGReports.addStep("Enter " + invalidEmailAddress + " into email address.", LogAs.PASSED, null);
             Assert.assertFalse(GenericService.isValidEmailAddress(invalidEmailAddress), "Email address is readed from excel file which is a invalid.");
-            marketingService = new MarketingService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
@@ -144,8 +144,8 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 4, enabled= true, description = "Forgot password with email is not exist.")
     public void forgotPasswordWithEmailIsNotExist() throws InterruptedException {
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService = new MarketingService(getLogger(), getDriver());
             String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 5, 1);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
@@ -165,9 +165,9 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
     public void loginAndLogoutTest() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-            marketingService = new MarketingService(getLogger(),getDriver());
             auditorSignUpService.setPrefixProtocol(httpProtocol);
             auditorSignUpService.verifyRegisterNewAuditorUser(fullName, strEmail, password);
             marketingService.setPrefixProtocol("http://");
@@ -187,8 +187,8 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 6, enabled = true,description = "Clear all cookies after user login successfully.")
     public void clearCookieAfterLoginSuccessTest(){
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            marketingService = new MarketingService(getLogger(),getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
@@ -223,8 +223,8 @@ public class LoginMarketingTest extends AbstractTest {
         String emailInvalid3 = GenericService.readExcelData(testData, "Login", 4, 1);
         String emailNotExists = GenericService.readExcelData(testData, "Login", 5, 1);
         String passwordNotExists = GenericService.readExcelData(testData, "Login", 5, 2);
+        marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            marketingService = new MarketingService(getLogger(),getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             //Verify Test login when user does not input email and password.
@@ -256,12 +256,11 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 8, enabled = true, description = "Forgot password with password is invalid.")
     public void forgotPasswordWithInvalidValue() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            marketingService = new MarketingService(getLogger(), getDriver());
-
-            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
@@ -300,11 +299,11 @@ public class LoginMarketingTest extends AbstractTest {
     }
     @Test(priority = 9, enabled = true , description = "Verify alert when user re-types new password not match.")
     public void forgotPasswordWithRetypePasswordNotMatchTest(){
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
-            marketingService = new MarketingService(getLogger(), getDriver());
-            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
