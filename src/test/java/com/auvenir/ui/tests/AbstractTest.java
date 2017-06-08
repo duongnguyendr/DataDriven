@@ -39,6 +39,7 @@ public class AbstractTest {
         +SeleniumGrid
         +Local
      */
+    public static final String httpProtocol = "http://";
     private String runMode = "Local";
 
     public String getRunMode() {
@@ -66,7 +67,6 @@ public class AbstractTest {
     /*
     Doai.Tran fix
      */
-    //@Parameters({"browser","version","os"})
 
     @BeforeSuite
     public void setConfig() {
@@ -74,13 +74,7 @@ public class AbstractTest {
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
-        /*if (browser.equalsIgnoreCase("chrome")) {
-            GenericService.sBrowserData="CHROME_";
-        }else if (browser.equalsIgnoreCase("firefox")){
-            GenericService.sBrowserData="FIREFOX_";
-        }else if (browser.equalsIgnoreCase("internet explorer")){
-            GenericService.sBrowserData="INTERNET_EXPLORER_";
-        }*/
+
         /*if (server.equalsIgnoreCase("cadet")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
         } else if (server.equalsIgnoreCase("local")) {

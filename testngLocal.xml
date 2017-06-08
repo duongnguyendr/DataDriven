@@ -12,23 +12,23 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.marketing.emailtemplate.MailAuditorJoinTest"/>
+            <class name="com.auvenir.ui.tests.marketing.emailtemplate.NotificationMailAuditorInviteTest"/>
             <methods>
-                <include name="verifyMailAuditorJoin"></include>
+                <include name="verifyNotificationMailAuditorInvite"></include>
             </methods>
         </classes>
     </test>
-    <!--<test name="Regression2" preserve-order="false">-->
-        <!--<parameter name="browser" value="firefox"/>-->
-        <!--<parameter name="version" value="lasted"/>-->
-        <!--<parameter name="os" value="WIN10"/>-->
-        <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
-            <!--<methods>-->
-                <!--<include name="verifyButtonFilter"></include>-->
-            <!--</methods>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <!--<test name="Regression2" preserve-order="false">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="version" value="lasted"/>
+        <parameter name="os" value="WIN10"/>
+        <classes>
+            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
+            <methods>
+                <include name="verifyButtonFilter"></include>
+            </methods>
+        </classes>
+    </test>-->
     <!--<test name="Regression2-1" preserve-order="false">-->
         <!--<parameter name="browser" value="internet explorer"/>-->
         <!--<parameter name="version" value="lasted"/>-->

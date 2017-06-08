@@ -3,7 +3,10 @@ package com.auvenir.ui.services.marketing;
 import com.auvenir.ui.pages.marketing.*;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by doai.tran on 5/25/2017.
@@ -37,11 +40,12 @@ public class MarketingService extends AbstractService {
         getLogger().info("Click on login button.");
         marketingPage.clickOnLoginBTN();
     }
-    public void loginWithUserNamePassword(String UserName, String Password){
+    public void loginWithUserNamePassword(String UserName, String Password) {
         getLogger().info("Input Username and Password.");
         marketingPage.inputUserNamePassword(UserName,Password);
         getLogger().info("Click on Login button.");
         marketingPage.clickOnSubmitBTN();
+        marketingPage.waitForProgressOverlayIsClosed();
     }
     public void logout(){
         marketingPage.clickOnProfile();
@@ -66,17 +70,21 @@ public class MarketingService extends AbstractService {
     public void verifyLogoutBTNIsNotPresented(){
         marketingPage.verifyLogoutBTNIsNotPresented();
     }
-    public void verifyColorUserNameTxtBox(String attributeName, String attributeValue){
-        marketingPage.verifyColorUserNameTxtBox(attributeName, attributeValue);
+    public void verifyColorUserNameTxtBox() {
+        marketingPage.verifyColorUserNameTxtBox();
     }
-    public void verifyColorPasswordTxtBox(String attributeName, String attributeValue){
-        marketingPage.verifyColorPasswordTxtBox(attributeName, attributeValue);
+    public void verifyColorPasswordTxtBox(){
+        marketingPage.verifyColorPasswordTxtBox();
     }
     public void verifyErrorLoginMessage(String messsage){
         marketingPage.verifyErrorLoginMessage(messsage);
     }
     public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
         marketingPage.verifyColorErrorLoginMessage(attributeName, attributeValue);
+    }
+    public void deleteGmail(String emailAddress, String password)
+    {
+        deleteAllExistedGMail(emailAddress,password);
     }
     public void goToForgotPassword(){
         marketingPage.clickOnForgotPasswordLink();
@@ -136,4 +144,5 @@ Vien.Pham added login With New User Role
         clickLoginButton();
         loginWithUserNamePassword(adminEmail,adminPwd);
     }
+
 }

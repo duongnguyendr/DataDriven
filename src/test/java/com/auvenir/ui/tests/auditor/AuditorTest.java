@@ -62,7 +62,7 @@ public class AuditorTest extends AbstractTest{
         abstractService = new AbstractService(getLogger(), getDriver());
         try {
             //abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+            auditorService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auditorService.verifyBodyLoginPage();
             auditorService.verifyFooterLoginPage();
             auditorService.verifyEmailLoginForm();
@@ -86,7 +86,7 @@ public class AuditorTest extends AbstractTest{
         try {
             sData = GenericService.toReadExcelData(testCaseId);
             getLogger().info("update status of auditor to onboarding.");
-            abstractService.updateUserOnboarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            abstractService.updateUserOnboardingUsingAPI(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             getLogger().info("Login with auditor role.");
             abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auditorService.verifyPersonalPage();
@@ -117,7 +117,7 @@ public class AuditorTest extends AbstractTest{
         date = new Date();
         try {
             CurrentDate = dateFormat.format(date);
-            abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "ADMINEMAILID"));
+            abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID"));
             auditorService.verifyAdminLoginPage();
             auditorService.verifyChangeActiveStatus("AUDITOR",
                     GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), CurrentDate);

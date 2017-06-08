@@ -28,12 +28,13 @@ public class ValidateForgotPasswordTest extends AbstractTest {
     private String emailPassword = null;
     private GmailLoginService gmailLoginService;
 
-    @Test(priority = 1, enabled = false, description = "Forgot password with password is invalid.")
+    @Test(priority = 1, enabled = true, description = "Forgot password with password is invalid.")
     public void forgotPasswordWithInvalidValue() {
         try {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
             marketingService = new MarketingService(getLogger(), getDriver());
+            marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.goToForgotPassword();
@@ -129,6 +130,7 @@ public class ValidateForgotPasswordTest extends AbstractTest {
             emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
             marketingService = new MarketingService(getLogger(), getDriver());
+            marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.goToForgotPassword();

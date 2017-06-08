@@ -109,6 +109,20 @@ public class AuditorEngagementService extends AbstractService {
 
     }
 
+    /*public void viewEngagementDetailsPage(String engagementName) {
+        try {
+            getLogger().info("navigate to Engagement detail page.(Hard code)");
+            final String companyName = "Company Auvenir";
+            int index = auditorEngagementPage.findEngagementName(engagementName);
+            if(index == -1){
+                createAndSelectNewEnagement(engagementName, "", companyName);
+            }else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }*/
+
     public void viewEngagementDetailsPage(String engagementName) {
         try {
             getLogger().info("navigate to Engagement detail page.(Hard code)");
@@ -143,17 +157,11 @@ public class AuditorEngagementService extends AbstractService {
      */
     public void createAndSelectNewEnagement(String engagementName, String engagementType, String company) throws Exception {
         getLogger().info("Create And Select New Enagement.");
-        List<String> listIdEngagementBefore;
-        listIdEngagementBefore = auditorEngagementPage.getListIdOfEngagement();
         auditorEngagementPage.clickNewEnagementButton();
         auditorNewEngagementPage.verifyNewEngagementPage();
         auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company);
-        List<String> listIdEngagementAfter;
-        listIdEngagementAfter = auditorEngagementPage.getListIdOfEngagement();
-        int index = auditorEngagementPage.findNewEngagement(listIdEngagementBefore, listIdEngagementAfter);
-        auditorEngagementPage.clickEngagementByPosition(index);
+        auditorEngagementPage.clickEngagementByPosition(auditorEngagementPage.findEngagementName(engagementName));
     }
-
 
     public void verifyAuditorPageHeaderContent(){
         try {

@@ -252,8 +252,8 @@ public class AuditorSignUpPage extends AbstractPage {
         return numberEmployeeDdlListItemEle;
     }
 
-    final String warningBorderCSSColor = "rgb(253, 109, 71)";
-    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
+//    final String warningBorderCSSColor = "rgb(253, 109, 71)";
+//    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
     // This constant is used with color - CSS name;
     final String warningTextCSSColor = "rgba(235, 80, 44, 1)";
     final String successTextCSSColor = "rgba(73, 138, 144, 1)";
@@ -803,7 +803,7 @@ public class AuditorSignUpPage extends AbstractPage {
         validateCssValueElement(eleError, attributeName, attributeValue);
     }
 
-    public void verifyInputValidValueOnFirmNameTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnFirmNameTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Firm Name TextBox.");
         inputValueIntoFirmNameTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -811,7 +811,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(eleFirmNameError, "firm name error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyInputValidValueOnPreFirmNameTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnPreFirmNameTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Previous Firm Name TextBox.");
         inputValueIntoPreviousFirmNameTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -819,7 +819,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(elePreFirmNameError, "previous firm name error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyInputValidValueOnFirmWebsiteTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnFirmWebsiteTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Website TextBox.");
         inputValueIntoWebsiteTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -827,7 +827,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(elePreFirmWebsiteError, "firm website error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyInputValidValueOnFullAddressTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnFullAddressTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Full Address TextBox.");
         inputValueIntoFullAddressTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -835,7 +835,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(eleFullAddressError, "street address error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyInputValidValueOnZipCodeTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnZipCodeTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Full Address TextBox.");
         inputValueIntoZipCodeTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -844,7 +844,7 @@ public class AuditorSignUpPage extends AbstractPage {
 
     }
 
-    public void verifyInputValidValueOnMemberIdTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnMemberIdTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Member ID TextBox.");
         inputValueIntoMemberIdTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -852,7 +852,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(eleMemberIdError, "member id error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyInputValidValueOnPhoneNumberIdTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnPhoneNumberIdTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Phone Number TextBox.");
         inputValueIntoPhoneNumberIdTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -860,7 +860,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(elePhoneNumberIdError, "phone number id error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void verifyInputValidValueOnAffFirmTextBox(String invalidValue) {
+    public void verifyInputInValidValueOnAffFirmTextBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Affiliated Firm TextBox.");
         inputValueIntoAffiliatedFirmNameTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
@@ -884,7 +884,7 @@ public class AuditorSignUpPage extends AbstractPage {
         inputValueIntoControl(eleName, "first and last name", strName);
     }
 
-    public void verifyInputValidValueOnFullNameTxtBox(String invalidValue) {
+    public void verifyInputInValidValueOnFullNameTxtBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Full Name TextBox.");
         inputValueIntoFullNameInput(invalidValue);
         clickOnHeaderPersonalPage();
@@ -896,7 +896,7 @@ public class AuditorSignUpPage extends AbstractPage {
         inputValueIntoControl(eleEmail, "email", strName);
     }
 
-    public void verifyInputValidValueOnEmailTxtBox(String invalidValue) {
+    public void verifyInputInValidValueOnEmailTxtBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Email TextBox.");
         inputValueIntoEmailTextBox(invalidValue);
         clickOnHeaderPersonalPage();
@@ -908,7 +908,7 @@ public class AuditorSignUpPage extends AbstractPage {
         inputValueIntoControl(eleConfirmEmail, "confirm email", strName);
     }
 
-    public void verifyInputValidValueOnConfirmEmailTxtBox(String invalidValue) {
+    public void verifyInputInValidValueOnConfirmEmailTxtBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Confirmation Email TextBox.");
         inputValueIntoConfirmEmailTextBox(invalidValue);
         clickOnHeaderPersonalPage();
@@ -920,7 +920,7 @@ public class AuditorSignUpPage extends AbstractPage {
         inputValueIntoControl(elePhoneNumber, "phone number", strName);
     }
 
-    public void verifyInputValidValueOnPhoneNumberTxtBox(String invalidValue) {
+    public void verifyInputInValidValueOnPhoneNumberTxtBox(String invalidValue) {
         getLogger().info("Verify Input InValid Value On Phone Number TextBox.");
         inputValueIntoPhoneNumberTextBox(invalidValue);
         clickOnHeaderPersonalPage();

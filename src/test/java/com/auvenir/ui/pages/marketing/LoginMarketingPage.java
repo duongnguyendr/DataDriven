@@ -1,8 +1,12 @@
-package com.auvenir.ui.pages.marketing.forgotpassword;
+package com.auvenir.ui.pages.marketing;
 
-//import com.auvenir.utilities.PropertiesHelper;
-import com.auvenir.ui.pages.marketing.BaseMarketingPO;
+import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.marketing.forgotpassword.PasswordResetSuccessPO;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,10 +15,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 /**
- * Created by toan.nguyenp on 4/12/2017.
- * Reset password page
+ * Created by toan.nguyenp on 4/11/2017.
  */
-public class ResetPasswordPO extends BaseMarketingPO {
+public class LoginMarketingPage extends AbstractPage {
 
     //@FindBy(xpath = "//input[@name='password']")
     @FindBy(xpath = "//*[@id=\"reset-password\"]/center/form/div[1]/div/input")
@@ -41,18 +44,41 @@ public class ResetPasswordPO extends BaseMarketingPO {
     private WebElement confirmPasswordMessage;
     public WebElement getConfirmPasswordMessage() { return  confirmPasswordMessage; }
 
-    public ResetPasswordPO(Logger logger, WebDriver driver) {
+    public LoginMarketingPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
-        //resetPasswordPO = new ResetPasswordPO(getLogger(),getDriver());
     }
 
-    /**
-     * Verify page content
-     */
-    @Override
-    public void verifyContentPage() {
+    @FindBy(css = "#reset-password .exit")
+    private WebElement btnExit;
+    public WebElement getBtnExit() { return btnExit; }
 
+    @FindBy(css = "#reset-password .login")
+    private WebElement btnLogin;
+    public WebElement getBtnLogin() { return btnLogin; }
+
+
+    /*@Override
+    protected void load() {
+
+    }*/
+
+    /**
+     * TODO verify layout of this page
+     * @throws Error
+     */
+    /*@Override*/
+    protected void isLoadedExitLogin() throws Error {
+        validateElememt(btnExit, "Exit button", Element_Type.DISPLAYED);
+        validateElememt(btnLogin, "Login button", Element_Type.DISPLAYED);
+    }
+
+    public void exit(){
+        btnExit.click();
+    }
+
+    public void login(){
+        btnLogin.click();
     }
 
     /*@Override
@@ -70,14 +96,22 @@ public class ResetPasswordPO extends BaseMarketingPO {
         validateElememt(eleRetypeNewPassword, "New retype password input", Element_Type.DISPLAYED);
     }
 
-    public PasswordResetSuccessPO reset(String newPass, String retypeResetPass) throws InterruptedException {
-        Thread.sleep(smallTimeOut);
-        switchToOtherTab(1);
-        sendKeyTextBox(eleNewPasword,newPass,"send key to eleNewPasword");
-        Thread.sleep(smallTimeOut);
-        sendKeyTextBox(eleRetypeNewPassword,retypeResetPass,"send key to eleRetypeNewPassword");
-        clickElement(btnReset, "click to btnReset");
-        return new PasswordResetSuccessPO(getLogger(),getDriver());
+    public void resetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+        try {
+            getLogger().info("Verify to reset password");
+            Thread.sleep(smallTimeOut);
+            switchToOtherTab(1);
+            sendKeyTextBox(eleNewPasword, newPass, "send key to eleNewPasword");
+            Thread.sleep(smallTimeOut);
+            sendKeyTextBox(eleRetypeNewPassword, retypeResetPass, "send key to eleRetypeNewPassword");
+            clickElement(btnReset, "click to btnReset");
+            NXGReports.addStep("Verify to reset password", LogAs.PASSED, (CaptureScreen) null);
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to reset password", LogAs.FAILED, (CaptureScreen) null);
+        }
     }
 
     /**
@@ -181,4 +215,6 @@ public class ResetPasswordPO extends BaseMarketingPO {
             }
         }
     }
+
+
 }

@@ -46,19 +46,15 @@ public class NotificationMailAuditorInviteTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        String engagementName = "Engagement";
+        String engagementName = "bbbbbbb";
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try{
             String clientId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithUserNamePassword("auvenirinfo@gmail.com", "Changeit@123");
+            marketingService.loginWithUserNamePassword("auvenirinfo@gmail.com", "12345678@Ab");
 
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.clickNewEnagementButton();
-            auditorNewEngagementService.verifyNewEngagementPage();
-            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", "Company Auvenir");
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);

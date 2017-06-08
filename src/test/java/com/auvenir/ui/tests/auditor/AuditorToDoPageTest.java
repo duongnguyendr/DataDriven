@@ -6,7 +6,6 @@ import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.junit.experimental.theories.Theories;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -21,14 +20,15 @@ public class AuditorToDoPageTest extends AbstractTest {
     private AuditorNewEngagementService auditorNewEngagementService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
 
-    @Test(priority = 1, enabled = false, description = "Verify Todos Textbox")
+    @Test(priority = 1, enabled = true, description = "Verify Todos Textbox")
     public void verifyTodosTextBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getUserFromExcelData("LoginData","Valid User","Auditor");
         try {
+            auditorCreateToDoService.setPrefixProtocol("http://");
             auditorCreateToDoService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
