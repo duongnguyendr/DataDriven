@@ -627,11 +627,6 @@ public class GmailPage extends AbstractPage {
             sendKeyTextBox(getElePasswordTxtFld(), pwd, "Passwd textbox");
             getEleSignInBtn().click();
             getEleInviteMailLnk().click();
-//          Thread.sleep(2000);
-//            gmailLoginPo.getEleStartBtn().click();
-//            gmailWindow = getDriver().getWindowHandle();
-//            for (String winHandle : getDriver().getWindowHandles()) {
-//                getDriver().switchTo().window(winHandle);
         } catch (AssertionError e) {
             NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
 

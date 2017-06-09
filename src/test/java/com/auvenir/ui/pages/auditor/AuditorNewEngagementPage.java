@@ -142,7 +142,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
         getLogger().info("Enter start date.");
         clickAndHold(eleStartDateInput, "Start Date Input");
-        enterStartDate(getDate(0));
+        enterStartDate(getDate(1));
         clickElement(eleEngagementNameInput, "engagement Name");
         NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
 

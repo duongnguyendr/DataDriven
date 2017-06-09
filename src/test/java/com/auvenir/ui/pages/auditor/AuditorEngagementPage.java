@@ -153,12 +153,15 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//button[contains(text(),'Add New')]")
     private WebElement eleAddNewBtn;
 
-//    @FindBy(xpath = "//div[@id='cpa-main']//p[@class='e-widget-auditTitle']")
+    //    @FindBy(xpath = "//div[@id='cpa-main']//p[@class='e-widget-auditTitle']")
     @FindBy(xpath = "//*[@id='engagement-tbody']/tr//td[8]")
     private List<WebElement> engagementTitleListEle;
 
     @FindBy(xpath = "//tbody[@id='engagement-tbody']/tr/td/a")
     List<WebElement> newEngagementTitleListEle;
+
+    @FindBy(xpath = "//*[@id='CreateEnagementParent']/../../../..")
+    WebElement popUpCreateEngagement;
 
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
@@ -189,12 +192,14 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(contactsLinkEle, "contactsLinkEle");
         contactsLinkEle.click();
 
-	}
-	public void clickNewEnagementButton() {
-		waitForVisibleElement(newEngagementButtonEle,"New Engagement Button");
-		waitForClickableOfElement(newEngagementButtonEle,"New Engagement Button");
-		newEngagementButtonEle.click();
-	}
+    }
+
+    public void clickNewEnagementButton() {
+//        System.out.println("Size Before create new: " + engagementListEle.size());
+        waitForVisibleElement(newEngagementButtonEle, "New Engagement Button");
+        waitForClickableOfElement(newEngagementButtonEle, "New Engagement Button");
+        newEngagementButtonEle.click();
+    }
 
     /**
      * Click on the Engagement with the engagement Name.
@@ -204,7 +209,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void viewEngagementDetailsPage(String engagementName) throws Exception {
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-        hoverElement(engagementListEle.get(index), engagementName);
+//        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
         clickAndHold(engagementListEle.get(index), engagementName);
     }
@@ -236,6 +241,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Get the list ID of Engagement on Engagement Page.
+     *
      * @return List<String> the list ID of Engagement on Engagement Page.
      */
     public List<String> getListIdOfEngagement() {
@@ -253,7 +259,7 @@ public class AuditorEngagementPage extends AbstractPage {
      * Find the new engagement which is just created.
      *
      * @param listIdOfEngagementBeforeCreate List Engagement ID before creating new one.
-     * @param listIdOfEngagementAfterCreate List Engagement ID after creating new one.
+     * @param listIdOfEngagementAfterCreate  List Engagement ID after creating new one.
      * @return position of Engagement on Engagement page base on ID.
      */
     public int findNewEngagement(List<String> listIdOfEngagementBeforeCreate, List<String> listIdOfEngagementAfterCreate) {
@@ -278,34 +284,45 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Click Engagement on Engagement Page with the position of Engagement
+     *
      * @param engagementPosition int the Engagement position which is clicked.
      */
-    public void clickEngagementByPosition(int engagementPosition){
-        hoverElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
-        waitForClickableOfElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
-        clickAndHold(engagementListEle.get(engagementPosition), "Engagement View Ite");
+    public void clickEngagementByPosition(int engagementPosition) throws InterruptedException {
+        System.out.println("Size: " + engagementListEle.size());
+        System.out.println(engagementListEle.get(engagementPosition));
+        System.out.println("Position: " + engagementPosition);
+//        hoverElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
+//        WebElement popUpCreateEngagement = getDriver().findElement(By.xpath("//*[@id='CreateEnagementParent']/../../../.."));
+        waitForCssValueChanged(popUpCreateEngagement, "PopUp Create", "display", "none");
+//        Thread.sleep(3000);
+        waitForClickableOfElement(engagementListEle.get(engagementPosition), "Engagement View Item");
+        clickElement(engagementListEle.get(engagementPosition), "Engagement View Item");
+//        clickElement(engagementListEle.get(engagementPosition));
 //        hoverElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
 //        waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
 //        clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
     }
 
-    public void clickvisibilityOfElementWait(){
+    public void clickvisibilityOfElementWait() {
         auditorEngagementPage.getEleCreateNewBtn();
     }
 
-    public void clickClientsLink(){
+    public void clickClientsLink() {
         waitForClickableOfElement(eleClientsLnk, "Client link");
         clickElement(eleClientsLnk, "Client link");
     }
-    public void clickAddNewButton(){
+
+    public void clickAddNewButton() {
         waitForClickableOfElement(eleAddNewBtn, "Add new button");
         clickElement(eleAddNewBtn, "Add new button");
     }
-    public void clickdropDownSetingLink(){
+
+    public void clickdropDownSetingLink() {
         waitForClickableOfElement(eleSettingsLnk, "Drop down setting");
         clickElement(eleSettingsLnk, "Drop down setting");
     }
-    public void clickAuditorNameDropDown(){
+
+    public void clickAuditorNameDropDown() {
         waitForClickableOfElement(eleAuditorNameDrpDwn, "Auditor name drop down");
         clickElement(eleAuditorNameDrpDwn, "Auditor name drop down");
     }
