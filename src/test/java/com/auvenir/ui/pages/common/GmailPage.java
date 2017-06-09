@@ -578,7 +578,7 @@ public class GmailPage extends AbstractPage {
     private WebElement composeBtn;
     @FindBy(xpath = "//div[@class='ae4 aDM']//div[@role=\"checkbox\"]/div")
     private List<WebElement> lastedMailCheckBox;
-    @FindBy(xpath = "//div[@class='J-J5-Ji J-JN-M-I-Jm']//div[@role='presentation']")
+    @FindBy(xpath = "//div[@class='J-J5-Ji J-JN-M-I-Jm']//div[@role='presentation']/..")
     private WebElement allMailCheckBox;
     @FindBy(xpath = "//div[@class='ar9 T-I-J3 J-J5-Ji']")
     private WebElement deleteBTN;
@@ -596,10 +596,11 @@ public class GmailPage extends AbstractPage {
             WebDriverWait wait = new WebDriverWait(getDriver(), 10);
             wait.until(ExpectedConditions.elementToBeClickable(allMailCheckBox));
             Thread.sleep(2000);
-            allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
+            allMailCheckBox.click();
             Thread.sleep(200);
-            if(allMailCheckBox.isSelected()) {
+            if(deleteBTN.isDisplayed()) {
+                getLogger().info("Click Delete All Email.");
                 deleteBTN.click();
             }
             Thread.sleep(2000);

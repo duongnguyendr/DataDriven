@@ -225,4 +225,5 @@ public class AuditorSignUpService extends AbstractService {
     public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String password) {
         auditorSignUpPage.confirmInfomationNewAuditorUser(fullName, strEmail, password);
     }
+
 }

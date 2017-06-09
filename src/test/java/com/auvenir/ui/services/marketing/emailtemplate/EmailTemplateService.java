@@ -30,4 +30,8 @@ public class EmailTemplateService extends AbstractService{
     public void clickGetStartedButton() {
         mailAuditorJoinPO.clickGetStartedButton();
     }
+
+    public void navigateToConfirmationLink() throws Exception {
+        mailAuditorJoinPO.navigateToConfirmationLink();
+    }
 }

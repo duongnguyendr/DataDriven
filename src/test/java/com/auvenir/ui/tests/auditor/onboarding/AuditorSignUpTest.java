@@ -261,6 +261,7 @@ public class AuditorSignUpTest extends AbstractTest {
             gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
             auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+//            auditorEngagementService.createAndActiveNewUserByEmail(fullNameCreate, strEmailCreate, passwordCreate, strAdminEmail, strAdminPwd);
 
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
@@ -270,8 +271,6 @@ public class AuditorSignUpTest extends AbstractTest {
 
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.verifyRegisterNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
-//            auditorSignUpService.verifyRegisterNewAuditorUser("ADMIN AUVENIR", "admin@auvenir.com", "Changeit@123");
-
             gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
