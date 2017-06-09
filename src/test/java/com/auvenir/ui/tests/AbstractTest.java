@@ -8,6 +8,7 @@ import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -97,6 +98,8 @@ public class AbstractTest {
             GenericService.sBrowserData = "IE_";
         } else if (browser.equalsIgnoreCase("safari")) {
             GenericService.sBrowserData = "SAFARI_";
+        } else if(browser.equalsIgnoreCase("edge")){
+            GenericService.sBrowserData = "EDGE_";
         }
         GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
         getLogger().info("setUp: " + GenericService.sBrowserData);
@@ -123,8 +126,12 @@ public class AbstractTest {
                     driver = new FirefoxDriver(capabilities);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
                     getLogger().info("Intetnet Explorer is set");
-                    System.setProperty("webdriver.gecko.ie", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
+                    System.setProperty("webdriver.ie.driver", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
+                } else  if (GenericService.sBrowserData.equalsIgnoreCase("EDGE_")){
+                    getLogger().info("Edge is set");
+                    System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
+                    driver = new EdgeDriver();
                 }
             } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
 
@@ -139,6 +146,8 @@ public class AbstractTest {
                     capabilities = DesiredCapabilities.internetExplorer();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
                     capabilities = DesiredCapabilities.safari();
+                }else if(GenericService.sBrowserData.equalsIgnoreCase("EDGE_")){
+                    capabilities = DesiredCapabilities.edge();
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
