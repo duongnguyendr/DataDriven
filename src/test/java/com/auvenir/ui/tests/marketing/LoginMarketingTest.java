@@ -42,7 +42,6 @@ public class LoginMarketingTest extends AbstractTest {
         try {
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
-            Thread.sleep(lagreTimeOut);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.goToForgotPassword();
