@@ -213,7 +213,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
     /**
      * Added by huy.huynh on 06/06/2017.
-     * check element on dev-branch
+     * Verify UI new engagement flow
      */
     @FindBy(className = "ce-headerTitle")
     private WebElement titleHeader;
@@ -520,7 +520,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
             clickElement(buttonCreateToDoList, "Button Create ToDo List");
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error:  New Engagement Footer Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: New Engagement Footer Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
         }
     }
