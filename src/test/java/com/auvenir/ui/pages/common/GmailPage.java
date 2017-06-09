@@ -599,7 +599,7 @@ public class GmailPage extends AbstractPage {
             allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
             Thread.sleep(200);
-            clickElement(deleteBTN,"deleteBTN");
+            deleteBTN.click();
             Thread.sleep(2000);
             getLogger().info("Delete all mail successfully");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {

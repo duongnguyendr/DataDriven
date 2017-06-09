@@ -54,9 +54,9 @@ public class AuditorSignUpTest extends AbstractTest {
     private GmailLoginService gmailLoginService;
 
     final String fullNameCreate = "Test Login Auditor";
-    //    final String fullName = "Duong Nguyen";
+//        final String fullNameCreate = "Minh Nguyen";
     final String strEmailCreate = GenericService.readExcelData(testData, "Login", 1, 1);
-    //    final String strEmail = "auvenirinfo@gmail.com";
+//        final String strEmailCreate = "ff.minhtest@gmail.com";
     final String passwordCreate = GenericService.readExcelData(testData, "Login", 1, 2);
 
     String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
@@ -262,6 +262,8 @@ public class AuditorSignUpTest extends AbstractTest {
             emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
             auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 
+            gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
+
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
             auditorSignUpService.setPrefixProtocol(httpProtocol);
@@ -270,12 +272,16 @@ public class AuditorSignUpTest extends AbstractTest {
 
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.verifyRegisterNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
-            gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
+//            auditorSignUpService.verifyRegisterNewAuditorUser("ADMIN AUVENIR", "admin@auvenir.com", "Changeit@123");
+
+            marketingService.setPrefixProtocol(httpProtocol);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
-            gmailLoginService.gmailLogin(strEmailCreate, passwordCreate);
+            gmailLoginService.gmailReLogin(passwordCreate);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.verifyActiveEmailTemplateContent();
             emailTemplateService.clickGetStartedButton();
