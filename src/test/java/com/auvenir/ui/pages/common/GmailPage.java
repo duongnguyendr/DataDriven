@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-//import org.testng.log4testng.Logger;
 
 public class GmailPage extends AbstractPage {
 
@@ -32,7 +31,6 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    //@FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
     @FindBy(xpath = "//span[@class='gb_8a gbii']")
     private WebElement eleProfileIcn;
 
@@ -40,7 +38,7 @@ public class GmailPage extends AbstractPage {
         return eleProfileIcn;
     }
 
-    @FindBy(xpath = "//a[text()='Sign out']")
+    @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
     private WebElement eleSignOutBtn;
 
     public WebElement getEleSignOutBtn() {
@@ -68,8 +66,7 @@ public class GmailPage extends AbstractPage {
         return elePasswordTxtFld;
     }
 
-    //    @FindBy(id = "signIn")
-//    private WebElement eleSignInBtn;
+
     @FindBy(xpath = "//*[@id=\"passwordNext\"]/content/span")
     private WebElement eleSignInBtn;
 
@@ -180,8 +177,10 @@ public class GmailPage extends AbstractPage {
         try {
             //getEleProfileIcn().click();
             waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+            clickElement(eleProfileIcn, "click to eleProfileIcn");
             //getEleSignOutBtn().click();
             waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
+            clickElement(eleSignOutBtn, "click to eleSignOutBtn");
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -392,6 +391,7 @@ public class GmailPage extends AbstractPage {
             getDriver().findElement(By.cssSelector("#password input")).sendKeys(password);
             getDriver().findElement(By.id("passwordNext")).click();
         }
+        reSignInGmail(password);
         //Waiting for email receiver form Auvenir in 30s
         waitUtilElementClickable(eleEmailAuvenir, waitTime);
         //Open email details
@@ -510,6 +510,21 @@ public class GmailPage extends AbstractPage {
             //Thread.sleep(500);
             //sendKeyTextBox(elePassword,password,"eleEmail");
             //Thread.sleep(1000);
+            elePassword.sendKeys(password);
+            getLogger().info("Send password: " + password);
+            //Clicking on "Next" button
+            Thread.sleep(1000);
+            clickAndHold(eleNext, "eleNext");
+            //eleNext.click();
+            getLogger().info("DONE => LOGIN");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void reSignInGmail(String password) {
+        try {
+            Thread.sleep(1000);
             elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
             //Clicking on "Next" button

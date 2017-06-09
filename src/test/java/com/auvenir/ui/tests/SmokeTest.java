@@ -27,7 +27,6 @@ public class SmokeTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private ClientService clientService;
     private GmailLoginService gmailLoginService;
-
     private String adminId, auditorId, clientId;
     private String sData[];
     private String testCaseId;
@@ -40,11 +39,9 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-
+            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -60,23 +57,19 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
             dateFormat = new SimpleDateFormat("MM/d/yyyy");
-
             //precondition
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
-
             auvenirService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auvenirService.verifyPageLoad();
             auvenirService.inputEmailAndJoin(auditorId);
             auvenirService.actionWithApprovalDialog();
-
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), dateFormat.format(new Date()), "Wait Listed");
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -91,7 +84,6 @@ public class SmokeTest extends AbstractTest {
         getLogger().info("Verify change the status of the Auditor to OnBoarding.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
-
         try {
             //precondition setted by tc auditorCreation
 //            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
@@ -107,15 +99,12 @@ public class SmokeTest extends AbstractTest {
 //            auvenirService.verifyPageLoad();
 //            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
-            adminService.loginWithUserRole(adminId);
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            adminService.loginWithUserRole(auditorId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-
             adminService.changeTheStatusAuditorToOnBoarding(auditorId, "Onboarding");
             adminService.verifyUserStatusOnAdminUserTable(auditorId, "Onboarding");
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -131,9 +120,8 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         auditorService = new AuditorService(getLogger(), getDriver());
-
         try {
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
             testCaseId = "auditor_Onboarding";
             sData = GenericService.toReadExcelData(testCaseId);
             //precondition setted by tc changeTheStatusAuditorToOnBoarding
@@ -157,7 +145,6 @@ public class SmokeTest extends AbstractTest {
 //
 //            adminService.changeTheStatusAuditorToOnBoarding(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), "Onboarding");
 //            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), "Onboarding");
-
             adminService.loginWithUserRole(auditorId);
             auditorService.verifyPersonalPage();
             auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
@@ -215,8 +202,8 @@ public class SmokeTest extends AbstractTest {
 //            auditorService.verifyFooterPage();
 //            auditorService.verifySecurityOnBoardingPageSimplelize();
 //            auditorService.verifyEpilogueOnBoardingPage();
-            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -242,34 +229,27 @@ public class SmokeTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         try {
-            clientId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
-            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            clientId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Client");
+            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
-
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
-
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
             auditorEngagementService.verifyAuditorEngagementPage();
-
             auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
             auditorDetailsEngagementService.navigateToTodoListPage();
-
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
             clientService.inviteNewClient("Titan client", clientId, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
-
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -285,19 +265,15 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-
+            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
             gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL_PASSWORD"));
             gmailLoginService.filterEmail();
             gmailLoginService.clickOnboardingInvitationLink();
-
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-
             adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), "Onboarding");
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -311,15 +287,12 @@ public class SmokeTest extends AbstractTest {
         getLogger().info("Verify delete the existing Auditor and Client via API");
         adminService = new AdminService(getLogger(), getDriver());
         try {
-            clientId = GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL");
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-
+            clientId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Client");
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
             adminService.deleteUserUsingApi(auditorId);
             //adminService.verifyAPIResponseSuccessCode(auditorMessageBack,"Auditor");
-
             adminService.deleteUserUsingApi(clientId);
             //adminService.verifyAPIResponseSuccessCode(clientMessageBack,"Client");
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify delete the existing Auditor and Client via API.", LogAs.PASSED, null);
         } catch (Exception e) {
