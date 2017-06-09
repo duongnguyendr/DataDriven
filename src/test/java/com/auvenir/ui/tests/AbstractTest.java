@@ -40,6 +40,7 @@ public class AbstractTest {
         +Local
      */
     public static final String httpProtocol = "http://";
+    public static final int lagreTimeOut = 2000;
     private String runMode = "Local";
 
     public String getRunMode() {
