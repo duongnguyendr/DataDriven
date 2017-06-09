@@ -56,6 +56,7 @@ public class GmailLoginService extends AbstractService {
 //    }
 
     public void gmailLogin(String gmailAccount, String gmailPwd) throws InterruptedException {
+        gmailLoginPo.goGMail();
         gmailLoginPo.signInGmail(gmailAccount, gmailPwd);
     }
 
