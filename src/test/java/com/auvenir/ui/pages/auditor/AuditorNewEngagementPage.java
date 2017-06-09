@@ -1,10 +1,10 @@
 package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-
 /**
  * Created by cuong.nguyen on 5/8/2017.
  */
@@ -156,8 +155,9 @@ public class AuditorNewEngagementPage extends AbstractPage {
         clickNoMemberBtn();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
         waitForVisibleElement(createNewTodoListTextEle, "Create new todo list text");
-
-        clickContinueBtn();
+        //old version
+//        clickContinueBtn();
+        clickCreateToDoBtn();
     }
 
     private void verifyTeamMemberWizardPage() {

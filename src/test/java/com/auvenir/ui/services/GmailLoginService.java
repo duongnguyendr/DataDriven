@@ -1,16 +1,8 @@
 package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-
-import java.util.concurrent.TimeUnit;
 
 //import org.testng.log4testng.Logger;
 
@@ -64,7 +56,7 @@ public class GmailLoginService extends AbstractService {
 //    }
 
     public void gmailLogin(String gmailAccount, String gmailPwd) throws InterruptedException {
-        gmailLoginPo.gmailNewLogin(gmailAccount, gmailPwd);
+        gmailLoginPo.signInGmail(gmailAccount, gmailPwd);
     }
 
     public void selectActiveEmaill() {
@@ -82,7 +74,7 @@ public class GmailLoginService extends AbstractService {
 
     //////////////////
     public void openGmailIndexForgotPassword(String email, String password) throws InterruptedException {
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         gmailLoginPo.goGMail();
         gmailLoginPo.openGmailIndexForgotPassword(email, password);
     }

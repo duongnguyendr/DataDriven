@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-//import org.testng.log4testng.Logger;
 
 public class GmailPage extends AbstractPage {
 
@@ -32,31 +31,26 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
+    @FindBy(xpath = "//span[@class='gb_8a gbii']")
     private WebElement eleProfileIcn;
 
     public WebElement getEleProfileIcn() {
         return eleProfileIcn;
     }
 
-    @FindBy(xpath = "//a[text()='Sign out']")
+    @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
     private WebElement eleSignOutBtn;
 
     public WebElement getEleSignOutBtn() {
         return eleSignOutBtn;
     }
 
-    //    @FindBy(id = "Email")
-//    private WebElement eleEmailIDTxtFld;
     @FindBy(xpath = "//input[@type='email']")
     private WebElement eleEmailIDTxtFld;
 
     public WebElement getEleEmailIDTxtFld() {
         return eleEmailIDTxtFld;
     }
-
-//    @FindBy(id = "next")
-//    private WebElement eleNextBtn;
 
     @FindBy(xpath = "//*[@id=\"identifierNext\"]/content/span")
     private WebElement eleNextBtn;
@@ -65,9 +59,6 @@ public class GmailPage extends AbstractPage {
         return eleNextBtn;
     }
 
-//    @FindBy(id = "Passwd")
-//    private WebElement elePasswordTxtFld;
-
     @FindBy(xpath = "//input[@type='password']")
     private WebElement elePasswordTxtFld;
 
@@ -75,8 +66,7 @@ public class GmailPage extends AbstractPage {
         return elePasswordTxtFld;
     }
 
-    //    @FindBy(id = "signIn")
-//    private WebElement eleSignInBtn;
+
     @FindBy(xpath = "//*[@id=\"passwordNext\"]/content/span")
     private WebElement eleSignInBtn;
 
@@ -185,8 +175,12 @@ public class GmailPage extends AbstractPage {
 
     public void gmailLogout() throws Exception {
         try {
-            getEleProfileIcn().click();
-            getEleSignOutBtn().click();
+            //getEleProfileIcn().click();
+            waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+            clickElement(eleProfileIcn, "click to eleProfileIcn");
+            //getEleSignOutBtn().click();
+            waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
+            clickElement(eleSignOutBtn, "click to eleSignOutBtn");
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -308,7 +302,6 @@ public class GmailPage extends AbstractPage {
                         if (getDriver().findElement(By.xpath("//div[@aria-label='Show trimmed content']/img")).isDisplayed()) {
                             getDriver().findElement(By.xpath("(//div[@aria-label='Show trimmed content']/img)[last()]")).click();
                             Thread.sleep(2000);
-
                             Robot rb = new Robot();
                             rb.keyPress(KeyEvent.VK_PAGE_DOWN);
                         }
@@ -344,13 +337,6 @@ public class GmailPage extends AbstractPage {
     public WebElement getEleNext() {
         return eleNext;
     }
-
-//    @FindBy(xpath = "//input[@type='password']")
-//    private WebElement elePassword;
-
-//    public WebElement getElePassword() {
-//        return elePassword;
-//    }
 
     @FindBy(xpath = "//div[@id='password']//input[@type='password']")
     private WebElement elePassword;
@@ -405,6 +391,7 @@ public class GmailPage extends AbstractPage {
             getDriver().findElement(By.cssSelector("#password input")).sendKeys(password);
             getDriver().findElement(By.id("passwordNext")).click();
         }
+        reSignInGmail(password);
         //Waiting for email receiver form Auvenir in 30s
         waitUtilElementClickable(eleEmailAuvenir, waitTime);
         //Open email details
@@ -505,7 +492,6 @@ public class GmailPage extends AbstractPage {
      */
     public void signInGmail(String email, String password) {
         try {
-//            clickElement(buttonSignIn, "Button Sign In");
             Thread.sleep(1000);
             /*sendKeyTextBox(inputEmail, email, "Input Email");
             clickElement(buttonNextToPassword, "Button Next To Password");
@@ -519,10 +505,26 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Send email: " + email);
             //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
+            //clickAndHold(eleNext, "eleNext");
             //Sending password
             //Thread.sleep(500);
             //sendKeyTextBox(elePassword,password,"eleEmail");
+            //Thread.sleep(1000);
+            elePassword.sendKeys(password);
+            getLogger().info("Send password: " + password);
+            //Clicking on "Next" button
+            Thread.sleep(1000);
+            clickAndHold(eleNext, "eleNext");
+            //eleNext.click();
+            getLogger().info("DONE => LOGIN");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void reSignInGmail(String password) {
+        try {
+            Thread.sleep(1000);
             elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
             //Clicking on "Next" button
@@ -597,8 +599,8 @@ public class GmailPage extends AbstractPage {
             allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
             Thread.sleep(200);
-            clickElement(deleteBTN, "deleteBTN");
-            Thread.sleep(5000);
+            clickElement(deleteBTN,"deleteBTN");
+            Thread.sleep(2000);
             getLogger().info("Delete all mail successfully");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {
             getLogger().info(e.getMessage());

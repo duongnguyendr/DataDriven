@@ -16,8 +16,7 @@ import org.openqa.selenium.support.PageFactory;
  */
 public class ResetPasswordPO extends BaseMarketingPO {
 
-    //@FindBy(xpath = "//input[@name='password']")
-    @FindBy(xpath = "//*[@id=\"reset-password\"]/center/form/div[1]/div/input")
+    @FindBy(xpath = "//input[@name='password']")
     private WebElement eleNewPasword;
     public WebElement getEleNewPasword(){ return eleNewPasword; }
 
