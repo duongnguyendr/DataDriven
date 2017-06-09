@@ -469,7 +469,7 @@ public class AbstractService {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
 //            gmailLoginPage.signInGmail(eGMail,ePassword);
-            gmailLoginPage.gmailNewLogin(eGMail,ePassword);
+            gmailLoginPage.signInGmail(eGMail,ePassword);
             gmailLoginPage.deleteAllMail();
             gmailLoginPage.gmailLogout();
         }catch (Exception e){

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-//import org.testng.log4testng.Logger;
 
 public class GmailPage extends AbstractPage {
 
@@ -32,7 +31,6 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    //@FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=en&continue=https://mail.google.com/mail&service=mail']/span")
     @FindBy(xpath = "//span[@class='gb_8a gbii']")
     private WebElement eleProfileIcn;
 
@@ -68,8 +66,7 @@ public class GmailPage extends AbstractPage {
         return elePasswordTxtFld;
     }
 
-    //    @FindBy(id = "signIn")
-//    private WebElement eleSignInBtn;
+
     @FindBy(xpath = "//*[@id=\"passwordNext\"]/content/span")
     private WebElement eleSignInBtn;
 
@@ -628,35 +625,6 @@ public class GmailPage extends AbstractPage {
         }
     }
 
-
-    /*
-    Vien.pham edited method gmailNewLogin
-     */
-    public void gmailNewLogin(String userName, String pwd) {
-        try {
-            getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-            //Wait for clickable of userName txtbox
-            waitForClickableOfElement(getEleEmail(), "UserName textbox");
-            sendKeyTextBox(getEleEmail(), userName, "UserName textbox");
-            getEleNextBtn().click();
-            //Wait for clickable of pwd txtbox
-            waitForClickableOfElement(getElePasswordTxtFld(), "Passwd textbox");
-            sendKeyTextBox(getElePasswordTxtFld(), pwd, "Passwd textbox");
-            getEleSignInBtn().click();
-            getEleInviteMailLnk().click();
-//          Thread.sleep(2000);
-//            gmailLoginPo.getEleStartBtn().click();
-//            gmailWindow = getDriver().getWindowHandle();
-//            for (String winHandle : getDriver().getWindowHandles()) {
-//                getDriver().switchTo().window(winHandle);
-        } catch (AssertionError e) {
-            NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     public void selectActiveEmaill() {
         waitForClickableOfElement(eleEmailAuvenir,"Non-reply Active email");
