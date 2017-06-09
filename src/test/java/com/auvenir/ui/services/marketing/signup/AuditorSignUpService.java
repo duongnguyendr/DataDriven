@@ -217,10 +217,14 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.acceptCreateAccountAuditor();
     }
 
-    public void verifyRegisterNewAuditorUser(String fullName, String strEmail, String password) throws  Exception{
-        deleteUserUsingApi(strEmail);
-        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
-        goToBaseURL();
+    public void verifyRegisterNewAuditorUser(String fullName, String strEmail, String password){
+//        deleteUserUsingApi(strEmail);
+//        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
+//        goToBaseURL();
         auditorSignUpPage.registerNewAuditorUser(fullName, strEmail, password);
+    }
+
+    public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String password) {
+        auditorSignUpPage.confirmInfomationNewAuditorUser(fullName, strEmail, password);
     }
 }

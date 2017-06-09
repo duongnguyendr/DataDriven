@@ -2,9 +2,12 @@ package com.auvenir.ui.tests.marketing;
 
 
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.AdminService;
+import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.LoginMarketingService;
 import com.auvenir.ui.services.marketing.MarketingService;
+import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -24,12 +27,18 @@ public class LoginMarketingTest extends AbstractTest {
     private LoginMarketingService loginMarketingService;
     //private LoginTest loginTest;
     private AuditorSignUpService auditorSignUpService;
+    private AdminService adminService;
+    private EmailTemplateService emailTemplateService;
+    private AuditorEngagementService auditorEngagementService;
 
     final String fullName = "Test Login Auditor";
     //    final String fullName = "Duong Nguyen";
     final String strEmail = GenericService.readExcelData(testData, "Login", 1, 1);
     //    final String strEmail = "auvenirinfo@gmail.com";
     final String password = GenericService.readExcelData(testData, "Login", 1, 2);
+
+    String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
+    String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
 
     private String emailId = null;
     private String emailPassword = null;
@@ -166,16 +175,13 @@ public class LoginMarketingTest extends AbstractTest {
     @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
     public void loginAndLogoutTest() throws Exception {
         try {
-            auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
             marketingService = new MarketingService(getLogger(),getDriver());
-            auditorSignUpService.setPrefixProtocol(httpProtocol);
-            auditorSignUpService.verifyRegisterNewAuditorUser(fullName, strEmail, password);
+            auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
             marketingService.setPrefixProtocol("http://");
-            marketingService.updateUserActiveUsingAPI(strEmail);
-            marketingService.updateUserActiveUsingMongoDB(strEmail);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithUserNamePassword(strEmail, password);
+            auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test positive tests case login and logout: PASSED", LogAs.PASSED, (CaptureScreen) null);

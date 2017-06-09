@@ -193,8 +193,6 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         // Checking Signature footer
         this.validateElememt(eleSignatureMail, "Verify Element of Signature footer", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
-
-
     }
 
 
@@ -227,6 +225,12 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         // Checking "un subscribe" link
         this.validateElememt(this.getEleLinkUnSubscribeFooter(), "Element of unsubscribe", Element_Type.DISPLAYED);
 
+    }
+
+    public void clickGetStartedButton() {
+        getLogger().info("Click Get Started Button.");
+        waitForVisibleElement(eleGetStarted, "Get Started.");
+        clickElement(eleGetStarted, "Get Started.");
     }
 
 }

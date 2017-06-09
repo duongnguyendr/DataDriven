@@ -505,7 +505,7 @@ public class GmailPage extends AbstractPage {
      */
     public void signInGmail(String email, String password) {
         try {
-            clickElement(buttonSignIn, "Button Sign In");
+//            clickElement(buttonSignIn, "Button Sign In");
             Thread.sleep(1000);
             /*sendKeyTextBox(inputEmail, email, "Input Email");
             clickElement(buttonNextToPassword, "Button Next To Password");
@@ -591,14 +591,14 @@ public class GmailPage extends AbstractPage {
         waitForVisibleElement(composeBtn, "composeBtn");
         getLogger().info("Try to delete all existed mail.");
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
             wait.until(ExpectedConditions.elementToBeClickable(allMailCheckBox));
             Thread.sleep(2000);
             allMailCheckBox.click();
             getLogger().info("Select all Delete mail: ");
             Thread.sleep(200);
             clickElement(deleteBTN, "deleteBTN");
-            Thread.sleep(500);
+            Thread.sleep(5000);
             getLogger().info("Delete all mail successfully");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {
             getLogger().info(e.getMessage());
@@ -630,16 +630,19 @@ public class GmailPage extends AbstractPage {
     public void gmailNewLogin(String userName, String pwd) {
         try {
             getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-            //Wait for clickable of userName txtbox
-            waitForClickableOfElement(getEleEmail(), "UserName textbox");
-            sendKeyTextBox(getEleEmail(), userName, "UserName textbox");
-            getEleNextBtn().click();
-            //Wait for clickable of pwd txtbox
-            waitForClickableOfElement(getElePasswordTxtFld(), "Passwd textbox");
-            sendKeyTextBox(getElePasswordTxtFld(), pwd, "Passwd textbox");
-            getEleSignInBtn().click();
-            getEleInviteMailLnk().click();
+            getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            if (!validateNotExistedElement(getEleEmail(), "UserName textbox")){
+                //Wait for clickable of userName txtbox
+                waitForClickableOfElement(getEleEmail(), "UserName textbox");
+                sendKeyTextBox(getEleEmail(), userName, "UserName textbox");
+                getEleNextBtn().click();
+                //Wait for clickable of pwd txtbox
+                waitForClickableOfElement(getElePasswordTxtFld(), "Passwd textbox");
+                sendKeyTextBox(getElePasswordTxtFld(), pwd, "Passwd textbox");
+                getEleSignInBtn().click();
+                getEleInviteMailLnk().click();
+            }
+
 //          Thread.sleep(2000);
 //            gmailLoginPo.getEleStartBtn().click();
 //            gmailWindow = getDriver().getWindowHandle();
@@ -655,6 +658,6 @@ public class GmailPage extends AbstractPage {
 
     public void selectActiveEmaill() {
         waitForClickableOfElement(eleEmailAuvenir,"Non-reply Active email");
-        clickElement(eleEmailAuvenir);
+        clickElement(eleEmailAuvenir, "Non-reply Active email");
     }
 }

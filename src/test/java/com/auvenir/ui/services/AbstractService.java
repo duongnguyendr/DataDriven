@@ -468,6 +468,7 @@ public class AbstractService {
         try{
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+//            gmailLoginPage.gmailNewLogin(eGMail, ePassword);
             gmailLoginPage.signInGmail(eGMail,ePassword);
             gmailLoginPage.deleteAllMail();
         }catch (Exception e){

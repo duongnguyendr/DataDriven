@@ -1,6 +1,11 @@
 package com.auvenir.ui.tests.auditor.onboarding;
 
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.AdminService;
+import com.auvenir.ui.services.AuditorEngagementService;
+import com.auvenir.ui.services.GmailLoginService;
+import com.auvenir.ui.services.marketing.MarketingService;
+import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -22,8 +27,8 @@ public class AuditorSignUpTest extends AbstractTest {
 
     // personal information
     String strFullName = GenericService.readExcelData(testData, "OnBoarding", 1, 1);
-//    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
-    String strEmail = "thuan.duong@titancorpvn.com";
+    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
+//    String strEmail = "thuan.duong@titancorpvn.com";
     String strRoleFirm = GenericService.readExcelData(testData, "OnBoarding", 1, 3);
     String strPhone = GenericService.readExcelData(testData, "OnBoarding", 1, 4);
     String strReference = GenericService.readExcelData(testData, "OnBoarding", 1, 5);
@@ -43,6 +48,24 @@ public class AuditorSignUpTest extends AbstractTest {
     String strPathLogo = GenericService.readExcelData(testData, "OnBoarding", 1, 18);
     // security information
     String strPassword = GenericService.readExcelData(testData, "OnBoarding", 1, 19);
+
+    private MarketingService marketingService;
+    private AdminService adminService;
+    private GmailLoginService gmailLoginService;
+
+    final String fullNameCreate = "Test Login Auditor";
+    //    final String fullName = "Duong Nguyen";
+    final String strEmailCreate = GenericService.readExcelData(testData, "Login", 1, 1);
+    //    final String strEmail = "auvenirinfo@gmail.com";
+    final String passwordCreate = GenericService.readExcelData(testData, "Login", 1, 2);
+
+    String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
+    String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
+
+    private String emailId = null;
+    private String emailPassword = null;
+    private EmailTemplateService emailTemplateService;
+    private AuditorEngagementService auditorEngagementService;
 
 
     @Test(priority = 1, enabled = true, description = "Verify Firm sign up page and Input Invalid Test.")
@@ -228,4 +251,44 @@ public class AuditorSignUpTest extends AbstractTest {
             throw e;
         }
     }
+
+    @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
+    public void createAndActiveAuditorUser() throws Exception {
+        try {
+            auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+            marketingService = new MarketingService(getLogger(),getDriver());
+            adminService = new AdminService(getLogger(), getDriver());
+            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+            emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+            auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+
+            // This test cases is verified creating new user.
+            // It must be deleted old user in database before create new one.
+            auditorSignUpService.setPrefixProtocol(httpProtocol);
+            auditorSignUpService.deleteUserUsingApi(strEmailCreate);
+            auditorSignUpService.deleteUserUsingMongoDB(strEmailCreate);
+
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.verifyRegisterNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
+            gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
+            marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+            adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
+            getLogger().info("Auditor open Email and verify it.. ");
+            getLogger().info("Auditor login his email to verify Welcome email template");
+            gmailLoginService.gmailLogin(strEmailCreate, passwordCreate);
+            gmailLoginService.selectActiveEmaill();
+            emailTemplateService.verifyActiveEmailTemplateContent();
+            emailTemplateService.clickGetStartedButton();
+            emailTemplateService.switchToWindow();
+            auditorSignUpService.confirmInfomationNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
+            auditorEngagementService.verifyAuditorEngagementPage();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Test Create And Active Auditor User: PASSED", LogAs.PASSED, (CaptureScreen) null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Test Create And Active Auditor User: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
 }

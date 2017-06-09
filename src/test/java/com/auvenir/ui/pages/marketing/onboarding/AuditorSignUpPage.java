@@ -3,8 +3,6 @@ package com.auvenir.ui.pages.marketing.onboarding;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -523,6 +521,90 @@ public class AuditorSignUpPage extends AbstractPage {
     public WebElement getEleImageLetter() {
         return eleImageLetter;
     }
+
+    // ======================================  Element of Confirm Information Sign Up=====================================
+    @FindBy(xpath = "//*[@id='personal-name']")
+    private WebElement fullNameConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='personal-email']")
+    private WebElement emailConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='personal-secondEmail']")
+    private WebElement emailReEnterConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='personal-role']")
+    private WebElement roleConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='personal-phoneNumber']")
+    private WebElement phoneConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='personal-referral']")
+    private WebElement referalConfirmDrdEle;
+
+    @FindBy(xpath = "//*[@id='personal-referral-container']/ul/li")
+    private List<WebElement> listItemreferalConfirmDrdEle;
+
+    @FindBy(xpath = "//*[@id='agreement-personal']")
+    private WebElement agreePrivacyConfirmCheckboxEle;
+
+    @FindBy(xpath = "//*[@id='agreement-personal-cpa']")
+    private WebElement agreeCPAConfirmCheckboxEle;
+
+    @FindBy(xpath = "//button[@id='personal-coninueBtn']")
+    private WebElement continuePerConfirmBtnEle;
+
+    @FindBy(xpath = "//*[@id='firm-name']")
+    private WebElement firmNameConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-website']")
+    private WebElement firmWebsiteConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-streetAddress']")
+    private WebElement firmStreetAdrConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-unit']")
+    private WebElement firmSuiteNumConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-city']")
+    private WebElement firmCityConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-stateProvince']")
+    private WebElement firmStateConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-country']")
+    private WebElement firmCountryConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-postalCode']")
+    private WebElement firmPostalConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-size']")
+    private WebElement firmNumEmployeeConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='firm-size-container']/ul/li")
+    private List<WebElement> firmListItemEmployeeConfirmDrdEle;
+
+    @FindBy(xpath = "//*[@id='firm-phone']")
+    private List<WebElement> firmPhoneConfirmTxtEle;
+
+    @FindBy(xpath = "//*[@id='onboarding-firm-container']/div/h3")
+    private WebElement firmHeaderTxtEle;
+
+    @FindBy(xpath = "//button[@id='onboard-firm-continue']")
+    private WebElement continueFirmConfirmBtnEle;
+
+    @FindBy(xpath = "//*[@id='security-continueBtn']")
+    private WebElement continueSecurityConfirmBtnEle;
+
+    @FindBy(xpath = "//p[@id= 'security-title']")
+    private WebElement headerSecurityConfirmTxtEle;
+
+    @FindBy(xpath = "//p[@id = 'epilogue-title']")
+    private WebElement headerCreateSusscessAccountTxtEle;
+
+    @FindBy(xpath = "//button[@id = 'epilogue-closeBtn']")
+    private WebElement closeSusscessMessageBtnEle;
+
+
 
     /**
      * Verify Content of Register Firm Information Page
@@ -1064,10 +1146,6 @@ public class AuditorSignUpPage extends AbstractPage {
 
     public void registerNewAuditorUser(String fullName, String strEmail, String strPassword){
         marketingPage = new MarketingPage(getLogger(), getDriver());
-//            deleteUserUsingApi(strEmail);
-//            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
-//            setPrefixProtocol("http://");
-//            goToBaseURL();
         marketingPage.clickOnSignupButton();
         verifyPersonalInfoPageContent();
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
@@ -1079,5 +1157,146 @@ public class AuditorSignUpPage extends AbstractPage {
         createPassword(strPassword, strPassword);
         verifySuccessPageContent();
         acceptCreateAccountAuditor();
+    }
+
+    public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String strPassword){
+        confirmAuditorPersonalInfo(fullName, strEmail, "IT", "4167877865", "Online");
+        confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
+                "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
+                "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
+        clickCreateAccountBtn();
+        verifyConfirmSuccessPageContent();
+        clickCloseSuccessMessageBtn();
+    }
+
+    /**
+     * Confirm Personal Information Page and click Continue Button
+     *
+     * @param strName      String First and Last Name
+     * @param strEmail     String Email Address
+     * @param strRoleFirm  String Role Firm
+     * @param strPhone     String Phone Number Auditor
+     * @param strReference String Reference to Auvenir
+     */
+    public void confirmAuditorPersonalInfo(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
+        getLogger().info("Input all field in Register Personal Information Page and click Continue Button");
+        boolean result;
+        try {
+//            waitForVisibleElement(fullNameConfirmTxtEle, "Full name");
+//            sendKeyTextBox(fullNameConfirmTxtEle, strName, "Full Name TextBox");
+
+//            waitForVisibleElement(emailConfirmTxtEle, "Email");
+//            sendKeyTextBox(emailConfirmTxtEle, strEmail, "Email Name TextBox");
+
+//            waitForVisibleElement(emailReEnterConfirmTxtEle, "Email");
+//            sendKeyTextBox(emailReEnterConfirmTxtEle, strEmail, "Confirm Email TextBox");
+
+            waitForVisibleElement(roleConfirmTxtEle, "Role Firm Textbox");
+            sendKeyTextBox(roleConfirmTxtEle, strRoleFirm,"Role Firm Textbox");
+
+            waitForVisibleElement(phoneConfirmTxtEle, "Phone number");
+            sendKeyTextBox(phoneConfirmTxtEle, strPhone, "Phone number TextBox");
+
+            waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
+            clickElement(referalConfirmDrdEle, "Referal Dropdown List");
+//            waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown", "aria-expanded", "true");
+            clickElement(listItemreferalConfirmDrdEle.get(0), "First Item on Role Dropdown");
+//            waitForAtrributeValueChanged(eleRoleFirm, "Role in Firm Dropdown", "aria-expanded", "false");
+
+            waitForVisibleElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
+            clickElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
+
+            waitForVisibleElement(agreeCPAConfirmCheckboxEle, "Confirm CPA Check Box");
+            clickElement(agreeCPAConfirmCheckboxEle, "Confirm CPA Check Box");
+
+            waitForVisibleElement(continuePerConfirmBtnEle, "Continue button");
+            clickElement(continuePerConfirmBtnEle, "continue button");
+
+            waitForVisibleElement(firmHeaderTxtEle, "Header Firm Info Page");
+            validateDisPlayedElement(firmHeaderTxtEle, "Header Firm Info Page");
+            result = validateElementText(firmHeaderTxtEle, "Please Provide Your Firm Information");
+            Assert.assertTrue(result, "Page Provide Your Firm Infomation should be loaded.");
+            NXGReports.addStep("Confirm Auditor Personal Info passed", LogAs.PASSED, null);
+
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Confirm Firm Information is not loaded.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Confirm Firm Information Page and click Continue Button
+     *
+     * @param firmName      String Firm Name
+     * @param firmPreName   String Firm Previous Name
+     * @param firmWebsite   String Website Name
+     * @param strStreetAddr String Street Address Name
+     * @param strOffNum     String Office Number
+     * @param strZipCode    String Zip Code
+     * @param strCity       String City
+     * @param strState      String State
+     * @param strMemberID   String MemberID
+     * @param strNumEmp     String Number of Employee
+     * @param strPhone      String Phone Number Firm
+     * @param strAffName    Affiliated Firm's Name
+     * @param strPathLogo   Path Logo
+     */
+    public void confirmFirmInformation(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
+        getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
+        boolean result;
+        try {
+
+            waitForVisibleElement(firmWebsiteConfirmTxtEle, "Firm Website Input");
+            sendKeyTextBox(firmWebsiteConfirmTxtEle, firmWebsite, "Firm Website Input");
+
+
+            waitForVisibleElement(firmSuiteNumConfirmTxtEle, "Office Number Input");
+            sendKeyTextBox(firmSuiteNumConfirmTxtEle, strOffNum, "Office Number Input");
+
+
+            waitForVisibleElement(firmCountryConfirmTxtEle, "City Input");
+            sendKeyTextBox(firmCountryConfirmTxtEle, strState, "City Input");
+
+
+            waitForVisibleElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+            clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+            clickElement(firmListItemEmployeeConfirmDrdEle.get(0), "First Item on Number of Employee Dropdown");
+
+
+            waitForVisibleElement(continueFirmConfirmBtnEle, "Continue Firm Button");
+            clickElement(continueFirmConfirmBtnEle, "Continue Firm Button");
+
+            // Verify Confirm Auditor FIRM Page is passed
+            waitForVisibleElement(headerSecurityConfirmTxtEle, "Header Security Info Page");
+            validateDisPlayedElement(headerSecurityConfirmTxtEle, "Header Security Info Page");
+            result = validateElementText(headerSecurityConfirmTxtEle, "Create Your Password");
+            Assert.assertTrue(result, "Page Security Information should be loaded.");
+            NXGReports.addStep("Confirm Auditor Firm Info Page passed", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Confirm Auditor Firm Info Page is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void clickCreateAccountBtn() {
+        waitForVisibleElement(continueSecurityConfirmBtnEle, "Create Account Button");
+        clickElement(continueSecurityConfirmBtnEle, "Create Account Button");
+    }
+
+    public void clickCloseSuccessMessageBtn() {
+        waitForVisibleElement(closeSusscessMessageBtnEle, "Close Button");
+        clickElement(closeSusscessMessageBtnEle, "Close Button");
+    }
+
+    /**
+     * Verify Content of Confirm Success Page
+     */
+    public void verifyConfirmSuccessPageContent() {
+        getLogger().info("Verify Content of Register Success Page");
+        waitForVisibleElement(headerCreateSusscessAccountTxtEle, "Confirm Info Success Page Header");
+        validateElememt(headerCreateSusscessAccountTxtEle, "Confirm Info Success Page Header", Element_Type.DISPLAYED);
+        validateElememt(headerCreateSusscessAccountTxtEle, "Your Account Has Been Created!", Element_Type.TEXT_VALUE);
     }
 }
