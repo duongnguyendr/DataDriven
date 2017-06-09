@@ -27,7 +27,6 @@ public class SmokeTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private ClientService clientService;
     private GmailLoginService gmailLoginService;
-
     private String adminId, auditorId, clientId;
     private String sData[];
     private String testCaseId;
@@ -41,10 +40,8 @@ public class SmokeTest extends AbstractTest {
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
             adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
-
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -63,20 +60,16 @@ public class SmokeTest extends AbstractTest {
             adminId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
             auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
             dateFormat = new SimpleDateFormat("MM/d/yyyy");
-
             //precondition
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
-
             auvenirService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             auvenirService.verifyPageLoad();
             auvenirService.inputEmailAndJoin(auditorId);
             auvenirService.actionWithApprovalDialog();
-
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), dateFormat.format(new Date()), "Wait Listed");
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
         } catch (Exception e) {
