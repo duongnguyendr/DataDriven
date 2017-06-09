@@ -14,8 +14,8 @@ import java.time.Month;
  * add more 18/05/2017
  */
 public class DatePicker {
-    WebElement datePicker;
-    WebDriver driver;
+    private WebElement datePicker;
+    private WebDriver driver;
 
     @FindBy(className = "ui-icon ui-icon-circle-triangle-w")
     private WebElement btnPrev;

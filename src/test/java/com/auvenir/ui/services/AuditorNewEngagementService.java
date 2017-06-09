@@ -48,15 +48,19 @@ public class AuditorNewEngagementService extends AbstractService {
         }
     }
 
-    public void verifyUINewEngagement(){
+    public void verifyUINewEngagementSetUp(){
         auditorNewEngagementPage.verifyUINewEngagementHeaderSetUp();
         auditorNewEngagementPage.verifyUINewEngagementBodySetUp();
         auditorNewEngagementPage.verifyUINewEngagementFooterSetup();
+    }
 
+    public void verifyUINewEngagementTeam(){
         auditorNewEngagementPage.verifyUINewEngagementHeaderTeam();
         auditorNewEngagementPage.verifyUINewEngagementBodyTeam();
         auditorNewEngagementPage.verifyUINewEngagementFooterTeam();
+    }
 
+    public void verifyUINewEngagementCustomize(){
         auditorNewEngagementPage.verifyUINewEngagementHeaderCustomize();
         auditorNewEngagementPage.verifyUINewEngagementBodyCustomize();
         auditorNewEngagementPage.verifyUINewEngagementFooterCustomize();

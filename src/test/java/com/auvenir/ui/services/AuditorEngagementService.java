@@ -164,5 +164,11 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("verify content header auditor engagement pag.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    public void verifyUIListEngagement() {
+        auditorEngagementPage.verifyUIListEngagementHeader();
+        auditorEngagementPage.verifyUIListEngagementBody();
+        auditorEngagementPage.verifyUIListEngagementFooter();
+    }
 }
 
