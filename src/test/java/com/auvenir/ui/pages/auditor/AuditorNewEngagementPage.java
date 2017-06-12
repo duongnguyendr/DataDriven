@@ -19,8 +19,9 @@ import java.util.List;
 public class AuditorNewEngagementPage extends AbstractPage {
 
     //@FindBy(id = "team-component-header")
-    @FindBy(id = "team-component-body")
+    @FindBy(id = "team-component-header")
     private WebElement teamMemberWizardHeader;
+
     @FindBy(id = "customize-component-header")
     private WebElement createNewTodoListTextEle;
 
