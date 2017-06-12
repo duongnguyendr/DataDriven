@@ -19,9 +19,9 @@ import java.util.List;
 public class AuditorNewEngagementPage extends AbstractPage {
 
     //@FindBy(id = "team-component-header")
-    @FindBy(xpath = "//p[@id='team-component-body']/h3[contains(text(),'Create Your Team')]")
+    @FindBy(id = "team-component-body")
     private WebElement teamMemberWizardHeader;
-    @FindBy(xpath = "//p[contains(text(),'Create a new To-Do list')]")
+    @FindBy(id = "customize-component-header")
     private WebElement createNewTodoListTextEle;
 
     public AuditorNewEngagementPage(Logger logger, WebDriver driver) {
@@ -154,7 +154,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
         getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
         clickNoMemberBtn();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
-        waitForVisibleElement(createNewTodoListTextEle, "Create new todo list text");
+        waitForVisibleElement(createNewTodoListTextEle, "Create your To-Do list");
         //old version
 //        clickContinueBtn();
         clickCreateToDoBtn();
@@ -163,7 +163,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     private void verifyTeamMemberWizardPage() {
         getLogger().info("Verify team member wizard page.");
         waitForVisibleElement(teamMemberWizardHeader, "team member header");
-        validateElementText(teamMemberWizardHeader, "Create Your Team");
+        validateElementText(teamMemberWizardHeader, "Create your team");
     }
 
 
