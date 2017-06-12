@@ -2137,10 +2137,11 @@ public class AbstractPage {
         getLogger().info("Try to Verify Content Of Toast Message: " + elementName);
         try {
             boolean result;
+//            Thread.sleep(3000);
             waitForVisibleElement(element, elementName);
-            Thread.sleep(smallTimeOut);
+//            Thread.sleep(smallTimeOut);
             result = validateElementText(element, expectedContent);
-            Assert.assertTrue(result, "The content of toast message is displayed unsuccessfully.");
+            Assert.assertTrue(result, "The content of toast message is displayed successfully.");
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -2830,6 +2831,7 @@ public class AbstractPage {
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
+            System.out.println("Loi is: " + error);
             getLogger().info(error);
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

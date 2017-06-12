@@ -37,7 +37,7 @@ public class MailAuditorInviteClientTest extends AbstractTest {
             getLogger().info("Delete user and client email before..");
             auditorSignUpService.deleteUserUsingApi("auvenirtestor@gmail.com");
             auditorSignUpService.deleteUserUsingApi("clientauvenir@gmail.com");
-//            gmailLoginService.deleteAllExistedEmail("clientauvenir@gmail.com", "Change@123");
+            gmailLoginService.deleteAllExistedEmail("clientauvenir@gmail.com", "Change@123");
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "auvenirtestor@gmail.com");
             getLogger().info("Auditor sign up..");
             auditorSignUpService.setPrefixProtocol("http://");
@@ -61,6 +61,7 @@ public class MailAuditorInviteClientTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         try {
+            auditorSignUpService.deleteUserUsingApi("clientauvenir@gmail.com");
             getLogger().info("Auditor log in..");
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
