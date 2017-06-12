@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import org.apache.log4j.Logger;
+import sun.awt.windows.WEmbeddedFrame;
+
+import java.security.cert.X509Certificate;
 
 /**
  * Created by cuong.nguyen on 4/25/2017.
@@ -24,6 +27,63 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
 
     @FindBy(xpath = "//h2[contains(text(),'Your Auvenir')]")
     private WebElement eleSubjectActiveEmail;
+
+    @FindBy(xpath = "//h2[contains(text(),'Invitation from ')]")
+    private WebElement eleSubjectInviteClientEmail;
+
+    public WebElement getEleSubjectInviteClientEmail() {
+        return eleSubjectInviteClientEmail;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Hi')]")
+    private WebElement eleContent0InviteClientEmailClient;
+
+    public WebElement getEleContent0InviteClientEmailClient() {
+        return eleContent0InviteClientEmailClient;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'has invited')]")
+    private WebElement eleContent1InviteClientEmailClient;
+
+    public WebElement getEleContent1InviteClientEmailClient() {
+        return eleContent1InviteClientEmailClient;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Auvenir is')]")
+    private WebElement eleContent2InviteClientEmailClient;
+
+    public WebElement getEleContent2InviteClientEmailClient() {
+        return eleContent2InviteClientEmailClient;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Here')]")
+    private WebElement eleContent3InviteClientEmailClient;
+
+    public WebElement getEleContent3InviteClientEmailClient() {
+        return eleContent3InviteClientEmailClient;
+    }
+
+
+    @FindBy(xpath = "//p[contains(text(),'Secure')]")
+    private WebElement eleContent4InviteClientEmailClient;
+
+    public WebElement getEleContent4InviteClientEmailClient() {
+        return eleContent4InviteClientEmailClient;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Customized')]")
+    private WebElement eleContent5InviteClientEmailClient;
+
+    public WebElement getEleContent5InviteClientEmailClient() {
+        return eleContent5InviteClientEmailClient;
+    }
+
+    @FindBy(xpath = "//p[contains(text(),'Bank')]")
+    private WebElement eleContent6InviteClientEmailClient;
+
+    public WebElement getEleContent6InviteClientEmailClient() {
+        return eleContent6InviteClientEmailClient;
+    }
 
     public WebElement getEleSubjectActiveEmail() {
         return eleSubjectActiveEmail;
@@ -54,21 +114,25 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
 
     @FindBy(xpath = "//p[contains(text(),'your feedback')]")
     private WebElement eleFeedbackInform;
-    public WebElement getEleFeedbackInform(){
+
+    public WebElement getEleFeedbackInform() {
         return eleFeedbackInform;
     }
 
     @FindBy(xpath = "//center/a")
     private WebElement eleGetStarted;
-    public WebElement getEleGetStarted(){
+
+    public WebElement getEleGetStarted() {
         return eleGetStarted;
     }
 
     @FindBy(xpath = "//a[@href='mailto:feedback@auvenir.com%5C%22']")
     private WebElement eleFeedbackLink;
-    public WebElement getEleFeedbackLink(){
+
+    public WebElement getEleFeedbackLink() {
         return eleFeedbackLink;
     }
+
     // Element of button Go to Auvenir website
     @FindBy(xpath = "//center/table[1]/tbody/tr/td/p/a[@href='http://auvenir.s3corp.com.vn:5000']")
     private WebElement btnGoToSiteAuvenir;
@@ -116,7 +180,8 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
     public WebElement getEleSignatureMail() {
         return eleSignatureMail;
     }
-    public MailAuditorJoinPO(WebDriver webDriver){
+
+    public MailAuditorJoinPO(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
     }
@@ -156,8 +221,9 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
 
         // Checking Signature footer
         NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
-        this.validateElememt(eleSignatureMail, "Verify Element of Signature footer", Element_Type.DISPLAYED);
+        this.validateElememt(getEleSignatureMail(), "Verify Element of Signature footer", Element_Type.DISPLAYED);
     }
+
     /*
 
     Vien.Pham added new
@@ -171,20 +237,44 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         this.validateElememt(getEleWelcomeActiveEmail(), "Element of Title of Mail", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Content of Active Email", LogAs.PASSED, null);
         // Checking content mail
-        this.validateElememt(getEleInformActive(),"Your account has been validated and is now active. When you are ready to audit smarter, click the button below",Element_Type.DISPLAYED);
-        this.validateElememt(getEleFeedbackInform(),"We welcome your feedback, ideas and suggestions to make the audit experience better. Send us an email at feedback@auvenir.com.",Element_Type.DISPLAYED);
+        this.validateElememt(getEleInformActive(), "Your account has been validated and is now active. When you are ready to audit smarter, click the button below", Element_Type.DISPLAYED);
+        this.validateElememt(getEleFeedbackInform(), "We welcome your feedback, ideas and suggestions to make the audit experience better. Send us an email at feedback@auvenir.com.", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify content mail", LogAs.PASSED, null);
         //Checking Get Started button
-        this.validateElememt(getEleGetStarted(),"Get Started",Element_Type.DISPLAYED);
+        this.validateElememt(getEleGetStarted(), "Get Started", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Get started", LogAs.PASSED, null);
         //Checking Feedback link
-        this.validateElememt(getEleFeedbackLink(),"feedback@auvenir.com",Element_Type.DISPLAYED);
+        this.validateElememt(getEleFeedbackLink(), "feedback@auvenir.com", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify feedback link", LogAs.PASSED, null);
         // Checking Signature footer
         this.validateElememt(eleSignatureMail, "Verify Element of Signature footer", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
 
 
+    }
+
+
+    public void verifyAuditorInviteClientEmail() {
+
+        //Checking subject Auditor invite Client
+        this.validateElememt(getEleSubjectInviteClientEmail(), "Verify subject of Invite Email", Element_Type.DISPLAYED);
+        NXGReports.addStep("Verify Subject of Invite Email", LogAs.PASSED, null);
+        //Checking content of Invite email
+        this.validateElememt(getEleContent0InviteClientEmailClient(), "Verify content 0", Element_Type.DISPLAYED);
+        this.validateElememt(getEleContent1InviteClientEmailClient(), "Verify content 1", Element_Type.DISPLAYED);
+        this.validateElememt(getEleContent2InviteClientEmailClient(), "Verify content 2", Element_Type.DISPLAYED);
+        this.validateElememt(getEleContent3InviteClientEmailClient(), "Verify content 3", Element_Type.DISPLAYED);
+        this.validateElememt(getEleContent4InviteClientEmailClient(), "Verify content 4", Element_Type.DISPLAYED);
+        this.validateElememt(getEleContent5InviteClientEmailClient(), "Verify content 5", Element_Type.DISPLAYED);
+        this.validateElememt(getEleContent6InviteClientEmailClient(), "Verify content 6", Element_Type.DISPLAYED);
+        this.validateElememt(getEleFeedbackInform(), "Verify Feedback inform", Element_Type.DISPLAYED);
+        NXGReports.addStep("Verify Email content ", LogAs.PASSED, null);
+        //Checking footer of Invite Email
+        this.validateElememt(getEleSignatureMail(),"Verify signature",Element_Type.DISPLAYED);
+        NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
+        //Checking getStarted
+        this.validateElememt(getEleGetStarted(),"Verify Get started btn",Element_Type.DISPLAYED);
+        NXGReports.addStep("Verify Get Started btn", LogAs.PASSED, null);
     }
 
     protected void isLoaded() throws Error {

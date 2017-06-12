@@ -246,7 +246,11 @@ public class CreateNewAuditPage extends AbstractPage {
      *
      * @param message toast message
      */
+
+    @FindBy(xpath ="//div[@id='add-client-super-container']/../../.." )
+    WebElement inviteClientPage;
     public void verifyInviteClientSuccess(String message) {
+        waitForAtrributeValueChanged(inviteClientPage,"invite Client Page","opacity","0");
         verifyContentOfSuccessToastMessage(message);
     }
 

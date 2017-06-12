@@ -2138,6 +2138,7 @@ public class AbstractPage {
         try {
             boolean result;
             waitForVisibleElement(element, elementName);
+            Thread.sleep(smallTimeOut);
             result = validateElementText(element, expectedContent);
             Assert.assertTrue(result, "The content of toast message is displayed unsuccessfully.");
             return true;

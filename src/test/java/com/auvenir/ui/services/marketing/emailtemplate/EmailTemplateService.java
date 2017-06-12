@@ -26,4 +26,8 @@ public class EmailTemplateService extends AbstractService{
     public void verifyActiveEmailTemplateContent(){
         mailAuditorJoinPO.verifyActiveEmailContent();
     }
+
+    public void verifyAuditorInviteClientEmail(){
+        mailAuditorJoinPO.verifyAuditorInviteClientEmail();
+    }
 }

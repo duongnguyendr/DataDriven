@@ -32,17 +32,24 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Active")
     public void verifyAuditorSignUp() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        getLogger().info("Delete user before..");
-        auditorSignUpService.deleteUserUsingApi("auvenirtestor@gmail.com");
-        auditorSignUpService.deleteUserUsingApi("clientauvenir@gmail.com");
-        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "auvenirtestor@gmail.com");
-        getLogger().info("Auditor sign up..");
-        auditorSignUpService.setPrefixProtocol("http://");
-        auditorSignUpService.goToBaseURL();
-        auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham", "auvenirtestor@gmail.com", "Change@123");
-        auditorSignUpService.updateUserActiveUsingAPI("auvenirtestor@gmail.com");
-        auditorSignUpService.updateUserActiveUsingMongoDB("auvenirtestor@gmail.com");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        try {
+            getLogger().info("Delete user and client email before..");
+            auditorSignUpService.deleteUserUsingApi("auvenirtestor@gmail.com");
+            auditorSignUpService.deleteUserUsingApi("clientauvenir@gmail.com");
+//            gmailLoginService.deleteAllExistedEmail("clientauvenir@gmail.com", "Change@123");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "auvenirtestor@gmail.com");
+            getLogger().info("Auditor sign up..");
+            auditorSignUpService.setPrefixProtocol("http://");
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham", "auvenirtestor@gmail.com", "Change@123");
+            auditorSignUpService.updateUserActiveUsingAPI("auvenirtestor@gmail.com");
+            auditorSignUpService.updateUserActiveUsingMongoDB("auvenirtestor@gmail.com");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor sign up and Active.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor sign up and Active.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     @Test(priority = 2, enabled = true, description = "Verify Auditor login and invite client..")
@@ -59,15 +66,17 @@ public class MailAuditorInviteClientTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole("auvenirtestor@gmail.com", "Change@123");
-//            auditorEngagementService.viewEngagementDetailsPage("New World");
-            auditorEngagementService.createAndSelectNewEnagement("New World","","Company");
+            auditorEngagementService.createAndSelectNewEnagement("New World", "", "Company");
             auditorDetailsEngagementPage.verifyDetailsEngagementPage("New World");
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-        clientService.inviteNewClient("Titan client", "clientauvenir@gmail.com", "Leader");
-        clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+            clientService.inviteNewClient("Titan client", "clientauvenir@gmail.com", "Leader");
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor login and invite client.", LogAs.PASSED, null);
         } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor login and invite client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -80,7 +89,7 @@ public class MailAuditorInviteClientTest extends AbstractTest {
             getLogger().info("Auditor login his email to verify Welcome email template");
             gmailLoginService.gmailLogin("clientauvenir@gmail.com", "Change@123");
             gmailLoginService.selectActiveEmaill();
-            emailTemplateService.verifyActiveEmailTemplateContent();
+            emailTemplateService.verifyAuditorInviteClientEmail();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify template of Invite Client.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -88,14 +97,11 @@ public class MailAuditorInviteClientTest extends AbstractTest {
         }
     }
 
+/*
 
-//
-//
-//    @Test(priority = 2, description = "Verify template of mail: Auditor Invite Client")
-//    public void verifyMailAuditorInviteClient() {
-//        mailAuditorInviteClientPO = new MailAuditorInviteClientPO(getDriver());
-//        mailAuditorInviteClientPO.verifyPageContent();
-//    }
+
+Vien.Pham refactor
+ */
 
 
 }
