@@ -2,6 +2,7 @@ package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.tests.AbstractTest;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -52,14 +53,15 @@ public class EngagementTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         try {
             auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            String name= "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
 
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
 
-            auditorNewEngagementService.verifyUINewEngagementSetUp();
-            auditorNewEngagementService.verifyUINewEngagementTeam();
-            auditorNewEngagementService.verifyUINewEngagementCustomize();
+            auditorNewEngagementService.verifyUINewEngagementSetUp(name);
+            auditorNewEngagementService.verifyUINewEngagementTeam(name);
+            auditorNewEngagementService.verifyUINewEngagementCustomize(name);
 
             NXGReports.addStep("Finish: Verify UI of New Engagement page.", LogAs.PASSED, null);
         } catch (Exception ex) {
