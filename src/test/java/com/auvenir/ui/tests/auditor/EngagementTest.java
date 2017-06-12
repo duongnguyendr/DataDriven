@@ -2,6 +2,7 @@ package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.tests.AbstractTest;
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -51,15 +52,20 @@ public class EngagementTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         try {
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+//            auditorId= auditorId.replace("chr.","");
+//            System.out.println("auditorId = " + auditorId);
+
+            String name= "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
 
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
 
-            auditorNewEngagementService.verifyUINewEngagementSetUp();
-            auditorNewEngagementService.verifyUINewEngagementTeam();
-            auditorNewEngagementService.verifyUINewEngagementCustomize();
+            auditorNewEngagementService.verifyUINewEngagementSetUp(name);
+            auditorNewEngagementService.verifyUINewEngagementTeam(name);
+            auditorNewEngagementService.verifyUINewEngagementCustomize(name);
 
             NXGReports.addStep("Finish: Verify UI of New Engagement page.", LogAs.PASSED, null);
         } catch (Exception ex) {
@@ -79,7 +85,10 @@ public class EngagementTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         try {
-            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+//            auditorId= auditorId.replace("chr.","");
+//            System.out.println("auditorId = " + auditorId);
 
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
