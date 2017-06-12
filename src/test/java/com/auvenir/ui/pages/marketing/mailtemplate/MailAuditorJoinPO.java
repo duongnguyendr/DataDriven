@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages.marketing.mailtemplate;
 
+import com.auvenir.ui.pages.common.GmailPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.openqa.selenium.WebDriver;
@@ -249,8 +250,6 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         // Checking Signature footer
         this.validateElememt(eleSignatureMail, "Verify Element of Signature footer", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
-
-
     }
 
 
@@ -300,5 +299,20 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         // Checking "un subscribe" link
         this.validateElememt(this.getEleLinkUnSubscribeFooter(), "Element of unsubscribe", Element_Type.DISPLAYED);
 
+    }
+
+    public void clickGetStartedButton() {
+        getLogger().info("Click Get Started Button.");
+        waitForVisibleElement(eleGetStarted, "Get Started.");
+        clickElement(eleGetStarted, "Get Started.");
+    }
+
+    public void navigateToConfirmationLink() throws Exception {
+        getLogger().info("Navigate to Confirmation Link");
+        GmailPage gmailLoginPage = new GmailPage(getLogger(), getDriver());
+        String link = eleGetStarted.getAttribute("href");
+        System.out.print("Link: " + link);
+        gmailLoginPage.gmailLogout();
+        getDriver().get(link);
     }
 }

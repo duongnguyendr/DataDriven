@@ -1098,17 +1098,23 @@ public class AdminLoginPage extends AbstractPage {
      */
     public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
         try {
+            getLogger().info(String.format("Try change status of user to %s", chooseOption));
             Select status = new Select(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
             status.selectByVisibleText(chooseOption);
 
+            waitForVisibleElement(textViewOnPopupConfirm, "Are you sure you want to change user status from");
             validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
 
+            waitForVisibleElement(getEleStatusConfirmBtn(), "Confirm Poup");
             waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
-            getEleStatusConfirmBtn().click();
+            clickElement(getEleStatusConfirmBtn(), "Status Confirm Button");
+//            getEleStatusConfirmBtn().click();
 
             waitForProgressOverlayIsClosed();
-            waitForClickableOfElement(getEleCredentialsCloseIcn(), "Auditor onboarding successful message");
-            getEleCredentialsCloseIcn().click();
+            waitForVisibleElement(getEleCredentialsCloseIcn(), "Close Icon");
+            waitForClickableOfElement(getEleCredentialsCloseIcn(), "Close Icon");
+            clickElement(getEleCredentialsCloseIcn(), "Close Icon");
+//            getEleCredentialsCloseIcn().click();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

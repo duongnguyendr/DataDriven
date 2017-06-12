@@ -221,4 +221,9 @@ public class AuditorSignUpService extends AbstractService {
 
         auditorSignUpPage.registerNewAuditorUser(fullName, strEmail, password);
     }
+
+    public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String password) {
+        auditorSignUpPage.confirmInfomationNewAuditorUser(fullName, strEmail, password);
+    }
+
 }

@@ -2624,7 +2624,13 @@ public class AbstractPage {
             NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
             getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
-        } catch (Exception e){
+        } catch (ElementNotVisibleException e) {
+            getLogger().info("Element is visible.");
+            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            return true;
+        }
+        catch (Exception e){
             AbstractService.sStatusCnt++;
             getLogger().info("Element is still displayed.");
             NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

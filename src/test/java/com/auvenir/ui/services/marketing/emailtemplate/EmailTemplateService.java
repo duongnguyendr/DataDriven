@@ -27,7 +27,11 @@ public class EmailTemplateService extends AbstractService{
         mailAuditorJoinPO.verifyActiveEmailContent();
     }
 
-    public void verifyAuditorInviteClientEmail(){
-        mailAuditorJoinPO.verifyAuditorInviteClientEmail();
+    public void clickGetStartedButton() {
+        mailAuditorJoinPO.clickGetStartedButton();
+    }
+
+    public void navigateToConfirmationLink() throws Exception {
+        mailAuditorJoinPO.navigateToConfirmationLink();
     }
 }

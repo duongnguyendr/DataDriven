@@ -105,4 +105,9 @@ public class GmailLoginService extends AbstractService {
     public void deleteAllExistedEmail(String userName, String pwd) {
         deleteAllExistedGMail(userName, pwd);
     }
+
+    public void gmailReLogin(String gmailPwd) throws InterruptedException {
+        gmailLoginPo.goGMail();
+        gmailLoginPo.reSignInGmail(gmailPwd);
+    }
 }
