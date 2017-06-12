@@ -1,10 +1,10 @@
 package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.DatePicker;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -20,10 +20,7 @@ import java.util.List;
 public class AuditorNewEngagementPage extends AbstractPage {
 
     //@FindBy(id = "team-component-header")
-//    @FindBy(id = "team-component-body")
-//    private WebElement teamMemberWizardHeader;
-
-    @FindBy(xpath ="//p[@id='team-component-body']/h3" )
+    @FindBy(id = "team-component-header")
     private WebElement teamMemberWizardHeader;
 
     @FindBy(id = "customize-component-header")
@@ -165,11 +162,10 @@ public class AuditorNewEngagementPage extends AbstractPage {
         clickCreateToDoBtn();
     }
 
-    private void verifyTeamMemberWizardPage() throws InterruptedException {
-//        Thread.sleep(2000);
+    private void verifyTeamMemberWizardPage() {
         getLogger().info("Verify team member wizard page.");
         waitForVisibleElement(teamMemberWizardHeader, "team member header");
-        validateElementText(teamMemberWizardHeader, "Create Your Team");
+        validateElementText(teamMemberWizardHeader, "Create your team");
     }
 
 

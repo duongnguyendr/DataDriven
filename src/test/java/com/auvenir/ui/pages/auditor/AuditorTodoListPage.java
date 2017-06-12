@@ -393,13 +393,14 @@ public class AuditorTodoListPage extends AbstractPage {
      * New for smoke test
      */
     @FindBy(id = "engagementUserBtn")
-    private WebElement btnInviteClient;
+    private WebElement buttonInviteClient;
 
     /**
      * Click Invite button
      */
     public void navigateToInviteClientPage() {
-        clickElement(btnInviteClient);
+        validateElementText(buttonInviteClient, "Invite Client");
+        clickByJavaScripts(buttonInviteClient, "Button Invite Client");
     }
     /*-----------end of huy.huynh on 02/06/2017.*/
 
