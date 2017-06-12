@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+
 /**
  * Created by cuong.nguyen on 5/8/2017.
  */
@@ -19,8 +20,12 @@ import java.util.List;
 public class AuditorNewEngagementPage extends AbstractPage {
 
     //@FindBy(id = "team-component-header")
-    @FindBy(id = "team-component-body")
+//    @FindBy(id = "team-component-body")
+//    private WebElement teamMemberWizardHeader;
+
+    @FindBy(xpath ="//p[@id='team-component-body']/h3" )
     private WebElement teamMemberWizardHeader;
+
     @FindBy(id = "customize-component-header")
     private WebElement createNewTodoListTextEle;
 
@@ -160,10 +165,11 @@ public class AuditorNewEngagementPage extends AbstractPage {
         clickCreateToDoBtn();
     }
 
-    private void verifyTeamMemberWizardPage() {
+    private void verifyTeamMemberWizardPage() throws InterruptedException {
+//        Thread.sleep(2000);
         getLogger().info("Verify team member wizard page.");
         waitForVisibleElement(teamMemberWizardHeader, "team member header");
-        validateElementText(teamMemberWizardHeader, "Create your team");
+        validateElementText(teamMemberWizardHeader, "Create Your Team");
     }
 
 
@@ -378,7 +384,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
             validateElementJSTextContain(inputEngagementReportDeadline, "26", "Engagement Report Deadline");
             validateElementText(titleEngagementDateRange, "Select a Date Range of Bank Statements to be requested from your client.");
             validatePlaceholder(inputEngagementDateRangeStart, "DD/MM/YYYY", "Engagement DateRange Start");
-            waitForInvisibleElement(widgetDatePicker,"Date Picker");
+            waitForInvisibleElement(widgetDatePicker, "Date Picker");
             clickElement(inputEngagementDateRangeStart);
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
