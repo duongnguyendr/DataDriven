@@ -165,8 +165,8 @@ public class AbstractTest {
                     throw new IllegalArgumentException("Unknown platform - " + os);
                 }
                 driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
-                NXGReports.setWebDriver(driver);
             }
+            NXGReports.setWebDriver(driver);
         } catch (Exception e) {
             getLogger().info("Problem in launching driver");
             e.printStackTrace();
