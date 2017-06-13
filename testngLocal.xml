@@ -7,53 +7,48 @@
         <listener class-name="com.auvenir.utilities.listeners.SuiteListener"/>
         <listener class-name="com.kirwa.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
-    <test name="Regression1" preserve-order="false">
-        <parameter name="browser" value="chrome"/>
+    <!--<test name="Regression1" preserve-order="false">-->
+        <!--<parameter name="browser" value="firefox"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="WIN10"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
+            <!--<methods>-->
+                <!--<include name="verifyButtonFilter"></include>-->
+            <!--</methods>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <test name="Regression2" preserve-order="false">
+        <parameter name="browser" value="edge"/>
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.marketing.emailtemplate.NotificationMailAuditorInviteTest"/>
-            <methods>
-                <include name="verifyNotificationMailAuditorInvite"></include>
-            </methods>
+            <class name="com.auvenir.ui.tests.marketing.LoginMarketingTest"/>
+            <!--<methods>-->
+                <!--<include name="openGmailforAuditorRegister"></include>-->
+            <!--</methods>-->
         </classes>
     </test>
-    <!--<test name="Regression2" preserve-order="false">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="version" value="lasted"/>
-        <parameter name="os" value="WIN10"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
-            <methods>
-                <include name="verifyButtonFilter"></include>
-            </methods>
-        </classes>
-    </test>-->
     <!--<test name="Regression2-1" preserve-order="false">-->
         <!--<parameter name="browser" value="internet explorer"/>-->
         <!--<parameter name="version" value="lasted"/>-->
         <!--<parameter name="os" value="WIN10"/>-->
         <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
             <!--<methods>-->
-                <!--<include name="verifyAboutPageContentTest"></include>-->
+                <!--<include name="verifyButtonFilter"></include>-->
             <!--</methods>-->
         <!--</classes>-->
     <!--</test>-->
     <!--<test name="Regression3" preserve-order="true">-->
-        <!--<parameter name="browser" value="safari"/>-->
+        <!--<parameter name="browser" value="edge"/>-->
         <!--<parameter name="version" value="lasted"/>-->
-        <!--<parameter name="os" value="MAC"/>-->
+        <!--<parameter name="os" value="WIN10"/>-->
         <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
-        <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="Regression4" preserve-order="true">-->
-        <!--<parameter name="browser" value="firefox"/>-->
-        <!--<parameter name="version" value="lasted"/>-->
-        <!--<parameter name="os" value="WIN8"/>-->
-        <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
+            <!--<methods>-->
+                <!--<include name="verifyButtonFilter"></include>-->
+            <!--</methods>-->
         <!--</classes>-->
     <!--</test>-->
 </suite>

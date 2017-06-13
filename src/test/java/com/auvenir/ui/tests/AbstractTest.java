@@ -162,8 +162,7 @@ public class AbstractTest {
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("edge.")) {
                     getLogger().info("Edge is set");
                     System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
-                    //driver = new InternetExplorerDriver();
-                   driver = new EdgeDriver();
+                    driver = new EdgeDriver();
                 }
 
             } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
