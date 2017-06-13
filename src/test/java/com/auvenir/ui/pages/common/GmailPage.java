@@ -176,11 +176,13 @@ public class GmailPage extends AbstractPage {
     public void gmailLogout() throws Exception {
         try {
             //getEleProfileIcn().click();
-            waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+            waitForVisibleElement(eleProfileIcn,"eleProfileIcn");
             clickElement(eleProfileIcn, "click to eleProfileIcn");
             //getEleSignOutBtn().click();
-            waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
+//            Thread.sleep(2000);
+            waitForVisibleElement(eleSignOutBtn,"eleSignOutBtn");
             clickElement(eleSignOutBtn, "click to eleSignOutBtn");
+            Thread.sleep(3000);
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -501,16 +503,18 @@ public class GmailPage extends AbstractPage {
             clickElement(buttonPasswordNext, "Button Password Next");*/
             getLogger().info("Try to login GMail");
             sendKeyTextBox(eleEmail, email, "eleEmail");
+//            clickAndHold(eleNext, "eleNext");
             sendTabkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
             //Clicking on "Next" button
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             //clickAndHold(eleNext, "eleNext");
             //Sending password
             //Thread.sleep(500);
             //sendKeyTextBox(elePassword,password,"eleEmail");
             //Thread.sleep(1000);
-            elePassword.sendKeys(password);
+            sendKeyTextBox(elePassword, password, "Password textbox");
+//            elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
             //Clicking on "Next" button
             Thread.sleep(1000);

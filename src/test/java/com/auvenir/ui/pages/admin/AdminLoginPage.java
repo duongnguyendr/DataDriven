@@ -4,6 +4,7 @@ import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
+import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
@@ -1099,9 +1100,15 @@ public class AdminLoginPage extends AbstractPage {
     public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
         try {
             getLogger().info(String.format("Try change status of user to %s", chooseOption));
+            Thread.sleep(2000);
+//            waitForVisibleElement(eleAdminHdrTxt, "Admin");
+//            validateElementText(eleAdminHdrTxt, "Admin");
+//            waitForVisibleElement(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail), "Dropdown Status.");
+
             Select status = new Select(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
             status.selectByVisibleText(chooseOption);
 
+            getLogger().info("Validate Popup Confirm.");
             waitForVisibleElement(textViewOnPopupConfirm, "Are you sure you want to change user status from");
             validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
 
@@ -1120,4 +1127,23 @@ public class AdminLoginPage extends AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 30/05/2017.*/
+
+    /**
+     * Click Close on Popup which warning about supporting only Chrome Browser.
+     */
+    public void clickClosePopupWarningBrowser(){
+        try{
+            if(GenericService.sBrowserData.equals("ff.")) {
+                getLogger().info("Close Popup Warning Browser");
+                Thread.sleep(3000);
+                waitForVisibleElement(getEleCredentialsCloseIcn(), "Close Icon");
+                waitForClickableOfElement(getEleCredentialsCloseIcn(), "Close Icon");
+                clickElement(getEleCredentialsCloseIcn(), "Close Icon");
+                waitForProgressOverlayIsClosed();
+                Thread.sleep(2000);
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+        }
+    }
 }
