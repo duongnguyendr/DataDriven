@@ -32,28 +32,28 @@ public class AuditorSignUpTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
 
     // personal information
-    final String strFullName = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
+    final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
     //    String strEmail = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 2);
     //    String strEmail = "thuan.duong@titancorpvn.com";
-    final String strRoleFirm = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 3);
-    final String strPhone = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 4);
-    final String strReference = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 5);
+    final String strRoleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
+    final String strPhone = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
+    final String strReference = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Reference to Auvenir", "Valid Value");
     // firm information
-    final String strName = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 6);
-    final String strPreName = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 7);
-    final String strWebsite = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 8);
-    final String strStreetAddr = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 9);
-    final String strOffNum = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 10);
-    final String strZipCode = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 11);
-    final String strCity = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 12);
-    final String strState = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 13);
-    final String strMemberID = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 14);
-    final String strNumEmp = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 15);
-    final String strPhoneFirm = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 16);
-    final String strAffName = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 17);
-    final String strPathLogo = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 18);
+    final String strName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Name", "Valid Value");
+    final String strPreName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Previous Name", "Valid Value");
+    final String strWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Website", "Valid Value");
+    final String strStreetAddr = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Street Address", "Valid Value");
+    final String strOffNum = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
+    final String strZipCode = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
+    final String strCity = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
+    final String strState = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
+    final String strMemberID = GenericService.getTestDataFromExcelNoBrowserPrefix( "AuditorSignUpTest", "Member I.D", "Valid Value");
+    final String strNumEmp = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
+    final String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
+    final String strAffName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
+    final String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
     // security information
-    final String strPassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 19);
+//    final String strPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Password", "Valid Value");
 
 
 
@@ -61,11 +61,11 @@ public class AuditorSignUpTest extends AbstractTest {
 //        final String fullNameCreate = "Minh Nguyen";
 //    final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
      //        final String emailCreate = "ff.minhtest@gmail.com";
-    final String passwordCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 22);
+    final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
 
 
-    final String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
-    final String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
+    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User3", "Admin");
+    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 
     @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User")
     public void verifyRegisterAndActiveAuditorUser() throws Exception {
@@ -75,7 +75,8 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        final String emailCreate = GenericService.getUserFromExcelData("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+//        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        final String emailCreate = "test.loginauvenir@gmail.com";
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
@@ -119,7 +120,7 @@ public class AuditorSignUpTest extends AbstractTest {
     @Test(priority = 2, enabled = true, description = "Verify Firm sign up page and Input Invalid Test.")
     public void verifyAuditorFirmInputInvalidValue() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        final String strEmail = GenericService.getUserFromExcelData("AuditorSignUpTest", "Email Address", "Valid Value");
+        final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         //Create List Invalid Data for Firm Name Text Box.
         List<String> firmNameInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 5; i++) {
@@ -194,7 +195,7 @@ public class AuditorSignUpTest extends AbstractTest {
     @Test(priority = 3, enabled = true, description = "Verify Personal sign up page and Input Invalid Test.")
     public void verifyAuditorPersonalInputInvalidValue() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        final String strEmail = GenericService.getUserFromExcelData("AuditorSignUpTest", "Email Address", "Valid Value");
+        final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         //Create List Invalid Data for First Last Name Text Box.
         List<String> firstLastNameInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 8; i++) {
@@ -237,15 +238,15 @@ public class AuditorSignUpTest extends AbstractTest {
     @Test(priority = 4, enabled = true, description = "Verify GUI when input password random blank")
     public void verifyAuditorSecurityInputInvalidPassword() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        final String strEmail = GenericService.getUserFromExcelData("AuditorSignUpTest", "Email Address", "Valid Value");
-        final String blankPassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 23);
-        final String invalidLengthPassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 24);
-        final String noUpperCasePassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 25);
-        final String noLowerCasePassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 26);
-        final String noDigitsPassword =  GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 27);
-        final String noCharPassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 28);
-        final String successPassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 29);
-        final String confirmPassword = GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 30);
+        final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
+        final String blankPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "blankPassword", "Invalid Value");
+        final String invalidLengthPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "invalidLengthPassword", "Invalid Value");
+        final String noUpperCasePassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noUpperCasePassword", "Invalid Value");
+        final String noLowerCasePassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noLowerCasePassword", "Invalid Value");
+        final String noDigitsPassword =  GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noDigitsPassword", "Invalid Value");
+        final String noCharPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noCharPassword", "Invalid Value");
+        final String successPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "successPassword", "Invalid Value");
+        final String confirmPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "confirmPassword", "Invalid Value");
         try {
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();

@@ -492,9 +492,7 @@ public class GmailPage extends AbstractPage {
             sendKeyTextBox(eleEmail, email, "eleEmail");
             sendTabkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
-            Thread.sleep(1000);
-            clickElement(eleNext,"click to eleNext");
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
             Thread.sleep(1000);
