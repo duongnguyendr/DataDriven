@@ -505,16 +505,19 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Send email: " + email);
             //Clicking on "Next" button
             Thread.sleep(1000);
+            clickElement(eleNext,"click to eleNext");
             //clickAndHold(eleNext, "eleNext");
             //Sending password
             //Thread.sleep(500);
             //sendKeyTextBox(elePassword,password,"eleEmail");
-            //Thread.sleep(1000);
-            elePassword.sendKeys(password);
+            Thread.sleep(1000);
+            //elePassword.sendKeys(password);
+            sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
             //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
+            clickElement(eleNext,"click to eleNext");
+            //clickAndHold(eleNext, "eleNext");
             //eleNext.click();
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
@@ -529,7 +532,8 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Send password: " + password);
             //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
+            clickElement(eleNext,"click to eleNext");
+            //clickAndHold(eleNext, "eleNext");
             //eleNext.click();
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {

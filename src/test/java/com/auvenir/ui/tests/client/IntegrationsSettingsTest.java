@@ -19,17 +19,12 @@ import org.testng.annotations.Test;
 public class IntegrationsSettingsTest extends AbstractTest {
     private ClientService clientService;
 
-
     @Test(priority=1,enabled=true, description="Verify Footer in Client Integrations Settings page.")
-    public void verifyFooterClientIntegrationsSettingsPage() throws Exception
-    {
+    public void verifyFooterClientIntegrationsSettingsPage() throws Exception {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId= GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
-        String getTokenUrl =   GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
 
-        try
-        {
+        try {
             //logCurrentStepStart();
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
@@ -40,11 +35,7 @@ public class IntegrationsSettingsTest extends AbstractTest {
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Footer in Integrations Settings page.", LogAs.PASSED, null);
            // logCurrentStepEnd();
-
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Verify Footer in Integrations Settings page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

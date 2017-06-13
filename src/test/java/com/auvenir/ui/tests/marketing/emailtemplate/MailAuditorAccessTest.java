@@ -21,8 +21,6 @@ import org.testng.annotations.Test;
  */
 public class MailAuditorAccessTest extends AbstractTest {
 
-    String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
-    String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
     private MarketingService marketingService;
     private GmailLoginService gmailLoginService;
     private AdminService adminService;
@@ -53,19 +51,24 @@ public class MailAuditorAccessTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        String auditorID = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Auditor");
+        String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
+        String strAdminEmail = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Admin");
+        String strAdminPwd = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "PasswordAdmin");
         try {
-            gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
+            gmailLoginService.deleteAllExistedEmail(auditorID, password);
+            auditorSignUpService.deleteUserUsingApi(auditorID);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorID);
             getLogger().info("Auditor sign up..");
-            auditorSignUpService.deleteUserUsingApi("auvenirtestor@gmail.com");
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "auvenirtestor@gmail.com");
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham", "auvenirtestor@gmail.com", "Change@123");
+            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorID, password);
             getLogger().info("Admin gives Auditor access..");
+            marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             getLogger().info("Admin find auditor email and status to On boarding..");
 //        adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", "auvenirtestor@gmail.com", "06/7/2017", "Wait listed");
-            adminService.changeTheStatusAuditorToOnBoarding("auvenirtestor@gmail.com", "Onboarding");
+            adminService.changeTheStatusAuditorToOnBoarding(auditorID, "Onboarding");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor sign up and Admin set status to On-boarding.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -77,10 +80,12 @@ public class MailAuditorAccessTest extends AbstractTest {
     public void verifyActiveEmailTemplate() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        String auditorID = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Auditor");
+        String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
         try {
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
-            gmailLoginService.gmailLogin("auvenirtestor@gmail.com", "Change@123");
+            gmailLoginService.gmailLogin(auditorID, password);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.verifyActiveEmailTemplateContent();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

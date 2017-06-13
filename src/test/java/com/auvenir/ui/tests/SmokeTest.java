@@ -40,7 +40,6 @@ public class SmokeTest extends AbstractTest {
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
             adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
-//            adminId= adminId.replace("chr.","");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -60,8 +59,6 @@ public class SmokeTest extends AbstractTest {
         try {
             adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
             auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
-//            adminId= adminId.replace("chr.","");
-//            auditorId= auditorId.replace("chr.","");
             dateFormat = new SimpleDateFormat("MM/d/yyyy");
             //precondition
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
@@ -234,9 +231,6 @@ public class SmokeTest extends AbstractTest {
             clientId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Client");
             adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
             auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
-//            adminId= adminId.replace("chr.","");
-//            auditorId= auditorId.replace("chr.","");
-//            clientId= clientId.replace("chr.","");
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
             auditorEngagementService.loginWithUserRole(auditorId);

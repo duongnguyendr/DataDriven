@@ -22,7 +22,6 @@ public class MailAuditorInviteClientTest extends AbstractTest {
 
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
-    private MailAuditorInviteClientPO mailAuditorInviteClientPO;
     private AuditorEngagementService auditorEngagementService;
     private AuditorDetailsEngagementPage auditorDetailsEngagementPage;
     private GmailLoginService gmailLoginService;
@@ -34,19 +33,20 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     public void verifyAuditorSignUp() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
-        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
+        String auditorID = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Auditor");
+        String clientID = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Client");
+        String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
 
         try {
             getLogger().info("Delete user and client email before..");
             auditorSignUpService.deleteUserUsingApi(auditorID);
             auditorSignUpService.deleteUserUsingApi( clientID);
-            gmailLoginService.deleteAllExistedEmail(clientID, "Change@123");
+            gmailLoginService.deleteAllExistedEmail(clientID, password);
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorID);
             getLogger().info("Auditor sign up..");
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham",  auditorID,"Change@123");
+            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test",  auditorID, password);
             auditorSignUpService.updateUserActiveUsingAPI( auditorID);
             auditorSignUpService.updateUserActiveUsingMongoDB( auditorID);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -64,15 +64,16 @@ public class MailAuditorInviteClientTest extends AbstractTest {
         auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
-        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
+        String auditorID = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Auditor");
+        String clientID = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Client");
+        String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
         try {
             auditorSignUpService.deleteUserUsingApi( clientID);
             getLogger().info("Auditor log in..");
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole( auditorID, "Change@123");
+            marketingService.loginWithNewUserRole( auditorID, password);
             auditorEngagementService.createAndSelectNewEnagement("New World", "", "Company");
             auditorDetailsEngagementPage.verifyDetailsEngagementPage("New World");
             auditorTodoListService.verifyTodoListPage();
@@ -91,11 +92,12 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     public void verifyClentInviteEmailTemplate() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
+        String clientID = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Client");
+        String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
         try {
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
-            gmailLoginService.gmailLogin(clientID, "Change@123");
+            gmailLoginService.gmailLogin(clientID, password);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.verifyAuditorInviteClientEmail();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

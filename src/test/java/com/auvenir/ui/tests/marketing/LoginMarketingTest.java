@@ -43,12 +43,14 @@ public class LoginMarketingTest extends AbstractTest {
     private String emailPassword = null;
 
     @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.")
-    public void forgotPasswordTest() throws InterruptedException {
-        emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+    public void forgotPasswordTest() throws Exception {
+        emailId = GenericService.getUserFromExcelData("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+        //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
         emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
+            //marketingService.createAndActiveNewUserByEmail("minh nguyen","edge.minhtest@gmail.com","hoangminh1240", "Changeit@123","admin@auvenir.com","Changeit@123");
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
@@ -264,7 +266,8 @@ public class LoginMarketingTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+            //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+            emailId = GenericService.getUserFromExcelData("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
@@ -307,7 +310,8 @@ public class LoginMarketingTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+            //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
+            emailId = GenericService.getUserFromExcelData("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);

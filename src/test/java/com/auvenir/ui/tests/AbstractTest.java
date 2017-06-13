@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -35,6 +37,7 @@ public class AbstractTest {
     String localPropertiesDest = GenericService.sDirPath + "/local.properties";
     protected String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
     protected String SELENIUM_GRID_HUB = "http://192.168.1.50:4444/wd/hub";
+
     /*
     We should input 2 options:
         +SeleniumGrid
@@ -122,9 +125,36 @@ public class AbstractTest {
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
-                    DesiredCapabilities capabilities = new DesiredCapabilities();
-                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                    driver = new FirefoxDriver(capabilities);
+
+//                    ProfilesIni allProfiles = new ProfilesIni();
+//                    System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
+//                    //System.setProperty("webdriver.firefox.profile","your custom firefox profile name");
+//                    String browserProfile = System.getProperty("webdriver.gecko.driver");
+//                    FirefoxProfile profile = allProfiles.getProfile(browserProfile);
+//                    profile.setAcceptUntrustedCertificates (true);
+//                    driver = new FirefoxDriver(profile);
+
+//                    DesiredCapabilities capabilities = new DesiredCapabilities();
+//                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+//                    driver = new FirefoxDriver(capabilities);
+
+                    FirefoxProfile profile=new FirefoxProfile();
+                    profile.setAcceptUntrustedCertificates(false);
+                    driver=new FirefoxDriver(profile);
+
+//                    DesiredCapabilities dc = DesiredCapabilities.firefox();
+//                    dc.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+//
+//                    FirefoxProfile profile = new FirefoxProfile();
+//                    profile.setAcceptUntrustedCertificates(true);
+//
+//                    dc.setCapability(FirefoxDriver.PROFILE, profile);
+//
+//                    // this is the important line - i.e. don't use Marionette
+//                    dc.setCapability(FirefoxDriver.MARIONETTE, true);
+//
+//                    driver =  new FirefoxDriver(dc);
+
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
                     getLogger().info("Intetnet Explorer is set");
                     System.setProperty("webdriver.ie.driver", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
@@ -258,5 +288,6 @@ public class AbstractTest {
             logger.log(priority, "STEP INFO - " + testName + " - " + differentiator, t);
         }
     }
+
 }
 
