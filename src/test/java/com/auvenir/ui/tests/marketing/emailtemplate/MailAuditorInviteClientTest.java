@@ -1,7 +1,6 @@
 package com.auvenir.ui.tests.marketing.emailtemplate;
 
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
-import com.auvenir.ui.pages.marketing.mailtemplate.*;
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;

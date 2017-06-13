@@ -20,7 +20,7 @@ public class NotificationsSettingsTest extends AbstractTest {
     @Test(priority=1,enabled=true, description="Verify Footer in Client Notification Settings page.")
     public void verifyFooterClientNotificationsSettingsPage() throws Exception {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
 
         try {
             //logCurrentStepStart();

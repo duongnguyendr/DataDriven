@@ -26,8 +26,8 @@ public class MailAuditorJoinTest extends AbstractTest {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try{
-            String auditorId = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Auditor");
-            String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
+            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
             auditorSignUpService.setPrefixProtocol(httpProtocol);
             auditorSignUpService.deleteUserUsingApi(auditorId);
             auditorSignUpService.deleteUserUsingMongoDB(auditorId);
@@ -48,8 +48,8 @@ public class MailAuditorJoinTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         try{
-            String auditorId = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Auditor");
-            String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
+            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
             auditorSignUpService.setPrefixProtocol(httpProtocol);
             auditorSignUpService.deleteUserUsingApi(auditorId);
             auditorSignUpService.deleteUserUsingMongoDB(auditorId);

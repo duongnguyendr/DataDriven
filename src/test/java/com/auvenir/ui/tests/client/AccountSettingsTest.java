@@ -22,7 +22,7 @@ public class AccountSettingsTest extends AbstractTest {
     public void verifyFooterClientAccountSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
 
         try
         {

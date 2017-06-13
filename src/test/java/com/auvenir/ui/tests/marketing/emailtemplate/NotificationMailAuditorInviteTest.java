@@ -49,9 +49,9 @@ public class NotificationMailAuditorInviteTest extends AbstractTest {
         String engagementName = "Engagement-Test";
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try{
-            String auditorId = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Auditor");
-            String clientId = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Client");
-            String password = GenericService.getUserFromExcelData("EmailTemplateData", "Valid User", "Password");
+            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Client");
+            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
 
             marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();

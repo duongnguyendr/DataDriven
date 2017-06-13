@@ -19,7 +19,7 @@ public class DevicesSettingsTest extends AbstractTest {
     public void verifyFooterClientDevicesSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
         try{
             //logCurrentStepStart();
             clientService.loginWithUserRole(userId);

@@ -22,7 +22,7 @@ public class IntegrationsSettingsTest extends AbstractTest {
     @Test(priority=1,enabled=true, description="Verify Footer in Client Integrations Settings page.")
     public void verifyFooterClientIntegrationsSettingsPage() throws Exception {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
 
         try {
             //logCurrentStepStart();

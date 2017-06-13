@@ -49,9 +49,9 @@ public class ClientTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 
-        String auditUserId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Auditor");
-        String clientUserId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
-        String adminUserId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Admin");
+        String auditUserId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Auditor");
+        String clientUserId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
+        String adminUserId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Admin");
         String newClientData[] = GenericService.toReadExcelData("creating_NewClient_Data");
         try {
             clientService.loginWithUserRole(auditUserId);
@@ -94,9 +94,9 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Email: Invitation from to complete your financial audit")
     public void verifyInvitationEmail() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String client_ID = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
-        String gmailPassword = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Password");
-        String searchGmailName = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "GmailSearch");
+        String client_ID = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
+        String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Password");
+        String searchGmailName = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "GmailSearch");
 
         try {
             //Will be update later. Create new class of API testing to change status.
@@ -125,7 +125,7 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page")
     public void verifyClientOnboardingPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
         try {
             //Will be update later. Create new class of API testing to change status.
             /*String onBoardingUrl;
@@ -172,10 +172,10 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 4, enabled = true, description = "To Verify the content of Login email received at clients account")
     public void verifySignInEmail() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String url = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "GmailUrl");
-        String client_ID = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
-        String gmailPassword = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Password");
-        String searchGmailName = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "GmailSearch");
+        String url = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "GmailUrl");
+        String client_ID = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
+        String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Password");
+        String searchGmailName = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "GmailSearch");
         try {
             //Will be update later. Create new class of API testing to change status.
             //driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
@@ -204,9 +204,9 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 5, enabled = true, description = "To Verify the display of Elements in Email: Your Auvenir Account is Active!")
     public void verifyCLientActiveEmail() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String client_ID = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
-        String gmailPassword = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Password");
-        String searchGmailName = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "GmailSearch");
+        String client_ID = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
+        String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Password");
+        String searchGmailName = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "GmailSearch");
         try {
             clientService.gmailLogin(client_ID, gmailPassword);
             clientService.searchGmail(searchGmailName);
@@ -236,7 +236,7 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Client Dashboard Page")
     public void verifyClientDashboardPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
         try {
             //Will update later.
 //            String onBoardingUrl;
@@ -277,7 +277,7 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Client Home Page")
     public void verifyClientHomePage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
         try {
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHeader();
@@ -302,7 +302,7 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Client Request Page")
     public void verifyClientRequestPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
         try {
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
@@ -333,7 +333,7 @@ public class ClientTest extends AbstractTest {
     @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Client Files Page")
     public void verifyClientFilesPage() throws Exception {
         clientService = new ClientService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
         try {
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();

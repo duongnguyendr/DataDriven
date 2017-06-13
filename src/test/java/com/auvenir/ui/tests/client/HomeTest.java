@@ -17,7 +17,7 @@ public class HomeTest extends AbstractTest {
     @Test(priority=1,enabled=true, description="Verify Footer in Client Home page.")
     public void verifyFooterClientHomePage() throws Exception {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
         try {
             clientService.loginWithUserRole(userId);
             clientService.navigateToClientDashboardPage();
