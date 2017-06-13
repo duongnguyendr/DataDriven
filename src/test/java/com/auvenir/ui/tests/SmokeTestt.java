@@ -127,14 +127,16 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "Admin change the status of the client to OnBoarding", dependsOnMethods = {"verifyAuditorInvitingTheClient"})
+    @Test(priority = 9, enabled = true, description = "Admin change the status of the client to OnBoarding"/*, dependsOnMethods = {"verifyAuditorInvitingTheClient"}*/)
     public void verifyChangeTheStatusClientToOnBoarding() {
         getLogger().info("Verify change the status of the client to OnBoarding.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
             adminId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Admin");
+            auditorId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Auditor");
             adminId = adminId.replace("chr.", "");
+            auditorId = auditorId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());

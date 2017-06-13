@@ -6,7 +6,7 @@ import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
-import com.auvenir.ui.services.marketing.signup.*;
+import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
@@ -28,7 +28,7 @@ public class AuditorSignUpTest extends AbstractTest {
     // personal information
     String strFullName = GenericService.readExcelData(testData, "OnBoarding", 1, 1);
     String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
-//    String strEmail = "thuan.duong@titancorpvn.com";
+    //    String strEmail = "thuan.duong@titancorpvn.com";
     String strRoleFirm = GenericService.readExcelData(testData, "OnBoarding", 1, 3);
     String strPhone = GenericService.readExcelData(testData, "OnBoarding", 1, 4);
     String strReference = GenericService.readExcelData(testData, "OnBoarding", 1, 5);
@@ -54,9 +54,9 @@ public class AuditorSignUpTest extends AbstractTest {
     private GmailLoginService gmailLoginService;
 
     final String fullNameCreate = "Test Login Auditor";
-//        final String fullNameCreate = "Minh Nguyen";
+    //        final String fullNameCreate = "Minh Nguyen";
     final String strEmailCreate = GenericService.readExcelData(testData, "Login", 1, 1);
-//        final String strEmailCreate = "ff.minhtest@gmail.com";
+    //        final String strEmailCreate = "ff.minhtest@gmail.com";
     final String passwordCreate = GenericService.readExcelData(testData, "Login", 1, 2);
 
     String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
@@ -221,7 +221,7 @@ public class AuditorSignUpTest extends AbstractTest {
         final String invalidLengthPassword = "aA12345";
         final String noUpperCasePassword = "abc1234d";
         final String noLowerCasePassword = "1234ABCD";
-        final String noDigitsPassword =  "abcdABCD";
+        final String noDigitsPassword = "abcdABCD";
         final String noCharPassword = "12345678";
         final String successPassword = "12345678X";
         final String confirmPassword = "1";
@@ -252,11 +252,11 @@ public class AuditorSignUpTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
+    @Test(priority = 5, enabled = true, description = "Test positive tests case login and logout")
     public void createAndActiveAuditorUser() throws Exception {
         try {
             auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-            marketingService = new MarketingService(getLogger(),getDriver());
+            marketingService = new MarketingService(getLogger(), getDriver());
             adminService = new AdminService(getLogger(), getDriver());
             gmailLoginService = new GmailLoginService(getLogger(), getDriver());
             emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
@@ -276,7 +276,7 @@ public class AuditorSignUpTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
-            adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
+            adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
             gmailLoginService.gmailReLogin(passwordCreate);
