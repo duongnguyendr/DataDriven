@@ -4,15 +4,11 @@ import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import org.apache.log4j.Logger;
-import sun.awt.windows.WEmbeddedFrame;
-
-import java.security.cert.X509Certificate;
 
 import java.util.concurrent.TimeUnit;
 
@@ -272,10 +268,10 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         this.validateElememt(getEleFeedbackInform(), "Verify Feedback inform", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Email content ", LogAs.PASSED, null);
         //Checking footer of Invite Email
-        this.validateElememt(getEleSignatureMail(),"Verify signature",Element_Type.DISPLAYED);
+        this.validateElememt(getEleSignatureMail(), "Verify signature", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
         //Checking getStarted
-        this.validateElememt(getEleGetStarted(),"Verify Get started btn",Element_Type.DISPLAYED);
+        this.validateElememt(getEleGetStarted(), "Verify Get started btn", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Get Started btn", LogAs.PASSED, null);
     }
 
