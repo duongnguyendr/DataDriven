@@ -53,7 +53,7 @@ public class MailAuditorAccessTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
+        String auditorID = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
         try {
             gmailLoginService.deleteAllExistedEmail(auditorID, "Change@123");
             auditorSignUpService.deleteUserUsingApi(auditorID);
@@ -79,7 +79,7 @@ public class MailAuditorAccessTest extends AbstractTest {
     public void verifyActiveEmailTemplate() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
+        String auditorID = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
         try {
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");

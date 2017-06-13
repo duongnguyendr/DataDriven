@@ -44,7 +44,7 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.")
     public void forgotPasswordTest() throws Exception {
-        emailId = GenericService.getUserFromExcelData("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+        emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
         //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
         emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -267,7 +267,7 @@ public class LoginMarketingTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
             //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
-            emailId = GenericService.getUserFromExcelData("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+            emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
@@ -311,7 +311,7 @@ public class LoginMarketingTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
             //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
-            emailId = GenericService.getUserFromExcelData("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+            emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
             emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);

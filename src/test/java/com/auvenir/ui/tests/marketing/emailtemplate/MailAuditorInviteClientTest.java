@@ -34,8 +34,8 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     public void verifyAuditorSignUp() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
-        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
+        String auditorID = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
+        String clientID = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Client");
 
         try {
             getLogger().info("Delete user and client email before..");
@@ -64,8 +64,8 @@ public class MailAuditorInviteClientTest extends AbstractTest {
         auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
-        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
+        String auditorID = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
+        String clientID = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Client");
         try {
             auditorSignUpService.deleteUserUsingApi( clientID);
             getLogger().info("Auditor log in..");
@@ -91,7 +91,7 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     public void verifyClentInviteEmailTemplate() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
+        String clientID = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Client");
         try {
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
