@@ -39,7 +39,7 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -57,13 +57,12 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
             dateFormat = new SimpleDateFormat("MM/d/yyyy");
             //precondition
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
-            auvenirService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            auvenirService.verifyPageLoad();
+            auvenirService.goToAuvenirHomePage();
             auvenirService.inputEmailAndJoin(auditorId);
             auvenirService.actionWithApprovalDialog();
             adminService.loginWithUserRole(adminId);
@@ -99,7 +98,7 @@ public class SmokeTest extends AbstractTest {
 //            auvenirService.verifyPageLoad();
 //            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
             adminService.loginWithUserRole(auditorId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
@@ -121,7 +120,7 @@ public class SmokeTest extends AbstractTest {
         auvenirService = new AuvenirService(getLogger(), getDriver());
         auditorService = new AuditorService(getLogger(), getDriver());
         try {
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
             testCaseId = "auditor_Onboarding";
             sData = GenericService.toReadExcelData(testCaseId);
             //precondition setted by tc changeTheStatusAuditorToOnBoarding
@@ -202,8 +201,8 @@ public class SmokeTest extends AbstractTest {
 //            auditorService.verifyFooterPage();
 //            auditorService.verifySecurityOnBoardingPageSimplelize();
 //            auditorService.verifyEpilogueOnBoardingPage();
-            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -229,9 +228,9 @@ public class SmokeTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         try {
-            clientId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Client");
-            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
+            adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
             auditorEngagementService.loginWithUserRole(auditorId);
@@ -239,9 +238,10 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+//            auditorEngagementService.verifyAuditorEngagementPage();
+            //change business, enter engage detail after create
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
             clientService.inviteNewClient("Titan client", clientId, "Leader");
@@ -250,6 +250,7 @@ public class SmokeTest extends AbstractTest {
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -265,7 +266,7 @@ public class SmokeTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
             gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL_PASSWORD"));
             gmailLoginService.filterEmail();
@@ -287,8 +288,8 @@ public class SmokeTest extends AbstractTest {
         getLogger().info("Verify delete the existing Auditor and Client via API");
         adminService = new AdminService(getLogger(), getDriver());
         try {
-            clientId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Client");
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
             adminService.deleteUserUsingApi(auditorId);
             //adminService.verifyAPIResponseSuccessCode(auditorMessageBack,"Auditor");
             adminService.deleteUserUsingApi(clientId);

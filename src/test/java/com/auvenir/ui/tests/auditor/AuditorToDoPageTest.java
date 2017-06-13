@@ -26,7 +26,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("LoginData","Valid User","Auditor");
+        String userId = GenericService.getTestDataFromExcel("LoginData","Valid User","Auditor");
         try {
             auditorCreateToDoService.setPrefixProtocol("http://");
             auditorCreateToDoService.loginWithUserRole(userId);

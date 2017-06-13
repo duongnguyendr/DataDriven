@@ -415,7 +415,7 @@ public class ClientService extends AbstractService {
      * Refactored by huy.huynh on 02/06/2017.
      * New for smoke test
      */
-    public void selectAddNewClient() {
+    public void selectAddNewClient() throws InterruptedException {
         createNewAuditPage.selectAddNewClient();
     }
 

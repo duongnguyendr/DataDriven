@@ -1159,6 +1159,11 @@ public class AuditorSignUpPage extends AbstractPage {
         marketingPage = new MarketingPage(getLogger(), getDriver());
         marketingPage.clickOnSignupButton();
         verifyPersonalInfoPageContent();
+//        if(GenericService.sBrowserData.equals("")){
+//            switchToOtherTab(1);
+//            getDriver().close();
+//            switchToOtherTab(0);
+//        }
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
         verifyFirmInfoPageContent();
         registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",

@@ -487,7 +487,7 @@ public class MongoDBService {
      * get User object of given string first name and last name(ex: 'huy huynh')
      *
      * @param dBCollection DBCollection object
-     * @param name        user name
+     * @param name         user name
      */
     public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String name) throws Exception {
         String[] assignee = name.split(" ");
@@ -542,5 +542,22 @@ public class MongoDBService {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * verify that given email exist on DB with status ACTIVE and type AUDITOR
+     *
+     * @param dBCollection DBCollection object
+     * @param email        email to find
+     */
+    public static boolean verifyUserEmailTypeStatusExist(DBCollection dBCollection, String email) throws Exception {
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("email", email);
+        searchQuery.put("status", "ACTIVE");
+        searchQuery.put("type", "AUDITOR");
+        DBCursor cursor = dBCollection.find(searchQuery);
+        DBObject dBbject = cursor.next();
+
+        return dBbject != null ? true : false;
     }
 }
