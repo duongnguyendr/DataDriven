@@ -2,7 +2,11 @@ package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,8 +15,6 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 import java.util.List;
-
-//import org.testng.log4testng.Logger;
 
 public class AuditorEngagementPage extends AbstractPage {
 
@@ -153,12 +155,15 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//button[contains(text(),'Add New')]")
     private WebElement eleAddNewBtn;
 
-//    @FindBy(xpath = "//div[@id='cpa-main']//p[@class='e-widget-auditTitle']")
+    //    @FindBy(xpath = "//div[@id='cpa-main']//p[@class='e-widget-auditTitle']")
     @FindBy(xpath = "//*[@id='engagement-tbody']/tr//td[8]")
     private List<WebElement> engagementTitleListEle;
 
     @FindBy(xpath = "//tbody[@id='engagement-tbody']/tr/td/a")
     List<WebElement> newEngagementTitleListEle;
+
+    @FindBy(xpath = "//*[@id='CreateEnagementParent']/../../../..")
+    WebElement popUpCreateEngagement;
 
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
@@ -181,7 +186,8 @@ public class AuditorEngagementPage extends AbstractPage {
 
     public void verifyAuditorEngagementPage() {
         waitForVisibleElement(myEngagementTextEle, "myEngagementTextEle");
-        validateElementText(myEngagementTextEle, "My Engagements");
+//        validateElementText(myEngagementTextEle, "My Engagements");
+        validateElementText(myEngagementTextEle, "All Engagements");
 
     }
 
@@ -189,12 +195,13 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(contactsLinkEle, "contactsLinkEle");
         contactsLinkEle.click();
 
-	}
-	public void clickNewEnagementButton() {
-		waitForVisibleElement(newEngagementButtonEle,"New Engagement Button");
-		waitForClickableOfElement(newEngagementButtonEle,"New Engagement Button");
-		newEngagementButtonEle.click();
-	}
+    }
+
+    public void clickNewEnagementButton() {
+        waitForVisibleElement(newEngagementButtonEle, "New Engagement Button");
+        waitForClickableOfElement(newEngagementButtonEle, "New Engagement Button");
+        newEngagementButtonEle.click();
+    }
 
     /**
      * Click on the Engagement with the engagement Name.
@@ -204,7 +211,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void viewEngagementDetailsPage(String engagementName) throws Exception {
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-        hoverElement(engagementListEle.get(index), engagementName);
+//        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
         clickAndHold(engagementListEle.get(index), engagementName);
     }
@@ -236,6 +243,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Get the list ID of Engagement on Engagement Page.
+     *
      * @return List<String> the list ID of Engagement on Engagement Page.
      */
     public List<String> getListIdOfEngagement() {
@@ -253,7 +261,7 @@ public class AuditorEngagementPage extends AbstractPage {
      * Find the new engagement which is just created.
      *
      * @param listIdOfEngagementBeforeCreate List Engagement ID before creating new one.
-     * @param listIdOfEngagementAfterCreate List Engagement ID after creating new one.
+     * @param listIdOfEngagementAfterCreate  List Engagement ID after creating new one.
      * @return position of Engagement on Engagement page base on ID.
      */
     public int findNewEngagement(List<String> listIdOfEngagementBeforeCreate, List<String> listIdOfEngagementAfterCreate) {
@@ -278,35 +286,213 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Click Engagement on Engagement Page with the position of Engagement
+     *
      * @param engagementPosition int the Engagement position which is clicked.
      */
-    public void clickEngagementByPosition(int engagementPosition){
-        hoverElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
-        waitForClickableOfElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
-        clickAndHold(engagementListEle.get(engagementPosition), "Engagement View Ite");
+    public void clickEngagementByPosition(int engagementPosition) throws InterruptedException {
+        System.out.println("Size: " + engagementListEle.size());
+        System.out.println(engagementListEle.get(engagementPosition));
+        System.out.println("Position: " + engagementPosition);
+//        hoverElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
+//        WebElement popUpCreateEngagement = getDriver().findElement(By.xpath("//*[@id='CreateEnagementParent']/../../../.."));
+        waitForCssValueChanged(popUpCreateEngagement, "PopUp Create", "display", "none");
+//        Thread.sleep(3000);
+        waitForClickableOfElement(engagementListEle.get(engagementPosition), "Engagement View Item");
+        clickElement(engagementListEle.get(engagementPosition), "Engagement View Item");
+//        clickElement(engagementListEle.get(engagementPosition));
 //        hoverElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
 //        waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
 //        clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
     }
 
-    public void clickvisibilityOfElementWait(){
+    public void clickvisibilityOfElementWait() {
         auditorEngagementPage.getEleCreateNewBtn();
     }
 
-    public void clickClientsLink(){
+    public void clickClientsLink() {
         waitForClickableOfElement(eleClientsLnk, "Client link");
         clickElement(eleClientsLnk, "Client link");
     }
-    public void clickAddNewButton(){
+
+    public void clickAddNewButton() {
         waitForClickableOfElement(eleAddNewBtn, "Add new button");
         clickElement(eleAddNewBtn, "Add new button");
     }
-    public void clickdropDownSetingLink(){
+
+    public void clickdropDownSetingLink() {
         waitForClickableOfElement(eleSettingsLnk, "Drop down setting");
         clickElement(eleSettingsLnk, "Drop down setting");
     }
-    public void clickAuditorNameDropDown(){
+
+    public void clickAuditorNameDropDown() {
         waitForClickableOfElement(eleAuditorNameDrpDwn, "Auditor name drop down");
         clickElement(eleAuditorNameDrpDwn, "Auditor name drop down");
     }
+
+    /**
+     * Added by huy.huynh on 08/06/2017.
+     * Verify UI Engagement list
+     */
+    @FindBy(id = "header-blue-logo")
+    private WebElement imageLogoHeaderBlue;
+
+    @FindBy(id = "h-engagementsLink")
+    private WebElement tabHeaderEngagements;
+
+    @FindBy(id = "h-clientListLink")
+    private WebElement tabHeaderContacts;
+
+    @FindBy(id = "dashboardUsername")
+    private WebElement dashboardUsername;
+
+    @FindBy(id = "h-ddl-item-settings")
+    private WebElement dashboardSettings;
+
+    @FindBy(id = "h-ddl-signOut")
+    private WebElement dashboardSignOut;
+
+    @FindBy(xpath = "//div[@id='preview-header-left']/span")
+    private WebElement titlePreviewHeader;
+    //newAuditBtn
+    @FindBy(xpath = "//div[@id='engagement-filters']/span")
+    private WebElement selectEngagementFilters;
+
+    @FindBy(xpath = "//div[@type='All']/span")
+    private WebElement optionFilterAll;
+
+    @FindBy(xpath = "//div[@type='Type of Engagement']/span")
+    private WebElement optionFilterTypeOfEngagement;
+
+    @FindBy(xpath = "//div[@class='menu transition visible']/div")
+    private List<WebElement> listOptionTypeOfEngagement;
+
+    @FindBy(xpath = "//div[@class='item'][text()='Financial Audit']")
+    private WebElement optionTypeOfEngagementFinancialAudit;
+
+    @FindBy(xpath = "//div[@class='item'][text()='Review']")
+    private WebElement optionTypeOfEngagementReview;
+
+    @FindBy(xpath = "//div[@class='item'][text()='Notice to reader / Compilation']")
+    private WebElement optionTypeOfEngagementNoticeToReaderCompilation;
+
+    @FindBy(xpath = "//div[@class='item'][text()='Other']")
+    private WebElement optionTypeOfEngagementOther;
+
+    @FindBy(id = "engagement-search")
+    private WebElement inputEngagementSearch;
+
+    @FindBy(id = "company-sort")
+    private WebElement thCompany;
+
+    @FindBy(id = "engagement-sort")
+    private WebElement thEngagement;
+
+    @FindBy(id = "status-sort")
+    private WebElement thStatus;
+
+    @FindBy(id = "audit-sort")
+    private WebElement thAudit;
+
+    @FindBy(id = "todo-sort")
+    private WebElement thToDo;
+
+    @FindBy(id = "client-sort")
+    private WebElement thClient;
+
+    @FindBy(id = "docs-sort")
+    private WebElement thDocs;
+
+    @FindBy(id = "activity-sort")
+    private WebElement thActivity;
+
+    @FindBy(id = "duedate-sort")
+    private WebElement thDueDate;
+
+    @FindBy(xpath = "//div[@id='preview-footer']//span")
+    private WebElement titleCompanyInfo;
+
+    @FindBy(xpath = "//div[@id='preview-footer']//a[@href][1]")
+    private WebElement titleTermsOfService;
+
+    @FindBy(xpath = "//div[@id='preview-footer']//a[@href][2]")
+    private WebElement titlePrivacyStatement;
+
+    @FindBy(xpath = "//div[@id='preview-footer']//a[@href][3]")
+    private WebElement titleCookieNotice;
+
+    /**
+     * verify UI of List Engagement page - Header
+     */
+    public void verifyUIListEngagementHeader() {
+        try {
+            validateAttributeContain(imageLogoHeaderBlue, "src", "images/logos/auvenir/auvenir.svg", "Logo Auvenir Blue");
+            validateElementText(tabHeaderEngagements, "Engagements");
+            validateElementText(tabHeaderContacts, "Contacts");
+            clickElement(dashboardUsername, "Dashboard Username");
+            validateElementText(dashboardSettings, "Settings");
+            validateElementText(dashboardSignOut, "Sign Out");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  List Engagement Header", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of List Engagement page - Body
+     */
+    public void verifyUIListEngagementBody() {
+        try {
+            validateElementText(titlePreviewHeader, "All Engagements");
+            validateElementText(newEngagementButtonEle, "New Engagement");
+
+            validateElementText(selectEngagementFilters, "Filters");
+            clickElement(selectEngagementFilters, "Select Engagement Filters");
+            validateElementText(optionFilterAll, "All");
+            validateElementText(optionFilterTypeOfEngagement, "Type of Engagement");
+
+            clickElement(optionFilterTypeOfEngagement, "Select Engagement Filters");
+            validateElementsQuantity(listOptionTypeOfEngagement, 4, "List Option Type Of Engagement");
+            validateElementText(optionTypeOfEngagementFinancialAudit, "Financial Audit");
+            validateElementText(optionTypeOfEngagementReview, "Review");
+            validateElementText(optionTypeOfEngagementNoticeToReaderCompilation, "Notice to reader / Compilation");
+            validateElementText(optionTypeOfEngagementOther, "Other");
+            validatePlaceholder(inputEngagementSearch, "Search...", "Input Engagement Search");
+            clickElement(inputEngagementSearch, "Input Engagement Search");
+
+            validateElementText(thCompany, "Company");
+            validateElementText(thEngagement, "Engagement Name");
+            validateElementText(thStatus, "Status");
+            validateElementText(thAudit, "Audit Assignee");
+            validateElementText(thToDo, "Completed To-Dos");
+            validateElementText(thClient, "Client Assignee");
+            validateElementText(thDocs, "Completed Docs");
+            validateElementText(thActivity, "Last Activity");
+            validateElementText(thDueDate, "Due Date");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  List Engagement Body", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify UI of List Engagement page - Footer
+     */
+    public void verifyUIListEngagementFooter() {
+        try {
+            validateElementText(titleCompanyInfo, "© 2017 Auvenir Inc. All rights reserved.");
+            validateElementText(titleTermsOfService, "Terms of Service");
+            validateAttributeContain(titleTermsOfService, "href", "terms", "Terms Of Service");
+            validateElementText(titlePrivacyStatement, "Privacy Statement");
+            validateAttributeContain(titlePrivacyStatement, "href", "privacy", "Privacy Statement");
+            validateElementText(titleCookieNotice, "Cookie Notice");
+            validateAttributeContain(titleCookieNotice, "href", "cookies", "Cookie Notice");
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error:  List Engagement Footer", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+    /*-----------end of huy.huynh on 08/06/2017.*/
 }

@@ -2,6 +2,9 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
+import com.auvenir.ui.services.marketing.MarketingService;
+import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
+import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
@@ -23,6 +26,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 
 /**
  * Created by cuong.nguyen on 4/25/2017.
@@ -50,6 +55,12 @@ public class AbstractService {
     private final String keywordApiUpdateOnboading = "/update?status=ONBOARDING";
 
     private String apiUrl = "";
+    private AuditorSignUpService auditorSignUpService;
+    private MarketingService marketingService;
+    private AdminService adminService;
+    private GmailLoginService gmailLoginService;
+    private EmailTemplateService emailTemplateService;
+    private AuditorEngagementService auditorEngagementService;
 
     public void setApiUrl(String apiURL) {
         this.apiUrl = "https://" + apiURL;
@@ -198,6 +209,7 @@ public class AbstractService {
             }
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt ++;
             NXGReports.addStep("unable to go to home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -469,7 +481,7 @@ public class AbstractService {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
 //            gmailLoginPage.signInGmail(eGMail,ePassword);
-            gmailLoginPage.gmailNewLogin(eGMail,ePassword);
+            gmailLoginPage.signInGmail(eGMail,ePassword);
             gmailLoginPage.deleteAllMail();
             gmailLoginPage.gmailLogout();
         }catch (Exception e){
@@ -532,5 +544,54 @@ public class AbstractService {
             NXGReports.addStep("User cannot be deleted.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
         }
+    }
+
+    /**
+     * Logout of Gmail.
+     */
+    public void logoutGmail(){
+        getLogger().info("Try to logout gmail.");
+        try{
+            GmailPage gmailLoginPage = new GmailPage(logger, driver);
+            gmailLoginPage.gmailLogout();
+        }catch (Exception e){
+            sStatusCnt ++;
+            NXGReports.addStep("Cannot logout of gmail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Unable to logout of gmail.");
+        }
+    }
+
+    public void createAndActiveNewUserByEmail(String fullNameCreate, String strEmailCreate, String passwordCreate, String strAdminEmail, String strAdminPwd) throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        // This test cases is verified creating new user.
+        // It must be deleted old user in database before create new one.
+        setPrefixProtocol(httpProtocol);
+        deleteUserUsingApi(strEmailCreate);
+        deleteUserUsingMongoDB(strEmailCreate);
+        goToBaseURL();
+        auditorSignUpService.verifyRegisterNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
+        gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
+        marketingService.setPrefixProtocol(httpProtocol);
+        goToBaseURL();
+        marketingService.clickLoginButton();
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
+        getLogger().info("Auditor open Email and verify it.. ");
+        getLogger().info("Auditor login his email to verify Welcome email template");
+        gmailLoginService.gmailReLogin(passwordCreate);
+        gmailLoginService.selectActiveEmaill();
+        emailTemplateService.verifyActiveEmailTemplateContent();
+//        logoutGmail();
+//        emailTemplateService.clickGetStartedButton();
+//        switchToWindow();
+        emailTemplateService.navigateToConfirmationLink();
+        auditorSignUpService.confirmInfomationNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        marketingService.logout();
     }
 }

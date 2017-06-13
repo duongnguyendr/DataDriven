@@ -1,12 +1,11 @@
 package com.auvenir.ui.services;
 
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
 import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created by hai.nguyen on 5/8/2017.
@@ -48,18 +47,20 @@ public class AuditorNewEngagementService extends AbstractService {
         }
     }
 
-    public void verifyUINewEngagement(){
+    public void verifyUINewEngagementSetUp(String name) {
         auditorNewEngagementPage.verifyUINewEngagementHeaderSetUp();
-        auditorNewEngagementPage.verifyUINewEngagementBodySetUp();
+        auditorNewEngagementPage.verifyUINewEngagementBodySetUp(name);
         auditorNewEngagementPage.verifyUINewEngagementFooterSetup();
+    }
 
-        auditorNewEngagementPage.verifyUINewEngagementHeaderTeam();
+    public void verifyUINewEngagementTeam(String name) {
+        auditorNewEngagementPage.verifyUINewEngagementHeaderTeam(name);
         auditorNewEngagementPage.verifyUINewEngagementBodyTeam();
-        auditorNewEngagementPage.verifyUINewEngagementFooterTeam();
+    }
 
-        auditorNewEngagementPage.verifyUINewEngagementHeaderCustomize();
+    public void verifyUINewEngagementCustomize(String name) {
+        auditorNewEngagementPage.verifyUINewEngagementHeaderCustomize(name);
         auditorNewEngagementPage.verifyUINewEngagementBodyCustomize();
-        auditorNewEngagementPage.verifyUINewEngagementFooterCustomize();
     }
 }
 

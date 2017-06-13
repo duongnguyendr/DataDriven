@@ -92,18 +92,18 @@ public class AbstractTest {
         getLogger().info("Before Method.");
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
-            GenericService.sBrowserData = "CHROME_";
+            GenericService.sBrowserData = "chr.";
         } else if (browser.equalsIgnoreCase("firefox")) {
-            GenericService.sBrowserData = "FIREFOX_";
+            GenericService.sBrowserData = "ff.";
         } else if (browser.equalsIgnoreCase("internet explorer")) {
-            GenericService.sBrowserData = "IE_";
+            GenericService.sBrowserData = "ie.";
         } else if (browser.equalsIgnoreCase("safari")) {
-            GenericService.sBrowserData = "SAFARI_";
-        } else if(browser.equalsIgnoreCase("edge")){
-            GenericService.sBrowserData = "EDGE_";
+            GenericService.sBrowserData = "saf.";
+        } else if (browser.equalsIgnoreCase("edge")) {
+            GenericService.sBrowserData = "edge.";
         }
         GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
-        getLogger().info("setUp: " + GenericService.sBrowserData);
+        getLogger().info("setUp: " + browser);
         testName = method.getName();
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
@@ -113,41 +113,42 @@ public class AbstractTest {
             /*
             Initialize Selenium Local WebDriver
              */
-                if (GenericService.sBrowserData.equalsIgnoreCase("CHROME_")) {
+                if (GenericService.sBrowserData.equalsIgnoreCase("chr.")) {
                     //if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
                     getLogger().info("Chrome is open.");
                     System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                     getLogger().info("Chrome is set");
                     driver = new ChromeDriver();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
                     DesiredCapabilities capabilities = new DesiredCapabilities();
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     driver = new FirefoxDriver(capabilities);
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
                     getLogger().info("Intetnet Explorer is set");
                     System.setProperty("webdriver.ie.driver", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
-                } else  if (GenericService.sBrowserData.equalsIgnoreCase("EDGE_")){
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("edge.")) {
                     getLogger().info("Edge is set");
                     System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
                     driver = new EdgeDriver();
                 }
+
             } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
 
             /*Initialize Selenium for Selenium Grid*/
 
                 DesiredCapabilities capabilities;
-                if (GenericService.sBrowserData.equalsIgnoreCase("CHROME_")) {
-                    capabilities = DesiredCapabilities.firefox();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("FIREFOX_")) {
+                if (GenericService.sBrowserData.equalsIgnoreCase("chr.")) {
                     capabilities = DesiredCapabilities.chrome();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("IE_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
+                    capabilities = DesiredCapabilities.firefox();
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
                     capabilities = DesiredCapabilities.internetExplorer();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("SAFARI_")) {
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("saf.")) {
                     capabilities = DesiredCapabilities.safari();
-                }else if(GenericService.sBrowserData.equalsIgnoreCase("EDGE_")){
+                } else if (GenericService.sBrowserData.equalsIgnoreCase("edge.")) {
                     capabilities = DesiredCapabilities.edge();
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
@@ -165,8 +166,8 @@ public class AbstractTest {
                     throw new IllegalArgumentException("Unknown platform - " + os);
                 }
                 driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
-                NXGReports.setWebDriver(driver);
             }
+            NXGReports.setWebDriver(driver);
         } catch (Exception e) {
             getLogger().info("Problem in launching driver");
             e.printStackTrace();

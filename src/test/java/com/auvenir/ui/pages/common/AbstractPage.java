@@ -2137,9 +2137,11 @@ public class AbstractPage {
         getLogger().info("Try to Verify Content Of Toast Message: " + elementName);
         try {
             boolean result;
+//            Thread.sleep(3000);
             waitForVisibleElement(element, elementName);
+//            Thread.sleep(smallTimeOut);
             result = validateElementText(element, expectedContent);
-            Assert.assertTrue(result, "The content of toast message is displayed unsuccessfully.");
+            Assert.assertTrue(result, "The content of toast message is displayed successfully.");
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -2623,7 +2625,12 @@ public class AbstractPage {
             NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
             getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
-        } catch (Exception e){
+        } catch (ElementNotVisibleException e) {
+            getLogger().info("Element is visible.");
+            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            return true;
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is still displayed.");
             NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2823,6 +2830,7 @@ public class AbstractPage {
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
+            System.out.println("Loi is: " + error);
             getLogger().info(error);
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2994,7 +3002,7 @@ public class AbstractPage {
     public void validateElementJSTextContain(WebElement webElement, String value, String elementName) {
         try {
             getLogger().info("Validate Element Text Contain " + elementName);
-            if (getTextByJavaScripts(webElement,elementName).contains(value)) {
+            if (getTextByJavaScripts(webElement, elementName).contains(value)) {
                 NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3008,4 +3016,27 @@ public class AbstractPage {
     }
 
     /*-----------end of huy.huynh on 06/06/2017.*/
+
+    /**
+     * Added by huy.huynh on 12/06/2017.
+     * check element on dev-branch
+     */
+    /**
+     * @param webElement  Element defined in page class
+     * @param elementName The text name of element
+     */
+    public void clickByJavaScripts(WebElement webElement, String elementName) {
+        getLogger().info("Click by javascript of element " + elementName);
+        String textOfElement = "";
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+            jse.executeScript("arguments[0].click()", webElement);
+            NXGReports.addStep("Click by javascript of element " + elementName, LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click by javascript of element " + elementName, LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+        }
+    }
+    /*-----------end of huy.huynh on 12/06/2017.*/
 }
