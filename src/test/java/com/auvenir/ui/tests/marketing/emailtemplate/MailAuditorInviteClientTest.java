@@ -7,6 +7,7 @@ import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
+import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -33,18 +34,21 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     public void verifyAuditorSignUp() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
+        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
+
         try {
             getLogger().info("Delete user and client email before..");
-            auditorSignUpService.deleteUserUsingApi("auvenirtestor@gmail.com");
-            auditorSignUpService.deleteUserUsingApi("clientauvenir@gmail.com");
-//            gmailLoginService.deleteAllExistedEmail("clientauvenir@gmail.com", "Change@123");
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), "auvenirtestor@gmail.com");
+            auditorSignUpService.deleteUserUsingApi(auditorID);
+            auditorSignUpService.deleteUserUsingApi( clientID);
+            gmailLoginService.deleteAllExistedEmail(clientID, "Change@123");
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorID);
             getLogger().info("Auditor sign up..");
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham", "auvenirtestor@gmail.com", "Change@123");
-            auditorSignUpService.updateUserActiveUsingAPI("auvenirtestor@gmail.com");
-            auditorSignUpService.updateUserActiveUsingMongoDB("auvenirtestor@gmail.com");
+            auditorSignUpService.verifyRegisterNewAuditorUser("Vien Pham",  auditorID,"Change@123");
+            auditorSignUpService.updateUserActiveUsingAPI( auditorID);
+            auditorSignUpService.updateUserActiveUsingMongoDB( auditorID);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor sign up and Active.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -60,18 +64,21 @@ public class MailAuditorInviteClientTest extends AbstractTest {
         auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
+        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
+        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
         try {
+            auditorSignUpService.deleteUserUsingApi( clientID);
             getLogger().info("Auditor log in..");
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole("auvenirtestor@gmail.com", "Change@123");
+            marketingService.loginWithNewUserRole( auditorID, "Change@123");
             auditorEngagementService.createAndSelectNewEnagement("New World", "", "Company");
             auditorDetailsEngagementPage.verifyDetailsEngagementPage("New World");
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", "clientauvenir@gmail.com", "Leader");
+            clientService.inviteNewClient("Titan client", clientID, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor login and invite client.", LogAs.PASSED, null);
@@ -84,10 +91,11 @@ public class MailAuditorInviteClientTest extends AbstractTest {
     public void verifyClentInviteEmailTemplate() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        String clientID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Client");
         try {
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
-            gmailLoginService.gmailLogin("clientauvenir@gmail.com", "Change@123");
+            gmailLoginService.gmailLogin(clientID, "Change@123");
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.verifyAuditorInviteClientEmail();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -96,7 +104,6 @@ public class MailAuditorInviteClientTest extends AbstractTest {
             NXGReports.addStep("Verify template of Invite Client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
 /*
 
 

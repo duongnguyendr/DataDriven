@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -218,7 +219,8 @@ public class CreateNewAuditPage extends AbstractPage {
     /**
      * Choose 'Add New Client' option
      */
-    public void selectAddNewClient() {
+    public void selectAddNewClient() throws InterruptedException {
+        Thread.sleep(smallerTimeOut);
         validateElementText(titleInviteClient, "Invite Your Client");
         clickElement(eleSelectYourClientDrpDwn, "Select Client");
         clickElement(optionAddNewClient, "Option Add New Client");
@@ -247,10 +249,9 @@ public class CreateNewAuditPage extends AbstractPage {
      * @param message toast message
      */
 
-    @FindBy(xpath ="//div[@id='add-client-super-container']/../../.." )
     WebElement inviteClientPage;
     public void verifyInviteClientSuccess(String message) {
-        waitForAtrributeValueChanged(inviteClientPage,"invite Client Page","opacity","0");
+        waitForProgressOverlayIsClosed();
         verifyContentOfSuccessToastMessage(message);
     }
 

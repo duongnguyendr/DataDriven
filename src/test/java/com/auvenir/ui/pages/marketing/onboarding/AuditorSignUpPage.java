@@ -3,6 +3,7 @@ package com.auvenir.ui.pages.marketing.onboarding;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -1148,6 +1149,11 @@ public class AuditorSignUpPage extends AbstractPage {
         marketingPage = new MarketingPage(getLogger(), getDriver());
         marketingPage.clickOnSignupButton();
         verifyPersonalInfoPageContent();
+//        if(GenericService.sBrowserData.equals("")){
+//            switchToOtherTab(1);
+//            getDriver().close();
+//            switchToOtherTab(0);
+//        }
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
         verifyFirmInfoPageContent();
         registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",

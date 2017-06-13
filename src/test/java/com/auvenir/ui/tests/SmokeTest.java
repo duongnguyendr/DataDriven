@@ -62,8 +62,7 @@ public class SmokeTest extends AbstractTest {
             dateFormat = new SimpleDateFormat("MM/d/yyyy");
             //precondition
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorId);
-            auvenirService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            auvenirService.verifyPageLoad();
+            auvenirService.goToAuvenirHomePage();
             auvenirService.inputEmailAndJoin(auditorId);
             auvenirService.actionWithApprovalDialog();
             adminService.loginWithUserRole(adminId);
@@ -239,9 +238,10 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+//            auditorEngagementService.verifyAuditorEngagementPage();
+            //change business, enter engage detail after create
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
             clientService.inviteNewClient("Titan client", clientId, "Leader");
@@ -250,6 +250,7 @@ public class SmokeTest extends AbstractTest {
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
