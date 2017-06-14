@@ -594,4 +594,38 @@ public class AbstractService {
         auditorEngagementService.verifyAuditorEngagementPage();
         marketingService.logout();
     }
+
+    public void createAndActiveNewUserByEmail(String fullNameCreate, String strEmailCreate, String passwordCreatedGmail,String passwordCreatedAuvenir, String strAdminEmail, String strAdminPwd) throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        // This test cases is verified creating new user.
+        // It must be deleted old user in database before create new one.
+        setPrefixProtocol(httpProtocol);
+        deleteUserUsingApi(strEmailCreate);
+        deleteUserUsingMongoDB(strEmailCreate);
+        goToBaseURL();
+        auditorSignUpService.verifyRegisterNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreatedAuvenir);
+        gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreatedGmail);
+        marketingService.setPrefixProtocol(httpProtocol);
+        goToBaseURL();
+        marketingService.clickLoginButton();
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
+        getLogger().info("Auditor open Email and verify it.. ");
+        getLogger().info("Auditor login his email to verify Welcome email template");
+        gmailLoginService.gmailReLogin(passwordCreatedGmail);
+        gmailLoginService.selectActiveEmaill();
+        emailTemplateService.verifyActiveEmailTemplateContent();
+//        logoutGmail();
+//        emailTemplateService.clickGetStartedButton();
+//        switchToWindow();
+        emailTemplateService.navigateToConfirmationLink();
+        auditorSignUpService.confirmInfomationNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreatedAuvenir);
+        auditorEngagementService.verifyAuditorEngagementPage();
+        marketingService.logout();
+    }
 }

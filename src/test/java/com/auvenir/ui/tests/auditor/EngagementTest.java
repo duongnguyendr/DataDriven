@@ -53,7 +53,7 @@ public class EngagementTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         try {
 //            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //            auditorId= auditorId.replace("chr.","");
 //            System.out.println("auditorId = " + auditorId);
 
@@ -86,7 +86,7 @@ public class EngagementTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         try {
 //            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //            auditorId= auditorId.replace("chr.","");
 //            System.out.println("auditorId = " + auditorId);
 
