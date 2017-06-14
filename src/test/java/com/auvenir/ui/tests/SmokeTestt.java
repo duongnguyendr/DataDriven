@@ -45,7 +45,7 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             adminId = adminId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -65,7 +65,7 @@ public class SmokeTestt extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         try {
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
             //auditorId= auditorId.replace("chr.","");
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
@@ -94,9 +94,9 @@ public class SmokeTestt extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         try {
-            clientId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Client");
-            adminId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Admin");
-            auditorId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Auditor");
+            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+            auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             adminId = adminId.replace("chr.", "");
             auditorId = auditorId.replace("chr.", "");
             clientId = clientId.replace("chr.", "");
@@ -133,8 +133,8 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Admin");
-            auditorId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Auditor");
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+            auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             adminId = adminId.replace("chr.", "");
             auditorId = auditorId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
