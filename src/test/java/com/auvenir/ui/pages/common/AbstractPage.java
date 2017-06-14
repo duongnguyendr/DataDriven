@@ -1981,15 +1981,11 @@ public class AbstractPage {
                     return i;
                 }
             }
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
 
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
