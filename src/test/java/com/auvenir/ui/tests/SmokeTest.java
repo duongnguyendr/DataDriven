@@ -102,7 +102,7 @@ public class SmokeTest extends AbstractTest {
             adminService.loginWithUserRole(auditorId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-            adminService.changeTheStatusAuditorToOnBoarding(auditorId, "Onboarding");
+            adminService.changeTheStatusUser(auditorId, "Onboarding");
             adminService.verifyUserStatusOnAdminUserTable(auditorId, "Onboarding");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor is created with status as pending in admin panel.", LogAs.PASSED, null);
