@@ -3,15 +3,11 @@ package com.auvenir.ui.pages.marketing.mailtemplate;
 import com.auvenir.ui.pages.common.GmailPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import org.apache.log4j.Logger;
-import sun.awt.windows.WEmbeddedFrame;
-
-import java.security.cert.X509Certificate;
 
 /**
  * Created by cuong.nguyen on 4/25/2017.

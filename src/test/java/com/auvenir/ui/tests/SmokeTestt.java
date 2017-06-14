@@ -153,14 +153,14 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 14, enabled = true, description = "Verify create to-do pages")
-    public void verifyToDoEngagement() throws  Exception{
+    public void verifyCreateTodoPage() throws  Exception{
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 
         try{
             String userId = GenericService.getUserFromExcelData("SmokeTest", "Valid User4", "Auditor");
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage("Engagement");
             auditorCreateToDoService.createToDoPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

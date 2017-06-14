@@ -12,9 +12,9 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.marketing.emailtemplate.NotificationMailAuditorInviteTest"/>
+            <class name="com.auvenir.ui.tests.SmokeTestt"/>
             <methods>
-                <include name="verifyNotificationMailAuditorInvite"></include>
+                <include name="verifyCreateTodoPage"></include>
             </methods>
         </classes>
     </test>
