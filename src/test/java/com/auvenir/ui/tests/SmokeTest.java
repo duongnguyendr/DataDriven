@@ -32,6 +32,8 @@ public class SmokeTest extends AbstractTest {
     private String testCaseId;
     private SimpleDateFormat dateFormat;
     private String timeStamp;
+    private AuditorCreateToDoService auditorCreateToDoService;
+
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login")
     public void verifyAdminLogin() {
@@ -299,6 +301,41 @@ public class SmokeTest extends AbstractTest {
         } catch (Exception e) {
             NXGReports.addStep("Verify delete the existing Auditor and Client via API.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 9, enabled = true, description = "Verify Auditor post new comment")
+    public void verifyToDoDetailsCommenting() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+        String engagementName = "Engagement 01";
+        String toDoName = "Task2299";
+        String commentContent = "comment Task22991";
+
+        try {
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorCreateToDoService.navigateToDoListPage();
+
+            // Will uncomment when the code is updated with the new xpath and business.
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
+            auditorCreateToDoService.verifyInputAComment(commentContent);
+            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
+            auditorCreateToDoService.clickPostComment();
+            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
+            auditorCreateToDoService.verifyBoxTitleComment();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
         }
     }
 }

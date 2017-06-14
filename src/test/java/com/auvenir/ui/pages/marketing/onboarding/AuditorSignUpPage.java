@@ -618,19 +618,13 @@ public class AuditorSignUpPage extends AbstractPage {
             validateElememt(personalInfoCompleteIconEle, "PERSONAL", Element_Type.TEXT_VALUE);
         else
             validateElememt(personalInfoCompleteIconEle, "PERSONNEL", Element_Type.TEXT_VALUE);
-        // Checking Firm Name element is displayed
+
         validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
-        // Checking checkbox Changed Name element is displayed
         validateElememt(chkChangedName, "Element of Checkbox Changed Name", Element_Type.DISPLAYED);
-        // Checking Firm Website element is displayed
         validateElememt(eleFirmWebsite, "Element of Firm Website", Element_Type.DISPLAYED);
-        // Checking Zip Code element is displayed
         validateElememt(eleZipCode, "Element of Zip Code", Element_Type.DISPLAYED);
-        // Checking City element is displayed
         validateElememt(eleCity, "Element of City", Element_Type.DISPLAYED);
-        // Checking State element is displayed
         validateElememt(provinceDropdownEle, "Element of State", Element_Type.DISPLAYED);
-        // Checking Member I.D element is displayed
         validateElememt(eleMemberID, "Element of Member I.D", Element_Type.DISPLAYED);
         // Checking Number of Employee element is displayed
         validateElememt(numberEmployeeDropdown, "Element of Number Employee", Element_Type.DISPLAYED);

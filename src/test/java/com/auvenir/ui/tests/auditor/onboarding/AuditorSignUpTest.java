@@ -75,8 +75,7 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-//        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-        final String emailCreate = "test.loginauvenir@gmail.com";
+        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
@@ -84,7 +83,7 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.deleteUserUsingMongoDB(emailCreate);
 
-            auditorSignUpService.setPrefixProtocol("http://");
+//            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -95,17 +94,22 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.createPassword(passwordCreate, "");
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
+
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
-            marketingService.setPrefixProtocol(httpProtocol);
+//            marketingService.setPrefixProtocol(httpProtocol);
+
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusAuditorToOnBoarding(emailCreate, "Onboarding");
+
             gmailLoginService.gmailReLogin(passwordCreate);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.verifyActiveEmailTemplateContent();
+
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
+
             auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

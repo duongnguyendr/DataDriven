@@ -165,6 +165,9 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='CreateEnagementParent']/../../../..")
     WebElement popUpCreateEngagement;
 
+    @FindBy(xpath = "//*[@id='auditPageNoEngagement']")
+    WebElement noEngagementDivEle;
+
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
     }
@@ -238,6 +241,9 @@ public class AuditorEngagementPage extends AbstractPage {
      */
     public int findEngagementName(String engagementName) {
         getLogger().info("Find Position of Engagement Name");
+        String displayValue = noEngagementDivEle.getCssValue("display");
+        if(displayValue.equals("block"))
+            return -1;
         return findElementByText(engagementListEle, engagementName);
     }
 
