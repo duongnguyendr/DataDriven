@@ -723,7 +723,7 @@ public class AbstractPage {
     public void hoverElement(WebElement element, String elementName) {
         getLogger().info("Try to hoverElement: " + elementName);
         try {
-            if((GenericService.sBrowserData).equals("chr.")) {
+            if ((GenericService.sBrowserData).equals("chr.")) {
                 Actions actions = new Actions(driver);
                 actions.moveToElement(element);
                 actions.build().perform();
@@ -751,7 +751,7 @@ public class AbstractPage {
             element.clear();
             waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
-            NXGReports.addStep("Send text: " + text + "on element: " + elementName, LogAs.PASSED, null);
+            NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);

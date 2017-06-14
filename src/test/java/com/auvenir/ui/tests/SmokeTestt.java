@@ -32,6 +32,7 @@ public class SmokeTestt extends AbstractTest {
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
     private EmailTemplateService emailTemplateService;
+    private ClientSignUpService clientSignUpService;
 
     private String adminId, auditorId, clientId;
     private String sData[];
@@ -134,19 +135,60 @@ public class SmokeTestt extends AbstractTest {
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
             adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
             adminId = adminId.replace("chr.", "");
-            auditorId = auditorId.replace("chr.", "");
+            clientId = clientId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-            adminService.changeTheStatusUser(auditorId, "Onboarding");
-            adminService.verifyUserStatusOnAdminUserTable(auditorId, "Onboarding");
+            adminService.changeTheStatusUser(clientId, "Onboarding");
+            adminService.verifyUserStatusOnAdminUserTable(clientId, "Onboarding");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify change the status of the client to OnBoarding.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify change the status of the client to OnBoarding.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Client logs in and OnBoarding page is displayed"/*, dependsOnMethods = {"verifyChangeTheStatusClientToOnBoarding"}*/)
+    public void verifyClientLogsInAndActive() {
+        getLogger().info("Verify client logs in and OnBoarding page is displayed.");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        try {
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+            adminId = adminId.replace("chr.", "");
+            clientId = clientId.replace("chr.", "");
+            String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
+            System.out.println("clientEmailPassword = " + clientEmailPassword);
+            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
+            gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail(clientId, clientEmailPassword);
+            gmailLoginService.filterEmail();
+            gmailLoginService.clickOnboardingInvitationLink();
+            
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm("0123456789");
+            clientSignUpService.fillUpBusinessForm("Titancorpvn");
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm("Testpassword1!");
+
+
+//            adminService.loginWithUserRole(adminId);
+//            adminService.verifyPageLoad();
+//            adminService.scrollToFooter(getDriver());
+//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), "Onboarding");
+//
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
