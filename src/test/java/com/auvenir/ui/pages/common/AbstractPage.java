@@ -863,6 +863,16 @@ public class AbstractPage {
         getLogger().info("Try to sendTabkey: " + elementName);
         try {
             element.sendKeys(Keys.TAB);
+            NXGReports.addStep("sendTabkey on element: " + elementName, LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to sendTabkey on: " + elementName);
+            NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void sendEnterkey(WebElement element, String elementName) {
+        getLogger().info("Try to sendTabkey: " + elementName);
+        try {
             element.sendKeys(Keys.ENTER);
             NXGReports.addStep("sendTabkey on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -2835,7 +2845,7 @@ public class AbstractPage {
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
-            System.out.println("Loi is: " + error);
+            System.out.println("Error is: " + error);
             getLogger().info(error);
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
