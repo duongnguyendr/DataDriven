@@ -700,10 +700,13 @@ public class AbstractPage {
     public void clickAndHold(WebElement element, String elementName) {
         getLogger().info("Try to ClickAndHold: " + elementName);
         try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.click(element);
-            actions.perform();
+            if (GenericService.sBrowserData.equals("chr.")) {
+                Actions actions = new Actions(driver);
+                actions.moveToElement(element);
+                actions.click(element);
+                actions.perform();
+            } else
+                element.click();
             NXGReports.addStep("Clicked and Hold on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -720,9 +723,11 @@ public class AbstractPage {
     public void hoverElement(WebElement element, String elementName) {
         getLogger().info("Try to hoverElement: " + elementName);
         try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.build().perform();
+            if((GenericService.sBrowserData).equals("chr.")) {
+                Actions actions = new Actions(driver);
+                actions.moveToElement(element);
+                actions.build().perform();
+            }
             NXGReports.addStep("Hover on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -1766,7 +1771,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 200);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);

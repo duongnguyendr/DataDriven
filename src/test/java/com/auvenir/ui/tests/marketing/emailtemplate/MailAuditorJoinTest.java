@@ -5,6 +5,7 @@ import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
+import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -25,8 +26,14 @@ public class MailAuditorJoinTest extends AbstractTest {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try{
-            auditorSignUpService.verifyRegisterNewAuditorUser("Duong Nguyen", "auvenirinfo@gmail.com", "12345678@Ab");
-            gmailLoginService.verifyOpenGmailIndexRegisterAccount("auvenirinfo@gmail.com", "12345678@Ab");
+            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+            auditorSignUpService.setPrefixProtocol(httpProtocol);
+            auditorSignUpService.deleteUserUsingApi(auditorId);
+            auditorSignUpService.deleteUserUsingMongoDB(auditorId);
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorId, password);
+            gmailLoginService.verifyOpenGmailIndexRegisterAccount(auditorId, password);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify content mail.", LogAs.PASSED, null);
@@ -41,8 +48,14 @@ public class MailAuditorJoinTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         try{
-            auditorSignUpService.verifyRegisterNewAuditorUser("Duong Nguyen", "auvenirinfo@gmail.com", "12345678@Ab");
-            gmailLoginService.verifyOpenGmailIndexRegisterAccount("auvenirinfo@gmail.com", "12345678@Ab");
+            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+            auditorSignUpService.setPrefixProtocol(httpProtocol);
+            auditorSignUpService.deleteUserUsingApi(auditorId);
+            auditorSignUpService.deleteUserUsingMongoDB(auditorId);
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorId, password);
+            gmailLoginService.verifyOpenGmailIndexRegisterAccount(auditorId, password);
             emailTemplateService.verifyWaitListPageContent();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

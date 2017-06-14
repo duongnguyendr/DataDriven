@@ -16,6 +16,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,95 +25,142 @@ import java.util.List;
  */
 public class AuditorSignUpTest extends AbstractTest {
     private AuditorSignUpService auditorSignUpService;
-
-    // personal information
-    String strFullName = GenericService.readExcelData(testData, "OnBoarding", 1, 1);
-    String strEmail = GenericService.readExcelData(testData, "OnBoarding", 1, 2);
-//    String strEmail = "thuan.duong@titancorpvn.com";
-    String strRoleFirm = GenericService.readExcelData(testData, "OnBoarding", 1, 3);
-    String strPhone = GenericService.readExcelData(testData, "OnBoarding", 1, 4);
-    String strReference = GenericService.readExcelData(testData, "OnBoarding", 1, 5);
-    // firm information
-    String strName = GenericService.readExcelData(testData, "OnBoarding", 1, 6);
-    String strPreName = GenericService.readExcelData(testData, "OnBoarding", 1, 7);
-    String strWebsite = GenericService.readExcelData(testData, "OnBoarding", 1, 8);
-    String strStreetAddr = GenericService.readExcelData(testData, "OnBoarding", 1, 9);
-    String strOffNum = GenericService.readExcelData(testData, "OnBoarding", 1, 10);
-    String strZipCode = GenericService.readExcelData(testData, "OnBoarding", 1, 11);
-    String strCity = GenericService.readExcelData(testData, "OnBoarding", 1, 12);
-    String strState = GenericService.readExcelData(testData, "OnBoarding", 1, 13);
-    String strMemberID = GenericService.readExcelData(testData, "OnBoarding", 1, 14);
-    String strNumEmp = GenericService.readExcelData(testData, "OnBoarding", 1, 15);
-    String strPhoneFirm = GenericService.readExcelData(testData, "OnBoarding", 1, 16);
-    String strAffName = GenericService.readExcelData(testData, "OnBoarding", 1, 17);
-    String strPathLogo = GenericService.readExcelData(testData, "OnBoarding", 1, 18);
-    // security information
-    String strPassword = GenericService.readExcelData(testData, "OnBoarding", 1, 19);
-
     private MarketingService marketingService;
     private AdminService adminService;
     private GmailLoginService gmailLoginService;
-
-    final String fullNameCreate = "Test Login Auditor";
-//        final String fullNameCreate = "Minh Nguyen";
-    final String strEmailCreate = GenericService.readExcelData(testData, "Login", 1, 1);
-//        final String strEmailCreate = "ff.minhtest@gmail.com";
-    final String passwordCreate = GenericService.readExcelData(testData, "Login", 1, 2);
-
-    String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
-    String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
-
-    private String emailId = null;
-    private String emailPassword = null;
     private EmailTemplateService emailTemplateService;
     private AuditorEngagementService auditorEngagementService;
 
+    // personal information
+    final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
+    //    String strEmail = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 2);
+    //    String strEmail = "thuan.duong@titancorpvn.com";
+    final String strRoleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
+    final String strPhone = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
+    final String strReference = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Reference to Auvenir", "Valid Value");
+    // firm information
+    final String strName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Name", "Valid Value");
+    final String strPreName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Previous Name", "Valid Value");
+    final String strWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Website", "Valid Value");
+    final String strStreetAddr = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Street Address", "Valid Value");
+    final String strOffNum = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
+    final String strZipCode = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
+    final String strCity = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
+    final String strState = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
+    final String strMemberID = GenericService.getTestDataFromExcelNoBrowserPrefix( "AuditorSignUpTest", "Member I.D", "Valid Value");
+    final String strNumEmp = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
+    final String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
+    final String strAffName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
+    final String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
+    // security information
+//    final String strPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Password", "Valid Value");
 
-    @Test(priority = 1, enabled = true, description = "Verify Firm sign up page and Input Invalid Test.")
+
+
+//    final String fullNameCreate = "Test Login Auditor";
+//        final String fullNameCreate = "Minh Nguyen";
+//    final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
+     //        final String emailCreate = "ff.minhtest@gmail.com";
+    final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
+
+
+    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User3", "Admin");
+    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
+
+    @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User")
+    public void verifyRegisterAndActiveAuditorUser() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+//        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        final String emailCreate = "test.loginauvenir@gmail.com";
+        try {
+            // This test cases is verified creating new user.
+            // It must be deleted old user in database before create new one.
+            System.out.println("emailCreate: " + emailCreate);
+            auditorSignUpService.deleteUserUsingApi(emailCreate);
+            auditorSignUpService.deleteUserUsingMongoDB(emailCreate);
+
+            auditorSignUpService.setPrefixProtocol("http://");
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.navigateToSignUpPage();
+            auditorSignUpService.verifyPersonalSignUpPage();
+            auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
+            auditorSignUpService.verifyFirmSignUpPage();
+            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService.verifySecuritySignUpPage();
+            auditorSignUpService.createPassword(passwordCreate, "");
+            auditorSignUpService.verifySuccessSignUpPage();
+            auditorSignUpService.acceptCreateAccountAuditor();
+            gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
+            marketingService.setPrefixProtocol(httpProtocol);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+            adminService.changeTheStatusAuditorToOnBoarding(emailCreate, "Onboarding");
+            gmailLoginService.gmailReLogin(passwordCreate);
+            gmailLoginService.selectActiveEmaill();
+            emailTemplateService.verifyActiveEmailTemplateContent();
+            emailTemplateService.navigateToConfirmationLink();
+            adminService.clickClosePopupWarningBrowser();
+            auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 2, enabled = true, description = "Verify Firm sign up page and Input Invalid Test.")
     public void verifyAuditorFirmInputInvalidValue() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         //Create List Invalid Data for Firm Name Text Box.
         List<String> firmNameInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 5; i++) {
-            firmNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 6));
+            firmNameInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 6));
         }
         //Create List Invalid Data for Previous Firm Name Text Box.
         List<String> preFirmNameInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 5; i++) {
-            preFirmNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 7));
+            preFirmNameInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 7));
         }
         //Create List Invalid Data for Firm Website Text Box.
         List<String> firmWebsiteInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 6; i++) {
-            firmWebsiteInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 8));
+            firmWebsiteInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 8));
         }
         //Create List Invalid Data for Zip Code Text Box.
         List<String> zipCodeInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
-            zipCodeInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 11));
+            zipCodeInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 11));
         }
         //Create List Invalid Data for Member Id Text Box.
         List<String> memberIdInvalidDataList = new ArrayList<>();
-        memberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 2, 14));
+        memberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 14));
         for (int i = 4; i < 6; i++) {
-            memberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 14));
+            memberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 14));
         }
         //Create List Invalid Data for Member Id Text Box.
         List<String> phoneNumberIdInvalidDataList = new ArrayList<>();
-        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 2, 16));
-        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", 3, 16));
+        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 16));
+        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", 3, 16));
         for (int i = 5; i < 7; i++) {
-            phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 16));
+            phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 16));
         }
         //Create List Invalid Data for AffFirm Text Box.
         List<String> affFirmInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 5; i++) {
-            affFirmInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 17));
+            affFirmInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 17));
         }
 
         try {
-            auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -144,55 +192,28 @@ public class AuditorSignUpTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify Register Auditor User")
-    public void verifyRegisterAuditorUser() throws Exception {
-        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        try {
-            auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
-            auditorSignUpService.setPrefixProtocol("http://");
-            auditorSignUpService.goToBaseURL();
-            auditorSignUpService.navigateToSignUpPage();
-            auditorSignUpService.verifyPersonalSignUpPage();
-            auditorSignUpService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
-            auditorSignUpService.verifyFirmSignUpPage();
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
-            auditorSignUpService.verifySecuritySignUpPage();
-            auditorSignUpService.createPassword(strPassword, strPassword);
-            auditorSignUpService.verifySuccessSignUpPage();
-            auditorSignUpService.acceptCreateAccountAuditor();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            getLogger().info(e);
-            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
     @Test(priority = 3, enabled = true, description = "Verify Personal sign up page and Input Invalid Test.")
     public void verifyAuditorPersonalInputInvalidValue() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         //Create List Invalid Data for First Last Name Text Box.
         List<String> firstLastNameInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 8; i++) {
-            firstLastNameInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 1));
+            firstLastNameInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 1));
         }
         List<String> emailInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 6; i++) {
-            emailInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 2));
+            emailInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 2));
         }
         final String confirmemailInvalidData = "test";
         List<String> phoneInvalidDataList = new ArrayList<>();
         for (int i = 2; i < 4; i++) {
-            phoneInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 4));
+            phoneInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 4));
         }
         for (int i = 5; i < 7; i++) {
-            phoneInvalidDataList.add(GenericService.readExcelData(testData, "OnBoarding", i, 4));
+            phoneInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 4));
         }
         try {
-            auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -217,17 +238,16 @@ public class AuditorSignUpTest extends AbstractTest {
     @Test(priority = 4, enabled = true, description = "Verify GUI when input password random blank")
     public void verifyAuditorSecurityInputInvalidPassword() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        final String blankPassword = "";
-        final String invalidLengthPassword = "aA12345";
-        final String noUpperCasePassword = "abc1234d";
-        final String noLowerCasePassword = "1234ABCD";
-        final String noDigitsPassword =  "abcdABCD";
-        final String noCharPassword = "12345678";
-        final String successPassword = "12345678X";
-        final String confirmPassword = "1";
+        final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
+        final String blankPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "blankPassword", "Invalid Value");
+        final String invalidLengthPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "invalidLengthPassword", "Invalid Value");
+        final String noUpperCasePassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noUpperCasePassword", "Invalid Value");
+        final String noLowerCasePassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noLowerCasePassword", "Invalid Value");
+        final String noDigitsPassword =  GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noDigitsPassword", "Invalid Value");
+        final String noCharPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noCharPassword", "Invalid Value");
+        final String successPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "successPassword", "Invalid Value");
+        final String confirmPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "confirmPassword", "Invalid Value");
         try {
-            auditorSignUpService.deleteUserUsingApi(strEmail);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), strEmail);
             auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -251,48 +271,4 @@ public class AuditorSignUpTest extends AbstractTest {
             throw e;
         }
     }
-
-    @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
-    public void createAndActiveAuditorUser() throws Exception {
-        try {
-            auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-            marketingService = new MarketingService(getLogger(),getDriver());
-            adminService = new AdminService(getLogger(), getDriver());
-            gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-            emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-            auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-//            auditorEngagementService.createAndActiveNewUserByEmail(fullNameCreate, strEmailCreate, passwordCreate, strAdminEmail, strAdminPwd);
-
-            // This test cases is verified creating new user.
-            // It must be deleted old user in database before create new one.
-            auditorSignUpService.setPrefixProtocol(httpProtocol);
-            auditorSignUpService.deleteUserUsingApi(strEmailCreate);
-            auditorSignUpService.deleteUserUsingMongoDB(strEmailCreate);
-
-            auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
-            gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
-            marketingService.setPrefixProtocol(httpProtocol);
-            marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
-            adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
-            getLogger().info("Auditor open Email and verify it.. ");
-            getLogger().info("Auditor login his email to verify Welcome email template");
-            gmailLoginService.gmailReLogin(passwordCreate);
-            gmailLoginService.selectActiveEmaill();
-            emailTemplateService.verifyActiveEmailTemplateContent();
-            emailTemplateService.clickGetStartedButton();
-            emailTemplateService.switchToWindow();
-            auditorSignUpService.confirmInfomationNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreate);
-            auditorEngagementService.verifyAuditorEngagementPage();
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Test Create And Active Auditor User: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        } catch (AssertionError e) {
-            NXGReports.addStep("Test Create And Active Auditor User: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
 }

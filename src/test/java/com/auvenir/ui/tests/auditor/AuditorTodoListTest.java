@@ -38,7 +38,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -78,7 +78,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -130,7 +130,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
 
@@ -160,7 +160,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -187,7 +187,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -214,7 +214,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
 
@@ -243,7 +243,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
 
@@ -272,7 +272,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -300,7 +300,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -335,7 +335,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
         //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
 
@@ -366,7 +366,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         String toDoListNames[] = {"416 To Do Task02", "a To Do Task02", "z To Do Task02", "b To Do Task02", "c To Do Task02"};
@@ -398,7 +398,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -437,7 +437,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -458,7 +458,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -483,7 +483,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -508,7 +508,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -540,7 +540,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -566,7 +566,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -591,7 +591,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -617,7 +617,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -651,7 +651,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -687,7 +687,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -727,7 +727,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -788,7 +788,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -835,7 +835,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -883,7 +883,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -978,7 +978,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1021,7 +1021,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //            System.out.println("auditorId = " + auditorId);
         try {
@@ -1067,7 +1067,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //            System.out.println("auditorId = " + auditorId);
         try {
@@ -1117,7 +1117,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //            System.out.println("auditorId = " + auditorId);
         try {
@@ -1166,7 +1166,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //            System.out.println("auditorId = " + auditorId);
         try {
@@ -1216,7 +1216,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
 //            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //            System.out.println("auditorId = " + auditorId);
         try {
@@ -1263,7 +1263,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1290,7 +1290,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1317,7 +1317,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1354,7 +1354,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1395,7 +1395,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1434,7 +1434,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1479,7 +1479,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         //Login User
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
 
@@ -1511,7 +1511,7 @@ Vien.Pham refactor PLAT2291
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1551,7 +1551,7 @@ Vien.Pham refactor PLAT2291
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
 
@@ -1588,7 +1588,7 @@ End of merged VienPham.
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1627,7 +1627,7 @@ End of merged VienPham.
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1666,7 +1666,7 @@ End of merged VienPham.
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1705,7 +1705,7 @@ End of merged VienPham.
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1754,7 +1754,7 @@ End of merged VienPham.
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         Random random = new Random();
@@ -1797,7 +1797,7 @@ End of merged VienPham.
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         Random random = new Random();
@@ -1844,7 +1844,7 @@ End of merged VienPham.
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {

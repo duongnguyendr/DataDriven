@@ -22,9 +22,7 @@ public class AccountSettingsTest extends AbstractTest {
     public void verifyFooterAuditorAccountSettingsPage() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String getTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
 
         try {
             //logCurrentStepStart();

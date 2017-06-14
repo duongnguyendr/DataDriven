@@ -111,11 +111,6 @@ public class GmailPage extends AbstractPage {
     public List<WebElement> getLsEleSignInMailLnk() {
         return lsEleSignInMailLnk;
     }
-        /*@FindBy(xpath = "(//span[contains(text(),'Sign in to Auvenir!')])[position()=1]")
-        private WebElement eleSignInMailLnk;
-		public WebElement getEleSignInMailLnk() {
-			return eleSignInMailLnk;
-		}*/
 
     @FindBys({@FindBy(xpath = "//span[contains(text(),'Account is Active')]")})
     private List<WebElement> lsEleYourAccActiveLnk;
@@ -175,12 +170,12 @@ public class GmailPage extends AbstractPage {
 
     public void gmailLogout() throws Exception {
         try {
-            //getEleProfileIcn().click();
-            waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+
+            waitForVisibleElement(eleProfileIcn,"eleProfileIcn");
             clickElement(eleProfileIcn, "click to eleProfileIcn");
-            //getEleSignOutBtn().click();
-            waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
+            waitForVisibleElement(eleSignOutBtn,"eleSignOutBtn");
             clickElement(eleSignOutBtn, "click to eleSignOutBtn");
+            Thread.sleep(3000);
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -493,29 +488,15 @@ public class GmailPage extends AbstractPage {
     public void signInGmail(String email, String password) {
         try {
             Thread.sleep(1000);
-            /*sendKeyTextBox(inputEmail, email, "Input Email");
-            clickElement(buttonNextToPassword, "Button Next To Password");
-
-            validateElementText(titleForgotPassword, "Forgot password?");
-            sendKeyTextBox(inputPassword, password, "Input Password");
-            clickElement(buttonPasswordNext, "Button Password Next");*/
             getLogger().info("Try to login GMail");
             sendKeyTextBox(eleEmail, email, "eleEmail");
             sendTabkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
-            //Clicking on "Next" button
-            Thread.sleep(1000);
-            //clickAndHold(eleNext, "eleNext");
-            //Sending password
-            //Thread.sleep(500);
-            //sendKeyTextBox(elePassword,password,"eleEmail");
-            //Thread.sleep(1000);
-            elePassword.sendKeys(password);
+            Thread.sleep(2000);
+            sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
-            //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
-            //eleNext.click();
+            clickElement(eleNext,"click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -527,10 +508,8 @@ public class GmailPage extends AbstractPage {
             Thread.sleep(1000);
             elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
-            //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
-            //eleNext.click();
+            clickElement(eleNext,"click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -564,8 +543,10 @@ public class GmailPage extends AbstractPage {
             link = link.replace(":3083", "");
             GeneralUtilities.loadURL(getDriver(), link);*/
 
-//            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
-//            wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
+            /*
+            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+            wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
+            */
             getLogger().info("Client invited link loaded.(Status change: Pending->Onboarding)");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -647,15 +628,15 @@ public class GmailPage extends AbstractPage {
                 getEleSignInBtn().click();
                 getEleInviteMailLnk().click();
             }
-
-//          Thread.sleep(2000);
-//            gmailLoginPo.getEleStartBtn().click();
-//            gmailWindow = getDriver().getWindowHandle();
-//            for (String winHandle : getDriver().getWindowHandles()) {
-//                getDriver().switchTo().window(winHandle);
+              /*
+              Thread.sleep(2000);
+              gmailLoginPo.getEleStartBtn().click();
+              gmailWindow = getDriver().getWindowHandle();
+              for (String winHandle : getDriver().getWindowHandles()) {
+              getDriver().switchTo().window(winHandle);
+              */
         } catch (AssertionError e) {
             NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

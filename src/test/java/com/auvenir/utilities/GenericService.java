@@ -702,7 +702,7 @@ public class GenericService {
      * @param userRole
      * @return
      */
-    public static String getUserFromExcelData(String SheetName,String sTestCaseID, String userRole){
+    public static String getTestDataFromExcel(String SheetName,String sTestCaseID, String userRole){
         String userData = null;
         try{
             String userDataExcel=null;
@@ -729,6 +729,38 @@ public class GenericService {
                 }
             }
             userData = GenericService.sBrowserData+ userDataExcel;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return userData;
+    }
+    public static String getTestDataFromExcelNoBrowserPrefix(String SheetName,String sTestCaseID, String userRole){
+        String userData = null;
+        try{
+            String userDataExcel=null;
+            FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            Workbook wb = WorkbookFactory.create(fis);
+            Sheet sht = wb.getSheet(SheetName);
+            System.out.println(SheetName);
+            int iRowNum = sht.getLastRowNum();
+            int k = 0;
+            for (int i = 1; i <= iRowNum; i++) {
+                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                    int iCellNum = sht.getRow(i).getLastCellNum();
+                    /*System.out.println("Row: " + i);
+                    System.out.println("The number of Columns:" + iCellNum);*/
+                    System.out.println(userRole);
+                    for (int j = 1; j <= iCellNum; j++) {
+                        if(sht.getRow(0).getCell(j).toString().equals(userRole)){
+                            userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
+                            System.out.println("Data login: "+userDataExcel);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            userData = userDataExcel;
         }catch (Exception e){
             e.printStackTrace();
         }
