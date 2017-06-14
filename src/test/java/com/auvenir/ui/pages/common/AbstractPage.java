@@ -871,14 +871,14 @@ public class AbstractPage {
         }
     }
     public void sendEnterkey(WebElement element, String elementName) {
-        getLogger().info("Try to sendTabkey: " + elementName);
+        getLogger().info("Try to sendEnterkey: " + elementName);
         try {
             element.sendKeys(Keys.ENTER);
-            NXGReports.addStep("sendTabkey on element: " + elementName, LogAs.PASSED, null);
+            NXGReports.addStep("sendEnterkey on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Unable to sendTabkey on: " + elementName);
-            NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Unable to sendEnterkey on: " + elementName);
+            NXGReports.addStep("Unable to sendEnterkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
