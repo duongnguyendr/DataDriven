@@ -329,7 +329,6 @@ public class SmokeTest extends AbstractTest {
             int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
             auditorCreateToDoService.clickPostComment();
             auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
-            auditorCreateToDoService.verifyBoxTitleComment();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
         } catch (Exception e) {
