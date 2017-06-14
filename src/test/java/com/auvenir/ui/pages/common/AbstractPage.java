@@ -1962,29 +1962,38 @@ public class AbstractPage {
      * @param textValue   String text which is compared with each WebElements.
      * @return i if the WebElement is matched, otherwise return -1.
      */
-    public int findElementByText(List<WebElement> listElement, String textValue) {
+    public int findElementByText(List<WebElement> listElement, String textValue) throws Exception{
         try {
-            String actualTextValue;
-            for (int i = 0; i < listElement.size(); i++) {
-                actualTextValue = listElement.get(i).getText().trim();
-                if (actualTextValue.equals(textValue)) {
-                    getLogger().info("Element is found at " + i);
-                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
-                    return i;
+            String actualTextValue = "";
+//            getLogger().info("step 01 listElement.size() = " + listElement.size());
+//            getLogger().info("empty: " + listElement.isEmpty());
+            if (!listElement.isEmpty()) {
+                getLogger().info("aaa");
+                for (int i = 0; i < listElement.size(); i++) {
+                    getLogger().info("step 02");
+                    actualTextValue = listElement.get(i).getText().trim();
+                    if (actualTextValue.equals(textValue)) {
+                        getLogger().info("Element is found at " + i);
+                        NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                        return i;
+                    }
                 }
-            }
+            } else return -1;
+            getLogger().info("step 03");
             AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
             NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return -1;
-
+            return -2;
         } catch (Exception e) {
+            getLogger().info("step 04");
             AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
             NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
+
+
 
     /**
      * Find the index(position) of Web Element in the list Web Element by attribute value
@@ -3039,4 +3048,6 @@ public class AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 12/06/2017.*/
+
+
 }

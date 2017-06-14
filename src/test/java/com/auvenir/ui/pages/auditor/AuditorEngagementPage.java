@@ -236,9 +236,20 @@ public class AuditorEngagementPage extends AbstractPage {
      * @param engagementName String Engagement Name
      * @return the number of the position if the WebElement is matched, otherwise return -1.
      */
-    public int findEngagementName(String engagementName) {
+    public int findEngagementName(String engagementName) throws Exception {
         getLogger().info("Find Position of Engagement Name");
-        return findElementByText(engagementListEle, engagementName);
+        int testReturn = 0;
+        try {
+            getLogger().info("Find Position of Engagement Name1");
+            testReturn = findElementByText(engagementListEle, engagementName);
+            getLogger().info("Find Position of Engagement Name2");
+            return testReturn;
+        }
+        catch(Exception ex)
+        {
+            getLogger().info("Find Position of Engagement Name3");
+            return testReturn;
+        }
     }
 
     /**

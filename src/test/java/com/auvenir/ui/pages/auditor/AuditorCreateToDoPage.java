@@ -20,6 +20,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
@@ -59,6 +61,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private static final String markCompletePopupCancelBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]";
     private static final String markCompletePopupArchiveBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]";
     private static final String popUpWindowsToClose = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]";
+    private static final String GreenColor = "rgb(92, 155, 160)";
     @FindBy(id = "auv-todo-createToDo")
     private WebElement createToDoBtnEle;
 
@@ -960,23 +963,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean isCheckData = false;
             getLogger().info("Size row: " + trTodoTable.size());
-                for (int i=0;i<trTodoTable.size();i++) {
-                    String strSearchValueTodoName = "";
-                    String strSearchValueCategoryName = "";
-                    String strSearchValueClientAssignee = "";
-                    String strSearchValueAuditAssignee = "";
-                    try {
-                        strSearchValueTodoName = TodosTextboxEle.get(i).getAttribute("value");
-                        strSearchValueCategoryName= DropdownCategoryEle.get(i).getText();
-                        strSearchValueClientAssignee=DropdownClientAssignee.get(i).getText();
-                        strSearchValueAuditAssignee=DropdownAuditAssignee.get(i).getText();
-                    } catch (Exception ex) {
-                    }
-                    if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
-                        isCheckData = true;
-                        break;
-                    }
+            for (int i = 0; i < trTodoTable.size(); i++) {
+                String strSearchValueTodoName = "";
+                String strSearchValueCategoryName = "";
+                String strSearchValueClientAssignee = "";
+                String strSearchValueAuditAssignee = "";
+                try {
+                    strSearchValueTodoName = TodosTextboxEle.get(i).getAttribute("value");
+                    strSearchValueCategoryName = DropdownCategoryEle.get(i).getText();
+                    strSearchValueClientAssignee = DropdownClientAssignee.get(i).getText();
+                    strSearchValueAuditAssignee = DropdownAuditAssignee.get(i).getText();
+                } catch (Exception ex) {
                 }
+                if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
+                    isCheckData = true;
+                    break;
+                }
+            }
 
             if (isCheckData) {
                 NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
@@ -3526,7 +3529,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyFirstTodoTextbox_PlaceHolderValue() {
         getLogger().info("Verifying Hint text on first todo...");
-        String firstHintValue = "Write your first To-Do here";
+        String firstHintValue = "Write your first To-do here";
+        waitForCssValueChanged(TodosTextboxEle.get(0), "Todo textbox", "border-color", GreenColor);
         try {
             if (TodosTextboxEle.get(0).getAttribute("placeholder").equals(firstHintValue)) {
                 NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
@@ -3563,10 +3567,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyTodoTextboxBorder_Default() {
         WebElement textbox1 = TodosTextboxEle.get(0);
-        getLogger().info("Verifying border of todo Textbox default is white...");
-        String deFaultBorder = "1px solid rgb(255, 255, 255)";
+        getLogger().info("Verifying border of todo Textbox default is Green...");
+//        String deFaultBorder = "rgb(92, 155, 160)";
         try {
-            validateCssValueElement(textbox1, "border", deFaultBorder);
+            validateCssValueElement(textbox1, "border-color", GreenColor);
             NXGReports.addStep("Default border is White as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -3718,12 +3722,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void selectCategory() {
         try {
             waitForClickableOfElement(DropdownCategoryEle.get(0));
-            clickElement(DropdownCategoryEle.get(0),"Dropdown Cate");
+            clickElement(DropdownCategoryEle.get(0), "Dropdown Cate");
             clickElement(listOfCategoryItemsDropdown.get(0), "");
             Thread.sleep(smallerTimeOut);
             NXGReports.addStep("Ending select category.", LogAs.PASSED, null);
         } catch (Exception e) {
-            System.out.println("Error is: "+ e);
+            System.out.println("Error is: " + e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Ending select category.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
@@ -3953,6 +3957,49 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     }
 
+
+    @FindBy(xpath = "//div[@id='todo-bulk-dropdown']//button[3]")
+    private WebElement deleteTodoSelectionEle;
+
+    @FindBy(xpath = "//div[contains(@id,'Delete Todo')]")
+    private WebElement deteleConfirmForm;
+
+    @FindBy(xpath = "//div[contains(@id,'Delete Todo')]//button[contains(@class,'warning')]")
+    private WebElement deleteTodoBtn;
+
+    public void deleteAllExistedTodoItems() {
+        waitForVisibleElement(createToDoBtnEle, "createTodoBtn");
+        getLogger().info("Try to delete all existed todo items.");
+        try {
+//            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+//            wait.until(ExpectedConditions.elementToBeClickable(todoAllCheckbox));
+            waitForClickableOfElement(todoAllCheckbox);
+//            Thread.sleep(smallTimeOut);
+            getLogger().info("Select all Delete mail: ");
+            if (!eleToDoCheckboxRow.isEmpty()) {
+                todoAllCheckbox.click();
+                waitForClickableOfElement(btnBulkActions);
+                btnBulkActions.click();
+                deleteTodoSelectionEle.click();
+                waitForCssValueChanged(deteleConfirmForm, "Delete confirm form", "display", "block");
+                waitForClickableOfElement(deleteTodoBtn);
+                Thread.sleep(smallTimeOut);
+                deleteTodoBtn.click();
+                waitForCssValueChanged(deteleConfirmForm, "Delete confirm form", "display", "none");
+                getLogger().info("Delete all Todo items successfully");
+                NXGReports.addStep("Delete all Todo items", LogAs.PASSED, null);
+            } else {
+                getLogger().info("No items to delele");
+                NXGReports.addStep("Delete all Todo items", LogAs.PASSED, null);
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            e.printStackTrace();
+            NXGReports.addStep("Delete all Todo items", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+    }
 
 }
 
