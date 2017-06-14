@@ -28,6 +28,7 @@ public class SmokeTestt extends AbstractTest {
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
     private AuditorTodoListService auditorTodoListService;
     private ClientService clientService;
+    AuditorCreateToDoService auditorCreateToDoService;
     private GmailLoginService gmailLoginService;
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
@@ -146,6 +147,25 @@ public class SmokeTestt extends AbstractTest {
             NXGReports.addStep("Verify change the status of the client to OnBoarding.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 14, enabled = true, description = "Verify create to-do pages")
+    public void verifyToDoEngagement() throws  Exception{
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+
+        try{
+            String userId = GenericService.getUserFromExcelData("SmokeTest", "Valid User4", "Auditor");
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorCreateToDoService.createToDoPage();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify create, assign, request, delete to-do.", LogAs.PASSED, null);
+        }catch (Exception e){
+            NXGReports.addStep("Verify create, assign, request, delete to-do.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 }
