@@ -50,17 +50,18 @@ public class AuditorSignUpTest extends AbstractTest {
     final String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
     final String strAffName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
     final String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
-    // security information
-//    final String strPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Password", "Valid Value");
+    /*
+    security information
+    final String strPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Password", "Valid Value");
+    */
 
-
-    //    final String fullNameCreate = "Test Login Auditor";
-//        final String fullNameCreate = "Minh Nguyen";
-//    final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
-    //        final String emailCreate = "ff.minhtest@gmail.com";
+    /*
+    final String fullNameCreate = "Test Login Auditor";
+    final String fullNameCreate = "Minh Nguyen";
+    final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
+    final String emailCreate = "ff.minhtest@gmail.com";
+    */
     final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-
-
     final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User3", "Admin");
     final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 
@@ -72,8 +73,7 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-//        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-        final String emailCreate = "test.loginauvenir@gmail.com";
+        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
@@ -81,7 +81,7 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.deleteUserUsingMongoDB(emailCreate);
 
-            auditorSignUpService.setPrefixProtocol("http://");
+//            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -92,17 +92,22 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.createPassword(passwordCreate, "");
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
+
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
-            marketingService.setPrefixProtocol(httpProtocol);
+//            marketingService.setPrefixProtocol(httpProtocol);
+
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
+
             gmailLoginService.gmailReLogin(passwordCreate);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.verifyActiveEmailTemplateContent();
+
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
+
             auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

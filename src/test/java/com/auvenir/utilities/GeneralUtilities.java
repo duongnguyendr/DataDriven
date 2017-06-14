@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 /**
  * Created by huy.huynh on 12/05/2017.
@@ -27,6 +28,12 @@ public class GeneralUtilities {
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss_ddMMyy");
         Date date = new Date();
         return sdf.format(date);
+    }
+
+    public static int randomNumber() {
+        Random randNum = new Random();
+        int intRanNum = randNum.nextInt(10000) + 1;
+        return intRanNum;
     }
 
     public static boolean verifyElementExist(WebDriver webDriver, WebElement webElement) {

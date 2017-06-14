@@ -36,8 +36,6 @@ public class LoginMarketingTest extends AbstractTest {
     //    final String strEmail = "auvenirinfo@gmail.com";
     final String password = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
 
-//    String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
-//    String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
 
     private String emailId = null;
     private String emailPassword = null;
