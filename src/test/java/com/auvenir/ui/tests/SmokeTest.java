@@ -304,6 +304,7 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
+    //Added by Thuan.Duong on 14/06/2017
     @Test(priority = 9, enabled = true, description = "Verify Auditor post new comment")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -312,8 +313,8 @@ public class SmokeTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
         String engagementName = "Engagement 01";
-        String toDoName = "Task2299";
-        String commentContent = "comment Task22991";
+        String toDoName = "TestComment01";
+        String commentContent = "comment TestComment01";
 
         try {
             auditorEngagementService.loginWithUserRole(auditorId);
@@ -333,6 +334,41 @@ public class SmokeTest extends AbstractTest {
             NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    //Added by Thuan.Duong on 14/06/2017
+    @Test(priority = 10, enabled = true, description = "Verify mark as complete")
+    public void verifyMarkAsComplete() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+        String toDoName = "TestMarkComplete01";
+        String engagementName = "Engagement 07";
+        try {
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+//            auditorCreateToDoService.createToDoPage();
+//            auditorCreateToDoService.clickCheckboxNewToDoTask();
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.createToDoPage();
+            auditorCreateToDoService.clickCheckboxNewToDoTask();
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyClickCloseMarkPopup();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify new Category popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }

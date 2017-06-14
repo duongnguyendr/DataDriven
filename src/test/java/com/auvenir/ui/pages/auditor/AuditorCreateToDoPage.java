@@ -648,6 +648,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void createToDoTask(String toDoName) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName'");
+        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
         String rowString = emptyRowToDotask.getAttribute("class");
         int size = 1;
         int index = -1;
@@ -656,8 +659,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             index = findToDoTaskName(toDoName);
         }
         if(index == -1) {
-            waitForClickableOfElement(createToDoBtnEle, "Create To Do Button");
-            createToDoBtnEle.click();
+            Thread.sleep(1000);
+            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+            clickElement(createToDoBtnEle, "Create To Do button");
             waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
             sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
             sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
