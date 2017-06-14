@@ -6,17 +6,15 @@ import com.auvenir.ui.services.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
-import com.auvenir.ui.services.marketing.signup.*;
+import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,18 +50,18 @@ public class AuditorSignUpTest extends AbstractTest {
     final String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
     final String strAffName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
     final String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
-    // security information
-//    final String strPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Password", "Valid Value");
+    /*
+    security information
+    final String strPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Password", "Valid Value");
+    */
 
-
-
-//    final String fullNameCreate = "Test Login Auditor";
-//        final String fullNameCreate = "Minh Nguyen";
-//    final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
-     //        final String emailCreate = "ff.minhtest@gmail.com";
+    /*
+    final String fullNameCreate = "Test Login Auditor";
+    final String fullNameCreate = "Minh Nguyen";
+    final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
+    final String emailCreate = "ff.minhtest@gmail.com";
+    */
     final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-
-
     final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User3", "Admin");
     final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 

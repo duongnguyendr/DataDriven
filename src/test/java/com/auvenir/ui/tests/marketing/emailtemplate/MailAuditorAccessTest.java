@@ -27,24 +27,6 @@ public class MailAuditorAccessTest extends AbstractTest {
     private AuditorSignUpService auditorSignUpService;
     private EmailTemplateService emailTemplateService;
 
-    /*@Test(priority = 1, description = "")
-    Vien.Pham refactor
-   */
-//    @BeforeSuite
-//    public void preCondition() {
-//        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-//        gmailLoginService.deleteAllExistedEmail("auvenirtestor@gmail.com", "Change@123");
-//    }
-//    @AfterMethod
-//    public void deleteCookies() {
-//        getDriver().manage().deleteAllCookies();
-//    }
-//    /*
-//     * @Description: Inviting a client
-//	 * @Author:Lakshmi BS
-//	 */
-
-
     @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set status to On-boarding")
     public void verifyAdminGiveAditorAccess() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
