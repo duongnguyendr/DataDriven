@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 60;
+    public static final int waitTime = 20;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -88,19 +88,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'Terms of Service')]")
+    @FindBy(xpath = "//a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(id = "privacy")
+    @FindBy(xpath = "//a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(id = "cookies")
+    @FindBy(xpath = "//a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -234,19 +234,19 @@ public class AbstractPage {
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleCookieNoticeLnk, "eleAuvenirIncTxt");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
+        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
+        validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
+        validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
+        validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
     }
 
     public void verifyTermsOfServiceLink() throws AWTException {
         getLogger().info("Verify Terms of service link.");
-        eleTermsOfServiceLnk.click();
+        clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
+        //eleTermsOfServiceLnk.click();
         waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
         getLogger().info("verify texts are rendered.");
-
         WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
         validateElementText(terms, "Terms of Service");
         WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));

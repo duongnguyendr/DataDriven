@@ -86,6 +86,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
+
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyDataSearch();
             auditorCreateToDoService.verifyCheckMaxLength();

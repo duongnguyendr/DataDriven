@@ -169,6 +169,12 @@ public class AuditorEngagementService extends AbstractService {
         // R2: Change bussiness rule, need to mark a commment this line.
 //        auditorEngagementPage.clickEngagementByPosition(auditorEngagementPage.findEngagementName(engagementName));
     }
+    public void createNewEnagement(String engagementName, String engagementType, String company) throws Exception {
+        getLogger().info("Create New Enagement.");
+        auditorEngagementPage.clickNewEnagementButton();
+        auditorNewEngagementPage.verifyNewEngagementPage();
+        auditorNewEngagementPage.createNewEngagement(engagementName, engagementType, company);
+    }
 
     public void verifyAuditorPageHeaderContent(){
         try {
@@ -184,6 +190,10 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.verifyUIListEngagementHeader();
         auditorEngagementPage.verifyUIListEngagementBody();
         auditorEngagementPage.verifyUIListEngagementFooter();
+    }
+
+    public void verifySearchEngagementName(String engagmentName, String companyName) throws InterruptedException {
+        auditorEngagementPage.searchEngagement(engagmentName, companyName);
     }
 }
 
