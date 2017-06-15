@@ -304,8 +304,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    //Added by Thuan.Duong on 14/06/2017
-    @Test(priority = 9, enabled = true, description = "Verify Auditor post new comment")
+    /**
+     * Added by Thuan.Duong on 14/06/2017
+     */
+    @Test(priority = 22, enabled = true, description = "Verify Auditor post new comment")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -339,8 +341,7 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    //Added by Thuan.Duong on 14/06/2017
-    @Test(priority = 10, enabled = true, description = "Verify mark as complete")
+    @Test(priority = 23, enabled = true, description = "Verify mark as complete")
     public void verifyMarkAsComplete() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -353,16 +354,19 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-//            auditorCreateToDoService.createToDoPage();
-//            auditorCreateToDoService.clickCheckboxNewToDoTask();
+
             auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.clickCheckboxNewToDoTask();
-            auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyClickCloseMarkPopup();
+
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.clickArchiveTaskButton();
+            auditorCreateToDoService.verifyMarkCompleteArchive(index);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
@@ -373,4 +377,5 @@ public class SmokeTest extends AbstractTest {
             throw e;
         }
     }
+    /*-----------end of Thuan.Duong on 14/06/2017.*/
 }

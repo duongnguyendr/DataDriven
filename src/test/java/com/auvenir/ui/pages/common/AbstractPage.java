@@ -1839,15 +1839,10 @@ public class AbstractPage {
                     return i;
                 }
             }
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
-
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
@@ -2862,7 +2857,6 @@ public class AbstractPage {
      */
     public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
         getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
-
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(new ExpectedCondition<Boolean>() {
@@ -2870,9 +2864,12 @@ public class AbstractPage {
                     String actualAttributeValue = null;
                     if(element.getAttribute(attributeName) != null) {
                         actualAttributeValue = element.getAttribute(attributeName);
+                        System.out.println("Actual Displayed Value: " + actualAttributeValue);
+                    } else
+                    {
+                        getLogger().info(String.format("Attribute %s is null", attributeName));
                         return false;
                     }
-                    System.out.println("Actual Displayed Value: " + actualAttributeValue);
                     if (actualAttributeValue.equals(attributeValue))
                         return true;
                     else
@@ -3058,4 +3055,15 @@ public class AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 12/06/2017.*/
+
+
+    /**
+     * Scroll to footer of current page
+     *
+     */
+    public void scrollToFooter() {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
 }

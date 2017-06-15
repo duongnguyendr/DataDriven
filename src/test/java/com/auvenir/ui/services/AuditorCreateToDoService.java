@@ -514,8 +514,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBulkActionsDropdownIsClosed();
     }
 
-    public void selectToDoTaskName(String toDoName) {
-        createToDoPage.selectToDoCheckboxByName(toDoName);
+    public int selectToDoTaskName(String toDoName) {
+        return createToDoPage.selectToDoCheckboxByName(toDoName);
     }
 
     public void unselectToDoTaskName(String toDoName) {
@@ -1036,6 +1036,14 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyNameReturnDefault(){
         createToDoPage.verifyNameReturnDefault();
 
+    }
+
+    public void clickArchiveTaskButton() {
+        createToDoPage.clickArchiveTaskButton();
+    }
+
+    public void verifyMarkCompleteArchive(int index) {
+        createToDoPage.verifyMarkCompleteArchive(index);
     }
 }
 
