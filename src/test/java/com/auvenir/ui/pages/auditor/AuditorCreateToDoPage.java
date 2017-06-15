@@ -157,7 +157,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(id = "todo-table")
     private WebElement tblIdTodoTable;
-    @FindBy(id = "todo-name")
+    @FindBy(xpath = "//div[@id='engagement-todo']//input[contains(@class, 'newTodoInput')]")
     private WebElement createToDoNameTextBoxEle;
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
@@ -169,7 +169,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
+    @FindBy(xpath = "//*[@class='ui dropdown todoCategory todo-category todo-bulkDdl']")
     private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
@@ -179,8 +179,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuItemEle;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[2]")
-    WebElement editCategoryEle;
+    @FindBy(xpath = "//div[@class='menu dropdown-empty']//div[text()='Edit Categories']")
+    List<WebElement> editCategoryEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement categoryTitleEle;
@@ -204,7 +204,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='ui-datepicker-title']")
     private WebElement eleDataPickerTitle;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker mg5 hasDatepicker']")
     private List<WebElement> eleToDoNewRowDueDateText;
 
     @FindBy(id = "due-date")
@@ -1313,7 +1313,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(createToDoNameTextBoxEle, "click to createToDoNameTextBoxEle");
         waitForClickableOfElement(categoryComboBoxEle.get(0), "Category Combo box");
         clickElement(categoryComboBoxEle.get(0), "click to categoryComboBoxEle.get(0)");
-        clickElement(editCategoryEle, "click to editCategoryEle");
+        clickElement(editCategoryEle.get(0), "click to editCategoryEle");
     }
 
     public void clickCheckboxNewToDoTask() {
@@ -1728,6 +1728,26 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
+     * Create by: duong nguyen
+     * Input due date in to-do task
+     */
+
+    public void inputDueDate(){
+        Calendar date = Calendar.getInstance();
+        DatePicker datePicker = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
+        try{
+            //Choose current day + 1
+            date.add(Calendar.DATE, 1);
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            datePicker.pickADate(String.valueOf(day));
+            NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
      * choose date item in date picker
      *
      * @return true | false
@@ -1745,8 +1765,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             } else {
                 waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
                 eleToDoNewRowDueDateText.get(0).click();
-                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
-                eleXpathChooseDate.click();
+                //Using DatePicker class
+                inputDueDate();
+//                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
+//                eleXpathChooseDate.click();
+//                sendKeyTextBox(eleToDoNewRowDueDateText.get(0), getDate(2), "eleToDoNewRowDueDateText");
                 result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
                 System.out.println("date selected is: " + eleToDoNewRowDueDateText.get(0).getAttribute("value"));
                 Thread.sleep(smallerTimeOut);
@@ -3526,7 +3549,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown client\")]//div[contains(@class,\"menu\")]/button[@class=\"item\"]")
     List<WebElement> listOfClientAssigneesDropdown;
 
-    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[@class=\"item\"]")
+    @FindBy(xpath = "//table[@id='todo-table']//tr[1]//div[contains(@class,'ui dropdown auditor')]//button[contains(@class,'item')]")
     List<WebElement> listOfAuditAssigneeDropdown;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//input[contains(@class,\"input-due-date\")]")
@@ -3993,6 +4016,5 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
 
     }
-
 }
 

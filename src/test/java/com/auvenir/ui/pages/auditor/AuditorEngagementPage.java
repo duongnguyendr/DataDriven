@@ -261,6 +261,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
     @FindBy(xpath="//*[@id=\"engagement-tbody\"]/tr[1]/td[1]")
     private WebElement companyEle;
+    private String companyEleStr = "//*[@id=\"engagement-tbody\"]/tr[1]/td[1]";
     @FindBy(xpath="//*[@id=\"engagement-tbody\"]/tr/td")
     private List<WebElement> listCompanyEle;
     @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr[1]/td[1]/a[1]")
@@ -604,12 +605,13 @@ public class AuditorEngagementPage extends AbstractPage {
         getLogger().info("Verify to search engagement by company or engagement");
         try {
             Thread.sleep(smallTimeOut);
+            keyCompany = "keyTe45";
             sendKeyTextBox(eleSearch, keyCompany, "search key keyCompany");
             Thread.sleep(smallTimeOut);
 
             boolean isCheckCompany = false;
-            //Checking for result
-            if (!listCompanyEle.isEmpty()) {
+            if(waitForVisibleOfLocator(By.xpath(companyEleStr), waitTimeOut))
+            {
                 for (WebElement companyEle : listCompanyEle) {
                     if (companyEle.getText().equals(keyCompany)) {
                         isCheckCompany = true;

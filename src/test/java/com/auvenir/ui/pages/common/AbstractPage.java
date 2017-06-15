@@ -35,7 +35,8 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 20;
+    public static final int waitTime = 60;
+    public static final int waitTimeOut = 1;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -153,6 +154,7 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuEle;
 
+//    @FindBy(id = "category-name")
     @FindBy(id = "category-name")
     private WebElement categoryNameFieldOnFormEle;
 
@@ -526,6 +528,44 @@ public class AbstractPage {
             getLogger().info("Element is not visible.");
             NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
+        }
+    }
+
+    /**
+     * created by: minh.nguyen
+     * @Description In order to wait element to be visible by locator with seconds input.
+     */
+    public boolean waitForVisibleOfLocator(By locator, int seconds) {
+        getLogger().info("Try to waitForVisibleOfLocator by seconds");
+        boolean isResult = false;
+        try {
+            int i = 0;
+            while(i < seconds){
+                try{
+                    getDriver().findElement(locator);
+                    isResult = true;
+                    NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
+                    break;
+                } catch(Exception ex){
+                }
+                try {
+                    Thread.sleep(smallTimeOut);
+                    i++;
+                } catch (Exception e) {
+
+                }
+            }
+            if(!isResult)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            return isResult;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not visible, try to waitForVisibleOfLocator by seconds.");
+            NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return isResult;
         }
     }
 
@@ -1036,18 +1076,18 @@ public class AbstractPage {
      */
     public void createNewCategory(String categoryNameInput) throws Exception {
         Thread.sleep(smallerTimeOut);
-        String CategoryName = null;
+        String categoryName = null;
         if (categoryNameInput == "") {
-            CategoryName = "Category " + randomNumber();
+            categoryName = "Category " + randomNumber();
         } else {
-            CategoryName = categoryNameInput;
+            categoryName = categoryNameInput;
         }
         getLogger().info("Adding new category...");
         navigateToAddNewCategory();
         waitForClickableOfElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-        sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
+        sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
 //        closeSuccessToastMes();
