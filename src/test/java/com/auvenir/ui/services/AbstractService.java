@@ -580,7 +580,7 @@ public class AbstractService {
         goToBaseURL();
         marketingService.clickLoginButton();
         marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
-        adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
+        adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
         gmailLoginService.gmailReLogin(passwordCreate);
@@ -614,7 +614,7 @@ public class AbstractService {
         goToBaseURL();
         marketingService.clickLoginButton();
         marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
-        adminService.changeTheStatusAuditorToOnBoarding(strEmailCreate, "Onboarding");
+        adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
         gmailLoginService.gmailReLogin(passwordCreatedGmail);

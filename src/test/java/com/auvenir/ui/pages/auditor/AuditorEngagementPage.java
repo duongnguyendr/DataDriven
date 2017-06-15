@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,11 +166,108 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='CreateEnagementParent']/../../../..")
     WebElement popUpCreateEngagement;
 
+    @FindBy(xpath = "//*[@id='auditPageNoEngagement']")
+    WebElement noEngagementDivEle;
+
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
     }
 
     final String viewButtonOnEngagement = ".//div/div/div[2]/div[2]/input";
+
+    @FindBy(id = "newEngagement")
+    private WebElement eleNewEngagement;
+    public WebElement getEleNewEngagement() { return eleNewEngagement; }
+
+    @FindBy(id = "filter")
+    private WebElement eleFilter;
+    public WebElement getEleFilter() { return eleFilter; }
+
+    @FindBy(id = "engagement-search")
+    private WebElement eleSearch;
+    public WebElement getElSearch() { return eleSearch; }
+
+    @FindBy(id = "company")
+    private WebElement eleCompany;
+    public WebElement getEleCompany() { return  eleCompany; }
+
+    @FindBy(id = "")
+    private WebElement eleEngagementName;
+    public WebElement getEleEngagementName() { return eleEngagementName; }
+
+    @FindBy(id = "")
+    private WebElement eleStatus;
+    public WebElement getEleStatus() { return eleStatus; }
+
+    @FindBy(id = "")
+    private WebElement eleAuditorAssignee;
+    public WebElement getEleAuditorAssignee() { return eleAuditorAssignee; }
+
+    @FindBy(id = "")
+    private WebElement eleCompletedToDos;
+    public WebElement getEleCompletedToDos(){ return eleCompletedToDos; }
+
+    @FindBy(id = "")
+    private WebElement eleClientAssgniee;
+    public WebElement getEleClientAssgniee() { return eleClientAssgniee; }
+
+    @FindBy(id = "")
+    private WebElement eleCompletedDos;
+    public WebElement getEleCompletedDos(){ return  eleCompletedDos; }
+
+    @FindBy(id = "")
+    private WebElement eleLastActivity;
+    public WebElement getEleLastActivity() { return  eleLastActivity; }
+
+    @FindBy(id = "")
+    private WebElement eleDueDate;
+    public WebElement getEleDueDate() { return  eleDueDate; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellCompanys;
+    public List<WebElement> getEleCellCompanys() { return eleCellCompanys; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellEngagements;
+    public List<WebElement> getEleCellEngagements() { return eleCellEngagements; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellStatuses;
+    public List<WebElement> getEleCellStatuses() { return  eleCellStatuses; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellAuditorAssignees;
+    public List<WebElement> getEleCellAuditorAssignees() { return eleCellAuditorAssignees; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellCompletedToDoses;
+    public List<WebElement> getEleCellCompletedToDoses() { return eleCellCompletedToDoses; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellClientAssignees;
+    public List<WebElement> getEleCellClientAssignees() { return eleCellClientAssignees; }
+
+    @FindBys(@FindBy(css= ""))
+    private List<WebElement> eleCellCompleteDoses;
+    public  List<WebElement> getEleCellCompleteDoses() { return eleCellCompleteDoses; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellLastActivities;
+    public List<WebElement> getEleCellLastActivities() { return eleCellLastActivities; }
+
+    @FindBys(@FindBy(css = ""))
+    private List<WebElement> eleCellDueDates;
+    public List<WebElement> getEleCellDueDates() { return eleCellDueDates; }
+
+    @FindBy(xpath="//*[@id=\"engagement-tbody\"]/tr[1]/td[1]")
+    private WebElement companyEle;
+    private String companyEleStr = "//*[@id=\"engagement-tbody\"]/tr[1]/td[1]";
+    @FindBy(xpath="//*[@id=\"engagement-tbody\"]/tr/td")
+    private List<WebElement> listCompanyEle;
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr[1]/td[1]/a[1]")
+    private WebElement engagementNameEle;
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td/a")
+    private List<WebElement> listEngagementNameEle;
 
     public void auditorPageHeaderContent() {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
@@ -214,7 +312,6 @@ public class AuditorEngagementPage extends AbstractPage {
 //        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
         clickAndHold(engagementListEle.get(index), engagementName);
-
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
@@ -237,19 +334,12 @@ public class AuditorEngagementPage extends AbstractPage {
      * @param engagementName String Engagement Name
      * @return the number of the position if the WebElement is matched, otherwise return -1.
      */
-    public int findEngagementName(String engagementName) throws Exception {
+    public int findEngagementName(String engagementName) {
         getLogger().info("Find Position of Engagement Name");
-        int testReturn = 0;
-        try {
-            getLogger().info("Find Position of Engagement Name1");
-            testReturn = findElementByText(engagementListEle, engagementName);
-            getLogger().info("Find Position of Engagement Name2");
-            return testReturn;
-        }
-        catch(Exception ex)        {
-            getLogger().info("Find Position of Engagement Name3");
-            return testReturn;
-        }
+        String displayValue = noEngagementDivEle.getCssValue("display");
+        if(displayValue.equals("block"))
+            return -1;
+        return findElementByText(engagementListEle, engagementName);
     }
 
     /**
@@ -506,4 +596,64 @@ public class AuditorEngagementPage extends AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 08/06/2017.*/
+
+    /**
+     * Search by company name, engagement name, auditor assignee, client assignee
+     * @param keyCompany
+     */
+    public void searchEngagement(String keyCompany, String keyEngagement) throws InterruptedException {
+        getLogger().info("Verify to search engagement by company or engagement");
+        try {
+            Thread.sleep(smallTimeOut);
+            keyCompany = "keyTe45";
+            sendKeyTextBox(eleSearch, keyCompany, "search key keyCompany");
+            Thread.sleep(smallTimeOut);
+
+            boolean isCheckCompany = false;
+            if(waitForVisibleOfLocator(By.xpath(companyEleStr), waitTimeOut))
+            {
+                for (WebElement companyEle : listCompanyEle) {
+                    if (companyEle.getText().equals(keyCompany)) {
+                        isCheckCompany = true;
+                        break;
+                    }
+                }
+            }
+            if (!isCheckCompany) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Search engagement with company key: " + keyCompany, LogAs.FAILED, null);
+            } else {
+                NXGReports.addStep("Search engagement with company key: " + keyCompany, LogAs.PASSED, null);
+            }
+
+            Thread.sleep(smallTimeOut);
+            sendKeyTextBox(eleSearch, keyEngagement, "search key keyEngagement");
+            Thread.sleep(smallTimeOut);
+            boolean isCheckEngagement = false;
+            //Checking for result
+            if (!listEngagementNameEle.isEmpty()) {
+                for (WebElement engagementNameEle : listEngagementNameEle) {
+                    if (engagementNameEle.getText().equals(keyEngagement)) {
+                        isCheckEngagement = true;
+                        break;
+                    }
+                }
+            }
+            if (!isCheckEngagement) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Search engagement with engagement name key: " + keyEngagement, LogAs.FAILED, null);
+            } else {
+                NXGReports.addStep("Search engagement with engagement name key: " + keyEngagement, LogAs.PASSED, null);
+            }
+
+            if (isCheckCompany && isCheckEngagement) {
+                NXGReports.addStep("Search engagement with company and engagement name key: " + keyCompany + " and " + keyEngagement, LogAs.PASSED, null);
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Search engagement with company and engagement name key: " + keyCompany, LogAs.FAILED, null);
+        }
+    }
 }

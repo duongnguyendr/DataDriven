@@ -1097,7 +1097,7 @@ public class AdminLoginPage extends AbstractPage {
      * @param userEmail         email
      * @param chooseOption      status wanna change to
      */
-    public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
+    public void changeTheStatusUser(String userEmail, String chooseOption) {
         try {
             getLogger().info(String.format("Try change status of user to %s", chooseOption));
             Thread.sleep(2000);

@@ -3,6 +3,7 @@ package com.auvenir.ui.pages.marketing.engagement;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,7 +29,7 @@ public class AuditorEngagementReviewPO extends BaseEngagementPO {
     private WebElement eleFilter;
     public WebElement getEleFilter() { return eleFilter; }
 
-    @FindBy(id = "search")
+    @FindBy(id = "engagement-search")
     private WebElement eleSearch;
     public WebElement getElSearch() { return eleSearch; }
 
@@ -407,18 +408,12 @@ public class AuditorEngagementReviewPO extends BaseEngagementPO {
      * Search by company name, engagement name, auditor assignee, client assignee
      * @param keySearch
      */
-    public void search(String keySearch){
+    public void search(String keySearch) throws InterruptedException {
 
+        Thread.sleep(smallTimeOut);
         NXGReports.addStep("Search engagement with key: " + keySearch, LogAs.PASSED, null );
-        this.eleSearch.sendKeys(keySearch);
-
-        this.eleSearch.sendKeys(Keys.ENTER);
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sendKeyTextBox(eleSearch,keySearch,"search key eleSearch");
+        Thread.sleep(smallTimeOut);
 
         //Checking for result
         for (int i = 0; i < this.eleCellCompanys.size(); i++){

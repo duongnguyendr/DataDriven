@@ -36,6 +36,7 @@ public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
     public static final int waitTime = 60;
+    public static final int waitTimeOut = 1;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -88,19 +89,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'Terms of Service')]")
+    @FindBy(xpath = "//a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(id = "privacy")
+    @FindBy(xpath = "//a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(id = "cookies")
+    @FindBy(xpath = "//a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -132,7 +133,8 @@ public class AbstractPage {
     @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]")
     List<WebElement> listOfCategoryDropdown;
 
-    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
+//    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
     List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
@@ -163,8 +165,10 @@ public class AbstractPage {
     @FindBy(id = "category-addBtn")
     private WebElement eleIdBtnAddCategory;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+//    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory todo-category todo-bulkDdl')]")
     private List<WebElement> dropdownCategoryEle;
+
     @FindBy(id = "todo-table")
     private WebElement tblXpathTodoTable;
     @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div/button")
@@ -231,19 +235,19 @@ public class AbstractPage {
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleCookieNoticeLnk, "eleAuvenirIncTxt");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
+        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
+        validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
+        validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
+        validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
     }
 
     public void verifyTermsOfServiceLink() throws AWTException {
         getLogger().info("Verify Terms of service link.");
-        eleTermsOfServiceLnk.click();
+        clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
+        //eleTermsOfServiceLnk.click();
         waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
         getLogger().info("verify texts are rendered.");
-
         WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
         validateElementText(terms, "Terms of Service");
         WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
@@ -527,6 +531,44 @@ public class AbstractPage {
     }
 
     /**
+     * created by: minh.nguyen
+     * @Description In order to wait element to be visible by locator with seconds input.
+     */
+    public boolean waitForVisibleOfLocator(By locator, int seconds) {
+        getLogger().info("Try to waitForVisibleOfLocator by seconds");
+        boolean isResult = false;
+        try {
+            int i = 0;
+            while(i < seconds){
+                try{
+                    getDriver().findElement(locator);
+                    isResult = true;
+                    NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
+                    break;
+                } catch(Exception ex){
+                }
+                try {
+                    Thread.sleep(smallTimeOut);
+                    i++;
+                } catch (Exception e) {
+
+                }
+            }
+            if(!isResult)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            return isResult;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not visible, try to waitForVisibleOfLocator by seconds.");
+            NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return isResult;
+        }
+    }
+
+    /**
      * @Description In order to wait element to be invisible by locator.
      */
     public boolean waitForInvisibleOfLocator(By by) {
@@ -723,7 +765,7 @@ public class AbstractPage {
     public void hoverElement(WebElement element, String elementName) {
         getLogger().info("Try to hoverElement: " + elementName);
         try {
-            if((GenericService.sBrowserData).equals("chr.")) {
+            if ((GenericService.sBrowserData).equals("chr.")) {
                 Actions actions = new Actions(driver);
                 actions.moveToElement(element);
                 actions.build().perform();
@@ -751,7 +793,7 @@ public class AbstractPage {
             element.clear();
             waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
-            NXGReports.addStep("Send text: " + text + "on element: " + elementName, LogAs.PASSED, null);
+            NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
@@ -863,12 +905,22 @@ public class AbstractPage {
         getLogger().info("Try to sendTabkey: " + elementName);
         try {
             element.sendKeys(Keys.TAB);
-            element.sendKeys(Keys.ENTER);
             NXGReports.addStep("sendTabkey on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendTabkey on: " + elementName);
             NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void sendEnterkey(WebElement element, String elementName) {
+        getLogger().info("Try to sendEnterkey: " + elementName);
+        try {
+            element.sendKeys(Keys.ENTER);
+            NXGReports.addStep("sendEnterkey on element: " + elementName, LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to sendEnterkey on: " + elementName);
+            NXGReports.addStep("Unable to sendEnterkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1036,7 +1088,7 @@ public class AbstractPage {
         sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
-        closeSuccessToastMes();
+//        closeSuccessToastMes();
     }
 
 
@@ -1568,8 +1620,8 @@ public class AbstractPage {
         boolean isCheckColorCancelButton = false;
         getLogger().info("Verify background and text color of the button " + buttonNeedCheck);
         try {
-            isCheckColorCancelButton = validateCssValueElement(buttonNeedCheck, backgroundColor, backgroundColorBtn);
-            isCheckColorCancelButton = validateCssValueElement(buttonNeedCheck, color, textColor);
+            isCheckColorCancelButton = validateCssValueElement(eleEditCategoryCancelBtn, backgroundColor, backgroundColorBtn);
+            isCheckColorCancelButton = validateCssValueElement(eleEditCategoryCancelBtn, color, textColor);
         } catch (Exception ex) {
             logger.info(ex.getMessage());
         }
@@ -1967,38 +2019,25 @@ public class AbstractPage {
      * @param textValue   String text which is compared with each WebElements.
      * @return i if the WebElement is matched, otherwise return -1.
      */
-    public int findElementByText(List<WebElement> listElement, String textValue) throws Exception{
+    public int findElementByText(List<WebElement> listElement, String textValue) {
         try {
-            String actualTextValue = "";
-//            getLogger().info("step 01 listElement.size() = " + listElement.size());
-//            getLogger().info("empty: " + listElement.isEmpty());
-            if (!listElement.isEmpty()) {
-                getLogger().info("aaa");
-                for (int i = 0; i < listElement.size(); i++) {
-                    getLogger().info("step 02");
-                    actualTextValue = listElement.get(i).getText().trim();
-                    if (actualTextValue.equals(textValue)) {
-                        getLogger().info("Element is found at " + i);
-                        NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
-                        return i;
-                    }
+            String actualTextValue;
+            for (int i = 0; i < listElement.size(); i++) {
+                actualTextValue = listElement.get(i).getText().trim();
+                if (actualTextValue.equals(textValue)) {
+                    getLogger().info("Element is found at " + i);
+                    NXGReports.addStep(String.format("The position of the text name '%s' at %d", textValue, i), LogAs.PASSED, null);
+                    return i;
                 }
-            } else return -1;
-            getLogger().info("step 03");
-            AbstractService.sStatusCnt++;
+            }
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            return -2;
+            return -1;
+
         } catch (Exception e) {
-            getLogger().info("step 04");
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
-
-
 
     /**
      * Find the index(position) of Web Element in the list Web Element by attribute value
@@ -2690,8 +2729,8 @@ public class AbstractPage {
      */
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-        Thread.sleep(smallerTimeOut);
-        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
+//        Thread.sleep(3000);
+//        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
 
@@ -2844,7 +2883,7 @@ public class AbstractPage {
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
-            System.out.println("Loi is: " + error);
+            System.out.println("Error is: " + error);
             getLogger().info(error);
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2862,11 +2901,16 @@ public class AbstractPage {
      */
     public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
         getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
+
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
-                    String actualAttributeValue = element.getAttribute(attributeName);
+                    String actualAttributeValue = null;
+                    if(element.getAttribute(attributeName) != null) {
+                        actualAttributeValue = element.getAttribute(attributeName);
+                        return false;
+                    }
                     System.out.println("Actual Displayed Value: " + actualAttributeValue);
                     if (actualAttributeValue.equals(attributeValue))
                         return true;
@@ -3053,6 +3097,4 @@ public class AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 12/06/2017.*/
-
-
 }
