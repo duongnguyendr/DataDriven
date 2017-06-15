@@ -33,6 +33,7 @@ public class SmokeTestt extends AbstractTest {
     private MarketingService marketingService;
     private EmailTemplateService emailTemplateService;
     private ClientSignUpService clientSignUpService;
+    private ClientEngagementService clientEngagementService;
 
     private String adminId, auditorId, clientId;
     private String sData[];
@@ -104,6 +105,7 @@ public class SmokeTestt extends AbstractTest {
 
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
+            //need precondition for save engagement name, and delete this engagement or client on acl
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
@@ -159,6 +161,7 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        clientEngagementService= new ClientEngagementService(getLogger(),getDriver());
         try {
             adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
@@ -167,24 +170,25 @@ public class SmokeTestt extends AbstractTest {
             String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
             System.out.println("clientEmailPassword = " + clientEmailPassword);
             MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
+
             gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
             gmailLoginService.filterEmail();
             gmailLoginService.clickOnboardingInvitationLink();
-            
+
             clientSignUpService.navigateToSignUpForm();
             clientSignUpService.fillUpPersonalForm("0123456789");
             clientSignUpService.fillUpBusinessForm("Titancorpvn");
             clientSignUpService.fillUpBankForm();
             clientSignUpService.fillUpFileForm();
             clientSignUpService.fillUpSecurityForm("Testpassword1!");
+            clientEngagementService.verifyNavigatedToClientEngagementPage();
 
+            adminService.loginWithUserRole(adminId);
+            adminService.verifyPageLoad();
+            adminService.scrollToFooter(getDriver());
+            adminService.verifyUserStatusOnAdminUserTable(clientId, "Active");
 
-//            adminService.loginWithUserRole(adminId);
-//            adminService.verifyPageLoad();
-//            adminService.scrollToFooter(getDriver());
-//            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), "Onboarding");
-//
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
         } catch (Exception e) {

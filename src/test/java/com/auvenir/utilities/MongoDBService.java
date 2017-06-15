@@ -1,6 +1,7 @@
 package com.auvenir.utilities;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
@@ -514,6 +515,7 @@ public class MongoDBService {
             DBObject dBbject = cursor.next();
 
             dBCollection.remove(dBbject);
+            System.out.println("Removed user map with email: " + email);
         } catch (NoSuchElementException ex) {
             System.out.println("This email not exist on database.");
         } catch (Exception ex) {
@@ -559,5 +561,67 @@ public class MongoDBService {
         DBObject dBbject = cursor.next();
 
         return dBbject != null ? true : false;
+    }
+
+    /**
+     * Re-create a user with info on 'usersRegression' sheet
+     *
+     * @param email email to re-create
+     */
+    public static void createUserByEmail(String email) {
+        try {
+            String[][] data = GenericService.readExcelSheetData("usersRegression");
+
+            MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
+            System.out.println("MongoClient = " + MongoClient);
+            DB db = MongoClient.getDB(DB);
+//            MongoClient mongoClient = new MongoClient("192.168.1.213", 27017);
+//            DB db = mongoClient.getDB("auvenir");
+
+            DBCollection usersCollection = db.getCollection("users");
+            DBCollection firmsCollection = db.getCollection("firms");
+            DBCollection businessesCollection = db.getCollection("businesses");
+
+            System.out.println("businessesCollection = " + businessesCollection);
+
+            for (int i = 0; i < data.length; i++) {
+                if (data[i][0].toString().equals(email)) {
+                    DBObject usersDBObject = (DBObject) JSON.parse(data[i][9]);
+                    DBObject mappingDBObject = (DBObject) JSON.parse(data[i][10]);
+
+                    usersDBObject.put("_id", new ObjectId(data[i][4]));
+
+                    ISO8601DateFormat df = new ISO8601DateFormat();
+                    usersDBObject.put("lastLogin", df.parse(data[i][5]));
+                    usersDBObject.put("dateCreated", df.parse(data[i][6]));
+
+                    BasicDBObject access = new BasicDBObject();
+                    access.put("expires", df.parse(data[i][8]));
+                    BasicDBObject auth = new BasicDBObject();
+                    auth.put("id", data[i][7]);
+                    auth.put("access", access);
+                    usersDBObject.put("auth", auth);
+                    usersCollection.insert(usersDBObject);
+
+                    BasicDBObject userInMapping = new BasicDBObject();
+                    userInMapping.put("id", new ObjectId(data[i][4]));
+                    userInMapping.put("admin", true);
+                    List<BasicDBObject> usersInMapping = new ArrayList<>();
+                    usersInMapping.add(userInMapping);
+                    mappingDBObject.put("acl", usersInMapping);
+
+                    if (data[i][1].toString().equals("AUDITOR")) {
+                        firmsCollection.insert(mappingDBObject);
+                    } else if (data[i][1].toString().equals("CLIENT")) {
+                        businessesCollection.insert(mappingDBObject);
+                    } else {
+                        System.out.println("Admin created");
+                    }
+                }
+            }
+            System.out.println("Re-created user map with email: " + email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
