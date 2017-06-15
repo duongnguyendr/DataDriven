@@ -209,7 +209,7 @@ public class AbstractService {
             }
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
         } catch (Exception e) {
-            AbstractService.sStatusCnt ++;
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("unable to go to home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -321,6 +321,7 @@ public class AbstractService {
 
     /**
      * Delete User using API Url
+     *
      * @param userEmail The email which is deleted.
      */
     public void deleteUserUsingApi(String userEmail) {
@@ -329,6 +330,7 @@ public class AbstractService {
 
     /**
      * Update status of user to Onboarding using API Url
+     *
      * @param userEmail The email which is updated.
      */
     public void updateUserOnboardingUsingAPI(String userEmail) {
@@ -337,6 +339,7 @@ public class AbstractService {
 
     /**
      * Update status of user to Active using API Url
+     *
      * @param userEmail The email which is updated.
      */
     public void updateUserActiveUsingAPI(String userEmail) {
@@ -437,6 +440,7 @@ public class AbstractService {
      * @param webDriver current webDriver
      */
     public void scrollToFooter(WebDriver webDriver) {
+        //marketingPage.scrollToFooter(webDriver);
         getLogger().info("Scroll down to see page footer.");
         JavascriptExecutor js = ((JavascriptExecutor) webDriver);
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
@@ -475,37 +479,39 @@ public class AbstractService {
     /*
     Method to delete all existed mail in GMail.
      */
-    public void deleteAllExistedGMail(String eGMail,String ePassword){
+    public void deleteAllExistedGMail(String eGMail, String ePassword) {
         getLogger().info("Try to delete all existed eGMail");
-        try{
+        try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
 //            gmailLoginPage.signInGmail(eGMail,ePassword);
-            gmailLoginPage.signInGmail(eGMail,ePassword);
+            gmailLoginPage.signInGmail(eGMail, ePassword);
             gmailLoginPage.deleteAllMail();
             gmailLoginPage.gmailLogout();
-        }catch (Exception e){
+        } catch (Exception e) {
             getLogger().info("Unable to delete all existed mail.");
         }
     }
+
     /*
     Method to the lasted mail in GMail.
      */
-    public void deleteTheLastedGMail(String eGMail,String ePassword){
+    public void deleteTheLastedGMail(String eGMail, String ePassword) {
         getLogger().info("Try to delete all existed eGMail");
-        try{
+        try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            gmailLoginPage.signInGmail(eGMail,ePassword);
+            gmailLoginPage.signInGmail(eGMail, ePassword);
             gmailLoginPage.deleteLastedMail();
             gmailLoginPage.gmailLogout();
-        }catch (Exception e){
+        } catch (Exception e) {
             getLogger().info("Unable to delete all existed mail.");
         }
     }
 
     /**
      * Delete user using MongoDB service.
+     *
      * @param email The email which is deleted.
      */
     public void deleteUserUsingMongoDB(String email) {
@@ -520,6 +526,7 @@ public class AbstractService {
 
     /**
      * Update status of user to ONBOARDING using MongoDB service.
+     *
      * @param email The email which is deleted.
      */
     public void updateUserOnboardingUsingMongoDB(String email) {
@@ -534,6 +541,7 @@ public class AbstractService {
 
     /**
      * Update status of user to ACTIVE using MongoDB service.
+     *
      * @param email The email which is updated.
      */
     public void updateUserActiveUsingMongoDB(String email) {
@@ -549,13 +557,13 @@ public class AbstractService {
     /**
      * Logout of Gmail.
      */
-    public void logoutGmail(){
+    public void logoutGmail() {
         getLogger().info("Try to logout gmail.");
-        try{
+        try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             gmailLoginPage.gmailLogout();
-        }catch (Exception e){
-            sStatusCnt ++;
+        } catch (Exception e) {
+            sStatusCnt++;
             NXGReports.addStep("Cannot logout of gmail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info("Unable to logout of gmail.");
         }
@@ -563,7 +571,7 @@ public class AbstractService {
 
     public void createAndActiveNewUserByEmail(String fullNameCreate, String strEmailCreate, String passwordCreate, String strAdminEmail, String strAdminPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
@@ -595,9 +603,9 @@ public class AbstractService {
         marketingService.logout();
     }
 
-    public void createAndActiveNewUserByEmail(String fullNameCreate, String strEmailCreate, String passwordCreatedGmail,String passwordCreatedAuvenir, String strAdminEmail, String strAdminPwd) throws Exception {
+    public void createAndActiveNewUserByEmail(String fullNameCreate, String strEmailCreate, String passwordCreatedGmail, String passwordCreatedAuvenir, String strAdminEmail, String strAdminPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
