@@ -36,6 +36,7 @@ public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
     public static final int waitTime = 20;
+    public static final int waitTimeOut = 1;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -164,7 +165,7 @@ public class AbstractPage {
     @FindBy(id = "category-addBtn")
     private WebElement eleIdBtnAddCategory;
 
-//    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    //    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory todo-category todo-bulkDdl')]")
     private List<WebElement> dropdownCategoryEle;
 
@@ -530,6 +531,44 @@ public class AbstractPage {
     }
 
     /**
+     * created by: minh.nguyen
+     * @Description In order to wait element to be visible by locator with seconds input.
+     */
+    public boolean waitForVisibleOfLocator(By locator, int seconds) {
+        getLogger().info("Try to waitForVisibleOfLocator by seconds");
+        boolean isResult = false;
+        try {
+            int i = 0;
+            while(i < seconds){
+                try{
+                    getDriver().findElement(locator);
+                    isResult = true;
+                    NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
+                    break;
+                } catch(Exception ex){
+                }
+                try {
+                    Thread.sleep(smallTimeOut);
+                    i++;
+                } catch (Exception e) {
+
+                }
+            }
+            if(!isResult)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            return isResult;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not visible, try to waitForVisibleOfLocator by seconds.");
+            NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return isResult;
+        }
+    }
+
+    /**
      * @Description In order to wait element to be invisible by locator.
      */
     public boolean waitForInvisibleOfLocator(By by) {
@@ -873,6 +912,7 @@ public class AbstractPage {
             NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     public void sendEnterkey(WebElement element, String elementName) {
         getLogger().info("Try to sendEnterkey: " + elementName);
         try {
@@ -1035,18 +1075,18 @@ public class AbstractPage {
      */
     public void createNewCategory(String categoryNameInput) throws Exception {
         Thread.sleep(smallerTimeOut);
-        String CategoryName = null;
+        String categoryName = null;
         if (categoryNameInput == "") {
-            CategoryName = "Category " + randomNumber();
+            categoryName = "Category " + randomNumber();
         } else {
-            CategoryName = categoryNameInput;
+            categoryName = categoryNameInput;
         }
         getLogger().info("Adding new category...");
         navigateToAddNewCategory();
         waitForClickableOfElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-        sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
+        sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
 //        closeSuccessToastMes();
@@ -2348,6 +2388,7 @@ public class AbstractPage {
 
     /**
      * Switch to other tab
+     * Tab index count from 0(mean first tab tabIndex=0, second tab tabIndex=1)
      *
      * @param tabIndex
      */
@@ -3055,6 +3096,28 @@ public class AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 12/06/2017.*/
+
+    /**
+     * Added by huy.huynh on 15/06/2017.
+     * SmokeTest R2
+     */
+    /**
+     * /**
+     * Scroll to footer of current page
+     * TODO: duplicating with scrollToFooter on AbstractService, find solution later
+     *
+     * @param webDriver current webDriver
+     */
+    public void scrollToFooter(WebDriver webDriver) {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public void chooseFirstOptionOfInputSelect(List<WebElement> list, String elementName) {
+        clickElement(list.get(0), elementName);
+    }
+     /*-----------end of huy.huynh on 15/06/2017.*/
 
 
     /**

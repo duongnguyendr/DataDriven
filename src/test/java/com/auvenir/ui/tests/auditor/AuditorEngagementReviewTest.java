@@ -36,11 +36,14 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         {
             String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
             String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User4", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.createNewEnagement(engagementNameUnix, "engagement type", companyNameUnix);
-            auditorEngagementService.verifySearchEngagementName(companyNameUnix, engagementNameUnix);
+            auditorEngagementService.sendKeyCompanyName(companyNameUnix);
+            auditorEngagementService.verifySearchCompanyName(companyNameUnix);
+            auditorEngagementService.sendKeyEngagementName(engagementNameUnix);
+            auditorEngagementService.verifySearchEngagementName(engagementNameUnix);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify to search engagement by company, engagement name.", LogAs.PASSED, null);
         }
@@ -52,8 +55,24 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 2, description = "Sort Company name by ascending")
-    public void sortAscendingCompanyNameTest(){
-        auditorEngagementReviewPO.sortCompanyName(true);
+    public void sortAscendingCompanyNameTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortCompanyName(true);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Company name by ascending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Company name by ascending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
     @Test(priority = 3, description = "Sort Company name by descending")

@@ -1852,7 +1852,7 @@ End of merged VienPham.
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1862,8 +1862,8 @@ End of merged VienPham.
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyAddNewRequestButton();
             auditorCreateToDoService.verifyRequestNameTextbox();
-            auditorCreateToDoService.verifyCreateRequest();
-            auditorCreateToDoService.verifyUpdateRequest();
+            auditorCreateToDoService.verifyCreateRequest("new Request 01");
+            auditorCreateToDoService.verifyUpdateRequest("new Request 02");
             auditorCreateToDoService.verifyDeleteRequest();
             auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

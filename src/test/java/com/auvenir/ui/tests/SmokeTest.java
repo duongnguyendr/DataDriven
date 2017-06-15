@@ -34,6 +34,9 @@ public class SmokeTest extends AbstractTest {
     private String timeStamp;
     private AuditorCreateToDoService auditorCreateToDoService;
 
+    public SmokeTest() {
+    }
+
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login")
     public void verifyAdminLogin() {
@@ -378,4 +381,35 @@ public class SmokeTest extends AbstractTest {
         }
     }
     /*-----------end of Thuan.Duong on 14/06/2017.*/
+
+    @Test(priority = 15, enabled = true, description = "Verify to create new request on ToDo page")
+    public void verifyAddNewRequestOnToDoPage() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        String auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTest","EngagementName","Valid Name");
+        try {
+            auditorCreateToDoService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorCreateToDoService.deleteAllExistedTodoItems();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.verifyAddNewRequestButton();
+//            auditorCreateToDoService.verifyRequestNameTextbox();
+            auditorCreateToDoService.verifyCreateRequest("New_Request 01");
+            auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
+            auditorCreateToDoService.verifyDeleteRequest();
+//            auditorCreateToDoService.verifyCopyRequest();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify new Category popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
 }
