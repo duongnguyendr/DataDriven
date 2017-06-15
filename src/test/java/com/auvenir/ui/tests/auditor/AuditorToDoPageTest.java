@@ -31,7 +31,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String auditorID = GenericService.getUserFromExcelData("LoginData", "Valid User3", "Auditor");
+        String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User3", "Auditor");
         try {
             auditorCreateToDoService.loginWithUserRole(auditorID);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -42,7 +42,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             getLogger().info("Verifying Todo Textbox default value..");
             auditorCreateToDoService.verifyTodosTextBox_DefaultGUI();
 //            getLogger().info("Verifying input valid Todo name..");
-//            auditorCreateToDoService.InputValidValue("New todo 2708");
+            auditorCreateToDoService.InputValidValue("New todo 2708");
 //            auditorCreateToDoService.verifyInputValidValue("New todo 2708");
 //            getLogger().info("Verifying input Only number..");
 //            auditorCreateToDoService.InputOnlyNumber(13082016);

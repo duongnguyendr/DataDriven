@@ -214,6 +214,7 @@ public class AuditorEngagementPage extends AbstractPage {
 //        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
         clickAndHold(engagementListEle.get(index), engagementName);
+
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
@@ -245,8 +246,7 @@ public class AuditorEngagementPage extends AbstractPage {
             getLogger().info("Find Position of Engagement Name2");
             return testReturn;
         }
-        catch(Exception ex)
-        {
+        catch(Exception ex)        {
             getLogger().info("Find Position of Engagement Name3");
             return testReturn;
         }

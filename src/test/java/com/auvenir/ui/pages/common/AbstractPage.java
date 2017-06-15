@@ -1568,8 +1568,8 @@ public class AbstractPage {
         boolean isCheckColorCancelButton = false;
         getLogger().info("Verify background and text color of the button " + buttonNeedCheck);
         try {
-            isCheckColorCancelButton = validateCssValueElement(eleEditCategoryCancelBtn, backgroundColor, backgroundColorBtn);
-            isCheckColorCancelButton = validateCssValueElement(eleEditCategoryCancelBtn, color, textColor);
+            isCheckColorCancelButton = validateCssValueElement(buttonNeedCheck, backgroundColor, backgroundColorBtn);
+            isCheckColorCancelButton = validateCssValueElement(buttonNeedCheck, color, textColor);
         } catch (Exception ex) {
             logger.info(ex.getMessage());
         }

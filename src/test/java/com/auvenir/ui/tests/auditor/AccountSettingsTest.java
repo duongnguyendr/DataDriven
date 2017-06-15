@@ -22,11 +22,11 @@ public class AccountSettingsTest extends AbstractTest {
     public void verifyFooterAuditorAccountSettingsPage() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
+//        String userId = GenericService.getUserFromExcelData("ClientTestData", "Valid User", "Client");
 
         try {
             //logCurrentStepStart();
-            auditorAccountSettingsService.loginWithUserRole(userId);
+//            auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
