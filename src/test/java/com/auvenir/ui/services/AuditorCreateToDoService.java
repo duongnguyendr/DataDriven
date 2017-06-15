@@ -1047,5 +1047,10 @@ public class AuditorCreateToDoService extends AbstractService {
     public void deleteAllExistedTodoItems() {
         createToDoPage.deleteAllExistedTodoItems();
     }
+
+    public void verifyExistedCategory(){
+        createToDoPage.verifyExistedCategory();
+    }
+
 }
 

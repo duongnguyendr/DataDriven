@@ -214,7 +214,10 @@ public class AuditorTodoListPage extends AbstractPage {
         validateCssValueElement(eleCheckBox, "background-color", "rgba(202, 206, 206, 1)");
     }
 
-    public void clickCreateToDoBtn() {
+    public void clickCreateToDoBtn() throws Exception{
+        // Create todo button could sleep before click, investigate in-progress.
+        Thread.sleep(smallTimeOut);
+        waitForClickableOfElement(eleCreateToDoBtn);
         clickElement(eleCreateToDoBtn, "Create Todo Button");
     }
 

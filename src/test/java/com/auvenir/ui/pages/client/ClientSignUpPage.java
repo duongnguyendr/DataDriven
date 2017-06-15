@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 /**
  * Created by huy.huynh on 14/06/2017.
  */
@@ -32,14 +34,23 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='onboarding-business-container']//h3")
     private WebElement titleComponentBusiness;
 
+    @FindBy(xpath = "//p[@for='business-parentStakeholders']")
+    private WebElement titleParentStakeholders;
+
     @FindBy(id = "business-parentStakeholders")
     private WebElement textAreaParentStakeholders;
 
     @FindBy(id = "business-industry")
-    private WebElement selectIndustry;
+    private WebElement inputIndustry;
+
+    @FindBy(xpath = "//div[@id='business-industry-container']//a")
+    private List<WebElement> listOptionIndustry;
 
     @FindBy(id = "accounting-framework")
-    private WebElement selectAccountingFramework;
+    private WebElement inputAccountingFramework;
+
+    @FindBy(xpath = "//div[@id='accounting-framework-container']//a")
+    private List<WebElement> listOptionAccountingFramework;
 
     @FindBy(id = "onboard-business-continue")
     private WebElement buttonBusinessContinue;
@@ -109,10 +120,16 @@ public class ClientSignUpPage extends AbstractPage {
     public void fillUpBusinessForm(String parentStakeholders) {
         try {
             getLogger().info("Fill Up Business Form");
-            validateElementText(titleComponentBusiness, "Please Confirm your Information");
+            validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
             sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
-            selectByVisibleText(selectIndustry, "Agriculture, Forestry, Fishing and Hunting", "Select Industry");
-            selectByVisibleText(selectAccountingFramework, "ASPE", "Select Accounting Framework");
+            scrollToFooter(getDriver());
+            clickElement(inputIndustry, "Input Industry");
+            chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
+            //sometime listoption not close after choose an option, so need to click somewhere to close, avoid it cover others element
+            clickElement(titleParentStakeholders);
+            clickElement(inputAccountingFramework, "Input Accounting Framework");
+            chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
+            clickElement(titleParentStakeholders);
             clickElement(buttonBusinessContinue, "Button Business Continue");
         } catch (Exception ex) {
             ex.printStackTrace();

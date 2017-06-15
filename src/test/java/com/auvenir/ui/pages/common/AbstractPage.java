@@ -135,7 +135,7 @@ public class AbstractPage {
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
 //    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-    List<WebElement> listOfAddNewCategory;
+            List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -154,6 +154,7 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuEle;
 
+//    @FindBy(id = "category-name")
     @FindBy(id = "category-name")
     private WebElement categoryNameFieldOnFormEle;
 
@@ -165,7 +166,7 @@ public class AbstractPage {
     @FindBy(id = "category-addBtn")
     private WebElement eleIdBtnAddCategory;
 
-//    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    //    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory todo-category todo-bulkDdl')]")
     private List<WebElement> dropdownCategoryEle;
 
@@ -912,6 +913,7 @@ public class AbstractPage {
             NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     public void sendEnterkey(WebElement element, String elementName) {
         getLogger().info("Try to sendEnterkey: " + elementName);
         try {
@@ -1074,18 +1076,18 @@ public class AbstractPage {
      */
     public void createNewCategory(String categoryNameInput) throws Exception {
         Thread.sleep(smallerTimeOut);
-        String CategoryName = null;
+        String categoryName = null;
         if (categoryNameInput == "") {
-            CategoryName = "Category " + randomNumber();
+            categoryName = "Category " + randomNumber();
         } else {
-            CategoryName = categoryNameInput;
+            categoryName = categoryNameInput;
         }
         getLogger().info("Adding new category...");
         navigateToAddNewCategory();
         waitForClickableOfElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-        sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
+        sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
 //        closeSuccessToastMes();
@@ -2392,6 +2394,7 @@ public class AbstractPage {
 
     /**
      * Switch to other tab
+     * Tab index count from 0(mean first tab tabIndex=0, second tab tabIndex=1)
      *
      * @param tabIndex
      */
@@ -2908,7 +2911,7 @@ public class AbstractPage {
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualAttributeValue = null;
-                    if(element.getAttribute(attributeName) != null) {
+                    if (element.getAttribute(attributeName) != null) {
                         actualAttributeValue = element.getAttribute(attributeName);
                         return false;
                     }
@@ -3098,4 +3101,26 @@ public class AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 12/06/2017.*/
+
+    /**
+     * Added by huy.huynh on 15/06/2017.
+     * SmokeTest R2
+     */
+    /**
+     * /**
+     * Scroll to footer of current page
+     * TODO: duplicating with scrollToFooter on AbstractService, find solution later
+     *
+     * @param webDriver current webDriver
+     */
+    public void scrollToFooter(WebDriver webDriver) {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public void chooseFirstOptionOfInputSelect(List<WebElement> list, String elementName) {
+        clickElement(list.get(0), elementName);
+    }
+     /*-----------end of huy.huynh on 15/06/2017.*/
 }
