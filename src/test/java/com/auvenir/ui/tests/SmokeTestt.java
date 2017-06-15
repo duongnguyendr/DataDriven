@@ -100,7 +100,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
             adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User4", "Auditor");
             adminId = adminId.replace("chr.", "");
             auditorId = auditorId.replace("chr.", "");
             clientId = clientId.replace("chr.", "");
@@ -118,10 +118,10 @@ public class SmokeTestt extends AbstractTest {
             clientService.selectAddNewClient();
             clientService.inviteNewClient("Titan client", clientId, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
-            adminService.loginWithUserRole(adminId);
-            adminService.verifyPageLoad();
-            adminService.scrollToFooter(getDriver());
-            adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
+//            adminService.loginWithUserRole(adminId);
+//            adminService.verifyPageLoad();
+//            adminService.scrollToFooter(getDriver());
+//            adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
@@ -187,9 +187,9 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("Engagement");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createCategories("Category" + random.nextInt(100));
             auditorCreateToDoService.verifyExistedCategory();
-            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
 //            auditorCreateToDoService.
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -201,8 +201,8 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 17, enabled = true, description = "Verify Audit Assignee box")
-    public void verifyAuditAssigneeBox() throws Exception {
+    @Test(priority = 18, enabled = true, description = "Verify Audit Assignee box")
+    public void verifyAuditAssignee() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -260,6 +260,33 @@ public class SmokeTestt extends AbstractTest {
         } catch (Exception e) {
             NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 17, enabled = true, description = "Verify Auditor select due date for To-Do")
+    public void verifyDuedateTime() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        boolean isNewToDoPage = false;
+        try {
+            String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User4", "Auditor");
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("Engagement144");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("Engagement144");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            getLogger().info("Verifying unable to send text into Duedate box..");
+            auditorCreateToDoService.verifyUnableToInputDuedate("12/4/2017");
+            getLogger().info("Choosing date in table due-date..");
+            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
+            getLogger().info("Verifying format is mm/dd/yyy..");
+            auditorCreateToDoService.checkFormatDueDate();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor select due date for To-Do.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor select due date for To-Do.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 }

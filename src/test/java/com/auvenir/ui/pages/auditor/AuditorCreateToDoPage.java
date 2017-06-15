@@ -204,7 +204,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='ui-datepicker-title']")
     private WebElement eleDataPickerTitle;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker mg5 hasDatepicker']")
     private List<WebElement> eleToDoNewRowDueDateText;
 
     @FindBy(id = "due-date")
@@ -1728,6 +1728,26 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
+     * Create by: duong nguyen
+     * Input due date in to-do task
+     */
+
+    public void inputDueDate(){
+        Calendar date = Calendar.getInstance();
+        DatePicker datePicker = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
+        try{
+            //Choose current day + 1
+            date.add(Calendar.DATE, 1);
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            datePicker.pickADate(String.valueOf(day));
+            NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
      * choose date item in date picker
      *
      * @return true | false
@@ -1745,8 +1765,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             } else {
                 waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
                 eleToDoNewRowDueDateText.get(0).click();
-                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
-                eleXpathChooseDate.click();
+                //Using DatePicker class
+                inputDueDate();
+//                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
+//                eleXpathChooseDate.click();
+//                sendKeyTextBox(eleToDoNewRowDueDateText.get(0), getDate(2), "eleToDoNewRowDueDateText");
                 result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
                 System.out.println("date selected is: " + eleToDoNewRowDueDateText.get(0).getAttribute("value"));
                 Thread.sleep(smallerTimeOut);

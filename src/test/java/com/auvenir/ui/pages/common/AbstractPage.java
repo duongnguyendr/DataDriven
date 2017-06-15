@@ -154,6 +154,7 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuEle;
 
+//    @FindBy(id = "category-name")
     @FindBy(id = "category-name")
     private WebElement categoryNameFieldOnFormEle;
 
@@ -1074,18 +1075,18 @@ public class AbstractPage {
      */
     public void createNewCategory(String categoryNameInput) throws Exception {
         Thread.sleep(smallerTimeOut);
-        String CategoryName = null;
+        String categoryName = null;
         if (categoryNameInput == "") {
-            CategoryName = "Category " + randomNumber();
+            categoryName = "Category " + randomNumber();
         } else {
-            CategoryName = categoryNameInput;
+            categoryName = categoryNameInput;
         }
         getLogger().info("Adding new category...");
         navigateToAddNewCategory();
         waitForClickableOfElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-        sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
+        sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
 //        closeSuccessToastMes();
