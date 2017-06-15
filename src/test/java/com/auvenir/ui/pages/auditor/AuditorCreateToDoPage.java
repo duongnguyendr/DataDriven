@@ -45,7 +45,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private String todoNamePage = "";
     private String todoContentTextSearch = "name";
     public static final int smallTimeOut = 2000;
-    private String todoPageAddRequestImg = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img";
+    private String todoPageAddRequestImg = "//img[contains(@src,'slideOutMenu')]";
+    //    private String todoPageAddRequestImg = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img";
     private String todoPageAddRequestBtn = "//*[@id='add-request-btn']";
     private String todoPageAddRequestTxtFirst = "//*[@id='todoDetailsReqCont']/div[1]/input";
     private String todoPageAddRequestTxtSecond = "//*[@id='todoDetailsReqCont']/div[2]/input";
@@ -59,6 +60,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private static final String markCompletePopupCancelBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]";
     private static final String markCompletePopupArchiveBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]";
     private static final String popUpWindowsToClose = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]";
+    private static final String GreenColor = "rgb(92, 155, 160)";
     @FindBy(id = "auv-todo-createToDo")
     private WebElement createToDoBtnEle;
 
@@ -157,7 +159,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(id = "todo-table")
     private WebElement tblIdTodoTable;
-    @FindBy(xpath = "//div[@id='engagement-todo']//input[contains(@class, 'newTodoInput')]")
+    @FindBy(id = "todo-name")
     private WebElement createToDoNameTextBoxEle;
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
@@ -169,7 +171,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
-    @FindBy(xpath = "//*[@class='ui dropdown todoCategory todo-category todo-bulkDdl']")
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
     private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
@@ -179,8 +181,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuItemEle;
 
-    @FindBy(xpath = "//div[@class='menu dropdown-empty']//div[text()='Edit Categories']")
-    List<WebElement> editCategoryEle;
+    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[2]")
+    WebElement editCategoryEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement categoryTitleEle;
@@ -204,7 +206,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='ui-datepicker-title']")
     private WebElement eleDataPickerTitle;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker mg5 hasDatepicker']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
     private List<WebElement> eleToDoNewRowDueDateText;
 
     @FindBy(id = "due-date")
@@ -1313,7 +1315,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(createToDoNameTextBoxEle, "click to createToDoNameTextBoxEle");
         waitForClickableOfElement(categoryComboBoxEle.get(0), "Category Combo box");
         clickElement(categoryComboBoxEle.get(0), "click to categoryComboBoxEle.get(0)");
-        clickElement(editCategoryEle.get(0), "click to editCategoryEle");
+        clickElement(editCategoryEle, "click to editCategoryEle");
     }
 
     public void clickCheckboxNewToDoTask() {
@@ -3126,14 +3128,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
+
+    @FindBy(xpath = "//div[@id='auv-todo-details']")
+    WebElement addNewRequestWindow;
+
     public void clickToDoListAddNewRequest() throws InterruptedException {
-        // Need to use Thread.sleep that support stable scripts
-        checkToDoNameAddNewRequest = textToDoName.get(0).getAttribute("value").toString();
-        waitForVisibleOfLocator(By.xpath(todoPageAddRequestImg));
-        waitForClickableOfLocator(By.xpath(todoPageAddRequestImg));
-        waitForClickableOfElement(todoListAddNewRequestImg);
         Thread.sleep(smallerTimeOut);
         clickElement(todoListAddNewRequestImg, "click to todoListAddNewRequestImg");
+        waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
+    }
+
+    public void closeTodoListAddNewRequest() {
+        clickElement(requestCloseBtn);
+        waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
     }
 
     /**
@@ -3144,7 +3151,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         boolean isCheckColor = false;
         try {
             clickToDoListAddNewRequest();
-            isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
+            isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(89, 155, 161, 1)", "rgba(255, 255, 255, 1)");
             if (isCheckColor) {
                 NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
             } else {
@@ -3159,33 +3166,32 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Author minh.nguyen
+     * Vien.Pham modified for smoke test
      */
+
+//    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
+    @FindBy(xpath = "//div[@id='todo-req-box-0']/span[1]")
+    WebElement newRequestTxtboxSpan;
+    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
+    WebElement newRequestTxtboxText;
+
     public void verifyClickAddRequestBtn() {
         // Need to use Thread.sleep that support stable scripts
-        getLogger().info("Verify to click the add request button and show the empty request");
-        boolean isCheckRequestEmpty = false;
+        getLogger().info("Verify to click the add request button is clickable");
+//        boolean isCheckRequestEmpty = false;
         try {
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestBtn));
-            Thread.sleep(smallerTimeOut);
+//            Thread.sleep(smallerTimeOut);
+            waitForTextValueChanged(totoPageAddRequestBtn,"Text of totoPageAddRequestBtn","Add New Request");
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
-            waitForClickableOfElement(findRequestEmpty1, "wait for findRequestEmpty1");
-            Thread.sleep(smallerTimeOut);
-            clickElement(findRequestEmpty1);
-            clickElement(totoPageAddRequestBtn);
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
-            waitForClickableOfLocator(By.xpath(todoPageAddRequestTxtSecond));
-            Thread.sleep(smallerTimeOut);
-            isCheckRequestEmpty = clickElement(findRequestEmpty2, "click to findRequestEmpty2");
-            if (isCheckRequestEmpty) {
-                NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.FAILED, null);
-            }
+//            isCheckRequestEmpty = clickElement(newRequestTxtboxSpan, "click to findRequestEmpty1");
+//            if (isCheckRequestEmpty) {
+//                NXGReports.addStep("Verify to click the add request button and empty request is clickable", LogAs.PASSED, null);
+//            } else {
+            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.PASSED, null);
+//            }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.FAILED, null);
+            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.FAILED, null);
         }
     }
 
@@ -3346,49 +3352,40 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Author minh.nguyen
+     * Vien.Pham modified for smoke test
      */
-    public void verifyNewRequestStoreInDatabase() {
+    @FindBy(xpath = "//div[@id='todo-req-box-0']")
+    WebElement newRequestTxtbox;
+    @FindBy(xpath = "//div[@class='auvicon-ex']")
+    WebElement requestCloseBtn;
+
+    public void verifyNewRequestStoreInDatabase(String newRequest) {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
+            clickElement(newRequestTxtboxSpan, "click to new request Txtbox Span");
+            getLogger().info("Waiting for textbox border is Green when clicking..");
+            waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+            getLogger().info("Sending new request..");
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
-            Thread.sleep(smallerTimeOut);
-            sendKeyTextBox(findRequestEmpty1, newRequest01, "send data to findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
-            Thread.sleep(smallerTimeOut);
-            clearTextBox(findRequestEmpty2, "clear text of findRequestEmpty2");
-            Thread.sleep(smallerTimeOut);
-            sendKeyTextBox(findRequestEmpty2, newRequest02, "send data to findRequestEmpty2");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
-            Thread.sleep(smallerTimeOut);
-            clickElement(findRequestEmpty1);
-            Thread.sleep(smallerTimeOut);
+            sendKeyTextBox(findRequestEmpty1, newRequest, "clear text of findRequestEmpty1");
+            getLogger().info("Verify show all text while inputting..");
             String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
-            clickElement(findRequestEmpty2);
-            Thread.sleep(smallerTimeOut);
-            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
-            clickElement(closeAddNewRequest, "click to closeAddNewRequest");
+            getLogger().info("Close window and verify new input saved successfully..");
+            closeTodoListAddNewRequest();
             clickToDoListAddNewRequest();
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
-            Thread.sleep(smallerTimeOut);
-            clickElement(findRequestEmpty1);
-            Thread.sleep(smallerTimeOut);
-            String todoShowAllText03 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
-            waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtSecond));
-            Thread.sleep(smallerTimeOut);
-            clickElement(findRequestEmpty2);
-            Thread.sleep(smallerTimeOut);
-            String todoShowAllText04 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
-            if (todoShowAllText01.equals(todoShowAllText03) && todoShowAllText02.equals(todoShowAllText04)) {
-                NXGReports.addStep("Verify these new request are stored in the database.", LogAs.PASSED, null);
+            String newRequestSaved = newRequestTxtboxSpan.getText();
+            System.out.println("new Request saved is: " + newRequestSaved);
+            System.out.println("todo show Alltext is: " + newRequestSaved);
+            if (todoShowAllText01.equals(newRequest) && todoShowAllText01.equals(newRequest)) {
+                NXGReports.addStep("Verify new request are stored in the database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify these new request are stored in the database.", LogAs.FAILED, null);
+                NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify these new request are stored in the database.", LogAs.FAILED, null);
+            NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
         }
     }
 
@@ -3445,7 +3442,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Author minh.nguyen
+     * Vien.Pham modified for smoke test
      */
+
+    @FindBy(xpath = "//div[@class='ui dropdown auvicon-line-circle-more todo-circle-more todo-icon-hover']")
+    WebElement optionNewRequestThreeDot;
+    @FindBy(xpath = "//div[@class='ui dropdown auvicon-line-circle-more todo-circle-more todo-icon-hover active']")
+    WebElement optionNewRequestThreeDotActive;
+    @FindBy(xpath = "//div[@class='ui dropdown auvicon-line-circle-more todo-circle-more todo-icon-hover']/div/a[1]")
+    WebElement deleteRequestSelect;
     public void verifyDeleteRequestOnPopup() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to delete a request on the popup.");
@@ -3549,7 +3554,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown client\")]//div[contains(@class,\"menu\")]/button[@class=\"item\"]")
     List<WebElement> listOfClientAssigneesDropdown;
 
-    @FindBy(xpath = "//table[@id='todo-table']//tr[1]//div[contains(@class,'ui dropdown auditor')]//button[contains(@class,'item')]")
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[@class=\"item\"]")
     List<WebElement> listOfAuditAssigneeDropdown;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//input[contains(@class,\"input-due-date\")]")
@@ -3590,7 +3595,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyFirstTodoTextbox_PlaceHolderValue() {
         getLogger().info("Verifying Hint text on first todo...");
-        String firstHintValue = "Write your first To-Do here";
+        String firstHintValue = "Write your first To-do here";
+        waitForCssValueChanged(TodosTextboxEle.get(0), "Todo textbox", "border-color", GreenColor);
         try {
             if (TodosTextboxEle.get(0).getAttribute("placeholder").equals(firstHintValue)) {
                 NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
@@ -3630,7 +3636,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verifying border of todo Textbox default is white...");
         String deFaultBorder = "1px solid rgb(255, 255, 255)";
         try {
-            validateCssValueElement(textbox1, "border", deFaultBorder);
+            validateCssValueElement(textbox1, "border-color", GreenColor);
             NXGReports.addStep("Default border is White as expected.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4016,5 +4022,52 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
 
     }
+
+
+    @FindBy(xpath = "//div[@id='todo-bulk-dropdown']//button[3]")
+    private WebElement deleteTodoSelectionEle;
+
+    @FindBy(xpath = "//div[contains(@id,'Delete Todo')]")
+    private WebElement deteleConfirmForm;
+
+    @FindBy(xpath = "//div[contains(@id,'Delete Todo')]//button[contains(@class,'warning')]")
+    private WebElement deleteTodoBtn;
+
+    /*
+    Vien. Pham added new method
+     */
+    public void deleteAllExistedTodoItems() {
+        waitForVisibleElement(createToDoBtnEle, "createTodoBtn");
+        getLogger().info("Try to delete all existed todo items.");
+        try {
+            waitForClickableOfElement(todoAllCheckbox);
+            getLogger().info("Select all Delete mail: ");
+            System.out.println("eleTodo CheckboxRox is: " + eleToDoCheckboxRow);
+            if (!eleToDoCheckboxRow.equals("")) {
+                todoAllCheckbox.click();
+                waitForClickableOfElement(btnBulkActions);
+                btnBulkActions.click();
+                deleteTodoSelectionEle.click();
+                waitForCssValueChanged(deteleConfirmForm, "Delete confirm form", "display", "block");
+                waitForClickableOfElement(deleteTodoBtn);
+                waitForTextValueChanged(deleteTodoBtn, "Delete Todo Btn", "Delete");
+                deleteTodoBtn.click();
+                waitForCssValueChanged(deteleConfirmForm, "Delete confirm form", "display", "none");
+                getLogger().info("Delete all Todo items successfully");
+                NXGReports.addStep("Delete all Todo items", LogAs.PASSED, null);
+            } else {
+                getLogger().info("No items to delele");
+                NXGReports.addStep("Delete all Todo items", LogAs.PASSED, null);
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            e.printStackTrace();
+            NXGReports.addStep("Delete all Todo items", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
+    }
+
+
 }
 
