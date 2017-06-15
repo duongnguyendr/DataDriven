@@ -27,13 +27,15 @@ public class SmokeTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private ClientService clientService;
     private GmailLoginService gmailLoginService;
-    private AuditorCreateToDoService auditorCreateToDoService;
     private String adminId, auditorId, clientId;
     private String sData[];
     private String testCaseId;
     private SimpleDateFormat dateFormat;
     private String timeStamp;
     private AuditorCreateToDoService auditorCreateToDoService;
+
+    public SmokeTest() {
+    }
 
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login")
