@@ -326,7 +326,7 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         String auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTest","EngagementName","Valid Name");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest","Valid value","EngagementName");
         try {
             auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
