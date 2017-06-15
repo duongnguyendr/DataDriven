@@ -557,13 +557,13 @@ public class AbstractPage {
             if(!isResult)
             {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
             return isResult;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Element is not visible.");
-            NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info("Element is not visible, try to waitForVisibleOfLocator by seconds.");
+            NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return isResult;
         }
     }
