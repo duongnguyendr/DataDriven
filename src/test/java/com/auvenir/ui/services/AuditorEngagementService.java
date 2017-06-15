@@ -192,8 +192,24 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.verifyUIListEngagementFooter();
     }
 
-    public void verifySearchEngagementName(String engagmentName, String companyName) throws InterruptedException {
-        auditorEngagementPage.searchEngagement(engagmentName, companyName);
+    public void sendKeyCompanyName(String companyName) throws InterruptedException {
+        auditorEngagementPage.sendKeyCompanyName(companyName);
+    }
+
+    public void verifySearchCompanyName(String companyName) throws InterruptedException {
+        auditorEngagementPage.verifyCompanyName(companyName);
+    }
+
+    public void sendKeyEngagementName(String engagmentName) throws InterruptedException {
+        auditorEngagementPage.sendKeyEngagementName(engagmentName);
+    }
+
+    public void verifySearchEngagementName(String engagmentName) throws InterruptedException {
+        auditorEngagementPage.verifyEngagementName(engagmentName);
+    }
+
+    public void verifySortCompanyName(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortCompanyName(isAsc);
     }
 }
 
