@@ -36,7 +36,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         {
             String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
             String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User4", "Auditor");
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.createNewEnagement(engagementNameUnix, "engagement type", companyNameUnix);

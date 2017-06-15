@@ -35,7 +35,8 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 20;
+    public static final int waitTime = 60;
+    public static final int waitTimeOut = 1;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -526,6 +527,44 @@ public class AbstractPage {
             getLogger().info("Element is not visible.");
             NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
+        }
+    }
+
+    /**
+     * created by: minh.nguyen
+     * @Description In order to wait element to be visible by locator with seconds input.
+     */
+    public boolean waitForVisibleOfLocator(By locator, int seconds) {
+        getLogger().info("Try to waitForVisibleOfLocator by seconds");
+        boolean isResult = false;
+        try {
+            int i = 0;
+            while(i < seconds){
+                try{
+                    getDriver().findElement(locator);
+                    isResult = true;
+                    NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
+                    break;
+                } catch(Exception ex){
+                }
+                try {
+                    Thread.sleep(smallTimeOut);
+                    i++;
+                } catch (Exception e) {
+
+                }
+            }
+            if(!isResult)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            return isResult;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not visible.");
+            NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return isResult;
         }
     }
 
