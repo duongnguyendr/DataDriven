@@ -117,6 +117,7 @@ public class SmokeTestt extends AbstractTest {
             clientService.selectAddNewClient();
             clientService.inviteNewClient("Titan client", clientId, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
@@ -158,8 +159,6 @@ public class SmokeTestt extends AbstractTest {
     public void verifyClientLogsInAndActive() {
         getLogger().info("Verify client logs in and OnBoarding page is displayed.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        adminService = new AdminService(getLogger(), getDriver());
-        auvenirService = new AuvenirService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientEngagementService= new ClientEngagementService(getLogger(),getDriver());
         try {
@@ -184,10 +183,35 @@ public class SmokeTestt extends AbstractTest {
             clientSignUpService.fillUpSecurityForm("Testpassword1!");
             clientEngagementService.verifyNavigatedToClientEngagementPage();
 
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 11, enabled = true, description = "Active successful and client log in system"/*, dependsOnMethods = {"verifyClientLogsInAndActive"}*/)
+    public void verifyClientActiveAfterSignUpSuccess() {
+        getLogger().info("Verify client logs in and OnBoarding page is displayed.");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        clientEngagementService= new ClientEngagementService(getLogger(),getDriver());
+        try {
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+            adminId = adminId.replace("chr.", "");
+            clientId = clientId.replace("chr.", "");
+
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, "Active");
+
+            clientEngagementService.loginWithUserRole(clientId);
+            clientEngagementService.verifyNavigatedToClientEngagementPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
