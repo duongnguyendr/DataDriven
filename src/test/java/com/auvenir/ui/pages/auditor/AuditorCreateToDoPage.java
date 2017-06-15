@@ -3127,7 +3127,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         boolean isCheckColor = false;
         try {
             clickToDoListAddNewRequest();
-            isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(89, 155, 161, 1)", "rgba(255, 255, 255, 1)");
+            isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
             if (isCheckColor) {
                 NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
             } else {
@@ -4018,7 +4018,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Try to delete all existed todo items.");
         try {
             Boolean isInvisible = findNewTodoItems();
+            System.out.println("isInvisible: "+ isInvisible);
             if (isInvisible) {
+                Thread.sleep(1000);
                 waitForClickableOfElement(todoAllCheckbox);
                 getLogger().info("Select all Delete mail: ");
                 System.out.println("eleTodo CheckboxRox is: " + eleToDoCheckboxRow);
@@ -4048,10 +4050,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//tr[@id='empty-todo']")
     WebElement emptyTodoItems;
+    String emptyTodoItemsStr = "//tr[@id='empty-todo']";
 
     public boolean findNewTodoItems() {
         boolean isCheck = true;
-        if (waitForVisibleElement(emptyTodoItems, "emptyTodo Item")) {
+        if (waitForVisibleOfLocator(By.xpath(emptyTodoItemsStr),waitTimeOut)) {
             return isCheck = false;
         }
         return isCheck;
