@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 60;
+    public static final int waitTime = 20;
     public static final int waitTimeOut = 1;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
@@ -2670,6 +2670,7 @@ public class AbstractPage {
             getLogger().info("Try to validate Element is not existed.");
             getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             element.click();
+            //getDriver().
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
