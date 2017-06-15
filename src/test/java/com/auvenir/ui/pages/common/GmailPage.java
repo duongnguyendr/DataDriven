@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages.common;
 
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -111,11 +112,6 @@ public class GmailPage extends AbstractPage {
     public List<WebElement> getLsEleSignInMailLnk() {
         return lsEleSignInMailLnk;
     }
-        /*@FindBy(xpath = "(//span[contains(text(),'Sign in to Auvenir!')])[position()=1]")
-        private WebElement eleSignInMailLnk;
-		public WebElement getEleSignInMailLnk() {
-			return eleSignInMailLnk;
-		}*/
 
     @FindBys({@FindBy(xpath = "//span[contains(text(),'Account is Active')]")})
     private List<WebElement> lsEleYourAccActiveLnk;
@@ -175,12 +171,12 @@ public class GmailPage extends AbstractPage {
 
     public void gmailLogout() throws Exception {
         try {
-            //getEleProfileIcn().click();
-            waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+
+            waitForVisibleElement(eleProfileIcn, "eleProfileIcn");
             clickElement(eleProfileIcn, "click to eleProfileIcn");
-            //getEleSignOutBtn().click();
-            waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
+            waitForVisibleElement(eleSignOutBtn, "eleSignOutBtn");
             clickElement(eleSignOutBtn, "click to eleSignOutBtn");
+            Thread.sleep(3000);
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -478,9 +474,6 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Start Your Engagement']")
     private WebElement buttonStartEngagement;
 
-    @FindBy(xpath = "//h3[@id='welcome-body']")
-    private WebElement titleWelcome;
-
     @FindBy(id = "BltHke nH oy8Mbf aE3")
     private WebElement divSearchResultHidden;
 
@@ -493,29 +486,16 @@ public class GmailPage extends AbstractPage {
     public void signInGmail(String email, String password) {
         try {
             Thread.sleep(1000);
-            /*sendKeyTextBox(inputEmail, email, "Input Email");
-            clickElement(buttonNextToPassword, "Button Next To Password");
-
-            validateElementText(titleForgotPassword, "Forgot password?");
-            sendKeyTextBox(inputPassword, password, "Input Password");
-            clickElement(buttonPasswordNext, "Button Password Next");*/
             getLogger().info("Try to login GMail");
             sendKeyTextBox(eleEmail, email, "eleEmail");
             sendTabkey(eleEmail, "eleEmail");
+            sendEnterkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
-            //Clicking on "Next" button
-            Thread.sleep(1000);
-            //clickAndHold(eleNext, "eleNext");
-            //Sending password
-            //Thread.sleep(500);
-            //sendKeyTextBox(elePassword,password,"eleEmail");
-            //Thread.sleep(1000);
-            elePassword.sendKeys(password);
+            Thread.sleep(2000);
+            sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
-            //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
-            //eleNext.click();
+            clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -527,10 +507,8 @@ public class GmailPage extends AbstractPage {
             Thread.sleep(1000);
             elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
-            //Clicking on "Next" button
             Thread.sleep(1000);
-            clickAndHold(eleNext, "eleNext");
-            //eleNext.click();
+            clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -544,7 +522,8 @@ public class GmailPage extends AbstractPage {
         try {
             sendKeyTextBox(inputSearch, GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"), "Search Email");
             clickElement(buttonSearch, "Button Search");
-            waitForCssValueChanged(divSearchResultHidden, "Hidden div", "display", "none");
+            //waitForCssValueChanged(divSearchResultHidden, "Hidden div", "display", "none");
+            GeneralUtilities.waitSomeSeconds(5);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -557,16 +536,17 @@ public class GmailPage extends AbstractPage {
         try {
             clickElement(rowSentEmail, "Row Sent Email");
             clickElement(buttonStartEngagement, "Button Start Engagement");
-            validateElementText(titleWelcome, "Welcome to Auvenir!");
 
             /* TODO code for wrong link on invited client email unfixed - still unfixed
             String link = buttonStartEngagement.getAttribute("href");
             link = link.replace(":3083", "");
             GeneralUtilities.loadURL(getDriver(), link);*/
 
-//            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
-//            wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
-            getLogger().info("Client invited link loaded.(Status change: Pending->Onboarding)");
+            /*
+            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+            wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
+            */
+            getLogger().info("Redirecting for Gmail to Auvenir Welcome Page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -585,7 +565,8 @@ public class GmailPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id=\":8q\"]/b")
     private WebElement nonReplyActiveEmail;
-    public WebElement getNonReplyActiveEmail(){
+
+    public WebElement getNonReplyActiveEmail() {
         return nonReplyActiveEmail;
     }
 
@@ -599,7 +580,7 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Select all Delete mail: ");
             allMailCheckBox.click();
             Thread.sleep(200);
-            if(deleteBTN.isDisplayed()) {
+            if (deleteBTN.isDisplayed()) {
                 getLogger().info("Click Delete All Email.");
                 deleteBTN.click();
             }
@@ -636,7 +617,7 @@ public class GmailPage extends AbstractPage {
         try {
             getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            if (!validateNotExistedElement(getEleEmail(), "UserName textbox")){
+            if (!validateNotExistedElement(getEleEmail(), "UserName textbox")) {
                 //Wait for clickable of userName txtbox
                 waitForClickableOfElement(getEleEmail(), "UserName textbox");
                 sendKeyTextBox(getEleEmail(), userName, "UserName textbox");
@@ -647,22 +628,22 @@ public class GmailPage extends AbstractPage {
                 getEleSignInBtn().click();
                 getEleInviteMailLnk().click();
             }
-
-//          Thread.sleep(2000);
-//            gmailLoginPo.getEleStartBtn().click();
-//            gmailWindow = getDriver().getWindowHandle();
-//            for (String winHandle : getDriver().getWindowHandles()) {
-//                getDriver().switchTo().window(winHandle);
+              /*
+              Thread.sleep(2000);
+              gmailLoginPo.getEleStartBtn().click();
+              gmailWindow = getDriver().getWindowHandle();
+              for (String winHandle : getDriver().getWindowHandles()) {
+              getDriver().switchTo().window(winHandle);
+              */
         } catch (AssertionError e) {
             NXGReports.addStep("Page not Loaded", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public void selectActiveEmaill() {
-        waitForClickableOfElement(eleEmailAuvenir,"Non-reply Active email");
+        waitForClickableOfElement(eleEmailAuvenir, "Non-reply Active email");
         clickElement(eleEmailAuvenir, "Non-reply Active email");
     }
 }

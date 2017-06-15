@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 60;
+    public static final int waitTime = 20;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -88,19 +88,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'Terms of Service')]")
+    @FindBy(xpath = "//a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(id = "privacy")
+    @FindBy(xpath = "//a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(id = "cookies")
+    @FindBy(xpath = "//a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -132,8 +132,9 @@ public class AbstractPage {
     @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]")
     List<WebElement> listOfCategoryDropdown;
 
-    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-    List<WebElement> listOfAddNewCategory;
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
+//    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
+            List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -163,8 +164,10 @@ public class AbstractPage {
     @FindBy(id = "category-addBtn")
     private WebElement eleIdBtnAddCategory;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    //    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory todo-category todo-bulkDdl')]")
     private List<WebElement> dropdownCategoryEle;
+
     @FindBy(id = "todo-table")
     private WebElement tblXpathTodoTable;
     @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div/button")
@@ -231,19 +234,19 @@ public class AbstractPage {
 
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleCookieNoticeLnk, "eleAuvenirIncTxt");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
+        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
+        validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
+        validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
+        validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
     }
 
     public void verifyTermsOfServiceLink() throws AWTException {
         getLogger().info("Verify Terms of service link.");
-        eleTermsOfServiceLnk.click();
+        clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
+        //eleTermsOfServiceLnk.click();
         waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
         getLogger().info("verify texts are rendered.");
-
         WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
         validateElementText(terms, "Terms of Service");
         WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
@@ -700,10 +703,13 @@ public class AbstractPage {
     public void clickAndHold(WebElement element, String elementName) {
         getLogger().info("Try to ClickAndHold: " + elementName);
         try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.click(element);
-            actions.perform();
+            if (GenericService.sBrowserData.equals("chr.")) {
+                Actions actions = new Actions(driver);
+                actions.moveToElement(element);
+                actions.click(element);
+                actions.perform();
+            } else
+                element.click();
             NXGReports.addStep("Clicked and Hold on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -720,9 +726,11 @@ public class AbstractPage {
     public void hoverElement(WebElement element, String elementName) {
         getLogger().info("Try to hoverElement: " + elementName);
         try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.build().perform();
+            if ((GenericService.sBrowserData).equals("chr.")) {
+                Actions actions = new Actions(driver);
+                actions.moveToElement(element);
+                actions.build().perform();
+            }
             NXGReports.addStep("Hover on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -746,7 +754,7 @@ public class AbstractPage {
             element.clear();
             waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
-            NXGReports.addStep("Send text: " + text + "on element: " + elementName, LogAs.PASSED, null);
+            NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
@@ -858,12 +866,23 @@ public class AbstractPage {
         getLogger().info("Try to sendTabkey: " + elementName);
         try {
             element.sendKeys(Keys.TAB);
-            element.sendKeys(Keys.ENTER);
             NXGReports.addStep("sendTabkey on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendTabkey on: " + elementName);
             NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void sendEnterkey(WebElement element, String elementName) {
+        getLogger().info("Try to sendEnterkey: " + elementName);
+        try {
+            element.sendKeys(Keys.ENTER);
+            NXGReports.addStep("sendEnterkey on element: " + elementName, LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to sendEnterkey on: " + elementName);
+            NXGReports.addStep("Unable to sendEnterkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1031,7 +1050,7 @@ public class AbstractPage {
         sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
-        closeSuccessToastMes();
+//        closeSuccessToastMes();
     }
 
 
@@ -1766,7 +1785,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 200);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);
@@ -1973,15 +1992,11 @@ public class AbstractPage {
                     return i;
                 }
             }
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
 
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
@@ -2339,6 +2354,7 @@ public class AbstractPage {
 
     /**
      * Switch to other tab
+     * Tab index count from 0(mean first tab tabIndex=0, second tab tabIndex=1)
      *
      * @param tabIndex
      */
@@ -2676,8 +2692,8 @@ public class AbstractPage {
      */
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-        Thread.sleep(smallerTimeOut);
-        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
+//        Thread.sleep(3000);
+//        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
 
@@ -2830,7 +2846,7 @@ public class AbstractPage {
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
-            System.out.println("Loi is: " + error);
+            System.out.println("Error is: " + error);
             getLogger().info(error);
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2848,11 +2864,16 @@ public class AbstractPage {
      */
     public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
         getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
+
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
-                    String actualAttributeValue = element.getAttribute(attributeName);
+                    String actualAttributeValue = null;
+                    if (element.getAttribute(attributeName) != null) {
+                        actualAttributeValue = element.getAttribute(attributeName);
+                        return false;
+                    }
                     System.out.println("Actual Displayed Value: " + actualAttributeValue);
                     if (actualAttributeValue.equals(attributeValue))
                         return true;
@@ -3039,4 +3060,26 @@ public class AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 12/06/2017.*/
+
+    /**
+     * Added by huy.huynh on 15/06/2017.
+     * SmokeTest R2
+     */
+    /**
+     * /**
+     * Scroll to footer of current page
+     * TODO: duplicating with scrollToFooter on AbstractService, find solution later
+     *
+     * @param webDriver current webDriver
+     */
+    public void scrollToFooter(WebDriver webDriver) {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public void chooseFirstOptionOfInputSelect(List<WebElement> list, String elementName) {
+        clickElement(list.get(0), elementName);
+    }
+     /*-----------end of huy.huynh on 15/06/2017.*/
 }

@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.marketing.mailtemplate;
 
 import com.auvenir.ui.pages.common.GmailPage;
+import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
@@ -8,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by cuong.nguyen on 4/25/2017.
@@ -265,10 +268,10 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         this.validateElememt(getEleFeedbackInform(), "Verify Feedback inform", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Email content ", LogAs.PASSED, null);
         //Checking footer of Invite Email
-        this.validateElememt(getEleSignatureMail(),"Verify signature",Element_Type.DISPLAYED);
+        this.validateElememt(getEleSignatureMail(), "Verify signature", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
         //Checking getStarted
-        this.validateElememt(getEleGetStarted(),"Verify Get started btn",Element_Type.DISPLAYED);
+        this.validateElememt(getEleGetStarted(), "Verify Get started btn", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Get Started btn", LogAs.PASSED, null);
     }
 
@@ -306,9 +309,17 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
     public void navigateToConfirmationLink() throws Exception {
         getLogger().info("Navigate to Confirmation Link");
         GmailPage gmailLoginPage = new GmailPage(getLogger(), getDriver());
+        Thread.sleep(3000);
         String link = eleGetStarted.getAttribute("href");
         System.out.print("Link: " + link);
         gmailLoginPage.gmailLogout();
+        Thread.sleep(2000);
+        if (GenericService.sBrowserData.equals("ff.")){
+            getLogger().info("Accept alert.");
+//            getDriver().switchTo().alert().accept();
+        }
         getDriver().get(link);
+        getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        waitForProgressOverlayIsClosed();
     }
 }

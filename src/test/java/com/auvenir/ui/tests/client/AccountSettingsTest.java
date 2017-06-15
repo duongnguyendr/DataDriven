@@ -22,9 +22,7 @@ public class AccountSettingsTest extends AbstractTest {
     public void verifyFooterClientAccountSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId= GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
-        String getTokenUrl =   GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
 
         try
         {
@@ -37,9 +35,7 @@ public class AccountSettingsTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify client Account Settings page footer.", LogAs.PASSED, null);
             //logCurrentStepEnd();
-
         }
-
         catch (Exception e)
         {
             NXGReports.addStep("Verify client Account Settings page footer", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

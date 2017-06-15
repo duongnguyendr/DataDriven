@@ -150,6 +150,12 @@ public class AuditorEngagementService extends AbstractService {
     /**
      *  Create New Engagement with the specific Name and Navigate to new engagement which is just created.
      *
+     * <p>
+     * #History business changed:
+     * R2: navigate after create engagement done:
+     * <p>  old: create new engagement -> Submit -> engagement list page
+     * <p>  new: create new engagement -> Submit -> this engagement detail page
+     *
      * @param engagementName The name of engagement
      * @param engagementType The type of engagement
      * @param company The company of engagement
@@ -160,7 +166,14 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.clickNewEnagementButton();
         auditorNewEngagementPage.verifyNewEngagementPage();
         auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company);
-        auditorEngagementPage.clickEngagementByPosition(auditorEngagementPage.findEngagementName(engagementName));
+        // R2: Change bussiness rule, need to mark a commment this line.
+//        auditorEngagementPage.clickEngagementByPosition(auditorEngagementPage.findEngagementName(engagementName));
+    }
+    public void createNewEnagement(String engagementName, String engagementType, String company) throws Exception {
+        getLogger().info("Create New Enagement.");
+        auditorEngagementPage.clickNewEnagementButton();
+        auditorNewEngagementPage.verifyNewEngagementPage();
+        auditorNewEngagementPage.createNewEngagement(engagementName, engagementType, company);
     }
 
     public void verifyAuditorPageHeaderContent(){
@@ -177,6 +190,10 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.verifyUIListEngagementHeader();
         auditorEngagementPage.verifyUIListEngagementBody();
         auditorEngagementPage.verifyUIListEngagementFooter();
+    }
+
+    public void verifySearchEngagementName(String engagmentName, String companyName) throws InterruptedException {
+        auditorEngagementPage.searchEngagement(engagmentName, companyName);
     }
 }
 

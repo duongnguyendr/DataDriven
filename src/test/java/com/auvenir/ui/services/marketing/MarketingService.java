@@ -1,5 +1,6 @@
 package com.auvenir.ui.services.marketing;
 
+import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.pages.marketing.*;
 import com.auvenir.ui.pages.marketing.onboarding.AuditorSignUpPage;
 import com.auvenir.ui.services.AbstractService;
@@ -15,10 +16,12 @@ import java.util.concurrent.TimeUnit;
 public class MarketingService extends AbstractService {
     MarketingPage marketingPage;
     AuditorSignUpPage auditorSignUpPage;
+    AdminLoginPage adminLoginPage;
     public MarketingService(Logger logger, WebDriver driver) {
         super(logger, driver);
         marketingPage = new MarketingPage(getLogger(), getDriver());
         auditorSignUpPage = new AuditorSignUpPage(getLogger(), getDriver());
+        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
     }
     public void verifyAboutContentPage(){
         marketingPage.verifyAboutContentPage();
@@ -49,6 +52,7 @@ public class MarketingService extends AbstractService {
         getLogger().info("Click on Login button.");
         marketingPage.clickOnSubmitBTN();
         marketingPage.waitForProgressOverlayIsClosed();
+        adminLoginPage.clickClosePopupWarningBrowser();
     }
     public void logout(){
         marketingPage.clickOnProfile();
@@ -85,6 +89,7 @@ public class MarketingService extends AbstractService {
     public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
         marketingPage.verifyColorErrorLoginMessage(attributeName, attributeValue);
     }
+
     public void deleteGmail(String emailAddress, String password)
     {
         deleteAllExistedGMail(emailAddress,password);
