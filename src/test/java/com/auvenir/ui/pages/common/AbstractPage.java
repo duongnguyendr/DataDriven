@@ -132,7 +132,7 @@ public class AbstractPage {
     @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]")
     List<WebElement> listOfCategoryDropdown;
 
-    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
     List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
@@ -163,7 +163,8 @@ public class AbstractPage {
     @FindBy(id = "category-addBtn")
     private WebElement eleIdBtnAddCategory;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+//    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory todo-category todo-bulkDdl')]")
     private List<WebElement> dropdownCategoryEle;
     @FindBy(id = "todo-table")
     private WebElement tblXpathTodoTable;
@@ -1031,7 +1032,7 @@ public class AbstractPage {
         sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
-        closeSuccessToastMes();
+//        closeSuccessToastMes();
     }
 
 
@@ -2676,8 +2677,8 @@ public class AbstractPage {
      */
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-        Thread.sleep(smallerTimeOut);
-        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
+//        Thread.sleep(smallerTimeOut);
+//        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
 

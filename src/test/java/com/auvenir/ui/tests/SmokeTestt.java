@@ -14,6 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 /**
  * Created by huy.huynh on 13/06/2017.
@@ -29,6 +30,7 @@ public class SmokeTestt extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private ClientService clientService;
     AuditorCreateToDoService auditorCreateToDoService;
+    AuditorEditCategoryService auditorEditCategoryService;
     private GmailLoginService gmailLoginService;
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
@@ -46,7 +48,7 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
             adminId = adminId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -66,7 +68,7 @@ public class SmokeTestt extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         try {
-            auditorId = GenericService.getUserFromExcelData("LoginData", "Valid User", "Auditor");
+            auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor");
             //auditorId= auditorId.replace("chr.","");
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
@@ -95,9 +97,9 @@ public class SmokeTestt extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         try {
-            clientId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Client");
-            adminId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Admin");
-            auditorId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Auditor");
+            clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
+            adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
+            auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
             adminId = adminId.replace("chr.", "");
             auditorId = auditorId.replace("chr.", "");
             clientId = clientId.replace("chr.", "");
@@ -134,8 +136,8 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Admin");
-            auditorId = GenericService.getUserFromExcelData("SmokeTest", "Valid User", "Auditor");
+            adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
+            auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
             adminId = adminId.replace("chr.", "");
             auditorId = auditorId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
@@ -153,21 +155,70 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 14, enabled = true, description = "Verify create to-do pages")
-    public void verifyCreateTodoPage() throws  Exception{
+    public void verifyCreateTodoPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 
-        try{
-            String userId = GenericService.getUserFromExcelData("SmokeTest", "Valid User4", "Auditor");
+        try {
+            String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User4", "Auditor");
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("Engagement");
-            auditorCreateToDoService.createToDoPage();
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify create, assign, request, delete to-do.", LogAs.PASSED, null);
-        }catch (Exception e){
-            NXGReports.addStep("Verify create, assign, request, delete to-do.", LogAs.FAILED,
+            NXGReports.addStep("Verify create to-do pages.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify create to-do pages.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 15, enabled = true, description = "Verify create category")
+    public void verifyCreateCategory() throws Exception {
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        Random random = new Random();
+        try {
+            String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User4", "Auditor");
+            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("Engagement");
+            auditorCreateToDoService.createCategories("Category" + random.nextInt(100));
+            auditorCreateToDoService.verifyExistedCategory();
+            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
+//            auditorCreateToDoService.
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify create to-do pages.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify create to-do pages.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 5, enabled = true, description = "Verify Audit Assignee box")
+    public void verifyAuditAssigneeBox() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        try {
+            String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User4", "Auditor");
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("Engagement11");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("Engagement11");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.verifyAuditAssigneeBox();
+            auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 }

@@ -19,13 +19,13 @@
         <!--</classes>-->
     <!--</test>-->
     <test name="Regression2" preserve-order="false">
-        <parameter name="browser" value="edge"/>
+        <parameter name="browser" value="chrome"/>
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTestt"/>
             <methods>
-                <include name="verifyCreateTodoPage"></include>
+                <include name="verifyAuditAssigneeBox"></include>
             </methods>
         </classes>
     </test>

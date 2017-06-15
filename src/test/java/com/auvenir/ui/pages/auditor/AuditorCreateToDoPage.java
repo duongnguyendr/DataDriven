@@ -157,7 +157,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(id = "todo-table")
     private WebElement tblIdTodoTable;
-    @FindBy(id = "todo-name")
+    @FindBy(xpath = "//div[@id='engagement-todo']//input[contains(@class, 'newTodoInput')]")
     private WebElement createToDoNameTextBoxEle;
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
@@ -169,7 +169,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private List<WebElement> categoryComboBoxTextEle;
 
     //Category ComboBox
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
+    @FindBy(xpath = "//*[@class='ui dropdown todoCategory todo-category todo-bulkDdl']")
     private List<WebElement> categoryComboBoxEle;
 
     //Category dropdown menu
@@ -179,8 +179,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuItemEle;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[2]")
-    WebElement editCategoryEle;
+    @FindBy(xpath = "//div[@class='menu dropdown-empty']//div[text()='Edit Categories']")
+    List<WebElement> editCategoryEle;
 
     @FindBy(xpath = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]//h3 [@class='setup-header']")
     WebElement categoryTitleEle;
@@ -1277,7 +1277,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(createToDoNameTextBoxEle, "click to createToDoNameTextBoxEle");
         waitForClickableOfElement(categoryComboBoxEle.get(0), "Category Combo box");
         clickElement(categoryComboBoxEle.get(0), "click to categoryComboBoxEle.get(0)");
-        clickElement(editCategoryEle, "click to editCategoryEle");
+        clickElement(editCategoryEle.get(0), "click to editCategoryEle");
     }
 
     public void clickCheckboxNewToDoTask() {
@@ -3485,7 +3485,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown client\")]//div[contains(@class,\"menu\")]/button[@class=\"item\"]")
     List<WebElement> listOfClientAssigneesDropdown;
 
-    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[@class=\"item\"]")
+    @FindBy(xpath = "//table[@id='todo-table']//tr[1]//div[contains(@class,'ui dropdown auditor')]//button[contains(@class,'item')]")
     List<WebElement> listOfAuditAssigneeDropdown;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//input[contains(@class,\"input-due-date\")]")
@@ -3952,7 +3952,5 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
 
     }
-
-
 }
 

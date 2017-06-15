@@ -1037,5 +1037,10 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyNameReturnDefault();
 
     }
+
+    public void verifyExistedCategory(){
+        createToDoPage.verifyExistedCategory();
+    }
+
 }
 
