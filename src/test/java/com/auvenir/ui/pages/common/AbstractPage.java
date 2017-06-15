@@ -2729,6 +2729,7 @@ public class AbstractPage {
      */
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
+//        Thread.sleep(3000);
 //        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
