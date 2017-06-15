@@ -300,16 +300,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@class='newRow']/td[7]/img")
     private List<WebElement> commentIconToDoListEle;
 
-    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
+//    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
+    @FindBy(xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private WebElement typeCommentFieldEle;
 
-    @FindBy(xpath = "//*[@id='comment-box']/p")
+    @FindBy(xpath = "//*[@id='comment-box']/p/span/span")
+//    @FindBy(xpath = "//*[@id='comment-box']/p")
     private WebElement commentboxTitleEle;
 
     @FindBy(xpath = "//*[@id='comment-box']/p//span[@class='details-comment-count commentNumber']")
     private WebElement commentboxCountNumberEle;
 
-    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']")
+//    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
     private List<WebElement> listCommentItemEle;
 
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/img[contains(@class,'user-profile-pic')]")
@@ -321,7 +324,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/time[@class='comment-time']")
     private List<WebElement> commentTimeEle;
 
-    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/div[@class='detComment']")
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//p[@class='detComment']")
+//    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/div[@class='detComment']")
     private List<WebElement> descriptionCommentEle;
 
     @FindBy(xpath = "//*[@id='comment-button']")
@@ -354,6 +358,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement deleteRequestMenu;
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div[1]//a[@class='details-duplicate item']")
     private WebElement copyTaskMenu;
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
+    private WebElement emptyRowToDotask;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
 
@@ -626,15 +632,45 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyClickCategoryCancelButton();
     }
 
+    /**
+     * Create new to do task with the toDoName parameter.
+     *
+     * <p>
+     * #History business changed:
+     * R2: Create new to do task :
+     * <p>  old: need to create new category and select from dropdown category.
+     * <p>  new: create new category and to do task is auto selected with new one.
+     * <p>  new: Due Date is auto selected.
+     * <p>  new: The save is not exist anymore.
+     *
+     *
+     * @param toDoName The String name of to do task which is created.
+     */
     public void createToDoTask(String toDoName) throws Exception {
-        waitForClickableOfElement(createToDoBtnEle, "Create To Do Button");
-        createToDoBtnEle.click();
-        waitForJSandJQueryToLoad();
-        createToDoNameTextBoxEle.sendKeys(toDoName);
-        // Create new category
-        createNewCategory("");
-        waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
-        categoryDropdownEle.click();
+        getLogger().info("Create To Do Task with 'toDoName'");
+        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+        String rowString = emptyRowToDotask.getAttribute("class");
+        int size = 1;
+        int index = -1;
+        if (!rowString.equals("")) {
+            size = toDoTaskRowEle.size() + 1;
+            index = findToDoTaskName(toDoName);
+        }
+        if(index == -1) {
+            Thread.sleep(1000);
+            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+            clickElement(createToDoBtnEle, "Create To Do button");
+            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            // Create new category
+            createNewCategory("");
+        }
+//        waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
+        // R2: Change bussiness rule, all field is auto selected.
+/*        categoryDropdownEle.click();
         waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
         categoryOptionItemEle.get(0).click();
         waitForClickableOfElement(dueDateFieldEle, "Due Date field");
@@ -643,9 +679,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         dateItemonCalendarEle.click();
         waitForVisibleElement(toDoSaveIconEle, "Save Icon");
         toDoSaveIconEle.click();
-//			waitForVisibleElement(toastMessageSucessEle,"Toast Message Successful");
-//			waitForCssValueChanged(toastMessageSucessEle,"Toast Message Successful","class")
-        verifyAddNewToDoTask(toDoName);
+			waitForVisibleElement(toastMessageSucessEle,"Toast Message Successful");
+			waitForCssValueChanged(toastMessageSucessEle,"Toast Message Successful","class")
+        verifyAddNewToDoTask(toDoName);*/
     }
 
     public void createToDoTask() throws Exception {
@@ -2873,6 +2909,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info(e);
             NXGReports.addStep("TestScript Failed: Verify GUI of Comment List", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("TestScript Failed: Verify GUI of Comment List", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2918,7 +2959,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public int getNumberOfListComment() {
         getLogger().info("Get Number of List Comment.");
-        if (listCommentItemEle.isEmpty()) {
+        if (commentboxTitleEle.getText().trim().equals("0")) {
             return 0;
         } else {
             return listCommentItemEle.size();

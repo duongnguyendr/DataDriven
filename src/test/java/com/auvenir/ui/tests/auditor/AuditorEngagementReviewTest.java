@@ -1,20 +1,54 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.pages.marketing.engagement.AuditorEngagementReviewPO;
+import com.auvenir.ui.services.*;
 import com.auvenir.ui.tests.AbstractTest;
+import com.auvenir.utilities.GeneralUtilities;
+import com.auvenir.utilities.GenericService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
  * Created by toan.nguyenp on 5/8/2017.
  */
 public class AuditorEngagementReviewTest extends AbstractTest {
-
+    private AuditorEngagementService auditorEngagementService;
+    private AuditorNewEngagementService auditorNewEngagementService;
+    private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    private AuditorTodoListService auditorTodoListService;
+    private AuditorCreateToDoService auditorCreateToDoService;
+    private AuditorEditCategoryService auditorEditCategoryService;
     private AuditorEngagementReviewPO auditorEngagementReviewPO =  null;
+    String auditorId;
+    String timeStamp;
+    String firstEngagementTitleOnWeb;
 
-    @Test(priority = 1, description = "Search engagement by compay, engagement name, auditor assignee, client assignee")
-    public void searchTest(){
-        auditorEngagementReviewPO = new AuditorEngagementReviewPO(getDriver());
-        auditorEngagementReviewPO.search("Toan handsome");
+    @Test(priority = 1, description = "Search engagement by company, engagement name")
+    public void searchEngagementByCompanyAndNameTest() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+
+        try
+        {
+            String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
+            String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.createNewEnagement(engagementNameUnix, "engagement type", companyNameUnix);
+            auditorEngagementService.verifySearchEngagementName(companyNameUnix, engagementNameUnix);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to search engagement by company, engagement name.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to search engagement by company, engagement name.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
     @Test(priority = 2, description = "Sort Company name by ascending")

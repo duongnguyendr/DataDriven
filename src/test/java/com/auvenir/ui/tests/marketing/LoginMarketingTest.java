@@ -32,12 +32,10 @@ public class LoginMarketingTest extends AbstractTest {
 
     final String fullName = "Test Login Auditor";
     //    final String fullName = "Duong Nguyen";
-    final String strEmail = GenericService.readExcelData(testData, "Login", 1, 1);
+    final String strEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User4", "Auditor");
     //    final String strEmail = "auvenirinfo@gmail.com";
-    final String password = GenericService.readExcelData(testData, "Login", 1, 2);
+    final String password = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
 
-    String strAdminEmail = GenericService.readExcelData(testData, "Login", 1, 3);
-    String strAdminPwd = GenericService.readExcelData(testData, "Login", 1, 4);
 
     private String emailId = null;
     private String emailPassword = null;
@@ -224,12 +222,12 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 7, enabled = true,description = "Test login when user input invalid email and password.")
     public  void loginWithInvalidEmailAndPassword() {
-        String emailInvalid1 = GenericService.readExcelData(testData, "Login", 2, 1);
-        String password = GenericService.readExcelData(testData, "Login", 1, 2);
-        String emailInvalid2 = GenericService.readExcelData(testData, "Login", 3, 1);
-        String emailInvalid3 = GenericService.readExcelData(testData, "Login", 4, 1);
-        String emailNotExists = GenericService.readExcelData(testData, "Login", 5, 1);
-        String passwordNotExists = GenericService.readExcelData(testData, "Login", 5, 2);
+        String emailInvalid1 = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "INVALID VALUE1", "Auditor");
+        String password = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
+        String emailInvalid2 = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "INVALID VALUE2", "Auditor");
+        String emailInvalid3 = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "INVALID VALUE3", "Auditor");
+        String emailNotExists = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "NOT EXIST", "Auditor");
+//        String passwordNotExists = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", 5, 2);
         marketingService = new MarketingService(getLogger(),getDriver());
         try {
             marketingService.setPrefixProtocol(httpProtocol);
@@ -250,7 +248,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.verifyErrorLoginMessage("The email is invalid!");
             //Verify Test login with incorrect email or password.
             marketingService.refreshHomePage();
-            marketingService.loginToMarketingPageWithInvalidValue(emailNotExists, passwordNotExists);
+            marketingService.loginToMarketingPageWithInvalidValue(emailNotExists, password);
             marketingService.verifyColorUserNameTxtBox();
             marketingService.verifyColorPasswordTxtBox();
             marketingService.verifyErrorLoginMessage("Wrong username or password!");

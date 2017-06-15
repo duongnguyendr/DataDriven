@@ -161,7 +161,9 @@ public class AdminService extends AbstractService {
     }
     /*-----------end of huy.huynh on 30/05/2017.*/
 
-
+    public void clickClosePopupWarningBrowser() {
+        adminLoginPage.clickClosePopupWarningBrowser();
+    }
 
 }
 

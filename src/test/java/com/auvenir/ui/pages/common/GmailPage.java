@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages.common;
 
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -170,10 +171,12 @@ public class GmailPage extends AbstractPage {
 
     public void gmailLogout() throws Exception {
         try {
-            waitForClickableOfElement(eleProfileIcn,"eleProfileIcn");
+
+            waitForVisibleElement(eleProfileIcn, "eleProfileIcn");
             clickElement(eleProfileIcn, "click to eleProfileIcn");
-            waitForClickableOfElement(eleSignOutBtn,"eleSignOutBtn");
+            waitForVisibleElement(eleSignOutBtn, "eleSignOutBtn");
             clickElement(eleSignOutBtn, "click to eleSignOutBtn");
+            Thread.sleep(3000);
         } catch (Exception e) {
             NXGReports.addStep("Failed to logout from gmail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -471,9 +474,6 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Start Your Engagement']")
     private WebElement buttonStartEngagement;
 
-    @FindBy(xpath = "//h3[@id='welcome-body']")
-    private WebElement titleWelcome;
-
     @FindBy(id = "BltHke nH oy8Mbf aE3")
     private WebElement divSearchResultHidden;
 
@@ -489,14 +489,13 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Try to login GMail");
             sendKeyTextBox(eleEmail, email, "eleEmail");
             sendTabkey(eleEmail, "eleEmail");
+            sendEnterkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
-            Thread.sleep(1000);
-            clickElement(eleNext,"click to eleNext");
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
             Thread.sleep(1000);
-            clickElement(eleNext,"click to eleNext");
+            clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -509,7 +508,7 @@ public class GmailPage extends AbstractPage {
             elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
             Thread.sleep(1000);
-            clickElement(eleNext,"click to eleNext");
+            clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -523,7 +522,8 @@ public class GmailPage extends AbstractPage {
         try {
             sendKeyTextBox(inputSearch, GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"), "Search Email");
             clickElement(buttonSearch, "Button Search");
-            waitForCssValueChanged(divSearchResultHidden, "Hidden div", "display", "none");
+            //waitForCssValueChanged(divSearchResultHidden, "Hidden div", "display", "none");
+            GeneralUtilities.waitSomeSeconds(5);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -536,7 +536,6 @@ public class GmailPage extends AbstractPage {
         try {
             clickElement(rowSentEmail, "Row Sent Email");
             clickElement(buttonStartEngagement, "Button Start Engagement");
-            validateElementText(titleWelcome, "Welcome to Auvenir!");
 
             /* TODO code for wrong link on invited client email unfixed - still unfixed
             String link = buttonStartEngagement.getAttribute("href");
@@ -547,7 +546,7 @@ public class GmailPage extends AbstractPage {
             WebDriverWait wait = new WebDriverWait(getDriver(), 30);
             wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
             */
-            getLogger().info("Client invited link loaded.(Status change: Pending->Onboarding)");
+            getLogger().info("Redirecting for Gmail to Auvenir Welcome Page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -566,7 +565,8 @@ public class GmailPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id=\":8q\"]/b")
     private WebElement nonReplyActiveEmail;
-    public WebElement getNonReplyActiveEmail(){
+
+    public WebElement getNonReplyActiveEmail() {
         return nonReplyActiveEmail;
     }
 
@@ -580,7 +580,7 @@ public class GmailPage extends AbstractPage {
             getLogger().info("Select all Delete mail: ");
             allMailCheckBox.click();
             Thread.sleep(200);
-            if(deleteBTN.isDisplayed()) {
+            if (deleteBTN.isDisplayed()) {
                 getLogger().info("Click Delete All Email.");
                 deleteBTN.click();
             }
@@ -617,7 +617,7 @@ public class GmailPage extends AbstractPage {
         try {
             getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            if (!validateNotExistedElement(getEleEmail(), "UserName textbox")){
+            if (!validateNotExistedElement(getEleEmail(), "UserName textbox")) {
                 //Wait for clickable of userName txtbox
                 waitForClickableOfElement(getEleEmail(), "UserName textbox");
                 sendKeyTextBox(getEleEmail(), userName, "UserName textbox");
@@ -643,7 +643,7 @@ public class GmailPage extends AbstractPage {
     }
 
     public void selectActiveEmaill() {
-        waitForClickableOfElement(eleEmailAuvenir,"Non-reply Active email");
+        waitForClickableOfElement(eleEmailAuvenir, "Non-reply Active email");
         clickElement(eleEmailAuvenir, "Non-reply Active email");
     }
 }

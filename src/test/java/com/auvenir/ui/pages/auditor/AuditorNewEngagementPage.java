@@ -69,6 +69,9 @@ public class AuditorNewEngagementPage extends AbstractPage {
     @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
     private WebElement newEngagementHeaderTextEle;
 
+    @FindBy(xpath="//*[@id='h-engagementsLink']")
+    private WebElement linkEngagement;
+
 //    @FindBy(xpath = "//p[contains(text(),'need to add any team members to this engagement')]")
 //    private WebElement teamContainerDivEle;
 
@@ -160,6 +163,46 @@ public class AuditorNewEngagementPage extends AbstractPage {
         //old version
 //        clickContinueBtn();
         clickCreateToDoBtn();
+    }
+
+    public void createNewEngagement(String name, String engagementType, String company) throws Exception {
+
+        getLogger().info("Enter engagement name.");
+        enterEngagementName(name);
+        NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
+
+        getLogger().info("Select engagement type.");
+        selectEngagementType(engagementType);
+        NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
+
+        getLogger().info("Enter company name.");
+        enterCompanyName(company);
+        NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
+
+        getLogger().info("Enter deadline date.");
+        clickAndHold(eleReportDeadlineInput, "Deadline date Input");
+        enterDeadLineDate(getDate(10));
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
+
+        getLogger().info("Enter end date.");
+        enterEndDate(getDate(10));
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
+
+        getLogger().info("Enter start date.");
+        clickAndHold(eleStartDateInput, "Start Date Input");
+        enterStartDate(getDate(1));
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
+
+        getLogger().info("Click Continue button.");
+        clickContinueBtn();
+        getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
+        clickNoMemberBtn();
+        clickCreateToDoBtn();
+        Thread.sleep(smallTimeOut);
+        clickElement(linkEngagement, "click to linkEngagement");
     }
 
     private void verifyTeamMemberWizardPage() {
