@@ -302,7 +302,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@class='newRow']/td[7]/img")
     private List<WebElement> commentIconToDoListEle;
 
-//    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
+    //    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
     @FindBy(xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private WebElement typeCommentFieldEle;
 
@@ -636,7 +636,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Create new to do task with the toDoName parameter.
-     *
+     * <p>
      * <p>
      * #History business changed:
      * R2: Create new to do task :
@@ -644,7 +644,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * <p>  new: create new category and to do task is auto selected with new one.
      * <p>  new: Due Date is auto selected.
      * <p>  new: The save is not exist anymore.
-     *
      *
      * @param toDoName The String name of to do task which is created.
      */
@@ -660,7 +659,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             size = toDoTaskRowEle.size() + 1;
             index = findToDoTaskName(toDoName);
         }
-        if(index == -1) {
+        if (index == -1) {
             Thread.sleep(1000);
             waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
             clickElement(createToDoBtnEle, "Create To Do button");
@@ -998,23 +997,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean isCheckData = false;
             getLogger().info("Size row: " + trTodoTable.size());
-                for (int i=0;i<trTodoTable.size();i++) {
-                    String strSearchValueTodoName = "";
-                    String strSearchValueCategoryName = "";
-                    String strSearchValueClientAssignee = "";
-                    String strSearchValueAuditAssignee = "";
-                    try {
-                        strSearchValueTodoName = TodosTextboxEle.get(i).getAttribute("value");
-                        strSearchValueCategoryName= DropdownCategoryEle.get(i).getText();
-                        strSearchValueClientAssignee=DropdownClientAssignee.get(i).getText();
-                        strSearchValueAuditAssignee=DropdownAuditAssignee.get(i).getText();
-                    } catch (Exception ex) {
-                    }
-                    if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
-                        isCheckData = true;
-                        break;
-                    }
+            for (int i = 0; i < trTodoTable.size(); i++) {
+                String strSearchValueTodoName = "";
+                String strSearchValueCategoryName = "";
+                String strSearchValueClientAssignee = "";
+                String strSearchValueAuditAssignee = "";
+                try {
+                    strSearchValueTodoName = TodosTextboxEle.get(i).getAttribute("value");
+                    strSearchValueCategoryName = DropdownCategoryEle.get(i).getText();
+                    strSearchValueClientAssignee = DropdownClientAssignee.get(i).getText();
+                    strSearchValueAuditAssignee = DropdownAuditAssignee.get(i).getText();
+                } catch (Exception ex) {
                 }
+                if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
+                    isCheckData = true;
+                    break;
+                }
+            }
 
             if (isCheckData) {
                 NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
@@ -3158,7 +3157,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 //        boolean isCheckRequestEmpty = false;
         try {
 //            Thread.sleep(smallerTimeOut);
-            waitForTextValueChanged(totoPageAddRequestBtn,"Text of totoPageAddRequestBtn","Add New Request");
+            waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
 //            isCheckRequestEmpty = clickElement(newRequestTxtboxSpan, "click to findRequestEmpty1");
 //            if (isCheckRequestEmpty) {
@@ -3428,6 +3427,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     WebElement optionNewRequestThreeDotActive;
     @FindBy(xpath = "//div[@class='ui dropdown auvicon-line-circle-more todo-circle-more todo-icon-hover']/div/a[1]")
     WebElement deleteRequestSelect;
+
     public void verifyDeleteRequestOnPopup() {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to delete a request on the popup.");
@@ -3765,12 +3765,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void selectCategory() {
         try {
             waitForClickableOfElement(DropdownCategoryEle.get(0));
-            clickElement(DropdownCategoryEle.get(0),"Dropdown Cate");
+            clickElement(DropdownCategoryEle.get(0), "Dropdown Cate");
             clickElement(listOfCategoryItemsDropdown.get(0), "");
             Thread.sleep(smallerTimeOut);
             NXGReports.addStep("Ending select category.", LogAs.PASSED, null);
         } catch (Exception e) {
-            System.out.println("Error is: "+ e);
+            System.out.println("Error is: " + e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Ending select category.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
@@ -4017,10 +4017,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForVisibleElement(createToDoBtnEle, "createTodoBtn");
         getLogger().info("Try to delete all existed todo items.");
         try {
-            waitForClickableOfElement(todoAllCheckbox);
-            getLogger().info("Select all Delete mail: ");
-            System.out.println("eleTodo CheckboxRox is: " + eleToDoCheckboxRow);
-            if (!eleToDoCheckboxRow.equals("")) {
+            Boolean isInvisible = findNewTodoItems();
+            if (isInvisible) {
+                waitForClickableOfElement(todoAllCheckbox);
+                getLogger().info("Select all Delete mail: ");
+                System.out.println("eleTodo CheckboxRox is: " + eleToDoCheckboxRow);
                 todoAllCheckbox.click();
                 waitForClickableOfElement(btnBulkActions);
                 btnBulkActions.click();
@@ -4043,6 +4044,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
         }
 
+    }
+
+    @FindBy(xpath = "//tr[@id='empty-todo']")
+    WebElement emptyTodoItems;
+
+    public boolean findNewTodoItems() {
+        boolean isCheck = true;
+        if (waitForVisibleElement(emptyTodoItems, "emptyTodo Item")) {
+            return isCheck = false;
+        }
+        return isCheck;
     }
 
 
