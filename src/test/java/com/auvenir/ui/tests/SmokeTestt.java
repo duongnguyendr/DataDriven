@@ -382,6 +382,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("Engagement");
             auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.verifyInputDataToDoNameTextBox("Todo-01");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify create to-do pages.", LogAs.PASSED, null);
@@ -404,7 +405,6 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage("Engagement");
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createCategories("Category" + random.nextInt(100));
-            //auditorCreateToDoService.verifyExistedCategory();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify create to-do pages.", LogAs.PASSED, null);
@@ -621,8 +621,62 @@ public class SmokeTestt extends AbstractTest {
             throw e;
         }
     }
+    /*-----------end of Thuan.Duong on 16/06/2017.*/
 
+    /**
+     *
+     * On-going
+     */
+    @Test(priority = 28, enabled = false, description = "Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment")
+    public void verifyClientEngagementOveview() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        try {
+            String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
 
-    /*-----------end of Thuan.Duong on 14/06/2017.*/
+            auditorSignUpService.deleteUserUsingApi( clientId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("Engagement144");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("Engagement144");
+            // Invite client
+            auditorTodoListService.navigateToInviteClientPage();
+            clientService.selectAddNewClient();
+            clientService.inviteNewClient("Titan client", clientId, "Leader");
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @Test(priority = 16, enabled = true, description = "Verify Client Assignee")
+    public void verifyClientAssigneeComboBox() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        try {
+//            String userId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+            String userId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage("ClientB");
+            auditorDetailsEngagementService.verifyDetailsEngagementPage("ClientB");
+            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.verifyClientAssigneeComboBox();
+            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Client Assignee.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Client Assignee.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 }
