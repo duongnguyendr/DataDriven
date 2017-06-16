@@ -27,6 +27,7 @@ import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -154,7 +155,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
     private List<WebElement> toDoTaskRowEle;
 
-//    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
+    //    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
     private List<WebElement> eleToDoCheckboxRow;
 
@@ -4117,7 +4118,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 //            verifyClickAddRequestBtn();
             getLogger().info("Select upload btn..");
             clickElement(uploadCreateRequestBtn);
-            Thread.sleep(6000);
+            Thread.sleep(2000);
             getLogger().info("Enter path of file..");
             StringSelection ss = new StringSelection(pathOfFile.concat(fileName));
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
@@ -4148,12 +4149,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"todo-req-box-0\"]/div[2]")
     WebElement fileNameAfterUploaded;
 
+    /*
+    Vien.Pham added new method
+     */
     public void verifyUploadFileSuccessfully(String fileName) {
         try {
             waitForCssValueChanged(fileNameAfterUploaded, "fileName After uploaded", "display", "inline-block");
             String isCheck = fileNameAfterUploaded.getText();
-            System.out.println("File's Name was uploaded is: "+isCheck);
-            System.out.println("File's Name after uploaded is: "+isCheck);
+            System.out.println("File's Name was uploaded is: " + isCheck);
+            System.out.println("File's Name after uploaded is: " + isCheck);
             if (isCheck.equals(fileName)) {
                 NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
             } else {
@@ -4164,10 +4168,65 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify file was uploaded successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
-
         }
 
     }
+
+    @FindBy(xpath = "//span[contains(@class,'auvicon-line-download')]")
+    List<WebElement> downloadNewRequestBtn;
+
+    /*
+    Vien.Pham added new method
+     */
+    public void downloadCreateRequestNewFile() {
+        try {
+            clickElement(downloadNewRequestBtn.get(0), "download newRequest Btn");
+            Thread.sleep(2000);
+            NXGReports.addStep("End of download File", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("End of download File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+    Vien.Pham added new method
+     */
+    public void verifyDownloadSuccessfully(String uploadLocation, String downloadLocation, String fileName) {
+        try {
+            String lineUpload = readContentInsideFile(uploadLocation,fileName);
+            String lineDownload = readContentInsideFile(downloadLocation,fileName);
+            if (lineUpload.equals(lineDownload)) {
+                NXGReports.addStep("Compare content beetween upload and download files", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Compare content beetween upload and download files", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Compare content beetween upload and download files", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+    Vien.Pham added new method
+     */
+    public String readContentInsideFile(String pathofLocation, String fileName) throws IOException {
+        String filePath = pathofLocation.concat(fileName);
+        FileInputStream fis = new FileInputStream(new File(filePath));
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+        String content;
+        while ((content = br.readLine()) != null) {
+            content = content.trim();
+            if (content != null && !content.isEmpty()) {
+                System.out.println("line data inside is: " + content);
+            }
+        }
+        br.close();
+        return content;
+    }
+
 
     /*
     End of Vien.Pham

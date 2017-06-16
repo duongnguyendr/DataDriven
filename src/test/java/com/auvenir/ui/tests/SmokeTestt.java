@@ -472,6 +472,8 @@ public class SmokeTestt extends AbstractTest {
 //        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User3", "Auditor");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "EngagementName");
+        String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Location");
+        String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
         try {
             auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -488,17 +490,8 @@ public class SmokeTestt extends AbstractTest {
 //            auditorCreateToDoService.verifyDeleteRequest();
 //            auditorCreateToDoService.verifyCopyRequest();
             getLogger().info("Verifying upload TXT file..");
-            auditorCreateToDoService.uploadeCreateRequestNewFile("C:\\auvenir\\","TXT_helloAuvenir.txt");
-//            getLogger().info("Verifying upload DOCX file..");
-//            auditorCreateToDoService.uploadeCreateRequestNewFile("C:\\auvenir\\","DOCX_helloAuvenir.docx");
-//            getLogger().info("Verifying upload XLSX file..");
-//            auditorCreateToDoService.uploadeCreateRequestNewFile("C:\\auvenir\\","XLSX_helloAuvenir.xlsx");
-//            getLogger().info("Verifying upload PDF file..");
-//            auditorCreateToDoService.uploadeCreateRequestNewFile("C:\\auvenir\\","PDF_helloAuvenir.pdf");
-//            getLogger().info("Verifying upload JPG file..");
-//            auditorCreateToDoService.uploadeCreateRequestNewFile("C:\\auvenir\\","JPG_helloAuvenir.JPG");
-//            getLogger().info("Verifying upload JPG file..");
-//            auditorCreateToDoService.uploadeCreateRequestNewFile("C:\\auvenir\\","PNG_helloAuvenir.png");
+            auditorCreateToDoService.uploadeCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, fileName);
+//            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + "\\src\\test\\resources\\upload\\", "C:\\Users\\vien.pham\\Downloads\\", "TXT_helloAuvenir.txt");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
         } catch (Exception e) {
