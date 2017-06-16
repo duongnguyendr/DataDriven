@@ -5,11 +5,13 @@ package com.auvenir.ui.pages.auditor;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.DatePicker;
 import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.mongodb.AggregationOptions;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -22,6 +24,11 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
+import javax.xml.soap.Text;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -654,29 +661,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void createToDoTask(String toDoName) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName'");
 //        try {
-        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
-        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
-        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-        String rowString = toDoTaskRowEle.get(0).getAttribute("class");
-        int size = 1;
-        int index = -1;
-        if (!rowString.equals("")) {
-            size = toDoTaskRowEle.size() + 1;
-            index = findToDoTaskName(toDoName);
-            System.out.println("Index Create: " + index);
-        }
-        if (index == -1) {
-            getLogger().info("Create New To Do Task");
-            Thread.sleep(1000);
+            WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+            System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
             waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-            clickElement(createToDoBtnEle, "Create To Do button");
-            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
-            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
-            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
-            // Create new category
-            createNewCategory("");
-            NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
-        }
+            String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+            int size = 1;
+            int index = -1;
+            if (!rowString.equals("")) {
+                size = toDoTaskRowEle.size() + 1;
+                index = findToDoTaskName(toDoName);
+                System.out.println("Index Create: " + index);
+            }
+            if (index == -1) {
+                getLogger().info("Create New To Do Task");
+//                Thread.sleep(1000);
+                waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+                clickElement(createToDoBtnEle, "Create To Do button");
+                waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+                sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+                sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+                // Create new category
+                createNewCategory("");
+                NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+            }
 //        } catch (Exception e) {
 //            getLogger().info(e);
 //            AbstractService.sStatusCnt++;
@@ -1742,7 +1749,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * Input due date in to-do task
      */
 
-    public void inputDueDate() {
+    public void inputDueDate(){
         Calendar date = Calendar.getInstance();
         DatePicker datePicker = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
         try {
@@ -4098,5 +4105,132 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(archiveMarkPopupBtn, "click to archiveMarkPopupBtn");
         waitForCssValueChanged(popUpMarkCompleteWindows, "Popup Mark Complete", "display", "none");
     }
+
+    @FindBy(xpath = "//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
+    WebElement uploadCreateRequestBtn;
+    @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
+    WebElement checkUploadRequest;
+
+    /*
+    Vien .Pham created new method
+     */
+    public void uploadeCreateRequestNewFile(String pathOfFile, String fileName) throws AWTException, InterruptedException {
+        try {
+//            verifyClickAddRequestBtn();
+            getLogger().info("Select upload btn..");
+            clickElement(uploadCreateRequestBtn);
+            Thread.sleep(2000);
+            getLogger().info("Enter path of file..");
+            StringSelection ss = new StringSelection(pathOfFile.concat(fileName));
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+        } catch (AWTException awt) {
+            AbstractService.sStatusCnt++;
+            awt.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        } catch (InterruptedException itr) {
+            AbstractService.sStatusCnt++;
+            itr.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @FindBy(xpath = "//*[@id=\"todo-req-box-0\"]/div[2]")
+    WebElement fileNameAfterUploaded;
+
+    /*
+    Vien.Pham added new method
+     */
+    public void verifyUploadFileSuccessfully(String fileName) {
+        try {
+            waitForCssValueChanged(fileNameAfterUploaded, "fileName After uploaded", "display", "inline-block");
+            String isCheck = fileNameAfterUploaded.getText();
+            System.out.println("File's Name was uploaded is: " + isCheck);
+            System.out.println("File's Name after uploaded is: " + isCheck);
+            if (isCheck.equals(fileName)) {
+                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify file was uploaded successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify file was uploaded successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+
+    }
+
+    @FindBy(xpath = "//span[contains(@class,'auvicon-line-download')]")
+    List<WebElement> downloadNewRequestBtn;
+
+    /*
+    Vien.Pham added new method
+     */
+    public void downloadCreateRequestNewFile() {
+        try {
+            clickElement(downloadNewRequestBtn.get(0), "download newRequest Btn");
+            Thread.sleep(2000);
+            NXGReports.addStep("End of download File", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("End of download File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+    Vien.Pham added new method
+     */
+    public void verifyDownloadSuccessfully(String uploadLocation, String downloadLocation, String fileName) {
+        try {
+            String lineUpload = readContentInsideFile(uploadLocation,fileName);
+            String lineDownload = readContentInsideFile(downloadLocation,fileName);
+            if (lineUpload.equals(lineDownload)) {
+                NXGReports.addStep("Compare content beetween upload and download files", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Compare content beetween upload and download files", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Compare content beetween upload and download files", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+    Vien.Pham added new method
+     */
+    public String readContentInsideFile(String pathofLocation, String fileName) throws IOException {
+        String filePath = pathofLocation.concat(fileName);
+        FileInputStream fis = new FileInputStream(new File(filePath));
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+        String content;
+        while ((content = br.readLine()) != null) {
+            content = content.trim();
+            if (content != null && !content.isEmpty()) {
+                System.out.println("line data inside is: " + content);
+            }
+        }
+        br.close();
+        return content;
+    }
+
+
+    /*
+    End of Vien.Pham
+     */
 }
 

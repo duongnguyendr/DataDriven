@@ -7,6 +7,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -71,6 +72,9 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
     @FindBy(xpath="//*[@id='h-engagementsLink']")
     private WebElement linkEngagement;
+
+    @FindBy(xpath = "//*[@id='CreateEngagementParent']/../../../..")
+    private WebElement createEngagementPopupEle;
 
 //    @FindBy(xpath = "//p[contains(text(),'need to add any team members to this engagement')]")
 //    private WebElement teamContainerDivEle;
@@ -162,7 +166,10 @@ public class AuditorNewEngagementPage extends AbstractPage {
         waitForVisibleElement(createNewTodoListTextEle, "Create your To-Do list");
         //old version
 //        clickContinueBtn();
+
         clickCreateToDoBtn();
+        waitForCssValueChanged(createEngagementPopupEle, "Create Engagement Popup", "display", "none");
+
     }
 
     public void createNewEngagement(String name, String engagementType, String company) throws Exception {

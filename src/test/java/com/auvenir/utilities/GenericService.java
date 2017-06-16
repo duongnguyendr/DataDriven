@@ -707,6 +707,7 @@ public class GenericService {
         try{
             String userDataExcel=null;
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            System.out.println("Folder Path: " + GenericService.sTestDataFile);
             Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
             System.out.println(SheetName);
