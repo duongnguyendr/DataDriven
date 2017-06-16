@@ -5,12 +5,11 @@ package com.auvenir.ui.pages.auditor;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.DatePicker;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.mongodb.AggregationOptions;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -23,7 +22,6 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
-import javax.xml.soap.Text;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -151,7 +149,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
     private List<WebElement> toDoTaskRowEle;
 
-//    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
+    //    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
     private List<WebElement> eleToDoCheckboxRow;
 
@@ -207,7 +205,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='ui-datepicker-title']")
     private WebElement eleDataPickerTitle;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker mg5 hasDatepicker']")
     private List<WebElement> eleToDoNewRowDueDateText;
 
     @FindBy(id = "due-date")
@@ -656,29 +654,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void createToDoTask(String toDoName) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName'");
 //        try {
-            WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
-            System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+        String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+        int size = 1;
+        int index = -1;
+        if (!rowString.equals("")) {
+            size = toDoTaskRowEle.size() + 1;
+            index = findToDoTaskName(toDoName);
+            System.out.println("Index Create: " + index);
+        }
+        if (index == -1) {
+            getLogger().info("Create New To Do Task");
+            Thread.sleep(1000);
             waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-            String rowString = toDoTaskRowEle.get(0).getAttribute("class");
-            int size = 1;
-            int index = -1;
-            if (!rowString.equals("")) {
-                size = toDoTaskRowEle.size() + 1;
-                index = findToDoTaskName(toDoName);
-                System.out.println("Index Create: " + index);
-            }
-            if (index == -1) {
-                getLogger().info("Create New To Do Task");
-                Thread.sleep(1000);
-                waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-                clickElement(createToDoBtnEle, "Create To Do button");
-                waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
-                sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
-                sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
-                // Create new category
-                createNewCategory("");
-                NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
-            }
+            clickElement(createToDoBtnEle, "Create To Do button");
+            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            // Create new category
+            createNewCategory("");
+            NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+        }
 //        } catch (Exception e) {
 //            getLogger().info(e);
 //            AbstractService.sStatusCnt++;
@@ -1744,16 +1742,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * Input due date in to-do task
      */
 
-    public void inputDueDate(){
+    public void inputDueDate() {
         Calendar date = Calendar.getInstance();
         DatePicker datePicker = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
-        try{
+        try {
             //Choose current day + 1
             date.add(Calendar.DATE, 1);
             int day = date.get(Calendar.DAY_OF_MONTH);
             datePicker.pickADate(String.valueOf(day));
             NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -4052,7 +4050,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Try to delete all existed todo items.");
         try {
             Boolean isInvisible = findNewTodoItems();
-            System.out.println("isInvisible: "+ isInvisible);
+            System.out.println("isInvisible: " + isInvisible);
             if (isInvisible) {
                 Thread.sleep(1000);
                 waitForClickableOfElement(todoAllCheckbox);
@@ -4088,7 +4086,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public boolean findNewTodoItems() {
         boolean isCheck = true;
-        if (waitForVisibleOfLocator(By.xpath(emptyTodoItemsStr),waitTimeOut)) {
+        if (waitForVisibleOfLocator(By.xpath(emptyTodoItemsStr), waitTimeOut)) {
             return isCheck = false;
         }
         return isCheck;
