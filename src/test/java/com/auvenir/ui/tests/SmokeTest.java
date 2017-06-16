@@ -325,7 +325,6 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.navigateToDoListPage();
 
             // Will uncomment when the code is updated with the new xpath and business.
             auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
