@@ -37,6 +37,9 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
 
+    @FindBy(id = "engagementTeamLink")
+    private WebElement TeamMemberLinkEle;
+
     public void verifyDetailsEngagementPage(String engagementName){
         waitForVisibleElement(dashboardTextEle, "dashboard text");
         validateAttributeElement(dashboardTextEle, "value", engagementName);

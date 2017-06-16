@@ -669,7 +669,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
             if (index == -1) {
                 getLogger().info("Create New To Do Task");
-                Thread.sleep(1000);
+//                Thread.sleep(1000);
                 waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
                 clickElement(createToDoBtnEle, "Create To Do button");
                 waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
