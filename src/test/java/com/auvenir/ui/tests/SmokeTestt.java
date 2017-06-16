@@ -206,6 +206,8 @@ public class SmokeTestt extends AbstractTest {
             adminId = adminId.replace("chr.", "");
             clientId = clientId.replace("chr.", "");
             String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
+            String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+
             System.out.println("clientEmailPassword = " + clientEmailPassword);
             MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
 
@@ -215,11 +217,11 @@ public class SmokeTestt extends AbstractTest {
             gmailLoginService.clickOnboardingInvitationLink();
 
             clientSignUpService.navigateToSignUpForm();
-            clientSignUpService.fillUpPersonalForm("0123456789");
+            clientSignUpService.fillUpPersonalForm("0123456789");//10 number required
             clientSignUpService.fillUpBusinessForm("Titancorpvn");
             clientSignUpService.fillUpBankForm();
             clientSignUpService.fillUpFileForm();
-            clientSignUpService.fillUpSecurityForm("Testpassword1!");
+            clientSignUpService.fillUpSecurityForm(clientAuvenirPassword);
             clientEngagementService.verifyNavigatedToClientEngagementPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
