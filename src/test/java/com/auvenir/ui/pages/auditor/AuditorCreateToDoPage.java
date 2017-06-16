@@ -3162,7 +3162,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         boolean isCheckColor = false;
         try {
             clickToDoListAddNewRequest();
-            isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(89, 155, 161, 1)", "rgba(255, 255, 255, 1)");
+            isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
             if (isCheckColor) {
                 NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
             } else {
