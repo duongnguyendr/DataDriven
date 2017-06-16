@@ -11,6 +11,8 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.util.List;
 
@@ -835,6 +837,11 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void verifyUpdateRequest(String requestName2) {
         createToDoPage.verifyNewRequestStoreInDatabase(requestName2);
+    }
+
+    public void uploadeCreateRequestNewFile(String locationOfFile, String fileName) throws InterruptedException, AWTException {
+        createToDoPage.uploadeCreateRequestNewFile(locationOfFile,fileName);
+        createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
     /**
