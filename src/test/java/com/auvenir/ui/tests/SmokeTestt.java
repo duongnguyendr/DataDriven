@@ -156,6 +156,7 @@ public class SmokeTestt extends AbstractTest {
             throw e;
         }
     }
+
     @Test(priority = 4, enabled = true, description = "Verify Register and Active Auditor User")
     public void verifyLoginGmailAndActiveUser() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
@@ -183,10 +184,10 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
+    @Test(priority = 5, enabled = true, description = "Test positive tests case login and logout")
     public void verifyLoginAuditorUser() throws Exception {
         try {
-            marketingService = new MarketingService(getLogger(),getDriver());
+            marketingService = new MarketingService(getLogger(), getDriver());
             auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
             final String emailCreate = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             marketingService.goToBaseURL();
@@ -469,13 +470,13 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest","Valid User","EngagementName");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "EngagementName");
         try {
             auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            auditorCreateToDoService.deleteAllExistedTodoItems();
+//            auditorCreateToDoService.deleteAllExistedTodoItems();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAddNewRequestButton();
 //            auditorCreateToDoService.verifyRequestNameTextbox();
@@ -483,6 +484,7 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
 //            auditorCreateToDoService.verifyDeleteRequest();
 //            auditorCreateToDoService.verifyCopyRequest();
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
         } catch (Exception e) {
