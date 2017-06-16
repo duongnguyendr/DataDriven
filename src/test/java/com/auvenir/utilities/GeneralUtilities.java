@@ -116,4 +116,16 @@ public class GeneralUtilities {
         return webElement;
     }
 
+    /**
+     * wait some seconds- should be use when can't apply ExplicitWait
+     *
+     * @param seconds seconds to wait
+     */
+    public static void waitSomeSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

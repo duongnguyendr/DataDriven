@@ -11,6 +11,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -71,10 +72,10 @@ public class AuditorCreateToDoService extends AbstractService {
 //    }
 
     public void verifyButtonFilter() {
-        try{
+        try {
             todoListPage.verifyButtonFilter();
             NXGReports.addStep("verify Filter button displayed.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("verify Filter button displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -83,7 +84,8 @@ public class AuditorCreateToDoService extends AbstractService {
         getLogger().info("Navigate to CreateToDo Tab");
         try {
             todoListPage.clickCreateToDoBtn();
-            todoListPage.waitForNumberOfTodoListIncreased();
+            Thread.sleep(1000);
+//            todoListPage.waitForNumberOfTodoListIncreased();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -116,21 +118,21 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifySearchInputNumber();
     }
 
-    public void verifySearchInputSpecialChar(){
+    public void verifySearchInputSpecialChar() {
 
         createToDoPage.verifySearchInputSpecialChar();
     }
 
-    public void inputSearchText(String inputSearch){
+    public void inputSearchText(String inputSearch) {
 
         createToDoPage.inputSearchText(inputSearch);
     }
 
-    public void verifySearchResult(String inputSearch){
+    public void verifySearchResult(String inputSearch) {
         createToDoPage.checkSearchData(inputSearch);
     }
 
-    public void verifySearchResutlNotMatch(){
+    public void verifySearchResutlNotMatch() {
         createToDoPage.verifySearchResutlNotMatch();
     }
 //	public void verifySearchLimit255(){
@@ -514,8 +516,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBulkActionsDropdownIsClosed();
     }
 
-    public void selectToDoTaskName(String toDoName) {
-        createToDoPage.selectToDoCheckboxByName(toDoName);
+    public int selectToDoTaskName(String toDoName) {
+        return createToDoPage.selectToDoCheckboxByName(toDoName);
     }
 
     public void unselectToDoTaskName(String toDoName) {
@@ -821,16 +823,18 @@ public class AuditorCreateToDoService extends AbstractService {
 
     /**
      * Author minh.nguyen
+     * Vien.Pham modified for smoke test
      */
-    public void verifyCreateRequest() {
-        createToDoPage.verifyNewRequestStoreInDatabase();
+    public void verifyCreateRequest(String requestName1) {
+        createToDoPage.verifyNewRequestStoreInDatabase(requestName1);
     }
+
 
     /**
      * Author minh.nguyen
      */
-    public void verifyUpdateRequest() {
-        createToDoPage.verifyUpdateRequestStoreInDatabase();
+    public void verifyUpdateRequest(String requestName2) {
+        createToDoPage.verifyNewRequestStoreInDatabase(requestName2);
     }
 
     /**
@@ -900,9 +904,10 @@ public class AuditorCreateToDoService extends AbstractService {
      */
 
 
-    public void waitForNewTodoNameApplied(){
-       createToDoPage.waitForNewTodoNameSaved();
+    public void waitForNewTodoNameApplied() {
+        createToDoPage.waitForNewTodoNameSaved();
     }
+
     public void createCategories(String cate1) throws Exception {
         createToDoPage.createNewCategory(cate1);
     }
@@ -919,11 +924,11 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyTodosTextBox_DefaultGUI() throws InterruptedException {
-        createToDoPage.verifyTodoTextbox_DefaultName();
+//        createToDoPage.verifyTodoTextbox_DefaultName();
         createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
-        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
+//        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
         createToDoPage.verifyTodoTextboxBorder_Default();
-        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
+//        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
     }
 
     public void InputValidValue(String validValue) {
@@ -988,7 +993,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBorderClientAssignee_WhileHovered();
     }
 
-    public void verifyClientAssigneeIsSelectedCorrectly(){
+    public void verifyClientAssigneeIsSelectedCorrectly() {
         createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
     }
 
@@ -1000,7 +1005,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBorderDuedate_WhileHovered();
     }
 
-    public void verifyUnableToInputDuedate(String dateInput){
+    public void verifyUnableToInputDuedate(String dateInput) {
         createToDoPage.verifyUnableToInputDuedate(dateInput);
     }
 
@@ -1009,7 +1014,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyAditAssignee_DefaultValue();
         createToDoPage.verifyBorderAuditAssignee_WhileHoverd();
     }
-    public void verifyAuditAssigneeIsSelectedCorrectly(){
+
+    public void verifyAuditAssigneeIsSelectedCorrectly() {
         createToDoPage.verifyAuditAssigneeIsSelectedCorrectly();
     }
 
@@ -1033,9 +1039,26 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifySearchHover();
     }
 
-    public void verifyNameReturnDefault(){
+    public void verifyNameReturnDefault() {
         createToDoPage.verifyNameReturnDefault();
 
     }
+
+    public void clickArchiveTaskButton() {
+        createToDoPage.clickArchiveTaskButton();
+    }
+
+    public void verifyMarkCompleteArchive(int index) {
+        createToDoPage.verifyMarkCompleteArchive(index);
+    }
+
+    public void deleteAllExistedTodoItems() {
+        createToDoPage.deleteAllExistedTodoItems();
+    }
+
+    public void verifyExistedCategory(){
+        createToDoPage.verifyExistedCategory();
+    }
+
 }
 

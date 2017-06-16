@@ -50,7 +50,7 @@ public class MailAuditorAccessTest extends AbstractTest {
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             getLogger().info("Admin find auditor email and status to On boarding..");
 //        adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", "auvenirtestor@gmail.com", "06/7/2017", "Wait listed");
-            adminService.changeTheStatusAuditorToOnBoarding(auditorID, "Onboarding");
+            adminService.changeTheStatusUser(auditorID, "Onboarding");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor sign up and Admin set status to On-boarding.", LogAs.PASSED, null);
         } catch (Exception e) {

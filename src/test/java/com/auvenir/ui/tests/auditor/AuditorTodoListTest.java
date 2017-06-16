@@ -885,22 +885,27 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-//        auditorId = auditorId.replace("chr.", "");
-//        System.out.println("auditorId = " + auditorId);
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+        String toDoName = "TestMarkComplete01";
+        String engagementName = "Engagement 07";
+
         try {
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.clickCheckboxNewToDoTask();
+
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.clickCheckboxNewToDoTask();
-            auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyClickCloseMarkPopup();
+
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.clickArchiveTaskButton();
+            auditorCreateToDoService.verifyMarkCompleteArchive(index);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
@@ -1847,7 +1852,7 @@ End of merged VienPham.
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
 //        auditorId = auditorId.replace("chr.", "");
 //        System.out.println("auditorId = " + auditorId);
         try {
@@ -1857,8 +1862,8 @@ End of merged VienPham.
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyAddNewRequestButton();
             auditorCreateToDoService.verifyRequestNameTextbox();
-            auditorCreateToDoService.verifyCreateRequest();
-            auditorCreateToDoService.verifyUpdateRequest();
+            auditorCreateToDoService.verifyCreateRequest("new Request 01");
+            auditorCreateToDoService.verifyUpdateRequest("new Request 02");
             auditorCreateToDoService.verifyDeleteRequest();
             auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
