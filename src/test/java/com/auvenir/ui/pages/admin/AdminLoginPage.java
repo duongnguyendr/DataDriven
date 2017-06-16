@@ -244,10 +244,6 @@ public class AdminLoginPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img[@class='au-modal-closeBtn']")
     private WebElement eleCredentialsCloseIcn;
 
-    public WebElement getEleCredentialsCloseIcn() {
-        return eleCredentialsCloseIcn;
-    }
-
     @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img")
     private WebElement eleCloseIcn;
 
@@ -778,11 +774,11 @@ public class AdminLoginPage extends AbstractPage {
         NXGReports.addStep("Confirmation popup changing status from pending to onboarding is displayed", LogAs.PASSED, null);
         getLogger().info("Click confirm button.");
         getEleStatusConfirmBtn().click();
-        visibilityOfElementWait(getEleCredentialsCloseIcn(), "Auditor onboarding successful message", waitTime);
+        visibilityOfElementWait(eleCredentialsCloseIcn, "Auditor onboarding successful message", waitTime);
         getLogger().info("Change Auditor to Onboarding successful.");
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[text()='Verified " + Email + " successfully.']")).isDisplayed(), "Wait-List user is verified");
         NXGReports.addStep("Verified user is successfully displayed", LogAs.PASSED, null);
-        getEleCredentialsCloseIcn().click();
+        eleCredentialsCloseIcn.click();
     }
 
     public void getEleChangeActiveStatus(String UserType, String Email, String DateCreated) throws InterruptedException {
@@ -797,7 +793,7 @@ public class AdminLoginPage extends AbstractPage {
         Thread.sleep(3000);
         Assert.assertTrue(getEleUpdatedtoACTIVETxt().isDisplayed(), "OnBoarding text is not displayed");
         NXGReports.addStep("ONBoarding text is displayed", LogAs.PASSED, null);
-        getEleCredentialsCloseIcn().click();
+        eleCredentialsCloseIcn.click();
 
     }
 
@@ -1118,9 +1114,9 @@ public class AdminLoginPage extends AbstractPage {
 //            getEleStatusConfirmBtn().click();
 
             waitForProgressOverlayIsClosed();
-            waitForVisibleElement(getEleCredentialsCloseIcn(), "Close Icon");
-            waitForClickableOfElement(getEleCredentialsCloseIcn(), "Close Icon");
-            clickElement(getEleCredentialsCloseIcn(), "Close Icon");
+            waitForVisibleElement(eleCredentialsCloseIcn, "Close Icon");
+            waitForClickableOfElement(eleCredentialsCloseIcn, "Close Icon");
+            clickElement(eleCredentialsCloseIcn, "Close Icon");
 //            getEleCredentialsCloseIcn().click();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1136,9 +1132,9 @@ public class AdminLoginPage extends AbstractPage {
             if(GenericService.sBrowserData.equals("ff.")) {
                 getLogger().info("Close Popup Warning Browser");
                 Thread.sleep(3000);
-                waitForVisibleElement(getEleCredentialsCloseIcn(), "Close Icon");
-                waitForClickableOfElement(getEleCredentialsCloseIcn(), "Close Icon");
-                clickElement(getEleCredentialsCloseIcn(), "Close Icon");
+                waitForVisibleElement(eleCredentialsCloseIcn, "Close Icon");
+                waitForClickableOfElement(eleCredentialsCloseIcn, "Close Icon");
+                clickElement(eleCredentialsCloseIcn, "Close Icon");
                 waitForProgressOverlayIsClosed();
                 Thread.sleep(2000);
             }

@@ -192,6 +192,7 @@ public class AbstractService {
             if ("".equals(prefixProtocol)) {
                 prefixProtocol = "https://";
             }
+            //TODO: temproryly for stable environment
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);

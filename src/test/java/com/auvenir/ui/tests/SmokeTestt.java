@@ -37,6 +37,7 @@ public class SmokeTestt extends AbstractTest {
     private EmailTemplateService emailTemplateService;
     private ClientSignUpService clientSignUpService;
     private ClientEngagementService clientEngagementService;
+    private AuditorEngagementTeamService auditorEngagementTeamService;
 
     // personal information
     final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
@@ -70,7 +71,9 @@ public class SmokeTestt extends AbstractTest {
     final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
     final String emailCreate = "ff.minhtest@gmail.com";
     */
-    final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
+    final String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
+    final String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Gmail Password");
+    final String auditorInvitedPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Invited Password");
     final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
     final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
 
@@ -143,7 +146,7 @@ public class SmokeTestt extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         final String emailCreate = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         try {
-            gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
+            gmailLoginService.deleteAllExistedEmail(emailCreate, gmailPassword);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
@@ -168,12 +171,12 @@ public class SmokeTestt extends AbstractTest {
         final String emailCreate = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         try {
 
-            gmailLoginService.gmailLogin(emailCreate, passwordCreate);
+            gmailLoginService.gmailLogin(emailCreate, gmailPassword);
             gmailLoginService.selectActiveEmaill();
 
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
-            auditorSignUpService.createPassword(passwordCreate, "");
+            auditorSignUpService.createPassword(auditorPassword, "");
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
@@ -192,7 +195,7 @@ public class SmokeTestt extends AbstractTest {
             final String emailCreate = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(emailCreate, passwordCreate);
+            marketingService.loginWithNewUserRole(emailCreate, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -546,11 +549,12 @@ public class SmokeTestt extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String toDoName = "TestMarkComplete01";
-        String engagementName = "Engagement 07";
+        String engagementName = "Engagement 01";
         try {
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
+//            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
@@ -574,6 +578,53 @@ public class SmokeTestt extends AbstractTest {
             throw e;
         }
     }
+    /*-----------end of Thuan.Duong on 14/06/2017.*/
+
+    /**
+     * Added by Thuan.Duong on 16/06/2017
+     */
+    @Test(priority = 13, enabled = false, description = "Verify mark as complete")
+    public void verifyAddNewMemberAuditor() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String toDoName = "TestMarkComplete01";
+        String engagementName = "Engagement 01";
+        try {
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorEngagementTeamService.clickEngagementTeamMenu();
+            auditorEngagementTeamService.deleteAllMemberInEngagement();
+
+//            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+//            auditorCreateToDoService.selectToDoTaskName(toDoName);
+//            auditorCreateToDoService.clickBulkActionsDropdown();
+//            auditorCreateToDoService.verifyCompleteMarkPopup();
+//            auditorCreateToDoService.verifyClickCloseMarkPopup();
+
+//            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+//            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
+//            auditorCreateToDoService.clickBulkActionsDropdown();
+//            auditorCreateToDoService.verifyCompleteMarkPopup();
+//            auditorCreateToDoService.clickArchiveTaskButton();
+//            auditorCreateToDoService.verifyMarkCompleteArchive(index);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify new Category popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+
     /*-----------end of Thuan.Duong on 14/06/2017.*/
 
 }
