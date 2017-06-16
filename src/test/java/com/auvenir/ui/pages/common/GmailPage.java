@@ -491,7 +491,9 @@ public class GmailPage extends AbstractPage {
         try {
             Thread.sleep(3000);
             getLogger().info("Try to login GMail");
-//            clickElement(signButtonEle, "signButtonEle");
+            if(!getDriver().getCurrentUrl().contains("accounts.google.com")){
+                clickElement(signButtonEle, "signButtonEle");
+            }
             sendKeyTextBox(eleEmail, email, "eleEmail");
             sendTabkey(eleEmail, "eleEmail");
             sendEnterkey(eleEmail, "eleEmail");
