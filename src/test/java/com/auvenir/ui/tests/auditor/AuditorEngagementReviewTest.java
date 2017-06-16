@@ -55,7 +55,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 2, description = "Sort Company name, Engagement name by ascending, descending")
-    public void sortCompanyNameTest() throws InterruptedException {
+    public void sortEngagementByCompanyNameTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -77,7 +77,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 3, description = "Sort Engagement name by ascending, descending")
-    public void sortEngagementNameTest() throws InterruptedException {
+    public void sortEngagementByEngagementNameTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -99,7 +99,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 4, description = "Sort Engagement Status by ascending, descending")
-    public void sortEngagementStatusTest() throws InterruptedException {
+    public void sortEngagementByEngagementStatusTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -121,7 +121,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
 //    @Test(priority = 5, description = "Sort Engagement Audit Assignee by ascending, descending")
-//    public void sortEngagementAssigneeTest() throws InterruptedException {
+//    public void sortEngagementByEngagementAssigneeTest() throws InterruptedException {
 //        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 //        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 //        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -143,7 +143,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
 //    }
 
     @Test(priority = 6, description = "Sort Engagement Completed To Dos by ascending, descending.")
-    public void sortCompletedToDosTest() throws InterruptedException {
+    public void sortEngagementByCompletedToDosTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -165,7 +165,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 7, description = "Sort Engagement Client Assignee by ascending, descending.")
-    public void sortClientAssigneeTest() throws InterruptedException {
+    public void sortEngagementByClientAssigneeTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -187,7 +187,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 8, description = "Sort Engagement Completed Docs by ascending, descending.")
-    public void sortCompleteDocsTest() throws InterruptedException {
+    public void sortEngagementByCompleteDocsTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -209,7 +209,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 9, description = "Sort Engagement Last Activity by ascending, descending.")
-    public void sortLastActivityTest() throws InterruptedException {
+    public void sortEngagementByLastActivityTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -231,7 +231,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     }
 
     @Test(priority = 10, description = "Sort Engagement Due Date by ascending, descending.")
-    public void sortDueDateTest() throws InterruptedException {
+    public void sortEngagementByDueDateTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
