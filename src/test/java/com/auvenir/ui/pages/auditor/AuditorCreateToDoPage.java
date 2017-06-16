@@ -7,6 +7,7 @@ import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.DatePicker;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -1751,13 +1752,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void inputDueDate(){
         Calendar date = Calendar.getInstance();
         DatePicker datePicker = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
-        try{
+        try {
             //Choose current day + 1
             date.add(Calendar.DATE, 1);
             int day = date.get(Calendar.DAY_OF_MONTH);
             datePicker.pickADate(String.valueOf(day));
             NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -4054,7 +4055,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Try to delete all existed todo items.");
         try {
             Boolean isInvisible = findNewTodoItems();
-            System.out.println("isInvisible: "+ isInvisible);
+            System.out.println("isInvisible: " + isInvisible);
             if (isInvisible) {
                 Thread.sleep(1000);
                 waitForClickableOfElement(todoAllCheckbox);
@@ -4090,7 +4091,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public boolean findNewTodoItems() {
         boolean isCheck = true;
-        if (waitForVisibleOfLocator(By.xpath(emptyTodoItemsStr),waitTimeOut)) {
+        if (waitForVisibleOfLocator(By.xpath(emptyTodoItemsStr), waitTimeOut)) {
             return isCheck = false;
         }
         return isCheck;
