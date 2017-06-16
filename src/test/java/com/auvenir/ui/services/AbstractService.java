@@ -139,6 +139,7 @@ public class AbstractService {
                 prefixProtocol = "https://";
             }
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
+//            setBaseUrl(prefixProtocol + "auvenir-qa-automation.com");
             String getTokenUrl = getBaseUrl() + "/getToken?email=";
             getLogger().info("gettoken link: " + getTokenUrl);
             driver.get(getTokenUrl + userId);
@@ -484,6 +485,7 @@ public class AbstractService {
         try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 //            gmailLoginPage.signInGmail(eGMail,ePassword);
             gmailLoginPage.signInGmail(eGMail, ePassword);
             gmailLoginPage.deleteAllMail();

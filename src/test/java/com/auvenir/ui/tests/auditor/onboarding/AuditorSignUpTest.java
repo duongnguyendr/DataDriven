@@ -62,7 +62,7 @@ public class AuditorSignUpTest extends AbstractTest {
     final String emailCreate = "ff.minhtest@gmail.com";
     */
     final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User3", "Admin");
+    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User2", "Admin");
     final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 
     @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User")
@@ -74,9 +74,11 @@ public class AuditorSignUpTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+//        final String emailCreate = "auvenirad@gmail.com";
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
+            // Below comment code need to be verify with new environment due to the business rule is changed.
             System.out.println("emailCreate: " + emailCreate);
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.deleteUserUsingMongoDB(emailCreate);
@@ -86,12 +88,13 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
-            auditorSignUpService.verifyFirmSignUpPage();
+//            auditorSignUpService.verifyFirmSignUpPage();
             auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
-            auditorSignUpService.verifySecuritySignUpPage();
-            auditorSignUpService.createPassword(passwordCreate, "");
+//            auditorSignUpService.verifySecuritySignUpPage();
+//            auditorSignUpService.createPassword(passwordCreate, "");
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
+
 
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
 //            marketingService.setPrefixProtocol(httpProtocol);
@@ -99,16 +102,19 @@ public class AuditorSignUpTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+//            marketingService.loginWithUserRole("admin@auvenir.com");
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
 
             gmailLoginService.gmailReLogin(passwordCreate);
             gmailLoginService.selectActiveEmaill();
-            emailTemplateService.verifyActiveEmailTemplateContent();
+//            emailTemplateService.verifyActiveEmailTemplateContent();
 
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
 
-            auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
+//            auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
+
+            auditorSignUpService.createPassword(passwordCreate, "");
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);

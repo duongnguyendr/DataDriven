@@ -135,7 +135,7 @@ public class AbstractPage {
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
 //    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-            List<WebElement> listOfAddNewCategory;
+    List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -154,7 +154,6 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuEle;
 
-//    @FindBy(id = "category-name")
     @FindBy(id = "category-name")
     private WebElement categoryNameFieldOnFormEle;
 
@@ -1880,15 +1879,10 @@ public class AbstractPage {
                     return i;
                 }
             }
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
-
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
@@ -2673,7 +2667,6 @@ public class AbstractPage {
             getLogger().info("Try to validate Element is not existed.");
             getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             element.click();
-            //getDriver().
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
@@ -2905,17 +2898,19 @@ public class AbstractPage {
      */
     public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
         getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
-
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualAttributeValue = null;
-                    if (element.getAttribute(attributeName) != null) {
+                    if(element.getAttribute(attributeName) != null) {
                         actualAttributeValue = element.getAttribute(attributeName);
+                        System.out.println("Actual Displayed Value: " + actualAttributeValue);
+                    } else
+                    {
+                        getLogger().info(String.format("Attribute %s is null", attributeName));
                         return false;
                     }
-                    System.out.println("Actual Displayed Value: " + actualAttributeValue);
                     if (actualAttributeValue.equals(attributeValue))
                         return true;
                     else
@@ -3123,4 +3118,15 @@ public class AbstractPage {
         clickElement(list.get(0), elementName);
     }
      /*-----------end of huy.huynh on 15/06/2017.*/
+
+
+    /**
+     * Scroll to footer of current page
+     *
+     */
+    public void scrollToFooter() {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
 }
