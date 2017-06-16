@@ -341,7 +341,8 @@ public class GmailPage extends AbstractPage {
         return elePassword;
     }
 
-    @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
+//    @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
+    @FindBy(xpath = "//div[@class='yW']/span[@email='andi@auvenir.com']")
     private WebElement eleEmailAuvenir;
 
     @FindBy(xpath = "//img[@src='//ssl.gstatic.com/ui/v1/icons/mail/profile_mask2.png']")
@@ -477,6 +478,9 @@ public class GmailPage extends AbstractPage {
     @FindBy(id = "BltHke nH oy8Mbf aE3")
     private WebElement divSearchResultHidden;
 
+    @FindBy(xpath = "//a[@class='gmail-nav__nav-link gmail-nav__nav-link__sign-in']")
+    private WebElement signButtonEle;
+
     /**
      * Sign in to gmail with given email and password
      *
@@ -485,8 +489,11 @@ public class GmailPage extends AbstractPage {
      */
     public void signInGmail(String email, String password) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
             getLogger().info("Try to login GMail");
+            if(!getDriver().getCurrentUrl().contains("accounts.google.com")){
+                clickElement(signButtonEle, "signButtonEle");
+            }
             sendKeyTextBox(eleEmail, email, "eleEmail");
             sendTabkey(eleEmail, "eleEmail");
             sendEnterkey(eleEmail, "eleEmail");

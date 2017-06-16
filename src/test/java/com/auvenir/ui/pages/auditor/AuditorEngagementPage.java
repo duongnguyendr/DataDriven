@@ -416,7 +416,11 @@ public class AuditorEngagementPage extends AbstractPage {
         System.out.println("Position: " + index);
 //        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
-        clickAndHold(engagementListEle.get(index), engagementName);
+        if (index == engagementListEle.size() - 1) {
+            scrollToFooter();
+        } else
+            hoverElement(engagementListEle.get(index + 1), engagementName);
+        clickElement(engagementListEle.get(index), engagementName);
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {

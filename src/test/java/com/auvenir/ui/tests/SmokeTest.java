@@ -307,8 +307,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    //Added by Thuan.Duong on 14/06/2017
-    @Test(priority = 9, enabled = true, description = "Verify Auditor post new comment")
+    /**
+     * Added by Thuan.Duong on 14/06/2017
+     */
+    @Test(priority = 22, enabled = true, description = "Verify Auditor post new comment")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -323,7 +325,6 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.navigateToDoListPage();
 
             // Will uncomment when the code is updated with the new xpath and business.
             auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
@@ -342,8 +343,7 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    //Added by Thuan.Duong on 14/06/2017
-    @Test(priority = 10, enabled = true, description = "Verify mark as complete")
+    @Test(priority = 23, enabled = true, description = "Verify mark as complete")
     public void verifyMarkAsComplete() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -356,16 +356,19 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-//            auditorCreateToDoService.createToDoPage();
-//            auditorCreateToDoService.clickCheckboxNewToDoTask();
+
             auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.clickCheckboxNewToDoTask();
-            auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyClickCloseMarkPopup();
+
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.clickArchiveTaskButton();
+            auditorCreateToDoService.verifyMarkCompleteArchive(index);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
@@ -376,7 +379,7 @@ public class SmokeTest extends AbstractTest {
             throw e;
         }
     }
-
+    /*-----------end of Thuan.Duong on 14/06/2017.*/
 
     @Test(priority = 15, enabled = true, description = "Verify to create new request on ToDo page")
     public void verifyAddNewRequestOnToDoPage() throws Exception {
@@ -384,20 +387,20 @@ public class SmokeTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTest","EngagementName","Valid Name");
+        String auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest","Valid value4","EngagementName");
         try {
             auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            auditorCreateToDoService.deleteAllExistedTodoItems();
+//            auditorCreateToDoService.deleteAllExistedTodoItems();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAddNewRequestButton();
 //            auditorCreateToDoService.verifyRequestNameTextbox();
             auditorCreateToDoService.verifyCreateRequest("New_Request 01");
             auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
-            auditorCreateToDoService.verifyDeleteRequest();
+//            auditorCreateToDoService.verifyDeleteRequest();
 //            auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
