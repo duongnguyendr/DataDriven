@@ -1181,12 +1181,10 @@ public class AuditorSignUpPage extends AbstractPage {
 //            switchToOtherTab(0);
 //        }
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
-        verifyFirmInfoPageContent();
+
         registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
-        verifySecurityInfoPageContent();
-        createPassword(strPassword, strPassword);
         verifySuccessPageContent();
         acceptCreateAccountAuditor();
     }

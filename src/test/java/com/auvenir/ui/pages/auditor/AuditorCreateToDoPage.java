@@ -148,10 +148,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-cancel-btn']")
     private WebElement eleToDoCloseIcon;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
     private List<WebElement> toDoTaskRowEle;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
+//    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='checkbox']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
     private List<WebElement> eleToDoCheckboxRow;
 
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='text']")
@@ -282,10 +283,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(@id,'flashAlert')]//div[@class='send-message-success-alert']")
     private WebElement toastMessageSucessEle;
 
-    @FindBy(xpath = "//*[@id='m-ce-systemContainer']//h3[contains(text(),'Mark As Complete?')]")
+    //  Old:  @FindBy(xpath = "//*[@id='m-ce-systemContainer']//h3[contains(text(),'Mark As Complete?')]")
+    @FindBy(xpath = "//label[contains(@id,'m-Mark As Complete')]")
     private WebElement markAsCompleteTitle;
 
-    @FindBy(xpath = "//img[@class='au-modal-closeBtn']")
+    //   Old:  @FindBy(xpath = "//img[@class='au-modal-closeBtn']")
+    @FindBy(xpath = "//img[contains(@id,'modal-close-Mark As Complete')]")
     private WebElement markPopupCloseBtn;
 
     @FindBy(xpath = "//div[@class='ce-footerBtnHolder']//button[contains(text(),'Cancel')]")
