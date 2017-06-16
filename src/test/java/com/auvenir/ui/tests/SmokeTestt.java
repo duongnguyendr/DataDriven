@@ -266,7 +266,7 @@ public class SmokeTestt extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
 
         try {
-            String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User4", "Auditor");
+            String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
             auditorEngagementService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("Engagement");
@@ -374,7 +374,7 @@ public class SmokeTestt extends AbstractTest {
 //            auditorCreateToDoService.verifyRequestNameTextbox();
             auditorCreateToDoService.verifyCreateRequest("New_Request 01");
             auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
-            auditorCreateToDoService.verifyDeleteRequest();
+//            auditorCreateToDoService.verifyDeleteRequest();
 //            auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
