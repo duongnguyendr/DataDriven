@@ -391,7 +391,7 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-//            auditorCreateToDoService.deleteAllExistedTodoItems();
+            auditorCreateToDoService.deleteAllExistedTodoItems();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAddNewRequestButton();
 //            auditorCreateToDoService.verifyRequestNameTextbox();
