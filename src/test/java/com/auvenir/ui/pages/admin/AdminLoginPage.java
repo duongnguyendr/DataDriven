@@ -243,7 +243,6 @@ public class AdminLoginPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img[@class='au-modal-closeBtn']")
     private WebElement eleCredentialsCloseIcn;
-
     public WebElement getEleCredentialsCloseIcn() {
         return eleCredentialsCloseIcn;
     }

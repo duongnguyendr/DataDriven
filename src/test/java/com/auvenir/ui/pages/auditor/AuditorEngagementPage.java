@@ -195,73 +195,9 @@ public class AuditorEngagementPage extends AbstractPage {
     private WebElement eleCompany;
     public WebElement getEleCompany() { return  eleCompany; }
 
-    @FindBy(id = "")
+    @FindBy(xpath = "//*[@id=\"engagement-sort\"]/i")
     private WebElement eleEngagementName;
     public WebElement getEleEngagementName() { return eleEngagementName; }
-
-    @FindBy(id = "")
-    private WebElement eleStatus;
-    public WebElement getEleStatus() { return eleStatus; }
-
-    @FindBy(id = "")
-    private WebElement eleAuditorAssignee;
-    public WebElement getEleAuditorAssignee() { return eleAuditorAssignee; }
-
-    @FindBy(id = "")
-    private WebElement eleCompletedToDos;
-    public WebElement getEleCompletedToDos(){ return eleCompletedToDos; }
-
-    @FindBy(id = "")
-    private WebElement eleClientAssgniee;
-    public WebElement getEleClientAssgniee() { return eleClientAssgniee; }
-
-    @FindBy(id = "")
-    private WebElement eleCompletedDos;
-    public WebElement getEleCompletedDos(){ return  eleCompletedDos; }
-
-    @FindBy(id = "")
-    private WebElement eleLastActivity;
-    public WebElement getEleLastActivity() { return  eleLastActivity; }
-
-    @FindBy(id = "")
-    private WebElement eleDueDate;
-    public WebElement getEleDueDate() { return  eleDueDate; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellCompanys;
-    public List<WebElement> getEleCellCompanys() { return eleCellCompanys; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellEngagements;
-    public List<WebElement> getEleCellEngagements() { return eleCellEngagements; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellStatuses;
-    public List<WebElement> getEleCellStatuses() { return  eleCellStatuses; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellAuditorAssignees;
-    public List<WebElement> getEleCellAuditorAssignees() { return eleCellAuditorAssignees; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellCompletedToDoses;
-    public List<WebElement> getEleCellCompletedToDoses() { return eleCellCompletedToDoses; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellClientAssignees;
-    public List<WebElement> getEleCellClientAssignees() { return eleCellClientAssignees; }
-
-    @FindBys(@FindBy(css= ""))
-    private List<WebElement> eleCellCompleteDoses;
-    public  List<WebElement> getEleCellCompleteDoses() { return eleCellCompleteDoses; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellLastActivities;
-    public List<WebElement> getEleCellLastActivities() { return eleCellLastActivities; }
-
-    @FindBys(@FindBy(css = ""))
-    private List<WebElement> eleCellDueDates;
-    public List<WebElement> getEleCellDueDates() { return eleCellDueDates; }
 
     @FindBy(xpath="//*[@id=\"engagement-tbody\"]/tr[1]/td[1]")
     private WebElement companyEle;
@@ -275,6 +211,40 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td/a")
     private List<WebElement> listEngagementNameEle;
     private String engagementNameStr = "//*[@id=\"engagement-tbody\"]/tr/td/a";
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td[3]/span")
+    private List<WebElement> listEngagementStatusEle;
+    @FindBy(xpath = "//*[@id=\"status-sort\"]/i")
+    private WebElement engagementStatusHeader;
+
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td[4]")
+    private List<WebElement> listEngagementAssigneeEle;
+    @FindBy(xpath = "//*[@id=\"audit-sort\"]/i")
+    private WebElement engagementAssigneeHeader;
+
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td[5]/span")
+    private List<WebElement> listEngagementCompleteToDosEle;
+    @FindBy(xpath = "//*[@id=\"todo-sort\"]/i")
+    private WebElement engagementCompleteToDosHeader;
+
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td[6]")
+    private List<WebElement> listEngagementClientAssigneeEle;
+    @FindBy(xpath = "//*[@id=\"client-sort\"]/i")
+    private WebElement engagementClientAssigneeHeader;
+
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td[7]/span")
+    private List<WebElement> listEngagementCompleteDocsEle;
+    @FindBy(xpath = "//*[@id=\"docs-sort\"]/i")
+    private WebElement engagementCompleteDocsHeader;
+
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td[8]")
+    private List<WebElement> listEngagementLastActivityEle;
+    @FindBy(xpath = "//*[@id=\"activity-sort\"]/i")
+    private WebElement engagementLastActivityHeader;
+
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/div")
+    private List<WebElement> listEngagementDueDateEle;
+    @FindBy(xpath = "//*[@id=\"duedate-sort\"]/i")
+    private WebElement engagementDueDateHeader;
 
     /**
      * Added by huy.huynh on 08/06/2017.
@@ -923,24 +893,28 @@ public class AuditorEngagementPage extends AbstractPage {
         return isSortAlphabet;
     }
 
-    public boolean sortCompanyNameAscending(List<WebElement> elements, boolean isAsc){
-        boolean isSortAlphabet = false;
+    public boolean sortColumnListEngagement(List<WebElement> listElements, WebElement sortColumn, boolean isAsc){
+        boolean isSortAlphabet = true;
         getLogger().info("isAsc = " + isAsc);
         try{
 
-            String[] expectedArray = new String[elements.size()];
-            for(int i = 0; i < elements.size(); i++){
-                expectedArray[i] = elements.get(i).getText();
+            if(isAsc) {
+                Thread.sleep(smallTimeOut);
+                clickElement(sortColumn, "click1 to sortColumn");
+            }
+            if(!isAsc) {
+                Thread.sleep(smallTimeOut);
+                clickElement(sortColumn, "click2 to sortColumn");
             }
 
-            Thread.sleep(smallTimeOut);
-            clickElement(eleCompany, "click1 to eleCompany");
-            Thread.sleep(smallTimeOut);
-            clickElement(eleCompany, "click2 to eleCompany");
+            String[] expectedArray = new String[listElements.size()];
+            for(int i = 0; i < listElements.size(); i++){
+                expectedArray[i] = listElements.get(i).getText();
+            }
 
-            String[] actualArrays = new String[elements.size()];
-            for(int i = 0; i < elements.size(); i++){
-                actualArrays[i] = elements.get(i).getText();
+            String[] actualArrays = new String[listElements.size()];
+            for(int i = 0; i < listElements.size(); i++){
+                actualArrays[i] = listElements.get(i).getText();
             }
 
             if(isAsc){
@@ -954,34 +928,28 @@ public class AuditorEngagementPage extends AbstractPage {
                 getLogger().info("actualArrays[i] = " + actualArrays[i]);
                 if(!expectedArray[i].equals(actualArrays[i])){
                     NXGReports.addStep("Sort by " + (isAsc == true ? "ascending" : "descending") + " fails at row " + (i + 1), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    throw new AssertionError("Sort by " + (isAsc == true ? "ascending" : "descending") + " fails at row " + (i + 1));
+                    isSortAlphabet = false;
+                    break;
                 }
             }
-            isSortAlphabet = true;
+
         }catch (Exception e){
+            isSortAlphabet = false;
             AbstractService.sStatusCnt++;
             NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         return isSortAlphabet;
     }
 
+
     /**
      * Sort Company name by ASC or DESC
      * @param isAsc
      */
     public void sortCompanyName(boolean isAsc) throws InterruptedException {
-        if(isAsc){
-//            Thread.sleep(smallTimeOut);
-//            clickElement(eleCompany, "click1 to eleCompany");
-//            Thread.sleep(smallTimeOut);
-//            clickElement(eleCompany, "click2 to eleCompany");
-            try {
-                Thread.sleep(smallTimeOut);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        boolean isSortAlphabet = sortCompanyNameAscending(listCompanyEle, isAsc);
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listCompanyEle, eleCompany, isAsc);
         if(isSortAlphabet)
         {
             NXGReports.addStep("Sort company name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
@@ -994,293 +962,154 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     /**
-     * Sort Engagement by ASC or DESC
+     * Sort Engagement Name by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementName(boolean isAsc){
-        NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-
-        if(!isAsc){
-            eleEngagementName.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        sortAlphabetOfListElement(eleCellEngagements, isAsc);
-    }
-
-    /**
-     * Sort Status engagement by ASC or DESC
-     * @param isAsc
-     */
-    public void sortEngagementStatus(boolean isAsc){
-        NXGReports.addStep("Sort engagement status by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        if(!isAsc){
-            eleStatus.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        List<EngagementStatus> lst = new ArrayList<>();
-        for (WebElement ele : eleCellStatuses){
-            EngagementStatus status = EngagementStatus.valueOf(ele.getText());
-            lst.add(status);
-        }
-        checkSortEngagementStatusOfList(lst, isAsc);
-
-        //check sort type alpha for company columns if there are many the same status
-        int start = 0, end = 0;
-        for (int i = 0; i < eleCellStatuses.size(); i++) {
-            for (int j = i + 1; j < eleCellStatuses.size(); j++){
-                if(eleCellStatuses.get(i).getText().equals(eleCellStatuses.get(j).getText())){
-                    start = i;
-                    end = j;
-                }else{
-                    i++;
-
-                    if(start != 0 && end != 0 && start != end){
-                        List<WebElement> elements = new ArrayList<WebElement>(eleCellCompanys.subList(start, end));
-                        sortAlphabetOfListElement(elements, isAsc);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Sort auditor assignee
-     * @param isAsc
-     */
-    public void sortAuditorAssignee(boolean isAsc){
-        NXGReports.addStep("Sort auditor assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        if(!isAsc){
-            eleAuditorAssignee.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        sortAlphabetOfListElement(eleCellCompanys, isAsc);
-    }
-
-    /**
-     * Sort client assign by ASC or DESC
-     * @param isAsc
-     */
-    public void sortCompletedToDos(boolean isAsc){
-
-        NXGReports.addStep("Sort completed to docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        if(!isAsc){
-            eleCompletedToDos.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        List<Double> lst = new ArrayList<>();
-        for (WebElement ele : eleCellCompletedToDoses){
-            double value = Double.parseDouble(ele.getText());
-            lst.add(value);
-        }
-
-        checkSortNumberOfList(lst, isAsc);
-
-        //check sort type alpha for company columns if there are many the same Completed To Docs
-        int start = 0, end = 0;
-        for (int i = 0; i < eleCellCompletedToDoses.size(); i++) {
-            for (int j = i + 1; j < eleCellCompletedToDoses.size(); j++){
-                if(eleCellCompletedToDoses.get(i).getText().equals(eleCellCompletedToDoses.get(j).getText())){
-                    start = i;
-                    end = j;
-                }else{
-                    i++;
-                    if(start != 0 && end != 0 && start != end){
-                        List<WebElement> elements = new ArrayList<WebElement>(eleCellCompanys.subList(start, end));
-                        sortAlphabetOfListElement(elements, isAsc);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Sort client assignee by ASC or DESC
-     * @param isAsc
-     */
-    public void sortClientAssignee(boolean isAsc){
-        NXGReports.addStep("Sort client assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        if(!isAsc){
-            eleClientAssgniee.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        sortAlphabetOfListElement(eleCellClientAssignees, isAsc);
-    }
-
-    /**
-     * Sort client completed docs
-     * @param isAsc
-     */
-    public void sortClientCompletedDocs(boolean isAsc){
-
-        NXGReports.addStep("Sort completed docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        if(!isAsc){
-            eleCompletedDos.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        List<Double> lst = new ArrayList<>();
-        for (WebElement ele : eleCellCompleteDoses){
-            double value = Double.parseDouble(ele.getText());
-            lst.add(value);
-        }
-
-        checkSortNumberOfList(lst, isAsc);
-
-        //check sort type alpha for company columns if there are many the same Completed Docs
-        int start = 0, end = 0;
-        for (int i = 0; i < eleCellCompleteDoses.size(); i++) {
-            for (int j = i + 1; j < eleCellCompleteDoses.size(); j++){
-                if(eleCellCompleteDoses.get(i).getText().equals(eleCellCompleteDoses.get(j).getText())){
-                    start = i;
-                    end = j;
-                }else{
-                    i++;
-                    if(start != 0 && end != 0 && start != end){
-                        List<WebElement> elements = new ArrayList<WebElement>(eleCellCompanys.subList(start, end));
-                        sortAlphabetOfListElement(elements, isAsc);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Sort last activity
-     * @param isAsc
-     */
-    public void sortLastActivity(boolean isAsc){
-
-        NXGReports.addStep("Sort last activity in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        if(!isAsc){
-            eleLastActivity.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        List<Date> dates = new ArrayList<>();
-        try {
-            for (WebElement ele : eleCellLastActivities){
-                dates.add(sdf.parse(ele.getText()));
-            }
-        } catch (ParseException e) {
-            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(e.getMessage());
-        }
-
-        checkSortDateOfList(dates, isAsc);
-
-        //check sort type alpha for company columns if there are many the same Last Activity
-        int start = 0, end = 0;
-        for (int i = 0; i < eleCellLastActivities.size(); i++) {
-            for (int j = i + 1; j < eleCellLastActivities.size(); j++){
-                if(eleCellLastActivities.get(i).getText().equals(eleCellLastActivities.get(j).getText())){
-                    start = i;
-                    end = j;
-                }else{
-                    i++;
-                    if(start != 0 && end != 0 && start != end){
-                        List<WebElement> elements = new ArrayList<WebElement>(eleCellCompanys.subList(start, end));
-                        sortAlphabetOfListElement(elements, isAsc);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Sort due date of an engagement
-     * @param isAsc
-     */
-    public  void sortDueDate(boolean isAsc){
-
-        NXGReports.addStep("Sort due date in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        if(!isAsc){
-            eleDueDate.click();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        List<Date> dates = new ArrayList<>();
-        try {
-            for (WebElement ele : eleCellDueDates){
-                dates.add(sdf.parse(ele.getText()));
-            }
-        } catch (ParseException e) {
-            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw new AssertionError(e.getMessage());
-        }
-
-        checkSortDateOfList(dates, isAsc);
-
-        //check sort type alpha for company columns if there are many the same Last Activity
-        int start = 0, end = 0;
-        for (int i = 0; i < eleCellDueDates.size(); i++) {
-            for (int j = i + 1; j < eleCellDueDates.size(); j++){
-                if(eleCellDueDates.get(i).getText().equals(eleCellDueDates.get(j).getText())){
-                    start = i;
-                    end = j;
-                }else{
-                    i++;
-                    if(start != 0 && end != 0 && start != end){
-                        List<WebElement> elements = new ArrayList<WebElement>(eleCellCompanys.subList(start, end));
-                        sortAlphabetOfListElement(elements, isAsc);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Search by company name, engagement name, auditor assignee, client assignee
-     * @param keySearch
-     */
-    public void search(String keySearch) throws InterruptedException {
+    public void sortEngagementName(boolean isAsc) throws InterruptedException {
 
         Thread.sleep(smallTimeOut);
-        NXGReports.addStep("Search engagement with key: " + keySearch, LogAs.PASSED, null );
-        sendKeyTextBox(eleSearch,keySearch,"search key eleSearch");
-        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementNameEle, eleEngagementName, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+        }
+    }
 
-        //Checking for result
-        for (int i = 0; i < this.eleCellCompanys.size(); i++){
-            WebElement ele = eleCellCompanys.get(i);
-            if(!ele.getText().toLowerCase().contains(keySearch.toLowerCase()) ||
-                    !eleCellEngagements.get(i).getText().toLowerCase().contains(keySearch.toLowerCase()) ||
-                    !eleCellAuditorAssignees.get(i).getText().toLowerCase().contains(keySearch.toLowerCase()) ||
-                    !eleCellClientAssignees.get(i).getText().toLowerCase().contains(keySearch.toLowerCase())){
-                NXGReports.addStep("The result data is not match with key search at row " + i + 1, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                throw new AssertionError("The result data is not match with key search at row " + i + 1);
-            }
+    /**
+     * Sort Engagement Status by ASC or DESC
+     * @param isAsc
+     */
+    public void sortEngagementStatus(boolean isAsc) throws InterruptedException {
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementStatusEle, engagementStatusHeader, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+        }
+    }
+
+    /**
+     * Sort Engagement Assignee by ASC or DESC
+     * @param isAsc
+     */
+    public void sortEngagementAssignee(boolean isAsc) throws InterruptedException {
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementAssigneeEle, engagementAssigneeHeader, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+        }
+    }
+
+    /**
+     * Sort Engagement Completed To Dos by ASC or DESC
+     * @param isAsc
+     */
+    public void sortEngagementCompleteToDos(boolean isAsc) throws InterruptedException {
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementCompleteToDosEle, engagementCompleteToDosHeader, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+        }
+    }
+
+    /**
+     * Sort Engagement Client Assignee by ASC or DESC
+     * @param isAsc
+     */
+    public void sortEngagementClientAssignee(boolean isAsc) throws InterruptedException {
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementClientAssigneeEle, engagementClientAssigneeHeader, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+        }
+    }
+
+    /**
+     * Sort Engagement Completed Docs by ASC or DESC
+     * @param isAsc
+     */
+    public void sortEngagementCompletedDocs(boolean isAsc) throws InterruptedException {
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementClientAssigneeEle, engagementClientAssigneeHeader, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+        }
+    }
+
+    /**
+     * Sort Engagement Last Activity by ASC or DESC
+     * @param isAsc
+     */
+    public void sortEngagementLastActivity(boolean isAsc) throws InterruptedException {
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementLastActivityEle, engagementLastActivityHeader, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+        }
+    }
+
+    /**
+     * Sort Engagement Due Date by ASC or DESC
+     * @param isAsc
+     */
+    public void sortEngagementDueDate(boolean isAsc) throws InterruptedException {
+
+        Thread.sleep(smallTimeOut);
+        boolean isSortAlphabet = sortColumnListEngagement(listEngagementDueDateEle, engagementDueDateHeader, isAsc);
+        if(isSortAlphabet)
+        {
+            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
         }
     }
 
@@ -1290,7 +1119,5 @@ public class AuditorEngagementPage extends AbstractPage {
      */
     public void filter(){
         this.eleFilter.click();
-
-
     }
 }
