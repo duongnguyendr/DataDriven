@@ -5,13 +5,11 @@ package com.auvenir.ui.pages.auditor;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.DatePicker;
 import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.mongodb.AggregationOptions;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -24,7 +22,6 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
-import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
@@ -661,29 +658,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void createToDoTask(String toDoName) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName'");
 //        try {
-            WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
-            System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
-            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-            String rowString = toDoTaskRowEle.get(0).getAttribute("class");
-            int size = 1;
-            int index = -1;
-            if (!rowString.equals("")) {
-                size = toDoTaskRowEle.size() + 1;
-                index = findToDoTaskName(toDoName);
-                System.out.println("Index Create: " + index);
-            }
-            if (index == -1) {
-                getLogger().info("Create New To Do Task");
+        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+        String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+        int size = 1;
+        int index = -1;
+        if (!rowString.equals("")) {
+            size = toDoTaskRowEle.size() + 1;
+            index = findToDoTaskName(toDoName);
+            System.out.println("Index Create: " + index);
+        }
+        if (index == -1) {
+            getLogger().info("Create New To Do Task");
 //                Thread.sleep(1000);
-                waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-                clickElement(createToDoBtnEle, "Create To Do button");
-                waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
-                sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
-                sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
-                // Create new category
-                createNewCategory("");
-                NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
-            }
+            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+            clickElement(createToDoBtnEle, "Create To Do button");
+            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            // Create new category
+            createNewCategory("");
+            NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+        }
 //        } catch (Exception e) {
 //            getLogger().info(e);
 //            AbstractService.sStatusCnt++;
@@ -1749,7 +1746,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * Input due date in to-do task
      */
 
-    public void inputDueDate(){
+    public void inputDueDate() {
         Calendar date = Calendar.getInstance();
         DatePicker datePicker = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
         try {
@@ -4195,8 +4192,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyDownloadSuccessfully(String uploadLocation, String downloadLocation, String fileName) {
         try {
-            String lineUpload = readContentInsideFile(uploadLocation,fileName);
-            String lineDownload = readContentInsideFile(downloadLocation,fileName);
+            String lineUpload = readContentInsideFile(uploadLocation, fileName);
+            String lineDownload = readContentInsideFile(downloadLocation, fileName);
             if (lineUpload.equals(lineDownload)) {
                 NXGReports.addStep("Compare content beetween upload and download files", LogAs.PASSED, null);
             } else {

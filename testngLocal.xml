@@ -13,13 +13,13 @@
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTestt"/>
-            <methods>
-            <!--<include name="verifyCreateTodoPage"></include>-->
-            <!--<include name="verifyCreateCategory"></include>-->
-            <!--<include name="verifyDuedateTime"></include>-->
-            <include name="verifyAuditAssignee"></include>
-            <!--<include name="verifyClientActiveAfterSignUpSuccess"></include>-->
-            </methods>
+            <!--<methods>-->
+            <!--&lt;!&ndash;<include name="verifyCreateTodoPage"></include>&ndash;&gt;-->
+            <!--&lt;!&ndash;<include name="verifyCreateCategory"></include>&ndash;&gt;-->
+            <!--&lt;!&ndash;<include name="verifyDuedateTime"></include>&ndash;&gt;-->
+            <!--<include name="verifyAuditAssignee"></include>-->
+            <!--&lt;!&ndash;<include name="verifyClientActiveAfterSignUpSuccess"></include>&ndash;&gt;-->
+            <!--</methods>-->
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">
