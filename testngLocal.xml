@@ -14,8 +14,8 @@
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTestt"/>
             <methods>
-                <!--<include name="verifyCreateTodoPage"></include>-->
-                <include name="verifyAuditorInvitingTheClient"></include>
+                <include name="verifyClientEngagementOveview"></include>
+                <!--<include name="verifyCreateCategory"></include>-->
                 <!--<include name="verifyDuedateTime"></include>-->
                 <!--<include name="verifyAuditAssignee"></include>-->
             </methods>

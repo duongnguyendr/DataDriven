@@ -534,9 +534,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean result;
             getLogger().info("Verify Input Value ToDo Name TextBox");
-            waitForVisibleElement(toDoNameInputEle, "Todo Name input field");
-            sendKeyTextBox(toDoNameInputEle, toDoNameValue, "To Do Name Input");
-            result = validateAttributeElement(toDoNameInputEle, "value", toDoNameValue);
+            waitForVisibleElement(toDoNameTextColumnEle.get(0), "Todo Name input field");
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoNameValue, "To Do Name Input");
+            result = validateAttributeElement(toDoNameTextColumnEle.get(0), "value", toDoNameValue);
             Assert.assertTrue(result, "Input Value into ToDo Name TextBox is unsuccessfully");
             NXGReports.addStep("Verify Input Value ToDo Name TextBox", LogAs.PASSED, null);
             return true;
@@ -3827,7 +3827,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Default value of Assignee is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
     }
 
     public void verifyBorderClientAssignee_WhileHovered() {
@@ -4014,7 +4013,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Name return default.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
     }
 }
 

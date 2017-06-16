@@ -239,6 +239,9 @@ public class ClientDashboardPage extends AbstractPage {
     @FindBy(xpath = "//p[contains(text(),'Welcome to your Dashboard')]")
     private WebElement eleWelcomeToYourDashboardTxt;
 
+    @FindBy(xpath = "//*[@id='header-container' and @class='header-auvenir-client']")
+    private WebElement auvenirHeaderEle;
+
     public WebElement getEleWelcomeToYourDashboardTxt() {
         return eleWelcomeToYourDashboardTxt;
     }
@@ -531,8 +534,8 @@ public class ClientDashboardPage extends AbstractPage {
 
     public void verifyClientHomePage() {
         getLogger().info("verify client home page.");
-        waitForVisibleElement(eleWelcomeToYourDashboardTxt, "dashBoardWelcomeTxtEle");
-        validateElementText(eleWelcomeToYourDashboardTxt, "Hi Test! Welcome to your Dashboard.");
+        waitForVisibleElement(auvenirHeaderEle, "auvenirHeaderEle");
+//        validateElementText(eleWelcomeToYourDashboardTxt, "Hi Test! Welcome to your Dashboard.");
     }
 
     public void verifyClientHeader(){
