@@ -71,6 +71,11 @@ public class AbstractPage {
     public final String warningBorderCSSColor = "rgb(253, 109, 71)";
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
+    /**
+     * Updated by Minh.Nguyen on June 19, 2017
+     * @param logger
+     * @param driver
+     */
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
         this.logger = logger;
