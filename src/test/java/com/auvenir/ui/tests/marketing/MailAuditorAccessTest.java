@@ -1,4 +1,4 @@
-package com.auvenir.ui.tests.marketing.emailtemplate;
+package com.auvenir.ui.tests.marketing;
 
 
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
