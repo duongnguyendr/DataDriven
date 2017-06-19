@@ -31,6 +31,4 @@ public class AdminPortalReviewTest extends AbstractTest {
     public void sortDescendingUserTypeTest(){
         adminPortalReviewPO.sortUserType(false);
     }
-
-
 }

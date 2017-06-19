@@ -25,7 +25,6 @@ public class AuditorSettingsTest extends AbstractTest {
     public void verifyFooterAuditorAccountSettingsPage() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
         String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
             auditorAccountSettingsService.loginWithUserRole(userId);
@@ -33,6 +32,7 @@ public class AuditorSettingsTest extends AbstractTest {
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
             auditorAccountSettingsService.verifyFooter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Footer in Auditor Account Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

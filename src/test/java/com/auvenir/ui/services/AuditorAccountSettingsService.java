@@ -42,6 +42,7 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.scrollPageUp();
             NXGReports.addStep("verify footer page", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
