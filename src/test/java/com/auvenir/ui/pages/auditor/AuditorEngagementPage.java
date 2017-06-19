@@ -628,7 +628,7 @@ public class AuditorEngagementPage extends AbstractPage {
         try {
             getLogger().info("companyName = " + companyName);
             boolean isCheckCompany = false;
-            if (waitForVisibleOfLocator(By.xpath(companyEleStr), waitTimeOut)) {
+            if (waitForVisibleOfLocator(By.xpath(companyEleStr))) {
                 for (WebElement companyEle : listCompanyEle) {
                     getLogger().info("companyEle.getText() = " + companyEle.getText());
                     Thread.sleep(smallerTimeOut);
