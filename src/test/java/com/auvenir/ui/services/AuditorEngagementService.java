@@ -208,8 +208,76 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.verifyEngagementName(engagmentName);
     }
 
-    public void verifySortCompanyName(boolean isAsc) throws InterruptedException {
+    public void verifySortCompanyNameAscending(boolean isAsc) throws InterruptedException {
         auditorEngagementPage.sortCompanyName(isAsc);
+    }
+
+    public void verifySortCompanyNameDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortCompanyName(isAsc);
+    }
+
+    public void verifySortEngagementNameAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementName(isAsc);
+    }
+
+    public void verifySortEngagementNameDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementName(isAsc);
+    }
+
+    public void verifySortEngagementStatusAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementStatus(isAsc);
+    }
+
+    public void verifySortEngagementStatusDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementStatus(isAsc);
+    }
+
+    public void verifySortEngagementAssigneeAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementAssignee(isAsc);
+    }
+
+    public void verifySortEngagementAssigneeDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementAssignee(isAsc);
+    }
+
+    public void verifySortEngagementCompleteToDosAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementCompleteToDos(isAsc);
+    }
+
+    public void verifySortEngagementCompleteToDosDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementCompleteToDos(isAsc);
+    }
+
+    public void verifySortEngagementClientAssigneeAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementClientAssignee(isAsc);
+    }
+
+    public void verifySortEngagementClientAssigneeDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementClientAssignee(isAsc);
+    }
+
+    public void verifySortEngagementCompleteDocsAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementCompletedDocs(isAsc);
+    }
+
+    public void verifySortEngagementCompleteDocsDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementCompletedDocs(isAsc);
+    }
+
+    public void verifySortEngagementLastActivityAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementLastActivity(isAsc);
+    }
+
+    public void verifySortEngagementLastActivityDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementLastActivity(isAsc);
+    }
+
+    public void verifySortEngagementDueDateAscending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementDueDate(isAsc);
+    }
+
+    public void verifySortEngagementDueDateDescending(boolean isAsc) throws InterruptedException {
+        auditorEngagementPage.sortEngagementDueDate(isAsc);
     }
 }
 

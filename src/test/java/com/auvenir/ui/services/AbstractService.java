@@ -638,4 +638,23 @@ public class AbstractService {
         auditorEngagementService.verifyAuditorEngagementPage();
         marketingService.logout();
     }
+
+    public void clickLoginButton(){
+        getLogger().info("Click on login button.");
+        marketingPage.clickOnLoginBTN();
+    }
+
+    public void loginWithUserNamePassword(String UserName, String Password) {
+        getLogger().info("Input Username and Password.");
+        marketingPage.inputUserNamePassword(UserName,Password);
+        getLogger().info("Click on Login button.");
+        marketingPage.clickOnSubmitBTN();
+        marketingPage.waitForProgressOverlayIsClosed();
+        marketingPage.clickClosePopupWarningBrowser();
+    }
+    public void logout(){
+        marketingPage.clickOnProfile();
+        getLogger().info("Logout.");
+        marketingPage.clickOnLogoutBTN();
+    }
 }
