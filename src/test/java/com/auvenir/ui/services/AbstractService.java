@@ -32,6 +32,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 /**
  * Created by cuong.nguyen on 4/25/2017.
  * Updated by Doai.Tran
+ * Udpated by Minh.Nguyen 19 June, 2017
  */
 public class AbstractService {
     private WebDriver driver;
@@ -81,6 +82,11 @@ public class AbstractService {
         this.prefixProtocol = prefixProtocol;
     }
 
+    /**
+     * Updated by Minh.Nguyen 19 June, 2017
+     * @param logger
+     * @param driver
+     */
     public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
@@ -254,7 +260,7 @@ public class AbstractService {
             getLogger().info("Go to home auvenri url : " + homeAuvenir);
             System.out.println(homeAuvenir);
             driver.get(homeAuvenir);
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
