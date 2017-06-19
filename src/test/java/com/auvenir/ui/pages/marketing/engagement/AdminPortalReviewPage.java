@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by toan.nguyenp on 5/8/2017.
  */
-public class AdminPortalReviewPO extends BaseEngagementPO {
+public class AdminPortalReviewPage extends BaseEngagementPO {
 
     @FindBy(id = "")
     private WebElement eleFilter;
@@ -68,7 +68,7 @@ public class AdminPortalReviewPO extends BaseEngagementPO {
     private List<WebElement> eleCellStatuses;
     public List<WebElement> getEleCellStatuses() { return  eleCellStatuses; }
 
-    public AdminPortalReviewPO(WebDriver driver) {
+    public AdminPortalReviewPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver,this);
     }

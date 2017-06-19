@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.admin;
 
-import com.auvenir.ui.pages.marketing.engagement.AdminPortalReviewPO;
+import com.auvenir.ui.pages.marketing.engagement.AdminPortalReviewPage;
 import com.auvenir.ui.tests.AbstractTest;
 import org.testng.annotations.Test;
 
@@ -9,11 +9,11 @@ import org.testng.annotations.Test;
  */
 public class AdminPortalReviewTest extends AbstractTest {
 
-    private AdminPortalReviewPO adminPortalReviewPO = null;
+    private AdminPortalReviewPage adminPortalReviewPO = null;
 
     @Test(priority = 1, description = "Sort user by ascending")
     public void sortAscendingUserByNameTest(){
-        adminPortalReviewPO = new AdminPortalReviewPO(getDriver());
+        adminPortalReviewPO = new AdminPortalReviewPage(getDriver());
         adminPortalReviewPO.sortUser(true);
     }
 
