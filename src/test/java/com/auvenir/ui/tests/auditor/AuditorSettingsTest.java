@@ -25,7 +25,8 @@ public class AuditorSettingsTest extends AbstractTest {
     public void verifyFooterAuditorAccountSettingsPage() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -43,7 +44,8 @@ public class AuditorSettingsTest extends AbstractTest {
     public void verifyUIAuditorSetting() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -62,7 +64,8 @@ public class AuditorSettingsTest extends AbstractTest {
     public void InputValueFullName() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -78,7 +81,6 @@ public class AuditorSettingsTest extends AbstractTest {
             throw e;
         }
     }
-
 }
 
 

@@ -618,6 +618,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
     public void sendKeyCompanyName(String companyName) throws InterruptedException {
         Thread.sleep(smallTimeOut);
+        companyName = "companyName123";
         sendKeyTextBox(eleSearch, companyName, "search key keyCompany");
         Thread.sleep(smallTimeOut);
     }
@@ -625,6 +626,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyCompanyName(String companyName)
     {
         try {
+            companyName = "companyName123";
             getLogger().info("companyName = " + companyName);
             boolean isCheckCompany = false;
             if (waitForVisibleOfLocator(By.xpath(companyEleStr))) {
@@ -663,7 +665,7 @@ public class AuditorEngagementPage extends AbstractPage {
             getLogger().info("engagementName = " + engagementName);
             boolean isCheckEngagement = false;
             //Checking for result
-            if (waitForVisibleOfLocator(By.xpath(engagementNameStr), waitTimeOut)) {
+            if (waitForVisibleOfLocator(By.xpath(engagementNameStr))) {
                 for (WebElement engagementNameEle : listEngagementNameEle) {
                     getLogger().info("engagementNameEle.getText() = " + engagementNameEle.getText());
                     Thread.sleep(smallerTimeOut);
