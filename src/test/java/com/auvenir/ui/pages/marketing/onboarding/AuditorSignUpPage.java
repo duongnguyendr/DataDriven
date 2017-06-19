@@ -765,7 +765,6 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForVisibleElement(eleAffFirm, "Affiliated Firm's Name Input");
             sendKeyTextBox(eleAffFirm, strAffName, "Affiliated Firm's Name Input");
 
-            Thread.sleep(2000);
             scrollToFooter();
             final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
             System.out.println("iframes: " + iframes.size());
@@ -774,6 +773,7 @@ public class AuditorSignUpPage extends AbstractPage {
             capcharTextBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
             System.out.println("capcharTextBoxEle get Attribute: " + capcharTextBoxEle.getAttribute("class"));
             clickElement(capcharTextBoxEle, "Capchar Text Box");
+            Thread.sleep(2000);
 
             getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");

@@ -211,5 +211,9 @@ public class AuditorEngagementService extends AbstractService {
     public void verifySortCompanyName(boolean isAsc) throws InterruptedException {
         auditorEngagementPage.sortCompanyName(isAsc);
     }
+    
+    public void navigateToFirstEngagement(){
+    	auditorEngagementPage.navigateToFirstEngagement();
+    }
 }
 
