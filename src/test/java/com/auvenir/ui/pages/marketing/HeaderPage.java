@@ -1,7 +1,6 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.marketing.forgotpassword.ResetLinkSentModalPO;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,7 +15,7 @@ public class HeaderPage extends AbstractPage {
     }
     private LoginModalPO loginPO;
     //private ForgotPassModalPO forgotPassPO;
-    private ResetLinkSentModalPO resetLinkSentPO;
+    //private ResetLinkSentModalPO resetLinkSentPO;
 
     @FindBy(id = "logo")
     private WebElement eleLogo;
@@ -125,5 +124,5 @@ public class HeaderPage extends AbstractPage {
 
     public LoginModalPO getLoginModalPO(){ return loginPO; }
     //public ForgotPassModalPO getForgotPassModalPO() { return forgotPassPO; }
-    public ResetLinkSentModalPO getResetLinkSentModalPO() { return resetLinkSentPO; }
+    //public ResetLinkSentModalPO getResetLinkSentModalPO() { return resetLinkSentPO; }
 }
