@@ -9,21 +9,33 @@ import org.openqa.selenium.WebDriver;
  */
 public class AuditorEngagementTeamService extends AbstractService {
 
-    AuditorEngagementTeamPage auditorEngagementPage;
+    AuditorEngagementTeamPage auditorEngagementTeamPage;
 
     /*
      * contructor
      */
     public AuditorEngagementTeamService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        auditorEngagementPage = new AuditorEngagementTeamPage(getLogger(), getDriver());
+        auditorEngagementTeamPage = new AuditorEngagementTeamPage(getLogger(), getDriver());
     }
 
     public void clickEngagementTeamMenu() {
-        auditorEngagementPage.clickEngagementTeamMenu();
+        auditorEngagementTeamPage.clickEngagementTeamMenu();
     }
 
     public void deleteAllMemberInEngagement() {
-        auditorEngagementPage.deleteAllMemberInEngagement();
+        auditorEngagementTeamPage.deleteAllMemberInEngagement();
+    }
+
+    public void clickInviteMember() {
+        auditorEngagementTeamPage.clickInviteMember();
+    }
+
+    public void inputInviteNewMemberInfo(String fullName, String email, String roleMember) {
+        auditorEngagementTeamPage.inputInviteNewMemberInfo(fullName, email, roleMember);
+    }
+
+    public void verifyAddNewInvitedMember(String fullName, String roleMember) {
+        auditorEngagementTeamPage.verifyAddNewInvitedMember(fullName, roleMember);
     }
 }
