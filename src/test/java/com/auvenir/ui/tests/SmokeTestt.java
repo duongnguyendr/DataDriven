@@ -71,13 +71,14 @@ public class SmokeTestt extends AbstractTest {
     final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
     final String emailCreate = "ff.minhtest@gmail.com";
     */
-    final String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+    final String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
     final String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Gmail Password");
     final String auditorInvitedPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Invited Password");
     final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
     final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
 
     private String adminId, auditorId, clientId;
+    private String adminPassword, auditorPassword, clientPassword;
     private String sData[];
     private String testCaseId;
     private SimpleDateFormat dateFormat;
@@ -88,9 +89,12 @@ public class SmokeTestt extends AbstractTest {
         getLogger().info("Verify admin is able to login.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
+        marketingService= new MarketingService(getLogger(), getDriver());
         try {
             adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            adminService.loginWithUserRole(adminId);
+            adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
+
+            marketingService.loginWithUserRolesUsingUsernamePassword(adminId,adminPassword);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
@@ -175,7 +179,7 @@ public class SmokeTestt extends AbstractTest {
 
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
-            auditorSignUpService.createPassword(auditorPassword, "");
+            auditorSignUpService.createPassword(auditorPwd, "");
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
@@ -194,7 +198,7 @@ public class SmokeTestt extends AbstractTest {
             final String emailCreate = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(emailCreate, auditorPassword);
+            marketingService.loginWithNewUserRole(emailCreate, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
