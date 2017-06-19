@@ -72,7 +72,7 @@ public class SmokeTestt extends AbstractTest {
     final String emailCreate = "ff.minhtest@gmail.com";
     */
     final String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-    final String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Gmail Password");
+    final String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Email Password");
 //    final String auditorInvitedPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
 //    final String strAdminEmail = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
     final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
@@ -594,7 +594,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(auditorId, auditorPassword);
+            marketingService.loginWithNewUserRole(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -606,7 +606,7 @@ public class SmokeTestt extends AbstractTest {
 
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(auditorId, auditorPassword);
+            marketingService.loginWithNewUserRole(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
