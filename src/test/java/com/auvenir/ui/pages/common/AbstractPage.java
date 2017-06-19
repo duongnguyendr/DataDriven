@@ -36,7 +36,7 @@ public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
     public static final int waitTime = 60;
-    public static final int waitTimeOut = 1;
+    public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
