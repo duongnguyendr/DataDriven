@@ -1,20 +1,21 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.marketing.forgotpassword.ForgotPassModalPO;
 import com.auvenir.ui.pages.marketing.forgotpassword.ResetLinkSentModalPO;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 /**
  * Created by toan.nguyenp on 4/11/2017.
  */
 public class HeaderPage extends AbstractPage {
-
+    public HeaderPage(Logger logger, WebDriver driver) {
+        super(logger, driver);
+    }
     private LoginModalPO loginPO;
-    private ForgotPassModalPO forgotPassPO;
+    //private ForgotPassModalPO forgotPassPO;
     private ResetLinkSentModalPO resetLinkSentPO;
 
     @FindBy(id = "logo")
@@ -42,14 +43,14 @@ public class HeaderPage extends AbstractPage {
     private WebElement flagEnglish;
     public WebElement getFlagEnglish() { return flagEnglish; }
 
-    public HeaderPage(WebDriver driver){
+    /*public HeaderPage(WebDriver driver){
         super(driver);
         PageFactory.initElements(driver, this);
 
         loginPO = new LoginModalPO(driver);
         forgotPassPO = new ForgotPassModalPO(driver);
         resetLinkSentPO = new ResetLinkSentModalPO(driver);
-    }
+    }*/
 
     /*@Override
     protected void load() {
@@ -123,6 +124,6 @@ public class HeaderPage extends AbstractPage {
     }
 
     public LoginModalPO getLoginModalPO(){ return loginPO; }
-    public ForgotPassModalPO getForgotPassModalPO() { return forgotPassPO; }
+    //public ForgotPassModalPO getForgotPassModalPO() { return forgotPassPO; }
     public ResetLinkSentModalPO getResetLinkSentModalPO() { return resetLinkSentPO; }
 }
