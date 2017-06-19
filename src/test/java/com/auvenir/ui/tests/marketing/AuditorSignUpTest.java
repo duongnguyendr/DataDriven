@@ -1,4 +1,4 @@
-package com.auvenir.ui.tests.auditor.onboarding;
+package com.auvenir.ui.tests.marketing;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.admin.AdminService;
