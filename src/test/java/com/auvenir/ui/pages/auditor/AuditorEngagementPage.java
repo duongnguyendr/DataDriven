@@ -396,14 +396,13 @@ public class AuditorEngagementPage extends AbstractPage {
 
     public void navigateToContactsTab() {
         waitForClickableOfElement(contactsLinkEle, "contactsLinkEle");
-        contactsLinkEle.click();
-
+        clickElement(contactsLinkEle, "click to contactsLinkEle");
     }
 
     public void clickNewEnagementButton() {
         waitForVisibleElement(newEngagementButtonEle, "New Engagement Button");
         waitForClickableOfElement(newEngagementButtonEle, "New Engagement Button");
-        newEngagementButtonEle.click();
+        clickElement(newEngagementButtonEle, "click to newEngagementButtonEle");
     }
 
     /**
@@ -1122,6 +1121,6 @@ public class AuditorEngagementPage extends AbstractPage {
      * Filter engagement by 'Audit', 'Compilations', 'Reviews', 'Note To Reader'
      */
     public void filter(){
-        this.eleFilter.click();
+        clickElement(eleFilter, "click to eleFilter");
     }
 }
