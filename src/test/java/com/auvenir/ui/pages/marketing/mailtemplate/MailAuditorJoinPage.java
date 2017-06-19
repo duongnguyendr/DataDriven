@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages.marketing.mailtemplate;
 
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by cuong.nguyen on 4/25/2017.
  */
-public class MailAuditorJoinPO extends BaseMailTemplatePO {
+public class MailAuditorJoinPage extends AbstractPage {
 
     // Element of title mail
     @FindBy(xpath = "//p[contains(text(),'Hello')]")
@@ -181,17 +182,17 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         return eleSignatureMail;
     }
 
-    public MailAuditorJoinPO(WebDriver webDriver) {
+    public MailAuditorJoinPage(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
     }
 
-    public MailAuditorJoinPO(Logger logger, WebDriver webDriver) {
+    public MailAuditorJoinPage(Logger logger, WebDriver webDriver) {
         super(logger, webDriver);
         PageFactory.initElements(webDriver, this);
     }
 
-    @Override
+    //@Override
     public void verifyPageContent() {
         // Checking Title Email element is displayed
         NXGReports.addStep("Verify title of Email", LogAs.PASSED, null);
@@ -322,4 +323,43 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         waitForProgressOverlayIsClosed();
     }
+    // Element of header mail
+    @FindBy(xpath = "//center/img[contains(@src,'png') and @alt='logo.png']")
+    protected WebElement eleHeader;
+    public WebElement getEleHeader(){
+        return  eleHeader;
+    }
+
+    // Element of logo footer mail
+    @FindBy(xpath = "//span/img[contains(@src,'png') and @alt='icon.png']")
+    protected WebElement eleLogoFooter;
+    public WebElement getEleFooter(){
+        return eleLogoFooter;
+    }
+
+    // Element of content Logo Footer mail
+    @FindBy(xpath = "//span/img[contains(@src,'png') and @alt='icon.png']/parent::span/following-sibling::span[1]")
+    protected WebElement eleContentLogoFooter;
+    public WebElement getEleContentLogoFooter(){return eleContentLogoFooter; }
+
+    // Element of Full Address Auvenir
+    @FindBy(xpath = "//span/img[contains(@src,'png') and @alt='icon.png']/parent::span/following-sibling::span[2]")
+    protected WebElement eleAddressMailFooter;
+    public WebElement getEleAddressMailFooter(){ return  eleAddressMailFooter; }
+
+    // Element of "terms of service" link
+    @FindBy(xpath = "//span/img[contains(@src,'png') and @alt='icon.png']/parent::span/following-sibling::span[3]/a[@href='http://auvenir.s3corp.com.vn:5000/terms']")
+    protected WebElement eleLinkTermsFooter;
+    public WebElement getEleLinkTermsFooter(){ return eleLinkTermsFooter; }
+
+    // Element of "privacy statement" link
+    @FindBy(xpath = "//span/img[contains(@src,'png') and @alt='icon.png']/parent::span/following-sibling::span[3]/a[@href='http://auvenir.s3corp.com.vn:5000/privacy']")
+    protected WebElement eleLinkPrivacyFooter;
+    public WebElement getEleLinkPrivacyFooter() { return eleLinkPrivacyFooter; }
+
+    // Element of "unsubscribe" link
+    @FindBy(xpath = "//span/img[contains(@src,'png') and @alt='icon.png']/parent::span/following-sibling::span[4]/a[@href='mailto:unsubscribe@auvenir.com?Subject=Unsubscribe']")
+    protected WebElement eleLinkUnSubscribeFooter;
+    public WebElement getEleLinkUnSubscribeFooter(){ return eleLinkUnSubscribeFooter; }
+
 }
