@@ -1,6 +1,6 @@
 package com.auvenir.ui.services.marketing.emailtemplate;
 
-import com.auvenir.ui.pages.marketing.mailtemplate.MailAuditorJoinPO;
+import com.auvenir.ui.pages.marketing.mailtemplate.MailAuditorJoinPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -10,33 +10,33 @@ import org.openqa.selenium.WebDriver;
  */
 public class EmailTemplateService extends AbstractService {
 
-    MailAuditorJoinPO mailAuditorJoinPO;
+    MailAuditorJoinPage mailAuditorJoinPage;
 
     public EmailTemplateService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        mailAuditorJoinPO = new MailAuditorJoinPO(getLogger(), getDriver());
+        mailAuditorJoinPage = new MailAuditorJoinPage(getLogger(), getDriver());
     }
 
     public void verifyWaitListPageContent() {
-        mailAuditorJoinPO.verifyPageContent();
+        mailAuditorJoinPage.verifyPageContent();
     }
 
     /*
     Vien.Pham added
      */
     public void verifyActiveEmailTemplateContent() {
-        mailAuditorJoinPO.verifyActiveEmailContent();
+        mailAuditorJoinPage.verifyActiveEmailContent();
     }
 
     public void verifyAuditorInviteClientEmail() {
-        mailAuditorJoinPO.verifyAuditorInviteClientEmail();
+        mailAuditorJoinPage.verifyAuditorInviteClientEmail();
     }
 
     public void clickGetStartedButton() {
-        mailAuditorJoinPO.clickGetStartedButton();
+        mailAuditorJoinPage.clickGetStartedButton();
     }
 
     public void navigateToConfirmationLink() throws Exception {
-        mailAuditorJoinPO.navigateToConfirmationLink();
+        mailAuditorJoinPage.navigateToConfirmationLink();
     }
 }
