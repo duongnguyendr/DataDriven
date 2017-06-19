@@ -6,9 +6,13 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.testng.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+
 
 /**
  * Created by thuan.duong on 6/16/2017.
@@ -37,6 +41,32 @@ public class AuditorEngagementTeamPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='team-delete-btn']")
     private WebElement deleteOptionActionsEle;
 
+    @FindBy(xpath = "//*[@id='team-inviteMember-btn']")
+    private WebElement inviteMemberBtnEle;
+
+    @FindBy(xpath = "//*[@id='m-inm-name']")
+    private WebElement fullNameMemberTxtEle;
+
+    @FindBy(xpath = "//*[@id='m-inm-email']")
+    private WebElement emailMemberTxtEle;
+
+    @FindBy(xpath = "//*[@id='m-inm-reEmail']")
+    private WebElement reEmailMemberTxtEle;
+
+    @FindBy(xpath = "//*[@id='m-inm-jobTitle']")
+    private WebElement roleMemberTitleTxtEle;
+
+    @FindBy(xpath = "//*[@id='m-inm-addBtn']")
+    private WebElement inviteButtonEle;
+
+    @FindBy(xpath = "//*[@id='team-row-0']/td[2]")
+    private List<WebElement> auditorTeamMemberNameEle;
+
+    @FindBy(xpath = "//*[@id='team-row-0']/td[3]")
+    private List<WebElement> roleTeamMemberNameEle;
+
+
+
     public void clickEngagementTeamMenu() {
         getLogger().info("Click Engagement Team menu.");
         clickElement(teamMemberLinkEle, "Team Member Engagement Menu");
@@ -50,6 +80,8 @@ public class AuditorEngagementTeamPage extends AbstractPage {
     public void deleteAllMemberInEngagement() {
         getLogger().info("Click Delete All Member.");
         try {
+            // Need to sleep because the teamEmptyDiv is always displayed first.
+            Thread.sleep(3000);
             String displayedValue = teamEmptyDivEle.getCssValue("display");
             if(displayedValue.equals("none")){
                 clickElement(allMemberCheckBoxEle, "All Member Check Box");
@@ -57,7 +89,10 @@ public class AuditorEngagementTeamPage extends AbstractPage {
                 if(checked) {
                     clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown");
                     clickElement(deleteOptionActionsEle, "Delete Option Dropdown");
-                    waitForAtrributeValueChanged(teamEmptyDivEle, "Team Empty Icon", "display", "block");
+                    waitForProgressOverlayIsClosed();
+                    boolean result = verifyContentOfSuccessToastMessage("Your team member has been removed.");
+                    if (!result) throw new Exception();
+//                    waitForAtrributeValueChanged(teamEmptyDivEle, "Team Empty Icon", "display", "block");
                 }
             }
             NXGReports.addStep("Delete All Member in Engagement.", LogAs.PASSED, null);
@@ -66,5 +101,42 @@ public class AuditorEngagementTeamPage extends AbstractPage {
             getLogger().info(e);
             NXGReports.addStep("Test Failed:  Delete All Member in Engagement.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public void clickInviteMember() {
+        getLogger().info("Click Invite Member Button.");
+        clickElement(inviteMemberBtnEle, "Invite Member Button");
+    }
+
+
+    public void inputInviteNewMemberInfo(String fullName, String email, String roleMember) {
+        try {
+            getLogger().info("Input Invite New Member Information.");
+            sendKeyTextBox(fullNameMemberTxtEle, fullName,"Full Name Textbox");
+            sendKeyTextBox(emailMemberTxtEle, email,"Email Textbox");
+            sendKeyTextBox(reEmailMemberTxtEle, email,"ReEnter Email Textbox");
+            sendKeyTextBox(roleMemberTitleTxtEle, roleMember, "Role Member Textbox");
+            clickElement(reEmailMemberTxtEle, "Email Textbox");
+            clickElement(inviteButtonEle, "Invite Button");
+            waitForProgressOverlayIsClosed();
+            boolean result = verifyContentOfSuccessToastMessage("Your team member invitation has been sent.");
+            Assert.assertTrue(result, "The Message Invite New Member Successfull should be displayed");
+            NXGReports.addStep("Input Invite New Member Information.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt ++;
+            NXGReports.addStep("Test Failed: Input Invite New Member Information.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt ++;
+            NXGReports.addStep("Test Failed: Input Invite New Member Information.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
+
+    public void verifyAddNewInvitedMember(String fullName, String roleMember) {
+        getLogger().info("Verify new Auditor Member is added.");
+        validateElementText(auditorTeamMemberNameEle.get(0), fullName);
+        validateElementText(roleTeamMemberNameEle.get(0), roleMember);
+//        validateElementText()
     }
 }
