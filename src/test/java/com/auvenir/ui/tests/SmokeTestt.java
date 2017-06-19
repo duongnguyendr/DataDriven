@@ -90,7 +90,6 @@ public class SmokeTestt extends AbstractTest {
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
             adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            adminId = adminId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -216,7 +215,6 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         try {
             auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-            //auditorId= auditorId.replace("chr.","");
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
             auditorEngagementService.loginWithUserRole(auditorId);
@@ -245,11 +243,8 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         try {
             clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-            //adminId = adminId.replace("chr.", "");
-            //auditorId = auditorId.replace("chr.", "");
-            //clientId = clientId.replace("chr.", "");
 
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
@@ -285,10 +280,8 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            //adminId = adminId.replace("chr.", "");
-            //clientId = clientId.replace("chr.", "");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
@@ -310,10 +303,8 @@ public class SmokeTestt extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            //adminId = adminId.replace("chr.", "");
-            //clientId = clientId.replace("chr.", "");
             String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
             String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
 
@@ -350,10 +341,8 @@ public class SmokeTestt extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         try {
-            adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
+            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            //adminId = adminId.replace("chr.", "");
-            //clientId = clientId.replace("chr.", "");
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -624,7 +613,6 @@ public class SmokeTestt extends AbstractTest {
     /*-----------end of Thuan.Duong on 16/06/2017.*/
 
     /**
-     *
      * On-going
      */
     @Test(priority = 28, enabled = false, description = "Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment")
@@ -639,7 +627,7 @@ public class SmokeTestt extends AbstractTest {
             String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
             String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
 
-            auditorSignUpService.deleteUserUsingApi( clientId);
+            auditorSignUpService.deleteUserUsingApi(clientId);
             auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("Engagement144");
