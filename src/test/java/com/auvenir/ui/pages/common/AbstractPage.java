@@ -72,7 +72,7 @@ public class AbstractPage {
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
     /**
-     * Updated by Minh.Nguyen 19 June, 2017
+     * Updated by Minh.Nguyen on June 19, 2017
      * @param logger
      * @param driver
      */

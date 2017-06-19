@@ -32,7 +32,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 /**
  * Created by cuong.nguyen on 4/25/2017.
  * Updated by Doai.Tran
- * Udpated by Minh.Nguyen 19 June, 2017
+ * Udpated by Minh.Nguyen on June 19, 2017
  */
 public class AbstractService {
     private WebDriver driver;
@@ -83,7 +83,7 @@ public class AbstractService {
     }
 
     /**
-     * Updated by Minh.Nguyen 19 June, 2017
+     * Updated by Minh.Nguyen on June 19, 2017
      * @param logger
      * @param driver
      */
