@@ -1,9 +1,10 @@
-package com.auvenir.ui.services;
+package com.auvenir.ui.services.auditor;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.EngagementRequestPage;
 import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.pages.auditor.*;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
 import com.kirwa.nxgreport.NXGReports;

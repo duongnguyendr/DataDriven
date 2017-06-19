@@ -1,4 +1,4 @@
-package com.auvenir.ui.services;
+package com.auvenir.ui.services.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.CreateNewAuditPage;
@@ -6,6 +6,7 @@ import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.pages.auditor.AddNewClientPage;
 import com.auvenir.ui.pages.client.*;
 import com.auvenir.ui.pages.common.GmailPage;
+import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;

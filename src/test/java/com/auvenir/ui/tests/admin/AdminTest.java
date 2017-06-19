@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.admin;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AdminService;
+import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.AuvenirService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;

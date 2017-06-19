@@ -1,6 +1,7 @@
-package com.auvenir.ui.services;
+package com.auvenir.ui.services.auditor;
 
 import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
+import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 

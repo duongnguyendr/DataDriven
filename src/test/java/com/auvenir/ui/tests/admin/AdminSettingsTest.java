@@ -1,8 +1,8 @@
 package com.auvenir.ui.tests.admin;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AdminAccountSettingsService;
-import com.auvenir.ui.services.AdminService;
+import com.auvenir.ui.services.admin.AdminAccountSettingsService;
+import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;

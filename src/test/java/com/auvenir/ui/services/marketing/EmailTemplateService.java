@@ -1,4 +1,4 @@
-package com.auvenir.ui.services.marketing.emailtemplate;
+package com.auvenir.ui.services.marketing;
 
 import com.auvenir.ui.pages.marketing.MailAuditorJoinPage;
 import com.auvenir.ui.services.AbstractService;

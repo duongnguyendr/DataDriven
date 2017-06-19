@@ -1,4 +1,4 @@
-package com.auvenir.ui.services.marketing.signup;
+package com.auvenir.ui.services.marketing;
 
 import com.auvenir.ui.pages.marketing.AuditorSignUpPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;

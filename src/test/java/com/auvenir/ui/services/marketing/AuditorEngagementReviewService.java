@@ -1,4 +1,4 @@
-package com.auvenir.ui.services.marketing.engagement;
+package com.auvenir.ui.services.marketing;
 
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by doai.tran on 5/26/2017.
  */
-public class AdminPortalReviewService extends AbstractService {
-    public AdminPortalReviewService(Logger logger, WebDriver driver) {
+public class AuditorEngagementReviewService extends AbstractService {
+    public AuditorEngagementReviewService(Logger logger, WebDriver driver) {
         super(logger, driver);
         //loginPage = new LoginPage(getLogger(),getDriver());
     }

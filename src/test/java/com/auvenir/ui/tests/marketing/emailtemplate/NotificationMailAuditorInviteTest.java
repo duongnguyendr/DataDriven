@@ -1,8 +1,10 @@
 package com.auvenir.ui.tests.marketing.emailtemplate;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;

@@ -1,8 +1,8 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AuditorEngagementService;
-import com.auvenir.ui.services.AuditorService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.auditor.AuditorService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;

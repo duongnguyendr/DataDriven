@@ -1,6 +1,10 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.auditor.AuditorNewEngagementService;
+import com.auvenir.ui.services.auditor.AuditorTodoListService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;

@@ -1,4 +1,4 @@
-package com.auvenir.ui.services;
+package com.auvenir.ui.services.auditor;
 
 import com.auvenir.ui.pages.auditor.AuditorNotificationsSettingsPage;
 import com.kirwa.nxgreport.NXGReports;
