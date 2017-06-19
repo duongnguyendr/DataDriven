@@ -1,6 +1,6 @@
 package com.auvenir.ui.services.marketing.emailtemplate;
 
-import com.auvenir.ui.pages.marketing.mailtemplate.MailAuditorJoinPage;
+import com.auvenir.ui.pages.marketing.MailAuditorJoinPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

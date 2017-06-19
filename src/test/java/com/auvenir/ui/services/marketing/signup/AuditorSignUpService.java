@@ -1,9 +1,8 @@
 package com.auvenir.ui.services.marketing.signup;
 
+import com.auvenir.ui.pages.marketing.AuditorSignUpPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
-import com.auvenir.ui.pages.marketing.onboarding.*;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.MongoDBService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 

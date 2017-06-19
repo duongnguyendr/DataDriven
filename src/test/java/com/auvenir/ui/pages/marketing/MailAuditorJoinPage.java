@@ -1,4 +1,4 @@
-package com.auvenir.ui.pages.marketing.mailtemplate;
+package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.GmailPage;
