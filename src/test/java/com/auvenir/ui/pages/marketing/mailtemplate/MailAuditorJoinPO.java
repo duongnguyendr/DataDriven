@@ -320,6 +320,7 @@ public class MailAuditorJoinPO extends BaseMailTemplatePO {
         }
         getDriver().get(link);
         getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        getDriver().manage().window().maximize();
         waitForProgressOverlayIsClosed();
     }
 }

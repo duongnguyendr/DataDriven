@@ -304,7 +304,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow todoCompleted']")
     private WebElement textToDoNameArchiveComplete;
 
-    @FindBy(xpath = "//tr[@class='newRow']/td[7]/img")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr/td[7]/img")
     private List<WebElement> commentIconToDoListEle;
 
     //    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")

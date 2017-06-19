@@ -71,11 +71,11 @@ public class SmokeTestt extends AbstractTest {
     final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
     final String emailCreate = "ff.minhtest@gmail.com";
     */
-    final String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
+    final String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
     final String gmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Gmail Password");
     final String auditorInvitedPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Invited Password");
     final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
-    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
+    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
 
     private String adminId, auditorId, clientId;
     private String sData[];

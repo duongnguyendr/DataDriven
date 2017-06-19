@@ -9,14 +9,12 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -611,8 +609,11 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement closeSusscessMessageBtnEle;
 
 //    @FindBy(xpath = "//div[@class = 'recaptcha-checkbox-checkmark']")
-    @FindBy(xpath = "//div[contains(@class,'rc-anchor')]")
-    private WebElement capcharTextBoxEle;
+    @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
+    private WebElement capcharCheckBoxEle;
+
+    @FindBy(xpath = "//*[@id='recaptcha-anchor']")
+    private WebElement spanCapCharCheckBoxEle;
 
     @FindBy(xpath = "//button[@id='security-continueBtn']")
     private WebElement createAccountBtnEle;
@@ -770,10 +771,12 @@ public class AuditorSignUpPage extends AbstractPage {
             final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
             System.out.println("iframes: " + iframes.size());
             getDriver().switchTo().frame(0);
-//            System.out.println("capcharTextBoxEle get Attribute: " + iframes.get(0).getAttribute("src"));
-            capcharTextBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
-            System.out.println("capcharTextBoxEle get Attribute: " + capcharTextBoxEle.getAttribute("class"));
-            clickElement(capcharTextBoxEle, "Capchar Text Box");
+//            System.out.println("capcharCheckBoxEle get Attribute: " + iframes.get(0).getAttribute("src"));
+//            capcharCheckBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
+//            WebElement spanCapCharCheckBoxEle = getDriver().findElement(By.xpath("//*[@id='recaptcha-anchor']"));
+            clickElement(capcharCheckBoxEle, "Capchar Text Box");
+            waitForAtrributeValueChanged(spanCapCharCheckBoxEle,"Span CapChar", "aria-checked", "true");
+            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
 
             getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
@@ -807,15 +810,12 @@ public class AuditorSignUpPage extends AbstractPage {
         try {
             waitForVisibleElement(eleName, "Full name");
             sendKeyTextBox(eleName, strName, "Full Name TextBox");
-//            eleName.sendKeys(strName);
 
             waitForVisibleElement(eleEmail, "Email");
             sendKeyTextBox(eleEmail, strEmail, "Email Name TextBox");
-//            eleEmail.sendKeys(strEmail);
 
             waitForVisibleElement(eleConfirmEmail, "Email");
             sendKeyTextBox(eleConfirmEmail, strEmail, "Confirm Email TextBox");
-//            eleConfirmEmail.sendKeys(strEmail);
 
             waitForClickableOfElement(eleRoleFirm, "Role in Firm Dropdown");
             clickElement(eleRoleFirm, "Role");
