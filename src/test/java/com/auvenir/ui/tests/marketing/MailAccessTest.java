@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 /**
  * Created by cuong.nguyen on 4/27/2017.
  */
-public class MailAuditorAccessTest extends AbstractTest {
+public class MailAccessTest extends AbstractTest {
 
     private MarketingService marketingService;
     private GmailLoginService gmailLoginService;
@@ -38,7 +38,7 @@ public class MailAuditorAccessTest extends AbstractTest {
     AuditorNewEngagementService auditorNewEngagementService;
 
 
-    //MailAuditorAccessTest
+    //MailAccessTest
     @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set status to On-boarding")
     public void verifyAdminGiveAuditorAccess() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
