@@ -853,8 +853,8 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void viewAndVerifyCredentials() {
-        getEleViewCredentialsBtn().click();
-
+        //getEleViewCredentialsBtn().click();
+        clickElement(eleViewCredentialsBtn,"eleViewCredentialsBtn");
 //        validateDisPlayedElement(getEleAuthIDTxt(), "Auth ID key");
 //        validateDisPlayedElement(getEleAPIKeyTxt(), "API Text");
     }
@@ -893,7 +893,8 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void closeNewMessagePopup() {
-        getEleMailCloseIcn().click();
+        //getEleMailCloseIcn().click();
+        clickElement(eleMailCloseIcn,"eleMailCloseIcn");
     }
 
     public void verifyDropMenuNotification() {
@@ -903,7 +904,8 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void clickViewAllNotification() {
-        getEleViewAllLnk().click();
+        //getEleViewAllLnk().click();
+        clickElement(eleViewAllLnk,"eleViewAllLnk");
     }
 
     public void verifyBodyNotificationPage() {
@@ -914,10 +916,14 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void navigateToSettingAccountPage() {
-        auvenirPage.getEleNotificationImg().click();
+        /*auvenirPage.getEleNotificationImg().click();
         getEleViewAllLnk().click();
         visibilityOfElementWait(getEleClickHereLnk(), "Click Here - Link", 20);
-        getEleClickHereLnk().click();
+        getEleClickHereLnk().click();*/
+        clickElement(auvenirPage.getEleNotificationImg(),"Click on Element: Notification Image.");
+        clickElement(eleViewAllLnk,"eleViewAllLnk");
+        visibilityOfElementWait(getEleClickHereLnk(), "Click Here - Link", 20);
+        clickElement(eleClickHereLnk,"eleClickHereLnk");
     }
 
     public void verifySettingAccountPage() {
@@ -939,7 +945,8 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void clickDeactiveLink() {
-        getEleDeactivateLnk().click();
+        //getEleDeactivateLnk().click();
+        clickElement(eleDeactivateLnk,"EleDeactivateLnk");
     }
 
     public void verifyDeactivePopup() {
@@ -951,7 +958,8 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void closeDeactivePopup() {
-        getEleCloseIcn().click();
+        //getEleCloseIcn().click();
+        clickElement(eleCloseIcn,"eleCloseIcn");
     }
 
     public void navigateToSettingDevicesPage() {
@@ -976,7 +984,8 @@ public class AdminLoginPage extends AbstractPage {
     }
 
     public void addAnotherDeviceLink() {
-        getEleAddAnotherLnk().click();
+        //getEleAddAnotherLnk().click();
+        clickElement(eleAddAnotherLnk,"eleAddAnotherLnk");
     }
 
     public void verifyAddAnotherPopup() {
