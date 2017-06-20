@@ -491,6 +491,7 @@ public class SmokeTestt extends AbstractTest {
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest","Valid User","Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
+        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
         try {
 //            auditorCreateToDoService.loginWithUserRole(auditorId);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId,auditorPwd);
@@ -498,7 +499,9 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 //            auditorCreateToDoService.deleteAllExistedTodoItems();
-            auditorCreateToDoService.navigatetoCreateToDoTab();
+//            auditorCreateToDoService.navigatetoCreateToDoTab();
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.verifyAddNewRequestButton();
             getLogger().info("Verifying create new request name.. ");
             auditorCreateToDoService.verifyCreateRequest("New_Request 01");
@@ -506,7 +509,7 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
             getLogger().info("Verifying upload TXT file..");
             auditorCreateToDoService.uploadeCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, fileName);
-            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation,GenericService.sUserPath+ pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation,GenericService.sDirPath+ pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
         } catch (Exception e) {
