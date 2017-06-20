@@ -826,6 +826,13 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
+    public void clickNewRequestImg() {
+        createToDoPage.verifyAddNewRequestImg();
+    }
+
+    /**
+     * Author minh.nguyen
+     */
     public void verifyRequestNameTextbox() {
         createToDoPage.verifyRequestNameTextbox();
     }
@@ -851,8 +858,19 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
+    public void uploadeCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadeCreateRequestNewFileClient(uploadLocation.concat(fileName));
+        createToDoPage.verifyUploadFileSuccessfully(fileName);
+    }
+
     public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
         createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+//        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
+//        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
+    }
+
+    public void downloadCreateRequestNewFileClient(String uploadLocation,String downloadLocation, String fileName){
+        createToDoPage.downloadCreateRequestNewFileClient(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
 //        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }

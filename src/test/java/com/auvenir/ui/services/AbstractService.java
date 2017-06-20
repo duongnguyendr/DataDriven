@@ -624,7 +624,7 @@ public class AbstractService {
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
         marketingService.clickLoginButton();
-        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);;
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
