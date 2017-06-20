@@ -2993,8 +2993,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void clickPostComment() {
         getLogger().info("Click Post Comment Button");
+        int size = getNumberOfListComment();
         waitForVisibleElement(postCommentButton, "Comment Input field");
         clickElement(postCommentButton, "Comment Input field");
+        waitForSizeListElementChanged(listCommentItemEle, "List Comment", size +1);
     }
 
     public int getNumberOfListComment() {
