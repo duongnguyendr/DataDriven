@@ -1086,5 +1086,20 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCommentSuccessFul(String comment, int numberOfComment){
     		createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
     }
+    
+    public void selectClientAssigneeByName(String toDoName, String clientAssignee){
+    	createToDoPage.selectClientAssigneeByName(toDoName, clientAssignee);
+    }
+    
+    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee){
+    	createToDoPage.selectAuditorAssigneeByName(toDoName, auditorAssignee);
+    }
+    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee){
+    	createToDoPage.verifyAuditorAssigneeSelected(toDoName, auditorAssignee);
+    }
+    
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
+    	createToDoPage.verifyClientAssigneeSelected(toDoName, clientAssignee);
+    }
 }
 

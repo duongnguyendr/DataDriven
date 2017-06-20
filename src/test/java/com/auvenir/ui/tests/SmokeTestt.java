@@ -402,7 +402,6 @@ public class SmokeTestt extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagement);
-            
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyInputDataToDoNameTextBox(todoName);
 
@@ -475,14 +474,16 @@ public class SmokeTestt extends AbstractTest {
             String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
             String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "EngagementName");
+            String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+            String auditorAssign = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Assignee");
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
-            auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagement);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
+            
+            auditorCreateToDoService.selectAuditorAssigneeByName(toDoName, auditorAssign);
+            auditorCreateToDoService.verifyAuditorAssigneeSelected(toDoName, auditorAssign);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -704,19 +705,21 @@ public class SmokeTestt extends AbstractTest {
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         try {
-        	 String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+             String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
              String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
              String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "EngagementName");
+             String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+             String auditorAssign = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Assignee");
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
-            auditorCreateToDoService.loginWithUserRole(auditorId);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagement);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.verifyClientAssigneeComboBox();
-            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
+             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+             auditorEngagementService.verifyAuditorEngagementPage();
+             auditorEngagementService.viewEngagementDetailsPage(engagement);
+             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
+             auditorCreateToDoService.selectClientAssigneeByName(toDoName, auditorAssign);
+             auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, auditorAssign);
+             
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Client Assignee.", LogAs.PASSED, null);
         } catch (Exception e) {
