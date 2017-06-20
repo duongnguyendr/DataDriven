@@ -137,6 +137,61 @@ public class AuditorEngagementTeamPage extends AbstractPage {
         getLogger().info("Verify new Auditor Member is added.");
         validateElementText(auditorTeamMemberNameEle.get(0), fullName);
         validateElementText(roleTeamMemberNameEle.get(0), roleMember);
-//        validateElementText()
+    }
+
+    public void deleteMemberInEngagementByName(String fullNameMember) {
+        getLogger().info(String.format("Click Delete Team Member '%s'", fullNameMember));
+        try {
+            int index = findTeamMemberByName(fullNameMember);
+
+            // Need to sleep because the teamEmptyDiv is always displayed first.
+            Thread.sleep(3000);
+            String displayedValue = teamEmptyDivEle.getCssValue("display");
+            if(displayedValue.equals("none")){
+                clickElement(allMemberCheckBoxEle, "All Member Check Box");
+                boolean checked = allMemberCheckBoxEle.isSelected();
+                if(checked) {
+                    clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown");
+                    clickElement(deleteOptionActionsEle, "Delete Option Dropdown");
+                    waitForProgressOverlayIsClosed();
+                    boolean result = verifyContentOfSuccessToastMessage("Your team member has been removed.");
+                    if (!result) throw new Exception();
+//                    waitForAtrributeValueChanged(teamEmptyDivEle, "Team Empty Icon", "display", "block");
+                }
+            }
+            NXGReports.addStep("Delete All Member in Engagement.", LogAs.PASSED, null);
+        } catch (Exception e){
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed:  Delete All Member in Engagement.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    public int findTeamMemberByName(String fullNameMember) {
+        getLogger().info(String.format("Find position of Team Member '%s'", fullNameMember));
+        try {
+            // Need to sleep because the teamEmptyDiv is always displayed first.
+            Thread.sleep(3000);
+            String displayedValue = teamEmptyDivEle.getCssValue("display");
+            if(displayedValue.equals("none")){
+                String actualAttributeValue;
+                String classAttribute;
+                for (int i = 0; i < auditorTeamMemberNameEle.size(); i++) {
+//                        WebElement toDoNameCell = auditorTeamMemberNameEle.get(i).findElement(By.xpath("td/input[@type='text']"));
+                    actualAttributeValue = auditorTeamMemberNameEle.get(i).getText().trim();
+                    if (actualAttributeValue.equals(fullNameMember)) {
+                        getLogger().info("Team Member Name is found at " + i);
+                        NXGReports.addStep(String.format("The position of Team Member: '%s' at %d", fullNameMember, i), LogAs.PASSED, null);
+                        return i;
+                    }
+                }
+                return -1;
+            }
+            return -1;
+        } catch (Exception e) {
+            getLogger().info(e);
+            return -1;
+        }
     }
 }

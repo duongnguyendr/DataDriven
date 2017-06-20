@@ -1,26 +1,6 @@
 package com.auvenir.ui.tests;
 
-import java.text.SimpleDateFormat;
-import java.util.Random;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AdminService;
-import com.auvenir.ui.services.AuditorCreateToDoService;
-import com.auvenir.ui.services.AuditorDetailsEngagementService;
-import com.auvenir.ui.services.AuditorEditCategoryService;
-import com.auvenir.ui.services.AuditorEngagementService;
-import com.auvenir.ui.services.AuditorEngagementTeamService;
-import com.auvenir.ui.services.AuditorNewEngagementService;
-import com.auvenir.ui.services.AuditorService;
-import com.auvenir.ui.services.AuditorTodoListService;
-import com.auvenir.ui.services.AuvenirService;
-import com.auvenir.ui.services.ClientEngagementService;
-import com.auvenir.ui.services.ClientService;
-import com.auvenir.ui.services.ClientSignUpService;
-import com.auvenir.ui.services.GmailLoginService;
+import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
@@ -30,6 +10,11 @@ import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Random;
 
 /**
  * Created by huy.huynh on 13/06/2017.
@@ -53,7 +38,7 @@ public class SmokeTestt extends AbstractTest {
     private ClientSignUpService clientSignUpService;
     private ClientEngagementService clientEngagementService;
     private AuditorEngagementTeamService auditorEngagementTeamService;
-    MarketingService maketingService;
+    //MarketingService marketingService;
 
     // personal information
     final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
@@ -109,7 +94,6 @@ public class SmokeTestt extends AbstractTest {
         try {
             adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
-
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -149,6 +133,7 @@ public class SmokeTestt extends AbstractTest {
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
+
             NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
@@ -166,9 +151,10 @@ public class SmokeTestt extends AbstractTest {
         final String adminEmail = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
         try {
             gmailLoginService.deleteAllExistedEmail(emailCreate, gmailPassword);
-            marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(adminEmail, strAdminPwd);
+//
+//            marketingService.goToBaseURL();
+//            marketingService.clickLoginButton();
+            marketingService.loginWithUserRolesUsingUsernamePassword (adminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
@@ -212,9 +198,9 @@ public class SmokeTestt extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         final String emailCreate = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         try {
-            marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(emailCreate, auditorPwd);
+//            marketingService.goToBaseURL();
+//            marketingService.clickLoginButton();
+            marketingService.loginWithUserRolesUsingUsernamePassword(emailCreate, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -305,9 +291,9 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
         try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
@@ -541,13 +527,15 @@ public class SmokeTestt extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String engagementName = "Engagement 01";
-        String toDoName = "TestComment01";
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "EngagementName");
+        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
         String commentContent = "comment TestComment01";
 
         try {
-            auditorEngagementService.loginWithUserRole(auditorId);
+
+            marketingService.loginWithUserRolesUsingUsernamePassword (auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -574,11 +562,12 @@ public class SmokeTestt extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String toDoName = "TestMarkComplete01";
         String engagementName = "Engagement 01";
         try {
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 //            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -628,9 +617,7 @@ public class SmokeTestt extends AbstractTest {
         String roleMember = "Auditor";
         String auditorInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
         try {
-            marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(auditorId, auditorPwd);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -640,9 +627,7 @@ public class SmokeTestt extends AbstractTest {
             auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
             gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
 
-            marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
-            marketingService.loginWithNewUserRole(auditorId, auditorPwd);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
