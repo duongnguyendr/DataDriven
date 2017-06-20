@@ -74,7 +74,7 @@ public class AbstractPage {
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
         this.logger = logger;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
+        PageFactory.initElements(driver, this);
     }
 
     public WebDriver getDriver() {
