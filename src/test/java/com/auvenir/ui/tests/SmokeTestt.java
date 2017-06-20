@@ -228,7 +228,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
             auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", "Smoke Company");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement" + timeStamp);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
