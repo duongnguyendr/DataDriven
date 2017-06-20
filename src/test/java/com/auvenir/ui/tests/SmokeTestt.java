@@ -1,26 +1,6 @@
 package com.auvenir.ui.tests;
 
-import java.text.SimpleDateFormat;
-import java.util.Random;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AdminService;
-import com.auvenir.ui.services.AuditorCreateToDoService;
-import com.auvenir.ui.services.AuditorDetailsEngagementService;
-import com.auvenir.ui.services.AuditorEditCategoryService;
-import com.auvenir.ui.services.AuditorEngagementService;
-import com.auvenir.ui.services.AuditorEngagementTeamService;
-import com.auvenir.ui.services.AuditorNewEngagementService;
-import com.auvenir.ui.services.AuditorService;
-import com.auvenir.ui.services.AuditorTodoListService;
-import com.auvenir.ui.services.AuvenirService;
-import com.auvenir.ui.services.ClientEngagementService;
-import com.auvenir.ui.services.ClientService;
-import com.auvenir.ui.services.ClientSignUpService;
-import com.auvenir.ui.services.GmailLoginService;
+import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
 import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
@@ -30,6 +10,11 @@ import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Random;
 
 /**
  * Created by huy.huynh on 13/06/2017.
@@ -53,7 +38,7 @@ public class SmokeTestt extends AbstractTest {
     private ClientSignUpService clientSignUpService;
     private ClientEngagementService clientEngagementService;
     private AuditorEngagementTeamService auditorEngagementTeamService;
-    MarketingService maketingService;
+    //MarketingService marketingService;
 
     // personal information
     final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
@@ -109,7 +94,6 @@ public class SmokeTestt extends AbstractTest {
         try {
             adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
             adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
-
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -149,6 +133,7 @@ public class SmokeTestt extends AbstractTest {
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
+
             NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
