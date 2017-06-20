@@ -572,4 +572,57 @@ public class SmokeTestt extends AbstractTest {
     }
     /*-----------end of Thuan.Duong on 14/06/2017.*/
 
+    /**
+     * verifyStatusShowControlWhenCompleteToDo - TanPh - 2017/06/20 - Start
+     * @throws Exception
+     */
+    @Test(priority = 23, enabled = true, description = "Verify engagement status  when check complete todo")
+    public void verifyEngagementStatusWhenCheckCompleteToDo() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
+        //String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
+        String toDoName = "TestMarkComplete01";
+        String engagementName = "Engagement 07";
+        try {
+            //Go to marketing page
+            marketingService.goToBaseURL();
+            // Click on button login
+            marketingService.clickLoginButton();
+            // Login with user name and password
+            marketingService.loginWithUserNamePassword(auditorId,auditorPwd);
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            // Create new to do
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            // Select to do follow to do name
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
+
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.verifyClickCloseMarkPopup();
+
+            /*auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.clickArchiveTaskButton();
+            auditorCreateToDoService.verifyMarkCompleteArchive(index);*/
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify engagement status  when check complete todo", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify engagement status  when check complete todo", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
 }
