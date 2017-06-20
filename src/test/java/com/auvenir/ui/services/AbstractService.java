@@ -17,7 +17,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -280,7 +279,7 @@ public class AbstractService {
 
     }
 
-    public void loadURL(String sUrl) {
+    public void navigateToURL(String sUrl) {
         try {
             System.out.println(sUrl);
             driver.get(sUrl);
@@ -351,7 +350,7 @@ public class AbstractService {
     /*
     Refactoring to join AbstractRefactorService
      */
-    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+    public void navigateToURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
         driver.get(sGetTokenURL + sEmailID);
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
@@ -459,7 +458,7 @@ public class AbstractService {
     public String deleteUserViaAPI(String email) {
         String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + email + "/delete";
-        loadURL(deleteURL);
+        navigateToURL(deleteURL);
         return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
     }
 
