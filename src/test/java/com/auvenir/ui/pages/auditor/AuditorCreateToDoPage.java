@@ -377,7 +377,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement emptyRowToDotask;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
-
+    
     @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
 
@@ -3001,8 +3001,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void clickPostComment() {
         getLogger().info("Click Post Comment Button");
+        int size = getNumberOfListComment();
         waitForVisibleElement(postCommentButton, "Comment Input field");
         clickElement(postCommentButton, "Comment Input field");
+        waitForSizeListElementChanged(listCommentItemEle, "List Comment", size +1);
     }
 
     public int getNumberOfListComment() {

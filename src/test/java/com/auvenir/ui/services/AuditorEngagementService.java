@@ -212,8 +212,5 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.sortCompanyName(isAsc);
     }
     
-    public void navigateToFirstEngagement(){
-    	auditorEngagementPage.navigateToFirstEngagement();
-    }
 }
 
