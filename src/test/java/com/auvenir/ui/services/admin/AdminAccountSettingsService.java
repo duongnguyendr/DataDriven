@@ -1,5 +1,6 @@
 package com.auvenir.ui.services.admin;
 
+import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
