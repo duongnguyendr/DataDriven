@@ -1294,7 +1294,16 @@ public class AuditorEngagementPage extends AbstractPage {
      */
     public void filter(){
         this.eleFilter.click();
-
-
+    }
+    
+    public void navigateToFirstEngagement(){
+    	try{
+    		waitForClickableOfElement(engagementListEle.get(0));
+    		clickElement(engagementListEle.get(0));
+    	} catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("There are no engagment.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			throw e;
+		}
     }
 }

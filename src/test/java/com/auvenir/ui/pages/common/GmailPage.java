@@ -175,6 +175,7 @@ public class GmailPage extends AbstractPage {
 
             waitForVisibleElement(eleProfileIcn, "eleProfileIcn");
             clickElement(eleProfileIcn, "click to eleProfileIcn");
+            Thread.sleep(2000);
             waitForVisibleElement(eleSignOutBtn, "eleSignOutBtn");
             clickElement(eleSignOutBtn, "click to eleSignOutBtn");
             Thread.sleep(3000);

@@ -318,7 +318,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='comment-box']/p//span[@class='details-comment-count commentNumber']")
     private WebElement commentboxCountNumberEle;
 
-    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']")
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//p")
 //    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
     private List<WebElement> listCommentItemEle;
 
@@ -369,6 +369,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement emptyRowToDotask;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
+    
+    @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
+    private List<WebElement> listCommentEle;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -3567,7 +3570,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown client\")]//div[contains(@class,\"menu\")]/button[@class=\"item\"]")
     List<WebElement> listOfClientAssigneesDropdown;
 
-    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[@class=\"item\"]")
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[contains(@class,\"item\")]")
     List<WebElement> listOfAuditAssigneeDropdown;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//input[contains(@class,\"input-due-date\")]")
@@ -4227,5 +4230,33 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /*
     End of Vien.Pham
      */
+    
+    public void verifyAddNewRequestPopUp(){
+    	try{
+    		clickToDoListAddNewRequest();
+    		waitForVisibleElement(addNewRequestWindow, "Add new request popup");
+    	}catch (Exception e) {
+    		NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+    
+    public void verifyCommentSuccessFul(String comment, int numberComment){
+    	try{
+    		List<String> textContainComment = new ArrayList<String>();
+    		for (WebElement commentEle: listCommentItemEle){
+    			textContainComment.add(getText(commentEle).toString());
+    		}
+    		
+    		for (int cmt = 0; cmt< numberComment; cmt ++){
+    			if (!textContainComment.contains(comment + cmt)){
+    				AbstractService.sStatusCnt++;
+    				NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    			}
+    		}
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
 }
 
