@@ -330,7 +330,7 @@ public class SmokeTestt extends AbstractTest {
         MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
 
         try {
-            gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
             gmailLoginService.filterEmail();
             gmailLoginService.clickOnboardingInvitationLink();
@@ -498,7 +498,7 @@ public class SmokeTestt extends AbstractTest {
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest","Valid User","Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
-        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
+        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
         try {
 //            auditorCreateToDoService.loginWithUserRole(auditorId);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId,auditorPwd);
@@ -508,7 +508,7 @@ public class SmokeTestt extends AbstractTest {
 //            auditorCreateToDoService.deleteAllExistedTodoItems();
 //            auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
-            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
+//            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.verifyAddNewRequestButton();
             getLogger().info("Verifying create new request name.. ");
             auditorCreateToDoService.verifyCreateRequest("New_Request 01");

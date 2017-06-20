@@ -5,8 +5,6 @@ package com.auvenir.ui.pages.auditor;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.DatePicker;
 import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,10 +17,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
@@ -31,7 +25,8 @@ import javax.sql.rowset.spi.SyncFactoryException;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -4193,9 +4188,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             clickElement(downloadNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
             String md5Upload = calculateMD5(concatUpload);
-            System.out.println("md5 upload is: " + md5Upload);
+            getLogger().info("md5 upload is: " + md5Upload);
             String md5Download = calculateMD5(concatDownload);
-            System.out.println("md5 download is: " + md5Download);
+            getLogger().info("md5 download is: " + md5Download);
             if (md5Upload.equals(md5Download)) {
                 NXGReports.addStep("Verify file was download successfully", LogAs.PASSED, null);
             } else {
@@ -4209,11 +4204,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public String calculateMD5(String fileMD5) throws IOException {
-        FileInputStream fis = new FileInputStream(fileMD5);
-        String md5 = md5Hex(fis);
-        fis.close();
+        String md5 = null;
+        try {
+            FileInputStream fis = new FileInputStream(fileMD5);
+            md5 = md5Hex(fis);
+            fis.close();
+        }catch (Exception e){
+            getLogger().info("Unable to calculate MD5 file.");
+        }
         return md5;
-
     }
 
 
