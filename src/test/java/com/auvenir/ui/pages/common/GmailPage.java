@@ -39,7 +39,8 @@ public class GmailPage extends AbstractPage {
         return eleProfileIcn;
     }
 
-    @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
+//  Old Xpath gmail:  @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
+    @FindBy(xpath = "//a[contains(@href,'https://accounts.google.com/Logout')]")
     private WebElement eleSignOutBtn;
 
     public WebElement getEleSignOutBtn() {
@@ -174,6 +175,7 @@ public class GmailPage extends AbstractPage {
 
             waitForVisibleElement(eleProfileIcn, "eleProfileIcn");
             clickElement(eleProfileIcn, "click to eleProfileIcn");
+            Thread.sleep(2000);
             waitForVisibleElement(eleSignOutBtn, "eleSignOutBtn");
             clickElement(eleSignOutBtn, "click to eleSignOutBtn");
             Thread.sleep(3000);
@@ -364,7 +366,10 @@ public class GmailPage extends AbstractPage {
 
     public void goGMail() {
         try {
-            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
+//            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
+            getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            getDriver().manage().window().maximize();
         } catch (Exception e) {
             getLogger().info("Unable to go to Gmail.");
         }
@@ -489,7 +494,7 @@ public class GmailPage extends AbstractPage {
      */
     public void signInGmail(String email, String password) {
         try {
-            Thread.sleep(3000);
+//            Thread.sleep(3000);
             getLogger().info("Try to login GMail");
             if(!getDriver().getCurrentUrl().contains("accounts.google.com")){
                 clickElement(signButtonEle, "signButtonEle");
@@ -498,10 +503,10 @@ public class GmailPage extends AbstractPage {
             sendTabkey(eleEmail, "eleEmail");
             sendEnterkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
-            Thread.sleep(2000);
+//            Thread.sleep(2000);
             sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {

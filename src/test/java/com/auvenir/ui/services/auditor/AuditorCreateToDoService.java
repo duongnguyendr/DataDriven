@@ -12,6 +12,8 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.util.List;
 
@@ -799,6 +801,13 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyInputAComment(String commentContent) {
         createToDoPage.verifyInputAComment(commentContent);
     }
+    
+    public void verifyInputMultiComment(String commentType, int numberComment){
+    	for (int i = 0; i < numberComment; i++){
+    		createToDoPage.verifyInputAComment(commentType + i);
+    		clickPostComment();
+    	}
+    }
 
     public void clickPostComment() {
         createToDoPage.clickPostComment();
@@ -836,6 +845,17 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void verifyUpdateRequest(String requestName2) {
         createToDoPage.verifyNewRequestStoreInDatabase(requestName2);
+    }
+
+    public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+        createToDoPage.verifyUploadFileSuccessfully(fileName);
+    }
+
+    public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
+        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+//        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
+//        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }
 
     /**
@@ -1060,6 +1080,13 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyExistedCategory(){
         createToDoPage.verifyExistedCategory();
     }
-
+    
+    public void verifyAddNewRequestPopUp(){
+    	createToDoPage.verifyAddNewRequestPopUp();
+    }
+    
+    public void verifyCommentSuccessFul(String comment, int numberOfComment){
+    		createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
+    }
 }
 

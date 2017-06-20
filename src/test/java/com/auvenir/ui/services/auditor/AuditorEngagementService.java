@@ -57,7 +57,7 @@ public class AuditorEngagementService extends AbstractService {
 
         try {
             getLogger().info("navigate to client Settings page.");
-            //auditorEngagementPage.navigateToClientSettingsPage();
+            //auditorEngagementTeamPage.navigateToClientSettingsPage();
             NXGReports.addStep("navigate to client setting tab.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("navigate to client settings tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -114,10 +114,10 @@ public class AuditorEngagementService extends AbstractService {
         try {
             getLogger().info("navigate to Engagement detail page.(Hard code)");
             final String companyName = "Company Auvenir";
-            int index = auditorEngagementPage.findEngagementName(engagementName);
+            int index = auditorEngagementTeamPage.findEngagementName(engagementName);
             if(index == -1){
                 createAndSelectNewEnagement(engagementName, "", companyName);
-            }else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            }else auditorEngagementTeamPage.viewEngagementDetailsPage(engagementName);
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -168,7 +168,7 @@ public class AuditorEngagementService extends AbstractService {
         auditorNewEngagementPage.verifyNewEngagementPage();
         auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company);
         // R2: Change bussiness rule, need to mark a commment this line.
-//        auditorEngagementPage.clickEngagementByPosition(auditorEngagementPage.findEngagementName(engagementName));
+//        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
     }
     public void createNewEnagement(String engagementName, String engagementType, String company) throws Exception {
         getLogger().info("Create New Enagement.");

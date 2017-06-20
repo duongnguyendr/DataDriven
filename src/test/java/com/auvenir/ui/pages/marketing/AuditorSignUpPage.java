@@ -1,4 +1,4 @@
-package com.auvenir.ui.pages.marketing;
+package com.auvenir.ui.pages.marketing.onboarding;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
@@ -9,14 +9,12 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -550,6 +548,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='personal-referral-container']/ul/li")
     private List<WebElement> listItemreferalConfirmDrdEle;
 
+    @FindBy(xpath = "//*[@id='personal-referral']/../ul")
+    private WebElement referalDropdownPopupEle;
+
     @FindBy(xpath = "//*[@id='agreement-personal']")
     private WebElement agreePrivacyConfirmCheckboxEle;
 
@@ -589,6 +590,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='firm-size-container']/ul/li")
     private List<WebElement> firmListItemEmployeeConfirmDrdEle;
 
+    @FindBy(xpath = "//*[@id='firm-size']/../ul")
+    private WebElement firmDropdownPopup;
+
     @FindBy(xpath = "//*[@id='firm-phone']")
     private List<WebElement> firmPhoneConfirmTxtEle;
 
@@ -611,8 +615,11 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement closeSusscessMessageBtnEle;
 
 //    @FindBy(xpath = "//div[@class = 'recaptcha-checkbox-checkmark']")
-    @FindBy(xpath = "//div[contains(@class,'rc-anchor')]")
-    private WebElement capcharTextBoxEle;
+    @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
+    private WebElement capcharCheckBoxEle;
+
+    @FindBy(xpath = "//*[@id='recaptcha-anchor']")
+    private WebElement spanCapCharCheckBoxEle;
 
     @FindBy(xpath = "//button[@id='security-continueBtn']")
     private WebElement createAccountBtnEle;
@@ -765,15 +772,16 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForVisibleElement(eleAffFirm, "Affiliated Firm's Name Input");
             sendKeyTextBox(eleAffFirm, strAffName, "Affiliated Firm's Name Input");
 
-            Thread.sleep(2000);
             scrollToFooter();
             final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
             System.out.println("iframes: " + iframes.size());
             getDriver().switchTo().frame(0);
-//            System.out.println("capcharTextBoxEle get Attribute: " + iframes.get(0).getAttribute("src"));
-            capcharTextBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
-            System.out.println("capcharTextBoxEle get Attribute: " + capcharTextBoxEle.getAttribute("class"));
-            clickElement(capcharTextBoxEle, "Capchar Text Box");
+//            System.out.println("capcharCheckBoxEle get Attribute: " + iframes.get(0).getAttribute("src"));
+//            capcharCheckBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
+//            WebElement spanCapCharCheckBoxEle = getDriver().findElement(By.xpath("//*[@id='recaptcha-anchor']"));
+            clickElement(capcharCheckBoxEle, "Capchar Text Box");
+            waitForAtrributeValueChanged(spanCapCharCheckBoxEle,"Span CapChar", "aria-checked", "true");
+            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
 
             getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
@@ -787,8 +795,6 @@ public class AuditorSignUpPage extends AbstractPage {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Register Auditor FIRM Page is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -807,15 +813,12 @@ public class AuditorSignUpPage extends AbstractPage {
         try {
             waitForVisibleElement(eleName, "Full name");
             sendKeyTextBox(eleName, strName, "Full Name TextBox");
-//            eleName.sendKeys(strName);
 
             waitForVisibleElement(eleEmail, "Email");
             sendKeyTextBox(eleEmail, strEmail, "Email Name TextBox");
-//            eleEmail.sendKeys(strEmail);
 
             waitForVisibleElement(eleConfirmEmail, "Email");
             sendKeyTextBox(eleConfirmEmail, strEmail, "Confirm Email TextBox");
-//            eleConfirmEmail.sendKeys(strEmail);
 
             waitForClickableOfElement(eleRoleFirm, "Role in Firm Dropdown");
             clickElement(eleRoleFirm, "Role");
@@ -1181,12 +1184,10 @@ public class AuditorSignUpPage extends AbstractPage {
 //            switchToOtherTab(0);
 //        }
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
-        verifyFirmInfoPageContent();
+
         registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
-        verifySecurityInfoPageContent();
-        createPassword(strPassword, strPassword);
         verifySuccessPageContent();
         acceptCreateAccountAuditor();
     }
@@ -1196,9 +1197,12 @@ public class AuditorSignUpPage extends AbstractPage {
         confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
-        clickCreateAccountBtn();
-        verifyConfirmSuccessPageContent();
-        clickCloseSuccessMessageBtn();
+        createPassword(strPassword, strPassword);
+
+        //Change business rule, don't need to input below field.
+//        clickCreateAccountBtn();
+//        verifyConfirmSuccessPageContent();
+//        clickCloseSuccessMessageBtn();
     }
 
     /**
@@ -1214,6 +1218,7 @@ public class AuditorSignUpPage extends AbstractPage {
         getLogger().info("Input all field in Register Personal Information Page and click Continue Button");
         boolean result;
         try {
+            //Change business rule, don't need to input below field.
 //            waitForVisibleElement(fullNameConfirmTxtEle, "Full name");
 //            sendKeyTextBox(fullNameConfirmTxtEle, strName, "Full Name TextBox");
 
@@ -1223,18 +1228,17 @@ public class AuditorSignUpPage extends AbstractPage {
 //            waitForVisibleElement(emailReEnterConfirmTxtEle, "Email");
 //            sendKeyTextBox(emailReEnterConfirmTxtEle, strEmail, "Confirm Email TextBox");
 
-            waitForVisibleElement(roleConfirmTxtEle, "Role Firm Textbox");
-            sendKeyTextBox(roleConfirmTxtEle, strRoleFirm,"Role Firm Textbox");
+//            waitForVisibleElement(roleConfirmTxtEle, "Role Firm Textbox");
+//            sendKeyTextBox(roleConfirmTxtEle, strRoleFirm,"Role Firm Textbox");
 
             waitForVisibleElement(phoneConfirmTxtEle, "Phone number");
             sendKeyTextBox(phoneConfirmTxtEle, strPhone, "Phone number TextBox");
             waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox","value", strPhone);
 
-            WebElement dropdownpopup = getDriver().findElement(By.xpath("//*[@id='personal-referral']/../ul"));
             waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
             clickElement(referalConfirmDrdEle, "Referal Dropdown List");
 
-            waitForAtrributeValueChanged(dropdownpopup, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
 
             String firstItemText = listItemreferalConfirmDrdEle.get(0).getText();
             clickElement(listItemreferalConfirmDrdEle.get(0), "First Item on Role Dropdown");
@@ -1242,8 +1246,8 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForAtrributeValueChanged(referalConfirmDrdEle, "Referal Dropdown List", "value", firstItemText);
             if (GenericService.sBrowserData.equals("ff."))
                 clickElement(referalConfirmDrdEle, "Referal Dropdown List");
-            waitForAtrributeValueChanged(dropdownpopup, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
-
+            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
+            scrollToFooter();
             waitForVisibleElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
             clickElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
 
@@ -1288,29 +1292,31 @@ public class AuditorSignUpPage extends AbstractPage {
         boolean result;
         try {
 
-            waitForVisibleElement(firmWebsiteConfirmTxtEle, "Firm Website Input");
-            sendKeyTextBox(firmWebsiteConfirmTxtEle, firmWebsite, "Firm Website Input");
+            //Change business rule, don't need to input below field.
+//            waitForVisibleElement(firmWebsiteConfirmTxtEle, "Firm Website Input");
+//            sendKeyTextBox(firmWebsiteConfirmTxtEle, firmWebsite, "Firm Website Input");
+//
+//
+//            waitForVisibleElement(firmSuiteNumConfirmTxtEle, "Office Number Input");
+//            sendKeyTextBox(firmSuiteNumConfirmTxtEle, strOffNum, "Office Number Input");
+//
+//
+//            waitForVisibleElement(firmCountryConfirmTxtEle, "City Input");
+//            sendKeyTextBox(firmCountryConfirmTxtEle, strState, "City Input");
+//
+//            waitForVisibleElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+//            clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+//            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+//
+//            String firstItemText = firmListItemEmployeeConfirmDrdEle.get(0).getText();
+//            clickElement(firmListItemEmployeeConfirmDrdEle.get(0), "First Item on Number of Employee Dropdown");
+//            System.out.print("firstItemText: " + firstItemText);
+//            waitForAtrributeValueChanged(firmNumEmployeeConfirmTxtEle, "Referal Dropdown List", "value", firstItemText);
+//            if (GenericService.sBrowserData.equals("ff."))
+//                clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+//            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl");
 
-
-            waitForVisibleElement(firmSuiteNumConfirmTxtEle, "Office Number Input");
-            sendKeyTextBox(firmSuiteNumConfirmTxtEle, strOffNum, "Office Number Input");
-
-
-            waitForVisibleElement(firmCountryConfirmTxtEle, "City Input");
-            sendKeyTextBox(firmCountryConfirmTxtEle, strState, "City Input");
-
-            WebElement dropdownpopup = getDriver().findElement(By.xpath("//*[@id='firm-size']/../ul"));
-            waitForVisibleElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-            clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-            waitForAtrributeValueChanged(dropdownpopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl inputDdl-after");
-
-            String firstItemText = firmListItemEmployeeConfirmDrdEle.get(0).getText();
-            clickElement(firmListItemEmployeeConfirmDrdEle.get(0), "First Item on Number of Employee Dropdown");
-            System.out.print("firstItemText: " + firstItemText);
-            waitForAtrributeValueChanged(firmNumEmployeeConfirmTxtEle, "Referal Dropdown List", "value", firstItemText);
-            if (GenericService.sBrowserData.equals("ff."))
-                clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-            waitForAtrributeValueChanged(dropdownpopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl");
+            scrollToFooter();
 
             waitForVisibleElement(continueFirmConfirmBtnEle, "Continue Firm Button");
             clickElement(continueFirmConfirmBtnEle, "Continue Firm Button");

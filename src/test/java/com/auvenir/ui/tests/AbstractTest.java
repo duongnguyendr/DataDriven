@@ -127,6 +127,8 @@ public class AbstractTest {
                     System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                     getLogger().info("Chrome is set");
                     driver = new ChromeDriver();
+                    //Vien.Pham add new
+
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");

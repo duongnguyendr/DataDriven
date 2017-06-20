@@ -51,6 +51,7 @@ public class GenericService {
     public static int iFailCount = 0;
     public static int iSkippedCount = 0;
     static public String sDirPath = System.getProperty("user.dir");
+    static public String sUserPath = System.getProperty("user.home");
     public static String sTestDataFile = sDirPath + "\\TestData.xlsx";
     public final static String MONGODBPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\MongoDB.properties";
     public final static String LOCATORPROPERTIESFILE = sDirPath + "\\src\\test\\resources\\properties\\Locator.properties";
@@ -734,6 +735,7 @@ public class GenericService {
         try{
             String userDataExcel=null;
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
+            System.out.println("Folder Path: " + GenericService.sTestDataFile);
             Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
             System.out.println(SheetName);

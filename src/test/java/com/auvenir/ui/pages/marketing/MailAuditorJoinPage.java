@@ -321,6 +321,7 @@ public class MailAuditorJoinPage extends AbstractPage {
         }
         getDriver().get(link);
         getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        getDriver().manage().window().maximize();
         waitForProgressOverlayIsClosed();
     }
     // Element of header mail

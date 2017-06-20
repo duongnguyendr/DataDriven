@@ -199,6 +199,7 @@ public class AbstractService {
             if ("".equals(prefixProtocol)) {
                 prefixProtocol = "https://";
             }
+            //TODO: temproryly for stable environment
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
@@ -493,7 +494,7 @@ public class AbstractService {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
-//            gmailLoginPage.signInGmail(eGMail,ePassword);
+            driver.manage().window().maximize();
             gmailLoginPage.signInGmail(eGMail, ePassword);
             gmailLoginPage.deleteAllMail();
             gmailLoginPage.gmailLogout();

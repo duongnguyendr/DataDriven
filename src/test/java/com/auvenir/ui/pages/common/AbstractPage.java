@@ -2202,7 +2202,7 @@ public class AbstractPage {
             result = validateElementText(element, expectedContent);
             Assert.assertTrue(result, "The content of toast message is displayed successfully.");
             return true;
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("The content of toast message is displayed unsuccessfully.");
             return false;

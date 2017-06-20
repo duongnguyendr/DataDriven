@@ -12,13 +12,14 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>
-            <methods>
-                <!--<include name="searchEngagementByCompanyAndNameTest"></include>-->
-                <!--<include name="sortCompanyNameTest"></include>-->
-                <!--<include name="sortEngagementNameTest"></include>-->
-                <include name="verifyFooterAuditorAccountSettingsPage"></include>
-            </methods>
+            <class name="com.auvenir.ui.tests.SmokeTestt"/>
+            <!--<methods>-->
+            <!--&lt;!&ndash;<include name="verifyCreateTodoPage"></include>&ndash;&gt;-->
+            <!--&lt;!&ndash;<include name="verifyCreateCategory"></include>&ndash;&gt;-->
+            <!--&lt;!&ndash;<include name="verifyDuedateTime"></include>&ndash;&gt;-->
+            <!--<include name="verifyAuditAssignee"></include>-->
+            <!--&lt;!&ndash;<include name="verifyClientActiveAfterSignUpSuccess"></include>&ndash;&gt;-->
+            <!--</methods>-->
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">
@@ -33,30 +34,30 @@
         </classes>
     </test>-->
     <!--<test name="Regression2-1" preserve-order="false">-->
-        <!--<parameter name="browser" value="internet explorer"/>-->
-        <!--<parameter name="version" value="lasted"/>-->
-        <!--<parameter name="os" value="WIN10"/>-->
-        <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
-            <!--<methods>-->
-                <!--<include name="verifyAboutPageContentTest"></include>-->
-            <!--</methods>-->
-        <!--</classes>-->
+    <!--<parameter name="browser" value="internet explorer"/>-->
+    <!--<parameter name="version" value="lasted"/>-->
+    <!--<parameter name="os" value="WIN10"/>-->
+    <!--<classes>-->
+    <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+    <!--<methods>-->
+    <!--<include name="verifyAboutPageContentTest"></include>-->
+    <!--</methods>-->
+    <!--</classes>-->
     <!--</test>-->
     <!--<test name="Regression3" preserve-order="true">-->
-        <!--<parameter name="browser" value="safari"/>-->
-        <!--<parameter name="version" value="lasted"/>-->
-        <!--<parameter name="os" value="MAC"/>-->
-        <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
-        <!--</classes>-->
+    <!--<parameter name="browser" value="safari"/>-->
+    <!--<parameter name="version" value="lasted"/>-->
+    <!--<parameter name="os" value="MAC"/>-->
+    <!--<classes>-->
+    <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+    <!--</classes>-->
     <!--</test>-->
     <!--<test name="Regression4" preserve-order="true">-->
-        <!--<parameter name="browser" value="firefox"/>-->
-        <!--<parameter name="version" value="lasted"/>-->
-        <!--<parameter name="os" value="WIN8"/>-->
-        <!--<classes>-->
-            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
-        <!--</classes>-->
+    <!--<parameter name="browser" value="firefox"/>-->
+    <!--<parameter name="version" value="lasted"/>-->
+    <!--<parameter name="os" value="WIN8"/>-->
+    <!--<classes>-->
+    <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+    <!--</classes>-->
     <!--</test>-->
 </suite>
