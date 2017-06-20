@@ -800,6 +800,13 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyInputAComment(String commentContent) {
         createToDoPage.verifyInputAComment(commentContent);
     }
+    
+    public void verifyInputMultiComment(String commentType, int numberComment){
+    	for (int i = 0; i < numberComment; i++){
+    		createToDoPage.verifyInputAComment(commentType + i);
+    		clickPostComment();
+    	}
+    }
 
     public void clickPostComment() {
         createToDoPage.clickPostComment();
@@ -1072,6 +1079,13 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyExistedCategory(){
         createToDoPage.verifyExistedCategory();
     }
-
+    
+    public void verifyAddNewRequestPopUp(){
+    	createToDoPage.verifyAddNewRequestPopUp();
+    }
+    
+    public void verifyCommentSuccessFul(String comment, int numberOfComment){
+    		createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
+    }
 }
 

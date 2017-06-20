@@ -8,10 +8,10 @@ import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.DatePicker;
+import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.mongodb.AggregationOptions;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -28,14 +28,15 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
-import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
@@ -216,7 +217,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='ui-datepicker-title']")
     private WebElement eleDataPickerTitle;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker hasDatepicker']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='auv-input input-due-date datepicker mg5 hasDatepicker']")
     private List<WebElement> eleToDoNewRowDueDateText;
 
     @FindBy(id = "due-date")
@@ -311,7 +312,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow todoCompleted']")
     private WebElement textToDoNameArchiveComplete;
 
-    @FindBy(xpath = "//tr[@class='newRow']/td[7]/img")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr/td[7]/img")
     private List<WebElement> commentIconToDoListEle;
 
     //    @FindBy(xpath = "//div[@id='auv-todo-details']/input[@placeholder='Type a comment']")
@@ -325,7 +326,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='comment-box']/p//span[@class='details-comment-count commentNumber']")
     private WebElement commentboxCountNumberEle;
 
-    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']")
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//p")
 //    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
     private List<WebElement> listCommentItemEle;
 
@@ -376,6 +377,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement emptyRowToDotask;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
+
+    @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
+    private List<WebElement> listCommentEle;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -551,9 +555,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             boolean result;
             getLogger().info("Verify Input Value ToDo Name TextBox");
-            waitForVisibleElement(toDoNameInputEle, "Todo Name input field");
-            sendKeyTextBox(toDoNameInputEle, toDoNameValue, "To Do Name Input");
-            result = validateAttributeElement(toDoNameInputEle, "value", toDoNameValue);
+            waitForVisibleElement(toDoNameTextColumnEle.get(0), "Todo Name input field");
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoNameValue, "To Do Name Input");
+            result = validateAttributeElement(toDoNameTextColumnEle.get(0), "value", toDoNameValue);
             Assert.assertTrue(result, "Input Value into ToDo Name TextBox is unsuccessfully");
             NXGReports.addStep("Verify Input Value ToDo Name TextBox", LogAs.PASSED, null);
             return true;
@@ -3152,8 +3156,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     WebElement addNewRequestWindow;
 
     public void clickToDoListAddNewRequest() throws InterruptedException {
-        Thread.sleep(1000);
-        waitForVisibleElement(todoListAddNewRequestImg, "todoListAddNewRequestImg");
+        Thread.sleep(smallerTimeOut);
         clickElement(todoListAddNewRequestImg, "click to todoListAddNewRequestImg");
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
     }
@@ -3161,7 +3164,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void closeTodoListAddNewRequest() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
-//        waitForCssValueChanged(newRequestTxtboxSpan,"new Request Txtbox span","display","");
     }
 
     /**
@@ -3197,12 +3199,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
     WebElement newRequestTxtboxText;
 
     public void verifyClickAddRequestBtn() {
+        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to click the add request button is clickable");
+//        boolean isCheckRequestEmpty = false;
         try {
 //            Thread.sleep(smallerTimeOut);
             waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
+//            isCheckRequestEmpty = clickElement(newRequestTxtboxSpan, "click to findRequestEmpty1");
+//            if (isCheckRequestEmpty) {
+//                NXGReports.addStep("Verify to click the add request button and empty request is clickable", LogAs.PASSED, null);
+//            } else {
             NXGReports.addStep("Verify add new request Btn is clickable", LogAs.PASSED, null);
+//            }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify add new request Btn is clickable", LogAs.FAILED, null);
@@ -3570,7 +3579,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown client\")]//div[contains(@class,\"menu\")]/button[@class=\"item\"]")
     List<WebElement> listOfClientAssigneesDropdown;
 
-    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[@class=\"item\"]")
+    @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//div[contains(@class,\"ui dropdown audit\")]//button[contains(@class,\"item\")]")
     List<WebElement> listOfAuditAssigneeDropdown;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//input[contains(@class,\"input-due-date\")]")
@@ -3849,7 +3858,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Default value of Assignee is not Select.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
     }
 
     public void verifyBorderClientAssignee_WhileHovered() {
@@ -4036,7 +4044,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Name return default.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-
     }
 
 
@@ -4207,21 +4214,37 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     }
 
-    public void setDownloadLocation(){
-        String downloadFilepath = GenericService.sDirPath+ "\\src\\test\\resources\\";
-        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
-        chromePrefs.put("profile.default_content_settings.popups", 0);
-        chromePrefs.put("download.default_directory", downloadFilepath);
-        ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("prefs", chromePrefs);
 
-        DesiredCapabilities cap = DesiredCapabilities.chrome();
-        cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-        cap.setCapability(ChromeOptions.CAPABILITY, options);
-        WebDriver driver = new ChromeDriver(cap);
-    }
     /*
     End of Vien.Pham
      */
+
+    public void verifyAddNewRequestPopUp(){
+    	try{
+    		clickToDoListAddNewRequest();
+    		waitForVisibleElement(addNewRequestWindow, "Add new request popup");
+    	}catch (Exception e) {
+    		NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void verifyCommentSuccessFul(String comment, int numberComment){
+    	try{
+    		List<String> textContainComment = new ArrayList<String>();
+    		for (WebElement commentEle: listCommentItemEle){
+    			textContainComment.add(getText(commentEle).toString());
+    		}
+
+    		for (int cmt = 0; cmt< numberComment; cmt ++){
+    			if (!textContainComment.contains(comment + cmt)){
+    				AbstractService.sStatusCnt++;
+    				NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    			}
+    		}
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
 }
 
