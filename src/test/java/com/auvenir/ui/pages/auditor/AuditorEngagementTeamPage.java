@@ -65,6 +65,9 @@ public class AuditorEngagementTeamPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='team-row-0']/td[3]")
     private List<WebElement> roleTeamMemberNameEle;
 
+    @FindBy(xpath = "//*[@id='team-row-0']/td[1]/input")
+    private List<WebElement> checkBoxTeamMemberEle;
+
 
 
     public void clickEngagementTeamMenu() {
@@ -92,7 +95,6 @@ public class AuditorEngagementTeamPage extends AbstractPage {
                     waitForProgressOverlayIsClosed();
                     boolean result = verifyContentOfSuccessToastMessage("Your team member has been removed.");
                     if (!result) throw new Exception();
-//                    waitForAtrributeValueChanged(teamEmptyDivEle, "Team Empty Icon", "display", "block");
                 }
             }
             NXGReports.addStep("Delete All Member in Engagement.", LogAs.PASSED, null);
@@ -143,20 +145,15 @@ public class AuditorEngagementTeamPage extends AbstractPage {
         getLogger().info(String.format("Click Delete Team Member '%s'", fullNameMember));
         try {
             int index = findTeamMemberByName(fullNameMember);
-
-            // Need to sleep because the teamEmptyDiv is always displayed first.
-            Thread.sleep(3000);
-            String displayedValue = teamEmptyDivEle.getCssValue("display");
-            if(displayedValue.equals("none")){
-                clickElement(allMemberCheckBoxEle, "All Member Check Box");
-                boolean checked = allMemberCheckBoxEle.isSelected();
+            if(index != -1) {
+                clickElement(checkBoxTeamMemberEle.get(index), "Check Box Team Member");
+                boolean checked = checkBoxTeamMemberEle.get(index).isSelected();
                 if(checked) {
                     clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown");
                     clickElement(deleteOptionActionsEle, "Delete Option Dropdown");
                     waitForProgressOverlayIsClosed();
                     boolean result = verifyContentOfSuccessToastMessage("Your team member has been removed.");
                     if (!result) throw new Exception();
-//                    waitForAtrributeValueChanged(teamEmptyDivEle, "Team Empty Icon", "display", "block");
                 }
             }
             NXGReports.addStep("Delete All Member in Engagement.", LogAs.PASSED, null);

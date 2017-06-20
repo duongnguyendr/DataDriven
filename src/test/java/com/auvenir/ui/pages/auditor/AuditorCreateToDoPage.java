@@ -398,7 +398,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     @FindBy(xpath = "//div[starts-with(@id,'Mark As Complete') and contains(@class,'au-modal')]")
-    WebElement popUpMarkCompleteWindows;
+    private WebElement popUpMarkCompleteWindows;
+
+    @FindBy(xpath = "//div[contains(text(),'Assign to')]/div[@class='menu']/button")
+    private List<WebElement> childItemAssigneeBulkDrpEle;
 
 
     public void verifyButtonCreateToDo() throws Exception {
@@ -676,7 +679,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void createToDoTask(String toDoName) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName'");
-//        try {
         WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
         System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
         waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
@@ -690,7 +692,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
         if (index == -1) {
             getLogger().info("Create New To Do Task");
-//                Thread.sleep(1000);
             waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
             clickElement(createToDoBtnEle, "Create To Do button");
             waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
@@ -700,27 +701,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             createNewCategory("");
             NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
         }
-//        } catch (Exception e) {
-//            getLogger().info(e);
-//            AbstractService.sStatusCnt++;
-//            NXGReports.addStep("TestScript Failed: Create To Do Task", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//        }
-
-
-//        waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
-        // R2: Change bussiness rule, all field is auto selected.
-/*        categoryDropdownEle.click();
-        waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
-        categoryOptionItemEle.get(0).click();
-        waitForClickableOfElement(dueDateFieldEle, "Due Date field");
-        dueDateFieldEle.click();
-        waitForClickableOfElement(dateItemonCalendarEle, "Date value");
-        dateItemonCalendarEle.click();
-        waitForVisibleElement(toDoSaveIconEle, "Save Icon");
-        toDoSaveIconEle.click();
-			waitForVisibleElement(toastMessageSucessEle,"Toast Message Successful");
-			waitForCssValueChanged(toastMessageSucessEle,"Toast Message Successful","class")
-        verifyAddNewToDoTask(toDoName);*/
     }
 
     public void createToDoTask() throws Exception {
@@ -2560,15 +2540,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * choose Assign to option
      */
     public void chooseOptionAssignToOnBulkActionsDropDown() {
-        try {
-            getLogger().info("Choose option: Assign to.");
-            optionAssignTo.click();
-            NXGReports.addStep("Choose option: Assign to.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose option: Assign to.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("Choose option: Assign to.");
+        clickElement(optionAssignTo, "Assign To Option");
     }
 
     /**
@@ -2589,15 +2562,30 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * TODO hardcoding, rewrite later, list assignee not stable now
      */
     public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
+        getLogger().info(String.format("Choose Assignee '%s' in Bulk Dropdown list", assigneeName));
         try {
-            getLogger().info("Choose first assignee(any) to assign.");
-            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
-            //optionAssignee.click();
-            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+            String listUser = "";
+            boolean result = false;
+            for (int i = 0; i < childItemAssigneeBulkDrpEle.size(); i++) {
+                listUser = childItemAssigneeBulkDrpEle.get(i).getText();
+                if (listUser.contains(assigneeName)) {
+                    result = clickElement(childItemAssigneeBulkDrpEle.get(i), "Child Item Assignee");
+                    NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+                    break;
+                }
+            }
+            if (result) {
+                NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+            } else {
+//            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
+                getLogger().info(String.format("Cannot choose assignee '%s' in Bulk Dropdown list", assigneeName));
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
         } catch (Exception ex) {
             getLogger().info(ex);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4387,6 +4375,49 @@ public class AuditorCreateToDoPage extends AbstractPage {
     		AbstractService.sStatusCnt++;
     		NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
+    }
+
+    public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
+        Thread.sleep(2000);
+        chooseOptionAssignToOnBulkActionsDropDown();
+        chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
+//        chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName();
+//        List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+//        hoverElement(menuBulkActionsDropdown.get(2), "Bulk Assign To option");
+//        waitForCssValueChanged(popUpMarkCompleteWindows, "PopUp Mark Complete", "display", "block");
+    }
+
+    /**
+     * Overload function createToDoTask() following the require of Mr.Cuong.
+     * Create new To Do task with 3 parameters.
+     * @param toDoName String To Do Name task.
+     * @param categoryName String Category Name.
+     * @param dueDate String Due Date.
+     */
+    public void createToDoTask(String toDoName, String categoryName, String dueDate) throws Exception {
+        getLogger().info("Create To Do Task with 'toDoName'");
+        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+        String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+        int size = 1;
+        int index = -1;
+        if (!rowString.equals("")) {
+            size = toDoTaskRowEle.size() + 1;
+            index = findToDoTaskName(toDoName);
+            System.out.println("Index Create: " + index);
+        }
+        if (index == -1) {
+            getLogger().info("Create New To Do Task");
+            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+            clickElement(createToDoBtnEle, "Create To Do button");
+            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            // Create new category
+            createNewCategory("");
+            NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+        }
     }
 }
 

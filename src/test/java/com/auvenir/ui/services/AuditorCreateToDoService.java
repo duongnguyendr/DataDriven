@@ -1120,5 +1120,15 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
     	createToDoPage.verifyClientAssigneeSelected(toDoName, clientAssignee);
     }
+
+    /**
+     * Add new by thuan duong on 20/06/2017.
+     * New for smoke test
+     */
+    public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
+        createToDoPage.selectAssigneeToDoUsingBulkAction(userName);
+    }
+
+    /*-----------end of huy.huynh on 02/06/2017.*/
 }
 
