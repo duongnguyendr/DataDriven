@@ -315,13 +315,12 @@ public class SmokeTestt extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
+        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+        System.out.println("clientEmailPassword = " + clientEmailPassword);
         try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-            String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-
-            System.out.println("clientEmailPassword = " + clientEmailPassword);
             MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
 
             gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
@@ -354,9 +353,10 @@ public class SmokeTestt extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+
         try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
 
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
@@ -378,9 +378,8 @@ public class SmokeTestt extends AbstractTest {
     public void verifyCreateTodoPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         try {
-            String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("Engagement");
@@ -401,8 +400,8 @@ public class SmokeTestt extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         Random random = new Random();
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         try {
-            String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("Engagement");
