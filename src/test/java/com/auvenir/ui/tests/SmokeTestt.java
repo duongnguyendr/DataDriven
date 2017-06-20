@@ -546,7 +546,6 @@ public class SmokeTestt extends AbstractTest {
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest","Valid User","Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
-        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "ToDo Name");
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId,auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
