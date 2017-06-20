@@ -497,9 +497,8 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
-
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
 //        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User3", "Auditor");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "EngagementName");
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
