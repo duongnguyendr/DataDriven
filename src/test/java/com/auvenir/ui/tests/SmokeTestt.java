@@ -78,6 +78,8 @@ public class SmokeTestt extends AbstractTest {
 
     private String adminId, auditorId, clientId;
     private String adminPassword, auditorPassword, clientPassword;
+    private String engagementName;
+    private String clientEmailPassword;
     private String sData[];
     private String testCaseId;
     private SimpleDateFormat dateFormat;
@@ -218,12 +220,14 @@ public class SmokeTestt extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
         timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+        System.out.println("engagementName = " + engagementName);
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
-            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
+            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", "Smoke Company");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement" + timeStamp);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -244,24 +248,27 @@ public class SmokeTestt extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
 
         clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
         adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
         auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+        clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
 
         timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
         MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
+        MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
         //need precondition for save engagement name, and delete this engagement or client on acl
 
         try {
+            gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
+
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.clickNewEnagementButton();
-            auditorNewEngagementService.verifyNewEngagementPage();
-            auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement" + timeStamp);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();

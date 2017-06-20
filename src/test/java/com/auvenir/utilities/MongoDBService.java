@@ -505,7 +505,7 @@ public class MongoDBService {
      * remove given email user on database
      *
      * @param dBCollection DBCollection object
-     * @param email        of engagement want to query
+     * @param email        of user want to query
      */
     public static void removeUserObjectByEmail(DBCollection dBCollection, String email) {
         try {
@@ -622,6 +622,31 @@ public class MongoDBService {
             System.out.println("Re-created user map with email: " + email);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * remove given name engagement on database
+     *
+     * @param dBCollection DBCollection object
+     * @param name         of engagement want to query
+     */
+    public static void removeEngagementObjectByName(DBCollection dBCollection, String name) {
+        try {
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("name", name);
+            DBCursor cursor = dBCollection.find(searchQuery);
+            DBObject dBbject = cursor.next();
+            while (dBbject != null) {
+                System.out.println("     cursor.next() = " + dBbject);
+                dBCollection.remove(dBbject);
+                dBbject = cursor.next();
+            }
+            System.out.println("Removed engagement named: " + name);
+        } catch (NoSuchElementException ex) {
+            System.out.println("This engagement not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
