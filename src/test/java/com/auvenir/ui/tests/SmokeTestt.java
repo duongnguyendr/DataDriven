@@ -291,9 +291,9 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
         try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
             adminService.loginWithUserRole(adminId);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
