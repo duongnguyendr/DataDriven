@@ -3138,6 +3138,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
+    public void verifyAddNewRequestImg() {
+        verifyPopupColorAddRequestBtn();
+        //verifyClickAddRequestBtn();
+    }
+
+    /**
+     * Author minh.nguyen
+     */
     public void verifyRequestNameTextbox() {
         verifyDefaultToDoNameNewRequestPopup();
         verifyShowAllTextNewRequestPopup();
@@ -4113,6 +4121,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
     WebElement uploadCreateRequestBtn;
+    @FindBy(xpath = "//div[@id='todo-req-box-1']//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
+    WebElement uploadClientCreateRequestBtn;
     @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
     WebElement checkUploadRequest;
 
@@ -4123,6 +4133,38 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
 //            System.out.println("user location is: "+System.getProperty("user.home"));
             clickElement(uploadCreateRequestBtn);
+            Thread.sleep(2000);
+            getLogger().info("Enter path of file..");
+            StringSelection ss = new StringSelection(concatUpload);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+        } catch (AWTException awt) {
+            AbstractService.sStatusCnt++;
+            awt.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        } catch (InterruptedException itr) {
+            AbstractService.sStatusCnt++;
+            itr.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
+        try {
+//            System.out.println("user location is: "+System.getProperty("user.home"));
+            clickElement(uploadClientCreateRequestBtn);
             Thread.sleep(2000);
             getLogger().info("Enter path of file..");
             StringSelection ss = new StringSelection(concatUpload);
@@ -4180,6 +4222,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//span[contains(@class,'auvicon-line-download')]")
     List<WebElement> downloadNewRequestBtn;
 
+    @FindBy(xpath = "//div[@id='todo-req-box-1']//span[contains(@class,'auvicon-line-download')]")
+    List<WebElement> downloadClientNewRequestBtn;
+
     /*
     Vien.Pham added new method
      */
@@ -4203,6 +4248,26 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
+        try {
+//            setDownloadLocation();
+            clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
+            Thread.sleep(2000);
+            String md5Upload = calculateMD5(concatUpload);
+            System.out.println("md5 upload is: " + md5Upload);
+            String md5Download = calculateMD5(concatDownload);
+            System.out.println("md5 download is: " + md5Download);
+            if (md5Upload.equals(md5Download)) {
+                NXGReports.addStep("Verify file was download successfully", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
     public String calculateMD5(String fileMD5) throws IOException {
         String md5 = null;
@@ -4214,6 +4279,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Unable to calculate MD5 file.");
         }
         return md5;
+
     }
 
 
