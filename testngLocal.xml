@@ -25,7 +25,7 @@
                 <!--<include name="verifyToDoDetailsCommenting"></include>-->
                 <!--<include name="verifyMarkAsComplete"></include>-->
                 <!--<include name="verifyAddNewMemberAuditor"></include>-->
-                <include name="verifyAssignToDoBulkAction"></include>
+                <!--<include name="verifyAssignToDoBulkAction"></include>-->
             </methods>
         </classes>
     </test>
