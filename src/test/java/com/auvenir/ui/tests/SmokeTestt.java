@@ -90,10 +90,10 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
 
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
+        try {
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -218,11 +218,12 @@ public class SmokeTestt extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
-        try {
-            auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
-            auditorEngagementService.loginWithUserRole(auditorId);
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId,auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -238,7 +239,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 8, enabled = true, description = "Auditor inviting a client")
-    public void verifyAuditorInvitingTheClient() {
+    public void verifyAuditorInvitingTheClient() throws Exception {
         getLogger().info("Verify Auditor inviting a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -248,16 +249,17 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        try {
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-            adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
-            auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
 
-            timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
-            //need precondition for save engagement name, and delete this engagement or client on acl
+        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
+        //need precondition for save engagement name, and delete this engagement or client on acl
+
+        try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
@@ -289,10 +291,12 @@ public class SmokeTestt extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
+
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
         try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            adminService.loginWithUserRole(adminId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.changeTheStatusUser(clientId, "Onboarding");
@@ -307,21 +311,22 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 10, enabled = true, description = "Client logs in and OnBoarding page is displayed"/*, dependsOnMethods = {"verifyChangeTheStatusClientToOnBoarding"}*/)
-    public void verifyClientLogsInAndActive() {
+    public void verifyClientLogsInAndActive() throws Exception {
         getLogger().info("Verify client logs in and OnBoarding page is displayed.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
+
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
+        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+
+        System.out.println("clientEmailPassword = " + clientEmailPassword);
+        MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
+
         try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-            String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-
-            System.out.println("clientEmailPassword = " + clientEmailPassword);
-            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
-
             gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
             gmailLoginService.filterEmail();
@@ -352,16 +357,18 @@ public class SmokeTestt extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         marketingService= new MarketingService(getLogger(), getDriver());
-        try {
-            adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-            clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
 
-            adminService.loginWithUserRole(adminId);
+        adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
+        clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
+        clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, "Active");
 
-            clientEngagementService.loginWithUserRole(clientId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
             clientEngagementService.verifyNavigatedToClientEngagementPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
