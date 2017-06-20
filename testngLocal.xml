@@ -12,52 +12,54 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.SmokeTestt"/>
+            <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
             <!--<methods>-->
-            <!--&lt;!&ndash;<include name="verifyCreateTodoPage"></include>&ndash;&gt;-->
-            <!--&lt;!&ndash;<include name="verifyCreateCategory"></include>&ndash;&gt;-->
-            <!--&lt;!&ndash;<include name="verifyDuedateTime"></include>&ndash;&gt;-->
-            <!--<include name="verifyAuditAssignee"></include>-->
-            <!--&lt;!&ndash;<include name="verifyClientActiveAfterSignUpSuccess"></include>&ndash;&gt;-->
+                <!--<include name="verifyMarkAsComplete"></include>-->
             <!--</methods>-->
-        </classes>
-    </test>
-    <!--<test name="Regression2" preserve-order="false">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="version" value="lasted"/>
-        <parameter name="os" value="WIN10"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>
+            <class name="com.auvenir.ui.tests.SmokeTestt"/>
             <methods>
-                <include name="verifyButtonFilter"></include>
+                <!--<include name="verifySignUpAuditorUser"></include>-->
+                <!--<include name="verifyAdminChangeStatusUserToOnBoarding"></include>-->
+                <!--<include name="verifyLoginGmailAndActiveUser"></include>-->
+                <!--<include name="verifyLoginAuditorUser"></include>-->
+                <!--<include name="verifyToDoDetailsCommenting"></include>-->
+                <!--<include name="verifyMarkAsComplete"></include>-->
+                <!--<include name="verifyAddNewMemberAuditor"></include>-->
+                <include name="verifyAssignToDoBulkAction"></include>
             </methods>
         </classes>
-    </test>-->
+    </test>
+    <!--<test name="Regression2" preserve-order="false">-->
+        <!--<parameter name="browser" value="edge"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="WIN10"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.LoginMarketingTest"/>-->
+            <!--&lt;!&ndash;<methods>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include name="openGmailforAuditorRegister"></include>&ndash;&gt;-->
+            <!--&lt;!&ndash;</methods>&ndash;&gt;-->
+        <!--</classes>-->
+    <!--</test>-->
     <!--<test name="Regression2-1" preserve-order="false">-->
-    <!--<parameter name="browser" value="internet explorer"/>-->
-    <!--<parameter name="version" value="lasted"/>-->
-    <!--<parameter name="os" value="WIN10"/>-->
-    <!--<classes>-->
-    <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
-    <!--<methods>-->
-    <!--<include name="verifyAboutPageContentTest"></include>-->
-    <!--</methods>-->
-    <!--</classes>-->
+        <!--<parameter name="browser" value="internet explorer"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="WIN10"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
+            <!--<methods>-->
+                <!--<include name="verifyButtonFilter"></include>-->
+            <!--</methods>-->
+        <!--</classes>-->
     <!--</test>-->
     <!--<test name="Regression3" preserve-order="true">-->
-    <!--<parameter name="browser" value="safari"/>-->
-    <!--<parameter name="version" value="lasted"/>-->
-    <!--<parameter name="os" value="MAC"/>-->
-    <!--<classes>-->
-    <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="Regression4" preserve-order="true">-->
-    <!--<parameter name="browser" value="firefox"/>-->
-    <!--<parameter name="version" value="lasted"/>-->
-    <!--<parameter name="os" value="WIN8"/>-->
-    <!--<classes>-->
-    <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
-    <!--</classes>-->
+        <!--<parameter name="browser" value="edge"/>-->
+        <!--<parameter name="version" value="lasted"/>-->
+        <!--<parameter name="os" value="WIN10"/>-->
+        <!--<classes>-->
+            <!--<class name="com.auvenir.ui.tests.auditor.AuditorTodoListTest"/>-->
+            <!--<methods>-->
+                <!--<include name="verifyButtonFilter"></include>-->
+            <!--</methods>-->
+        <!--</classes>-->
     <!--</test>-->
 </suite>

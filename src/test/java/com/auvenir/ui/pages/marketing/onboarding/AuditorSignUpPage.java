@@ -662,13 +662,13 @@ public class AuditorSignUpPage extends AbstractPage {
     public void verifySuccessPageContent() {
         getLogger().info("Verify Content of Register Success Page");
         waitForVisibleElement(successPageHeaderEle, "Success Page Header");
-        validateElememt(successPageHeaderEle, "Success Page Header", Element_Type.DISPLAYED);
-        validateElememt(successPageHeaderEle, "Your Account Is on the Waitlist!", Element_Type.TEXT_VALUE);
+        validateDisPlayedElement(successPageHeaderEle, "Success Page Header");
+        validateElementText(successPageHeaderEle, "Your Account is on the Waitlist!");
         // Checking Image Letter element is displayed
         waitForVisibleElement(eleImageLetter, "Image Letter");
-        validateElememt(eleImageLetter, "Element of Image Letter", Element_Type.DISPLAYED);
+        validateDisPlayedElement(eleImageLetter, "Element of Image Letter");
         // Checking button Close element is displayed
-        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnContinue, "Element of button Continue");
     }
 
     /**
@@ -1219,8 +1219,8 @@ public class AuditorSignUpPage extends AbstractPage {
         boolean result;
         try {
             //Change business rule, don't need to input below field.
-//            waitForVisibleElement(fullNameConfirmTxtEle, "Full name");
-//            sendKeyTextBox(fullNameConfirmTxtEle, strName, "Full Name TextBox");
+            waitForVisibleElement(fullNameConfirmTxtEle, "Full name");
+            sendKeyTextBox(fullNameConfirmTxtEle, strName, "Full Name TextBox");
 
 //            waitForVisibleElement(emailConfirmTxtEle, "Email");
 //            sendKeyTextBox(emailConfirmTxtEle, strEmail, "Email Name TextBox");
