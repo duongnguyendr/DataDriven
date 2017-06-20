@@ -216,8 +216,9 @@ public class AuditorTodoListPage extends AbstractPage {
 
     public void clickCreateToDoBtn() throws Exception{
         // Create todo button could sleep before click, investigate in-progress.
-        Thread.sleep(smallTimeOut);
-        waitForClickableOfElement(eleCreateToDoBtn);
+//        Thread.sleep(smallTimeOut);
+//        waitForClickableOfElement(eleCreateToDoBtn);
+        waitForTextValueChanged(eleCreateToDoBtn,"Create Todo Butto","Create To-Do");
         clickElement(eleCreateToDoBtn, "Create Todo Button");
     }
 

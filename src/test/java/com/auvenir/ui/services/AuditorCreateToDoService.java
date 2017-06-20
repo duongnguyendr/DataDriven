@@ -846,14 +846,15 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyNewRequestStoreInDatabase(requestName2);
     }
 
-    public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException {
-        createToDoPage.uploadeCreateRequestNewFile(uploadLocation,fileName);
+    public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
     public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
-        createToDoPage.downloadCreateRequestNewFile();
-        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
+        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+//        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
+//        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }
 
     /**

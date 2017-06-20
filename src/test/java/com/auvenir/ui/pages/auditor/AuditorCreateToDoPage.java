@@ -27,12 +27,16 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 
 public class AuditorCreateToDoPage extends AbstractPage {
@@ -3392,6 +3396,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
+            Thread.sleep(smallerTimeOut);
             clickElement(newRequestTxtboxSpan, "click to new request Txtbox Span");
             getLogger().info("Waiting for textbox border is Green when clicking..");
             waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
@@ -4126,14 +4131,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /*
     Vien .Pham created new method
      */
-    public void uploadeCreateRequestNewFile(String pathOfFile, String fileName) throws AWTException, InterruptedException {
+    public void uploadeCreateRequestNewFile(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
-//            verifyClickAddRequestBtn();
-            getLogger().info("Select upload btn..");
+//            System.out.println("user location is: "+System.getProperty("user.home"));
             clickElement(uploadCreateRequestBtn);
             Thread.sleep(2000);
             getLogger().info("Enter path of file..");
-            StringSelection ss = new StringSelection(pathOfFile.concat(fileName));
+            StringSelection ss = new StringSelection(concatUpload);
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
             Robot robot = new Robot();
             robot.keyPress(KeyEvent.VK_ENTER);
@@ -4191,60 +4195,44 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /*
     Vien.Pham added new method
      */
-    public void downloadCreateRequestNewFile() {
+    public void downloadCreateRequestNewFile(String concatUpload, String concatDownload) {
         try {
+//            setDownloadLocation();
             clickElement(downloadNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
-            NXGReports.addStep("End of download File", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("End of download File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    /*
-    Vien.Pham added new method
-     */
-    public void verifyDownloadSuccessfully(String uploadLocation, String downloadLocation, String fileName) {
-        try {
-            String lineUpload = readContentInsideFile(uploadLocation, fileName);
-            String lineDownload = readContentInsideFile(downloadLocation, fileName);
-            if (lineUpload.equals(lineDownload)) {
-                NXGReports.addStep("Compare content beetween upload and download files", LogAs.PASSED, null);
+            String md5Upload = calculateMD5(concatUpload);
+            getLogger().info("md5 upload is: " + md5Upload);
+            String md5Download = calculateMD5(concatDownload);
+            getLogger().info("md5 download is: " + md5Download);
+            if (md5Upload.equals(md5Download)) {
+                NXGReports.addStep("Verify file was download successfully", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Compare content beetween upload and download files", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Compare content beetween upload and download files", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    /*
-    Vien.Pham added new method
-     */
-    public String readContentInsideFile(String pathofLocation, String fileName) throws IOException {
-        String filePath = pathofLocation.concat(fileName);
-        FileInputStream fis = new FileInputStream(new File(filePath));
-        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-        String content;
-        while ((content = br.readLine()) != null) {
-            content = content.trim();
-            if (content != null && !content.isEmpty()) {
-                System.out.println("line data inside is: " + content);
-            }
+    public String calculateMD5(String fileMD5) throws IOException {
+        String md5 = null;
+        try {
+            FileInputStream fis = new FileInputStream(fileMD5);
+            md5 = md5Hex(fis);
+            fis.close();
+        }catch (Exception e){
+            getLogger().info("Unable to calculate MD5 file.");
         }
-        br.close();
-        return content;
+        return md5;
     }
 
 
     /*
     End of Vien.Pham
      */
-    
+
     public void verifyAddNewRequestPopUp(){
     	try{
     		clickToDoListAddNewRequest();
@@ -4253,14 +4241,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
     		NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
     }
-    
+
     public void verifyCommentSuccessFul(String comment, int numberComment){
     	try{
     		List<String> textContainComment = new ArrayList<String>();
     		for (WebElement commentEle: listCommentItemEle){
     			textContainComment.add(getText(commentEle).toString());
     		}
-    		
+
     		for (int cmt = 0; cmt< numberComment; cmt ++){
     			if (!textContainComment.contains(comment + cmt)){
     				AbstractService.sStatusCnt++;

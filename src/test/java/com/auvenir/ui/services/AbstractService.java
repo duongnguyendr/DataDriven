@@ -17,7 +17,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -36,7 +35,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 public class AbstractService {
     private WebDriver driver;
     private Logger logger;
-    private static final int waitTime = 60;
+    private static final int waitTime = 1;
     public static WebDriverWait sWebDriverWait = null;
     public static String gmailWindow;
 
@@ -84,7 +83,7 @@ public class AbstractService {
     public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
+        PageFactory.initElements(driver, this);
         marketingPage = new MarketingPage(getLogger(), getDriver());
     }
 
@@ -197,7 +196,7 @@ public class AbstractService {
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
             driver.get(baseUrl);
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
@@ -255,7 +254,7 @@ public class AbstractService {
             getLogger().info("Go to home auvenri url : " + homeAuvenir);
             System.out.println(homeAuvenir);
             driver.get(homeAuvenir);
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -280,7 +279,7 @@ public class AbstractService {
 
     }
 
-    public void loadURL(String sUrl) {
+    public void navigateToURL(String sUrl) {
         try {
             System.out.println(sUrl);
             driver.get(sUrl);
@@ -351,16 +350,16 @@ public class AbstractService {
     /*
     Refactoring to join AbstractRefactorService
      */
-    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+    public void navigateToURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
         driver.get(sGetTokenURL + sEmailID);
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
         String token = parts[3];
         //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
         driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
         driver.manage().window().maximize();
     }
 
@@ -459,7 +458,7 @@ public class AbstractService {
     public String deleteUserViaAPI(String email) {
         String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + email + "/delete";
-        loadURL(deleteURL);
+        navigateToURL(deleteURL);
         return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
     }
 
@@ -486,7 +485,7 @@ public class AbstractService {
         try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             gmailLoginPage.signInGmail(eGMail, ePassword);
             gmailLoginPage.deleteAllMail();
