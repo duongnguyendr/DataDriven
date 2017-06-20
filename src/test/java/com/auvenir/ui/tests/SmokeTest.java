@@ -99,7 +99,7 @@ public class SmokeTest extends AbstractTest {
 //
 //            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
 //
-//            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+//            GeneralUtilities.navigateToURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 //            auvenirService.verifyPageLoad();
 //            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
@@ -138,7 +138,7 @@ public class SmokeTest extends AbstractTest {
 //
 //            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
 //
-//            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+//            GeneralUtilities.navigateToURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 //            auvenirService.verifyPageLoad();
 //            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
@@ -185,7 +185,7 @@ public class SmokeTest extends AbstractTest {
 //
 //            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
 //
-//            GeneralUtilities.loadURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
+//            GeneralUtilities.navigateToURL(getDriver(), GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_URL"));
 //            auvenirService.verifyPageLoad();
 //            auvenirService.inputEmailAndJoin(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
 //            auvenirService.actionWithApprovalDialog();
@@ -197,7 +197,7 @@ public class SmokeTest extends AbstractTest {
 //            adminService.verifyUserStatusOnAdminUserTable(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), "Onboarding");
 //
 //            getLogger().info("Login with auditor role. ");
-//            //auditorService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
+//            //auditorService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL"), GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL"));
 //            adminService.loginWithUserRole(auditorId);
 //            auditorService.verifyPersonalPage();
 //            auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
@@ -272,7 +272,7 @@ public class SmokeTest extends AbstractTest {
         auvenirService = new AuvenirService(getLogger(), getDriver());
         try {
             adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
-            gmailLoginService.loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL"), GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_GMAIL_PASSWORD"));
             gmailLoginService.filterEmail();
             gmailLoginService.clickOnboardingInvitationLink();

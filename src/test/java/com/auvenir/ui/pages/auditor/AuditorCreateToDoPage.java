@@ -5,8 +5,6 @@ package com.auvenir.ui.pages.auditor;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.DatePicker;
 import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,12 +17,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
@@ -32,6 +27,8 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -175,7 +172,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='newTodoInput']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[contains(@class,'newTodoInput')]")
     private List<WebElement> toDoNameTextColumnEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class='text']")
@@ -380,6 +377,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
     
     @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
+
+    private String auditorAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']";
+    private String clientAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]";
+    private String auditorAssignItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]//button[text()='%s']";
+    private String clientAssigneeItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//button[text()='%s']";
+
+    @FindBy(xpath = "//div[@class='ui dropdown auditor todo-bulkDdl ']")
+    private List<WebElement> listAuditorAssigneeDdl;
+
+    @FindBy(xpath = "//div[@class='ui dropdown client todo-bulkDdl ']")
+    private List<WebElement> listClientAssigneeDdl;
 
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
@@ -4238,9 +4246,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             clickElement(downloadNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
             String md5Upload = calculateMD5(concatUpload);
-            System.out.println("md5 upload is: " + md5Upload);
+            getLogger().info("md5 upload is: " + md5Upload);
             String md5Download = calculateMD5(concatDownload);
-            System.out.println("md5 download is: " + md5Download);
+            getLogger().info("md5 download is: " + md5Download);
             if (md5Upload.equals(md5Download)) {
                 NXGReports.addStep("Verify file was download successfully", LogAs.PASSED, null);
             } else {
@@ -4274,9 +4282,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public String calculateMD5(String fileMD5) throws IOException {
-        FileInputStream fis = new FileInputStream(fileMD5);
-        String md5 = md5Hex(fis);
-        fis.close();
+        String md5 = null;
+        try {
+            FileInputStream fis = new FileInputStream(fileMD5);
+            md5 = md5Hex(fis);
+            fis.close();
+        }catch (Exception e){
+            getLogger().info("Unable to calculate MD5 file.");
+        }
         return md5;
 
     }
@@ -4311,6 +4324,68 @@ public class AuditorCreateToDoPage extends AbstractPage {
     	}catch (Exception e) {
     		AbstractService.sStatusCnt++;
     		NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee){
+    	try{
+    		String assineeAuditorEle = ".//button[text()='%s']";
+    		int index = findToDoTaskName(toDoName);
+    		clickElement(listAuditorAssigneeDdl.get(index), "listAuditorAssigneeDdl");
+    		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeAuditorEle, auditorAssignee)));
+    		Thread.sleep(1000);
+	    	clickElement(auditorAssigneeSelected, "auditorAssigneeSelected");
+    	}catch (Exception e) {
+    		getLogger().info(e);
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("Select auditor assignee with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void selectClientAssigneeByName(String toDoName, String clientAssignee){
+    	try{
+    		String assineeClientEle = ".//button[text()='%s']";
+    		int index = findToDoTaskName(toDoName);
+    		clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
+    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
+    		clickElement(clientAssigneeSelected, "clientAssigneeSelected");
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee){
+    	try{
+    		int index = findToDoTaskName(toDoName);
+    		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+
+    		if (auditorAssigneeSelected.getText().equals(auditorAssignee)){
+    			NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
+    		}else{
+    			AbstractService.sStatusCnt++;
+        		NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    		}
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
+    	try{
+    		int index = findToDoTaskName(toDoName);
+    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+
+    		if (clientAssigneeSelected.getText().equals(clientAssignee)){
+    			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
+    		}else{
+    			AbstractService.sStatusCnt++;
+        		NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    		}
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
     }
 }

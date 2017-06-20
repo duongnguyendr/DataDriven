@@ -31,7 +31,7 @@ public class AuvenirLoginService extends AbstractService {
     }
 
     //Getting the URL by passing GetTokenURl and CheckTokenURL
-    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+    public void navigateToURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
         getDriver().get(sGetTokenURL + sEmailID);
         String s1 = getDriver().findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
@@ -40,7 +40,7 @@ public class AuvenirLoginService extends AbstractService {
     }
 
     //Loading the URL by keeping in config properties
-    public void loadURL(String sUrl) {
+    public void navigateToURL(String sUrl) {
         try {
             System.out.println(sUrl);
             getDriver().get(sUrl);

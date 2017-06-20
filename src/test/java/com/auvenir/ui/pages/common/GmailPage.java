@@ -552,7 +552,7 @@ public class GmailPage extends AbstractPage {
             /* TODO code for wrong link on invited client email unfixed - still unfixed
             String link = buttonStartEngagement.getAttribute("href");
             link = link.replace(":3083", "");
-            GeneralUtilities.loadURL(getDriver(), link);*/
+            GeneralUtilities.navigateToURL(getDriver(), link);*/
 
             /*
             WebDriverWait wait = new WebDriverWait(getDriver(), 30);
