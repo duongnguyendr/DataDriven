@@ -8,6 +8,7 @@ import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -23,6 +24,7 @@ import org.testng.annotations.Parameters;
 
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
  * Created by cuong.nguyen on 4/24/2017.
@@ -120,9 +122,18 @@ public class AbstractTest {
                     //if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
                     getLogger().info("Chrome is open.");
                     System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
+                    //Vien.pham added some new rows to set Download dir of Chrome.
+                    String downloadFilepath = GenericService.sDirPath+ "/src/test/resources/download/";
+                    HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+                    chromePrefs.put("profile.default_content_settings.popups", 0);
+                    chromePrefs.put("download.default_directory", downloadFilepath);
+                    ChromeOptions options = new ChromeOptions();
+                    options.setExperimentalOption("prefs",chromePrefs);
+                    DesiredCapabilities cap = DesiredCapabilities.chrome();
+                    cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+                    cap.setCapability(ChromeOptions.CAPABILITY, options);
                     getLogger().info("Chrome is set");
-                    driver = new ChromeDriver();
-                    //Vien.Pham add new
+                    driver = new ChromeDriver(cap);
 
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     getLogger().info("Firefox is set");
@@ -140,9 +151,9 @@ public class AbstractTest {
 //                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 //                    driver = new FirefoxDriver(capabilities);
 
-                    FirefoxProfile profile=new FirefoxProfile();
+                    FirefoxProfile profile = new FirefoxProfile();
                     profile.setAcceptUntrustedCertificates(false);
-                    driver=new FirefoxDriver(profile);
+                    driver = new FirefoxDriver(profile);
 
 //                    DesiredCapabilities dc = DesiredCapabilities.firefox();
 //                    dc.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
