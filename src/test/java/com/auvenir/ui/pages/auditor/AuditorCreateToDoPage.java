@@ -19,12 +19,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.io.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -170,7 +172,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@class='newTodoInput']")
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[contains(@class,'newTodoInput')]")
     private List<WebElement> toDoNameTextColumnEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class='text']")
@@ -376,6 +378,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
 
+    private String auditorAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']";
+    private String clientAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]";
+    private String auditorAssignItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]//button[text()='%s']";
+    private String clientAssigneeItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//button[text()='%s']";
+
+    @FindBy(xpath = "//div[@class='ui dropdown auditor todo-bulkDdl ']")
+    private List<WebElement> listAuditorAssigneeDdl;
+
+    @FindBy(xpath = "//div[@class='ui dropdown client todo-bulkDdl ']")
+    private List<WebElement> listClientAssigneeDdl;
+
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
     }
@@ -385,7 +398,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     @FindBy(xpath = "//div[starts-with(@id,'Mark As Complete') and contains(@class,'au-modal')]")
-    WebElement popUpMarkCompleteWindows;
+    private WebElement popUpMarkCompleteWindows;
+
+    @FindBy(xpath = "//div[contains(text(),'Assign to')]/div[@class='menu']/button")
+    private List<WebElement> childItemAssigneeBulkDrpEle;
 
 
     public void verifyButtonCreateToDo() throws Exception {
@@ -663,7 +679,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void createToDoTask(String toDoName) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName'");
-//        try {
         WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
         System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
         waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
@@ -677,7 +692,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
         if (index == -1) {
             getLogger().info("Create New To Do Task");
-//                Thread.sleep(1000);
             waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
             clickElement(createToDoBtnEle, "Create To Do button");
             waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
@@ -687,27 +701,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             createNewCategory("");
             NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
         }
-//        } catch (Exception e) {
-//            getLogger().info(e);
-//            AbstractService.sStatusCnt++;
-//            NXGReports.addStep("TestScript Failed: Create To Do Task", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//        }
-
-
-//        waitForClickableOfElement(categoryDropdownEle, "Category Dropdown");
-        // R2: Change bussiness rule, all field is auto selected.
-/*        categoryDropdownEle.click();
-        waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
-        categoryOptionItemEle.get(0).click();
-        waitForClickableOfElement(dueDateFieldEle, "Due Date field");
-        dueDateFieldEle.click();
-        waitForClickableOfElement(dateItemonCalendarEle, "Date value");
-        dateItemonCalendarEle.click();
-        waitForVisibleElement(toDoSaveIconEle, "Save Icon");
-        toDoSaveIconEle.click();
-			waitForVisibleElement(toastMessageSucessEle,"Toast Message Successful");
-			waitForCssValueChanged(toastMessageSucessEle,"Toast Message Successful","class")
-        verifyAddNewToDoTask(toDoName);*/
     }
 
     public void createToDoTask() throws Exception {
@@ -2547,15 +2540,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * choose Assign to option
      */
     public void chooseOptionAssignToOnBulkActionsDropDown() {
-        try {
-            getLogger().info("Choose option: Assign to.");
-            optionAssignTo.click();
-            NXGReports.addStep("Choose option: Assign to.", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            getLogger().info(ex);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose option: Assign to.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("Choose option: Assign to.");
+        clickElement(optionAssignTo, "Assign To Option");
     }
 
     /**
@@ -2576,15 +2562,30 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * TODO hardcoding, rewrite later, list assignee not stable now
      */
     public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
+        getLogger().info(String.format("Choose Assignee '%s' in Bulk Dropdown list", assigneeName));
         try {
-            getLogger().info("Choose first assignee(any) to assign.");
-            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
-            //optionAssignee.click();
-            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+            String listUser = "";
+            boolean result = false;
+            for (int i = 0; i < childItemAssigneeBulkDrpEle.size(); i++) {
+                listUser = childItemAssigneeBulkDrpEle.get(i).getText();
+                if (listUser.contains(assigneeName)) {
+                    result = clickElement(childItemAssigneeBulkDrpEle.get(i), "Child Item Assignee");
+                    NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+                    break;
+                }
+            }
+            if (result) {
+                NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+            } else {
+//            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
+                getLogger().info(String.format("Cannot choose assignee '%s' in Bulk Dropdown list", assigneeName));
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
         } catch (Exception ex) {
             getLogger().info(ex);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3132,6 +3133,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyAddNewRequestButton() {
         verifyPopupColorAddRequestBtn();
         verifyClickAddRequestBtn();
+    }
+
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyAddNewRequestImg() {
+        verifyPopupColorAddRequestBtn();
+        //verifyClickAddRequestBtn();
     }
 
     /**
@@ -4112,6 +4121,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
     WebElement uploadCreateRequestBtn;
+    @FindBy(xpath = "//div[@id='todo-req-box-1']//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
+    WebElement uploadClientCreateRequestBtn;
     @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
     WebElement checkUploadRequest;
 
@@ -4122,6 +4133,38 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
 //            System.out.println("user location is: "+System.getProperty("user.home"));
             clickElement(uploadCreateRequestBtn);
+            Thread.sleep(2000);
+            getLogger().info("Enter path of file..");
+            StringSelection ss = new StringSelection(concatUpload);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+        } catch (AWTException awt) {
+            AbstractService.sStatusCnt++;
+            awt.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        } catch (InterruptedException itr) {
+            AbstractService.sStatusCnt++;
+            itr.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
+        try {
+//            System.out.println("user location is: "+System.getProperty("user.home"));
+            clickElement(uploadClientCreateRequestBtn);
             Thread.sleep(2000);
             getLogger().info("Enter path of file..");
             StringSelection ss = new StringSelection(concatUpload);
@@ -4179,6 +4222,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//span[contains(@class,'auvicon-line-download')]")
     List<WebElement> downloadNewRequestBtn;
 
+    @FindBy(xpath = "//div[@id='todo-req-box-1']//span[contains(@class,'auvicon-line-download')]")
+    List<WebElement> downloadClientNewRequestBtn;
+
     /*
     Vien.Pham added new method
      */
@@ -4202,6 +4248,26 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+    public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
+        try {
+//            setDownloadLocation();
+            clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
+            Thread.sleep(2000);
+            String md5Upload = calculateMD5(concatUpload);
+            System.out.println("md5 upload is: " + md5Upload);
+            String md5Download = calculateMD5(concatDownload);
+            System.out.println("md5 download is: " + md5Download);
+            if (md5Upload.equals(md5Download)) {
+                NXGReports.addStep("Verify file was download successfully", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
     public String calculateMD5(String fileMD5) throws IOException {
         String md5 = null;
@@ -4213,6 +4279,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Unable to calculate MD5 file.");
         }
         return md5;
+
     }
 
 
@@ -4246,6 +4313,111 @@ public class AuditorCreateToDoPage extends AbstractPage {
     		AbstractService.sStatusCnt++;
     		NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
+    }
+
+    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee){
+    	try{
+    		String assineeAuditorEle = ".//button[text()='%s']";
+    		int index = findToDoTaskName(toDoName);
+    		clickElement(listAuditorAssigneeDdl.get(index), "listAuditorAssigneeDdl");
+    		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeAuditorEle, auditorAssignee)));
+    		Thread.sleep(1000);
+	    	clickElement(auditorAssigneeSelected, "auditorAssigneeSelected");
+    	}catch (Exception e) {
+    		getLogger().info(e);
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("Select auditor assignee with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void selectClientAssigneeByName(String toDoName, String clientAssignee){
+    	try{
+    		String assineeClientEle = ".//button[text()='%s']";
+    		int index = findToDoTaskName(toDoName);
+    		clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
+    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
+    		clickElement(clientAssigneeSelected, "clientAssigneeSelected");
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee){
+    	try{
+    		int index = findToDoTaskName(toDoName);
+    		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+
+    		if (auditorAssigneeSelected.getText().equals(auditorAssignee)){
+    			NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
+    		}else{
+    			AbstractService.sStatusCnt++;
+        		NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    		}
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
+    	try{
+    		int index = findToDoTaskName(toDoName);
+    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+
+    		if (clientAssigneeSelected.getText().equals(clientAssignee)){
+    			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
+    		}else{
+    			AbstractService.sStatusCnt++;
+        		NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    		}
+    	}catch (Exception e) {
+    		AbstractService.sStatusCnt++;
+    		NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+    }
+
+    public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
+        Thread.sleep(2000);
+        chooseOptionAssignToOnBulkActionsDropDown();
+        chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
+//        chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName();
+//        List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+//        hoverElement(menuBulkActionsDropdown.get(2), "Bulk Assign To option");
+//        waitForCssValueChanged(popUpMarkCompleteWindows, "PopUp Mark Complete", "display", "block");
+    }
+
+    /**
+     * Overload function createToDoTask() following the require of Mr.Cuong.
+     * Create new To Do task with 3 parameters.
+     * @param toDoName String To Do Name task.
+     * @param categoryName String Category Name.
+     * @param dueDate String Due Date.
+     */
+    public void createToDoTask(String toDoName, String categoryName, String dueDate) throws Exception {
+        getLogger().info("Create To Do Task with 'toDoName'");
+        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+        String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+        int size = 1;
+        int index = -1;
+        if (!rowString.equals("")) {
+            size = toDoTaskRowEle.size() + 1;
+            index = findToDoTaskName(toDoName);
+            System.out.println("Index Create: " + index);
+        }
+        if (index == -1) {
+            getLogger().info("Create New To Do Task");
+            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+            clickElement(createToDoBtnEle, "Create To Do button");
+            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            // Create new category
+            createNewCategory("");
+            NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+        }
     }
 }
 

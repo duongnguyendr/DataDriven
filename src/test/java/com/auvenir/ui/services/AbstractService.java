@@ -35,7 +35,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 public class AbstractService {
     private WebDriver driver;
     private Logger logger;
-    private static final int waitTime = 1;
+    private static final int waitTime = 30;
     public static WebDriverWait sWebDriverWait = null;
     public static String gmailWindow;
 
@@ -196,7 +196,7 @@ public class AbstractService {
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
             driver.get(baseUrl);
-            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
@@ -623,7 +623,7 @@ public class AbstractService {
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
         marketingService.clickLoginButton();
-        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);;
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");

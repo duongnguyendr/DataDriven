@@ -38,4 +38,8 @@ public class AuditorEngagementTeamService extends AbstractService {
     public void verifyAddNewInvitedMember(String fullName, String roleMember) {
         auditorEngagementTeamPage.verifyAddNewInvitedMember(fullName, roleMember);
     }
+
+    public void deleteMemberInEngagementByName(String fullNameMember) {
+        auditorEngagementTeamPage.deleteMemberInEngagementByName(fullNameMember);
+    }
 }

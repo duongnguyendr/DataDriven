@@ -301,6 +301,7 @@ public class AuditorTodoListService extends AbstractService {
     }
 
     /*-----------end of huy.huynh on 02/06/2017.*/
+
 }
 
 

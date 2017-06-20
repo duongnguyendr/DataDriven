@@ -826,6 +826,13 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
+    public void clickNewRequestImg() {
+        createToDoPage.verifyAddNewRequestImg();
+    }
+
+    /**
+     * Author minh.nguyen
+     */
     public void verifyRequestNameTextbox() {
         createToDoPage.verifyRequestNameTextbox();
     }
@@ -851,8 +858,19 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
+    public void uploadeCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadeCreateRequestNewFileClient(uploadLocation.concat(fileName));
+        createToDoPage.verifyUploadFileSuccessfully(fileName);
+    }
+
     public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
         createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+//        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
+//        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
+    }
+
+    public void downloadCreateRequestNewFileClient(String uploadLocation,String downloadLocation, String fileName){
+        createToDoPage.downloadCreateRequestNewFileClient(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
 //        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }
@@ -1087,5 +1105,30 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCommentSuccessFul(String comment, int numberOfComment){
     		createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
     }
+
+    public void selectClientAssigneeByName(String toDoName, String clientAssignee){
+    	createToDoPage.selectClientAssigneeByName(toDoName, clientAssignee);
+    }
+
+    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee){
+    	createToDoPage.selectAuditorAssigneeByName(toDoName, auditorAssignee);
+    }
+    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee){
+    	createToDoPage.verifyAuditorAssigneeSelected(toDoName, auditorAssignee);
+    }
+
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
+    	createToDoPage.verifyClientAssigneeSelected(toDoName, clientAssignee);
+    }
+
+    /**
+     * Add new by thuan duong on 20/06/2017.
+     * New for smoke test
+     */
+    public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
+        createToDoPage.selectAssigneeToDoUsingBulkAction(userName);
+    }
+
+    /*-----------end of huy.huynh on 02/06/2017.*/
 }
 
