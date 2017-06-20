@@ -12,13 +12,13 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.SmokeTestt"/>
-            <!--<methods>-->
-                <!--&lt;!&ndash;<include name="verifyCreateTodoPage"></include>&ndash;&gt;-->
-                <!--<include name="verifyAuditorInvitingTheClient"></include>-->
-                <!--&lt;!&ndash;<include name="verifyDuedateTime"></include>&ndash;&gt;-->
-                <!--&lt;!&ndash;<include name="verifyAuditAssignee"></include>&ndash;&gt;-->
-            <!--</methods>-->
+            <class name="com.auvenir.ui.tests.auditor.AuditorSettingsTest"/>
+            <methods>
+                <!--<include name="searchEngagementByCompanyAndNameTest"></include>-->
+                <!--<include name="sortCompanyNameTest"></include>-->
+                <!--<include name="sortEngagementNameTest"></include>-->
+                <include name="verifyFooterAuditorAccountSettingsPage"></include>
+            </methods>
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">

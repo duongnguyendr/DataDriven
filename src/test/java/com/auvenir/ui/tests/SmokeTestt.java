@@ -1,9 +1,14 @@
 package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.admin.AdminService;
+import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.client.ClientEngagementService;
+import com.auvenir.ui.services.client.ClientService;
+import com.auvenir.ui.services.client.ClientSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
-import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
