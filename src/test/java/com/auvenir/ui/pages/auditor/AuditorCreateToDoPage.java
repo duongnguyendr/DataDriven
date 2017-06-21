@@ -381,6 +381,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
 
+    /**
+     * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/20 - Start
+     *
+     **/
+    private static String engagementBeforeStatus = "";
+    private static String engagementAfterStatus = "";
+    @FindBy(xpath = "//*[@id='engOverview-status']")
+    private WebElement eleEngagementOveriewStatusText;
+
+    @FindBy(xpath = "//*[@id='h-f-navigation']/span[@id='h-engagementsLink']")
+    private WebElement eleEngagementLink;
+
+
+    /**
+     * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/20 - End
+     *
+     **/
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
     }
@@ -1357,7 +1374,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void clickBulkActionsDropdown() {
         //waitForClickableOfElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
         //hoverElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
-
+        waitForVisibleElement(eleEngagementOveriewStatusText,"Engagement overview status");
+        engagementBeforeStatus = eleEngagementOveriewStatusText.getText().trim();
         clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown List");
     }
 
@@ -1553,6 +1571,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyClickCloseMarkPopup() {
         getLogger().info("Verify to click to close complete mark popup");
         try {
+            waitForVisibleElement(eleEngagementOveriewStatusText,"engagement overview status");
+            engagementAfterStatus = eleEngagementOveriewStatusText.getText().trim();
             waitForClickableOfElement(markPopupCloseBtn, "wait for click to closePopup");
             clickElement(markPopupCloseBtn, "Close Mark Complete button");
             boolean isClickClose = waitForCssValueChanged(popUpMarkCompleteWindows, "PopUp Mark Complete", "display", "none");
@@ -4247,6 +4267,107 @@ public class AuditorCreateToDoPage extends AbstractPage {
     		AbstractService.sStatusCnt++;
     		NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
+    }
+
+    /**
+     * Verify engagement does not change when click on close icon popup / cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverviewStatusDoesNotChange(boolean isCloseIconClick) {
+        String strStepSuccess = "Verify Engagement status does not change when click on close icon popup";
+        String strStepFail = "TestScript Failed: Verify Engagement status change when click on close icon popup";
+        if(!isCloseIconClick){
+            strStepSuccess = "Verify Engagement status does not change when click on cancel button";
+            strStepFail = "TestScript Failed: Verify Engagement status change when click on cancel button";
+        }
+        try {
+            boolean result;
+            result = engagementBeforeStatus.toLowerCase().equals(engagementAfterStatus.toLowerCase());
+            Assert.assertTrue(result, "Engagement status does not change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Click on close icon
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnCloseIconInMarkAsCompletePopup() {
+        getLogger().info("Verify to click to close complete mark popup");
+        try {
+            waitForVisibleElement(eleEngagementOveriewStatusText,"Wait engagement overview status");
+            engagementAfterStatus = eleEngagementOveriewStatusText.getText().trim();
+            waitForClickableOfElement(markPopupCloseBtn, "Wait for click on close icon");
+            clickElement(markPopupCloseBtn, "Click on close icon");
+            NXGReports.addStep("Verify click on close icon in mark as complete popup successful ", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify click on close icon in mark as complete popup fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Click on cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void clickOnCancelButtonInMarkAsCompletePopup() {
+        getLogger().info("Click on cancel button in mark as complete button");
+        try {
+            waitForVisibleElement(eleEngagementOveriewStatusText,"Wait engagement overview status");
+            engagementAfterStatus = eleEngagementOveriewStatusText.getText().trim();
+            waitForClickableOfElement(cancelMarkPopupBtn, "Wait for click on cancel button");
+            clickElement(cancelMarkPopupBtn, "Click on cancel button");
+            NXGReports.addStep("Verify click on cancel button in mark as complete popup successful ", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify click on cancel button in mark as complete popup fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    /**
+     * Click on cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void clickOnEngagementLink() {
+        getLogger().info("Click on engagement link");
+        try {
+            waitForClickableOfElement(eleEngagementLink, "Wait for click on engagement link");
+            clickElement(eleEngagementLink, "Click on engagement");
+            NXGReports.addStep("Verify click on engagement link ", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify click on engagement link ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify mask as complete popup is close
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyMarksAsCompletePopupIsClose() {
+        getLogger().info("Verify mask as complete popup close");
+        try {
+            boolean isClickClose = waitForCssValueChanged(popUpMarkCompleteWindows, "PopUp Mark Complete", "display", "none");
+            if (isClickClose) {
+                NXGReports.addStep("Verify mask as complete popup close successful", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify mask as complete popup close fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify mask as complete popup close fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 }
 

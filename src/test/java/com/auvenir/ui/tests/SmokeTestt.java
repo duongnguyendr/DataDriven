@@ -601,10 +601,10 @@ public class SmokeTestt extends AbstractTest {
     /*-----------end of Thuan.Duong on 14/06/2017.*/
 
     /**
-     * verifyStatusShowControlWhenCompleteToDo - TanPh - 2017/06/20 - Start
+     * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/20 - Start
      * @throws Exception
      */
-    @Test(priority = 23, enabled = true, description = "Verify engagement status  when check complete todo")
+    @Test(priority = 99, enabled = true, description = "Verify engagement status  when check complete todo")
     public void verifyEngagementStatusWhenCheckCompleteToDo() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -612,7 +612,7 @@ public class SmokeTestt extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Users Auvenir Password");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         //String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
         String toDoName = "TestMarkComplete01";
         String engagementName = "Engagement 07";
@@ -623,19 +623,56 @@ public class SmokeTestt extends AbstractTest {
             marketingService.clickLoginButton();
             // Login with user name and password
             marketingService.loginWithUserNamePassword(auditorId,auditorPwd);
+
+            //Work flow when click on close icon popup - Start
             // Verify GUI engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            // Verify GUI engagement detail page
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             // Create new to do
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            //auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
             // Select to do follow to do name
             auditorCreateToDoService.selectToDoTaskName(toDoName);
-
+            // Click on Bulk Action drop down
             auditorCreateToDoService.clickBulkActionsDropdown();
+            // Verify GUI Mark As Complete popup
             auditorCreateToDoService.verifyCompleteMarkPopup();
-            auditorCreateToDoService.verifyClickCloseMarkPopup();
+            // Click on close icon popup
+            auditorCreateToDoService.clickOnCloseIconInMarkAsCompletePopup();
+            // Verify mark as complete popup
+            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
+            // Verify engagement status after click on close icon popup
+            auditorCreateToDoService.verifyEngagementStatusWhenClickOnCloseIconPopup();
+            // Click on engagement link
+            auditorCreateToDoService.clickOnEngagementLink();
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            //Work flow when click on close icon popup - End
+
+            //Work flow when click on cancel button - Start
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            // Verify GUI engagement detail page
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            // Select to do follow to do name
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            // Click on Bulk Action drop down
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            // Verify GUI Mark As Complete popup
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            // Click on cancel button in popup
+            auditorCreateToDoService.clickOnCancelButtonInMarkAsCompletePopup();
+            // Verify mark as complete popup
+            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
+            // Verify engagement status after click on close icon popup
+            auditorCreateToDoService.verifyEngagementStatusWhenClickOnCancelButton();
+            // Click on engagement link
+            auditorCreateToDoService.clickOnEngagementLink();
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            //Work flow when click on cancel button - End
 
             /*auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
             int index = auditorCreateToDoService.selectToDoTaskName(toDoName);

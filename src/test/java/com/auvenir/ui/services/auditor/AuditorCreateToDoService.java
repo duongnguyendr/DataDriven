@@ -1088,5 +1088,53 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCommentSuccessFul(String comment, int numberOfComment){
     		createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
     }
+
+    /**
+     * Verify engagement does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnCloseIconPopup(){
+        createToDoPage.verifyEngagementOverviewStatusDoesNotChange(true);
+    }
+
+    /**
+     * Verify engagement does not change when click on cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnCancelButton(){
+        createToDoPage.verifyEngagementOverviewStatusDoesNotChange(false);
+    }
+
+    public void clickOnCloseIconInMarkAsCompletePopup(){
+        createToDoPage.clickOnCloseIconInMarkAsCompletePopup();
+    }
+    /**
+     * Click on cancel button in mark as complete popup
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnCancelButtonInMarkAsCompletePopup(){
+        createToDoPage.clickOnCancelButtonInMarkAsCompletePopup();
+    }
+
+    /**
+     * Verify mark as complete popup is close
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyMarksAsCompletePopupIsClose(){
+        createToDoPage.verifyMarksAsCompletePopupIsClose();
+    }
+
+    /**
+     * Click on engagement link
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnEngagementLink(){
+        createToDoPage.clickOnEngagementLink();
+    }
 }
 
