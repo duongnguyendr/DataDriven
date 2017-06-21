@@ -401,8 +401,8 @@ public class SmokeTest extends AbstractTest {
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAddNewRequestButton();
 //            auditorCreateToDoService.verifyRequestNameTextbox();
-            auditorCreateToDoService.verifyCreateRequest("New_Request 01");
-            auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
+            auditorCreateToDoService.verifyCreateRequest("New_Request 01","vien");
+//            auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
 //            auditorCreateToDoService.verifyDeleteRequest();
 //            auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

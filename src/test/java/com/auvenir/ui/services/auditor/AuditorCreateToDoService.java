@@ -11,6 +11,7 @@ import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -822,6 +823,15 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void verifyAddNewRequestButton() {
         createToDoPage.verifyAddNewRequestButton();
+
+    }
+
+    public void clickAddRequestButton(){
+        createToDoPage.verifyClickAddRequestBtn();
+    }
+
+    public void selectAddNewRequestButton() {
+        createToDoPage.verifyClickAddRequestBtn();
     }
 
     /**
@@ -842,16 +852,16 @@ public class AuditorCreateToDoService extends AbstractService {
      * Author minh.nguyen
      * Vien.Pham modified for smoke test
      */
-    public void verifyCreateRequest(String requestName1) {
-        createToDoPage.verifyNewRequestStoreInDatabase(requestName1);
+    public void verifyCreateRequest(String requestName1,String requestName2) {
+        createToDoPage.verifyNewRequestStoreInDatabase(requestName1,requestName2);
     }
 
 
     /**
      * Author minh.nguyen
      */
-    public void verifyUpdateRequest(String requestName2) {
-        createToDoPage.verifyNewRequestStoreInDatabase(requestName2);
+    public void verifyUpdateRequest(String requestName3, String requestName4) {
+        createToDoPage.verifyNewRequestStoreInDatabase(requestName3,requestName4);
     }
 
     public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
@@ -866,8 +876,9 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
         createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
-//        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
+        //createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }
 
     public void downloadCreateRequestNewFileClient(String uploadLocation,String downloadLocation, String fileName){
@@ -1246,5 +1257,31 @@ public class AuditorCreateToDoService extends AbstractService {
     public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
         createToDoPage.selectToDoCommentIconByName(toDoTaskName, isClient);
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
+    /**
+     * Verify engagement overview status is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewStatusIsComplete() {
+        createToDoPage.verifyEngagementOverviewStatusIsComplete();
+    }
+
+    /**
+     * Verify engagement overview ToDo is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewToDoIsComplete() {
+        createToDoPage.verifyEngagementOverviewToDoIsComplete();
+    }
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
+     *
+     **/
 }
 
