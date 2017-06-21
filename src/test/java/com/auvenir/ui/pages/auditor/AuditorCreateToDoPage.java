@@ -4279,7 +4279,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             if (Files.exists(path)) {
                 Files.delete(path);
             }
-            clickElement(downloadNewRequestBtn.get(0), "download newRequest Btn");
+            clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
             String md5Upload = calculateMD5(concatUpload);
             getLogger().info("md5 upload is: " + md5Upload);
