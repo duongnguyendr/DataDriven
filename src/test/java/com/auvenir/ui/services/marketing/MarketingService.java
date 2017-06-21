@@ -2,7 +2,7 @@ package com.auvenir.ui.services.marketing;
 
 import com.auvenir.ui.pages.admin.AdminLoginPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
-import com.auvenir.ui.pages.marketing.onboarding.AuditorSignUpPage;
+import com.auvenir.ui.pages.marketing.AuditorSignUpPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

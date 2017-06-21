@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
@@ -1862,8 +1863,8 @@ End of merged VienPham.
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyAddNewRequestButton();
             auditorCreateToDoService.verifyRequestNameTextbox();
-            auditorCreateToDoService.verifyCreateRequest("new Request 01");
-            auditorCreateToDoService.verifyUpdateRequest("new Request 02");
+            auditorCreateToDoService.verifyCreateRequest("new Request 01","client request");
+//            auditorCreateToDoService.verifyUpdateRequest("new Request 02");
             auditorCreateToDoService.verifyDeleteRequest();
             auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

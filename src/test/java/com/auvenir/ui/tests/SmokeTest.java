@@ -1,6 +1,9 @@
 package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.admin.AdminService;
+import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
@@ -398,8 +401,8 @@ public class SmokeTest extends AbstractTest {
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAddNewRequestButton();
 //            auditorCreateToDoService.verifyRequestNameTextbox();
-            auditorCreateToDoService.verifyCreateRequest("New_Request 01");
-            auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
+            auditorCreateToDoService.verifyCreateRequest("New_Request 01","vien");
+//            auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
 //            auditorCreateToDoService.verifyDeleteRequest();
 //            auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

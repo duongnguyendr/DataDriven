@@ -107,7 +107,12 @@ public class AbstractTest {
         } else if (browser.equalsIgnoreCase("edge")) {
             GenericService.sBrowserData = "edge.";
         }
-        GenericService.sBrowserTestNameList.add(GenericService.sBrowserData);
+        if(browser.equalsIgnoreCase("internet explorer")){
+            GenericService.sBrowserTestNameList.add("IE_");
+        }else{
+            GenericService.sBrowserTestNameList.add(browser.toUpperCase()+"_");
+        }
+
         getLogger().info("setUp: " + browser);
         testName = method.getName();
         logCurrentStepStart();
