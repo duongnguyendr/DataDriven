@@ -563,55 +563,6 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 30, enabled = true, description = "Verify that we can mark To Do as complete")
-    public void verifyAuditorMarkAsComplete() throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
-//        String toDoName = "TestMarkComplete01";
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-//            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.verifyCompleteMarkPopup();
-            auditorCreateToDoService.verifyClickCloseMarkPopup();
-
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
-            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.verifyCompleteMarkPopup();
-            auditorCreateToDoService.clickArchiveTaskButton();
-            auditorCreateToDoService.verifyMarkCompleteArchive(index);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify new Category popup", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-    @Test(priority = 31, enabled = true, description = "Verify Client see Todo mark as complete")
-    public void verifyClientSeeMarkAsComplete() throws Exception {
-
-    }
-    /*-----------end of Thuan.Duong on 14/06/2017.*/
-
-    /**
-     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
-     * @throws Exception
-     */
     @Test(priority = 30, enabled = true, description = "Verify engagement overview status, todo when complete todo by using marking as complete popup")
     public void verifyAuditorMarkAsComplete() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -727,6 +678,19 @@ public class SmokeTestt extends AbstractTest {
             throw e;
         }
     }
+
+
+    @Test(priority = 31, enabled = true, description = "Verify Client see Todo mark as complete")
+    public void verifyClientSeeMarkAsComplete() throws Exception {
+
+    }
+    /*-----------end of Thuan.Duong on 14/06/2017.*/
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     * @throws Exception
+     */
+
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      * @throws Exception
