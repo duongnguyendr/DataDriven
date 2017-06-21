@@ -684,17 +684,7 @@ public class SmokeTestt extends AbstractTest {
     public void verifyClientSeeMarkAsComplete() throws Exception {
 
     }
-    /*-----------end of Thuan.Duong on 14/06/2017.*/
 
-    /**
-     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
-     * @throws Exception
-     */
-
-    /**
-     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
-     * @throws Exception
-     */
     /**
      * Added by Thuan.Duong on 16/06/2017
      */
