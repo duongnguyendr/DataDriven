@@ -29,6 +29,9 @@ import java.awt.event.KeyEvent;
 import java.io.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.auvenir.utilities.PdfGenerater.path;
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 
@@ -4121,11 +4125,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
     WebElement uploadCreateRequestBtn;
-    @FindBy(xpath = "//div[@id='todo-req-box-1']//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
-    WebElement uploadClientCreateRequestBtn;
+    @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span[1]")
+    List<WebElement> uploadClientCreateRequestText;
+    @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span/label")
+    List<WebElement> uploadClientCreateRequestBtn;
     @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
     WebElement checkUploadRequest;
 
+    private String requestNameText = "client request";
     /*
     Vien .Pham created new method
      */
@@ -4163,24 +4170,40 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
-//            System.out.println("user location is: "+System.getProperty("user.home"));
-            clickElement(uploadClientCreateRequestBtn);
-            Thread.sleep(2000);
-            getLogger().info("Enter path of file..");
-            StringSelection ss = new StringSelection(concatUpload);
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            getLogger().info("Waiting for checkSign visible..");
-            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+            int countRequestText = 0;
+            int countRequestBtn = 0;
+
+            for(WebElement requestTextEle : uploadClientCreateRequestText) {
+                countRequestText++;
+                if(requestTextEle.getText().equals(requestNameText)) {
+                    break;
+                }
+            }
+
+            for(WebElement requestBtnEle : uploadClientCreateRequestBtn) {
+                countRequestBtn++;
+                if(countRequestBtn == countRequestText) {
+                    clickElement(requestBtnEle);
+                    Thread.sleep(2000);
+                    getLogger().info("Enter path of file..");
+                    StringSelection ss = new StringSelection(concatUpload);
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+                    Robot robot = new Robot();
+                    robot.keyPress(KeyEvent.VK_ENTER);
+                    robot.keyRelease(KeyEvent.VK_ENTER);
+                    robot.keyPress(KeyEvent.VK_CONTROL);
+                    robot.keyPress(KeyEvent.VK_V);
+                    robot.keyRelease(KeyEvent.VK_V);
+                    robot.keyRelease(KeyEvent.VK_CONTROL);
+                    robot.keyPress(KeyEvent.VK_ENTER);
+                    robot.keyRelease(KeyEvent.VK_ENTER);
+                    getLogger().info("Waiting for checkSign visible..");
+                    waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+                    NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+                    break;
+                }
+            }
+
         } catch (AWTException awt) {
             AbstractService.sStatusCnt++;
             awt.printStackTrace();
@@ -4195,6 +4218,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id=\"todo-req-box-0\"]/div[2]")
     WebElement fileNameAfterUploaded;
+    @FindBy(xpath = "//*[@id=\"todo-req-box-1\"]/div[2]")
+    WebElement fileNameAfterUploadedClient;
 
     /*
     Vien.Pham added new method
@@ -4203,6 +4228,25 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             waitForCssValueChanged(fileNameAfterUploaded, "fileName After uploaded", "display", "inline-block");
             String isCheck = fileNameAfterUploaded.getText();
+            System.out.println("File's Name was uploaded is: " + isCheck);
+            System.out.println("File's Name after uploaded is: " + isCheck);
+            if (isCheck.equals(fileName)) {
+                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify file was uploaded successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify file was uploaded successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    public void verifyUploadFileSuccessfullyClient(String fileName) {
+        try {
+            waitForCssValueChanged(fileNameAfterUploadedClient, "fileName After uploaded", "display", "inline-block");
+            String isCheck = fileNameAfterUploadedClient.getText();
             System.out.println("File's Name was uploaded is: " + isCheck);
             System.out.println("File's Name after uploaded is: " + isCheck);
             if (isCheck.equals(fileName)) {
@@ -4230,7 +4274,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void downloadCreateRequestNewFile(String concatUpload, String concatDownload) {
         try {
-//            setDownloadLocation();
+            //Delete file before download
+            Path path = Paths.get(concatDownload);
+            if (Files.exists(path)) {
+                Files.delete(path);
+            }
             clickElement(downloadNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
             String md5Upload = calculateMD5(concatUpload);

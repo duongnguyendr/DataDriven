@@ -858,9 +858,9 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
-    public void uploadeCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+    public void uploadCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
         createToDoPage.uploadeCreateRequestNewFileClient(uploadLocation.concat(fileName));
-        createToDoPage.verifyUploadFileSuccessfully(fileName);
+        createToDoPage.verifyUploadFileSuccessfullyClient(fileName);
     }
 
     public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
