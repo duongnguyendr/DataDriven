@@ -2,9 +2,11 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
+import com.auvenir.ui.services.admin.AdminService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
-import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
@@ -31,6 +33,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 /**
  * Created by cuong.nguyen on 4/25/2017.
  * Updated by Doai.Tran
+ * Udpated by Minh.Nguyen on June 19, 2017
  */
 public class AbstractService {
     private WebDriver driver;
@@ -80,6 +83,11 @@ public class AbstractService {
         this.prefixProtocol = prefixProtocol;
     }
 
+    /**
+     * Updated by Minh.Nguyen on June 19, 2017
+     * @param logger
+     * @param driver
+     */
     public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
@@ -392,7 +400,7 @@ public class AbstractService {
         try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            driver.manage().timeouts().implicitlyWait(10000, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
 
             //gmailLoginPage.getEleSignInLink().click();
@@ -637,5 +645,24 @@ public class AbstractService {
         auditorSignUpService.confirmInfomationNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreatedAuvenir);
         auditorEngagementService.verifyAuditorEngagementPage();
         marketingService.logout();
+    }
+
+    public void clickLoginButton(){
+        getLogger().info("Click on login button.");
+        marketingPage.clickOnLoginBTN();
+    }
+
+    public void loginWithUserNamePassword(String UserName, String Password) {
+        getLogger().info("Input Username and Password.");
+        marketingPage.inputUserNamePassword(UserName,Password);
+        getLogger().info("Click on Login button.");
+        marketingPage.clickOnSubmitBTN();
+        marketingPage.waitForProgressOverlayIsClosed();
+        marketingPage.clickClosePopupWarningBrowser();
+    }
+    public void logout(){
+        marketingPage.clickOnProfile();
+        getLogger().info("Logout.");
+        marketingPage.clickOnLogoutBTN();
     }
 }

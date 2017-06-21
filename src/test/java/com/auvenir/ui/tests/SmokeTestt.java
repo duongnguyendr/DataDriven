@@ -1,9 +1,14 @@
 package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.admin.AdminService;
+import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.client.ClientEngagementService;
+import com.auvenir.ui.services.client.ClientService;
+import com.auvenir.ui.services.client.ClientSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
-import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
@@ -641,6 +646,129 @@ public class SmokeTestt extends AbstractTest {
     }
     /*-----------end of Thuan.Duong on 14/06/2017.*/
 
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     * @throws Exception
+     */
+    @Test(priority = 30, enabled = true, description = "Verify engagement overview status, todo when complete todo by using marking as complete popup")
+    public void verifyAuditorMarkAsComplete() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        //String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
+        String toDoName = "TestMarkComplete01";
+        String engagementName = "Engagement 07";
+        try {
+            //Go to marketing page
+            marketingService.goToBaseURL();
+            // Click on button login
+            marketingService.clickLoginButton();
+            // Login with user name and password
+            marketingService.loginWithUserNamePassword(auditorId,auditorPwd);
+
+            //Work flow when click on close icon popup - Start
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            // Verify GUI engagement detail page
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            // Create new to do
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            // Select to do follow to do name
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            // Click on Bulk Action drop down
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            // Verify GUI Mark As Complete popup
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            // Click on close icon popup
+            auditorCreateToDoService.clickOnCloseIconInMarkAsCompletePopup();
+            // Verify mark as complete popup
+            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
+            // Verify engagement overview status after click on close icon popup
+            auditorCreateToDoService.verifyEngagementOverViewStatusWhenClickOnCloseIconPopup();
+            // Verify engagement overview todo after click on close icon popup
+            auditorCreateToDoService.verifyEngagementOverViewToDoWhenClickOnCloseIconPopup();
+            // Click on engagement link
+            auditorCreateToDoService.clickOnEngagementLink();
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Verify engagement status
+            auditorEngagementService.verifyEngagementStatusWhenClickOnCloseIconPopup(engagementName);
+
+            //Work flow when click on close icon popup - End
+
+            //Work flow when click on cancel button - Start
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            // Verify GUI engagement detail page
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            // Select to do follow to do name
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            // Click on Bulk Action drop down
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            // Verify GUI Mark As Complete popup
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            // Click on cancel button in popup
+            auditorCreateToDoService.clickOnCancelButtonInMarkAsCompletePopup();
+            // Verify mark as complete popup
+            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
+            // Verify engagement overview status after click on cancel button
+            auditorCreateToDoService.verifyEngagementOverViewStatusWhenClickOnCancelButton();
+            // Verify engagement overview todo after click on cancel button
+            auditorCreateToDoService.verifyEngagementOverViewToDoWhenClickOnCancelButton();
+            // Click on engagement link
+            auditorCreateToDoService.clickOnEngagementLink();
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Verify engagement status
+            auditorEngagementService.verifyEngagementStatusWhenClickOnCancelButtonPopup(engagementName);
+            //Work flow when click on cancel button - End
+
+            //Work flow when click on archive button - Start
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            // Verify GUI engagement detail page
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            // Select to do follow to do name
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            // Click on Bulk Action drop down
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            // Verify GUI Mark As Complete popup
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            // Click on cancel button in popup
+            auditorCreateToDoService.clickOnArchiveButtonInMarkAsCompletePopup();
+            // Verify mark as complete popup
+            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
+            // Verify engagement overview status after click on archive button
+            auditorCreateToDoService.verifyEngagementOverviewStatusWhenClickOnArchiveButton();
+            // Verify engagement overview todo after click on archive button
+            auditorCreateToDoService.verifyEngagementOverViewToDoWhenClickOnArchiveButton();
+            // Click on engagement link
+            auditorCreateToDoService.clickOnEngagementLink();
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Verify engagement status
+            auditorEngagementService.verifyEngagementStatusWhenClickOnArchiveButtonPopup(engagementName);
+            //Work flow when click on cancel button - End
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify engagement overview status, todo when complete todo by using marking as complete popup", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify engagement overview status, todo when complete todo by using marking as complete popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
+     * @throws Exception
+     */
     /**
      * Added by Thuan.Duong on 16/06/2017
      */
