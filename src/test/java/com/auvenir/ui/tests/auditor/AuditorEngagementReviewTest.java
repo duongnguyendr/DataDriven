@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.pages.marketing.engagement.AuditorEngagementReviewPO;
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 /**
  * Created by toan.nguyenp on 5/8/2017.
+ * Updated by minh.nguyen on June 16, 2017
  */
 public class AuditorEngagementReviewTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
@@ -20,7 +21,6 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private AuditorCreateToDoService auditorCreateToDoService;
     private AuditorEditCategoryService auditorEditCategoryService;
-    private AuditorEngagementReviewPO auditorEngagementReviewPO =  null;
     String auditorId;
     String timeStamp;
     String firstEngagementTitleOnWeb;
@@ -54,8 +54,8 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, description = "Sort Company name by ascending")
-    public void sortAscendingCompanyNameTest() throws InterruptedException {
+    @Test(priority = 2, description = "Sort Company name, Engagement name by ascending, descending")
+    public void sortEngagementByCompanyNameTest() throws InterruptedException {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -64,99 +64,195 @@ public class AuditorEngagementReviewTest extends AbstractTest {
             auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
             auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.verifySortCompanyName(true);
+            auditorEngagementService.verifySortCompanyNameAscending(true);
+            auditorEngagementService.verifySortCompanyNameDescending(false);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify to sort Company name by ascending.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify to sort Company name by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
         {
-            NXGReports.addStep("Verify to sort Company name by ascending.", LogAs.FAILED, null);
+            NXGReports.addStep("Verify to sort Company name by ascending, descending.", LogAs.FAILED, null);
             throw ex;
         }
     }
 
-    @Test(priority = 3, description = "Sort Company name by descending")
-    public void sortDescendingCompanyNameTest(){
-        auditorEngagementReviewPO.sortCompanyName(false);
+    @Test(priority = 3, description = "Sort Engagement name by ascending, descending")
+    public void sortEngagementByEngagementNameTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementNameAscending(true);
+            auditorEngagementService.verifySortEngagementNameDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement name by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement name by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
-    @Test(priority = 4, description = "Sort Engagement name by ascending")
-    public void sortAscendingEngagementNameTest(){
-        auditorEngagementReviewPO.sortEngagementName(true);
+    @Test(priority = 4, description = "Sort Engagement Status by ascending, descending")
+    public void sortEngagementByEngagementStatusTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementStatusAscending(true);
+            auditorEngagementService.verifySortEngagementStatusDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Status by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Status by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
-    @Test(priority = 5, description = "Sort Engagement Name by descending")
-    public void sortDescendingEngagementNameTest(){
-        auditorEngagementReviewPO.sortEngagementName(false);
+    /*
+    Currently, we do not have the values on ByEngagementAssignee
+    => Temporary, we can hide this test.
+    @Test(priority = 5, description = "Sort Engagement Audit Assignee by ascending, descending")
+    public void sortEngagementByEngagementAssigneeTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementAssigneeAscending(true);
+            auditorEngagementService.verifySortEngagementAssigneeDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Audit Assignee by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Audit Assignee by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
+    }
+    */
+
+    @Test(priority = 6, description = "Sort Engagement Completed To Dos by ascending, descending.")
+    public void sortEngagementByCompletedToDosTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementCompleteToDosAscending(true);
+            auditorEngagementService.verifySortEngagementCompleteToDosDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Completed To Dos by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Completed To Dos by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
-    @Test(priority = 6, description = "Sort Engagement Status by ascending")
-    public void sortAscendingEngagementStatusTest(){
-        auditorEngagementReviewPO.sortEngagementStatus(true);
+    @Test(priority = 7, description = "Sort Engagement Client Assignee by ascending, descending.")
+    public void sortEngagementByClientAssigneeTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
+            auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Client Assignee by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Client Assignee by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
-    @Test(priority = 7, description = "Sort Engagement Status by descending")
-    public void sortDescendingEngagementStatusTest(){
-        auditorEngagementReviewPO.sortEngagementStatus(false);
+    @Test(priority = 8, description = "Sort Engagement Completed Docs by ascending, descending.")
+    public void sortEngagementByCompleteDocsTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
+            auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Completed Docs by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Completed Docs by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
-    @Test(priority = 8, description = "Sort Auditor Assignee by ascending")
-    public void sortAscendingAuditorAssigneeTest(){
-        auditorEngagementReviewPO.sortAuditorAssignee(true);
+    @Test(priority = 9, description = "Sort Engagement Last Activity by ascending, descending.")
+    public void sortEngagementByLastActivityTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementLastActivityAscending(true);
+            auditorEngagementService.verifySortEngagementLastActivityDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Last Activity by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Last Activity by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 
-    @Test(priority = 9, description = "Sort Auditor Assignee by descending")
-    public void sortDescendingAuditorAssigneeTest(){
-        auditorEngagementReviewPO.sortAuditorAssignee(false);
-    }
-
-    @Test(priority = 10, description = "Sort Completed To Docs by ascending")
-    public void sortAscendingCompletedToDocsTest(){
-        auditorEngagementReviewPO.sortCompletedToDos(true);
-    }
-
-    @Test(priority = 11, description = "Sort Completed To Docs by descending")
-    public void sortDescendingCompletedToDocsTest(){
-        auditorEngagementReviewPO.sortCompletedToDos(false);
-    }
-
-    @Test(priority = 12, description = "Sort Cliend Assignee by ascending")
-    public void sortAscendingClientAssigneeTest(){
-        auditorEngagementReviewPO.sortClientAssignee(true);
-    }
-
-    @Test(priority = 13, description = "Sort Cliend Assignee by descending")
-    public void sortDescendingAssigneeTest(){
-        auditorEngagementReviewPO.sortClientAssignee(false);
-    }
-
-    @Test(priority = 14, description = "Sort Completed Docs by ascending")
-    public void sortAscendingCompletedDocsTest(){
-        auditorEngagementReviewPO.sortClientCompletedDocs(true);
-    }
-
-    @Test(priority = 15, description = "Sort Completed Docs by descending")
-    public void sortDescendingCompletedDocsTest(){
-        auditorEngagementReviewPO.sortClientCompletedDocs(false);
-    }
-
-    @Test(priority = 16, description = "Sort Last Activity by ascending")
-    public void sortAscendingLastActivityTest(){
-        auditorEngagementReviewPO.sortLastActivity(true);
-    }
-
-    @Test(priority = 17, description = "Sort Last Activity by descending")
-    public void sortDescendingLastActivityTest(){
-        auditorEngagementReviewPO.sortLastActivity(false);
-    }
-
-    @Test(priority = 18, description = "Sort Due Date by ascending")
-    public void sortAscendingDueDateTest(){
-        auditorEngagementReviewPO.sortDueDate(true);
-    }
-
-    @Test(priority = 19, description = "Sort Due Date by descending")
-    public void sortDescendingDueDateTest(){
-        auditorEngagementReviewPO.sortDueDate(false);
+    @Test(priority = 10, description = "Sort Engagement Due Date by ascending, descending.")
+    public void sortEngagementByDueDateTest() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        try {
+            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
+            auditorEngagementService.loginWithUserRole(auditorId);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.verifySortEngagementDueDateAscending(true);
+            auditorEngagementService.verifySortEngagementDueDateDescending(false);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Due Date by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Due Date by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
     }
 }

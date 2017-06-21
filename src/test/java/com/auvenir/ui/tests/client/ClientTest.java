@@ -1,8 +1,8 @@
 package com.auvenir.ui.tests.client;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AuditorEngagementService;
-import com.auvenir.ui.services.ClientService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -102,7 +102,7 @@ public class ClientTest extends AbstractTest {
             //Will be update later. Create new class of API testing to change status.
             //driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
             //Thread.sleep(5000);
-            //loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
+            //navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
             clientService.gmailLogin(client_ID, gmailPassword);
             clientService.searchGmail(searchGmailName);
             clientService.inviteEmail();
@@ -179,7 +179,7 @@ public class ClientTest extends AbstractTest {
         try {
             //Will be update later. Create new class of API testing to change status.
             //driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
-            clientService.loadURL(url);
+            clientService.navigateToURL(url);
             clientService.signInEmailOnClientLoginPage(client_ID);
             clientService.verifyWelcomePleaseCheckTxtIsDisplayed();
             clientService.gmailLogin(client_ID, gmailPassword);

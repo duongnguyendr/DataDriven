@@ -14,11 +14,25 @@
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTestt"/>
             <!--<methods>-->
-            <!--&lt;!&ndash;<include name="verifyCreateTodoPage"></include>&ndash;&gt;-->
-            <!--&lt;!&ndash;<include name="verifyCreateCategory"></include>&ndash;&gt;-->
-            <!--&lt;!&ndash;<include name="verifyDuedateTime"></include>&ndash;&gt;-->
-            <!--<include name="verifyAuditAssignee"></include>-->
-            <!--&lt;!&ndash;<include name="verifyClientActiveAfterSignUpSuccess"></include>&ndash;&gt;-->
+            <!--<include priority="1" name="verifyAdminLogin"></include>-->
+            <!--<include priority="2" name="verifySignUpAuditorUser"></include>-->
+            <!--<include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>-->
+            <!--<include priority="4" name="verifyLoginGmailAndActiveUser"></include>-->
+            <!--<include priority="6" name="verifyCreateSimpleEngagement"></include>-->
+            <!--<include priority="8" name="verifyAuditorInvitingTheClient"></include>-->
+            <!--<include priority="9" name="verifyChangeTheStatusClientToOnBoarding"></include>-->
+            <!--<include priority="10" name="verifyClientLogsInAndActive"></include>-->
+            <!--<include priority="11" name="verifyClientActiveAfterSignUpSuccess"></include>-->
+            <!--<include priority="12" name="verifyLoginAuditorUser"></include>-->
+            <!--<include priority="13" name="verifyAddNewMemberAuditor"></include>-->
+            <!--<include priority="14" name="verifyCreateTodoPage"></include>-->
+            <!--<include priority="16" name="verifyClientAssigneeComboBox"></include>-->
+            <!--<include priority="18" name="verifyAuditAssignee"></include>-->
+            <!--<include priority="19" name="verifyAddNewRequestOnToDoPage"></include>-->
+            <!--<include priority="22" name="verifyToDoDetailsCommenting"></include>-->
+            <!--<include priority="23" name="verifyMarkAsComplete"></include>-->
+            <!--<include priority="28" name="verifyClientEngagementOveview"></include>-->
+            <!--<include priority="31" name="verifyClientPostComment"></include>-->
             <!--</methods>-->
         </classes>
     </test>

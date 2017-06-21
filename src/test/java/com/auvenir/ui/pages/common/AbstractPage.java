@@ -35,8 +35,8 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 20;
-    public static final int waitTimeOut = 1;
+    public static final int waitTime = 10;
+    public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -71,6 +71,11 @@ public class AbstractPage {
     public final String warningBorderCSSColor = "rgb(253, 109, 71)";
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
+    /**
+     * Updated by Minh.Nguyen on June 19, 2017
+     * @param logger
+     * @param driver
+     */
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
         this.logger = logger;
@@ -233,6 +238,9 @@ public class AbstractPage {
     @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show'] //div[@class='send-message-success-alert']/span")
     private WebElement successToastMesDescriptionEle;
 
+    private String termsPrivacyCookieText = "//div[@id='marketing-header']//div[@class='ui center aligned header header-main-text']";
+    private List<String> tabs = null;
+
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
         validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
@@ -245,59 +253,33 @@ public class AbstractPage {
     public void verifyTermsOfServiceLink() throws AWTException {
         getLogger().info("Verify Terms of service link.");
         clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
-        //eleTermsOfServiceLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
         getLogger().info("verify texts are rendered.");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+        switchToOtherTab(1);
+        waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
+        WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
         validateElementText(terms, "Terms of Service");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Effective: 16th January, 2017");
-        french.click();
-        getLogger().info("click close Terms of Service wizard.");
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1)).close();
     }
 
     public void verifyPrivacyStateLink() {
         getLogger().info("Verify Pricacy statement link.");
-        elePrivacyStatementLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        validateElementText(auvenir, "Auvenir");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-        validateElementText(terms, "Privacy Statement");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Last revised: January 16th, 2017");
-        french.click();
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+        switchToOtherTab(0);
+        clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
+        switchToOtherTab(1);
+        WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
+        validateElementText(privacy, "Privacy Policy");
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1)).close();
     }
 
     public void verifyCookieNotice() {
         getLogger().info("verify cookie notices page.");
-        eleCookieNoticeLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        validateElementText(auvenir, "Auvenir");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-        validateElementText(terms, "Cookie Notice");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Last revised: January 16th, 2017");
-        french.click();
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+        switchToOtherTab(0);
+        clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
+        switchToOtherTab(1);
+        WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
+        validateElementText(cookie, "Cookie Notice");
     }
 
     /**
@@ -333,6 +315,34 @@ public class AbstractPage {
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
+        catch (Exception ex)
+        {
+            getLogger().info(ex.getMessage());
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    /**
+     * Create by Minh.Nguyen on June 19, 2017
+     * @param xpathElement
+     * @return Web element by xpath
+     */
+    public WebElement findWebElementByXpath(String xpathElement)
+    {
+        WebElement resultWebElement = null;
+        try {
+            getLogger().info("The xpath of web element = " + xpathElement);
+            resultWebElement = getDriver().findElement(By.xpath(xpathElement));
+            NXGReports.addStep("Find web element by xpath", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Find web element by xpath", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return resultWebElement;
     }
 
     /**

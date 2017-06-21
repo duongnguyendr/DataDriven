@@ -59,7 +59,7 @@ public class GenericService {
     public static String sExecutionDate = null;
     public static String sBrowserData = null;
     public static ArrayList sBrowserTestNameList = new ArrayList<String>();
-    public static String [] browserAutomationTest = new String [] {"CHROME", "FIREFOX", "IE", "SAFARI"};
+    public static String [] browserAutomationTest = new String [] {"CHROME", "FIREFOX", "IE", "SAFARI","EDGE"};
 
 	/*
      * @author: LAKSHMI BS Description: To read the basic environment settings
@@ -267,31 +267,49 @@ public class GenericService {
         for(int i = 0; i < listTestCaseSkipped.size(); i++){
             skippedRow += "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + listTestCaseSkipped.get(i) + "</td>";
         }
+
+        // create browser summary header
+        StringBuilder sbSummaryBrowserHeaderRow = new StringBuilder();
+        sbSummaryBrowserHeaderRow.append("<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left;\">Test Summary</th>");
+        for(int i=0; i<browserAutomationTest.length; i++) {
+            sbSummaryBrowserHeaderRow.append("<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left;\">"+ browserAutomationTest[i] +"</th>");
+        }
+
+        // create total test case row
+        StringBuilder sbTotalTestCaseRow = new StringBuilder();
+        sbTotalTestCaseRow.append("<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">Total Test case</td>");
+        for(int i=0; i<browserAutomationTest.length; i++) {
+            sbTotalTestCaseRow.append("<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td>");
+        }
+
+        // create browser follow pie chat row
+        List<String> browserList = getBrowserList();
+        StringBuilder sbBrowserImageRow = new StringBuilder();
+        int totalBrowser = browserList.size();
+        for (int i = 0; i < totalBrowser; i++) {
+            String browserName = browserList.get(i).substring(0,browserList.get(i).length()-1);
+            sbBrowserImageRow.append("<tr><td>"+ browserName +"&nbsp;&nbsp;&nbsp;</td>");
+            sbBrowserImageRow.append("&nbsp;&nbsp;&nbsp;");
+            sbBrowserImageRow.append("<td><img src=\"cid:"+ browserName +"\" style=\"height:200px; width: 200px; outline: thin solid;\"></td>");
+            sbBrowserImageRow.append("</tr>");
+        }
         String message = "<p>Team,</p><div style=\"font-family:Verdana;\">Find the tests automation execution status as below. For detail information, find the attached pdf file.</div><p></p><p></p><p></p><p></p>"
                 + "<p><div style=\"font-family:Verdana;\"><b> EXECUTION SUMMARY : </b></div></p>"
-                + "<table bgcolor=\"#BDE4F6\" style=\"border-radius: 20px; padding: 25px;\"><tr><td>&nbsp;&nbsp;&nbsp;<table style=\"height:180px; width:200px; border-width:2px; border-style:groove; float: left\"><tbody>"
-                + "<tr style=\"outline: thin solid; font-family:Verdana; color: #000000; text-align: left; border-width:2px; \"><th style=\"outline: thin solid;\">Total Executed</th><td style=\"outline: thin solid; font-weight: bold;\">&nbsp;&nbsp;"
-                + iTotalExecuted + "&nbsp;&nbsp;</td></tr>"
-                + "<tr style=\"outline: thin solid;  font-family:Verdana; color: #000000; text-align: left; border-width:2px; \"><th style=\"outline: thin solid;\">Passed</th><td style=\"outline: thin solid; font-weight: bold;\">&nbsp;&nbsp;"
-                + iPassCount + "&nbsp;&nbsp;</td></tr>"
-                + "<tr style=\"outline: thin solid; font-family:Verdana; color: #000000; text-align: left; border-width:2px; \"><th style=\"outline: thin solid;\">Failed</th><td style=\"color: Red; outline: thin solid; font-weight: bold;\">&nbsp;&nbsp;"
-                + iFailCount + "&nbsp;&nbsp;</td></tr>"
-                + "<tr style=\"outline: thin solid; font-family:Verdana; color: #000000; text-align: left; border-width:2px; \"><th style=\"outline: thin solid;\">Skipped</th><td style=\"outline: thin solid; font-weight: bold;\">&nbsp;&nbsp;"
-                + skippedCount + "&nbsp;&nbsp;</td></tr>" + "</tbody></table></td>" + "&nbsp;&nbsp;&nbsp;"
-                + "<td><img src=\"cid:image\" style=\"height:200px; width: 200px; outline: thin solid;\"></td></tr></table><p></p><p></p><p></p><p></p>"
+                + "<table bgcolor=\"#BDE4F6\" style=\"border-radius: 20px; padding: 25px;\">"
+                /*+ "<tr><td>&nbsp;&nbsp;&nbsp;</td>"
+                + "&nbsp;&nbsp;&nbsp;"
+                + "<td><img src=\"cid:image\" style=\"height:200px; width: 200px; outline: thin solid;\"></td>"
+                + "</tr>"*/
+                + sbBrowserImageRow.toString()
+                + "</table><p></p><p></p><p></p><p></p>"
                 + "<p><div style=\"font-family:Verdana;\"><b> EXECUTION SUMMARY FOR BROWSER: </b></div></p>"
                 + "<table style=\"border: 1px solid black;border-collapse: collapse;\"><col width=\"130\"><col width=\"80\"><col width=\"80\"><col width=\"80\"><col width=\"80\">"
                 + "<tr style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">"
-                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">Test Summary</th>"
-                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">CHROME</th>"
-                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\" >FIREFOX</th>"
-                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">IE</th>"
-                + "<th style=\"border: 1px solid black;border-collapse: collapse; padding: 5px;text-align: left\">SAFARY</th></tr>"
-                + "<tr><td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">Total Test case</td>"
-                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td>"
-                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td>"
-                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td>"
-                + "<td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">" + sTestNameList.size() + "</td></tr>"
+                + sbSummaryBrowserHeaderRow.toString()
+                + "</tr>"
+                + "<tr>"
+                + sbTotalTestCaseRow.toString()
+                + "</tr>"
                 + "<tr><td style=\"border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: left;\">Passed</td>"
                 + passedRow
                 + "</tr>"
@@ -330,13 +348,22 @@ public class GenericService {
             Multipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
             textPart.setContent(message, "text/html");
-            MimeBodyPart messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource(
+
+            for (int i = 0; i < totalBrowser; i++) {
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
+                String browserName = browserList.get(i).substring(0, browserList.get(i).length() - 1);
+                DataSource fds = new FileDataSource(
+                        System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName +".png");
+                messageBodyPart.setDataHandler(new DataHandler(fds));
+                messageBodyPart.setHeader("Content-ID", "<" + browserName + ">");
+                multipart.addBodyPart(messageBodyPart);
+            }
+            /*DataSource fds = new FileDataSource(
                     System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChartCHROME.png");
             messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "<image>");
+            messageBodyPart.setHeader("Content-ID", "<image>");*/
             multipart.addBodyPart(textPart);
-            multipart.addBodyPart(messageBodyPart);
+
             MimeBodyPart attachementPart = new MimeBodyPart();
             // attachementPart.attachFile(new File(pdfReports));
             attachementPart.attachFile(pdfReports);
