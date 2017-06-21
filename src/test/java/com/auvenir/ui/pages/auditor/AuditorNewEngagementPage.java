@@ -169,7 +169,6 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
         clickCreateToDoBtn();
         waitForCssValueChanged(createEngagementPopupEle, "Create Engagement Popup", "display", "none");
-
     }
 
     public void createNewEngagement(String name, String engagementType, String company) throws Exception {
