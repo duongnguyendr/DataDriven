@@ -355,6 +355,18 @@ public class AuditorEngagementPage extends AbstractPage {
      *
      */
 
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+    private static final String ENGAGEMENT_STATUS_COMPLETE = "complete";
+    private static final String ENGAGEMENT_TODO_COMPLETE = "100";
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+
+
     protected String dateFormat = "MM/dd/YY";
     protected SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 
@@ -1153,7 +1165,7 @@ public class AuditorEngagementPage extends AbstractPage {
      **/
 
     /**
-     * Verify engagement overview ToDo does not change when click on close icon popup / cancel button
+     * Verify engagement overview status does not change when click on close icon popup / cancel button
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -1178,7 +1190,7 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     /**
-     * Verify engagement overview ToDo change when click on archive button
+     * Verify engagement status change when click on archive button
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -1200,6 +1212,57 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     **/
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+    /**
+     * Verify engagement status complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementStatusIsComplete(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement status is complete";
+        String strStepFail = "TestScript Failed: Verify engagement status is not complete";
+        try {
+            boolean result;
+            result = ENGAGEMENT_STATUS_COMPLETE.equals(eleEngagementStatusList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertTrue(result, "Engagement stauts is complete");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     * Verify engagement ToDo complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+
+    public void verifyEngagementToDoIsComplete(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement ToDo is complete";
+        String strStepFail = "TestScript Failed: Verify engagement ToDo is not complete";
+        try {
+            boolean result;
+            String strEngagementToDo =  eleEngagementToDoList.get(index).getText().trim().toLowerCase().split("%")[0];
+            result = ENGAGEMENT_TODO_COMPLETE.equals(strEngagementToDo);
+            org.testng.Assert.assertTrue(result, "Engagement ToDo is complete");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
      *
      **/
 }
