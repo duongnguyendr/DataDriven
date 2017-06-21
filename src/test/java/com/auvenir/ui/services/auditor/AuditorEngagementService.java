@@ -280,5 +280,42 @@ public class AuditorEngagementService extends AbstractService {
     public void verifySortEngagementDueDateDescending(boolean isAsc) throws InterruptedException {
         auditorEngagementPage.sortEngagementDueDate(isAsc);
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+
+    /**
+     * Verify engagement status does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnCloseIconPopup(String engagementName){
+        auditorEngagementPage.verifyEngagementStatusDoesNotChange(true,engagementName);
+    }
+
+    /**
+     * Verify engagement status does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnCancelButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementStatusDoesNotChange(false,engagementname);
+    }
+
+    /**
+     * Verify engagement status change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnArchiveButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementStatusChange(engagementname);
+    }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
 }
 

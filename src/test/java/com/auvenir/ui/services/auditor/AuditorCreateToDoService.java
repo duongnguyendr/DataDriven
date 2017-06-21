@@ -1090,23 +1090,71 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /**
-     * Verify engagement does not change when click on close icon popup
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
+
+    /**
+     * Verify engagement overview status does not change when click on close icon popup
      * @author : TanPham
      * @date : 2017/06/20
      */
-    public void verifyEngagementStatusWhenClickOnCloseIconPopup(){
+    public void verifyEngagementOverViewStatusWhenClickOnCloseIconPopup(){
         createToDoPage.verifyEngagementOverviewStatusDoesNotChange(true);
     }
 
     /**
-     * Verify engagement does not change when click on cancel button
+     * Verify engagement overview todo does not change when click on close icon popup
      * @author : TanPham
      * @date : 2017/06/20
      */
-    public void verifyEngagementStatusWhenClickOnCancelButton(){
+    public void verifyEngagementOverViewToDoWhenClickOnCloseIconPopup(){
+        createToDoPage.verifyEngagementOverviewToDoDoesNotChange(true);
+    }
+
+    /**
+     * Verify engagement overview status does not change when click on cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewStatusWhenClickOnCancelButton(){
         createToDoPage.verifyEngagementOverviewStatusDoesNotChange(false);
     }
 
+    /**
+     * Verify engagement overview todo does not change when click on cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewToDoWhenClickOnCancelButton(){
+        createToDoPage.verifyEngagementOverviewToDoDoesNotChange(false);
+    }
+
+    /**
+     * Verify engagement overview status change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverviewStatusWhenClickOnArchiveButton(){
+        createToDoPage.verifyEngagementOverviewStatusChange();
+    }
+
+    /**
+     * Verify engagement overview todo change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewToDoWhenClickOnArchiveButton(){
+        createToDoPage.verifyEngagementOverviewToDoChange();
+    }
+
+
+
+    /**
+     * Click on close icon in mark as complete popup
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
     public void clickOnCloseIconInMarkAsCompletePopup(){
         createToDoPage.clickOnCloseIconInMarkAsCompletePopup();
     }
@@ -1117,6 +1165,15 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void clickOnCancelButtonInMarkAsCompletePopup(){
         createToDoPage.clickOnCancelButtonInMarkAsCompletePopup();
+    }
+
+    /**
+     * Click on archive button in mark as complete popup
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnArchiveButtonInMarkAsCompletePopup(){
+        createToDoPage.clickOnArchiveButtonInMarkAsCompletePopup();
     }
 
     /**
@@ -1136,5 +1193,10 @@ public class AuditorCreateToDoService extends AbstractService {
     public void clickOnEngagementLink(){
         createToDoPage.clickOnEngagementLink();
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
 }
 

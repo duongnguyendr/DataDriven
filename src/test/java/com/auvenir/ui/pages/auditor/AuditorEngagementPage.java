@@ -336,6 +336,25 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='preview-footer']//a[@href][3]")
     private WebElement titleCookieNotice;
 
+    /**
+     * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/21 - Start
+     *
+     **/
+    private static String engagementStatusBefore = "planning";
+    private static String engagementToDoBefore = "";
+
+
+    @FindBy(xpath = "//td[@class='status']/span")
+    private List<WebElement> eleEngagementStatusList;
+
+    @FindBy(xpath = "//td[@class='completed-todos']/span[@class='warning']")
+    private List<WebElement> eleEngagementToDoList;
+
+    /**
+     * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/20 - End
+     *
+     */
+
     protected String dateFormat = "MM/dd/YY";
     protected SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 
@@ -414,11 +433,14 @@ public class AuditorEngagementPage extends AbstractPage {
         System.out.println("Position: " + index);
 //        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
+
         if (index == engagementListEle.size() - 1) {
             scrollToFooter();
         } else
             hoverElement(engagementListEle.get(index + 1), engagementName);
+        engagementStatusBefore = eleEngagementStatusList.get(index).getText().trim();
         clickElement(engagementListEle.get(index), engagementName);
+
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
@@ -1124,4 +1146,60 @@ public class AuditorEngagementPage extends AbstractPage {
     public void filter(){
         clickElement(eleFilter, "click to eleFilter");
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+
+    /**
+     * Verify engagement overview ToDo does not change when click on close icon popup / cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusDoesNotChange(boolean isCloseIconClick, String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement status does not change when click on close icon popup";
+        String strStepFail = "TestScript Failed: Verify engagement status change when click on close icon popup";
+        if(!isCloseIconClick){
+            strStepSuccess = "Verify engagement status does not change when click on cancel button";
+            strStepFail = "TestScript Failed: Verify engagement status change when click on cancel button";
+        }
+        try {
+            boolean result;
+            result = engagementStatusBefore.toLowerCase().equals(eleEngagementStatusList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertTrue(result, "Engagement stauts does not change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement overview ToDo change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementStatusChange(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement status change when click on archive button";
+        String strStepFail = "TestScript Failed: Verify engagement status does not change when click on archive button";
+        try {
+            boolean result;
+            result = engagementStatusBefore.toLowerCase().equals(eleEngagementStatusList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertFalse(result, "Engagement stauts change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     **/
 }
