@@ -109,7 +109,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     //Added Thuan Duong 15/06/2017
-    @Test(priority = 2, enabled = true, description = "Verify Register and Active Auditor User")
+    @Test(priority = 2, enabled = true, description = "Verify Register and sign up successfully an Auditor User")
     public void verifySignUpAuditorUser() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -141,7 +141,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify Register and Active Auditor User")
+    @Test(priority = 3, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.")
     public void verifyAdminChangeStatusUserToOnBoarding() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -166,7 +166,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify Register and Active Auditor User")
+    @Test(priority = 4, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.")
     public void verifyLoginGmailAndActiveUser() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -194,7 +194,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Test positive tests case login and logout")
+    @Test(priority = 5, enabled = true, description = "Verify Auditor User can log in with user and password. ")
     public void verifyLoginAuditorUser() throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -213,9 +213,9 @@ public class SmokeTestt extends AbstractTest {
 
     //Ended Thuan Duong 15/06/2017
 
-    @Test(priority = 6, enabled = true, description = "Auditor create new Engagament (simple engagement)")
+    @Test(priority = 6, enabled = true, description = "Auditor create new Engagement (simple engagement)")
     public void verifyCreateSimpleEngagement() {
-        getLogger().info("Auditor create new Engagament (simple engagement).");
+        getLogger().info("Auditor create new Engagement (simple engagement).");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -242,7 +242,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "Auditor inviting a client")
+    @Test(priority = 7, enabled = true, description = "Verify that Auditor can invite a client")
     public void verifyAuditorInvitingTheClient() throws Exception {
         getLogger().info("Verify Auditor inviting a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -292,7 +292,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "Admin change the status of the client to OnBoarding"/*, dependsOnMethods = {"verifyAuditorInvitingTheClient"}*/)
+    @Test(priority = 8, enabled = true, description = "Verify that Admin change the status of the client to OnBoarding"/*, dependsOnMethods = {"verifyAuditorInvitingTheClient"}*/)
     public void verifyChangeTheStatusClientToOnBoarding() {
         getLogger().info("Verify change the status of the client to OnBoarding.");
         adminService = new AdminService(getLogger(), getDriver());
@@ -317,7 +317,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "Client logs in and OnBoarding page is displayed"/*, dependsOnMethods = {"verifyChangeTheStatusClientToOnBoarding"}*/)
+    @Test(priority = 9, enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed"/*, dependsOnMethods = {"verifyChangeTheStatusClientToOnBoarding"}*/)
     public void verifyClientLogsInAndActive() throws Exception {
         getLogger().info("Verify client logs in and OnBoarding page is displayed.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
@@ -356,7 +356,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Active successful and client log in system"/*, dependsOnMethods = {"verifyClientLogsInAndActive"}*/)
+    @Test(priority = 10, enabled = true, description = "Verify that client user is active successful and client log in system"/*, dependsOnMethods = {"verifyClientLogsInAndActive"}*/)
     public void verifyClientActiveAfterSignUpSuccess() {
         getLogger().info("Verify client logs in and OnBoarding page is displayed.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
@@ -387,7 +387,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 11, enabled = true, description = "Verify create to-do pages")
+    @Test(priority = 11, enabled = true, description = "Verify that Auditor can create to-do pages")
     public void verifyCreateTodoPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -413,56 +413,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    /*@Test(priority = 15, enabled = true, description = "Verify create category")
-    public void verifyCreateCategory() throws Exception {
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        Random random = new Random();
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        try {
-            auditorEngagementService.loginWithUserRole(auditorId);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("Engagement");
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.createCategories("Category" + random.nextInt(100));
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify create to-do pages.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify create to-do pages.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 17, enabled = true, description = "Verify Auditor select due date for To-Do")
-    public void verifyDuedateTime() throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        boolean isNewToDoPage = false;
-        try {
-            String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-            auditorCreateToDoService.loginWithUserRole(auditorId);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("Engagement144");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("Engagement144");
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            getLogger().info("Verifying unable to send text into Duedate box..");
-            auditorCreateToDoService.verifyUnableToInputDuedate("12/4/2017");
-            getLogger().info("Choosing date in table due-date..");
-            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
-            getLogger().info("Verifying format is mm/dd/yyy..");
-            auditorCreateToDoService.checkFormatDueDate();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Auditor select due date for To-Do.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Auditor select due date for To-Do.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }*/
-
-    @Test(priority = 12, enabled = true, description = "Verify Audit Assignee box")
+    @Test(priority = 12, enabled = true, description = "Verify that Audit Assignee box")
     public void verifyAuditAssignee() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -571,7 +522,7 @@ public class SmokeTestt extends AbstractTest {
     /**
      * Added by Thuan.Duong on 14/06/2017
      */
-    @Test(priority = 15, enabled = true, description = "Verify Auditor post new comment")
+    @Test(priority = 15, enabled = true, description = "Verify Auditor post new comment on a ToDo.")
     public void verifyToDoDetailsCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -606,7 +557,7 @@ public class SmokeTestt extends AbstractTest {
         }
     }
 
-    @Test(priority = 30, enabled = true, description = "Verify mark as complete")
+    @Test(priority = 30, enabled = true, description = "Verify that we can mark To Do as complete")
     public void verifyAuditorMarkAsComplete() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -654,7 +605,7 @@ public class SmokeTestt extends AbstractTest {
     /**
      * Added by Thuan.Duong on 16/06/2017
      */
-    @Test(priority = 22, enabled = true, description = "Verify mark as complete", groups = "Add Auditor Member")
+    @Test(priority = 22, enabled = true, description = "Verify that Auditor can add new member.")
     public void verifyAddNewMemberAuditor() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -719,7 +670,7 @@ public class SmokeTestt extends AbstractTest {
      * Pending: Dependence on another test case
      */
     @Test(priority = 14, enabled = false, description = "Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment")
-    public void verifyClientEngagementOveview() throws Exception {
+    public void verifyClientEngagementOverview() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         try {
@@ -805,7 +756,7 @@ public class SmokeTestt extends AbstractTest {
     public void verifyAuditorClientComment() throws Exception {
 
     }
-    @Test(priority = 23, enabled = true, description = "verify Assign ToDo Bulk Action")
+    @Test(priority = 23, enabled = true, description = "verify that Assign ToDo Bulk Action")
     public void verifyAssignToDoBulkAction() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
