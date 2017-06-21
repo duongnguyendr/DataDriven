@@ -11,6 +11,7 @@ import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.testng.Assert;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -1246,5 +1247,31 @@ public class AuditorCreateToDoService extends AbstractService {
     public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
         createToDoPage.selectToDoCommentIconByName(toDoTaskName, isClient);
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
+    /**
+     * Verify engagement overview status is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewStatusIsComplete() {
+        createToDoPage.verifyEngagementOverviewStatusIsComplete();
+    }
+
+    /**
+     * Verify engagement overview ToDo is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewToDoIsComplete() {
+        createToDoPage.verifyEngagementOverviewToDoIsComplete();
+    }
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
+     *
+     **/
 }
 

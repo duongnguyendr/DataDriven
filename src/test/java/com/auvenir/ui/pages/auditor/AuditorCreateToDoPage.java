@@ -418,6 +418,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      *
      **/
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+    private static final String ENGAGEMENT_OVER_VIEW_STATUS_COMPLETE = "complete";
+    private static final String ENGAGEMENT_OVER_VIEW_TODO_COMPLETE = "My Completed To-Dos: 100";
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
     }
@@ -4695,7 +4707,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
-     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      *
      **/
 
@@ -4734,5 +4746,55 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int index = findToDoTaskName(toDoTaskName, isClient);
         clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
+    /**
+     * Verify engagement overview status is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewStatusIsComplete() {
+        String strStepSuccess = "Verify engagement overview status is complete";
+        String strStepFail = "TestScript Failed: Verify engagement overview status is not complete";
+        try {
+            boolean result;
+            result = ENGAGEMENT_OVER_VIEW_STATUS_COMPLETE.toLowerCase().equals(eleEngagementOverViewStatusText.getText().trim().toLowerCase());
+            // will update to assert false when bug has fixed
+            Assert.assertTrue(result, "Engagement overview status is complete");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement overview ToDo is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewToDoIsComplete() {
+        String strStepSuccess = "Verify engagement overview ToDo is complete";
+        String strStepFail = "TestScript Failed: Verify engagement overview ToDo is complete";
+        try {
+            boolean result;
+            String strEngagementOverViewToDo = eleEngagementOverViewToDoText.getText().trim().split("%")[0];
+            result = ENGAGEMENT_OVER_VIEW_TODO_COMPLETE.toLowerCase().equals(strEngagementOverViewToDo.toLowerCase());
+            Assert.assertTrue(result, "Engagement overview ToDo does not change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
+     *
+     **/
 }
 

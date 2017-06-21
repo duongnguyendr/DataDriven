@@ -317,5 +317,31 @@ public class AuditorEngagementService extends AbstractService {
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
      *
      **/
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+    /**
+     * Verify engagement status complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementStatusIsComplete(String engagementName) {
+        auditorEngagementPage.verifyEngagementStatusIsComplete(engagementName);
+    }
+    /**
+     * Verify engagement ToDo complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+
+    public void verifyEngagementToDoIsComplete(String engagementName) {
+       auditorEngagementPage.verifyEngagementToDoIsComplete(engagementName);
+    }
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     **/
 }
 
