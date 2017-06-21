@@ -569,6 +569,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForVisibleElement(toDoNameTextColumnEle.get(0), "Todo Name input field");
             sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoNameValue, "To Do Name Input");
             result = validateAttributeElement(toDoNameTextColumnEle.get(0), "value", toDoNameValue);
+            sendTabkey(toDoNameTextColumnEle.get(0), "To Do Name Input");
             Assert.assertTrue(result, "Input Value into ToDo Name TextBox is unsuccessfully");
             NXGReports.addStep("Verify Input Value ToDo Name TextBox", LogAs.PASSED, null);
             return true;
@@ -4347,7 +4348,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     	try{
     		int index = findToDoTaskName(toDoName);
     		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-
+    		waitForTextValueChanged(auditorAssigneeSelected, "auditorAssigneeSelected", auditorAssignee);
     		if (auditorAssigneeSelected.getText().equals(auditorAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
     		}else{
@@ -4364,7 +4365,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     	try{
     		int index = findToDoTaskName(toDoName);
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-
+    		waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
     		if (clientAssigneeSelected.getText().equals(clientAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
     		}else{
@@ -4419,5 +4420,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
         }
     }
+    
 }
 

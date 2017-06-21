@@ -33,6 +33,7 @@ public class ClientService extends AbstractService {
     CreateNewAuditPage createNewAuditPage;
     AddNewClientPage addNewClientPage;
     AdminLoginPage adminLoginPage;
+    ClientToDoPage clientToDoPage;
 
 
     public ClientService(Logger logger, WebDriver driver) {
@@ -53,6 +54,7 @@ public class ClientService extends AbstractService {
         createNewAuditPage = new CreateNewAuditPage(getLogger(), getDriver());
         addNewClientPage = new AddNewClientPage(getLogger(), getDriver());
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        clientToDoPage = new ClientToDoPage(getLogger(), getDriver());
     }
 
 
@@ -427,4 +429,19 @@ public class ClientService extends AbstractService {
         createNewAuditPage.verifyInviteClientSuccess(message);
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
+    
+    public void verifyToDoTaskExist(String toDoName){
+    	try{
+    		int index = clientToDoPage.findToDoTaskName(toDoName);
+    		if (index != -1) {
+    			NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.PASSED, null);
+    		} else {
+    			NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    		}
+    	} catch (Exception e) {
+    		NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
+				new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    	}	
+    }
 }
