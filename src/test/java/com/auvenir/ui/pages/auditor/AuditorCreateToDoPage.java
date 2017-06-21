@@ -22,6 +22,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import javax.imageio.metadata.IIOMetadataNode;
 import javax.sql.rowset.spi.SyncFactoryException;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -569,6 +570,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForVisibleElement(toDoNameTextColumnEle.get(0), "Todo Name input field");
             sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoNameValue, "To Do Name Input");
             result = validateAttributeElement(toDoNameTextColumnEle.get(0), "value", toDoNameValue);
+            sendTabkey(toDoNameTextColumnEle.get(0), "Todo Name input field");
             Assert.assertTrue(result, "Input Value into ToDo Name TextBox is unsuccessfully");
             NXGReports.addStep("Verify Input Value ToDo Name TextBox", LogAs.PASSED, null);
             return true;
@@ -1594,8 +1596,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Select To Do Task Check Box by Name");
         int index = findToDoTaskName(todoName);
         System.out.println("Index: " + index);
-        if (!eleToDoCheckboxRow.get(index).isSelected())
-            clickElement(eleToDoCheckboxRow.get(index), String.format("Check box of Task Name: %s", todoName));
+        if(index != -1) {
+            if (!eleToDoCheckboxRow.get(index).isSelected())
+                clickElement(eleToDoCheckboxRow.get(index), String.format("Check box of Task Name: %s", todoName));
+        }
         return index;
     }
 
@@ -4345,9 +4349,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee){
     	try{
+    	    Thread.sleep(3000);
+    	    getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
     		int index = findToDoTaskName(toDoName);
     		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-
+            System.out.println("auditorAssigneeSelected.getText(): " + auditorAssigneeSelected.getText());
     		if (auditorAssigneeSelected.getText().equals(auditorAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
     		}else{
@@ -4418,6 +4424,42 @@ public class AuditorCreateToDoPage extends AbstractPage {
             createNewCategory("");
             NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
         }
+    }
+
+    public int findToDoTaskName(String toDoName, boolean isClient) {
+        getLogger().info("Find Position of To Do Task Name");
+        String actualAttributeValue;
+        String classAttribute;
+        WebElement toDoNameCell = null;
+        for (int i = 0; i < toDoTaskRowEle.size(); i++) {
+            classAttribute = toDoTaskRowEle.get(i).getAttribute("class");
+            if (classAttribute.equals("newRow")) {
+                if(isClient){
+                    toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/span[@class='todo-name-readonly']"));
+                } else {
+                    toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']"));
+                }
+                if(toDoNameCell != null) {
+                    if(isClient) {
+                        actualAttributeValue = toDoNameCell.getText().trim();
+                    } else {
+                        actualAttributeValue = toDoNameCell.getAttribute("value").trim();
+                    }
+                    if (actualAttributeValue.equals(toDoName)) {
+                        getLogger().info("Element is found at " + i);
+                        NXGReports.addStep(String.format("The position of To Do task: '%s' at %d", toDoName, i), LogAs.PASSED, null);
+                        return i;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    public void selectToDoCommentIconByName(String toDoTaskName, boolean isClient) {
+        getLogger().info("Select To Do Comment Icon by Name");
+        int index = findToDoTaskName(toDoTaskName, isClient);
+        clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
     }
 }
 

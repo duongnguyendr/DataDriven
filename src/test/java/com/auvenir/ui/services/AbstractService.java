@@ -150,8 +150,8 @@ public class AbstractService {
             //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
-            driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
-            driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().setScriptTimeout(1, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(1, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             NXGReports.addStep("Login with userid: " + userId, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -196,7 +196,7 @@ public class AbstractService {
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
             driver.get(baseUrl);
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();

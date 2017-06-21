@@ -1130,5 +1130,10 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     /*-----------end of huy.huynh on 02/06/2017.*/
+
+
+    public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
+        createToDoPage.selectToDoCommentIconByName(toDoTaskName, isClient);
+    }
 }
 
