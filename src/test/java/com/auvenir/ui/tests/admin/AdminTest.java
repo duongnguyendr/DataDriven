@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.admin;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AdminService;
+import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.AuvenirService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -223,4 +223,28 @@ public class AdminTest extends AbstractTest {
             throw e;
         }
     }
+    /*
+    AdminPortalTest => Added from S3-Branch: V2.0, System do not support
+    private AdminPortalReviewPage adminPortalReviewPage = null;
+    @Test(priority = 1, description = "Sort user by ascending")
+    public void sortAscendingUserByNameTest(){
+        adminPortalReviewPage = new AdminPortalReviewPage(getDriver());
+        adminPortalReviewPage.sortUser(true);
+    }
+
+    @Test(priority = 2, description = "Sort user by descending")
+    public void sortDescendingUserByNameTest(){
+        adminPortalReviewPage.sortUser(false);
+    }
+
+    @Test(priority = 3, description = "Sort user type by ascending")
+    public void sortAscendingUserTypeTest(){
+        adminPortalReviewPage.sortUserType(true);
+    }
+
+    @Test(priority = 4, description = "Sort user type by descending")
+    public void sortDescendingUserTypeTest(){
+        adminPortalReviewPage.sortUserType(false);
+    }
+    */
 }
