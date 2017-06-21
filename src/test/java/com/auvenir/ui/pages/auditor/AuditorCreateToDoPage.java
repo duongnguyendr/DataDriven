@@ -377,8 +377,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement emptyRowToDotask;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
-    
-    @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
+
+    @FindBy(xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
 
     public WebElement getToDoSaveIconEle() {
@@ -3004,7 +3004,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int size = getNumberOfListComment();
         waitForVisibleElement(postCommentButton, "Comment Input field");
         clickElement(postCommentButton, "Comment Input field");
-        waitForSizeListElementChanged(listCommentItemEle, "List Comment", size +1);
+        waitForSizeListElementChanged(listCommentItemEle, "List Comment", size + 1);
     }
 
     public int getNumberOfListComment() {
@@ -3195,30 +3195,55 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
 
 //    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
-    @FindBy(xpath = "//div[@id='todo-req-box-0']/span[1]")
-    WebElement newRequestTxtboxSpan;
-    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
-    WebElement newRequestTxtboxText;
+//    @FindBy(xpath = "//div[@id='todo-req-box-0']/span[1]")
+//    WebElement newRequestTxtboxSpan;
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-0')]/span[1]")
+    WebElement newRequestTxtboxSpan_1;
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-1')]/span[1]")
+    WebElement newRequestTxtboxSpan_2;
+
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-0')]/input")
+    WebElement newRequestTxtboxText_1;
+
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-1')]/input")
+    WebElement newRequestTxtboxText_2;
 
     public void verifyClickAddRequestBtn() {
-        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to click the add request button is clickable");
-//        boolean isCheckRequestEmpty = false;
         try {
-//            Thread.sleep(smallerTimeOut);
             waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
-//            isCheckRequestEmpty = clickElement(newRequestTxtboxSpan, "click to findRequestEmpty1");
-//            if (isCheckRequestEmpty) {
-//                NXGReports.addStep("Verify to click the add request button and empty request is clickable", LogAs.PASSED, null);
-//            } else {
             NXGReports.addStep("Verify add new request Btn is clickable", LogAs.PASSED, null);
-//            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.FAILED, null);
+        }
+
+    }
+
+/*
+    public void verifyClickAddRequestBtn() {
+        getLogger().info("Verify to click the add request button is clickable");
+        try {
+            waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
+            clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
+            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.PASSED, null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify add new request Btn is clickable", LogAs.FAILED, null);
         }
     }
+    */
+/*
+    public int findNumberOfRequestRows(){
+        int size = 0;
+        int index = -1;
+        if (!newRequestTxtboxSpan.equals("")) {
+            size = newRequestTxtboxSpan.size() + 1;
+        }
+
+        return  size;
+    }*/
 
     /**
      * Author minh.nguyen
@@ -3384,26 +3409,80 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='auvicon-ex']")
     WebElement requestCloseBtn;
 
+    /*
     public void verifyNewRequestStoreInDatabase(String newRequest) {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
+            for (int i = newRequestTxtboxSpan.size(); i < newRequestTxtboxSpan.size() + 1; i++) {
+                System.out.println("Number of request Rows after clicked is: "+ i);
+                Thread.sleep(smallerTimeOut);
+                clickElement(newRequestTxtboxSpan.get(i-1), "click to new request Txtbox Span");
+                getLogger().info("Waiting for textbox border is Green when clicking..");
+                waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+                getLogger().info("Sending new request..");
+                clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
+                sendKeyTextBox(findRequestEmpty1, newRequest, "clear text of findRequestEmpty1");
+                getLogger().info("Verify show all text while inputting..");
+                String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+                getLogger().info("Close window and verify new input saved successfully..");
+                closeTodoListAddNewRequest();
+                clickToDoListAddNewRequest();
+                //modified
+                String newRequestSaved = newRequestTxtboxSpan.get(i-1).getText();
+                System.out.println("new Request saved is: " + newRequestSaved);
+                System.out.println("todo show Alltext is: " + newRequestSaved);
+                if (todoShowAllText01.equals(newRequest) && todoShowAllText01.equals(newRequest)) {
+                    NXGReports.addStep("Verify new request are stored in the database.", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
+                }
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
+        }
+    }*/
+
+    public void verifyNewRequestStoreInDatabase(String newRequest01, String newRequest02) {
+        // Need to use Thread.sleep that support stable scripts
+        getLogger().info("Verify these new request are stored in the database.");
+        try{
+            //add 1st request
             Thread.sleep(smallerTimeOut);
-            clickElement(newRequestTxtboxSpan, "click to new request Txtbox Span");
+            clickElement(newRequestTxtboxSpan_1, "click to new request Txtbox Span");
             getLogger().info("Waiting for textbox border is Green when clicking..");
-            waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+            waitForCssValueChanged(newRequestTxtboxText_1, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
             getLogger().info("Sending new request..");
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
-            sendKeyTextBox(findRequestEmpty1, newRequest, "clear text of findRequestEmpty1");
+            sendKeyTextBox(findRequestEmpty1, newRequest01, "clear text of findRequestEmpty1");
             getLogger().info("Verify show all text while inputting..");
             String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+            //add 2nd request
+            verifyClickAddRequestBtn();
+            Thread.sleep(smallerTimeOut);
+            clickElement(newRequestTxtboxSpan_2, "click to new request Txtbox Span");
+            getLogger().info("Waiting for textbox border is Green when clicking..");
+            waitForCssValueChanged(newRequestTxtboxText_2, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+            getLogger().info("Sending new request..");
+            clearTextBox(findRequestEmpty2, "clear text of findRequestEmpty1");
+            sendKeyTextBox(findRequestEmpty2, newRequest02, "clear text of findRequestEmpty1");
+            getLogger().info("Verify show all text while inputting..");
+            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             getLogger().info("Close window and verify new input saved successfully..");
             closeTodoListAddNewRequest();
             clickToDoListAddNewRequest();
-            String newRequestSaved = newRequestTxtboxSpan.getText();
-            System.out.println("new Request saved is: " + newRequestSaved);
-            System.out.println("todo show Alltext is: " + newRequestSaved);
-            if (todoShowAllText01.equals(newRequest) && todoShowAllText01.equals(newRequest)) {
+            //modified
+            String newRequestSaved1 = newRequestTxtboxSpan_1.getText();
+            System.out.println("new Request saved is: " + newRequestSaved1);
+            System.out.println("todo show Alltext is: " + newRequestSaved1);
+
+            String newRequestSaved2 = newRequestTxtboxSpan_2.getText();
+            System.out.println("new Request saved is: " + newRequestSaved2);
+            System.out.println("todo show Alltext is: " + newRequestSaved2);
+
+            if (todoShowAllText01.equals(newRequest01) && newRequestSaved1.equals(newRequest01)&&todoShowAllText02.equals(newRequest02) && newRequestSaved2.equals(newRequest02)) {
                 NXGReports.addStep("Verify new request are stored in the database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3414,6 +3493,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
         }
     }
+
+
+
 
     /**
      * Author minh.nguyen
@@ -4115,10 +4197,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForCssValueChanged(popUpMarkCompleteWindows, "Popup Mark Complete", "display", "none");
     }
 
-    @FindBy(xpath = "//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
-    WebElement uploadCreateRequestBtn;
-    @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
-    WebElement checkUploadRequest;
+    @FindBy(xpath = "//div[@id='todo-req-box-0']//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
+    WebElement uploadCreateRequestBtn_0;
+    @FindBy(xpath = "//div[@id='todo-req-box-0']//span[@class='auvicon-checkmark icon-button']")
+    WebElement checkUploadRequest_0;
 
     /*
     Vien .Pham created new method
@@ -4126,7 +4208,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void uploadeCreateRequestNewFile(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
 //            System.out.println("user location is: "+System.getProperty("user.home"));
-            clickElement(uploadCreateRequestBtn);
+            clickElement(uploadCreateRequestBtn_0);
             Thread.sleep(2000);
             getLogger().info("Enter path of file..");
             StringSelection ss = new StringSelection(concatUpload);
@@ -4141,7 +4223,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
             getLogger().info("Waiting for checkSign visible..");
-            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            waitForCssValueChanged(checkUploadRequest_0, "checkSuccessful", "display", "inline-block");
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
         } catch (AWTException awt) {
             AbstractService.sStatusCnt++;
@@ -4221,32 +4303,32 @@ public class AuditorCreateToDoPage extends AbstractPage {
     End of Vien.Pham
      */
 
-    public void verifyAddNewRequestPopUp(){
-    	try{
-    		clickToDoListAddNewRequest();
-    		waitForVisibleElement(addNewRequestWindow, "Add new request popup");
-    	}catch (Exception e) {
-    		NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+    public void verifyAddNewRequestPopUp() {
+        try {
+            clickToDoListAddNewRequest();
+            waitForVisibleElement(addNewRequestWindow, "Add new request popup");
+        } catch (Exception e) {
+            NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyCommentSuccessFul(String comment, int numberComment){
-    	try{
-    		List<String> textContainComment = new ArrayList<String>();
-    		for (WebElement commentEle: listCommentItemEle){
-    			textContainComment.add(getText(commentEle).toString());
-    		}
+    public void verifyCommentSuccessFul(String comment, int numberComment) {
+        try {
+            List<String> textContainComment = new ArrayList<String>();
+            for (WebElement commentEle : listCommentItemEle) {
+                textContainComment.add(getText(commentEle).toString());
+            }
 
-    		for (int cmt = 0; cmt< numberComment; cmt ++){
-    			if (!textContainComment.contains(comment + cmt)){
-    				AbstractService.sStatusCnt++;
-    				NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    			}
-    		}
-    	}catch (Exception e) {
-    		AbstractService.sStatusCnt++;
-    		NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+            for (int cmt = 0; cmt < numberComment; cmt++) {
+                if (!textContainComment.contains(comment + cmt)) {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 }
 
