@@ -4546,7 +4546,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
     	try{
-//    	    Thread.sleep(3000);
+    	    Thread.sleep(3000);
     		int index = findToDoTaskName(toDoName);
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
     		waitForTextValueChanged(clientAssigneeSelected, "Client Assignee Dropbox", clientAssignee);

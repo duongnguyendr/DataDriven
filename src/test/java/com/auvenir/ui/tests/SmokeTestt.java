@@ -44,6 +44,7 @@ public class SmokeTestt extends AbstractTest {
     private AuditorEngagementTeamService auditorEngagementTeamService;
     private ClientDetailsEngagementService clientDetailsEngagementService;
     MarketingService maketingService;
+    private ContactsService contactsService;
 
     // personal information
     final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
@@ -429,7 +430,7 @@ public class SmokeTestt extends AbstractTest {
             String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
             String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
             String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
-            String auditorAssign = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Full Name");
+            String auditorAssign = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -972,12 +973,20 @@ public class SmokeTestt extends AbstractTest {
     public void verifyCheckContactList() throws Exception {
     	marketingService = new MarketingService(getLogger(), getDriver());
     	auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+    	auditorService = new AuditorService(getLogger(), getDriver());
+    	contactsService = new ContactsService(getLogger(), getDriver());
     	try{
     		String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
     		String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+    		String contactName = "Duong Test";
+    		String emailContact = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
     		
     		marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
     		auditorEngagementService.verifyAuditorEngagementPage();
+    		auditorService.clickClientsLink();
+    		contactsService.verifyAuditorContactsPage();
+    		contactsService.verifyContactDisplayedInContactsPage(contactName, emailContact);
+    		
     	}catch (Exception e) {
 			// TODO: handle exception
 		}
