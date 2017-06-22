@@ -454,14 +454,12 @@ public class SmokeTestt extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-//        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User3", "Auditor");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
         try {
-//            auditorCreateToDoService.loginWithUserRole(auditorId);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
@@ -470,11 +468,11 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.clickAddRequestButton();
             getLogger().info("Verifying auditor create 1st request name.. ");
-            auditorCreateToDoService.verifyCreateRequest("New_Request 01", "client request");
+            auditorCreateToDoService.verifyCreateRequest("New_Request 01","client request");
             getLogger().info("Verifying upload TXT file..");
             auditorCreateToDoService.uploadeCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, fileName);
-            getLogger().info("Verifying download TXT file..");
-            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
+//            getLogger().info("Verifying download TXT file..");
+//            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -492,18 +490,14 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-        //String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        //String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String clientPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         marketingService= new MarketingService(getLogger(), getDriver());
-        //String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-        //String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.uploadCreateRequestNewFileClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
@@ -524,8 +518,6 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        //String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-        //String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
@@ -537,7 +529,6 @@ public class SmokeTestt extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.clickNewRequestImg();
-            //auditorCreateToDoService.uploadCreateRequestNewFileClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
             auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client upload and download file", LogAs.PASSED, null);
@@ -596,9 +587,8 @@ public class SmokeTestt extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        //String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
-        String toDoName = "TestMarkComplete01";
-        String engagementName = "Engagement 07";
+        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -722,12 +712,10 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        //String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String clientId = "phamhoangtan82@yahoo.com";
-        String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        //String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDoName");
-        String toDoName = "TestMarkComplete01";
-        String engagementName = "Engagement 07";
+        String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -982,6 +970,17 @@ public class SmokeTestt extends AbstractTest {
     }
     @Test(priority = 27, enabled = true, description = "Verify check contact list.")
     public void verifyCheckContactList() throws Exception {
+    	marketingService = new MarketingService(getLogger(), getDriver());
+    	auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+    	try{
+    		String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+    		String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+    		
+    		marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+    		auditorEngagementService.verifyAuditorEngagementPage();
+    	}catch (Exception e) {
+			// TODO: handle exception
+		}
 
     }
     @Test(priority = 28, enabled = true, description = "Verify auditor attach file.")
@@ -992,5 +991,4 @@ public class SmokeTestt extends AbstractTest {
     public void verifyClientDownloadAttachFile() throws Exception {
 
     }
-
 }
