@@ -68,7 +68,18 @@ public class AuditorEngagementTeamPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='team-row-0']/td[1]/input")
     private List<WebElement> checkBoxTeamMemberEle;
 
+    /**
+     * verifyCheckListTeam - TanPH - 2017/06/22 - Start
+     */
+    @FindBy(xpath = "//tbody[@id='w-team-tableBody']/tr/td[2]")
+    private List<WebElement> eleMemberNameList;
 
+    @FindBy(xpath = "//tbody[@id='w-team-tableBody']/tr/td[3]")
+    private List<WebElement> eleMemberRoleInFirmList;
+
+    /**
+     * verifyCheckListTeam - TanPH - 2017/06/22 - End
+     */
 
     public void clickEngagementTeamMenu() {
         getLogger().info("Click Engagement Team menu.");
@@ -191,4 +202,46 @@ public class AuditorEngagementTeamPage extends AbstractPage {
             return -1;
         }
     }
+
+    /**
+     * verifyCheckListTeam - TanPH - 2017/06/22 - Start
+     */
+    /**
+     * Check member is exists in team list
+     * @param memberFullName : member full name need check
+     * @param roleInFirm : role in firm need check
+     * @return true : found | false : not found
+     */
+    public boolean checkMemberTeamIsExists(String memberFullName, String roleInFirm){
+        for(int i=0;i<eleMemberNameList.size();i++){
+            if(eleMemberNameList.get(i).getText().trim().equals(memberFullName)){
+                if(eleMemberRoleInFirmList.get(i).getText().trim().equals(roleInFirm)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Verfiy member is exists in team list
+     * @param memberFullName : member full name need check
+     * @param roleInFirm : role in firm need check
+     */
+    public void verifyMemberIsShownInTeamList(String memberFullName, String roleInFirm) {
+        getLogger().info(String.format("Verify member is already exists in team list"));
+        try {
+            boolean result = checkMemberTeamIsExists(memberFullName,roleInFirm);
+            Assert.assertTrue(result);
+            NXGReports.addStep("Verify member is already exists in team list.", LogAs.PASSED, null);
+        } catch (AssertionError e){
+            AbstractService.sStatusCnt ++;
+            NXGReports.addStep("Test Failed:  Verify member is already exists in team list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    /**
+     * verifyCheckListTeam - TanPH - 2017/06/22 - End
+     */
 }

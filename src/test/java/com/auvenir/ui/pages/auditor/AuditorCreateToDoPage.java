@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.sql.rowset.spi.SyncFactoryException;
 
+import com.auvenir.utilities.GeneralUtilities;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
@@ -167,7 +168,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
     private List<WebElement> eleToDoCheckboxRow;
 
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[@type='text']")
+    @FindBy(className = "newTodoInput")
     private List<WebElement> eleToDoNameRow;
 
     @FindBy(id = "todo-table")
@@ -3264,6 +3265,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(@id,'todo-req-box-1')]/input")
     WebElement newRequestTxtboxText_2;
 
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box')]/span[1]")
+    List<WebElement>newRequestTxtboxSpan;
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box')]/input")
+    List<WebElement> newRequestTxtboxText;
+
+
     public void verifyClickAddRequestBtn() {
         getLogger().info("Verify to click the add request button is clickable");
         try {
@@ -3465,9 +3472,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='auvicon-ex']")
     WebElement requestCloseBtn;
 
-    /*
+/*
     public void verifyNewRequestStoreInDatabase(String newRequest) {
-        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
             for (int i = newRequestTxtboxSpan.size(); i < newRequestTxtboxSpan.size() + 1; i++) {
@@ -3475,16 +3481,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 Thread.sleep(smallerTimeOut);
                 clickElement(newRequestTxtboxSpan.get(i-1), "click to new request Txtbox Span");
                 getLogger().info("Waiting for textbox border is Green when clicking..");
-                waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+                waitForCssValueChanged(newRequestTxtboxText.get(i-1), "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
                 getLogger().info("Sending new request..");
-                clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
-                sendKeyTextBox(findRequestEmpty1, newRequest, "clear text of findRequestEmpty1");
+                clearTextBox(newRequestTxtboxText.get(i-1), "clear text of findRequestEmpty1");
+                sendKeyTextBox(newRequestTxtboxText.get(i-1), newRequest, "clear text of findRequestEmpty1");
                 getLogger().info("Verify show all text while inputting..");
-                String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+                String todoShowAllText01 = getTextByJavaScripts(newRequestTxtboxText.get(i-1), "findRequestEmpty1");
                 getLogger().info("Close window and verify new input saved successfully..");
                 closeTodoListAddNewRequest();
                 clickToDoListAddNewRequest();
-                //modified
                 String newRequestSaved = newRequestTxtboxSpan.get(i-1).getText();
                 System.out.println("new Request saved is: " + newRequestSaved);
                 System.out.println("todo show Alltext is: " + newRequestSaved);
@@ -4258,7 +4263,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span[1]")
     List<WebElement> uploadClientCreateRequestText;
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span/label")
-    List<WebElement> uploadClientCreateRequestBtn;
+    WebElement uploadClientCreateRequestBtn;
     @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
     WebElement checkUploadRequest;
 
@@ -4300,39 +4305,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
-            int countRequestText = 0;
-            int countRequestBtn = 0;
-
-            for(WebElement requestTextEle : uploadClientCreateRequestText) {
-                countRequestText++;
-                if(requestTextEle.getText().equals(requestNameText)) {
-                    break;
-                }
-            }
-
-            for(WebElement requestBtnEle : uploadClientCreateRequestBtn) {
-                countRequestBtn++;
-                if(countRequestBtn == countRequestText) {
-                    clickElement(requestBtnEle);
-                    Thread.sleep(2000);
-                    getLogger().info("Enter path of file..");
-                    StringSelection ss = new StringSelection(concatUpload);
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    getLogger().info("Waiting for checkSign visible..");
-                    waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-                    NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
-                    break;
-                }
-            }
+            Thread.sleep(smallTimeOut);
+            clickElement(uploadClientCreateRequestBtn);
+            Thread.sleep(2000);
+            getLogger().info("Enter path of file..");
+            StringSelection ss = new StringSelection(concatUpload);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
 
         } catch (AWTException awt) {
             AbstractService.sStatusCnt++;
@@ -4409,6 +4399,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             if (Files.exists(path)) {
                 Files.delete(path);
             }
+            Thread.sleep(2000);
             clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
             String md5Upload = calculateMD5(concatUpload);
@@ -4515,7 +4506,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     		clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
     		clickElement(clientAssigneeSelected, "clientAssigneeSelected");
-    		waitForJSandJQueryToLoad();
     	}catch (Exception e) {
     		AbstractService.sStatusCnt++;
     		NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -4560,7 +4550,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         chooseOptionAssignToOnBulkActionsDropDown();
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
 //        chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName();
@@ -4886,6 +4876,71 @@ public class AuditorCreateToDoPage extends AbstractPage {
      *
      **/
 
+    /**
+     * Add new by huy.huynh on 21/06/2017.
+     * SmokeTest R2
+     */
+    @FindBy(xpath = "//div[contains(@id,'m-Delete Todo Modal')]/following-sibling::div//button[@class='auvbtn warning']")
+    private WebElement buttonConfirmDeleteToDo;
+    //div[starts-with(@id,'Delete Tod
+    @FindBy(xpath = "//div[starts-with(@id,'Delete Todo Modal')]//label[@class='au-modal-title-text']")
+    private WebElement titleConfirmDeleteToDo;
+
+    @FindBy(xpath = "//div[starts-with(@id,'Delete Todo Modal')]//div[@class='des-delete-modal']")
+    private WebElement titleConfirmDeleteToDoDescription;
+
+    @FindBy(xpath = "//div[starts-with(@id,'Delete Todo Modal')]")
+    private WebElement divConfirmDeleteToDo;
+
+    @FindBy(xpath = "//tr[@id='empty-todo']//img")
+    private WebElement imageEmptyToDo;
+
+    public void clickConfirmDeleteButton() {
+        GeneralUtilities.waitSomeSeconds(1);
+        validateElementText(titleConfirmDeleteToDo, "Delete To-Do?");
+        validateElementText(titleConfirmDeleteToDoDescription, "Are you sure you'd like to delete these To-Dos? Once deleted, you will not be able to retrieve any documents uploaded on the comments in the selected To-Dos.");
+        waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "block");
+        hoverElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
+        clickElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
+        waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "none");
+    }
+
+    public void verifyToDoNotExist(String todoName) {
+        getLogger().info("Verify deleted todo: " + todoName);
+        boolean isExisted = false;
+        try {
+            for (int i = 0; i < eleToDoNameRow.size(); i++) {
+                System.out.println("eleToDoNameRow = " + eleToDoNameRow.get(i).getAttribute("value"));
+                if (eleToDoNameRow.get(i).getAttribute("value").equals(todoName)) {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Fail: Todo still existed: " + todoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    isExisted = true;
+                }
+            }
+            if (!isExisted) {
+                NXGReports.addStep("Todo deleted success", LogAs.PASSED, null);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public boolean verifyEmptyToDoImage() {
+        if (validateAttributeContain(imageEmptyToDo, "src", "images/icons/clipboard.png", "Image Empty ToDo")) {
+            return true;
+        }
+        return false;
+    }
+
+    public void verifyEmptyToDoList() {
+        getLogger().info("Verify empty todo list");
+        if (verifyEmptyToDoImage()) {
+            NXGReports.addStep("All ToDo deleted, Image Empty exist", LogAs.PASSED, null);
+        } else {
+            NXGReports.addStep("Fail: Delete all fail, Image Empty not exist", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /*-----------end of huy.huynh on 21/06/2017.*/
 
     public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
         getLogger().info("Verify Last Comment Of User is Displayed");
@@ -4906,4 +4961,3 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 }
-
