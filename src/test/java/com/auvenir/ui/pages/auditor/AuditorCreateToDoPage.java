@@ -4305,40 +4305,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
-            int countRequestText = 0;
-            int countRequestBtn = 0;
-
-//            for(WebElement requestTextEle : uploadClientCreateRequestText) {
-//                countRequestText++;
-//                if(requestTextEle.getText().equals(requestNameText)) {
-//                    break;
-//                }
-//            }
-
-            //for(WebElement requestBtnEle : uploadClientCreateRequestBtn) {
-              //  countRequestBtn++;
-                //if(countRequestBtn == countRequestText) {
-                    Thread.sleep(smallTimeOut);
-                    clickElement(uploadClientCreateRequestBtn);
-                    Thread.sleep(2000);
-                    getLogger().info("Enter path of file..");
-                    StringSelection ss = new StringSelection(concatUpload);
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    getLogger().info("Waiting for checkSign visible..");
-                    waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-                    NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
-                //    break;
-              //  }
-            //}
+            Thread.sleep(smallTimeOut);
+            clickElement(uploadClientCreateRequestBtn);
+            Thread.sleep(2000);
+            getLogger().info("Enter path of file..");
+            StringSelection ss = new StringSelection(concatUpload);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
 
         } catch (AWTException awt) {
             AbstractService.sStatusCnt++;
