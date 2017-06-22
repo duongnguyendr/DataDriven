@@ -139,7 +139,7 @@ public class AbstractPage {
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
 //    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-    List<WebElement> listOfAddNewCategory;
+            List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -541,6 +541,7 @@ public class AbstractPage {
 
     /**
      * created by: minh.nguyen
+     *
      * @Description In order to wait element to be visible by locator with seconds input.
      */
     public boolean waitForVisibleOfLocator(By locator, int seconds) {
@@ -548,13 +549,13 @@ public class AbstractPage {
         boolean isResult = false;
         try {
             int i = 0;
-            while(i < seconds){
-                try{
+            while (i < seconds) {
+                try {
                     getDriver().findElement(locator);
                     isResult = true;
                     NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
                     break;
-                } catch(Exception ex){
+                } catch (Exception ex) {
                 }
                 try {
                     Thread.sleep(smallTimeOut);
@@ -563,8 +564,7 @@ public class AbstractPage {
 
                 }
             }
-            if(!isResult)
-            {
+            if (!isResult) {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
@@ -2912,11 +2912,10 @@ public class AbstractPage {
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualAttributeValue = null;
-                    if(element.getAttribute(attributeName) != null) {
+                    if (element.getAttribute(attributeName) != null) {
                         actualAttributeValue = element.getAttribute(attributeName);
                         System.out.println("Actual Displayed Value: " + actualAttributeValue);
-                    } else
-                    {
+                    } else {
                         getLogger().info(String.format("Attribute %s is null", attributeName));
                         return false;
                     }
@@ -3018,19 +3017,22 @@ public class AbstractPage {
      * @param value       Expected attribute value
      * @param elementName Element name
      */
-    public void validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
+    public boolean validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
         try {
             getLogger().info("Validate Style Attribute Exist " + elementName);
             if (webElement.getAttribute(attribute).contains(value)) {
                 NXGReports.addStep(value + " exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+                return true;
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return false;
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Error: Validate exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
+            return false;
         }
     }
 
@@ -3131,7 +3133,6 @@ public class AbstractPage {
 
     /**
      * Scroll to footer of current page
-     *
      */
     public void scrollToFooter() {
         getLogger().info("Scroll down to see page footer.");
