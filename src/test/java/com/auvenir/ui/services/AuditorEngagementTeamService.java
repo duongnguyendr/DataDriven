@@ -42,4 +42,14 @@ public class AuditorEngagementTeamService extends AbstractService {
     public void deleteMemberInEngagementByName(String fullNameMember) {
         auditorEngagementTeamPage.deleteMemberInEngagementByName(fullNameMember);
     }
+
+    /**
+     * verifyCheckListTeam - TanPH - 2017/06/22 - Start
+     */
+    public void verifyMemberIsShownInTeamList(String memberFullName, String roleInFirm){
+        auditorEngagementTeamPage.verifyMemberIsShownInTeamList(memberFullName,roleInFirm);
+    }
+    /**
+     * verifyCheckListTeam - TanPH - 2017/06/22 - End
+     */
 }

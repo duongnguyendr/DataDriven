@@ -1,6 +1,5 @@
 package com.auvenir.ui.pages.common;
 
-import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -39,7 +38,7 @@ public class GmailPage extends AbstractPage {
         return eleProfileIcn;
     }
 
-//  Old Xpath gmail:  @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
+    //  Old Xpath gmail:  @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
     @FindBy(xpath = "//a[contains(@href,'https://accounts.google.com/Logout')]")
     private WebElement eleSignOutBtn;
 
@@ -343,7 +342,7 @@ public class GmailPage extends AbstractPage {
         return elePassword;
     }
 
-//    @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
+    //    @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
     @FindBy(xpath = "//div[@class='yW']/span[@email='andi@auvenir.com']")
     private WebElement eleEmailAuvenir;
 
@@ -496,7 +495,7 @@ public class GmailPage extends AbstractPage {
         try {
 //            Thread.sleep(3000);
             getLogger().info("Try to login GMail");
-            if(!getDriver().getCurrentUrl().contains("accounts.google.com")){
+            if (!getDriver().getCurrentUrl().contains("accounts.google.com")) {
                 clickElement(signButtonEle, "signButtonEle");
             }
             sendKeyTextBox(eleEmail, email, "eleEmail");
@@ -535,7 +534,7 @@ public class GmailPage extends AbstractPage {
             sendKeyTextBox(inputSearch, GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"), "Search Email");
             clickElement(buttonSearch, "Button Search");
             //waitForCssValueChanged(divSearchResultHidden, "Hidden div", "display", "none");
-            GeneralUtilities.waitSomeSeconds(5);
+            waitSomeSeconds(5);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

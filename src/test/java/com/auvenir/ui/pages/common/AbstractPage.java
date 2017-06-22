@@ -72,6 +72,7 @@ public class AbstractPage {
 
     /**
      * Updated by Minh.Nguyen on June 19, 2017
+     *
      * @param logger
      * @param driver
      */
@@ -139,7 +140,7 @@ public class AbstractPage {
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
 //    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-    List<WebElement> listOfAddNewCategory;
+            List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -313,9 +314,7 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             getLogger().info(ex.getMessage());
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -325,19 +324,17 @@ public class AbstractPage {
 
     /**
      * Create by Minh.Nguyen on June 19, 2017
+     *
      * @param xpathElement
      * @return Web element by xpath
      */
-    public WebElement findWebElementByXpath(String xpathElement)
-    {
+    public WebElement findWebElementByXpath(String xpathElement) {
         WebElement resultWebElement = null;
         try {
             getLogger().info("The xpath of web element = " + xpathElement);
             resultWebElement = getDriver().findElement(By.xpath(xpathElement));
             NXGReports.addStep("Find web element by xpath", LogAs.PASSED, null);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Find web element by xpath", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -541,6 +538,7 @@ public class AbstractPage {
 
     /**
      * created by: minh.nguyen
+     *
      * @Description In order to wait element to be visible by locator with seconds input.
      */
     public boolean waitForVisibleOfLocator(By locator, int seconds) {
@@ -548,13 +546,13 @@ public class AbstractPage {
         boolean isResult = false;
         try {
             int i = 0;
-            while(i < seconds){
-                try{
+            while (i < seconds) {
+                try {
                     getDriver().findElement(locator);
                     isResult = true;
                     NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
                     break;
-                } catch(Exception ex){
+                } catch (Exception ex) {
                 }
                 try {
                     Thread.sleep(smallTimeOut);
@@ -563,8 +561,7 @@ public class AbstractPage {
 
                 }
             }
-            if(!isResult)
-            {
+            if (!isResult) {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
@@ -2912,11 +2909,10 @@ public class AbstractPage {
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualAttributeValue = null;
-                    if(element.getAttribute(attributeName) != null) {
+                    if (element.getAttribute(attributeName) != null) {
                         actualAttributeValue = element.getAttribute(attributeName);
                         System.out.println("Actual Displayed Value: " + actualAttributeValue);
-                    } else
-                    {
+                    } else {
                         getLogger().info(String.format("Attribute %s is null", attributeName));
                         return false;
                     }
@@ -3018,19 +3014,27 @@ public class AbstractPage {
      * @param value       Expected attribute value
      * @param elementName Element name
      */
-    public void validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
+    public boolean validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
         try {
             getLogger().info("Validate Style Attribute Exist " + elementName);
             if (webElement.getAttribute(attribute).contains(value)) {
                 NXGReports.addStep(value + " exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+                return true;
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return false;
             }
+        } catch (NoSuchElementException e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not existed.");
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate attribute contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
+            return false;
         }
     }
 
@@ -3108,34 +3112,56 @@ public class AbstractPage {
 
     /**
      * Added by huy.huynh on 15/06/2017.
+     * Fixed 22/06/2017
      * SmokeTest R2
      */
     /**
      * /**
      * Scroll to footer of current page
      * TODO: duplicating with scrollToFooter on AbstractService, find solution later
-     *
-     * @param webDriver current webDriver
-     */
-    public void scrollToFooter(WebDriver webDriver) {
-        getLogger().info("Scroll down to see page footer.");
-        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-    }
-
-    public void chooseFirstOptionOfInputSelect(List<WebElement> list, String elementName) {
-        clickElement(list.get(0), elementName);
-    }
-     /*-----------end of huy.huynh on 15/06/2017.*/
-
-
-    /**
-     * Scroll to footer of current page
-     *
      */
     public void scrollToFooter() {
         getLogger().info("Scroll down to see page footer.");
         JavascriptExecutor js = ((JavascriptExecutor) getDriver());
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
+
+    public void chooseFirstOptionOfInputSelect(List<WebElement> list, String elementName) {
+        clickElement(list.get(0), elementName);
+    }
+
+    /**
+     * @param webElement  Element defined in page class
+     * @param elementName The text name of element
+     * @return The text of web element
+     */
+    public String getTextByAttributeValue(WebElement webElement, String elementName) {
+        getLogger().info("Get text by attribute 'value' " + elementName);
+        try {
+            return webElement.getAttribute("value");
+        } catch (NoSuchElementException e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not existed.");
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Get text by by attribute 'value' " + elementName, LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * wait some seconds- should be use when can't apply ExplicitWait
+     *
+     * @param seconds seconds to wait
+     */
+    public static void waitSomeSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+     /*-----------end of huy.huynh on 15/06/2017.*/
 }
