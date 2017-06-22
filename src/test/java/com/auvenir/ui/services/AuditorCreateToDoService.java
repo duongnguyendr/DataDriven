@@ -1,8 +1,5 @@
 package com.auvenir.ui.services;
 
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
 import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
@@ -10,9 +7,10 @@ import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.util.List;
 
@@ -800,12 +798,12 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyInputAComment(String commentContent) {
         createToDoPage.verifyInputAComment(commentContent);
     }
-    
-    public void verifyInputMultiComment(String commentType, int numberComment){
-    	for (int i = 0; i < numberComment; i++){
-    		createToDoPage.verifyInputAComment(commentType + i);
-    		clickPostComment();
-    	}
+
+    public void verifyInputMultiComment(String commentType, int numberComment) {
+        for (int i = 0; i < numberComment; i++) {
+            createToDoPage.verifyInputAComment(commentType + i);
+            clickPostComment();
+        }
     }
 
     public void clickPostComment() {
@@ -863,14 +861,14 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
-    public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
-        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+    public void downloadCreateRequestNewFile(String uploadLocation, String downloadLocation, String fileName) {
+        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName));
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
 //        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }
 
-    public void downloadCreateRequestNewFileClient(String uploadLocation,String downloadLocation, String fileName){
-        createToDoPage.downloadCreateRequestNewFileClient(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+    public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
+        createToDoPage.downloadCreateRequestNewFileClient(uploadLocation.concat(fileName), downloadLocation.concat(fileName));
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
 //        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }
@@ -1094,31 +1092,32 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.deleteAllExistedTodoItems();
     }
 
-    public void verifyExistedCategory(){
+    public void verifyExistedCategory() {
         createToDoPage.verifyExistedCategory();
     }
-    
-    public void verifyAddNewRequestPopUp(){
-    	createToDoPage.verifyAddNewRequestPopUp();
-    }
-    
-    public void verifyCommentSuccessFul(String comment, int numberOfComment){
-    		createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
+
+    public void verifyAddNewRequestPopUp() {
+        createToDoPage.verifyAddNewRequestPopUp();
     }
 
-    public void selectClientAssigneeByName(String toDoName, String clientAssignee){
-    	createToDoPage.selectClientAssigneeByName(toDoName, clientAssignee);
+    public void verifyCommentSuccessFul(String comment, int numberOfComment) {
+        createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
     }
 
-    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee){
-    	createToDoPage.selectAuditorAssigneeByName(toDoName, auditorAssignee);
-    }
-    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee){
-    	createToDoPage.verifyAuditorAssigneeSelected(toDoName, auditorAssignee);
+    public void selectClientAssigneeByName(String toDoName, String clientAssignee) {
+        createToDoPage.selectClientAssigneeByName(toDoName, clientAssignee);
     }
 
-    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
-    	createToDoPage.verifyClientAssigneeSelected(toDoName, clientAssignee);
+    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee) {
+        createToDoPage.selectAuditorAssigneeByName(toDoName, auditorAssignee);
+    }
+
+    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee) {
+        createToDoPage.verifyAuditorAssigneeSelected(toDoName, auditorAssignee);
+    }
+
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
+        createToDoPage.verifyClientAssigneeSelected(toDoName, clientAssignee);
     }
 
     /**
@@ -1129,6 +1128,32 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.selectAssigneeToDoUsingBulkAction(userName);
     }
 
-    /*-----------end of huy.huynh on 02/06/2017.*/
+    /**
+     * Add new by huy.huynh on 21/06/2017.
+     * SmokeTest R2
+     */
+    public void selectDeleteToDoUsingBulkAction() {
+        createToDoPage.chooseOptionDeleteOnBulkActionsDropDown();
+    }
+
+    public void confirmDeleteButton() {
+        createToDoPage.clickConfirmDeleteButton();
+    }
+
+    public void verifyToDoNotExist(String todoName) {
+        createToDoPage.verifyToDoNotExist(todoName);
+    }
+
+    /**
+     * Check all check box
+     */
+    public void checkAllCheckBox() {
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(true);
+    }
+
+    public void verifyEmptyToDoList() {
+        createToDoPage.verifyEmptyToDoList();
+    }
+    /*-----------end of huy.huynh on 21/06/2017.*/
 }
 
