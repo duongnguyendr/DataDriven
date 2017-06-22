@@ -875,10 +875,17 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
-        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName));
+        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName),1);
 
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
         //createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
+    }
+    public void auditorAttachNewFile(String attachLocation, String fileName){
+        createToDoPage.attachFile(attachLocation,fileName);
+    }
+
+    public void clientDownloadAttachFile(String pathOfUpload,String pathOfDownload,String fileName){
+        createToDoPage.downloadAttachFile(pathOfUpload,pathOfDownload,fileName);
     }
 
     public void downloadCreateRequestNewFileClient(String uploadLocation,String downloadLocation, String fileName){
