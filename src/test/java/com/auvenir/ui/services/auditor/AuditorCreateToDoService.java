@@ -1307,9 +1307,6 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyToDoNotExist(todoName);
     }
 
-    /**
-     * Check all check box
-     */
     public void checkAllCheckBox() {
         createToDoPage.checkOrUnCheckCheckAllCheckBox(true);
     }

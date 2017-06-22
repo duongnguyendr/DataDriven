@@ -1,10 +1,26 @@
 package com.auvenir.ui.pages.auditor;
 
-import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
+import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.PopUpPage;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.DatePicker;
+import com.auvenir.utilities.MongoDBService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.mongodb.DBCollection;
+import org.apache.log4j.Logger;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.Toolkit;
+import javax.sql.rowset.spi.SyncFactoryException;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
@@ -19,30 +35,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.sql.rowset.spi.SyncFactoryException;
-
-import com.auvenir.utilities.GeneralUtilities;
-import org.apache.log4j.Logger;
-import org.json.JSONObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 //import library
-
-import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.common.PopUpPage;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.DatePicker;
-import com.auvenir.utilities.MongoDBService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.mongodb.DBCollection;
 
 
 public class AuditorCreateToDoPage extends AbstractPage {
@@ -380,8 +375,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement emptyRowToDotask;
     private String newRequest01 = "New request01 " + randomNumber();
     private String newRequest02 = "New request02 " + randomNumber();
-    
-    @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
+
+    @FindBy(xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
 
     private String auditorAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']";
@@ -397,7 +392,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
-     *
      **/
     private static String engagementOverViewStatusBefore = "";
     private static String engagementOverViewToDoBefore = "";
@@ -422,13 +416,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
-     *
      */
     private static final String ENGAGEMENT_OVER_VIEW_STATUS_COMPLETE = "complete";
     private static final String ENGAGEMENT_OVER_VIEW_TODO_COMPLETE = "My Completed To-Dos: 100";
+
     /**
      * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
-     *
      */
 
     public WebElement getToDoSaveIconEle() {
@@ -1388,10 +1381,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void clickBulkActionsDropdown() {
         //waitForClickableOfElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
         //hoverElement(bulkActionsDropdownEle,"Bulk Actions Dropdown List");
-        waitForVisibleElement(eleEngagementOverViewStatusText,"Engagement overview status");
+        waitForVisibleElement(eleEngagementOverViewStatusText, "Engagement overview status");
         engagementOverViewStatusBefore = eleEngagementOverViewStatusText.getText().trim();
 
-        waitForVisibleElement(eleEngagementOverViewToDoText,"Engagement overview todo");
+        waitForVisibleElement(eleEngagementOverViewToDoText, "Engagement overview todo");
         engagementOverViewToDoBefore = eleEngagementOverViewToDoText.getText().trim();
 
         clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown List");
@@ -1589,7 +1582,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyClickCloseMarkPopup() {
         getLogger().info("Verify to click to close complete mark popup");
         try {
-            waitForVisibleElement(eleEngagementOverViewStatusText,"engagement overview status");
+            waitForVisibleElement(eleEngagementOverViewStatusText, "engagement overview status");
             engagementOverViewStatusBefore = eleEngagementOverViewStatusText.getText().trim();
 
             waitForClickableOfElement(markPopupCloseBtn, "wait for click to closePopup");
@@ -1645,7 +1638,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Select To Do Task Check Box by Name");
         int index = findToDoTaskName(todoName);
         System.out.println("Index: " + index);
-        if(index != -1) {
+        if (index != -1) {
             if (!eleToDoCheckboxRow.get(index).isSelected())
                 clickElement(eleToDoCheckboxRow.get(index), String.format("Check box of Task Name: %s", todoName));
         }
@@ -3053,7 +3046,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int size = getNumberOfListComment();
         waitForVisibleElement(postCommentButton, "Comment Input field");
         clickElement(postCommentButton, "Comment Input field");
-        waitForSizeListElementChanged(listCommentItemEle, "List Comment", size +1);
+        waitForSizeListElementChanged(listCommentItemEle, "List Comment", size + 1);
     }
 
     public int getNumberOfListComment() {
@@ -3266,7 +3259,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     WebElement newRequestTxtboxText_2;
 
     @FindBy(xpath = "//div[contains(@id,'todo-req-box')]/span[1]")
-    List<WebElement>newRequestTxtboxSpan;
+    List<WebElement> newRequestTxtboxSpan;
     @FindBy(xpath = "//div[contains(@id,'todo-req-box')]/input")
     List<WebElement> newRequestTxtboxText;
 
@@ -3509,7 +3502,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyNewRequestStoreInDatabase(String newRequest01, String newRequest02) {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
-        try{
+        try {
             //add 1st request
             Thread.sleep(smallerTimeOut);
             clickElement(newRequestTxtboxSpan_1, "click to new request Txtbox Span");
@@ -3543,7 +3536,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             System.out.println("new Request saved is: " + newRequestSaved2);
             System.out.println("todo show Alltext is: " + newRequestSaved2);
 
-            if (todoShowAllText01.equals(newRequest01) && newRequestSaved1.equals(newRequest01)&&todoShowAllText02.equals(newRequest02) && newRequestSaved2.equals(newRequest02)) {
+            if (todoShowAllText01.equals(newRequest01) && newRequestSaved1.equals(newRequest01) && todoShowAllText02.equals(newRequest02) && newRequestSaved2.equals(newRequest02)) {
                 NXGReports.addStep("Verify new request are stored in the database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3554,8 +3547,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
         }
     }
-
-
 
 
     /**
@@ -4268,6 +4259,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     WebElement checkUploadRequest;
 
     private String requestNameText = "client request";
+
     /*
     Vien .Pham created new method
      */
@@ -4308,16 +4300,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
             int countRequestText = 0;
             int countRequestBtn = 0;
 
-            for(WebElement requestTextEle : uploadClientCreateRequestText) {
+            for (WebElement requestTextEle : uploadClientCreateRequestText) {
                 countRequestText++;
-                if(requestTextEle.getText().equals(requestNameText)) {
+                if (requestTextEle.getText().equals(requestNameText)) {
                     break;
                 }
             }
 
-            for(WebElement requestBtnEle : uploadClientCreateRequestBtn) {
+            for (WebElement requestBtnEle : uploadClientCreateRequestBtn) {
                 countRequestBtn++;
-                if(countRequestBtn == countRequestText) {
+                if (countRequestBtn == countRequestText) {
                     clickElement(requestBtnEle);
                     Thread.sleep(2000);
                     getLogger().info("Enter path of file..");
@@ -4431,6 +4423,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
         try {
 //            setDownloadLocation();
@@ -4458,7 +4451,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             FileInputStream fis = new FileInputStream(fileMD5);
             md5 = md5Hex(fis);
             fis.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             getLogger().info("Unable to calculate MD5 file.");
         }
         return md5;
@@ -4470,97 +4463,97 @@ public class AuditorCreateToDoPage extends AbstractPage {
     End of Vien.Pham
      */
 
-    public void verifyAddNewRequestPopUp(){
-    	try{
-    		clickToDoListAddNewRequest();
-    		waitForVisibleElement(addNewRequestWindow, "Add new request popup");
-    	}catch (Exception e) {
-    		NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+    public void verifyAddNewRequestPopUp() {
+        try {
+            clickToDoListAddNewRequest();
+            waitForVisibleElement(addNewRequestWindow, "Add new request popup");
+        } catch (Exception e) {
+            NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyCommentSuccessFul(String comment, int numberComment){
-    	try{
-    		List<String> textContainComment = new ArrayList<String>();
-    		for (WebElement commentEle: listCommentItemEle){
-    			textContainComment.add(getText(commentEle).toString());
-    		}
+    public void verifyCommentSuccessFul(String comment, int numberComment) {
+        try {
+            List<String> textContainComment = new ArrayList<String>();
+            for (WebElement commentEle : listCommentItemEle) {
+                textContainComment.add(getText(commentEle).toString());
+            }
 
-    		for (int cmt = 0; cmt< numberComment; cmt ++){
-    			if (!textContainComment.contains(comment + cmt)){
-    				AbstractService.sStatusCnt++;
-    				NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    			}
-    		}
-    	}catch (Exception e) {
-    		AbstractService.sStatusCnt++;
-    		NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+            for (int cmt = 0; cmt < numberComment; cmt++) {
+                if (!textContainComment.contains(comment + cmt)) {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify comment successful.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee){
-    	try{
-    		String assineeAuditorEle = ".//button[text()='%s']";
-    		int index = findToDoTaskName(toDoName);
-    		clickElement(listAuditorAssigneeDdl.get(index), "listAuditorAssigneeDdl");
-    		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeAuditorEle, auditorAssignee)));
-    		Thread.sleep(1000);
-	    	clickElement(auditorAssigneeSelected, "auditorAssigneeSelected");
-    	}catch (Exception e) {
-    		getLogger().info(e);
-    		AbstractService.sStatusCnt++;
-    		NXGReports.addStep("Select auditor assignee with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee) {
+        try {
+            String assineeAuditorEle = ".//button[text()='%s']";
+            int index = findToDoTaskName(toDoName);
+            clickElement(listAuditorAssigneeDdl.get(index), "listAuditorAssigneeDdl");
+            WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeAuditorEle, auditorAssignee)));
+            Thread.sleep(1000);
+            clickElement(auditorAssigneeSelected, "auditorAssigneeSelected");
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Select auditor assignee with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void selectClientAssigneeByName(String toDoName, String clientAssignee){
-    	try{
-    		String assineeClientEle = ".//button[text()='%s']";
-    		int index = findToDoTaskName(toDoName);
-    		clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
-    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
-    		clickElement(clientAssigneeSelected, "clientAssigneeSelected");
-    	}catch (Exception e) {
-    		AbstractService.sStatusCnt++;
-    		NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+    public void selectClientAssigneeByName(String toDoName, String clientAssignee) {
+        try {
+            String assineeClientEle = ".//button[text()='%s']";
+            int index = findToDoTaskName(toDoName);
+            clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
+            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
+            clickElement(clientAssigneeSelected, "clientAssigneeSelected");
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee){
-    	try{
-    	    Thread.sleep(3000);
-    	    getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
-    		int index = findToDoTaskName(toDoName);
-    		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-    		waitForTextValueChanged(auditorAssigneeSelected, "auditorAssigneeSelected", auditorAssignee);
-    		if (auditorAssigneeSelected.getText().equals(auditorAssignee)){
-    			NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
-    		}else{
-    			AbstractService.sStatusCnt++;
-        		NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    		}
-    	}catch (Exception e) {
-    		AbstractService.sStatusCnt++;
-    		NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee) {
+        try {
+            Thread.sleep(3000);
+            getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
+            int index = findToDoTaskName(toDoName);
+            WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+            waitForTextValueChanged(auditorAssigneeSelected, "auditorAssigneeSelected", auditorAssignee);
+            if (auditorAssigneeSelected.getText().equals(auditorAssignee)) {
+                NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
-    	try{
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
+        try {
 //    	    Thread.sleep(3000);
-    		int index = findToDoTaskName(toDoName);
-    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-    		waitForTextValueChanged(clientAssigneeSelected, "Client Assignee Dropbox", clientAssignee);
-    		if (clientAssigneeSelected.getText().equals(clientAssignee)){
-    			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
-    		}else{
-    			AbstractService.sStatusCnt++;
-        		NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    		}
-    	}catch (Exception e) {
-    		AbstractService.sStatusCnt++;
-    		NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-		}
+            int index = findToDoTaskName(toDoName);
+            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+            waitForTextValueChanged(clientAssigneeSelected, "Client Assignee Dropbox", clientAssignee);
+            if (clientAssigneeSelected.getText().equals(clientAssignee)) {
+                NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
@@ -4576,9 +4569,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Overload function createToDoTask() following the require of Mr.Cuong.
      * Create new To Do task with 3 parameters.
-     * @param toDoName String To Do Name task.
+     *
+     * @param toDoName     String To Do Name task.
      * @param categoryName String Category Name.
-     * @param dueDate String Due Date.
+     * @param dueDate      String Due Date.
      */
     public void createToDoTask(String toDoName, String categoryName, String dueDate) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName'");
@@ -4613,19 +4607,20 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Verify engagement overview status does not change when click on close icon popup / cancel button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
     public void verifyEngagementOverviewStatusDoesNotChange(boolean isCloseIconClick) {
         String strStepSuccess = "Verify engagement overview status does not change when click on close icon popup";
         String strStepFail = "TestScript Failed: Verify engagement overview status change when click on close icon popup";
-        if(!isCloseIconClick){
+        if (!isCloseIconClick) {
             strStepSuccess = "Verify engagement overview  status does not change when click on cancel button";
             strStepFail = "TestScript Failed: Verify engagement overview status change when click on cancel button";
         }
         try {
             boolean result;
-            waitForVisibleElement(eleEngagementOverViewStatusText,"Wait engagement overview status");
+            waitForVisibleElement(eleEngagementOverViewStatusText, "Wait engagement overview status");
             result = engagementOverViewStatusBefore.toLowerCase().equals(eleEngagementOverViewStatusText.getText().trim().toLowerCase());
             Assert.assertTrue(result, "Engagement overview status does not change");
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
@@ -4638,6 +4633,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Verify engagement overview status change when click on archive button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -4646,7 +4642,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String strStepFail = "TestScript Failed: Verify engagement overview status does not change when click on archive button";
         try {
             boolean result;
-            waitForVisibleElement(eleEngagementOverViewStatusText,"Wait engagement overview status");
+            waitForVisibleElement(eleEngagementOverViewStatusText, "Wait engagement overview status");
             result = engagementOverViewStatusBefore.toLowerCase().equals(eleEngagementOverViewStatusText.getText().trim().toLowerCase());
             // will update to assert false when bug has fixed
             Assert.assertTrue(result, "Engagement overview status change");
@@ -4660,19 +4656,20 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Verify engagement overview ToDo does not change when click on close icon popup / cancel button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
     public void verifyEngagementOverviewToDoDoesNotChange(boolean isCloseIconClick) {
         String strStepSuccess = "Verify engagement overview ToDo does not change when click on close icon popup";
         String strStepFail = "TestScript Failed: Verify engagement overview ToDo change when click on close icon popup";
-        if(!isCloseIconClick){
+        if (!isCloseIconClick) {
             strStepSuccess = "Verify engagement overview ToDo does not change when click on cancel button";
             strStepFail = "TestScript Failed: Verify engagement overview ToDo change when click on cancel button";
         }
         try {
             boolean result;
-            waitForVisibleElement(eleEngagementOverViewToDoText,"Wait engagement overview todo");
+            waitForVisibleElement(eleEngagementOverViewToDoText, "Wait engagement overview todo");
             result = engagementOverViewToDoBefore.toLowerCase().equals(eleEngagementOverViewToDoText.getText().trim().toLowerCase());
             Assert.assertTrue(result, "Engagement overview ToDo does not change");
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
@@ -4685,6 +4682,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Verify engagement overview ToDo change when click on archive button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -4693,7 +4691,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String strStepFail = "TestScript Failed: Verify engagement overview ToDo does not change when click on archive button";
         try {
             boolean result;
-            waitForVisibleElement(eleEngagementOverViewToDoText,"Wait engagement overview todo");
+            waitForVisibleElement(eleEngagementOverViewToDoText, "Wait engagement overview todo");
             result = engagementOverViewToDoBefore.toLowerCase().equals(eleEngagementOverViewToDoText.getText().trim().toLowerCase());
             // will update to assert false when bug has fixed
             Assert.assertTrue(result, "Engagement overview ToDo change");
@@ -4707,6 +4705,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Click on close icon
+     *
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -4724,6 +4723,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Click on cancel button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -4741,6 +4741,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Click on archive button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -4758,6 +4759,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Click on cancel button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -4775,6 +4777,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Verify mask as complete popup is close
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -4796,7 +4799,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
-     *
      **/
 
     public int findToDoTaskName(String toDoName, boolean isClient) {
@@ -4807,13 +4809,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
         for (int i = 0; i < toDoTaskRowEle.size(); i++) {
             classAttribute = toDoTaskRowEle.get(i).getAttribute("class");
             if (classAttribute.equals("newRow")) {
-                if(isClient){
+                if (isClient) {
                     toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/span[@class='todo-name-readonly']"));
                 } else {
                     toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']"));
                 }
-                if(toDoNameCell != null) {
-                    if(isClient) {
+                if (toDoNameCell != null) {
+                    if (isClient) {
                         actualAttributeValue = toDoNameCell.getText().trim();
                     } else {
                         actualAttributeValue = toDoNameCell.getAttribute("value").trim();
@@ -4841,6 +4843,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      **/
     /**
      * Verify engagement overview status is complete
+     *
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -4862,6 +4865,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     /**
      * Verify engagement overview ToDo is complete
+     *
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -4904,8 +4908,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@id='empty-todo']//img")
     private WebElement imageEmptyToDo;
 
+    /**
+     * Click 'Delete' on Delete To-do popup
+     * TODO: need to find appropriate method to wait before click
+     */
     public void clickConfirmDeleteButton() {
-        GeneralUtilities.waitSomeSeconds(1);
+        waitSomeSeconds(1);
         validateElementText(titleConfirmDeleteToDo, "Delete To-Do?");
         validateElementText(titleConfirmDeleteToDoDescription, "Are you sure you'd like to delete these To-Dos? Once deleted, you will not be able to retrieve any documents uploaded on the comments in the selected To-Dos.");
         waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "block");
@@ -4914,13 +4922,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "none");
     }
 
+    /**
+     * Verify to-do not existed on list To-dos
+     *
+     * @param todoName : name of to-to to verify
+     */
     public void verifyToDoNotExist(String todoName) {
-        getLogger().info("Verify deleted todo: " + todoName);
-        boolean isExisted = false;
         try {
+            getLogger().info("Verify deleted todo: " + todoName);
+            boolean isExisted = false;
             for (int i = 0; i < eleToDoNameRow.size(); i++) {
-                System.out.println("eleToDoNameRow = " + eleToDoNameRow.get(i).getAttribute("value"));
-                if (eleToDoNameRow.get(i).getAttribute("value").equals(todoName)) {
+                if (todoName.equals(getTextByAttributeValue(eleToDoNameRow.get(i), "Todo expected not Exist"))) {
                     AbstractService.sStatusCnt++;
                     NXGReports.addStep("Fail: Todo still existed: " + todoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     isExisted = true;
@@ -4934,6 +4946,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
+    /**
+     * Verify existing of Empty to-do image
+     */
     public boolean verifyEmptyToDoImage() {
         if (validateAttributeContain(imageEmptyToDo, "src", "images/icons/clipboard.png", "Image Empty ToDo")) {
             return true;
@@ -4941,6 +4956,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         return false;
     }
 
+    /**
+     * Verify empty to-do list(Through checking existing of Empty to-do image)
+     */
     public void verifyEmptyToDoList() {
         getLogger().info("Verify empty todo list");
         if (verifyEmptyToDoImage()) {
