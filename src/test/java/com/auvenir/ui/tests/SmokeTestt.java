@@ -171,7 +171,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 4, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.")
-    public void verifyLoginGmailAndActiveUser() throws Exception {
+    public void verifyAuditorLoginGmailAndActiveUser() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
@@ -392,7 +392,7 @@ public class SmokeTestt extends AbstractTest {
     }
 
     @Test(priority = 11, enabled = true, description = "Verify that Auditor can create to-do pages")
-    public void verifyCreateTodoPage() throws Exception {
+    public void verifyAuditorCreateTodoPage() throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
