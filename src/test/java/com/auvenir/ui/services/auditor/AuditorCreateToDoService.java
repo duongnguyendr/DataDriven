@@ -1283,5 +1283,9 @@ public class AuditorCreateToDoService extends AbstractService {
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      *
      **/
+
+    public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
+        createToDoPage.verifyLastCommentOfUserDisplayed(commentContent, fullNameUser);
+    }
 }
 

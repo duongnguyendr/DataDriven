@@ -431,18 +431,7 @@ public class ClientService extends AbstractService {
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
     
-    public void verifyToDoTaskExist(String toDoName){
-    	try{
-    		int index = clientToDoPage.findToDoTaskName(toDoName);
-    		if (index != -1) {
-    			NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.PASSED, null);
-    		} else {
-    			NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
-					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    		}
-    	} catch (Exception e) {
-    		NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
-				new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    	}	
+    public void verifyToDoTaskExist(String toDoName, boolean isClient){
+        clientToDoPage.verifyToDoTaskExist(toDoName, isClient);
     }
 }
