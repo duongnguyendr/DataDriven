@@ -779,7 +779,7 @@ public class SmokeTestt extends AbstractTest {
 //            auditorEngagementTeamService.deleteAllMemberInEngagement();
             auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
 
-            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
+//            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
             gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
