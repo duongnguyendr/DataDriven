@@ -2153,6 +2153,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("CSS Value is not changed");
+            getLogger().info(e);
             NXGReports.addStep(String.format("Text Value of element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }

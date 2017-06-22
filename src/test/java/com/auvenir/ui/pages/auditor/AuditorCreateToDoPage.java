@@ -383,11 +383,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
 
-    private String auditorAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']";
-    private String clientAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]";
-    private String auditorAssignItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]//button[text()='%s']";
-    private String clientAssigneeItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//button[text()='%s']";
-
     @FindBy(xpath = "//div[@class='ui dropdown auditor todo-bulkDdl ']")
     private List<WebElement> listAuditorAssigneeDdl;
 
@@ -4515,6 +4510,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     		clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
     		clickElement(clientAssigneeSelected, "clientAssigneeSelected");
+    		waitForJSandJQueryToLoad();
     	}catch (Exception e) {
     		AbstractService.sStatusCnt++;
     		NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -4542,10 +4538,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
     	try{
+    		Thread.sleep(smallTimeOut);
     		int index = findToDoTaskName(toDoName);
-    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-    		waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
-    		if (clientAssigneeSelected.getText().equals(clientAssignee)){
+    		waitForTextValueChanged(listClientAssigneeDdl.get(index), "listClientAssigneeDdl", clientAssignee);
+    		if (listClientAssigneeDdl.get(index).getText().equals(clientAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
     		}else{
     			AbstractService.sStatusCnt++;
