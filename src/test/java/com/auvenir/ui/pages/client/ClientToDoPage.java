@@ -2,6 +2,9 @@ package com.auvenir.ui.pages.client;
 
 import java.util.List;
 
+import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
+import com.auvenir.ui.services.AbstractService;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +20,9 @@ public class ClientToDoPage extends AbstractPage{
 	public ClientToDoPage(Logger logger, WebDriver driver){
 		super(logger, driver);
 	}
+
+    AuditorCreateToDoPage auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
+
 	
 	@FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
     private List<WebElement> toDoTaskRowEle;
@@ -39,6 +45,24 @@ public class ClientToDoPage extends AbstractPage{
             }
         }
         return -1;
+    }
+
+    public void verifyToDoTaskExist(String toDoName, boolean isClient){
+        try{
+
+            int index = auditorCreateToDoPage.findToDoTaskName(toDoName, isClient);
+            if (index != -1) {
+                NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt ++;
+                NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt ++;
+            NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
 }

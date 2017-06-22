@@ -332,7 +332,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/img[contains(@class,'user-profile-pic')]")
     private List<WebElement> userIconCommenterEle;
 
-    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/p[contains(@class,'detCommentUser')]")
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//span[contains(@class,'detCommentUser')]")
     private List<WebElement> userNameCommenterEle;
 
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/time[@class='comment-time']")
@@ -4529,10 +4529,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
     	try{
-//    	    Thread.sleep(3000);
+    	    Thread.sleep(3000);
     		int index = findToDoTaskName(toDoName);
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-    		waitForTextValueChanged(clientAssigneeSelected, "Client Assignee Dropbox", clientAssignee);
+    		waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
     		if (clientAssigneeSelected.getText().equals(clientAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
     		}else{
@@ -4780,7 +4780,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      *
      **/
-
+    /**
+     * Overload findToDoTaskName, this function is used for
+     * @param toDoName
+     * @param isClient
+     * @return
+     */
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
         String actualAttributeValue;
@@ -4932,4 +4937,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 21/06/2017.*/
+
+    public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
+        getLogger().info("Verify Last Comment Of User is Displayed");
+        try {
+            boolean result;
+            result = validateElementText(userNameCommenterEle.get(userNameCommenterEle.size() - 1), fullNameUser);
+            Assert.assertTrue(result, String.format("User Name Commenter '%s' should be displayed", fullNameUser));
+            verifyCommentContentIsDisplayed(commentContent);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 }
