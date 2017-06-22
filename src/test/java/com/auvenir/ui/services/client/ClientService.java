@@ -430,7 +430,7 @@ public class ClientService extends AbstractService {
         createNewAuditPage.verifyInviteClientSuccess(message);
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
-    
+
     public void verifyToDoTaskExist(String toDoName){
     	try{
     		int index = clientToDoPage.findToDoTaskName(toDoName);
@@ -443,6 +443,6 @@ public class ClientService extends AbstractService {
     	} catch (Exception e) {
     		NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
 				new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    	}	
+    	}
     }
 }

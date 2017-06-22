@@ -1164,7 +1164,7 @@ public class AuditorEngagementPage extends AbstractPage {
      **/
 
     /**
-     * Verify engagement status does not change when click on close icon popup / cancel button
+     * Verify engagement overview ToDo does not change when click on close icon popup / cancel button
      * @author : TanPham
      * @date : 2017/06/20
      */

@@ -392,6 +392,6 @@ public class AuditorEngagementService extends AbstractService {
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-    
+
 }
 
