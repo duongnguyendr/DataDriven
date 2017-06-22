@@ -465,7 +465,8 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
+//            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
+            auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.clickAddRequestButton();
             getLogger().info("Verifying auditor create 1st request name.. ");
             auditorCreateToDoService.verifyCreateRequest("New_Request 01","client request");
@@ -778,7 +779,7 @@ public class SmokeTestt extends AbstractTest {
 //            auditorEngagementTeamService.deleteAllMemberInEngagement();
             auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
 
-//            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
+            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
             gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
