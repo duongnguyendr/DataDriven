@@ -383,6 +383,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy (xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
     private List<WebElement> listCommentEle;
 
+    private String auditorAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']";
+    private String clientAssigneeEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]";
+    private String auditorAssignItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]//button[text()='%s']";
+    private String clientAssigneeItemEle = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[contains(@class,'newRow')]//button[text()='%s']";
+
     @FindBy(xpath = "//div[@class='ui dropdown auditor todo-bulkDdl ']")
     private List<WebElement> listAuditorAssigneeDdl;
 
@@ -3259,6 +3264,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(@id,'todo-req-box-1')]/input")
     WebElement newRequestTxtboxText_2;
 
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box')]/span[1]")
+    List<WebElement>newRequestTxtboxSpan;
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box')]/input")
+    List<WebElement> newRequestTxtboxText;
+
+
     public void verifyClickAddRequestBtn() {
         getLogger().info("Verify to click the add request button is clickable");
         try {
@@ -3460,9 +3471,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='auvicon-ex']")
     WebElement requestCloseBtn;
 
-    /*
+/*
     public void verifyNewRequestStoreInDatabase(String newRequest) {
-        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
             for (int i = newRequestTxtboxSpan.size(); i < newRequestTxtboxSpan.size() + 1; i++) {
@@ -3470,16 +3480,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 Thread.sleep(smallerTimeOut);
                 clickElement(newRequestTxtboxSpan.get(i-1), "click to new request Txtbox Span");
                 getLogger().info("Waiting for textbox border is Green when clicking..");
-                waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+                waitForCssValueChanged(newRequestTxtboxText.get(i-1), "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
                 getLogger().info("Sending new request..");
-                clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
-                sendKeyTextBox(findRequestEmpty1, newRequest, "clear text of findRequestEmpty1");
+                clearTextBox(newRequestTxtboxText.get(i-1), "clear text of findRequestEmpty1");
+                sendKeyTextBox(newRequestTxtboxText.get(i-1), newRequest, "clear text of findRequestEmpty1");
                 getLogger().info("Verify show all text while inputting..");
-                String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+                String todoShowAllText01 = getTextByJavaScripts(newRequestTxtboxText.get(i-1), "findRequestEmpty1");
                 getLogger().info("Close window and verify new input saved successfully..");
                 closeTodoListAddNewRequest();
                 clickToDoListAddNewRequest();
-                //modified
                 String newRequestSaved = newRequestTxtboxSpan.get(i-1).getText();
                 System.out.println("new Request saved is: " + newRequestSaved);
                 System.out.println("todo show Alltext is: " + newRequestSaved);
@@ -4510,7 +4519,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
     		clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
     		clickElement(clientAssigneeSelected, "clientAssigneeSelected");
-    		waitForJSandJQueryToLoad();
     	}catch (Exception e) {
     		AbstractService.sStatusCnt++;
     		NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -4538,10 +4546,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
     	try{
-    		Thread.sleep(smallTimeOut);
+//    	    Thread.sleep(3000);
     		int index = findToDoTaskName(toDoName);
-    		waitForTextValueChanged(listClientAssigneeDdl.get(index), "listClientAssigneeDdl", clientAssignee);
-    		if (listClientAssigneeDdl.get(index).getText().equals(clientAssignee)){
+    		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+    		waitForTextValueChanged(clientAssigneeSelected, "Client Assignee Dropbox", clientAssignee);
+    		if (clientAssigneeSelected.getText().equals(clientAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
     		}else{
     			AbstractService.sStatusCnt++;
@@ -4875,4 +4884,3 @@ public class AuditorCreateToDoPage extends AbstractPage {
      *
      **/
 }
-
