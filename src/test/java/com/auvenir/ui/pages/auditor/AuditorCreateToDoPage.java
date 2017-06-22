@@ -1,33 +1,12 @@
 package com.auvenir.ui.pages.auditor;
 
-//import library
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
-import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.common.PopUpPage;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.DatePicker;
-import com.auvenir.utilities.MongoDBService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.mongodb.DBCollection;
-import org.apache.log4j.Logger;
-import org.json.JSONObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.sql.rowset.spi.SyncFactoryException;
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.io.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,8 +19,29 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.auvenir.utilities.PdfGenerater.path;
-import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
+import javax.sql.rowset.spi.SyncFactoryException;
+
+import org.apache.log4j.Logger;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
+
+//import library
+
+import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.PopUpPage;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.DatePicker;
+import com.auvenir.utilities.MongoDBService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.mongodb.DBCollection;
 
 
 public class AuditorCreateToDoPage extends AbstractPage {
@@ -418,6 +418,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      *
      **/
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+    private static final String ENGAGEMENT_OVER_VIEW_STATUS_COMPLETE = "complete";
+    private static final String ENGAGEMENT_OVER_VIEW_TODO_COMPLETE = "My Completed To-Dos: 100";
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+
     public WebElement getToDoSaveIconEle() {
         return toDoSaveIconEle;
     }
@@ -3239,30 +3251,55 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
 
 //    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
-    @FindBy(xpath = "//div[@id='todo-req-box-0']/span[1]")
-    WebElement newRequestTxtboxSpan;
-    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
-    WebElement newRequestTxtboxText;
+//    @FindBy(xpath = "//div[@id='todo-req-box-0']/span[1]")
+//    WebElement newRequestTxtboxSpan;
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-0')]/span[1]")
+    WebElement newRequestTxtboxSpan_1;
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-1')]/span[1]")
+    WebElement newRequestTxtboxSpan_2;
+
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-0')]/input")
+    WebElement newRequestTxtboxText_1;
+
+    @FindBy(xpath = "//div[contains(@id,'todo-req-box-1')]/input")
+    WebElement newRequestTxtboxText_2;
 
     public void verifyClickAddRequestBtn() {
-        // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify to click the add request button is clickable");
-//        boolean isCheckRequestEmpty = false;
         try {
-//            Thread.sleep(smallerTimeOut);
             waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
-//            isCheckRequestEmpty = clickElement(newRequestTxtboxSpan, "click to findRequestEmpty1");
-//            if (isCheckRequestEmpty) {
-//                NXGReports.addStep("Verify to click the add request button and empty request is clickable", LogAs.PASSED, null);
-//            } else {
             NXGReports.addStep("Verify add new request Btn is clickable", LogAs.PASSED, null);
-//            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.FAILED, null);
+        }
+
+    }
+
+/*
+    public void verifyClickAddRequestBtn() {
+        getLogger().info("Verify to click the add request button is clickable");
+        try {
+            waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
+            clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
+            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.PASSED, null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify add new request Btn is clickable", LogAs.FAILED, null);
         }
     }
+    */
+/*
+    public int findNumberOfRequestRows(){
+        int size = 0;
+        int index = -1;
+        if (!newRequestTxtboxSpan.equals("")) {
+            size = newRequestTxtboxSpan.size() + 1;
+        }
+
+        return  size;
+    }*/
 
     /**
      * Author minh.nguyen
@@ -3428,26 +3465,80 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='auvicon-ex']")
     WebElement requestCloseBtn;
 
+    /*
     public void verifyNewRequestStoreInDatabase(String newRequest) {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
         try {
+            for (int i = newRequestTxtboxSpan.size(); i < newRequestTxtboxSpan.size() + 1; i++) {
+                System.out.println("Number of request Rows after clicked is: "+ i);
+                Thread.sleep(smallerTimeOut);
+                clickElement(newRequestTxtboxSpan.get(i-1), "click to new request Txtbox Span");
+                getLogger().info("Waiting for textbox border is Green when clicking..");
+                waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+                getLogger().info("Sending new request..");
+                clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
+                sendKeyTextBox(findRequestEmpty1, newRequest, "clear text of findRequestEmpty1");
+                getLogger().info("Verify show all text while inputting..");
+                String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+                getLogger().info("Close window and verify new input saved successfully..");
+                closeTodoListAddNewRequest();
+                clickToDoListAddNewRequest();
+                //modified
+                String newRequestSaved = newRequestTxtboxSpan.get(i-1).getText();
+                System.out.println("new Request saved is: " + newRequestSaved);
+                System.out.println("todo show Alltext is: " + newRequestSaved);
+                if (todoShowAllText01.equals(newRequest) && todoShowAllText01.equals(newRequest)) {
+                    NXGReports.addStep("Verify new request are stored in the database.", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
+                }
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
+        }
+    }*/
+
+    public void verifyNewRequestStoreInDatabase(String newRequest01, String newRequest02) {
+        // Need to use Thread.sleep that support stable scripts
+        getLogger().info("Verify these new request are stored in the database.");
+        try{
+            //add 1st request
             Thread.sleep(smallerTimeOut);
-            clickElement(newRequestTxtboxSpan, "click to new request Txtbox Span");
+            clickElement(newRequestTxtboxSpan_1, "click to new request Txtbox Span");
             getLogger().info("Waiting for textbox border is Green when clicking..");
-            waitForCssValueChanged(newRequestTxtboxText, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+            waitForCssValueChanged(newRequestTxtboxText_1, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
             getLogger().info("Sending new request..");
             clearTextBox(findRequestEmpty1, "clear text of findRequestEmpty1");
-            sendKeyTextBox(findRequestEmpty1, newRequest, "clear text of findRequestEmpty1");
+            sendKeyTextBox(findRequestEmpty1, newRequest01, "clear text of findRequestEmpty1");
             getLogger().info("Verify show all text while inputting..");
             String todoShowAllText01 = getTextByJavaScripts(findRequestEmpty1, "findRequestEmpty1");
+            //add 2nd request
+            verifyClickAddRequestBtn();
+            Thread.sleep(smallerTimeOut);
+            clickElement(newRequestTxtboxSpan_2, "click to new request Txtbox Span");
+            getLogger().info("Waiting for textbox border is Green when clicking..");
+            waitForCssValueChanged(newRequestTxtboxText_2, "Css new request txtbox text", "border", "1px solid rgb(89, 155, 161)");
+            getLogger().info("Sending new request..");
+            clearTextBox(findRequestEmpty2, "clear text of findRequestEmpty1");
+            sendKeyTextBox(findRequestEmpty2, newRequest02, "clear text of findRequestEmpty1");
+            getLogger().info("Verify show all text while inputting..");
+            String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             getLogger().info("Close window and verify new input saved successfully..");
             closeTodoListAddNewRequest();
             clickToDoListAddNewRequest();
-            String newRequestSaved = newRequestTxtboxSpan.getText();
-            System.out.println("new Request saved is: " + newRequestSaved);
-            System.out.println("todo show Alltext is: " + newRequestSaved);
-            if (todoShowAllText01.equals(newRequest) && todoShowAllText01.equals(newRequest)) {
+            //modified
+            String newRequestSaved1 = newRequestTxtboxSpan_1.getText();
+            System.out.println("new Request saved is: " + newRequestSaved1);
+            System.out.println("todo show Alltext is: " + newRequestSaved1);
+
+            String newRequestSaved2 = newRequestTxtboxSpan_2.getText();
+            System.out.println("new Request saved is: " + newRequestSaved2);
+            System.out.println("todo show Alltext is: " + newRequestSaved2);
+
+            if (todoShowAllText01.equals(newRequest01) && newRequestSaved1.equals(newRequest01)&&todoShowAllText02.equals(newRequest02) && newRequestSaved2.equals(newRequest02)) {
                 NXGReports.addStep("Verify new request are stored in the database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3458,6 +3549,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
         }
     }
+
+
+
 
     /**
      * Author minh.nguyen
@@ -4433,7 +4527,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     	    getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
     		int index = findToDoTaskName(toDoName);
     		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-            System.out.println("auditorAssigneeSelected.getText(): " + auditorAssigneeSelected.getText());
+    		waitForTextValueChanged(auditorAssigneeSelected, "auditorAssigneeSelected", auditorAssignee);
     		if (auditorAssigneeSelected.getText().equals(auditorAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
     		}else{
@@ -4448,9 +4542,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
     	try{
+//    	    Thread.sleep(3000);
     		int index = findToDoTaskName(toDoName);
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-
+    		waitForTextValueChanged(clientAssigneeSelected, "Client Assignee Dropbox", clientAssignee);
     		if (clientAssigneeSelected.getText().equals(clientAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
     		}else{
@@ -4695,7 +4790,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     /**
-     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      *
      **/
 
@@ -4734,5 +4829,55 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int index = findToDoTaskName(toDoTaskName, isClient);
         clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
+    /**
+     * Verify engagement overview status is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewStatusIsComplete() {
+        String strStepSuccess = "Verify engagement overview status is complete";
+        String strStepFail = "TestScript Failed: Verify engagement overview status is not complete";
+        try {
+            boolean result;
+            result = ENGAGEMENT_OVER_VIEW_STATUS_COMPLETE.toLowerCase().equals(eleEngagementOverViewStatusText.getText().trim().toLowerCase());
+            // will update to assert false when bug has fixed
+            Assert.assertTrue(result, "Engagement overview status is complete");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement overview ToDo is complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewToDoIsComplete() {
+        String strStepSuccess = "Verify engagement overview ToDo is complete";
+        String strStepFail = "TestScript Failed: Verify engagement overview ToDo is complete";
+        try {
+            boolean result;
+            String strEngagementOverViewToDo = eleEngagementOverViewToDoText.getText().trim().split("%")[0];
+            result = ENGAGEMENT_OVER_VIEW_TODO_COMPLETE.toLowerCase().equals(strEngagementOverViewToDo.toLowerCase());
+            Assert.assertTrue(result, "Engagement overview ToDo does not change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
+     *
+     **/
 }
 

@@ -13,7 +13,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -35,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 10;
+    public static final int waitTime = 30;
     public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;

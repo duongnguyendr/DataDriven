@@ -1,7 +1,6 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -727,7 +726,7 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strAffName    Affiliated Firm's Name
      * @param strPathLogo   Path Logo
      */
-    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
+    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
         getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
         boolean result;
         try {
@@ -786,7 +785,7 @@ public class AuditorSignUpPage extends AbstractPage {
             getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
-
+            Thread.sleep(5000);
             // Verify Register Auditor FIRM Page is passed
 //            result = validateDisPlayedElement(pageSecurityInfoEle, "Page Securiy Infomation");
 //            Assert.assertTrue(result, "Page Security Information should be loaded.");
@@ -1049,8 +1048,9 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(eleConfirmPass, "Confirm Password Input");
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
-
+            waitForJSandJQueryToLoad();
             clickElement(createAccountBtnEle, "Create Account button");
+
             // Verify Register Auditor Security Page is passed
 //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
 //            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
@@ -1174,7 +1174,7 @@ public class AuditorSignUpPage extends AbstractPage {
         clickElement(btnContinue, "Continue Button");
     }
 
-    public void registerNewAuditorUser(String fullName, String strEmail, String strPassword){
+    public void registerNewAuditorUser(String fullName, String strEmail, String strPassword) throws InterruptedException {
         marketingPage = new MarketingPage(getLogger(), getDriver());
         marketingPage.clickOnSignupButton();
         verifyPersonalInfoPageContent();

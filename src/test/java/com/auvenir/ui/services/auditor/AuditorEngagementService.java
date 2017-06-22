@@ -296,12 +296,30 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     /**
+     * Verify engagement ToDo does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnCloseIconPopup(String engagementName){
+        auditorEngagementPage.verifyEngagementToDoDoesNotChange(true,engagementName);
+    }
+
+    /**
      * Verify engagement status does not change when click on close icon popup
      * @author : TanPham
      * @date : 2017/06/20
      */
     public void verifyEngagementStatusWhenClickOnCancelButtonPopup(String engagementname){
         auditorEngagementPage.verifyEngagementStatusDoesNotChange(false,engagementname);
+    }
+
+    /**
+     * Verify engagement ToDo does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnCancelButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementToDoDoesNotChange(false,engagementname);
     }
 
     /**
@@ -314,8 +332,66 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     /**
+     * Verify engagement ToDo change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnArchiveButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementToDoChange(engagementname);
+    }
+
+    /**
+     * Get engagement status and ToDo before
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void getEngagementStatusAndToDoBefor(String engagementName){
+        auditorEngagementPage.getEngagementStatusAndToDoBefor(engagementName);
+    }
+    /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
      *
      **/
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+    /**
+     * Verify engagement status complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementStatusIsComplete(String engagementName) {
+        auditorEngagementPage.verifyEngagementStatusIsComplete(engagementName);
+    }
+    /**
+     * Verify engagement ToDo complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+
+    public void verifyEngagementToDoIsComplete(String engagementName) {
+       auditorEngagementPage.verifyEngagementToDoIsComplete(engagementName);
+    }
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     **/
+	public void verifyEngagementExisted(String engagementName) {
+		try {
+			int index = auditorEngagementPage.findEngagementName(engagementName);
+			if (index != -1) {
+				NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.PASSED, null);
+			} else {
+				NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.FAILED,
+						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+    
 }
 
