@@ -860,9 +860,9 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
-    public void verifyUpdateRequest(String requestName3, String requestName4) {
-        createToDoPage.verifyNewRequestStoreInDatabase(requestName3,requestName4);
-    }
+//    public void verifyUpdateRequest(String requestName3, String requestName4) {
+//        createToDoPage.verifyNewRequestStoreInDatabase(requestName3,requestName4);
+//    }
 
     public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
         createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));

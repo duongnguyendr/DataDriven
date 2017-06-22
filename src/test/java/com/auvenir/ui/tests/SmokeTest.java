@@ -383,7 +383,7 @@ public class SmokeTest extends AbstractTest {
         }
     }
     /*-----------end of Thuan.Duong on 14/06/2017.*/
-
+/*
     @Test(priority = 15, enabled = true, description = "Verify to create new request on ToDo page")
     public void verifyAddNewRequestOnToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -401,7 +401,7 @@ public class SmokeTest extends AbstractTest {
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.verifyAddNewRequestButton();
 //            auditorCreateToDoService.verifyRequestNameTextbox();
-            auditorCreateToDoService.verifyCreateRequest("New_Request 01","vien");
+            auditorCreateToDoService.verifyCreateRequest("New_Request 01");
 //            auditorCreateToDoService.verifyUpdateRequest("New_Request 02");
 //            auditorCreateToDoService.verifyDeleteRequest();
 //            auditorCreateToDoService.verifyCopyRequest();
@@ -413,5 +413,5 @@ public class SmokeTest extends AbstractTest {
             getLogger().info(e);
             throw e;
         }
-    }
+    }*/
 }
