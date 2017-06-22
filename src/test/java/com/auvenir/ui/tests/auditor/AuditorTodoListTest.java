@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
@@ -1845,6 +1846,7 @@ End of merged VienPham.
     /**
      * Added by minh.nguyen on 24/05/2017.
      */
+    /*
     @Test(priority = 51, enabled = true, description = "Verify to create new request on ToDo page")
     public void verifyAddNewRequestOnToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1863,7 +1865,7 @@ End of merged VienPham.
             auditorCreateToDoService.verifyAddNewRequestButton();
             auditorCreateToDoService.verifyRequestNameTextbox();
             auditorCreateToDoService.verifyCreateRequest("new Request 01");
-            auditorCreateToDoService.verifyUpdateRequest("new Request 02");
+//            auditorCreateToDoService.verifyUpdateRequest("new Request 02");
             auditorCreateToDoService.verifyDeleteRequest();
             auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1874,7 +1876,7 @@ End of merged VienPham.
             getLogger().info(e);
             throw e;
         }
-    }
+    }*/
 }
 
 

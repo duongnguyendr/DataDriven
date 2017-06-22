@@ -1,10 +1,10 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
-import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
+import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;

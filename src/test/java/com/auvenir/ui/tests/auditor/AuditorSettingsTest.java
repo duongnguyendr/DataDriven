@@ -1,8 +1,8 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AuditorEngagementService;
-import com.auvenir.ui.services.AuditorAccountSettingsService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.auditor.AuditorAccountSettingsService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -25,13 +25,14 @@ public class AuditorSettingsTest extends AbstractTest {
     public void verifyFooterAuditorAccountSettingsPage() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
             auditorAccountSettingsService.verifyFooter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Footer in Auditor Account Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -43,7 +44,8 @@ public class AuditorSettingsTest extends AbstractTest {
     public void verifyUIAuditorSetting() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -62,7 +64,8 @@ public class AuditorSettingsTest extends AbstractTest {
     public void InputValueFullName() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
             auditorAccountSettingsService.loginWithUserRole(userId);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -78,7 +81,6 @@ public class AuditorSettingsTest extends AbstractTest {
             throw e;
         }
     }
-
 }
 
 

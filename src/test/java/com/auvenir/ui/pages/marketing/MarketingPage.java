@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -414,6 +415,12 @@ public class MarketingPage extends AbstractPage {
     @FindBy(css = "#reset-password .login")
     private WebElement btnLogin;
     public WebElement getBtnLogin() { return btnLogin; }
+
+    @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img[@class='au-modal-closeBtn']")
+    private WebElement eleCredentialsCloseIcn;
+    public WebElement getEleCredentialsCloseIcn() {
+        return eleCredentialsCloseIcn;
+    }
 
     public void verifyAboutContentPage(){
         getLogger().info("Verify about content page");
@@ -850,6 +857,25 @@ public class MarketingPage extends AbstractPage {
         {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to set new password", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    /**
+     * Click Close on Popup which warning about supporting only Chrome Browser.
+     */
+    public void clickClosePopupWarningBrowser(){
+        try{
+            if(GenericService.sBrowserData.equals("ff.")) {
+                getLogger().info("Close Popup Warning Browser");
+                Thread.sleep(3000);
+                waitForVisibleElement(getEleCredentialsCloseIcn(), "Close Icon");
+                waitForClickableOfElement(getEleCredentialsCloseIcn(), "Close Icon");
+                clickElement(getEleCredentialsCloseIcn(), "Close Icon");
+                waitForProgressOverlayIsClosed();
+                Thread.sleep(2000);
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
         }
     }
 }
