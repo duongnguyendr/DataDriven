@@ -57,6 +57,9 @@ public class ContactsService extends AbstractService {
         }
     }
 
+    public void verifyContactDisplayedInContactsPage(String contactName, String emailContact){
+    	auditorContactsPage.verifyContactDisplayedInContactsPage(contactName, emailContact);
+    }
 
 }
 

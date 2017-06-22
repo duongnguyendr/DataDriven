@@ -870,11 +870,18 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfullyClient(fileName);
     }
 
-    public void downloadCreateRequestNewFile(String uploadLocation, String downloadLocation, String fileName) {
-        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName));
+    public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
+        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName),1);
 
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
         //createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
+    }
+    public void auditorAttachNewFile(String attachLocation, String fileName){
+        createToDoPage.attachFile(attachLocation,fileName);
+    }
+
+    public void clientDownloadAttachFile(String pathOfUpload,String pathOfDownload,String fileName){
+        createToDoPage.downloadAttachFile(pathOfUpload,pathOfDownload,fileName);
     }
 
     public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
@@ -1307,9 +1314,6 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyToDoNotExist(todoName);
     }
 
-    /**
-     * Check all check box
-     */
     public void checkAllCheckBox() {
         createToDoPage.checkOrUnCheckCheckAllCheckBox(true);
     }
