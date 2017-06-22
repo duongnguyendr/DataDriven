@@ -1060,9 +1060,9 @@ public class AdminLoginPage extends AbstractPage {
      */
     public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
         try {
-            WebElement type = getElementByXpath(getDriver(), xpathUserTypeCellOnUserTableAdminX, userEmail);
-            WebElement email = getElementByXpath(getDriver(), xpathEmailCellOnUserTableAdminX, userEmail);
-            WebElement date = getElementByXpath(getDriver(), xpathDateCreatedCellOnUserTableAdminX, userEmail);
+            WebElement type = getElementByXpath(xpathUserTypeCellOnUserTableAdminX, userEmail);
+            WebElement email = getElementByXpath(xpathEmailCellOnUserTableAdminX, userEmail);
+            WebElement date = getElementByXpath(xpathDateCreatedCellOnUserTableAdminX, userEmail);
 
             validateElementText(type, userType);
             validateElementText(email, userEmail);
@@ -1082,7 +1082,7 @@ public class AdminLoginPage extends AbstractPage {
      * @param userStatus status
      */
     public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
-        WebElement status = getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail);
+        WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, userEmail);
         validateSelectedItemText(status, userStatus);
     }
 
@@ -1100,8 +1100,8 @@ public class AdminLoginPage extends AbstractPage {
 //            validateElementText(eleAdminHdrTxt, "Admin");
 //            waitForVisibleElement(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail), "Dropdown Status.");
 
-            Select status = new Select(getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
-            status.selectByVisibleText(chooseOption);
+            WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, userEmail);
+            selectOptionByText(status, chooseOption, "User Status");
 
             getLogger().info("Validate Popup Confirm.");
             waitForVisibleElement(textViewOnPopupConfirm, "Are you sure you want to change user status from");

@@ -3158,7 +3158,7 @@ public class AbstractPage {
      *
      * @param seconds seconds to wait
      */
-    public static void waitSomeSeconds(int seconds) {
+    public void waitSomeSeconds(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (Exception ex) {
@@ -3169,15 +3169,14 @@ public class AbstractPage {
     /**
      * get element which cant use @FindBy to find
      *
-     * @param webDriver current webDriver
-     * @param xpath     xpath to get element
-     * @param arg       vararg for formating
+     * @param xpath xpath to get element
+     * @param arg   vararg for formating
      */
-    public static WebElement getElementByXpath(WebDriver webDriver, String xpath, String... arg) {
+    public WebElement getElementByXpath(String xpath, String... arg) {
         WebElement webElement = null;
         xpath = String.format(xpath, arg);
         try {
-            webElement = webDriver.findElement(By.xpath(xpath));
+            webElement = getDriver().findElement(By.xpath(xpath));
         } catch (Exception ex) {
             NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
