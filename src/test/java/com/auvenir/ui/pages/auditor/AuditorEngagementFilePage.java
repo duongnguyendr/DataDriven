@@ -16,6 +16,9 @@ public class AuditorEngagementFilePage extends AbstractPage {
     }
 
     private static final String PAGE_TITLE = "Files";
+    private static final String DOWN_LOAD_POPUP_TITLE = "Ready To Download";
+    private static final String DOWN_LOAD_POPUP_DESCRIPTION = "A zip file containing your selected items are ready.";
+
     @FindBy(xpath = "//div[@class='pageHeader-leftContainer']//input[@id='a-header-title']")
     private WebElement dashboardTextEle;
 
@@ -32,7 +35,19 @@ public class AuditorEngagementFilePage extends AbstractPage {
     private  WebElement eldDownloadButtonInPopup;
 
     @FindBy(xpath = "//*[@class='au-modal-container modalTransition-popUp-container']//label[contains(text(),'Ready To Download')]")
-    private WebElement elePopupTitle;
+    private WebElement eleTitleDownLoadPopup;
+
+    @FindBy(xpath = "//*[@id='module-fm-trashIcon']")
+    private WebElement eleTrashIcon;
+
+    @FindBy(xpath = "//*[@id='comp-fm-search']")
+    private WebElement eleSearchTextBox;
+
+    @FindBy(xpath = "//*[@class='au-modal-container modalTransition-popUp-container']//span[@class='files-deleteStorage-msg']")
+    private WebElement eleDescriptionDownLoadPopup;
+
+    @FindBy(xpath = "//*[@class='au-modal-container modalTransition-popUp-container']//img[@class='au-modal-closeBtn']")
+    private WebElement eleCloseIconDownLoadPopup;
 
     /**
      * Verify engagement file of engagement
@@ -45,13 +60,14 @@ public class AuditorEngagementFilePage extends AbstractPage {
         validateAttributeElement(elePageTitle, "text", PAGE_TITLE);
         waitForClickableOfElement(eleAllFileCheckBox, "all file check box");
         waitForClickableOfElement(eleDownloadIcon, "down load icon");
+        waitForVisibleElement(eleTrashIcon, "trash icon");
+        waitForVisibleElement(eleSearchTextBox, "search text box");
     }
 
     /**
      * Click on down load icon
      */
     public void clickOnDownLoadIcon(){
-        waitForVisibleElement(eleDownloadIcon, "down load icon");
         hoverElement(eleDownloadIcon, "hover down load icon");
         clickElement(eleDownloadIcon);
     }
@@ -60,7 +76,6 @@ public class AuditorEngagementFilePage extends AbstractPage {
      * Click on all file check box
      */
     public void clickOnAllFileCheckBox(){
-        waitForVisibleElement(eleAllFileCheckBox, "all file check box");
         hoverElement(eleAllFileCheckBox, "hover all file check box");
         clickElement(eleAllFileCheckBox);
     }
@@ -69,7 +84,6 @@ public class AuditorEngagementFilePage extends AbstractPage {
      * Click on down load button in popup
      */
     public void clickOnDownloadButtonInPopup(){
-        waitForVisibleElement(eldDownloadButtonInPopup, "down load button in popup");
         hoverElement(eldDownloadButtonInPopup, "hover download button icon");
         clickElement(eldDownloadButtonInPopup);
     }
@@ -78,7 +92,11 @@ public class AuditorEngagementFilePage extends AbstractPage {
      * Verify down load popup
      */
     public void verifyDownLoadPopup(){
-        waitForVisibleElement(elePopupTitle, "down load popup title");
-        validateElementText(elePopupTitle,"Ready To Download");
+        waitForVisibleElement(eleTitleDownLoadPopup, "down load popup title");
+        validateElementText(eleTitleDownLoadPopup,DOWN_LOAD_POPUP_TITLE);
+        waitForVisibleElement(eleDescriptionDownLoadPopup, "down load description");
+        validateElementText(eleDescriptionDownLoadPopup, DOWN_LOAD_POPUP_DESCRIPTION);
+        waitForVisibleElement(eldDownloadButtonInPopup, "down load button in popup");
+        waitForVisibleElement(eleCloseIconDownLoadPopup, "close icon down load popup");
     }
 }
