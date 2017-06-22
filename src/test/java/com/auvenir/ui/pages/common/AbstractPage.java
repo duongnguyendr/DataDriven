@@ -2350,15 +2350,17 @@ public class AbstractPage {
     /**
      * Select option in select element by text
      *
-     * @param ele
+     * @param webElement
      * @param item
      */
-    public void selectOptionByText(WebElement ele, String item) {
+    public void selectOptionByText(WebElement webElement, String item, String elementName) {
         try {
-            Select select = new Select(ele);
+            Select select = new Select(webElement);
             select.selectByVisibleText(item);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
+            NXGReports.addStep("Can't select item: " + item + " of Dropdown " + elementName, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3156,12 +3158,30 @@ public class AbstractPage {
      *
      * @param seconds seconds to wait
      */
-    public static void waitSomeSeconds(int seconds) {
+    public void waitSomeSeconds(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * get element which cant use @FindBy to find
+     *
+     * @param xpath xpath to get element
+     * @param arg   vararg for formating
+     */
+    public WebElement getElementByXpath(String xpath, String... arg) {
+        WebElement webElement = null;
+        xpath = String.format(xpath, arg);
+        try {
+            webElement = getDriver().findElement(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return webElement;
     }
      /*-----------end of huy.huynh on 15/06/2017.*/
 }

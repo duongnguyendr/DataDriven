@@ -1,7 +1,6 @@
 package com.auvenir.ui.pages;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.marketing.MarketingPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -216,6 +215,9 @@ public class CreateNewAuditPage extends AbstractPage {
     @FindBy(id = "m-ac-addBtn")
     private WebElement buttonInviteNewClient;
 
+    @FindBy(xpath = "//input[@id='m-ac-role']/following-sibling::ul//a[1]")
+    private WebElement optionFirstOnClientRoleList;
+
     /**
      * Choose 'Add New Client' option
      */
@@ -238,7 +240,10 @@ public class CreateNewAuditPage extends AbstractPage {
         sendKeyTextBox(inputFullName, fullName, "Full Name Input");
         sendKeyTextBox(inputEmail, email, "Email Input");
         sendKeyTextBox(inputVerifyEmail, email, "Verify Email Input");
-        sendKeyTextBox(inputRoleEmail, role, "Role Input");
+        //sendKeyTextBox(inputRoleEmail, role, "Role Input");
+        //selectOptionByText(selectRoleEmail, role, "Client Role In Their Company");
+        clickElement(inputRoleEmail, "Input Client Role In Their Company");
+        clickElement(optionFirstOnClientRoleList, "First Option Client Role");
 
         clickElement(buttonInviteNewClient, "Button Invite");
     }
@@ -250,6 +255,7 @@ public class CreateNewAuditPage extends AbstractPage {
      */
 
     WebElement inviteClientPage;
+
     public void verifyInviteClientSuccess(String message) {
         waitForProgressOverlayIsClosed();
         verifyContentOfSuccessToastMessage(message);
