@@ -1315,5 +1315,9 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyEmptyToDoList();
     }
     /*-----------end of huy.huynh on 21/06/2017.*/
+
+    public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
+        createToDoPage.verifyLastCommentOfUserDisplayed(commentContent, fullNameUser);
+    }
 }
 

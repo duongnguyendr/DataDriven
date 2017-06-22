@@ -331,7 +331,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/img[contains(@class,'user-profile-pic')]")
     private List<WebElement> userIconCommenterEle;
 
-    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/p[contains(@class,'detCommentUser')]")
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//span[contains(@class,'detCommentUser')]")
     private List<WebElement> userNameCommenterEle;
 
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/time[@class='comment-time']")
@@ -4254,7 +4254,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span[1]")
     List<WebElement> uploadClientCreateRequestText;
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span/label")
-    List<WebElement> uploadClientCreateRequestBtn;
+    WebElement uploadClientCreateRequestBtn;
     @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
     WebElement checkUploadRequest;
 
@@ -4297,39 +4297,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
-            int countRequestText = 0;
-            int countRequestBtn = 0;
-
-            for (WebElement requestTextEle : uploadClientCreateRequestText) {
-                countRequestText++;
-                if (requestTextEle.getText().equals(requestNameText)) {
-                    break;
-                }
-            }
-
-            for (WebElement requestBtnEle : uploadClientCreateRequestBtn) {
-                countRequestBtn++;
-                if (countRequestBtn == countRequestText) {
-                    clickElement(requestBtnEle);
-                    Thread.sleep(2000);
-                    getLogger().info("Enter path of file..");
-                    StringSelection ss = new StringSelection(concatUpload);
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyRelease(KeyEvent.VK_ENTER);
-                    getLogger().info("Waiting for checkSign visible..");
-                    waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-                    NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
-                    break;
-                }
-            }
+            Thread.sleep(smallTimeOut);
+            clickElement(uploadClientCreateRequestBtn);
+            Thread.sleep(2000);
+            getLogger().info("Enter path of file..");
+            StringSelection ss = new StringSelection(concatUpload);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
 
         } catch (AWTException awt) {
             AbstractService.sStatusCnt++;
@@ -4406,6 +4391,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             if (Files.exists(path)) {
                 Files.delete(path);
             }
+            Thread.sleep(2000);
             clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
             String md5Upload = calculateMD5(concatUpload);
@@ -4540,10 +4526,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
         try {
-//    	    Thread.sleep(3000);
+            Thread.sleep(3000);
             int index = findToDoTaskName(toDoName);
             WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-            waitForTextValueChanged(clientAssigneeSelected, "Client Assignee Dropbox", clientAssignee);
+            waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
             if (clientAssigneeSelected.getText().equals(clientAssignee)) {
                 NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
             } else {
@@ -4800,7 +4786,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      **/
-
+    /**
+     * Overload findToDoTaskName, this function is used for
+     *
+     * @param toDoName
+     * @param isClient
+     * @return
+     */
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
         String actualAttributeValue;
@@ -4968,4 +4960,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 21/06/2017.*/
+
+    public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
+        getLogger().info("Verify Last Comment Of User is Displayed");
+        try {
+            boolean result;
+            result = validateElementText(userNameCommenterEle.get(userNameCommenterEle.size() - 1), fullNameUser);
+            Assert.assertTrue(result, String.format("User Name Commenter '%s' should be displayed", fullNameUser));
+            verifyCommentContentIsDisplayed(commentContent);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 }
