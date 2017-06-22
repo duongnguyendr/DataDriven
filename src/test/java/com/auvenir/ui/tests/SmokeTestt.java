@@ -427,7 +427,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
             String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-            String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "EngagementName");
+            String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
             String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
             String auditorAssign = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Assignee");
 
@@ -461,6 +461,7 @@ public class SmokeTestt extends AbstractTest {
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
         try {
+//            auditorCreateToDoService.loginWithUserRole(auditorId);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
@@ -816,34 +817,36 @@ public class SmokeTestt extends AbstractTest {
     /**
      * Pending: Dependence on another test case
      */
-    @Test(priority = 14, enabled = false, description = "Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment")
-    public void verifyClientEngagementOverview() throws Exception {
+
+    @Test(priority = 14, enabled = true, description = "Client verify engagement, assigned To-Do")
+    public void verifyClientEngagementOverView() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         try {
             String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
-
-            auditorSignUpService.deleteUserUsingApi(clientId);
-            auditorCreateToDoService.loginWithUserRole(auditorId);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("Engagement144");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("Engagement144");
-            // Invite client
-            auditorTodoListService.navigateToInviteClientPage();
-            clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientId, "Leader");
-            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
-
+            String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+            String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+            String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+            
+            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
+            clientService.verifyClientHomePage();
+            auditorEngagementService.verifyEngagementExisted(engagement);
+            auditorEngagementService.viewEngagementDetailsPage(engagement);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
+            clientService.verifyToDoTaskExist(toDoName);
+            
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment.", LogAs.PASSED, null);
+            NXGReports.addStep("Client verify engagement, assigned To-Do.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Client verify engagement, assigned To-Do , file uploaded by auditor, auditor's comment.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Client verify engagement, assigned To-Do.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     @Test(priority = 13, enabled = true, description = "Verify Client Assignee")
-    public void verifyClientAssigneeComboBox() throws Exception {
+    public void verifyClientAssignee() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -855,12 +858,14 @@ public class SmokeTestt extends AbstractTest {
              String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
              String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
              String clientAssign = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-//             String clientAssign = "Thuan Client";
 
              marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
              auditorEngagementService.verifyAuditorEngagementPage();
              auditorEngagementService.viewEngagementDetailsPage(engagement);
              auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
+
+             auditorCreateToDoService.selectClientAssigneeByName(toDoName, clientAssign);
+             auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, clientAssign);
 
              auditorCreateToDoService.selectClientAssigneeByName(toDoName, clientAssign);
              auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, clientAssign);
@@ -887,7 +892,7 @@ public class SmokeTestt extends AbstractTest {
         String commentContent = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Comment");
 
         try {
-            String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
+            String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
 //            String clientId = "thuanduong@mailinator.com";
             String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
 //            String clientPassword = "Changeit@123";

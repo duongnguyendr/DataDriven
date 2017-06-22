@@ -1,33 +1,12 @@
 package com.auvenir.ui.pages.auditor;
 
-//import library
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
-import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.common.PopUpPage;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.DatePicker;
-import com.auvenir.utilities.MongoDBService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.mongodb.DBCollection;
-import org.apache.log4j.Logger;
-import org.json.JSONObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.sql.rowset.spi.SyncFactoryException;
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.io.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,8 +19,29 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.auvenir.utilities.PdfGenerater.path;
-import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
+import javax.sql.rowset.spi.SyncFactoryException;
+
+import org.apache.log4j.Logger;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
+
+//import library
+
+import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.PopUpPage;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.DatePicker;
+import com.auvenir.utilities.MongoDBService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.mongodb.DBCollection;
 
 
 public class AuditorCreateToDoPage extends AbstractPage {
@@ -4527,7 +4527,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     	    getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
     		int index = findToDoTaskName(toDoName);
     		WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-            System.out.println("auditorAssigneeSelected.getText(): " + auditorAssigneeSelected.getText());
+    		waitForTextValueChanged(auditorAssigneeSelected, "auditorAssigneeSelected", auditorAssignee);
     		if (auditorAssigneeSelected.getText().equals(auditorAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
     		}else{
@@ -4544,7 +4544,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     	try{
     		int index = findToDoTaskName(toDoName);
     		WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-
+    		waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
     		if (clientAssigneeSelected.getText().equals(clientAssignee)){
     			NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
     		}else{

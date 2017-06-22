@@ -343,5 +343,20 @@ public class AuditorEngagementService extends AbstractService {
      * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
      *
      **/
+	public void verifyEngagementExisted(String engagementName) {
+		try {
+			int index = auditorEngagementPage.findEngagementName(engagementName);
+			if (index != -1) {
+				NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.PASSED, null);
+			} else {
+				NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.FAILED,
+						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+    
 }
 
