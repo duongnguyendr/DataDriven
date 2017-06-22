@@ -1010,7 +1010,47 @@ public class SmokeTestt extends AbstractTest {
 
     @Test(priority = 25, enabled = true, description = "Verify download all attachment file form all ToDo.")
     public void verifyDownloadAttachmentFromAllToDo() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        /*String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");*/
+        String engagementName = "Engagement999";
+        try {
+            //Go to marketing page
+            marketingService.goToBaseURL();
+            // Click on button login
+            marketingService.clickLoginButton();
+            // Login with user name and password
+            marketingService.loginWithUserNamePassword(auditorId,auditorPwd);
+            // Verify GUI engagement page
+            auditorEngagementService.verifyAuditorEngagementPage();
+            // Move to engagement detail page
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            // Verify GUI engagement detail page
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            // Move file manager tab
+            auditorDetailsEngagementService.clickOnFileManagerLink();
+            // Click on all file check box
+            auditorDetailsEngagementService.clickOnAllFileCheckBox();
+            // Click on down load icon
+            auditorDetailsEngagementService.clickOnDownLoadIcon();
+            // verify down load popup
+            auditorDetailsEngagementService.verifyDownLoadPopup();
+            // Click on down load button in popup
+            auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
 
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify download all attachment file form all ToDo.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify download all attachment file form all ToDo.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
     }
 
     @Test(priority = 26, enabled = true, description = "Verify check list team.")
