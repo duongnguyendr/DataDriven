@@ -296,12 +296,30 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     /**
+     * Verify engagement ToDo does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnCloseIconPopup(String engagementName){
+        auditorEngagementPage.verifyEngagementToDoDoesNotChange(true,engagementName);
+    }
+
+    /**
      * Verify engagement status does not change when click on close icon popup
      * @author : TanPham
      * @date : 2017/06/20
      */
     public void verifyEngagementStatusWhenClickOnCancelButtonPopup(String engagementname){
         auditorEngagementPage.verifyEngagementStatusDoesNotChange(false,engagementname);
+    }
+
+    /**
+     * Verify engagement ToDo does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnCancelButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementToDoDoesNotChange(false,engagementname);
     }
 
     /**
@@ -313,6 +331,23 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.verifyEngagementStatusChange(engagementname);
     }
 
+    /**
+     * Verify engagement ToDo change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnArchiveButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementToDoChange(engagementname);
+    }
+
+    /**
+     * Get engagement status and ToDo before
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void getEngagementStatusAndToDoBefor(String engagementName){
+        auditorEngagementPage.getEngagementStatusAndToDoBefor(engagementName);
+    }
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
      *

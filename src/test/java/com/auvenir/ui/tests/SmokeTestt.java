@@ -610,6 +610,8 @@ public class SmokeTestt extends AbstractTest {
             //Work flow when click on close icon popup - Start
             // Verify GUI engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
+            // Get engagement status and todo
+            auditorEngagementService.getEngagementStatusAndToDoBefor(engagementName);
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             // Verify GUI engagement detail page
@@ -636,10 +638,13 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             // Verify engagement status
             auditorEngagementService.verifyEngagementStatusWhenClickOnCloseIconPopup(engagementName);
-
+            // Verify engagement todo
+            auditorEngagementService.verifyEngagementToDoWhenClickOnCloseIconPopup(engagementName);
             //Work flow when click on close icon popup - End
 
             //Work flow when click on cancel button - Start
+            // Get engagement status and todo
+            auditorEngagementService.getEngagementStatusAndToDoBefor(engagementName);
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             // Verify GUI engagement detail page
@@ -664,9 +669,13 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             // Verify engagement status
             auditorEngagementService.verifyEngagementStatusWhenClickOnCancelButtonPopup(engagementName);
+            // Verify engagement todo
+            auditorEngagementService.verifyEngagementToDoWhenClickOnCancelButtonPopup(engagementName);
             //Work flow when click on cancel button - End
 
-            //Work flow when click on archive button - Start
+            //Work flow when click on archive button - Start.
+            // Get engagement status and todo
+            auditorEngagementService.getEngagementStatusAndToDoBefor(engagementName);
             // Move to engagement detail page
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             // Verify GUI engagement detail page
@@ -691,6 +700,8 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             // Verify engagement status
             auditorEngagementService.verifyEngagementStatusWhenClickOnArchiveButtonPopup(engagementName);
+            // Verify engagement todo
+            auditorEngagementService.verifyEngagementToDoWhenClickOnArchiveButtonPopup(engagementName);
             //Work flow when click on cancel button - End
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

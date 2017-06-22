@@ -450,7 +450,6 @@ public class AuditorEngagementPage extends AbstractPage {
             scrollToFooter();
         } else
             hoverElement(engagementListEle.get(index + 1), engagementName);
-        engagementStatusBefore = eleEngagementStatusList.get(index).getText().trim();
         clickElement(engagementListEle.get(index), engagementName);
 
     }
@@ -1165,7 +1164,7 @@ public class AuditorEngagementPage extends AbstractPage {
      **/
 
     /**
-     * Verify engagement overview status does not change when click on close icon popup / cancel button
+     * Verify engagement status does not change when click on close icon popup / cancel button
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -1181,6 +1180,31 @@ public class AuditorEngagementPage extends AbstractPage {
             boolean result;
             result = engagementStatusBefore.toLowerCase().equals(eleEngagementStatusList.get(index).getText().trim().toLowerCase());
             org.testng.Assert.assertTrue(result, "Engagement stauts does not change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement status does not change when click on close icon popup / cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoDoesNotChange(boolean isCloseIconClick, String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement ToDo does not change when click on close icon popup";
+        String strStepFail = "TestScript Failed: Verify engagement ToDo change when click on close icon popup";
+        if(!isCloseIconClick){
+            strStepSuccess = "Verify engagement ToDo does not change when click on cancel button";
+            strStepFail = "TestScript Failed: Verify engagement ToDo change when click on cancel button";
+        }
+        try {
+            boolean result;
+            result = engagementToDoBefore.toLowerCase().equals(eleEngagementToDoList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertTrue(result, "Engagement todo does not change");
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
@@ -1207,6 +1231,40 @@ public class AuditorEngagementPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep(strStepFail, LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement ToDo change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementToDoChange(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement ToDo change when click on archive button";
+        String strStepFail = "TestScript Failed: Verify engagement ToDo does not change when click on archive button";
+        try {
+            boolean result;
+            result = engagementToDoBefore.toLowerCase().equals(eleEngagementToDoList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertFalse(result, "Engagement todo change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Get engagement overview status and Todo follow engagement name
+     * @param engagementName : engagement need search
+     * @throws Exception
+     */
+    public void getEngagementStatusAndToDoBefor(String engagementName){
+        int index = findEngagementName(engagementName);
+        if(index != -1){
+            engagementStatusBefore = eleEngagementStatusList.get(index).getText().trim();
+            engagementToDoBefore = eleEngagementToDoList.get(index).getText().trim();
         }
     }
 
