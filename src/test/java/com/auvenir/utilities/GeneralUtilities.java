@@ -96,36 +96,4 @@ public class GeneralUtilities {
                 break;
         }
     }
-
-    /**
-     * get element which cant use @FindBy to find
-     *
-     * @param webDriver current webDriver
-     * @param xpath     xpath to get element
-     * @param arg       vararg for formating
-     */
-    public static WebElement getElementByXpath(WebDriver webDriver, String xpath, String... arg) {
-        WebElement webElement = null;
-        xpath = String.format(xpath, arg);
-        try {
-            webElement = webDriver.findElement(By.xpath(xpath));
-        } catch (Exception ex) {
-            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-        return webElement;
-    }
-
-    /**
-     * wait some seconds- should be use when can't apply ExplicitWait
-     *
-     * @param seconds seconds to wait
-     */
-    public static void waitSomeSeconds(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 }

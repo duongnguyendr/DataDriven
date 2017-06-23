@@ -650,7 +650,6 @@ public class AuditorEngagementPage extends AbstractPage {
 
     public void sendKeyCompanyName(String companyName) throws InterruptedException {
         Thread.sleep(smallTimeOut);
-        companyName = "companyName123";
         sendKeyTextBox(eleSearch, companyName, "search key keyCompany");
         Thread.sleep(smallTimeOut);
     }
@@ -658,7 +657,6 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyCompanyName(String companyName)
     {
         try {
-            companyName = "companyName123";
             getLogger().info("companyName = " + companyName);
             boolean isCheckCompany = false;
             if (waitForVisibleOfLocator(By.xpath(companyEleStr))) {

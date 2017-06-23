@@ -122,7 +122,7 @@ public class ClientSignUpPage extends AbstractPage {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
             sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
-            scrollToFooter(getDriver());
+            scrollToFooter();
             clickElement(inputIndustry, "Input Industry");
             chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
             //sometime listoption not close after choose an option, so need to click somewhere to close, avoid it cover others element
