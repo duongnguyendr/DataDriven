@@ -1,16 +1,13 @@
 package com.auvenir.ui.services.auditor;
 
+import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
 import com.auvenir.ui.services.AbstractService;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created by cuong.nguyen on 4/27/2017.
@@ -132,6 +129,7 @@ public class AuditorEngagementService extends AbstractService {
             if(index == -1){
                 createAndSelectNewEnagement(engagementName, "", companyName);
             }else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            auditorEngagementPage.waitForProgressOverlayIsClosed();
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

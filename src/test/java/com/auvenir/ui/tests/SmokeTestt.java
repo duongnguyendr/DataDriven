@@ -475,9 +475,9 @@ public class SmokeTestt extends AbstractTest {
 //            getLogger().info("Verifying download TXT file..");
 //            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
+            NXGReports.addStep("Verify auditor add new request", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify new Category popup", LogAs.FAILED,
+            NXGReports.addStep("Verify auditor add new request", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
@@ -503,9 +503,9 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.uploadCreateRequestNewFileClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client upload and download file", LogAs.PASSED, null);
+            NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload and download file", LogAs.FAILED,
+            NXGReports.addStep("Verify the client upload file", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
@@ -534,9 +534,9 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client upload and download file", LogAs.PASSED, null);
+            NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload and download file", LogAs.FAILED,
+            NXGReports.addStep("Verify the auditor download file", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
@@ -779,9 +779,9 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorEngagementTeamService.clickEngagementTeamMenu();
 //            auditorEngagementTeamService.deleteAllMemberInEngagement();
-//            auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
+            auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
 
-//            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
+            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
             gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -1016,8 +1016,8 @@ public class SmokeTestt extends AbstractTest {
 
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction("Thuan Client");
-            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, "Thuan Client");
+            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction("Titan client");
+            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, "Titan client");
             marketingService.logout();
 
             //Client verify To Do Assigned.
@@ -1026,6 +1026,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             clientService.verifyToDoTaskExist(toDoName, true);
+            Thread.sleep(3000);
             marketingService.logout();
 
             //Auditor Member verify To Do Assigned.
@@ -1102,7 +1103,8 @@ public class SmokeTestt extends AbstractTest {
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         /*String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");*/
-        String engagementName = "Engagement999";
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -1259,9 +1261,9 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.clientDownloadAttachFile(GenericService.sDirPath+pathOfUploadLocation,GenericService.sDirPath +pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client upload and download file", LogAs.PASSED, null);
+            NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload and download file", LogAs.FAILED,
+            NXGReports.addStep("Verify the client download attach file", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
