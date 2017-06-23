@@ -4565,12 +4565,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee) {
         try {
-            Thread.sleep(3000);
-            getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
-            int index = findToDoTaskName(toDoName);
-            WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-            waitForTextValueChanged(auditorAssigneeSelected, "auditorAssigneeSelected", auditorAssignee);
-            if (auditorAssigneeSelected.getText().equals(auditorAssignee)) {
+            boolean result;
+            result = verifyAssigneeIsSelected(toDoName, auditorAssignee, false);
+            if (result) {
                 NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4584,11 +4581,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
         try {
-            Thread.sleep(3000);
-            int index = findToDoTaskName(toDoName);
-            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-            waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
-            if (clientAssigneeSelected.getText().equals(clientAssignee)) {
+            boolean result;
+            result = verifyAssigneeIsSelected(toDoName, clientAssignee, true);
+            if (result) {
                 NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4602,7 +4597,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
         Thread.sleep(2000);
-//        chooseOptionAssignToOnBulkActionsDropDown();
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
     }
 
@@ -5055,6 +5049,27 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public boolean verifyAssigneeIsSelected(String toDoName, String userAssignee, boolean isClient) {
+        getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
+        try {
+            waitSomeSeconds(3);
+            WebElement assigneeSelectedTxt = null;
+            int index = findToDoTaskName(toDoName);
+            if (isClient) {
+                assigneeSelectedTxt = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+            } else {
+                assigneeSelectedTxt = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+            }
+            waitForTextValueChanged(assigneeSelectedTxt, "assigneeSelectedTxt", userAssignee);
+            if (assigneeSelectedTxt.getText().equals(userAssignee))
+                return true;
+            return false;
+        } catch (Exception e) {
+            getLogger().info(e);
+            return false;
         }
     }
 }

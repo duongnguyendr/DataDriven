@@ -19,16 +19,16 @@ public class AuditorEngagementTeamService extends AbstractService {
         auditorEngagementTeamPage = new AuditorEngagementTeamPage(getLogger(), getDriver());
     }
 
-    public void clickEngagementTeamMenu() {
-        auditorEngagementTeamPage.clickEngagementTeamMenu();
+    public void clickOnEngagementTeamMenu() {
+        auditorEngagementTeamPage.clickOnEngagementTeamMenu();
     }
 
     public void deleteAllMemberInEngagement() {
         auditorEngagementTeamPage.deleteAllMemberInEngagement();
     }
 
-    public void clickInviteMember() {
-        auditorEngagementTeamPage.clickInviteMember();
+    public void clickOnInviteMember() {
+        auditorEngagementTeamPage.clickOnInviteMember();
     }
 
     public void inputInviteNewMemberInfo(String fullName, String email, String roleMember) {

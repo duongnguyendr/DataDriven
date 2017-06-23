@@ -47,20 +47,13 @@ public class ClientToDoPage extends AbstractPage{
         return -1;
     }
 
-    public void verifyToDoTaskExist(String toDoName, boolean isClient){
-        try{
-
-            int index = auditorCreateToDoPage.findToDoTaskName(toDoName, isClient);
-            if (index != -1) {
-                NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt ++;
-                NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
-                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (Exception e) {
-            AbstractService.sStatusCnt ++;
-            NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
+    public void verifyToDoTaskExist(String toDoName, boolean isClient) {
+        int index = auditorCreateToDoPage.findToDoTaskName(toDoName, isClient);
+        if (index != -1) {
+            NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Failed: Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }

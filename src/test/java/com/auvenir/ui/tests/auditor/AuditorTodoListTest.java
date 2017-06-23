@@ -381,7 +381,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
             //auditorDetailsEngagementService.navigateToTodoListPage();
             auditorTodoListService.verifyTodoListPage();
-            auditorCreateToDoService.verifyAddNewToDoTask("ZAToDo PLAT 2282");
+            auditorCreateToDoService.createNewToDoTask("ZAToDo PLAT 2282");
             auditorCreateToDoService.createListToDoTask(Arrays.asList(toDoListNames));
             auditorCreateToDoService.verifySortDataGridIcon();
             auditorCreateToDoService.verifyCheckBoxToDoName();
@@ -664,7 +664,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
 
-            auditorCreateToDoService.verifyAddNewToDoTask("Task 01 2284");
+            auditorCreateToDoService.createNewToDoTask("Task 01 2284");
             auditorCreateToDoService.closeSuccessToastMes();
             auditorCreateToDoService.clickCheckboxNewToDoTask();
             auditorCreateToDoService.verifyDefaultValueofBulkActionsDropdown("Bulk Actions");
@@ -851,7 +851,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.navigateToDoListPage();
 
             // Will uncomment when the code is updated with the new xpath and business.
-            auditorCreateToDoService.verifyAddNewToDoTask("Task2299");
+            auditorCreateToDoService.createNewToDoTask("Task2299");
 //            auditorCreateToDoService.verifyCreateToDoTaskWithoutCategory("Task2299");
 //            auditorCreateToDoService.closeSuccessToastMes();
             auditorCreateToDoService.selectToDoTaskName("Task2299");
@@ -895,13 +895,13 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
             auditorCreateToDoService.verifyClickCloseMarkPopup();
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
             int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
