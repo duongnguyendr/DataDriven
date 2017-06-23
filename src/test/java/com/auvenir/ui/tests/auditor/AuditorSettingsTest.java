@@ -31,9 +31,7 @@ public class AuditorSettingsTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        //String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         try {
-            //auditorAccountSettingsService.loginWithUserRole(userId);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
@@ -51,13 +49,10 @@ public class AuditorSettingsTest extends AbstractTest {
     public void verifyUIAuditorSetting() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        //String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            //auditorAccountSettingsService.loginWithUserRole(userId);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
@@ -75,13 +70,10 @@ public class AuditorSettingsTest extends AbstractTest {
     public void InputValueFullName() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        //String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        //String userId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            //auditorAccountSettingsService.loginWithUserRole(userId);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
