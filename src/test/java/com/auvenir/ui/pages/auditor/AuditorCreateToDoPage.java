@@ -11,12 +11,11 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
@@ -4958,15 +4957,39 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@id='empty-todo']//img")
     private WebElement imageEmptyToDo;
 
+    @FindBy(xpath = "//div[starts-with(@id,'Delete Todo Modal')]/div/div[starts-with(@id,'m-Delete Todo Modal')]")
+    private WebElement divConfirmDeleteToDoAnimate;
+
     /**
      * Click 'Delete' on Delete To-do popup
      * TODO: need to find appropriate method to wait before click
      */
     public void clickConfirmDeleteButton() {
-        waitSomeSeconds(1);
+//        GeneralUtilities.waitSomeSeconds(1);
         validateElementText(titleConfirmDeleteToDo, "Delete To-Do?");
         validateElementText(titleConfirmDeleteToDoDescription, "Are you sure you'd like to delete these To-Dos? Once deleted, you will not be able to retrieve any documents uploaded on the comments in the selected To-Dos.");
+        // This function is waiting to Popup Delete To Do task is displayed after running animation.
+        // We can move this function to Abstract Page or Common Page.
+        try {
+            getLogger().info("Waiting Animation.");
+            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    boolean result = false;
+                    result = (boolean) ((JavascriptExecutor) driver).executeScript(
+                            "var elm = arguments[0];" +
+                                    "var doc1 = elm.ownerDocument || document;" +
+                                    "var rect = elm.getBoundingClientRect();" +
+                                    "return elm === doc1.elementFromPoint(rect.left, rect.top);", divConfirmDeleteToDoAnimate);
+                    System.out.println("result: " + result);
+                    return result;
+                }
+            });
+        } catch (Exception e) {
+            getLogger().info(e);
+        }
         waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "block");
+
         hoverElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
         clickElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
         waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "none");
