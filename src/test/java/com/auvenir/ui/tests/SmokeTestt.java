@@ -281,7 +281,7 @@ public class SmokeTestt extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, "Leader");
+            clientService.inviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
