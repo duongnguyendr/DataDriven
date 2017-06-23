@@ -4393,7 +4393,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 Files.delete(path);
             }
             Thread.sleep(2000);
-            //clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
+//            clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
             if (mode1forDownloadUpload_mode2forDownloadAttach == 1) {
                 clickElement(downloadClientNewRequestBtn.get(0), "download newRequest");
             }else {
