@@ -343,7 +343,6 @@ public class SmokeTestt extends AbstractTest {
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
             gmailLoginService.filterEmail();
             gmailLoginService.clickOnboardingInvitationLink();
-
             clientSignUpService.navigateToSignUpForm();
             clientSignUpService.fillUpPersonalForm("0123456789");//10 number required
             clientSignUpService.fillUpBusinessForm("Titancorpvn");
