@@ -977,11 +977,12 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyTodosTextBox_DefaultGUI() throws InterruptedException {
-//        createToDoPage.verifyTodoTextbox_DefaultName();
         createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifyTodoTextboxBorder_AfterClickedAddTodo();
+        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
-        createToDoPage.verifyTodoTextboxBorder_Default();
-//        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
+
+
     }
 
     public void InputValidValue(String validValue) {

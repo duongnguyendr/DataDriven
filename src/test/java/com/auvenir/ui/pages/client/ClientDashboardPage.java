@@ -2,6 +2,9 @@ package com.auvenir.ui.pages.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +13,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Created by someone on someday.
+ * refactored partly by huy.huynh 23/06/2017
+ */
 public class ClientDashboardPage extends AbstractPage {
     AuvenirPage auvenirPage = null;
     private static final int waitTime = 60;
@@ -456,9 +463,9 @@ public class ClientDashboardPage extends AbstractPage {
     private WebElement myAuditTextEle;
 
     @FindBy(id = "inbox-header-message-type-filter")
-    private  WebElement allMessDropdownEle;
+    private WebElement allMessDropdownEle;
 
-    @FindBy(xpath =  "//div[contains(@id, 'email') and @class = 'au-modal']")
+    @FindBy(xpath = "//div[contains(@id, 'email') and @class = 'au-modal']")
     private WebElement emailContainerFormEle;
 
 //    @FindBy (xpath = "//*[@id='w-cta-mainText']")
@@ -519,11 +526,17 @@ public class ClientDashboardPage extends AbstractPage {
     }
 
     public void navigateToClientSettingsPage() {
-        waitForClickableOfElement(dashboardUserNameEle, "dashboardUserNameEle");
-        dashboardUserNameEle.click();
-        waitForSettingsTab();
-        waitForClickableOfElement(settingsTabEle, "settingsTabEle");
-        settingsTabEle.click();
+        try {
+            getLogger().info("Navigate to client Settings page.");
+            waitForClickableOfElement(dashboardUserNameEle, "Dashboard User Name");
+            clickElement(dashboardUserNameEle, "Dashboard User Name");
+            waitForSettingsTab();
+            waitForClickableOfElement(settingsTabEle, "Settings Tab");
+            clickElement(settingsTabEle, "Settings Tab");
+            NXGReports.addStep("Navigate to client setting tab.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Navigate to client settings tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     private void waitForSettingsTab() {
@@ -533,12 +546,11 @@ public class ClientDashboardPage extends AbstractPage {
 
 
     public void verifyClientHomePage() {
-        getLogger().info("verify client home page.");
+        getLogger().info("Verify client home page.");
         waitForVisibleElement(auvenirHeaderEle, "auvenirHeaderEle");
-//        validateElementText(eleWelcomeToYourDashboardTxt, "Hi Test! Welcome to your Dashboard.");
     }
 
-    public void verifyClientHeader(){
+    public void verifyClientHeader() {
         getLogger().info("Verifying Client Header");
         waitForVisibleElement(eleDashboardLnk, "Dashboard Link");
         validateDisPlayedElement(eleDashboardLnk, "Dashboard Link");
@@ -567,7 +579,7 @@ public class ClientDashboardPage extends AbstractPage {
         getLogger().info("Verify Message Inbox");
         clickAndHold(eleInboxIcn, "Inbox Icon");
         waitForVisibleElement(allMessDropdownEle, "All Message DropDown");
-        validateElementText(allMessDropdownEle,"All Messages");
+        validateElementText(allMessDropdownEle, "All Messages");
         validateDisPlayedElement(eleThereAreNoEmailsTxt, "There are no emails text.");
         validateDisPlayedElement(eleViewMessagesTxt, "View Messages Text");
         validateDisPlayedElement(eleNewMessagesBtn, "New Messages Button");
