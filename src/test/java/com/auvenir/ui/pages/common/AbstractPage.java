@@ -3185,5 +3185,32 @@ public class AbstractPage {
         }
         return webElement;
     }
+
+    /**
+     * wait until animation for element finish
+     *
+     * @param webElement  xpath to get element
+     * @param elementName vararg for formating
+     */
+    public void waitForAnimation(WebElement webElement, String elementName) {
+        // This function is waiting to Popup Delete To Do task is displayed after running animation.
+        // We can move this function to Abstract Page or Common Page.
+        try {
+            getLogger().info("Waiting For Animation: " + elementName);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+            wait.until((WebDriver driver) -> {
+                boolean result = false;
+                result = (boolean) ((JavascriptExecutor) driver).executeScript(
+                        "var elm = arguments[0];" +
+                                "var doc1 = elm.ownerDocument || document;" +
+                                "var rect = elm.getBoundingClientRect();" +
+                                "return elm === doc1.elementFromPoint(rect.left, rect.top);", webElement);
+                getLogger().info("result: " + result);
+                return result;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
      /*-----------end of huy.huynh on 15/06/2017.*/
 }
