@@ -995,8 +995,8 @@ public class SmokeTestt extends AbstractTest {
         String auditorInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Invited Auditor");
         String auditorInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
         String fullNameInvitedClient = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-//        String clientInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-        String clientInvitedId = "thuan.duong@mailinator.com";
+        String clientInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+//        String clientInvitedId = "thuan.duong@mailinator.com";
         String clientInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
 //        String toDoName = "TestAssignToDoBulk01";
