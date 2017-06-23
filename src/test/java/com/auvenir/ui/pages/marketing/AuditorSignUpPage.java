@@ -1039,7 +1039,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(phoneError, "phone nunber error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void createPassword(String strPass, String strCaptcha) {
+    public void createPassword(String strPass) {
         getLogger().info("Create Password for New User.");
         boolean result;
         try {
@@ -1197,8 +1197,13 @@ public class AuditorSignUpPage extends AbstractPage {
         confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
-        createPassword(strPassword, strPassword);
-
+        createPassword(strPassword);
+        waitForJSandJQueryToLoad();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //Change business rule, don't need to input below field.
 //        clickCreateAccountBtn();
 //        verifyConfirmSuccessPageContent();
