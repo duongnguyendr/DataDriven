@@ -1198,7 +1198,12 @@ public class AuditorSignUpPage extends AbstractPage {
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
         createPassword(strPassword, strPassword);
-
+        waitForJSandJQueryToLoad();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //Change business rule, don't need to input below field.
 //        clickCreateAccountBtn();
 //        verifyConfirmSuccessPageContent();

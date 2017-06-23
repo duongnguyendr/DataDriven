@@ -779,9 +779,9 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorEngagementTeamService.clickEngagementTeamMenu();
 //            auditorEngagementTeamService.deleteAllMemberInEngagement();
-//            auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
+            auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
 
-//            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
+            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
             gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -1016,8 +1016,8 @@ public class SmokeTestt extends AbstractTest {
 
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction("Thuan Client");
-            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, "Thuan Client");
+            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction("Titan client");
+            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, "Titan client");
             marketingService.logout();
 
             //Client verify To Do Assigned.
@@ -1026,6 +1026,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             clientService.verifyToDoTaskExist(toDoName, true);
+            Thread.sleep(3000);
             marketingService.logout();
 
             //Auditor Member verify To Do Assigned.
@@ -1102,7 +1103,8 @@ public class SmokeTestt extends AbstractTest {
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         /*String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");*/
-        String engagementName = "Engagement999";
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
