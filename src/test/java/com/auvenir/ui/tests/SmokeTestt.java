@@ -459,6 +459,7 @@ public class SmokeTestt extends AbstractTest {
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+        String pathFileUpload = GenericService.sDirPath + pathOfUploadLocation;
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -471,7 +472,7 @@ public class SmokeTestt extends AbstractTest {
             getLogger().info("Verifying auditor create 1st request name.. ");
             auditorCreateToDoService.verifyCreateRequest("New_Request 01", "client request");
             getLogger().info("Verifying upload TXT file..");
-            auditorCreateToDoService.uploadeCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, fileName);
+            auditorCreateToDoService.uploadeCreateRequestNewFile(pathFileUpload, fileName);
 //            getLogger().info("Verifying download TXT file..");
 //            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -497,11 +498,12 @@ public class SmokeTestt extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
+        String pathFileUpload = GenericService.sDirPath + pathOfUploadLocation;
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.clickNewRequestImg();
-            auditorCreateToDoService.uploadCreateRequestNewFileClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
+            auditorCreateToDoService.uploadCreateRequestNewFileClient(pathFileUpload, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -528,11 +530,13 @@ public class SmokeTestt extends AbstractTest {
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
+        String pathFileUpload = GenericService.sDirPath + pathOfUploadLocation;
+        String pathFileDownload = GenericService.sDirPath + pathOfDownloadLocation;
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.clickNewRequestImg();
-            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.downloadCreateRequestNewFile(pathFileUpload, pathFileDownload, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {

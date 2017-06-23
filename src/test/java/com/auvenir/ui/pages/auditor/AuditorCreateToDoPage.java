@@ -51,7 +51,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     private String todoNamePage = "";
     private String todoContentTextSearch = "name";
-    public static final int smallTimeOut = 2000;
     private String todoPageAddRequestImg = "//img[contains(@src,'slideOutMenu')]";
     //    private String todoPageAddRequestImg = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img";
     private String todoPageAddRequestBtn = "//*[@id='add-request-btn']";
@@ -2465,7 +2464,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void uiVerifyButtonUndoDisable() {
         try {
             getLogger().info("Verify button Undo Todo disable.");
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
 
             if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo disabled")) {
                 NXGReports.addStep("Verify button Undo Todo disable.", LogAs.PASSED, null);
@@ -2484,7 +2483,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void uiVerifyButtonUndoEnable() {
         try {
             getLogger().info("Verify button Undo Todo enable.");
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
 
             if (btnToDoUndo.getAttribute("class").toString().equals("fa fa-undo")) {
                 NXGReports.addStep("Verify button Undo Todo enable.", LogAs.PASSED, null);
@@ -2642,7 +2641,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void verifyTodoCompleteFrontend(String toDoName, String status) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(smallTimeOut);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -2681,7 +2680,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyTodoAssignToFrontend(String toDoName, String assigneeName) {
         getLogger().info("Verify name of assignee on UI after assign. Expected: " + assigneeName);
         try {
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -2703,7 +2702,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyTodoDeletedFrontend(String toDoName, String status) {
         try {
             getLogger().info("Verify a Todo not exist. Name: " + toDoName);
-            //Thread.sleep(1000);
+            //Thread.sleep(smallTimeOut);
             //TODO move xpath to properties file, very low peformance
             getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']"));
             if (status.equals("INACTIVE")) {
@@ -4062,7 +4061,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             DropdownDuedateBtn.click();
             waitForCssValueChanged(TableOfDatePicker, "Date Picker Table", "display", "block");
             getLogger().info("Current Month is: " + Month.getText());
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
 //            datePicker.pickADate("12","5","2017");
 
 
@@ -4203,7 +4202,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             Boolean isInvisible = findNewTodoItems();
             System.out.println("isInvisible: " + isInvisible);
             if (isInvisible) {
-                Thread.sleep(1000);
+                Thread.sleep(smallTimeOut);
                 waitForClickableOfElement(todoAllCheckbox);
                 getLogger().info("Select all Delete mail: ");
                 System.out.println("eleTodo CheckboxRox is: " + eleToDoCheckboxRow);
@@ -4268,7 +4267,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
 //            System.out.println("user location is: "+System.getProperty("user.home"));
             clickElement(uploadCreateRequestBtn);
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
             getLogger().info("Enter path of file..");
             StringSelection ss = new StringSelection(concatUpload);
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
@@ -4301,7 +4300,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             Thread.sleep(smallTimeOut);
             clickElement(uploadClientCreateRequestBtn);
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
             getLogger().info("Enter path of file..");
             StringSelection ss = new StringSelection(concatUpload);
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
@@ -4393,14 +4392,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
             if (Files.exists(path)) {
                 Files.delete(path);
             }
-            Thread.sleep(2000);
-//            clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
+            Thread.sleep(largeTimeOut);
             if (mode1forDownloadUpload_mode2forDownloadAttach == 1) {
                 clickElement(downloadClientNewRequestBtn.get(0), "download newRequest");
             }else {
                 clickElement(verifyAttachComplete, "download attachment");
             }
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
             String md5Upload = calculateMD5(concatUpload);
             getLogger().info("md5 upload is: " + md5Upload);
             String md5Download = calculateMD5(concatDownload);
@@ -4419,9 +4417,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
         try {
-//            setDownloadLocation();
             clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
             String md5Upload = calculateMD5(concatUpload);
             System.out.println("md5 upload is: " + md5Upload);
             String md5Download = calculateMD5(concatDownload);
@@ -4446,7 +4443,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void attachFile(String attachLocation, String fileName) {
         try {
             clickElement(attachBtn);
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
             getLogger().info("Enter path of file..");
             StringSelection ss = new StringSelection(attachLocation.concat(fileName));
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
@@ -4541,7 +4538,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             int index = findToDoTaskName(toDoName);
             clickElement(listAuditorAssigneeDdl.get(index), "listAuditorAssigneeDdl");
             WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeAuditorEle, auditorAssignee)));
-            Thread.sleep(1000);
+            Thread.sleep(smallTimeOut);
             clickElement(auditorAssigneeSelected, "auditorAssigneeSelected");
         } catch (Exception e) {
             getLogger().info(e);
@@ -4596,7 +4593,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
-        Thread.sleep(2000);
+        waitSomeSeconds(2);
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
     }
 
