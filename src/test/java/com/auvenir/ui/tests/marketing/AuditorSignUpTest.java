@@ -114,7 +114,7 @@ public class AuditorSignUpTest extends AbstractTest {
 
 //            auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
 
-            auditorSignUpService.createPassword(passwordCreate, "");
+            auditorSignUpService.createPassword(passwordCreate);
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);

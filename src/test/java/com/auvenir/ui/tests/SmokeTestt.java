@@ -188,7 +188,7 @@ public class SmokeTestt extends AbstractTest {
 
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
-            auditorSignUpService.createPassword(auditorPwd, "");
+            auditorSignUpService.createPassword(auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
@@ -281,7 +281,7 @@ public class SmokeTestt extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, "Leader");
+            clientService.inviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
@@ -474,9 +474,9 @@ public class SmokeTestt extends AbstractTest {
 //            getLogger().info("Verifying download TXT file..");
 //            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
+            NXGReports.addStep("Verify auditor add new request", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify new Category popup", LogAs.FAILED,
+            NXGReports.addStep("Verify auditor add new request", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
@@ -502,9 +502,9 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.uploadCreateRequestNewFileClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client upload and download file", LogAs.PASSED, null);
+            NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload and download file", LogAs.FAILED,
+            NXGReports.addStep("Verify the client upload file", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
@@ -533,9 +533,9 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client upload and download file", LogAs.PASSED, null);
+            NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload and download file", LogAs.FAILED,
+            NXGReports.addStep("Verify the auditor download file", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
@@ -769,7 +769,7 @@ public class SmokeTestt extends AbstractTest {
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         String auditorInvitedUserEmail = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Invited Auditor");
         String fullNameMember = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Full Name");
-        String roleMember = "Auditor";
+        String roleMember = "Partner";
         String auditorInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -993,7 +993,9 @@ public class SmokeTestt extends AbstractTest {
         String fullNameInvitedMember = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Full Name");
         String auditorInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Invited Auditor");
         String auditorInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
+        String fullNameInvitedClient = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
         String clientInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+//        String clientInvitedId = "thuan.duong@mailinator.com";
         String clientInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
 //        String toDoName = "TestAssignToDoBulk01";
@@ -1015,8 +1017,8 @@ public class SmokeTestt extends AbstractTest {
 
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction("Titan client");
-            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, "Titan client");
+            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction(fullNameInvitedClient);
+            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, fullNameInvitedClient);
             marketingService.logout();
 
             //Client verify To Do Assigned.
@@ -1260,9 +1262,9 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickNewRequestImg();
             auditorCreateToDoService.clientDownloadAttachFile(GenericService.sDirPath+pathOfUploadLocation,GenericService.sDirPath +pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client upload and download file", LogAs.PASSED, null);
+            NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload and download file", LogAs.FAILED,
+            NXGReports.addStep("Verify the client download attach file", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
