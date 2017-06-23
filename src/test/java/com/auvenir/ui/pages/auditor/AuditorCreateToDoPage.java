@@ -3688,7 +3688,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     Vien Pham add new method for PLAT 2326-2301
      */
 
-    @FindBy(xpath = "//table [@id=\"todo-table\"]//input[@type=\"text\"]")
+    @FindBy(xpath = "//table [@id='todo-table']//input[@type='text']")
     List<WebElement> TodosTextboxEle;
 
     @FindBy(xpath = "//input [@id=\"cb-select-all-todo\"]")
@@ -3757,9 +3757,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyFirstTodoTextbox_PlaceHolderValue() {
         getLogger().info("Verifying Hint text on first todo...");
         String firstHintValue = "Write your first To-do here";
-        waitForCssValueChanged(TodosTextboxEle.get(0), "Todo textbox", "border-color", GreenColor);
+        Boolean isCheck = validateCssValueElement(TodosTextboxEle.get(0),"placeholder",firstHintValue);
+//        waitForCssValueChanged(TodosTextboxEle.get(0), "Todo textbox", "border-color", GreenColor);
         try {
-            if (TodosTextboxEle.get(0).getAttribute("placeholder").equals(firstHintValue)) {
+            if (isCheck) {
                 NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3767,7 +3768,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("PlaceHolder value not exist_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
@@ -3792,10 +3793,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     }
 
-    public void verifyTodoTextboxBorder_Default() {
+    public void verifyTodoTextboxBorder_AfterClickedAddTodo() {
         WebElement textbox1 = TodosTextboxEle.get(0);
-        getLogger().info("Verifying border of todo Textbox default is white...");
-        String deFaultBorder = "1px solid rgb(255, 255, 255)";
+        getLogger().info("Verifying border of todo Textbox is Green after clicked add Todo...");
+        String GreenBorder = "1px solid rgb(255, 255, 255)";
         try {
             validateCssValueElement(textbox1, "border-color", GreenColor);
             NXGReports.addStep("Default border is White as expected.", LogAs.PASSED, null);
@@ -3808,7 +3809,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     }
 
-    public void verifyTodoTextboxBorder_WhileHovered() {
+    public void verifyTodoTextboxBorder_WhileHoveredOrFocus() {
         WebElement textbox1 = TodosTextboxEle.get(0);
         String GreenBorder = "rgb(92, 155, 160)";
         getLogger().info("Verifying border of todo Textbox is Green while hovered...");
