@@ -188,8 +188,8 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.verifySecurityInfoPageContent();
     }
 
-    public void createPassword(String strPass, String strCaptcha) {
-        auditorSignUpPage.createPassword(strPass, strCaptcha);
+    public void createPassword(String strPass) {
+        auditorSignUpPage.createPassword(strPass);
     }
 
     public void verifyCreateInvalidPassword(String password, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber) {

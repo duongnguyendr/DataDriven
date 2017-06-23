@@ -188,7 +188,7 @@ public class SmokeTestt extends AbstractTest {
 
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
-            auditorSignUpService.createPassword(auditorPwd, "");
+            auditorSignUpService.createPassword(auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
@@ -770,7 +770,7 @@ public class SmokeTestt extends AbstractTest {
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         String auditorInvitedUserEmail = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Invited Auditor");
         String fullNameMember = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Full Name");
-        String roleMember = "Auditor";
+        String roleMember = "Partner";
         String auditorInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -994,7 +994,9 @@ public class SmokeTestt extends AbstractTest {
         String fullNameInvitedMember = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Full Name");
         String auditorInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Invited Auditor");
         String auditorInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
-        String clientInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String fullNameInvitedClient = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+//        String clientInvitedId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String clientInvitedId = "thuan.duong@mailinator.com";
         String clientInvitedUserPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
 //        String toDoName = "TestAssignToDoBulk01";
@@ -1016,8 +1018,8 @@ public class SmokeTestt extends AbstractTest {
 
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction("Titan client");
-            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, "Titan client");
+            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction(fullNameInvitedClient);
+            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, fullNameInvitedClient);
             marketingService.logout();
 
             //Client verify To Do Assigned.

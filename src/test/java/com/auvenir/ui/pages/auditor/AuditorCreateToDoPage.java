@@ -2611,6 +2611,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             String listUser = "";
             boolean result = false;
+            clickElement(optionAssignTo, "Assign To Option");
             for (int i = 0; i < childItemAssigneeBulkDrpEle.size(); i++) {
                 listUser = childItemAssigneeBulkDrpEle.get(i).getText();
                 if (listUser.contains(assigneeName)) {
@@ -4601,12 +4602,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
         Thread.sleep(2000);
-        chooseOptionAssignToOnBulkActionsDropDown();
+//        chooseOptionAssignToOnBulkActionsDropDown();
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
-//        chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName();
-//        List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
-//        hoverElement(menuBulkActionsDropdown.get(2), "Bulk Assign To option");
-//        waitForCssValueChanged(popUpMarkCompleteWindows, "PopUp Mark Complete", "display", "block");
     }
 
     /**
