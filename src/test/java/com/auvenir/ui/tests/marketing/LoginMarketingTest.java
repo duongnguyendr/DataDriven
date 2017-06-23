@@ -49,7 +49,7 @@ public class LoginMarketingTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
             //marketingService.createAndActiveNewUserByEmail("minh nguyen","edge.minhtest@gmail.com","hoangminh1240", "Changeit@123","admin@auvenir.com","Changeit@123");
-            marketingService.setPrefixProtocol(httpProtocol);
+            //marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
