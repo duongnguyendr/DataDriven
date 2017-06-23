@@ -27,7 +27,6 @@ public class AuditorAccountSettingsService extends AbstractService {
 
     }
 
-
     public void verifyFooter() {
 
         try {
@@ -56,6 +55,7 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.verifyAccountSettingsPage();
             NXGReports.addStep("verify Auditor Account Settings page.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("verify Auditor Account Settings page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -66,6 +66,7 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.navigateToNotificationsPage();
             NXGReports.addStep("navigate to Notifications tab.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Notifications tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -76,6 +77,7 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.navigateToDevicesPage();
             NXGReports.addStep("navigate to Devices tab.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Devices tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -93,9 +95,10 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.navigateToDevicesTab();
             getLogger().info("Start verify Devices Tab of auditor settings page.");
             auditorAccountSettingsPage.verifyElementsOnDevicesTab();
+            NXGReports.addStep("Some elements on body are not displayed", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Some elements on body are not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
         }
     }
 
@@ -105,8 +108,8 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.inputFullName(TextValue);
             NXGReports.addStep("Inputed value: " + TextValue + " on FullName TextBox.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Unable to input value: " + TextValue + " on FullName TextBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
         }
     }
 
@@ -115,8 +118,8 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.sendTabkeyFullNameTxt();
             NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Unable to tab on Element FullNametxt.", LogAs.FAILED, null);
-            throw e;
         }
     }
 
@@ -125,8 +128,8 @@ public class AuditorAccountSettingsService extends AbstractService {
             auditorAccountSettingsPage.sendTabkeyPhoneNumberTxt();
             NXGReports.addStep("Tab successfully", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Unable to tab on Element PhoneNumbertx.", LogAs.FAILED, null);
-            throw e;
         }
     }
 }
