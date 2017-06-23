@@ -38,6 +38,8 @@ public class AbstractPage {
     public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
+    public static final int largeTimeOut = 2000;
+    public static final int bigTimeOut = 3000;
     public static final String categoryIndiMode = "indicategory";
     public static final String categoryTitleOfAddNew = "Add New Category";
     public static final String backgroundColor = "background-color";
