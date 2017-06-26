@@ -62,8 +62,8 @@ public class AuditorSignUpTest extends AbstractTest {
     final String emailCreate = "ff.minhtest@gmail.com";
     */
     final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User2", "Admin");
-    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
+//    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User2", "Admin");
+//    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 
     @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User")
     public void verifyRegisterAndActiveAuditorUser() throws Exception {
@@ -74,15 +74,15 @@ public class AuditorSignUpTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-//        final String emailCreate = "auvenirad@gmail.com";
+        final String strAdminEmail = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Admin");
+        final String strAdminPwd = GenericService.getTestDataFromExcel("LoginData", "USER_PWD", "Admin");
+        //        final String emailCreate = "auvenirad@gmail.com";
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
             // Below comment code need to be verify with new environment due to the business rule is changed.
             auditorSignUpService.deleteUserUsingApi(emailCreate);
-            auditorSignUpService.deleteUserUsingMongoDB(emailCreate);
 
-//            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -96,12 +96,10 @@ public class AuditorSignUpTest extends AbstractTest {
 
 
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
-//            marketingService.setPrefixProtocol(httpProtocol);
 
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
-//            marketingService.loginWithUserRole("admin@auvenir.com");
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
 
             gmailLoginService.gmailReLogin(passwordCreate);
@@ -168,7 +166,6 @@ public class AuditorSignUpTest extends AbstractTest {
         }
 
         try {
-            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -221,7 +218,6 @@ public class AuditorSignUpTest extends AbstractTest {
             phoneInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 4));
         }
         try {
-            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -255,7 +251,6 @@ public class AuditorSignUpTest extends AbstractTest {
         final String successPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "successPassword", "Invalid Value");
         final String confirmPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "confirmPassword", "Invalid Value");
         try {
-            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
