@@ -2432,7 +2432,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
-    public void selectToDoCommentIconByName(String toDoTaskName) {
+    public void clickCommentIconPerTaskName(String toDoTaskName) {
         getLogger().info("Select To Do Comment Icon by Name");
         int index = findToDoTaskName(toDoTaskName);
         clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
@@ -3041,7 +3041,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void clickPostComment() {
+    public void clickOnPostCommentButton() {
         getLogger().info("Click Post Comment Button");
         int size = getNumberOfListComment();
         waitForVisibleElement(postCommentButton, "Comment Input field");
@@ -3103,7 +3103,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verify User Input No Content Comment");
             waitForVisibleElement(typeCommentFieldEle, "Input Comment field");
             clearTextBox(typeCommentFieldEle, "Input Comment field");
-            clickPostComment();
+            clickOnPostCommentButton();
             result = verifyContentOfWarningToastMessage(noContentWarning);
             Assert.assertTrue(result, "Content of warning message is displayed unsuccessfully.");
             NXGReports.addStep("Verify User Input No Content Comment", LogAs.PASSED, null);
@@ -3123,7 +3123,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verify input a comment with max length with " + maxLength + " characters");
             verifyInputAComment(inputTextWithMaxLength);
             int numberOfListBefore = getNumberOfListComment();
-            clickPostComment();
+            clickOnPostCommentButton();
             result = verifyNewCommentIsDisplayed(numberOfListBefore, inputTextWithMaxLength);
             Assert.assertTrue(result, String.format("Cannot input max length %d characters", maxLength));
             NXGReports.addStep("Input a comment with max length with " + maxLength + "character", LogAs.PASSED, null);
@@ -3143,7 +3143,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("Verify input a comment with special characters.");
             verifyInputAComment(specialCharacters);
             int numberOfListBefore = getNumberOfListComment();
-            clickPostComment();
+            clickOnPostCommentButton();
             result = verifyNewCommentIsDisplayed(numberOfListBefore, specialCharacters);
             Assert.assertTrue(result, String.format("Cannot input a comment with special characters '%s'", specialCharacters));
             NXGReports.addStep("Verify input a comment with special characters.", LogAs.PASSED, null);
@@ -4875,7 +4875,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         return -1;
     }
 
-    public void selectToDoCommentIconByName(String toDoTaskName, boolean isClient) {
+    public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
         getLogger().info("Select To Do Comment Icon by Name");
         int index = findToDoTaskName(toDoTaskName, isClient);
         clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
