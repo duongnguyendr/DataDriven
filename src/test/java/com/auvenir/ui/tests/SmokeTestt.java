@@ -1225,6 +1225,7 @@ public class SmokeTestt extends AbstractTest {
         String pathOfAttachLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Attach Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+        String pathFileAttach = GenericService.sDirPath + pathOfAttachLocation;
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1232,7 +1233,7 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.auditorAttachNewFile(GenericService.sDirPath + pathOfAttachLocation, fileName);
+            auditorCreateToDoService.auditorAttachNewFile(pathFileAttach, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor attach file.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1256,11 +1257,13 @@ public class SmokeTestt extends AbstractTest {
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Attach Name");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
+        String pathFileAttach = GenericService.sDirPath + pathOfUploadLocation;
+        String pathFileDownload = GenericService.sDirPath + pathOfDownloadLocation;
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.clientDownloadAttachFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.clientDownloadAttachFile(pathFileAttach,pathFileDownload, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify client download attach file.", LogAs.PASSED, null);
         } catch (Exception e) {
