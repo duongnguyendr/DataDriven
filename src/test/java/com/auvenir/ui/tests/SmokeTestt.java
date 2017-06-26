@@ -467,7 +467,7 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
 //            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
-            auditorCreateToDoService.clickNewRequestImg();
+            auditorCreateToDoService.clickOnNewRequestImg();
             auditorCreateToDoService.clickAddRequestButton();
             getLogger().info("Verifying auditor create 1st request name.. ");
             auditorCreateToDoService.verifyCreateRequest("New_Request 01", "client request");
@@ -502,8 +502,9 @@ public class SmokeTestt extends AbstractTest {
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.clickNewRequestImg();
-            auditorCreateToDoService.uploadCreateRequestNewFileClient(pathFileUpload, fileName);
+            auditorCreateToDoService.clickOnNewRequestImg();
+            auditorCreateToDoService.uploadFileNewRequestByClient(pathFileUpload, fileName);
+            auditorCreateToDoService.verifyUploadFileNewRequestByClient(fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -535,7 +536,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.clickNewRequestImg();
+            auditorCreateToDoService.clickOnNewRequestImg();
             auditorCreateToDoService.downloadCreateRequestNewFile(pathFileUpload, pathFileDownload, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
@@ -1232,7 +1233,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickNewRequestImg();
+            auditorCreateToDoService.clickOnNewRequestImg();
             getLogger().info("Verifying auditor attach a TXT file..");
             auditorCreateToDoService.auditorAttachNewFile(GenericService.sDirPath + pathOfAttachLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1261,7 +1262,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.clickNewRequestImg();
+            auditorCreateToDoService.clickOnNewRequestImg();
             auditorCreateToDoService.clientDownloadAttachFile(GenericService.sDirPath+pathOfUploadLocation,GenericService.sDirPath +pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);

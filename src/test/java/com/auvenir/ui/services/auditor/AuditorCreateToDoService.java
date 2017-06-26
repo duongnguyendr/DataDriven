@@ -834,7 +834,7 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
-    public void clickNewRequestImg() {
+    public void clickOnNewRequestImg() {
         createToDoPage.verifyAddNewRequestImg();
     }
 
@@ -865,9 +865,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
-    public void uploadCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
-        createToDoPage.uploadeCreateRequestNewFileClient(uploadLocation.concat(fileName));
-        createToDoPage.verifyUploadFileSuccessfullyClient(fileName);
+    public void uploadFileNewRequestByClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadFileNewRequestByClient(uploadLocation.concat(fileName));
+    }
+    public void verifyUploadFileNewRequestByClient(String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
     }
 
     public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){

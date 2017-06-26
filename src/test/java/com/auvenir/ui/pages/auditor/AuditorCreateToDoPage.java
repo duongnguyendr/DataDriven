@@ -4297,7 +4297,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
+    public void uploadFileNewRequestByClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
             Thread.sleep(smallTimeOut);
             clickElement(uploadClientCreateRequestBtn);
@@ -4357,7 +4357,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void verifyUploadFileSuccessfullyClient(String fileName) {
+    public void verifyUploadFileSuccessfullyByClient(String fileName) {
         try {
             waitForCssValueChanged(fileNameAfterUploadedClient, "fileName After uploaded", "display", "inline-block");
             String isCheck = fileNameAfterUploadedClient.getText();
