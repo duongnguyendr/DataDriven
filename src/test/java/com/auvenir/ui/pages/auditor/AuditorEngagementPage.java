@@ -418,10 +418,18 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void verifyAuditorEngagementPage() {
+        boolean isCompareText = false;
         waitForVisibleElement(myEngagementTextEle, "myEngagementTextEle");
 //        validateElementText(myEngagementTextEle, "My Engagements");
-        validateElementText(myEngagementTextEle, "All Engagements");
-
+        isCompareText = validateElementText(myEngagementTextEle, "All Engagements");
+        if(isCompareText)
+        {
+            NXGReports.addStep("Verify Auditor Engagement", LogAs.PASSED, null);
+        }
+        else
+        {
+            NXGReports.addStep("Verify Auditor Engagement", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void navigateToContactsTab() {
