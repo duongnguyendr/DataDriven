@@ -65,7 +65,7 @@ public class AdminService extends AbstractService {
 
     public void verifyFooter() {
         getLogger().info("Verify page footer.");
-        auvenirPage.verifyFooter();
+        auvenirPage.verifyFooterOfHomepage();
     }
 
     public void viewAndVerifyCredentials() {

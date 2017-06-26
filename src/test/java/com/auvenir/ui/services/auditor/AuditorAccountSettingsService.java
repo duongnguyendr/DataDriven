@@ -1,7 +1,6 @@
 package com.auvenir.ui.services.auditor;
 
 import com.auvenir.ui.pages.auditor.AuditorAcountSettingsPage;
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -32,7 +31,7 @@ public class AuditorAccountSettingsService extends AbstractService {
     public void verifyFooter() throws AWTException, InterruptedException {
         auditorAccountSettingsPage.scrollPageDown();
         getLogger().info("verify footer page.");
-        auditorAccountSettingsPage.verifyFooter();
+        auditorAccountSettingsPage.verifyFooterOfHomepage();
         getLogger().info("verfify term of service link.");
         auditorAccountSettingsPage.verifyTermsOfServiceLink();
         getLogger().info("verify privacy state link.");
