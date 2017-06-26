@@ -574,9 +574,9 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyInputAComment(commentContent);
-            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickPostComment();
-            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
+            int numberOfListComment = auditorCreateToDoService.getNumberOfListComment();
+            auditorCreateToDoService.clickOnPostCommentButton();
+            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListComment, commentContent);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -896,8 +896,6 @@ public class SmokeTestt extends AbstractTest {
 //        String clientId = "thuanduong@mailinator.com";
         String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
 //        String clientPassword = "Changeit@123";
-        String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-
 
         try {
 
@@ -931,7 +929,6 @@ public class SmokeTestt extends AbstractTest {
 //        String clientId = "thuanduong@mailinator.com";
         String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
 //        String clientPassword = "Changeit@123";
-        String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
 
         try {
 
@@ -942,9 +939,9 @@ public class SmokeTestt extends AbstractTest {
 
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName, true);
             auditorCreateToDoService.verifyInputAComment(commentContent);
-            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickPostComment();
-            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
+            int numberOfListComment = auditorCreateToDoService.getNumberOfListComment();
+            auditorCreateToDoService.clickOnPostCommentButton();
+            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListComment, commentContent);
 
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

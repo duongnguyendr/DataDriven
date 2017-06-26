@@ -25,17 +25,7 @@ public class LoginMarketingTest extends AbstractTest {
     private GmailLoginService gmailLoginService;
 
     //private LoginTest loginTest;
-    private AuditorSignUpService auditorSignUpService;
-    private AdminService adminService;
-    private EmailTemplateService emailTemplateService;
     private AuditorEngagementService auditorEngagementService;
-
-    final String fullName = "Test Login Auditor";
-    //    final String fullName = "Duong Nguyen";
-    final String strEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User4", "Auditor");
-    //    final String strEmail = "auvenirinfo@gmail.com";
-    final String password = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-
 
     private String emailId = null;
     private String emailPassword = null;
@@ -173,13 +163,14 @@ public class LoginMarketingTest extends AbstractTest {
 
     @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
     public void loginAndLogoutTest() throws Exception {
+        marketingService = new MarketingService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        String emailAuditorLogin = GenericService.getTestDataFromExcel("LoginData", "Valid User4", "Auditor");
+        String passwordAuditorLogin = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
         try {
-            marketingService = new MarketingService(getLogger(),getDriver());
-            auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithUserNamePassword(strEmail, password);
+            marketingService.loginWithUserNamePassword(emailAuditorLogin, passwordAuditorLogin);
             auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -193,11 +184,12 @@ public class LoginMarketingTest extends AbstractTest {
     @Test(priority = 6, enabled = true,description = "Clear all cookies after user login successfully.")
     public void clearCookieAfterLoginSuccessTest(){
         marketingService = new MarketingService(getLogger(),getDriver());
+        String emailAuditorLogin = GenericService.getTestDataFromExcel("LoginData", "Valid User4", "Auditor");
+        String passwordAuditorLogin = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
         try {
-            marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
-            marketingService.loginWithUserNamePassword(strEmail, password);
+            marketingService.loginWithUserNamePassword(emailAuditorLogin, passwordAuditorLogin);
             //Will uncomment this code when web app is redirect to right website.
 //            marketingService.deleteCookieName("token_data");
 //            marketingService.deleteCookieName("au_urs_info");
@@ -220,7 +212,7 @@ public class LoginMarketingTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true,description = "Test login when user input invalid email and password.")
+    @Test(priority = 7, enabled = true, description = "Test login when user input invalid email and password.")
     public  void loginWithInvalidEmailAndPassword() {
         String emailInvalid1 = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "INVALID VALUE1", "Auditor");
         String password = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
@@ -230,7 +222,6 @@ public class LoginMarketingTest extends AbstractTest {
 //        String passwordNotExists = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", 5, 2);
         marketingService = new MarketingService(getLogger(),getDriver());
         try {
-            marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             //Verify Test login when user does not input email and password.
             marketingService.loginToMarketingPageWithInvalidValue("","");
@@ -239,18 +230,22 @@ public class LoginMarketingTest extends AbstractTest {
             //Verify Test login when user input invalid email.
             marketingService.refreshHomePage();
             marketingService.loginToMarketingPageWithInvalidValue(emailInvalid1,password);
+            marketingService.verifyColorUserNameTxtBox();
             marketingService.verifyErrorLoginMessage("The email is invalid!");
             marketingService.refreshHomePage();
             marketingService.loginToMarketingPageWithInvalidValue(emailInvalid2,password);
+            marketingService.verifyColorUserNameTxtBox();
             marketingService.verifyErrorLoginMessage("The email is invalid!");
             marketingService.refreshHomePage();
             marketingService.loginToMarketingPageWithInvalidValue(emailInvalid3,password);
+            marketingService.verifyColorUserNameTxtBox();
             marketingService.verifyErrorLoginMessage("The email is invalid!");
             //Verify Test login with incorrect email or password.
             marketingService.refreshHomePage();
             marketingService.loginToMarketingPageWithInvalidValue(emailNotExists, password);
-            marketingService.verifyColorUserNameTxtBox();
-            marketingService.verifyColorPasswordTxtBox();
+            //Business is changed, User Name and Password textbox is not changed color error.
+//            marketingService.verifyColorUserNameTxtBox();
+//            marketingService.verifyColorPasswordTxtBox();
             marketingService.verifyErrorLoginMessage("Wrong username or password!");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test login when user does not input email and password: PASSED", LogAs.PASSED, null);
