@@ -570,7 +570,7 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             // Will uncomment when the code is updated with the new xpath and business.
-//            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+//            auditorCreateToDoService.createNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyInputAComment(commentContent);
@@ -615,7 +615,7 @@ public class SmokeTestt extends AbstractTest {
             // Verify GUI engagement detail page
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             // Create new to do
-            //auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            //auditorCreateToDoService.createNewToDoTask(toDoName);
             // Select to do follow to do name
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             // Click on Bulk Action drop down
@@ -1009,7 +1009,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
 
 
             int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
@@ -1072,10 +1072,10 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteSingle);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple01);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple02);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple03);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteSingle);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple01);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple02);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple03);
 
             auditorCreateToDoService.selectToDoTaskName(toDoNameDeleteSingle);
             auditorCreateToDoService.clickBulkActionsDropdown();

@@ -69,7 +69,8 @@ public class AbstractPage {
     public static final String popUpDivCategoryModel = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
     private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
-    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+//    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    public final String warningBorderCSSColor = "rgba(253, 109, 71, 0.43)";
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
     /**
@@ -1904,7 +1905,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 200);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);
