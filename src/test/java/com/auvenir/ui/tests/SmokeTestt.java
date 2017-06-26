@@ -127,7 +127,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
-//            auditorSignUpService.deleteUserUsingApi(emailCreate);
+            auditorSignUpService.deleteUserUsingApi(emailCreate);
 
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();

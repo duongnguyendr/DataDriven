@@ -1048,7 +1048,7 @@ public class AdminLoginPage extends AbstractPage {
     private String xpathUserTypeCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[2]";
     private String xpathEmailCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[3]";
     private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
-    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[6]/select";
+    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[5]/select"; //Change new xpath
 
     /**
      * verify info of user
