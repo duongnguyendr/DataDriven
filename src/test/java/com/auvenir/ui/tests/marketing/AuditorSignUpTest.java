@@ -79,7 +79,6 @@ public class AuditorSignUpTest extends AbstractTest {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
             // Below comment code need to be verify with new environment due to the business rule is changed.
-            System.out.println("emailCreate: " + emailCreate);
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.deleteUserUsingMongoDB(emailCreate);
 
@@ -114,7 +113,7 @@ public class AuditorSignUpTest extends AbstractTest {
 
 //            auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
 
-            auditorSignUpService.createPassword(passwordCreate, "");
+            auditorSignUpService.createPassword(passwordCreate);
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);

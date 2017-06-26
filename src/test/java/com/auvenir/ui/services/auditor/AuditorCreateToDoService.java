@@ -773,7 +773,7 @@ public class AuditorCreateToDoService extends AbstractService {
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName);
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName);
     }
 
     public void verifyDefaultHintValueInputComment() {
@@ -803,12 +803,12 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyInputMultiComment(String commentType, int numberComment) {
         for (int i = 0; i < numberComment; i++) {
             createToDoPage.verifyInputAComment(commentType + i);
-            clickPostComment();
+            clickOnPostCommentButton();
         }
     }
 
-    public void clickPostComment() {
-        createToDoPage.clickPostComment();
+    public void clickOnPostCommentButton() {
+        createToDoPage.clickOnPostCommentButton();
     }
 
     public int getNumberOfListComment() {
@@ -1271,7 +1271,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
 
     public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName, isClient);
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName, isClient);
     }
 
     /**

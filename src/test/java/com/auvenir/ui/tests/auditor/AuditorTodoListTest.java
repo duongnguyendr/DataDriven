@@ -858,7 +858,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorCreateToDoService.clickCommentIconPerTaskName("Task2299");
             auditorCreateToDoService.verifyInputAComment("comment Task22991");
             int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickPostComment();
+            auditorCreateToDoService.clickOnPostCommentButton();
             auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, "comment Task22991");
             auditorCreateToDoService.verifyBoxTitleComment();
             auditorCreateToDoService.verifyClickOnInputCommentField();
