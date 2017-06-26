@@ -1039,7 +1039,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(phoneError, "phone nunber error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void createNewPasswordOnSecurityForm(String strPass) {
+    public void createPassword(String strPass) {
         getLogger().info("Create Password for New User.");
         boolean result;
         try {
@@ -1193,11 +1193,11 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String strPassword){
-        verifyAuditorPersonalInformation(fullName, strEmail, "IT", "4167877865", "Online");
-        verifyAuditorFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
+        confirmAuditorPersonalInfo(fullName, strEmail, "IT", "4167877865", "Online");
+        confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
-        createNewPasswordOnSecurityForm(strPassword);
+        createPassword(strPassword);
         waitForJSandJQueryToLoad();
         try {
             Thread.sleep(500);
@@ -1219,7 +1219,7 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strPhone     String Phone Number Auditor
      * @param strReference String Reference to Auvenir
      */
-    public void verifyAuditorPersonalInformation(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
+    public void confirmAuditorPersonalInfo(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
         getLogger().info("Input all field in Register Personal Information Page and click Continue Button");
         boolean result;
         try {
@@ -1292,7 +1292,7 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strAffName    Affiliated Firm's Name
      * @param strPathLogo   Path Logo
      */
-    public void verifyAuditorFirmInformation(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
+    public void confirmFirmInformation(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
         getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
         boolean result;
         try {

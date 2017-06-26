@@ -127,7 +127,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
-            auditorSignUpService.deleteUserUsingApi(emailCreate);
+//            auditorSignUpService.deleteUserUsingApi(emailCreate);
 
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -570,7 +570,7 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             // Will uncomment when the code is updated with the new xpath and business.
-//            auditorCreateToDoService.createNewToDoTask(toDoName);
+//            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyInputAComment(commentContent);
@@ -615,7 +615,7 @@ public class SmokeTestt extends AbstractTest {
             // Verify GUI engagement detail page
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             // Create new to do
-            //auditorCreateToDoService.createNewToDoTask(toDoName);
+            //auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
             // Select to do follow to do name
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             // Click on Bulk Action drop down
@@ -781,7 +781,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            auditorEngagementTeamService.clickOnEngagementTeamMenu();
+            auditorEngagementTeamService.clickEngagementTeamMenu();
 //            auditorEngagementTeamService.deleteAllMemberInEngagement();
             auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
 
@@ -792,8 +792,8 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            auditorEngagementTeamService.clickOnEngagementTeamMenu();
-            auditorEngagementTeamService.clickOnInviteMember();
+            auditorEngagementTeamService.clickEngagementTeamMenu();
+            auditorEngagementTeamService.clickInviteMember();
             auditorEngagementTeamService.inputInviteNewMemberInfo(fullNameMember, auditorInvitedUserEmail, roleMember);
             auditorEngagementTeamService.verifyAddNewInvitedMember(fullNameMember, roleMember);
 
@@ -847,8 +847,7 @@ public class SmokeTestt extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Client verify engagement, assigned To-Do.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Client verify " +
-                    "engagement, assigned To-Do.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Client verify engagement, assigned To-Do.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1005,19 +1004,15 @@ public class SmokeTestt extends AbstractTest {
 
         try {
 
-            marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
-            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
-//            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
-
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.createNewToDoTask(toDoName);
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
 
 
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.selectAssigneeToDoUsingBulkAction(fullNameInvitedMember);
             auditorCreateToDoService.verifyAuditorAssigneeSelected(toDoName, fullNameInvitedMember);
@@ -1077,10 +1072,10 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteSingle);
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple01);
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple02);
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple03);
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteSingle);
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple01);
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple02);
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple03);
 
             auditorCreateToDoService.selectToDoTaskName(toDoNameDeleteSingle);
             auditorCreateToDoService.clickBulkActionsDropdown();
@@ -1173,7 +1168,7 @@ public class SmokeTestt extends AbstractTest {
             // Verify GUI engagement detail page
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             // Click on team link
-            auditorEngagementTeamService.clickOnEngagementTeamMenu();
+            auditorEngagementTeamService.clickEngagementTeamMenu();
             // Verify member is already exist in team list data
             auditorEngagementTeamService.verifyMemberIsShownInTeamList(fullNameMember, roleMember);
 

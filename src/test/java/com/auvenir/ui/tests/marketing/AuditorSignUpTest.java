@@ -91,7 +91,7 @@ public class AuditorSignUpTest extends AbstractTest {
 //            auditorSignUpService.verifyFirmSignUpPage();
             auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
 //            auditorSignUpService.verifySecuritySignUpPage();
-//            auditorSignUpService.createNewPasswordOnSecurityForm(passwordCreate, "");
+//            auditorSignUpService.createPassword(passwordCreate, "");
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 

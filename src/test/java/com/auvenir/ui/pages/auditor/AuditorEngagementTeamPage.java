@@ -88,7 +88,7 @@ public class AuditorEngagementTeamPage extends AbstractPage {
      * verifyCheckListTeam - TanPH - 2017/06/22 - End
      */
 
-    public void clickOnEngagementTeamMenu() {
+    public void clickEngagementTeamMenu() {
         getLogger().info("Click Engagement Team menu.");
         clickElement(teamMemberLinkEle, "Team Member Engagement Menu");
     }
@@ -123,7 +123,7 @@ public class AuditorEngagementTeamPage extends AbstractPage {
         }
     }
 
-    public void clickOnInviteMember() {
+    public void clickInviteMember() {
         getLogger().info("Click Invite Member Button.");
         clickElement(inviteMemberBtnEle, "Invite Member Button");
     }
@@ -175,8 +175,8 @@ public class AuditorEngagementTeamPage extends AbstractPage {
                     clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown");
                     clickElement(deleteOptionActionsEle, "Delete Option Dropdown");
                     waitForProgressOverlayIsClosed();
-                    index = findTeamMemberByName(fullNameMember);
-                    if (index != -1) throw new Exception();
+//                    boolean result = verifyContentOfSuccessToastMessage("Your team member has been removed.");
+//                    if (!result) throw new Exception();
                 }
             }
             NXGReports.addStep("Delete All Member in Engagement.", LogAs.PASSED, null);
@@ -198,9 +198,11 @@ public class AuditorEngagementTeamPage extends AbstractPage {
                 String actualAttributeValue;
                 String classAttribute;
                 for (int i = 0; i < auditorTeamMemberNameEle.size(); i++) {
+//                        WebElement toDoNameCell = auditorTeamMemberNameEle.get(i).findElement(By.xpath("td/input[@type='text']"));
                     actualAttributeValue = auditorTeamMemberNameEle.get(i).getText().trim();
                     if (actualAttributeValue.equals(fullNameMember)) {
                         getLogger().info("Team Member Name is found at " + i);
+                        NXGReports.addStep(String.format("The position of Team Member: '%s' at %d", fullNameMember, i), LogAs.PASSED, null);
                         return i;
                     }
                 }

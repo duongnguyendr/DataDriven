@@ -175,7 +175,7 @@ public class AuditorCreateToDoService extends AbstractService {
             //createToDoTask.navigateToEngagementTask();
             createToDoTask.navigateToToDoList();
             createToDoTask.clickCreateToDoTask();
-            //createToDoTask.createNewToDoTask();
+            //createToDoTask.verifyAddNewToDoTask();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -342,7 +342,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void createNewToDoTask(String toDoName) throws Exception {
+    public void verifyAddNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 

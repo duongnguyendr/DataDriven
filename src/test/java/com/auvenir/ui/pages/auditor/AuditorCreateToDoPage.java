@@ -11,11 +11,12 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import com.mongodb.DBCollection;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import javax.sql.rowset.spi.SyncFactoryException;
@@ -2571,7 +2572,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void chooseOptionDeleteOnBulkActionsDropDown() {
         try {
             getLogger().info("Choose option: Delete.");
-            optionDelete.click();
+            clickElement(optionDelete, "Option Delete");
             NXGReports.addStep("Choose option: Delete.", LogAs.PASSED, null);
         } catch (Exception ex) {
             getLogger().info(ex);
@@ -3360,7 +3361,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3756,7 +3757,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyFirstTodoTextbox_PlaceHolderValue() {
         getLogger().info("Verifying Hint text on first todo...");
         String firstHintValue = "Write your first To-do here";
-        Boolean isCheck = validateCssValueElement(TodosTextboxEle.get(0),"placeholder",firstHintValue);
+        Boolean isCheck = validateCssValueElement(TodosTextboxEle.get(0), "placeholder", firstHintValue);
 //        waitForCssValueChanged(TodosTextboxEle.get(0), "Todo textbox", "border-color", GreenColor);
         try {
             if (isCheck) {
@@ -4394,8 +4395,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
             Thread.sleep(largeTimeOut);
             if (mode1forDownloadUpload_mode2forDownloadAttach == 1) {
-                clickElement(downloadClientNewRequestBtn.get(0), "download newRequest");
-            }else {
+                clickElement(downloadClientNewRequestBtn.get(0), "click to download newRequest button");
+            } else {
                 clickElement(verifyAttachComplete, "download attachment");
             }
             Thread.sleep(largeTimeOut);
@@ -4562,9 +4563,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee) {
         try {
-            boolean result;
-            result = verifyAssigneeIsSelected(toDoName, auditorAssignee, false);
-            if (result) {
+            Thread.sleep(bigTimeOut);
+            getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
+            int index = findToDoTaskName(toDoName);
+            WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+            waitForTextValueChanged(auditorAssigneeSelected, "auditorAssigneeSelected", auditorAssignee);
+            if (auditorAssigneeSelected.getText().equals(auditorAssignee)) {
                 NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4578,9 +4582,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
         try {
-            boolean result;
-            result = verifyAssigneeIsSelected(toDoName, clientAssignee, true);
-            if (result) {
+            Thread.sleep(bigTimeOut);
+            int index = findToDoTaskName(toDoName);
+            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+            waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
+            if (clientAssigneeSelected.getText().equals(clientAssignee)) {
                 NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4593,7 +4599,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
-        waitSomeSeconds(2);
+        Thread.sleep(largeTimeOut);
+//        chooseOptionAssignToOnBulkActionsDropDown();
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
     }
 
@@ -4954,34 +4961,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
      */
     public void clickConfirmDeleteButton() {
 //        GeneralUtilities.waitSomeSeconds(1);
-        validateElementText(titleConfirmDeleteToDo, "Delete To-Do?");
-        validateElementText(titleConfirmDeleteToDoDescription, "Are you sure you'd like to delete these To-Dos? Once deleted, you will not be able to retrieve any documents uploaded on the comments in the selected To-Dos.");
-        // This function is waiting to Popup Delete To Do task is displayed after running animation.
-        // We can move this function to Abstract Page or Common Page.
-        try {
-            getLogger().info("Waiting Animation.");
-            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
-            wait.until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver driver) {
-                    boolean result = false;
-                    result = (boolean) ((JavascriptExecutor) driver).executeScript(
-                            "var elm = arguments[0];" +
-                                    "var doc1 = elm.ownerDocument || document;" +
-                                    "var rect = elm.getBoundingClientRect();" +
-                                    "return elm === doc1.elementFromPoint(rect.left, rect.top);", divConfirmDeleteToDoAnimate);
-                    System.out.println("result: " + result);
-                    return result;
-                }
-            });
-        } catch (Exception e) {
-            getLogger().info(e);
-        }
-        waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "block");
-
-        hoverElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
+//        validateElementText(titleConfirmDeleteToDo, "Delete To-Do?");
+//        validateElementText(titleConfirmDeleteToDoDescription, "Are you sure you'd like to delete these To-Dos? Once deleted, you will not be able to retrieve any documents uploaded on the comments in the selected To-Dos.");
+//        waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "block");
+//
+//        hoverElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
+        waitForAnimation(divConfirmDeleteToDoAnimate, "Div Confirm Delete ToDo Animation");
         clickElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
         waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "none");
     }
+
 
     /**
      * Verify to-do not existed on list To-dos
@@ -5046,27 +5035,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    public boolean verifyAssigneeIsSelected(String toDoName, String userAssignee, boolean isClient) {
-        getLogger().info("Verify Auditor Assignee Selected in Dropdownlist.");
-        try {
-            waitSomeSeconds(3);
-            WebElement assigneeSelectedTxt = null;
-            int index = findToDoTaskName(toDoName);
-            if (isClient) {
-                assigneeSelectedTxt = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-            } else {
-                assigneeSelectedTxt = listAuditorAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
-            }
-            waitForTextValueChanged(assigneeSelectedTxt, "assigneeSelectedTxt", userAssignee);
-            if (assigneeSelectedTxt.getText().equals(userAssignee))
-                return true;
-            return false;
-        } catch (Exception e) {
-            getLogger().info(e);
-            return false;
         }
     }
 }
