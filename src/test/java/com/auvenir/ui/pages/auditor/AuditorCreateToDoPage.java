@@ -3183,9 +3183,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /**
      * Author minh.nguyen
      */
-    public void verifyAddNewRequestImg() {
+    public void verifyColorAddRequestBtn() {
         verifyPopupColorAddRequestBtn();
-
     }
 
     /**
@@ -3206,13 +3205,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='auv-todo-details']")
     WebElement addNewRequestWindow;
 
-    public void clickToDoListAddNewRequest() throws InterruptedException {
+    public void openAddNewRequestWindow() throws InterruptedException {
         Thread.sleep(smallerTimeOut);
         clickElement(todoListAddNewRequestImg, "click to todoListAddNewRequestImg");
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
     }
 
-    public void closeTodoListAddNewRequest() {
+    public void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
     }
@@ -3224,17 +3223,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         getLogger().info("Verify the background and text color of the Add request button.");
         boolean isCheckColor = false;
         try {
-            clickToDoListAddNewRequest();
+            openAddNewRequestWindow();
             isCheckColor = verifyColorBackgroundTextBtn(totoPageAddRequestBtn, "rgba(151, 147, 147, 1)", "rgba(255, 255, 255, 1)");
             if (isCheckColor) {
-                NXGReports.addStep("Verify to click the add request button and show the empty request", LogAs.PASSED, null);
+                NXGReports.addStep("Verify the background and text color of the Add request button", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify the background and text color of the Add request button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify the background and text color of the Add request button", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify the background and text color of the Add request button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the background and text color of the Add request button_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3264,7 +3263,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
 
     public void verifyClickAddRequestBtn() {
-        getLogger().info("Verify to click the add request button is clickable");
+        getLogger().info("Verify the add request button is clickable");
         try {
             waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
             clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
@@ -3275,30 +3274,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
 
     }
-
-/*
-    public void verifyClickAddRequestBtn() {
-        getLogger().info("Verify to click the add request button is clickable");
-        try {
-            waitForTextValueChanged(totoPageAddRequestBtn, "Text of totoPageAddRequestBtn", "Add New Request");
-            clickElement(totoPageAddRequestBtn, "click to totoPageAddRequestBtn");
-            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.PASSED, null);
-        } catch (Exception ex) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify add new request Btn is clickable", LogAs.FAILED, null);
-        }
-    }
-    */
-/*
-    public int findNumberOfRequestRows(){
-        int size = 0;
-        int index = -1;
-        if (!newRequestTxtboxSpan.equals("")) {
-            size = newRequestTxtboxSpan.size() + 1;
-        }
-
-        return  size;
-    }*/
 
     /**
      * Author minh.nguyen
@@ -3360,7 +3335,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED,new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3523,9 +3498,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             sendKeyTextBox(findRequestEmpty2, newRequest02, "clear text of findRequestEmpty1");
             getLogger().info("Verify show all text while inputting..");
             String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
-            getLogger().info("Close window and verify new input saved successfully..");
-            closeTodoListAddNewRequest();
-            clickToDoListAddNewRequest();
+            getLogger().info("close and reopen Add request window for verifying new input saved successfully..");
+            closeAddNewRequestWindow();
+            openAddNewRequestWindow();
             //modified
             String newRequestSaved1 = newRequestTxtboxSpan_1.getText();
             System.out.println("new Request saved is: " + newRequestSaved1);
@@ -3577,7 +3552,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             String todoShowAllText02 = getTextByJavaScripts(findRequestEmpty2, "findRequestEmpty2");
             waitForVisibleOfLocator(By.xpath(closeAddNewRequestPopup));
             clickElement(closeAddNewRequest, "click to closeAddNewRequest");
-            clickToDoListAddNewRequest();
+            openAddNewRequestWindow();
             waitForVisibleOfLocator(By.xpath(todoPageAddRequestTxtFirst));
             Thread.sleep(smallerTimeOut);
             clickElement(findRequestEmpty1, "click to findRequestEmpty1");
@@ -3736,30 +3711,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement eleAuvenirIncTxt;
 
 
-    public void verifyTodoTextbox_DefaultName() {
-        getLogger().info("Verifying Untitle Todo text...");
-        String title = "Untitled Todo";
-        try {
-            validateDisPlayedElement(TodosTextboxEle.get(0), "Todos Textbox");
-            if (TodosTextboxEle.get(0).getAttribute("value").equals(title)) {
-                NXGReports.addStep("Untitle Todo displayed as expected.", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Untitle Todo does not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Untitle Todo does not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    public void verifyFirstTodoTextbox_PlaceHolderValue() {
+    public void verifyOnlyTodoTextbox_PlaceHolderValue() {
         getLogger().info("Verifying Hint text on first todo...");
         String firstHintValue = "Write your first To-do here";
-        Boolean isCheck = validateCssValueElement(TodosTextboxEle.get(0),"placeholder",firstHintValue);
-//        waitForCssValueChanged(TodosTextboxEle.get(0), "Todo textbox", "border-color", GreenColor);
         try {
-            if (isCheck) {
+//            waitForCssValueChanged(TodosTextboxEle.get(0), "Todo textbox", "border-color", GreenColor);
+            String value = TodosTextboxEle.get(0).getAttribute("placeholder");
+            if (value.equals(firstHintValue)) {
                 NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3781,12 +3739,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
             Thread.sleep(smallerTimeOut);
             String value1 = TodosTextboxEle.get(1).getAttribute("placeholder");
             if (value1.equals(secondHintValue)) {
-                NXGReports.addStep("PlaceHolder value exist as expected.", LogAs.PASSED, null);
+                NXGReports.addStep("PlaceHolder value is: " + value1 + " as expected", LogAs.PASSED, null);
             } else {
-                NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("PlaceHolder value is: " + value1, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
-            NXGReports.addStep("PlaceHolder value not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("PlaceHolder value wrong as Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
 
@@ -3795,13 +3753,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyTodoTextboxBorder_AfterClickedAddTodo() {
         WebElement textbox1 = TodosTextboxEle.get(0);
         getLogger().info("Verifying border of todo Textbox is Green after clicked add Todo...");
-        String GreenBorder = "1px solid rgb(255, 255, 255)";
+        String GreenBorder = "rgb(92, 155, 160)";
         try {
-            validateCssValueElement(textbox1, "border-color", GreenColor);
-            NXGReports.addStep("Default border is White as expected.", LogAs.PASSED, null);
+            validateCssValueElement(textbox1, "border-color", GreenBorder);
+            NXGReports.addStep("border is Green after clicked add Todo", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Default border is not White.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("border is not Green after clicked add Todo", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
 
@@ -3826,6 +3784,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void InputValue_TodoName(String value) {
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
+            clickElement(TodosTextboxEle.get(0),"Todos Textbox");
             getLogger().info("Inputting a value..");
             sendKeyTextBox(textbox1, value, "Todos Textbox");
             NXGReports.addStep("Ending input a value.", LogAs.PASSED, null);
@@ -4296,7 +4255,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void uploadeCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
+    public void uploadCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
             Thread.sleep(smallTimeOut);
             clickElement(uploadClientCreateRequestBtn);
@@ -4341,7 +4300,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             waitForCssValueChanged(fileNameAfterUploaded, "fileName After uploaded", "display", "inline-block");
             String isCheck = fileNameAfterUploaded.getText();
-            System.out.println("File's Name was uploaded is: " + isCheck);
+            System.out.println("File's Name was uploaded is: " + fileName);
             System.out.println("File's Name after uploaded is: " + isCheck);
             if (isCheck.equals(fileName)) {
                 NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
@@ -4385,7 +4344,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /*
     Vien.Pham added new method
      */
-    public void downloadCreateRequestNewFile(String concatUpload, String concatDownload, int mode1forDownloadUpload_mode2forDownloadAttach) {
+    public void downloadNewRequestFile(String concatUpload, String concatDownload, int mode1forDownloadUpload_mode2forDownloadAttach) {
         try {
             //Delete file before download
             Path path = Paths.get(concatDownload);
@@ -4396,15 +4355,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
 //            clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
             if (mode1forDownloadUpload_mode2forDownloadAttach == 1) {
                 clickElement(downloadClientNewRequestBtn.get(0), "download newRequest");
-            }else {
+            } else {
                 clickElement(verifyAttachComplete, "download attachment");
             }
             Thread.sleep(2000);
-            String md5Upload = calculateMD5(concatUpload);
-            getLogger().info("md5 upload is: " + md5Upload);
-            String md5Download = calculateMD5(concatDownload);
-            getLogger().info("md5 download is: " + md5Download);
-            if (md5Upload.equals(md5Download)) {
+            String checkMd5UploadFile = calculateMD5(concatUpload);
+            getLogger().info("md5 upload is: " + checkMd5UploadFile);
+            String checkMd5DownloadFile = calculateMD5(concatDownload);
+            getLogger().info("md5 download is: " + checkMd5DownloadFile);
+            if (checkMd5UploadFile.equals(checkMd5DownloadFile)) {
                 NXGReports.addStep("Check sum done", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4421,11 +4380,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
 //            setDownloadLocation();
             clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(2000);
-            String md5Upload = calculateMD5(concatUpload);
-            System.out.println("md5 upload is: " + md5Upload);
-            String md5Download = calculateMD5(concatDownload);
-            System.out.println("md5 download is: " + md5Download);
-            if (md5Upload.equals(md5Download)) {
+            String checkMd5UploadFile = calculateMD5(concatUpload);
+            System.out.println("md5 upload is: " + checkMd5UploadFile);
+            String checkMd5DownloadFile = calculateMD5(concatDownload);
+            System.out.println("md5 download is: " + checkMd5DownloadFile);
+            if (checkMd5UploadFile.equals(checkMd5DownloadFile)) {
                 NXGReports.addStep("Verify file was download successfully", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4460,7 +4419,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             robot.keyRelease(KeyEvent.VK_ENTER);
             getLogger().info("Verifying attach successfully or not..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            closeTodoListAddNewRequest();
+            closeAddNewRequestWindow();
             NXGReports.addStep("Attach new file Done", LogAs.PASSED, null);
         } catch (AWTException awt) {
             AbstractService.sStatusCnt++;
@@ -4479,7 +4438,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             getLogger().info("client verifies attached file available..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            downloadCreateRequestNewFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), 2);
+            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), 2);
             NXGReports.addStep("Download attached file Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -4508,7 +4467,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyAddNewRequestPopUp() {
         try {
-            clickToDoListAddNewRequest();
+            openAddNewRequestWindow();
             waitForVisibleElement(addNewRequestWindow, "Add new request popup");
         } catch (Exception e) {
             NXGReports.addStep("Verify add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));

@@ -34,8 +34,8 @@ public class MailAccessTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private ClientService clientService;
     private AuditorCreateToDoService auditorCreateToDoService;
-    AuditorDetailsEngagementService auditorDetailsEngagementService;
-    AuditorNewEngagementService auditorNewEngagementService;
+    private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    private AuditorNewEngagementService auditorNewEngagementService;
 
 
     //MailAccessTest
