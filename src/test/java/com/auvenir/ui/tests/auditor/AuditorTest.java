@@ -20,6 +20,7 @@ import java.util.Date;
 
 /**
  * Created by duong.nguyen on 5/24/2017.
+ * Refactored by Minh Nguyen on June 26, 2017
  */
 public class AuditorTest extends AbstractTest{
 //    AdminLoginPage adminLoginPage = null;
@@ -67,14 +68,11 @@ public class AuditorTest extends AbstractTest{
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-
-            //auditorService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            //marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorService.goToBaseURL();
-            auditorService.verifyBodyLoginPage();
-            auditorService.verifyFooterLoginPage();
+            auditorService.verifyBodyHomePage();
+            auditorService.verifyFooterHomePage();
             auditorService.verifyEmailLoginForm();
-            auditorService.verifyLoginWithEmail(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            //auditorService.verifyLoginWithEmail(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {

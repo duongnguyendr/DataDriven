@@ -4,6 +4,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,10 +27,10 @@ public class AuvenirPage extends AbstractPage {
         return eleAuvenirLogoImg;
     }
 
-    @FindBy(xpath = "//img[@id='headerLogo']")
+    @FindBy(xpath = "//img[@src='static/images/logo-auvenir.svg']")
     private WebElement eleAuvenirImg;
 
-    public WebElement getEleAuvenirImg() {
+    public WebElement getAuvenirImgEle() {
         return eleAuvenirImg;
     }
 
@@ -149,50 +150,50 @@ public class AuvenirPage extends AbstractPage {
     @FindBy(xpath = "//a[@href='https://www.facebook.com/auvenir']")
     private WebElement eleFacebookImg;
 
-    public WebElement getEleFacebookImg() {
+    public WebElement getFacebookImgEle() {
         return eleFacebookImg;
     }
 
     @FindBy(xpath = "//a[@href='https://twitter.com/auvenir']")
     private WebElement eleTwitterImg;
 
-    public WebElement getEleTwitterImg() {
+    public WebElement getTwitterImgEle() {
         return eleTwitterImg;
     }
 
     @FindBy(xpath = "//a[@href='https://www.linkedin.com/company/10419712']")
     private WebElement eleLinkedinImg;
 
-    public WebElement getEleLinkedinImg() {
+    public WebElement getLinkedinImgEle() {
         return eleLinkedinImg;
     }
 
-    @FindBy(xpath = "//span[contains(text(),'Auvenir Inc. All rights reserved.')]")
+    @FindBy(xpath = "//div[@class='ui header copyright-footer']")
     private WebElement eleAllRightsReservedTxt;
 
-    public WebElement getEleAllRightsReservedTxt() {
+    public WebElement getAllRightsReservedTxtEle() {
         return eleAllRightsReservedTxt;
     }
 
-    @FindBy(xpath = "//div[@class='pull-left']//a[@href='/terms']")
-    private WebElement eleTermsOfServiceFtrLnk;
+    @FindBy(xpath = "//a[@href='/terms']")
+    private WebElement termsOfServiceLnkEle;
 
-    public WebElement getEleTermsOfServiceFtrLnk() {
-        return eleTermsOfServiceFtrLnk;
+    public WebElement getTermsOfServiceLnkEle() {
+        return termsOfServiceLnkEle;
     }
 
-    @FindBy(xpath = "//div[@class='pull-left']//a[@href='/privacy']")
-    private WebElement elePrivacyStatementFtrLnk;
+    @FindBy(xpath = "//a[@href='/privacy']")
+    private WebElement privacyStatementLnkEle;
 
-    public WebElement getElePrivacyStatementFtrLnk() {
-        return elePrivacyStatementFtrLnk;
+    public WebElement getPrivacyStatementLnkEle() {
+        return privacyStatementLnkEle;
     }
 
-    @FindBy(xpath = "//div[@class='pull-left']//a[@href='/cookies']")
-    private WebElement eleCookieFtrLnk;
+    @FindBy(xpath = "//a[@href='/cookies']")
+    private WebElement cookieLnkEle;
 
-    public WebElement getEleCookieFtrLnk() {
-        return eleCookieFtrLnk;
+    public WebElement getCookieLnkEle() {
+        return cookieLnkEle;
     }
 
     @FindBy(xpath = "//div[@class='pull-right']//a[@href='/terms']")
@@ -321,10 +322,10 @@ public class AuvenirPage extends AbstractPage {
         return eleCookieNoticeTitleTxt;
     }
 
-    @FindBy(id = "audLand-loginBtn")
+    @FindBy(xpath = "//button[@class='ui large basic inverted button btn-login']")
     private WebElement eleAuditorLoginLnk;
 
-    public WebElement getEleAuditorLoginLnk() {
+    public WebElement getAuditorLoginLnkEle() {
         return eleAuditorLoginLnk;
     }
 
@@ -335,18 +336,18 @@ public class AuvenirPage extends AbstractPage {
         return eleAuditorLoginImg;
     }
 
-    @FindBy(xpath = "//h1[contains(text(),'We help you audit ')]")
+    @FindBy(xpath = "//h1[contains(text(),'We help you Audit Smarter.')]")
     private WebElement eleWeHelpYouAuditTxt;
 
-    public WebElement getEleWeHelpYouAuditTxt() {
+    public WebElement getWeHelpYouAuditTxtEle() {
         return eleWeHelpYouAuditTxt;
     }
 
-    @FindBy(xpath = "//h3[contains(text(),'Join the Waitlist')]")
-    private WebElement eleJoinTheWaitlistTxt;
+    @FindBy(xpath = "//a[contains(text(),'Join as an Auditor Today')]")
+    private WebElement joinAsAuditorTodayTxt;
 
-    public WebElement getEleJoinTheWaitlistTxt() {
-        return eleJoinTheWaitlistTxt;
+    public WebElement getJoinAsAuditorTodayTxt() {
+        return joinAsAuditorTodayTxt;
     }
 
     @FindBy(xpath = "//input[@placeholder='Type work email address']")
@@ -586,18 +587,18 @@ public class AuvenirPage extends AbstractPage {
         return eleCloseBtn;
     }
 
-    @FindBy(xpath = "//input[@id='audLand-emailField-top']//..//..//span[contains(text(),'Email Address')]")
-    private WebElement eleEmailAddressTxt;
+    @FindBy(xpath = "//div[@id='login-popup']//label[contains(text(),'Email Address')]")
+    private WebElement emailAddressTxtEle;
 
-    public WebElement getEleEmailAddressTxt() {
-        return eleEmailAddressTxt;
+    public WebElement getEmailAddressTxtEle() {
+        return emailAddressTxtEle;
     }
 
-    @FindBy(id = "audLand-emailField-top")
-    private WebElement eleEmailAddressPopUpTxtFld;
+    @FindBy(xpath = "//div[@id='login-popup']//input[@name='email']")
+    private WebElement eleEmailAddressField;
 
-    public WebElement getEleEmailAddressPopUpTxtFld() {
-        return eleEmailAddressPopUpTxtFld;
+    public WebElement getEmailAddressFieldEle() {
+        return eleEmailAddressField;
     }
 
     @FindBy(id = "audLand-dd-loginBtn")
@@ -607,6 +608,29 @@ public class AuvenirPage extends AbstractPage {
         return eleGoBtn;
     }
 
+    @FindBy(xpath="//img[@src='static/images/home/macbook-pro.png']")
+    private WebElement imgMacbookHomePage;
+
+    @FindBy(xpath = "//a[contains(text(),'Home')]")
+    private WebElement homeLinkEle;
+
+    @FindBy(xpath="//a[@href='/about']")
+    private WebElement aboutLinkEle;
+
+    @FindBy(xpath="//a[@href='/contact']")
+    private WebElement contactLinkEle;
+
+    @FindBy(xpath = "//div[@id='login-popup']//label[contains(text(),'Password')]")
+    private WebElement passwordTxtEle;
+
+    @FindBy(xpath = "//div[@id='login-popup']//input[@name = 'password']")
+    private WebElement passwordFieldEle;
+
+    @FindBy(xpath = "//div[@id='login-popup']//a[contains(text(),'Forgot Password?')]")
+    private WebElement forgotPasswordLinkEle;
+
+    @FindBy(xpath = "//div[@id='login-popup']//button[contains(text(),'Login')]")
+    private WebElement loginButtonEle;
     /**
      * Refactored by huy.huynh on 24/05/2017.
      * Restructure only
@@ -627,69 +651,141 @@ public class AuvenirPage extends AbstractPage {
         actions.moveToElement(getEleAuvenirLogoImg()).release().perform();
     }
 
-    public void verifyFooter() {
+    /**
+     * Refactored by Minh Nguyen on June 26, 2017
+     */
+    public void verifyFooterOfHomepage() {
         try {
-            if (getEleCareersImg().isDisplayed()) {
-                validateDisPlayedElement(getEleCareersImg(), "Careers Image");
-                validateDisPlayedElement(getEleCareersLnk(), "Careers link");
-                validateDisPlayedElement(getEleSupportImg(), "Support Image");
-                validateDisPlayedElement(getEleSupportLnk(), "Support Link");
-                validateDisPlayedElement(getEleLocatorImg(), "Locator Image");
-                validateDisPlayedElement(getEleTorontoCanadaLnk(), "Toronto Canada location Link");
-                validateDisPlayedElement(getElePhoneImg(), "Phone Image");
-                validateDisPlayedElement(getElePhoneNumberLnk(), "Phone number Link");
-                validateDisPlayedElement(getEleTermsOfServiceFtrLnk(), "Terms of Service - Link");
-                validateDisPlayedElement(getElePrivacyStatementFtrLnk(), "Privacy Statement - Link");
-                validateDisPlayedElement(getEleCookieFtrLnk(), "Cookie Notice footer - Link");
-
-                validateDisPlayedElement(getEleFacebookImg(), "Facebook Image");
-                validateDisPlayedElement(getEleTwitterImg(), "Twitter Image");
-                validateDisPlayedElement(getEleLinkedinImg(), "Linkedin Image");
+            boolean isHomeLinkEle,isAboutLinkEle, isContactLinkEle,isTermsOfServiceLnk, isPrivacyStatementLnk, isCookieLnk, isFacebookImg, isTwitterImg, isLinkedinImg, isAllRightsReserved = false;
+            isHomeLinkEle = validateDisPlayedElement(homeLinkEle, "Home link");
+            if(!isHomeLinkEle)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Home link displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isAboutLinkEle = validateDisPlayedElement(aboutLinkEle, "About link");
+            if(!isAboutLinkEle)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the About link displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isContactLinkEle = validateDisPlayedElement(contactLinkEle, "Contact link");
+            if(!isContactLinkEle)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Contact link displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isTermsOfServiceLnk = validateDisPlayedElement(getTermsOfServiceLnkEle(), "Terms of Service - Link");
+            if(!isTermsOfServiceLnk)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Term Of Service link displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isPrivacyStatementLnk = validateDisPlayedElement(getPrivacyStatementLnkEle(), "Privacy Statement - Link");
+            if(!isPrivacyStatementLnk)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Privacy Statement link displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isCookieLnk = validateDisPlayedElement(getCookieLnkEle(), "Cookie Notice footer - Link");
+            if(!isCookieLnk)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Cookie link displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isFacebookImg = validateDisPlayedElement(getFacebookImgEle(), "Facebook Image");
+            if(!isFacebookImg)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Facebook image displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isTwitterImg = validateDisPlayedElement(getTwitterImgEle(), "Twitter Image");
+            if(!isTwitterImg)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Twitter image displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            isLinkedinImg = validateDisPlayedElement(getLinkedinImgEle(), "Linkedin Image");
+            if(!isLinkedinImg)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the Linkedin image displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            validateDisPlayedElement(getAllRightsReservedTxtEle(), "All Rights Reserversd - Text");
+            String allRightsReservedText = getAllRightsReservedTxtEle().getText();
+            if(allRightsReservedText.equals("© 2017 Auvenir, All Rights reserved."))
+            {
+                isAllRightsReserved = true;
+            }
+            if(!isAllRightsReserved)
+            {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the All Right Reserved text displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            if(isHomeLinkEle && isAboutLinkEle && isContactLinkEle && isTermsOfServiceLnk && isPrivacyStatementLnk && isCookieLnk && isFacebookImg && isTwitterImg && isLinkedinImg && isAllRightsReserved)
+            {
+                NXGReports.addStep("Verify the Footer of Home page", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
-            validateDisPlayedElement(getEleTermsOfUserFtrLnk(), "Terms of Use footer - Link");
-            validateDisPlayedElement(getElePrivacyPolicyFtrLnk(), "Privacy Policy footer - Link");
-            validateDisPlayedElement(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - link");
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the Footer of Home page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-        validateDisPlayedElement(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text");
     }
 
-    public void verifyBodyLoginPage() {
-        validateDisPlayedElement(getEleAuvenirImg(), "Auvenir Header Logo Image");
-        validateDisPlayedElement(getEleAuditorLoginLnk(), "Auditor Login Link");
-        validateDisPlayedElement(getEleAuditorLoginImg(), "Auditor Login Image");
-        validateDisPlayedElement(getEleWeHelpYouAuditTxt(), "We help you audit Text");
-        validateDisPlayedElement(getEleJoinTheWaitlistTxt(), "Join the Waitlist Text");
-        validateDisPlayedElement(getEleWorkEmailTxt(), "Work Email Text");
-        validateDisPlayedElement(getEleAuditorEmailAddressTxtFld(), "Auditor Email Address Text Field");
-        validateEnabledElement(getEleJoinBtn(), "Join Button");
-        validateDisPlayedElement(getEleBySigningUpTxt(), "By signing up, you agree to our Terms of Use and Privacy Poclicy - Text");
-        validateDisPlayedElement(getEleSpendLessTimeClockImg(), "Spend Less Time Clock Image");
-        validateDisPlayedElement(getEleSpendLessTimeTxt(), "Spend Less Time Clock Text");
-        validateDisPlayedElement(getEleUseSophisticatedTxt(), "Use Sophisticated Text");
-        validateDisPlayedElement(getEleDevelopDeeperImg(), "Develop Deeper Image");
-        validateDisPlayedElement(getEleDevelopDeeperTxt(), "Develop Deeper Text");
-        validateDisPlayedElement(getEleLeverageMachineTxt(), "Leverage Machine Text");
-        validateDisPlayedElement(getEleSecurelyManageImg(), "Securely Manage Image");
-        validateDisPlayedElement(getEleSecurelyManageTxt(), "Securely Manage Text");
-        validateDisPlayedElement(getEleAccessACloudTxt(), "Access a cloud Text");
-        validateDisPlayedElement(getElePersonalizedForYouImg(), "Personalized for you Image");
-        validateDisPlayedElement(getElePersonalizedForYouTxt(), "Personalized for you Text");
-        validateDisPlayedElement(getEleCustomizeSchedulesTxt(), "Customize Schedules Text");
-        validateDisPlayedElement(getEleAccessAndManageTxt(), "Access and Manage Text");
-        validateDisPlayedElement(getEleStoreAllTxt(), "Store All Text");
-        validateDisPlayedElement(getEleAuvenirFooterImg(), "Auvenir Footer Image");
+    /**
+     * Refactored by Minh Nguyen on June 26, 2017
+     */
+    public void verifyBodyHomePage() {
+        boolean isAuvenirImg, isAuditorLoginLnk, isWeHelpYouAuditTxt, isJoinAsAuditorTodayTxt, isImgMacbookHomePage = false;
+        isAuvenirImg = validateDisPlayedElement(getAuvenirImgEle(), "Auvenir Header Logo Image");
+        if(!isAuvenirImg)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Auvenir Imge displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isAuditorLoginLnk = validateDisPlayedElement(getAuditorLoginLnkEle(), "Auditor Login Link");
+        if(!isAuditorLoginLnk)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Auditor Login Link displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isWeHelpYouAuditTxt = validateDisPlayedElement(getWeHelpYouAuditTxtEle(), "We help you Audit Smarter.");
+        if(!isWeHelpYouAuditTxt)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify We Help You Audit text displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isJoinAsAuditorTodayTxt = validateDisPlayedElement(getJoinAsAuditorTodayTxt(), "Join the Waitlist Text");
+        if(!isJoinAsAuditorTodayTxt)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Join As Auditor Today text displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isImgMacbookHomePage = validateDisPlayedElement(imgMacbookHomePage, "Macbook home page image");
+        if(!isImgMacbookHomePage)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Macbook Home Page image displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        if(isAuvenirImg && isAuditorLoginLnk && isWeHelpYouAuditTxt && isJoinAsAuditorTodayTxt && isImgMacbookHomePage)
+        {
+            NXGReports.addStep("Verify the body of Home Page", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void verifyFormLogin() {
-        clickElement(getEleAuditorLoginLnk(), "Auditor Login Link");
-        validateDisPlayedElement(getEleEmailAddressTxt(), "Email Address Text");
-        validateDisPlayedElement(getEleEmailAddressPopUpTxtFld(), "Email Address PopUp Text Field");
-        validateEnabledElement(getEleGoBtn(), "Go Button");
+        clickElement(getAuditorLoginLnkEle(), "Auditor Login Link");
+        validateDisPlayedElement(getEmailAddressTxtEle(), "Email Address Text");
+        validateDisPlayedElement(getEmailAddressFieldEle(), "Email Address PopUp Text Field");
+        validateDisPlayedElement(passwordTxtEle, "Password text");
+        validateDisPlayedElement(passwordFieldEle, "Password field");
+        validateDisPlayedElement(forgotPasswordLinkEle, "Forgot password link");
+        validateEnabledElement(loginButtonEle, "Login button");
     }
 
     public void verifyLoginWithEmail(String email) {
-        sendKeyTextBox(getEleEmailAddressPopUpTxtFld(), email, "Email Address PopUp Text Field");
+        sendKeyTextBox(getEmailAddressFieldEle(), email, "Email Address PopUp Text Field");
         clickElement(getEleGoBtn(), "Go Button");
         waitForVisibleElement(getEleWaitVerificationTxt(), "Your email is awaiting verification");
         sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), "auvaudit", "Auditor Email Address Text Field");
@@ -701,10 +797,10 @@ public class AuvenirPage extends AbstractPage {
         boolean isPopupDisplayed = false;
         isPopupDisplayed = validateDisPlayedElement(getEleAwaitingApprovalTxt(), "Approve popup");
         if (isPopupDisplayed) {
-            NXGReports.addStep("Awaiting approval popup is successfully displayed.", LogAs.PASSED, null);
+            NXGReports.addStep("Awaiting approval popup is successfully displayed.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Awaiting approval popup is successfully displayed", LogAs.FAILED, null);
+            NXGReports.addStep("Awaiting approval popup is successfully displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         clickElement(getEleDoneBtn(), "Awaiting Approval popup");
     }
@@ -713,7 +809,7 @@ public class AuvenirPage extends AbstractPage {
         validateDisPlayedElement(getEleTermsOfUserFtrLnk(), "Terms of Service - Link");
         validateDisPlayedElement(getElePrivacyPolicyFtrLnk(), "Privacy Statement - Link");
         validateDisPlayedElement(getEleCookieNoticeFtrLnk(), "Cookie Notice footer - Link");
-        validateDisPlayedElement(getEleAllRightsReservedTxt(), "All Rights Reserversd - Text");
+        validateDisPlayedElement(getAllRightsReservedTxtEle(), "All Rights Reserversd - Text");
     }
 
     public void clickMessageBoxIcon() {

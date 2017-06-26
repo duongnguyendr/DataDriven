@@ -62,7 +62,7 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.verifyEmptyTodoList();
             auditorTodoListService.verifyTodoListPageColumnHeader();
-            // verifyFooter error due to change of footer locator from build to build
+            // verifyFooterOfHomepage error due to change of footer locator from build to build
             //auditorEngagementService.verifyAuditorFooter();
             NXGReports.addStep("Verify Auditor empty Todo List page.", LogAs.PASSED, null);
         } catch (Exception e) {

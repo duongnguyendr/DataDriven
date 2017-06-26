@@ -82,12 +82,12 @@ public class AuditorService extends AbstractService {
         }
     }
 
-    public void verifyBodyLoginPage() {
-        auvenirPage.verifyBodyLoginPage();
+    public void verifyBodyHomePage() {
+        auvenirPage.verifyBodyHomePage();
     }
 
-    public void verifyFooterLoginPage() {
-        auvenirPage.verifyFooter();
+    public void verifyFooterHomePage() {
+        auvenirPage.verifyFooterOfHomepage();
     }
 
     public void verifyEmailLoginForm() {

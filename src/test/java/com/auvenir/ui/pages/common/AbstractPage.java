@@ -243,7 +243,7 @@ public class AbstractPage {
     private String termsPrivacyCookieText = "//div[@id='marketing-header']//div[@class='ui center aligned header header-main-text']";
     private List<String> tabs = null;
 
-    public void verifyFooter() {
+    public void verifyFooterOfHomepage() {
         boolean isAuvenirIncTxt, isTermsOfServiceLnk, isTermsOfServiceDotTxt, isPrivacyStatementLnk, isPrivacyStatementDotTxt, isCookieNoticeLnk = false;
         isAuvenirIncTxt = validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
         if(!isAuvenirIncTxt)

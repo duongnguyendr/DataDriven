@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 /**
  * Created by cuong.nguyen on 4/27/2017.
  * Edited by Doai.Tran - PLAT 2273
+ * Refactored by Minh Nguyen on June 26, 2017
  */
 
 public class AuditorSettingsTest extends AbstractTest {
