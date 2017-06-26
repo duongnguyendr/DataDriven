@@ -4555,9 +4555,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             String assineeClientEle = ".//button[text()='%s']";
             int index = findToDoTaskName(toDoName);
             clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
+            waitSomeSeconds(2);
             WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
             clickElement(clientAssigneeSelected, "clientAssigneeSelected");
         } catch (Exception e) {
+            getLogger().info(e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }

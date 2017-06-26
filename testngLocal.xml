@@ -22,6 +22,7 @@
                 <include priority="6" name="verifyCreateSimpleEngagement"></include>
                 <include priority="7" name="verifyAuditorInvitingTheClient"></include>
                 <include priority="8" name="verifyChangeTheStatusClientToOnBoarding"></include>
+
                 <include priority="9" name="verifyClientLogsInAndActive"></include>
                 <include priority="10" name="verifyClientActiveAfterSignUpSuccess"></include>
 
