@@ -7,6 +7,7 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,9 +21,10 @@ import java.util.List;
 public class AuditorNewEngagementPage extends AbstractPage {
 
     //@FindBy(id = "team-component-header")
-    @FindBy(xpath = "//p[@id='team-component-body']/h3[contains(text(),'Create Your Team')]")
+    @FindBy(id = "team-component-header")
     private WebElement teamMemberWizardHeader;
-    @FindBy(xpath = "//p[contains(text(),'Create a new To-Do list')]")
+
+    @FindBy(id = "customize-component-header")
     private WebElement createNewTodoListTextEle;
 
     public AuditorNewEngagementPage(Logger logger, WebDriver driver) {
@@ -67,6 +69,12 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
     @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
     private WebElement newEngagementHeaderTextEle;
+
+    @FindBy(xpath="//*[@id='h-engagementsLink']")
+    private WebElement linkEngagement;
+
+    @FindBy(xpath = "//*[@id='CreateEngagementParent']/../../../..")
+    private WebElement createEngagementPopupEle;
 
 //    @FindBy(xpath = "//p[contains(text(),'need to add any team members to this engagement')]")
 //    private WebElement teamContainerDivEle;
@@ -143,7 +151,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
         getLogger().info("Enter start date.");
         clickAndHold(eleStartDateInput, "Start Date Input");
-        enterStartDate(getDate(0));
+        enterStartDate(getDate(1));
         clickElement(eleEngagementNameInput, "engagement Name");
         NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
 
@@ -155,15 +163,58 @@ public class AuditorNewEngagementPage extends AbstractPage {
         getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
         clickNoMemberBtn();
         NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
-        waitForVisibleElement(createNewTodoListTextEle, "Create new todo list text");
+        waitForVisibleElement(createNewTodoListTextEle, "Create your To-Do list");
+        //old version
+//        clickContinueBtn();
 
+        clickCreateToDoBtn();
+        waitForCssValueChanged(createEngagementPopupEle, "Create Engagement Popup", "display", "none");
+    }
+
+    public void createNewEngagement(String name, String engagementType, String company) throws Exception {
+
+        getLogger().info("Enter engagement name.");
+        enterEngagementName(name);
+        NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
+
+        getLogger().info("Select engagement type.");
+        selectEngagementType(engagementType);
+        NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
+
+        getLogger().info("Enter company name.");
+        enterCompanyName(company);
+        NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
+
+        getLogger().info("Enter deadline date.");
+        clickAndHold(eleReportDeadlineInput, "Deadline date Input");
+        enterDeadLineDate(getDate(10));
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
+
+        getLogger().info("Enter end date.");
+        enterEndDate(getDate(10));
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
+
+        getLogger().info("Enter start date.");
+        clickAndHold(eleStartDateInput, "Start Date Input");
+        enterStartDate(getDate(1));
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
+
+        getLogger().info("Click Continue button.");
         clickContinueBtn();
+        getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
+        clickNoMemberBtn();
+        clickCreateToDoBtn();
+        Thread.sleep(smallTimeOut);
+        clickElement(linkEngagement, "click to linkEngagement");
     }
 
     private void verifyTeamMemberWizardPage() {
         getLogger().info("Verify team member wizard page.");
         waitForVisibleElement(teamMemberWizardHeader, "team member header");
-        validateElementText(teamMemberWizardHeader, "Create Your Team");
+        validateElementText(teamMemberWizardHeader, "Create your team");
     }
 
 
@@ -213,7 +264,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
     /**
      * Added by huy.huynh on 06/06/2017.
-     * check element on dev-branch
+     * Verify UI new engagement flow
      */
     @FindBy(className = "ce-headerTitle")
     private WebElement titleHeader;
@@ -245,7 +296,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     @FindBy(id = "link-ce-customizenum")
     private WebElement tabProgressCustomizeNumber;
 
-    @FindBy(xpath = "//p[@id='setup-component-body']/h3[@class='setup-header']")
+    @FindBy(xpath = "//h3[@class='m-ce-setup-header']")
     private WebElement titleSetUpHeader;
 
     @FindBy(xpath = "//p[@for='engagement-name']")
@@ -359,10 +410,10 @@ public class AuditorNewEngagementPage extends AbstractPage {
     /**
      * verify UI of New Engagement page - Body SetUp
      */
-    public void verifyUINewEngagementBodySetUp() {
+    public void verifyUINewEngagementBodySetUp(String name) {
         try {
             validateElementText(titleEngagementName, "Name Your Engagement");
-            sendKeyTextBox(eleEngagementNameInput, "name", "Engagement Name Input");
+            sendKeyTextBox(eleEngagementNameInput, name, "Engagement Name Input");
             validateElementText(titleEngagementType, "Select Engagement Type");
             clickElement(inputEngagementType, "Engagement Type");
             validateElementsQuantity(listEngagementTypeContain, 4, "List Engagement Type");
@@ -370,21 +421,21 @@ public class AuditorNewEngagementPage extends AbstractPage {
             validateElementText(titleEngagementCompany, "Company Name");
             sendKeyTextBox(inputEngagementCompany, "company", "Engagement Name Input");
             validateElementText(titleEngagementReportDeadline, "Set Reporting Deadline");
-            validatePlaceholder(inputEngagementReportDeadline, "DD/MM/YY", "Engagement Report Deadline");
+            validatePlaceholder(inputEngagementReportDeadline, "DD/MM/YYYY", "Engagement Report Deadline");
             clickElement(inputEngagementReportDeadline);
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("26");
             validateElementJSTextContain(inputEngagementReportDeadline, "26", "Engagement Report Deadline");
             validateElementText(titleEngagementDateRange, "Select a Date Range of Bank Statements to be requested from your client.");
-            validatePlaceholder(inputEngagementDateRangeStart, "DD/MM/YY", "Engagement DateRange Start");
-            waitForInvisibleElement(widgetDatePicker,"Date Picker");
+            validatePlaceholder(inputEngagementDateRangeStart, "DD/MM/YYYY", "Engagement DateRange Start");
+            waitForInvisibleElement(widgetDatePicker, "Date Picker");
             clickElement(inputEngagementDateRangeStart);
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("27");
             validateElementJSTextContain(inputEngagementDateRangeStart, "27", "Engagement Report Deadline");
-            validatePlaceholder(inputEngagementDateRangeEnd, "DD/MM/YY", "Engagement DateRange End");
+            validatePlaceholder(inputEngagementDateRangeEnd, "DD/MM/YYYY", "Engagement DateRange End");
             clickElement(inputEngagementDateRangeEnd);
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
@@ -417,9 +468,9 @@ public class AuditorNewEngagementPage extends AbstractPage {
     /**
      * verify UI of New Engagement page - Header Team
      */
-    public void verifyUINewEngagementHeaderTeam() {
+    public void verifyUINewEngagementHeaderTeam(String name) {
         try {
-            validateElementText(titleHeader, "New Engagement");
+            validateElementText(titleHeader, name);
             validateElementText(tabProgressSetUpName, "SET-UP");
             validateElementText(tabProgressTeamName, "TEAM");
             validateElementText(tabProgressTeamNumber, "2");
@@ -446,6 +497,8 @@ public class AuditorNewEngagementPage extends AbstractPage {
             validateAttributeContain(imageAddMember, "src", "images/create-engagement/three-men.png", "Image Add Member");
             validateElementText(titleAddMember, "I'd like to add team members to this engagement");
             validateElementText(buttonAddMember, "Add Members");
+
+            clickElement(buttonNotAddMember, "Button Engagement Continue");
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Error:  New Engagement Body Team ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -454,27 +507,11 @@ public class AuditorNewEngagementPage extends AbstractPage {
     }
 
     /**
-     * verify UI of New Engagement page - Footer Team
-     */
-    public void verifyUINewEngagementFooterTeam() {
-        try {
-            validateElementText(buttonEngagementCancel, "Cancel");
-            validateElementText(buttonEngagementContinue, "Continue");
-
-            clickElement(buttonNotAddMember, "Button Engagement Continue");
-        } catch (Exception ex) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error:  New Engagement Footer Team ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            ex.printStackTrace();
-        }
-    }
-
-    /**
      * verify UI of New Engagement page - Header Customize
      */
-    public void verifyUINewEngagementHeaderCustomize() {
+    public void verifyUINewEngagementHeaderCustomize(String name) {
         try {
-            validateElementText(titleHeader, "New Engagement");
+            validateElementText(titleHeader, name);
             validateElementText(tabProgressSetUpName, "SET-UP");
             validateElementText(tabProgressTeamName, "TEAM");
             validateElementText(tabProgressCustomizeName, "CUSTOMIZE");
@@ -500,27 +537,13 @@ public class AuditorNewEngagementPage extends AbstractPage {
             validateElementText(titleRollover, "Rollover a Saved Template");
             validateElementText(buttonRollover, "Rollover");
             validateAttributeContain(imageCreateToDoList, "src", "images/create-engagement/clipboard.png", "Image Create ToDo List");
-            validateElementText(titleCreateToDoList, "Create a new To-Do list");
+            validateElementText(titleCreateToDoList, "Create your To-Do list");
             validateElementText(buttonCreateToDoList, "Create");
-        } catch (Exception ex) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error:  New Engagement Body Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * verify UI of New Engagement page - Footer Customize
-     */
-    public void verifyUINewEngagementFooterCustomize() {
-        try {
-            validateElementText(buttonEngagementCancel, "Cancel");
-            validateElementText(buttonEngagementContinue, "Continue");
 
             clickElement(buttonCreateToDoList, "Button Create ToDo List");
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error:  New Engagement Footer Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error:  New Engagement Body Customize ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
         }
     }

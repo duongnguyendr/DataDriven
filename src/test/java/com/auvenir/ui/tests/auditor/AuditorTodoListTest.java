@@ -1,13 +1,13 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -38,11 +38,14 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
 
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
 
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.createAndSelectNewEnagement(engagementName, "", "Company Auvenir");
             // Need to change the flow of the code, it always creates new one to verify the empty to do list.
@@ -75,11 +78,16 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
+
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyDataSearch();
             auditorCreateToDoService.verifyCheckMaxLength();
@@ -123,9 +131,14 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
+
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.createToDoPage();
@@ -149,9 +162,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             //auditorDetailsEngagementService.navigateToTodoListPage();
@@ -172,9 +188,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -195,9 +215,14 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+
+        //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
+
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -219,9 +244,14 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+
+        //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
+
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -243,9 +273,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+
+        //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -267,9 +301,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, GenericService.sBrowserData+"AUDITOR_ID");
+
+        //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -298,10 +336,15 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+
+        //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
+
         try {
 
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -325,10 +368,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        String toDoListNames[] = {"416 To Do Task02","a To Do Task02","z To Do Task02", "b To Do Task02", "c To Do Task02"};
+        //        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
+        String toDoListNames[] = {"416 To Do Task02", "a To Do Task02", "z To Do Task02", "b To Do Task02", "c To Do Task02"};
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -354,9 +400,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -390,9 +439,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -408,9 +460,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -430,9 +485,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -452,9 +510,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -481,9 +542,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -504,9 +568,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -526,9 +593,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -549,9 +619,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -580,9 +653,12 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -613,10 +689,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -650,11 +729,14 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             boolean isNewToDoPage = true; // true : verify in add new to-do page, false : verify in add to-do list page
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -708,11 +790,14 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             boolean isNewToDoPage = false;// true : verify in add new to-do page, false : verify in add to-do list page
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -752,17 +837,21 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("engagement2299");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement2299");
+//            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement2299");
             // Will edit when the code is updated with the new xpath and business.
 //            auditorTodoListService.verifyTodoListPage();
             auditorCreateToDoService.navigateToDoListPage();
 
             // Will uncomment when the code is updated with the new xpath and business.
+            auditorCreateToDoService.verifyAddNewToDoTask("Task2299");
 //            auditorCreateToDoService.verifyCreateToDoTaskWithoutCategory("Task2299");
 //            auditorCreateToDoService.closeSuccessToastMes();
             auditorCreateToDoService.selectToDoTaskName("Task2299");
@@ -797,19 +886,27 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User2", "Auditor");
+        String toDoName = "TestMarkComplete01";
+        String engagementName = "Engagement 07";
+
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.clickCheckboxNewToDoTask();
+
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
-            auditorCreateToDoService.createToDoPage();
-            auditorCreateToDoService.clickCheckboxNewToDoTask();
-            auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyClickCloseMarkPopup();
+
+            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.clickArchiveTaskButton();
+            auditorCreateToDoService.verifyMarkCompleteArchive(index);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify new Category popup", LogAs.PASSED, null);
@@ -888,7 +985,11 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
 
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
@@ -901,10 +1002,11 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
             auditorEngagementService.verifyAuditorEngagementPage();
 
-            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+            //delete later, business changed, dev code feature un-merge
+//            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+//            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.uiVerifyButtonUndoExist();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -927,7 +1029,10 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
-        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//            System.out.println("auditorId = " + auditorId);
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
@@ -939,11 +1044,11 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
             auditorEngagementService.verifyAuditorEngagementPage();
 
-            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+            //delete later, business changed, dev code feature un-merge
+//            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+//            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.uiVerifyButtonUndoDisable();
 
@@ -970,7 +1075,10 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
-        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//            System.out.println("auditorId = " + auditorId);
         try {
 
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
@@ -983,11 +1091,11 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
             auditorEngagementService.verifyAuditorEngagementPage();
 
-            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+            //delete later, business changed, dev code feature un-merge
+//            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+//            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -1017,7 +1125,10 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
-        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//            System.out.println("auditorId = " + auditorId);
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
 
@@ -1029,11 +1140,11 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
             auditorEngagementService.verifyAuditorEngagementPage();
 
-            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+            //delete later, business changed, dev code feature un-merge
+//            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+//            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -1063,7 +1174,10 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
 
-        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//            System.out.println("auditorId = " + auditorId);
         try {
 
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
@@ -1076,11 +1190,11 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
             auditorEngagementService.verifyAuditorEngagementPage();
 
-            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+            //delete later, business changed, dev code feature un-merge
+//            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+//            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.createToDoRecord("toDoName02" + timeStamp, "26");
@@ -1109,7 +1223,11 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+
+//            auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//            System.out.println("auditorId = " + auditorId);
         try {
 
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
@@ -1122,11 +1240,11 @@ public class AuditorTodoListTest extends AbstractTest {
             auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
             auditorEngagementService.verifyAuditorEngagementPage();
 
-            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-
-            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-            auditorDetailsEngagementService.navigateToTodoListPage();
+            //delete later, business changed, dev code feature un-merge
+//            //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
+//            firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
+//            auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
+//            auditorDetailsEngagementService.navigateToTodoListPage();
 
             auditorTodoListService.createToDoRecord("toDoName01" + timeStamp, "25");
             auditorTodoListService.verifyToDoDownloadAttachmentsDisable("toDoName01" + timeStamp);
@@ -1153,10 +1271,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1177,10 +1298,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1201,10 +1325,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1235,10 +1362,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1273,10 +1403,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1309,10 +1442,13 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1351,13 +1487,16 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         //Login User
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
 
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.createMultiCategory("cate4","cate5","cate6");
+            auditorCreateToDoService.createMultiCategory("cate4", "cate5", "cate6");
             auditorEditCategoryService.returnToCreateNewTodoPage();
             auditorEditCategoryService.navigateToEditAtCreateTodoPage();
             auditorEditCategoryService.verifyEditCategoriesTitle();
@@ -1380,9 +1519,12 @@ Vien.Pham refactor PLAT2291
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
@@ -1407,19 +1549,23 @@ Vien.Pham refactor PLAT2291
             NXGReports.addStep("Verify Edit Fuction.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-/*
-Vien.Pham refactor PLAT2291
- */
+
+    /*
+    Vien.Pham refactor PLAT2291
+     */
     @Test(priority = 44, enabled = true, description = "Verify Remove function")
     public void verifyRemoveFunctionAtTodoListPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
 
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage("vienpham007");
             auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
@@ -1450,10 +1596,13 @@ End of merged VienPham.
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1486,10 +1635,13 @@ End of merged VienPham.
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1522,10 +1674,13 @@ End of merged VienPham.
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1558,10 +1713,13 @@ End of merged VienPham.
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
             // Login
-            auditorCreateToDoService.loginWithUserRole(userId);
+            auditorCreateToDoService.loginWithUserRole(auditorId);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1604,12 +1762,15 @@ End of merged VienPham.
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         Random random = new Random();
         String engagementName = "Engagement-PLAT-2350" + random.nextInt(1000);
         String taskName = "Task-2305" + random.nextInt(1000);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -1644,12 +1805,15 @@ End of merged VienPham.
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         Random random = new Random();
         String engagementName = "Engagement-PLAT-2350" + random.nextInt(1000);
         String taskName = "Task-2305" + random.nextInt(1000);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -1682,22 +1846,26 @@ End of merged VienPham.
     /**
      * Added by minh.nguyen on 24/05/2017.
      */
+    /*
     @Test(priority = 51, enabled = true, description = "Verify to create new request on ToDo page")
     public void verifyAddNewRequestOnToDoPage() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+//        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User3", "Auditor");
+//        auditorId = auditorId.replace("chr.", "");
+//        System.out.println("auditorId = " + auditorId);
         try {
-            auditorEngagementService.loginWithUserRole(userId);
+            auditorEngagementService.loginWithUserRole(auditorId);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.createToDoPage();
             auditorCreateToDoService.verifyAddNewRequestButton();
             auditorCreateToDoService.verifyRequestNameTextbox();
-            auditorCreateToDoService.verifyCreateRequest();
-            auditorCreateToDoService.verifyUpdateRequest();
+            auditorCreateToDoService.verifyCreateRequest("new Request 01");
+//            auditorCreateToDoService.verifyUpdateRequest("new Request 02");
             auditorCreateToDoService.verifyDeleteRequest();
             auditorCreateToDoService.verifyCopyRequest();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1708,7 +1876,7 @@ End of merged VienPham.
             getLogger().info(e);
             throw e;
         }
-    }
+    }*/
 }
 
 

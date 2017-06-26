@@ -1,6 +1,9 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,35 +22,40 @@ public class AuditorToDoPageTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
     private AuditorNewEngagementService auditorNewEngagementService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    private AuditorSignUpService auditorSignUpService;
+    private MarketingService marketingService;
+
 
     @Test(priority = 1, enabled = true, description = "Verify Todos Textbox")
     public void verifyTodosTextBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getUserFromExcelData("LoginData","Valid User","Auditor");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         try {
-            auditorCreateToDoService.setPrefixProtocol("http://");
-            auditorCreateToDoService.loginWithUserRole(userId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            getLogger().info("Verifying Todo Textbox default value..");
+//            auditorCreateToDoService.verifyInputDataToDoNameTextBox(todoName);
+            getLogger().info("Verifying Todo Textbox GUI when Auditor clicked Add newTodo..");
             auditorCreateToDoService.verifyTodosTextBox_DefaultGUI();
-            getLogger().info("Verifying input valid Todo name..");
-            auditorCreateToDoService.InputValidValue("New todo 2708");
-            auditorCreateToDoService.verifyInputValidValue("New todo 2708");
-            getLogger().info("Verifying input Only number..");
-            auditorCreateToDoService.InputOnlyNumber(13082016);
-            auditorCreateToDoService.verifyInputNumber(13082016);
-            getLogger().info("Verifying input Special Char..");
-            auditorCreateToDoService.InputSpecialChar("1308@#%^&*()");
-            auditorCreateToDoService.verifyInputSpecialChar("1308@#%^&*()");
-            getLogger().info("Verifying input Nullchar...");
-            auditorCreateToDoService.InputNullChar("");
-            auditorCreateToDoService.verifyInputNullChar("");
+//            getLogger().info("Verifying input valid Todo name..");
+//            auditorCreateToDoService.InputValidValue("New todo 2708");
+//            auditorCreateToDoService.verifyInputValidValue("New todo 2708");
+//            getLogger().info("Verifying input Only number..");
+//            auditorCreateToDoService.InputOnlyNumber(13082016);
+//            auditorCreateToDoService.verifyInputNumber(13082016);
+//            getLogger().info("Verifying input Special Char..");
+//            auditorCreateToDoService.InputSpecialChar("1308@#%^&*()");
+//            auditorCreateToDoService.verifyInputSpecialChar("1308@#%^&*()");
+//            getLogger().info("Verifying input Nullchar...");
+//            auditorCreateToDoService.InputNullChar("");
+//            auditorCreateToDoService.verifyInputNullChar("");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Todos Textbox.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -250,7 +258,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorCreateToDoService.inputSearchText("admin client");
             Thread.sleep(500);
             auditorCreateToDoService.verifySearchResult("admin client");
-             getLogger().info("Input search full match with assignAudit..");
+            getLogger().info("Input search full match with assignAudit..");
             auditorCreateToDoService.inputSearchText("Admin Auditor");
             Thread.sleep(500);
             auditorCreateToDoService.verifySearchResult("Admin Auditor");

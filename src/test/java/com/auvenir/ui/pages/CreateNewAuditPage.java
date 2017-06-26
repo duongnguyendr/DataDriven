@@ -215,10 +215,14 @@ public class CreateNewAuditPage extends AbstractPage {
     @FindBy(id = "m-ac-addBtn")
     private WebElement buttonInviteNewClient;
 
+    @FindBy(xpath = "//input[@id='m-ac-role']/following-sibling::ul//a[1]")
+    private WebElement optionFirstOnClientRoleList;
+
     /**
      * Choose 'Add New Client' option
      */
-    public void selectAddNewClient() {
+    public void selectAddNewClient() throws InterruptedException {
+        Thread.sleep(smallerTimeOut);
         validateElementText(titleInviteClient, "Invite Your Client");
         clickElement(eleSelectYourClientDrpDwn, "Select Client");
         clickElement(optionAddNewClient, "Option Add New Client");
@@ -236,7 +240,10 @@ public class CreateNewAuditPage extends AbstractPage {
         sendKeyTextBox(inputFullName, fullName, "Full Name Input");
         sendKeyTextBox(inputEmail, email, "Email Input");
         sendKeyTextBox(inputVerifyEmail, email, "Verify Email Input");
-        sendKeyTextBox(inputRoleEmail, role, "Role Input");
+        //sendKeyTextBox(inputRoleEmail, role, "Role Input");
+        //selectOptionByText(selectRoleEmail, role, "Client Role In Their Company");
+        clickElement(inputRoleEmail, "Input Client Role In Their Company");
+        clickElement(optionFirstOnClientRoleList, "First Option Client Role");
 
         clickElement(buttonInviteNewClient, "Button Invite");
     }
@@ -246,7 +253,11 @@ public class CreateNewAuditPage extends AbstractPage {
      *
      * @param message toast message
      */
+
+    WebElement inviteClientPage;
+
     public void verifyInviteClientSuccess(String message) {
+        waitForProgressOverlayIsClosed();
         verifyContentOfSuccessToastMessage(message);
     }
 

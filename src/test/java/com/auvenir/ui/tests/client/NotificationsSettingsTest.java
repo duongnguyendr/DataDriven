@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.client;
 
-import com.auvenir.ui.services.ClientService;
+import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -18,15 +18,11 @@ public class NotificationsSettingsTest extends AbstractTest {
 
 
     @Test(priority=1,enabled=true, description="Verify Footer in Client Notification Settings page.")
-    public void verifyFooterClientNotificationsSettingsPage() throws Exception
-    {
+    public void verifyFooterClientNotificationsSettingsPage() throws Exception {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId= GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
-        String getTokenUrl =   GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
 
-        try
-        {
+        try {
             //logCurrentStepStart();
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
@@ -37,11 +33,7 @@ public class NotificationsSettingsTest extends AbstractTest {
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Notification Setting footer page.", LogAs.PASSED, null);
             //logCurrentStepEnd();
-
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             NXGReports.addStep("Verify Notification Setting footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

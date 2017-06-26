@@ -13,7 +13,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -35,7 +34,8 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 60;
+    public static final int waitTime = 30;
+    public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
     public static final String categoryIndiMode = "indicategory";
@@ -70,10 +70,16 @@ public class AbstractPage {
     public final String warningBorderCSSColor = "rgb(253, 109, 71)";
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
+    /**
+     * Updated by Minh.Nguyen on June 19, 2017
+     *
+     * @param logger
+     * @param driver
+     */
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
         this.logger = logger;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
+        PageFactory.initElements(driver, this);
     }
 
     public WebDriver getDriver() {
@@ -88,19 +94,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'Terms of Service')]")
+    @FindBy(xpath = "//a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(id = "privacy")
+    @FindBy(xpath = "//a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(id = "cookies")
+    @FindBy(xpath = "//a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -132,8 +138,9 @@ public class AbstractPage {
     @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]")
     List<WebElement> listOfCategoryDropdown;
 
-    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-    List<WebElement> listOfAddNewCategory;
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
+//    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
+            List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -163,8 +170,10 @@ public class AbstractPage {
     @FindBy(id = "category-addBtn")
     private WebElement eleIdBtnAddCategory;
 
-    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    //    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']")
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory todo-category todo-bulkDdl')]")
     private List<WebElement> dropdownCategoryEle;
+
     @FindBy(id = "todo-table")
     private WebElement tblXpathTodoTable;
     @FindBy(xpath = "//*[@id=\"category-dropdown-menu\"]/div/button")
@@ -229,71 +238,48 @@ public class AbstractPage {
     @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show'] //div[@class='send-message-success-alert']/span")
     private WebElement successToastMesDescriptionEle;
 
+    private String termsPrivacyCookieText = "//div[@id='marketing-header']//div[@class='ui center aligned header header-main-text']";
+    private List<String> tabs = null;
+
     public void verifyFooter() {
         validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementLnk, "eleAuvenirIncTxt");
-        validateDisPlayedElement(elePrivacyStatementDotTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleCookieNoticeLnk, "eleAuvenirIncTxt");
+        validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
+        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
+        validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
+        validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
+        validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
     }
 
     public void verifyTermsOfServiceLink() throws AWTException {
         getLogger().info("Verify Terms of service link.");
-        eleTermsOfServiceLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
+        clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
         getLogger().info("verify texts are rendered.");
-
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
+        switchToOtherTab(1);
+        waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
+        WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
         validateElementText(terms, "Terms of Service");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Effective: 16th January, 2017");
-        french.click();
-        getLogger().info("click close Terms of Service wizard.");
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1)).close();
     }
 
     public void verifyPrivacyStateLink() {
         getLogger().info("Verify Pricacy statement link.");
-        elePrivacyStatementLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        validateElementText(auvenir, "Auvenir");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-        validateElementText(terms, "Privacy Statement");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Last revised: January 16th, 2017");
-        french.click();
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+        switchToOtherTab(0);
+        clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
+        switchToOtherTab(1);
+        WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
+        validateElementText(privacy, "Privacy Policy");
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1)).close();
     }
 
     public void verifyCookieNotice() {
         getLogger().info("verify cookie notices page.");
-        eleCookieNoticeLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        validateElementText(auvenir, "Auvenir");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-        validateElementText(terms, "Cookie Notice");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Last revised: January 16th, 2017");
-        french.click();
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+        switchToOtherTab(0);
+        clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
+        switchToOtherTab(1);
+        WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
+        validateElementText(cookie, "Cookie Notice");
     }
 
     /**
@@ -328,7 +314,31 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
+        } catch (Exception ex) {
+            getLogger().info(ex.getMessage());
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
+    }
+
+    /**
+     * Create by Minh.Nguyen on June 19, 2017
+     *
+     * @param xpathElement
+     * @return Web element by xpath
+     */
+    public WebElement findWebElementByXpath(String xpathElement) {
+        WebElement resultWebElement = null;
+        try {
+            getLogger().info("The xpath of web element = " + xpathElement);
+            resultWebElement = getDriver().findElement(By.xpath(xpathElement));
+            NXGReports.addStep("Find web element by xpath", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Find web element by xpath", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return resultWebElement;
     }
 
     /**
@@ -527,6 +537,44 @@ public class AbstractPage {
     }
 
     /**
+     * created by: minh.nguyen
+     *
+     * @Description In order to wait element to be visible by locator with seconds input.
+     */
+    public boolean waitForVisibleOfLocator(By locator, int seconds) {
+        getLogger().info("Try to waitForVisibleOfLocator by seconds");
+        boolean isResult = false;
+        try {
+            int i = 0;
+            while (i < seconds) {
+                try {
+                    getDriver().findElement(locator);
+                    isResult = true;
+                    NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
+                    break;
+                } catch (Exception ex) {
+                }
+                try {
+                    Thread.sleep(smallTimeOut);
+                    i++;
+                } catch (Exception e) {
+
+                }
+            }
+            if (!isResult) {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+            return isResult;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not visible, try to waitForVisibleOfLocator by seconds.");
+            NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return isResult;
+        }
+    }
+
+    /**
      * @Description In order to wait element to be invisible by locator.
      */
     public boolean waitForInvisibleOfLocator(By by) {
@@ -700,10 +748,13 @@ public class AbstractPage {
     public void clickAndHold(WebElement element, String elementName) {
         getLogger().info("Try to ClickAndHold: " + elementName);
         try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.click(element);
-            actions.perform();
+            if (GenericService.sBrowserData.equals("chr.")) {
+                Actions actions = new Actions(driver);
+                actions.moveToElement(element);
+                actions.click(element);
+                actions.perform();
+            } else
+                element.click();
             NXGReports.addStep("Clicked and Hold on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -720,9 +771,11 @@ public class AbstractPage {
     public void hoverElement(WebElement element, String elementName) {
         getLogger().info("Try to hoverElement: " + elementName);
         try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.build().perform();
+            if ((GenericService.sBrowserData).equals("chr.")) {
+                Actions actions = new Actions(driver);
+                actions.moveToElement(element);
+                actions.build().perform();
+            }
             NXGReports.addStep("Hover on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -746,7 +799,7 @@ public class AbstractPage {
             element.clear();
             waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
-            NXGReports.addStep("Send text: " + text + "on element: " + elementName, LogAs.PASSED, null);
+            NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
@@ -858,12 +911,23 @@ public class AbstractPage {
         getLogger().info("Try to sendTabkey: " + elementName);
         try {
             element.sendKeys(Keys.TAB);
-            element.sendKeys(Keys.ENTER);
             NXGReports.addStep("sendTabkey on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendTabkey on: " + elementName);
             NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void sendEnterkey(WebElement element, String elementName) {
+        getLogger().info("Try to sendEnterkey: " + elementName);
+        try {
+            element.sendKeys(Keys.ENTER);
+            NXGReports.addStep("sendEnterkey on element: " + elementName, LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Unable to sendEnterkey on: " + elementName);
+            NXGReports.addStep("Unable to sendEnterkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1017,21 +1081,21 @@ public class AbstractPage {
      */
     public void createNewCategory(String categoryNameInput) throws Exception {
         Thread.sleep(smallerTimeOut);
-        String CategoryName = null;
+        String categoryName = null;
         if (categoryNameInput == "") {
-            CategoryName = "Category " + randomNumber();
+            categoryName = "Category " + randomNumber();
         } else {
-            CategoryName = categoryNameInput;
+            categoryName = categoryNameInput;
         }
         getLogger().info("Adding new category...");
         navigateToAddNewCategory();
         waitForClickableOfElement(categoryNameFieldOnFormEle, "categoryNameFieldOnFormEle");
         waitForJSandJQueryToLoad();
         clickElement(categoryNameFieldOnFormEle, "click to categoryNameFieldOnFormEle");
-        sendKeyTextBox(categoryNameFieldOnFormEle, CategoryName, "send key to categoryNameFieldOnFormEle");
+        sendKeyTextBox(categoryNameFieldOnFormEle, categoryName, "send key to categoryNameFieldOnFormEle");
         chooseCategoryColorInPopup();
         clickNewCategoryCreateButton();
-        closeSuccessToastMes();
+//        closeSuccessToastMes();
     }
 
 
@@ -1766,7 +1830,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 200);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);
@@ -1821,15 +1885,10 @@ public class AbstractPage {
                     return i;
                 }
             }
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
-
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
@@ -1973,15 +2032,11 @@ public class AbstractPage {
                     return i;
                 }
             }
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
 
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
@@ -2137,11 +2192,13 @@ public class AbstractPage {
         getLogger().info("Try to Verify Content Of Toast Message: " + elementName);
         try {
             boolean result;
+//            Thread.sleep(3000);
             waitForVisibleElement(element, elementName);
+//            Thread.sleep(smallTimeOut);
             result = validateElementText(element, expectedContent);
-            Assert.assertTrue(result, "The content of toast message is displayed unsuccessfully.");
+            Assert.assertTrue(result, "The content of toast message is displayed successfully.");
             return true;
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("The content of toast message is displayed unsuccessfully.");
             return false;
@@ -2293,15 +2350,17 @@ public class AbstractPage {
     /**
      * Select option in select element by text
      *
-     * @param ele
+     * @param webElement
      * @param item
      */
-    public void selectOptionByText(WebElement ele, String item) {
+    public void selectOptionByText(WebElement webElement, String item, String elementName) {
         try {
-            Select select = new Select(ele);
+            Select select = new Select(webElement);
             select.selectByVisibleText(item);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
+            NXGReports.addStep("Can't select item: " + item + " of Dropdown " + elementName, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2337,6 +2396,7 @@ public class AbstractPage {
 
     /**
      * Switch to other tab
+     * Tab index count from 0(mean first tab tabIndex=0, second tab tabIndex=1)
      *
      * @param tabIndex
      */
@@ -2623,7 +2683,12 @@ public class AbstractPage {
             NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
             getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
-        } catch (Exception e){
+        } catch (ElementNotVisibleException e) {
+            getLogger().info("Element is visible.");
+            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            return true;
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is still displayed.");
             NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2669,8 +2734,8 @@ public class AbstractPage {
      */
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-        Thread.sleep(smallerTimeOut);
-        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
+//        Thread.sleep(3000);
+//        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
 
@@ -2823,6 +2888,7 @@ public class AbstractPage {
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
+            System.out.println("Error is: " + error);
             getLogger().info(error);
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2844,8 +2910,14 @@ public class AbstractPage {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
-                    String actualAttributeValue = element.getAttribute(attributeName);
-                    System.out.println("Actual Displayed Value: " + actualAttributeValue);
+                    String actualAttributeValue = null;
+                    if (element.getAttribute(attributeName) != null) {
+                        actualAttributeValue = element.getAttribute(attributeName);
+                        System.out.println("Actual Displayed Value: " + actualAttributeValue);
+                    } else {
+                        getLogger().info(String.format("Attribute %s is null", attributeName));
+                        return false;
+                    }
                     if (actualAttributeValue.equals(attributeValue))
                         return true;
                     else
@@ -2944,19 +3016,27 @@ public class AbstractPage {
      * @param value       Expected attribute value
      * @param elementName Element name
      */
-    public void validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
+    public boolean validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
         try {
             getLogger().info("Validate Style Attribute Exist " + elementName);
             if (webElement.getAttribute(attribute).contains(value)) {
                 NXGReports.addStep(value + " exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+                return true;
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return false;
             }
+        } catch (NoSuchElementException e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not existed.");
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate attribute contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
+            return false;
         }
     }
 
@@ -2994,7 +3074,7 @@ public class AbstractPage {
     public void validateElementJSTextContain(WebElement webElement, String value, String elementName) {
         try {
             getLogger().info("Validate Element Text Contain " + elementName);
-            if (getTextByJavaScripts(webElement,elementName).contains(value)) {
+            if (getTextByJavaScripts(webElement, elementName).contains(value)) {
                 NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3008,4 +3088,100 @@ public class AbstractPage {
     }
 
     /*-----------end of huy.huynh on 06/06/2017.*/
+
+    /**
+     * Added by huy.huynh on 12/06/2017.
+     * check element on dev-branch
+     */
+    /**
+     * @param webElement  Element defined in page class
+     * @param elementName The text name of element
+     */
+    public void clickByJavaScripts(WebElement webElement, String elementName) {
+        getLogger().info("Click by javascript of element " + elementName);
+        String textOfElement = "";
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+            jse.executeScript("arguments[0].click()", webElement);
+            NXGReports.addStep("Click by javascript of element " + elementName, LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click by javascript of element " + elementName, LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+        }
+    }
+    /*-----------end of huy.huynh on 12/06/2017.*/
+
+    /**
+     * Added by huy.huynh on 15/06/2017.
+     * Fixed 22/06/2017
+     * SmokeTest R2
+     */
+    /**
+     * /**
+     * Scroll to footer of current page
+     * TODO: duplicating with scrollToFooter on AbstractService, find solution later
+     */
+    public void scrollToFooter() {
+        getLogger().info("Scroll down to see page footer.");
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public void chooseFirstOptionOfInputSelect(List<WebElement> list, String elementName) {
+        clickElement(list.get(0), elementName);
+    }
+
+    /**
+     * @param webElement  Element defined in page class
+     * @param elementName The text name of element
+     * @return The text of web element
+     */
+    public String getTextByAttributeValue(WebElement webElement, String elementName) {
+        getLogger().info("Get text by attribute 'value' " + elementName);
+        try {
+            return webElement.getAttribute("value");
+        } catch (NoSuchElementException e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not existed.");
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Get text by by attribute 'value' " + elementName, LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * wait some seconds- should be use when can't apply ExplicitWait
+     *
+     * @param seconds seconds to wait
+     */
+    public void waitSomeSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * get element which cant use @FindBy to find
+     *
+     * @param xpath xpath to get element
+     * @param arg   vararg for formating
+     */
+    public WebElement getElementByXpath(String xpath, String... arg) {
+        WebElement webElement = null;
+        xpath = String.format(xpath, arg);
+        try {
+            webElement = getDriver().findElement(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return webElement;
+    }
+     /*-----------end of huy.huynh on 15/06/2017.*/
 }

@@ -214,7 +214,11 @@ public class AuditorTodoListPage extends AbstractPage {
         validateCssValueElement(eleCheckBox, "background-color", "rgba(202, 206, 206, 1)");
     }
 
-    public void clickCreateToDoBtn() {
+    public void clickCreateToDoBtn() throws Exception{
+        // Create todo button could sleep before click, investigate in-progress.
+//        Thread.sleep(smallTimeOut);
+//        waitForClickableOfElement(eleCreateToDoBtn);
+        waitForTextValueChanged(eleCreateToDoBtn,"Create Todo Butto","Create To-Do");
         clickElement(eleCreateToDoBtn, "Create Todo Button");
     }
 
@@ -393,13 +397,14 @@ public class AuditorTodoListPage extends AbstractPage {
      * New for smoke test
      */
     @FindBy(id = "engagementUserBtn")
-    private WebElement btnInviteClient;
+    private WebElement buttonInviteClient;
 
     /**
      * Click Invite button
      */
     public void navigateToInviteClientPage() {
-        clickElement(btnInviteClient);
+        validateElementText(buttonInviteClient, "Invite Client");
+        clickByJavaScripts(buttonInviteClient, "Button Invite Client");
     }
     /*-----------end of huy.huynh on 02/06/2017.*/
 

@@ -3,11 +3,11 @@ package com.auvenir.ui.pages.admin;
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GeneralUtilities;
+import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
-import org.apache.log4j.Logger;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -242,10 +242,6 @@ public class AdminLoginPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img[@class='au-modal-closeBtn']")
     private WebElement eleCredentialsCloseIcn;
-
-    public WebElement getEleCredentialsCloseIcn() {
-        return eleCredentialsCloseIcn;
-    }
 
     @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img")
     private WebElement eleCloseIcn;
@@ -777,11 +773,11 @@ public class AdminLoginPage extends AbstractPage {
         NXGReports.addStep("Confirmation popup changing status from pending to onboarding is displayed", LogAs.PASSED, null);
         getLogger().info("Click confirm button.");
         getEleStatusConfirmBtn().click();
-        visibilityOfElementWait(getEleCredentialsCloseIcn(), "Auditor onboarding successful message", waitTime);
+        visibilityOfElementWait(eleCredentialsCloseIcn, "Auditor onboarding successful message", waitTime);
         getLogger().info("Change Auditor to Onboarding successful.");
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[text()='Verified " + Email + " successfully.']")).isDisplayed(), "Wait-List user is verified");
         NXGReports.addStep("Verified user is successfully displayed", LogAs.PASSED, null);
-        getEleCredentialsCloseIcn().click();
+        eleCredentialsCloseIcn.click();
     }
 
     public void getEleChangeActiveStatus(String UserType, String Email, String DateCreated) throws InterruptedException {
@@ -796,7 +792,7 @@ public class AdminLoginPage extends AbstractPage {
         Thread.sleep(3000);
         Assert.assertTrue(getEleUpdatedtoACTIVETxt().isDisplayed(), "OnBoarding text is not displayed");
         NXGReports.addStep("ONBoarding text is displayed", LogAs.PASSED, null);
-        getEleCredentialsCloseIcn().click();
+        eleCredentialsCloseIcn.click();
 
     }
 
@@ -819,7 +815,7 @@ public class AdminLoginPage extends AbstractPage {
             waitForVisibleElement(eleAdminHdrTxt, "eleAdminHdrTxt");
             validateElementText(eleAdminHdrTxt, "Admin");
             validateDisPlayedElement(eleAdminHdrTxt, "eleAdminHdrTxt");
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -1020,18 +1016,18 @@ public class AdminLoginPage extends AbstractPage {
         clickElement(getEleCloseIcn(), "Close button");
     }
 
-    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus){
+    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus) {
         getLogger().info("Verify user is changed status on the list.");
         try {
             String actualStatus = getEleAuditorStatusLst(userType, email, dateCreated);
             Assert.assertTrue(actualStatus.equals(expectedStatus), String.format("Auditor is not created with %s status", actualStatus));
             NXGReports.addStep("Verify user is changed status on the list.", LogAs.PASSED, null);
-        } catch (AssertionError e){
-            AbstractService.sStatusCnt ++;
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
             getLogger().info(e);
             NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (Exception e){
-            AbstractService.sStatusCnt ++;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             getLogger().info(e);
             NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -1052,21 +1048,21 @@ public class AdminLoginPage extends AbstractPage {
     private String xpathUserTypeCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[2]";
     private String xpathEmailCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[3]";
     private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
-    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[6]/select";
+    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[5]/select"; //Change new xpath
 
     /**
      * verify info of user
      *
-     * @param userType      type of user
-     * @param userEmail     email
-     * @param createdDate   create date(today)
-     * @param userStatus    status
+     * @param userType    type of user
+     * @param userEmail   email
+     * @param createdDate create date(today)
+     * @param userStatus  status
      */
     public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
         try {
-            WebElement type = GeneralUtilities.getElementByXpath(getDriver(), xpathUserTypeCellOnUserTableAdminX, userEmail);
-            WebElement email = GeneralUtilities.getElementByXpath(getDriver(), xpathEmailCellOnUserTableAdminX, userEmail);
-            WebElement date = GeneralUtilities.getElementByXpath(getDriver(), xpathDateCreatedCellOnUserTableAdminX, userEmail);
+            WebElement type = getElementByXpath(xpathUserTypeCellOnUserTableAdminX, userEmail);
+            WebElement email = getElementByXpath(xpathEmailCellOnUserTableAdminX, userEmail);
+            WebElement date = getElementByXpath(xpathDateCreatedCellOnUserTableAdminX, userEmail);
 
             validateElementText(type, userType);
             validateElementText(email, userEmail);
@@ -1082,36 +1078,67 @@ public class AdminLoginPage extends AbstractPage {
     /**
      * verify status of user
      *
-     * @param userEmail     email
-     * @param userStatus    status
+     * @param userEmail  email
+     * @param userStatus status
      */
     public void verifyAuditorStatusOnAdminUserTable(String userEmail, String userStatus) {
-        WebElement status = GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail);
+        WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, userEmail);
         validateSelectedItemText(status, userStatus);
     }
 
     /**
      * verify status of user
      *
-     * @param userEmail         email
-     * @param chooseOption      status wanna change to
+     * @param userEmail    email
+     * @param chooseOption status wanna change to
      */
-    public void changeTheStatusAuditorToOnBoarding(String userEmail, String chooseOption) {
+    public void changeTheStatusUser(String userEmail, String chooseOption) {
         try {
-            Select status = new Select(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail));
-            status.selectByVisibleText(chooseOption);
+            getLogger().info(String.format("Try change status of user to %s", chooseOption));
+            waitSomeSeconds(2);
+//            waitForVisibleElement(eleAdminHdrTxt, "Admin");
+//            validateElementText(eleAdminHdrTxt, "Admin");
+//            waitForVisibleElement(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail), "Dropdown Status.");
 
+            WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, userEmail);
+            selectOptionByText(status, chooseOption, "User Status");
+
+            getLogger().info("Validate Popup Confirm.");
+            waitForVisibleElement(textViewOnPopupConfirm, "Are you sure you want to change user status from");
             validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
 
+            waitForVisibleElement(getEleStatusConfirmBtn(), "Confirm Poup");
             waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
-            getEleStatusConfirmBtn().click();
+            clickElement(getEleStatusConfirmBtn(), "Status Confirm Button");
+//            getEleStatusConfirmBtn().click();
 
             waitForProgressOverlayIsClosed();
-            waitForClickableOfElement(getEleCredentialsCloseIcn(), "Auditor onboarding successful message");
-            getEleCredentialsCloseIcn().click();
+            waitForVisibleElement(eleCredentialsCloseIcn, "Close Icon");
+            waitForClickableOfElement(eleCredentialsCloseIcn, "Close Icon");
+            clickElement(eleCredentialsCloseIcn, "Close Icon");
+//            getEleCredentialsCloseIcn().click();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
     /*-----------end of huy.huynh on 30/05/2017.*/
+
+    /**
+     * Click Close on Popup which warning about supporting only Chrome Browser.
+     */
+    public void clickClosePopupWarningBrowser() {
+        try {
+            if (GenericService.sBrowserData.equals("ff.")) {
+                getLogger().info("Close Popup Warning Browser");
+                Thread.sleep(3000);
+                waitForVisibleElement(eleCredentialsCloseIcn, "Close Icon");
+                waitForClickableOfElement(eleCredentialsCloseIcn, "Close Icon");
+                clickElement(eleCredentialsCloseIcn, "Close Icon");
+                waitForProgressOverlayIsClosed();
+                Thread.sleep(2000);
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+        }
+    }
 }

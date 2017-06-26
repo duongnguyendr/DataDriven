@@ -1,6 +1,7 @@
 package com.auvenir.utilities;
 
 import com.auvenir.rests.api.services.AbstractAPIService;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
@@ -487,7 +488,7 @@ public class MongoDBService {
      * get User object of given string first name and last name(ex: 'huy huynh')
      *
      * @param dBCollection DBCollection object
-     * @param name        user name
+     * @param name         user name
      */
     public static String getUserObjectByFirstNameLastName(DBCollection dBCollection, String name) throws Exception {
         String[] assignee = name.split(" ");
@@ -504,7 +505,7 @@ public class MongoDBService {
      * remove given email user on database
      *
      * @param dBCollection DBCollection object
-     * @param email        of engagement want to query
+     * @param email        of user want to query
      */
     public static void removeUserObjectByEmail(DBCollection dBCollection, String email) {
         try {
@@ -514,6 +515,7 @@ public class MongoDBService {
             DBObject dBbject = cursor.next();
 
             dBCollection.remove(dBbject);
+            System.out.println("Removed user map with email: " + email);
         } catch (NoSuchElementException ex) {
             System.out.println("This email not exist on database.");
         } catch (Exception ex) {
@@ -539,6 +541,110 @@ public class MongoDBService {
             dBCollection.update(searchQuery, changeQuery);
         } catch (NoSuchElementException ex) {
             System.out.println("This email not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * verify that given email exist on DB with status ACTIVE and type AUDITOR
+     *
+     * @param dBCollection DBCollection object
+     * @param email        email to find
+     */
+    public static boolean verifyUserEmailTypeStatusExist(DBCollection dBCollection, String email) throws Exception {
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("email", email);
+        searchQuery.put("status", "ACTIVE");
+        searchQuery.put("type", "AUDITOR");
+        DBCursor cursor = dBCollection.find(searchQuery);
+        DBObject dBbject = cursor.next();
+
+        return dBbject != null ? true : false;
+    }
+
+    /**
+     * Re-create a user with info on 'usersRegression' sheet
+     *
+     * @param email email to re-create
+     */
+    public static void createUserByEmail(String email) {
+        try {
+            String[][] data = GenericService.readExcelSheetData("usersRegression");
+
+            MongoClient MongoClient = connectDBServer(dataBaseSer, port, DB, username, password, ssl);
+            System.out.println("MongoClient = " + MongoClient);
+            DB db = MongoClient.getDB(DB);
+//            MongoClient mongoClient = new MongoClient("192.168.1.213", 27017);
+//            DB db = mongoClient.getDB("auvenir");
+
+            DBCollection usersCollection = db.getCollection("users");
+            DBCollection firmsCollection = db.getCollection("firms");
+            DBCollection businessesCollection = db.getCollection("businesses");
+
+            System.out.println("businessesCollection = " + businessesCollection);
+
+            for (int i = 0; i < data.length; i++) {
+                if (data[i][0].toString().equals(email)) {
+                    DBObject usersDBObject = (DBObject) JSON.parse(data[i][9]);
+                    DBObject mappingDBObject = (DBObject) JSON.parse(data[i][10]);
+
+                    usersDBObject.put("_id", new ObjectId(data[i][4]));
+
+                    ISO8601DateFormat df = new ISO8601DateFormat();
+                    usersDBObject.put("lastLogin", df.parse(data[i][5]));
+                    usersDBObject.put("dateCreated", df.parse(data[i][6]));
+
+                    BasicDBObject access = new BasicDBObject();
+                    access.put("expires", df.parse(data[i][8]));
+                    BasicDBObject auth = new BasicDBObject();
+                    auth.put("id", data[i][7]);
+                    auth.put("access", access);
+                    usersDBObject.put("auth", auth);
+                    usersCollection.insert(usersDBObject);
+
+                    BasicDBObject userInMapping = new BasicDBObject();
+                    userInMapping.put("id", new ObjectId(data[i][4]));
+                    userInMapping.put("admin", true);
+                    List<BasicDBObject> usersInMapping = new ArrayList<>();
+                    usersInMapping.add(userInMapping);
+                    mappingDBObject.put("acl", usersInMapping);
+
+                    if (data[i][1].toString().equals("AUDITOR")) {
+                        firmsCollection.insert(mappingDBObject);
+                    } else if (data[i][1].toString().equals("CLIENT")) {
+                        businessesCollection.insert(mappingDBObject);
+                    } else {
+                        System.out.println("Admin created");
+                    }
+                }
+            }
+            System.out.println("Re-created user map with email: " + email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * remove given name engagement on database
+     *
+     * @param dBCollection DBCollection object
+     * @param name         of engagement want to query
+     */
+    public static void removeEngagementObjectByName(DBCollection dBCollection, String name) {
+        try {
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("name", name);
+            DBCursor cursor = dBCollection.find(searchQuery);
+            DBObject dBbject = cursor.next();
+            while (dBbject != null) {
+                System.out.println("     cursor.next() = " + dBbject);
+                dBCollection.remove(dBbject);
+                dBbject = cursor.next();
+            }
+            System.out.println("Removed engagement named: " + name);
+        } catch (NoSuchElementException ex) {
+            System.out.println("This engagement not exist on database.");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 /**
  * Created by huy.huynh on 12/05/2017.
@@ -27,6 +28,12 @@ public class GeneralUtilities {
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss_ddMMyy");
         Date date = new Date();
         return sdf.format(date);
+    }
+
+    public static int randomNumber() {
+        Random randNum = new Random();
+        int intRanNum = randNum.nextInt(10000) + 1;
+        return intRanNum;
     }
 
     public static boolean verifyElementExist(WebDriver webDriver, WebElement webElement) {
@@ -89,24 +96,4 @@ public class GeneralUtilities {
                 break;
         }
     }
-
-    /**
-     * get element which cant use @FindBy to find
-     *
-     * @param webDriver current webDriver
-     * @param xpath     xpath to get element
-     * @param arg       vararg for formating
-     */
-    public static WebElement getElementByXpath(WebDriver webDriver, String xpath, String... arg) {
-        WebElement webElement = null;
-        xpath = String.format(xpath, arg);
-        try {
-            webElement = webDriver.findElement(By.xpath(xpath));
-        } catch (Exception ex) {
-            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-        return webElement;
-    }
-
 }

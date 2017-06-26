@@ -1,8 +1,9 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AuditorEngagementService;
-import com.auvenir.ui.services.AuditorAccountSettingsService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.auditor.AuditorAccountSettingsService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,19 +20,24 @@ import org.testng.annotations.Test;
 public class AuditorSettingsTest extends AbstractTest {
     private AuditorAccountSettingsService auditorAccountSettingsService;
     private AuditorEngagementService auditorEngagementService;
+    private MarketingService marketingService;
+    String auditorId, auditorPwd;
 
 
     @Test(priority = 1, enabled = true, description = "Verify Footer in Auditor Account Settings page.")
     public void verifyFooterAuditorAccountSettingsPage() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorAccountSettingsService.loginWithUserRole(userId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyAccountSettingsPage();
             auditorAccountSettingsService.verifyFooter();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Footer in Auditor Account Settings page.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify Footer in Auditor Account Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -43,9 +49,11 @@ public class AuditorSettingsTest extends AbstractTest {
     public void verifyUIAuditorSetting() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorAccountSettingsService.loginWithUserRole(userId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             auditorAccountSettingsService.verifyBody();
@@ -62,9 +70,11 @@ public class AuditorSettingsTest extends AbstractTest {
     public void InputValueFullName() throws Exception {
         auditorAccountSettingsService = new AuditorAccountSettingsService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorAccountSettingsService.loginWithUserRole(userId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
             getLogger().info("Input any value on FullName TextBox.");
@@ -78,7 +88,6 @@ public class AuditorSettingsTest extends AbstractTest {
             throw e;
         }
     }
-
 }
 
 

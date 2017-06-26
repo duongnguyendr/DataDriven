@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.client;
 
-import com.auvenir.ui.services.ClientService;
+import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,12 +19,8 @@ public class DevicesSettingsTest extends AbstractTest {
     public void verifyFooterClientDevicesSettingsPage() throws Exception
     {
         clientService = new ClientService(getLogger(),getDriver());
-        String userId= GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID");
-        String getTokenUrl =   GenericService.getConfigValue(GenericService.sConfigFile, "GETTOKENURL");
-        String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
-
-        try
-        {
+        String userId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
+        try{
             //logCurrentStepStart();
             clientService.loginWithUserRole(userId);
             clientService.verifyClientHomePage();
@@ -35,11 +31,7 @@ public class DevicesSettingsTest extends AbstractTest {
             clientService.verifyClientFooter();
             NXGReports.addStep("Verify Footer in Devices Settings page.", LogAs.PASSED, null);
             //logCurrentStepEnd();
-
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e){
             NXGReports.addStep("Verify Footer in Devices Settings page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }

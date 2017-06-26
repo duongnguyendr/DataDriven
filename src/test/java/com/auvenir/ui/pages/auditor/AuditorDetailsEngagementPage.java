@@ -37,6 +37,19 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
 
+    @FindBy(id = "engagementTeamLink")
+    private WebElement TeamMemberLinkEle;
+
+    /**
+     * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - Start
+     */
+
+    @FindBy(xpath = "//nav[@id='dashboardLinks']/div[@id='engagementFileMangerLink']")
+    private WebElement eleFileManagerLink;
+
+    /**
+     * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
+     */
     public void verifyDetailsEngagementPage(String engagementName){
         waitForVisibleElement(dashboardTextEle, "dashboard text");
         validateAttributeElement(dashboardTextEle, "value", engagementName);
@@ -55,5 +68,21 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     public void navigateToEngagementDetailPage() {
         waitForVisibleElement(eleToDoListLnk, "Todo link text");
     }
+
+    /**
+     * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - Start
+     */
+
+    /**
+     * Click on file manager link
+     */
+    public void clickOnFileManagerLink(){
+        waitForClickableOfElement(eleFileManagerLink, "file manager link");
+        clickElement(eleFileManagerLink);
+    }
+
+    /**
+     * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
+     */
 }
 

@@ -1,16 +1,8 @@
 package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.common.GmailPage;
-import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-
-import java.util.concurrent.TimeUnit;
 
 //import org.testng.log4testng.Logger;
 
@@ -64,7 +56,8 @@ public class GmailLoginService extends AbstractService {
 //    }
 
     public void gmailLogin(String gmailAccount, String gmailPwd) throws InterruptedException {
-        gmailLoginPo.gmailNewLogin(gmailAccount, gmailPwd);
+        gmailLoginPo.goGMail();
+        gmailLoginPo.signInGmail(gmailAccount, gmailPwd);
     }
 
     public void selectActiveEmaill() {
@@ -111,5 +104,10 @@ public class GmailLoginService extends AbstractService {
 
     public void deleteAllExistedEmail(String userName, String pwd) {
         deleteAllExistedGMail(userName, pwd);
+    }
+
+    public void gmailReLogin(String gmailPwd) throws InterruptedException {
+        gmailLoginPo.goGMail();
+        gmailLoginPo.reSignInGmail(gmailPwd);
     }
 }

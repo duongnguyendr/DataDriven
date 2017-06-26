@@ -36,7 +36,7 @@ public class PdfGenerater {
     private static Font tableHeaderbold = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD, BaseColor.BLACK);
     private static Font tableCellText = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
     private static Font tableCellValue = new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
-    private static String browserAutomationTest[] = new String[] {"CHROME","FIREFOX","IE","SAFARI"};
+    private static String browserAutomationTest[] = new String[] {"CHROME","FIREFOX","IE","SAFARI","EDGE"};
 
     public static void toExecute(ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkippedCount, File pdfReports) {
         PdfWriter writer = null;
