@@ -834,13 +834,6 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
-    public void clickOnNewRequestImg() {
-        createToDoPage.verifyAddNewRequestImg();
-    }
-
-    /**
-     * Author minh.nguyen
-     */
     public void verifyColorAddRequestBtn() {
         createToDoPage.verifyColorAddRequestBtn();
     }

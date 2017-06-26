@@ -501,7 +501,6 @@ public class SmokeTestt extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.clickOnNewRequestImg();
             auditorCreateToDoService.uploadFileNewRequestByClient(pathFileUpload, fileName);
             auditorCreateToDoService.verifyUploadFileNewRequestByClient(fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -521,8 +520,6 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        //String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        //String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
