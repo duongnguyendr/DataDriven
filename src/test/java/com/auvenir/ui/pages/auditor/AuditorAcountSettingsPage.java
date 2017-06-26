@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
@@ -71,7 +72,7 @@ public class AuditorAcountSettingsPage extends AbstractPage {
     private WebElement firmLogo;
     @FindBy(id = "logoUploadBtn")
     private WebElement logoUploadButton;
-    @FindBy(xpath = "//*[@class='auvbtn secondary']")
+    @FindBy(xpath = "//div[@id='settings-auditorAccount-container']//button[@class='auvbtn secondary']")
     private WebElement deactivateButton;
     @FindBy(xpath = "//*[@class='auvbtn primary']")
     private WebElement updateButton;
@@ -175,58 +176,134 @@ public class AuditorAcountSettingsPage extends AbstractPage {
     /*
     Verify all elements on body of Auditor Settings Page
     Created by DoaiTran on 5/5/2017
+    Updated bt Minh Nguyen on June 26, 2017
      */
     public void verifyElementsOnAccountTab() {
-        waitForVisibleElement(settingTitle, "settingTitle");
-        NXGReports.addStep("verified Element: settingTitle displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(accountTab, "accountTab");
-        NXGReports.addStep("verified Element: accountTab displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(notificationTab, "notificationTab");
-        NXGReports.addStep("verified Element: notificationTab displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(devicesTab, "devicesTab");
-        NXGReports.addStep("verified Element: devicesTab displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(accountSettingTitle, "accountSettingTitle");
-        NXGReports.addStep("verified Element: accountSettingTitle displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(fullNameTextBox, "fullNameTextBox");
-        NXGReports.addStep("verified Element: fullNameTextBox displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(emailTextBox, "emailTextBox");
-        NXGReports.addStep("verified Element: emailTextBox displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(phoneNoTextBox, "phoneNoTextBox");
-        NXGReports.addStep("verified Element: phoneNoTextBox displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(userPhoto, "userPhoto");
-        NXGReports.addStep("verified Element: userPhoto displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(uploadButton, "uploadButton");
-        NXGReports.addStep("verified Element: uploadButton displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(firNameTextBox, "firNameTextBox");
-        NXGReports.addStep("verified Element: firNameTextBox displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(roleTextBox, "");
-        NXGReports.addStep("verified Element: roleTextBox displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(firmSizeDropBox, "firmSizeDropBox");
-        NXGReports.addStep("verified Element: firmSizeDropBox displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(firmLogo, "firmLogo");
-        NXGReports.addStep("verified Element: firmLogo displayed.", LogAs.PASSED, (CaptureScreen) null);
-        waitForVisibleElement(logoUploadButton, "logoUploadButton");
-        NXGReports.addStep("verified Element: logoUploadButton displayed.", LogAs.PASSED, (CaptureScreen) null);
-        validateElementText(deactivateButton, "Deactivate My Account");
-        validateDisabledElement(deactivateButton, "deactivateButton");
-        NXGReports.addStep("verified Element: deactivateButton displayed and disable", LogAs.PASSED, (CaptureScreen) null);
-        validateElementText(updateButton, "Update");
-        validateDisabledElement(updateButton, "updateButton");
-        NXGReports.addStep("verified Element: updateButton displayed and disable.", LogAs.PASSED, (CaptureScreen) null);
+        boolean isSettingTitle, isAccountTab, isNotificationTab, isAccountSettingTitle, isFullNameTextBox, isEmailTextBox, isPhoneNoTextBox,
+        isFirNameTextBox, isRoleTextBox, isFirmSizeDropBox, isFirmLogo, isLogoUploadButton, isDeactivateButton, isUpdateButton, isUpdateButtonDis  = false;
+        isSettingTitle = waitForVisibleElement(settingTitle, "settingTitle");
+        if(!isSettingTitle)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: settingTitle visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isAccountTab = waitForVisibleElement(accountTab, "accountTab");
+        if(!isAccountTab)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: accountTab visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isNotificationTab = waitForVisibleElement(notificationTab, "notificationTab");
+        if(!isNotificationTab)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: notificationTab visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isAccountSettingTitle = waitForVisibleElement(accountSettingTitle, "accountSettingTitle");
+        if(!isAccountSettingTitle)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: accountSettingTitle visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isFullNameTextBox = waitForVisibleElement(fullNameTextBox, "fullNameTextBox");
+        if(!isFullNameTextBox)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: fullNameTextBox visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isEmailTextBox = waitForVisibleElement(emailTextBox, "emailTextBox");
+        if(!isEmailTextBox)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: emailTextBox visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isPhoneNoTextBox = waitForVisibleElement(phoneNoTextBox, "phoneNoTextBox");
+        if(!isPhoneNoTextBox)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: phoneNoTextBox visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isFirNameTextBox = waitForVisibleElement(firNameTextBox, "firNameTextBox");
+        if(!isFirNameTextBox)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: firNameTextBox visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isRoleTextBox = waitForVisibleElement(roleTextBox, "roleTextBox");
+        if(!isRoleTextBox)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: roleTextBox visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isFirmSizeDropBox = waitForVisibleElement(firmSizeDropBox, "firmSizeDropBox");
+        if(!isFirmSizeDropBox)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: firmSizeDropBox visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isFirmLogo = waitForVisibleElement(firmLogo, "firmLogo");
+        if(!isFirmLogo)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: firmLogo visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isLogoUploadButton = waitForVisibleElement(logoUploadButton, "logoUploadButton");
+        if(!isLogoUploadButton)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: logoUploadButton visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isDeactivateButton = validateElementText(deactivateButton, "Deactivate My Account");
+        if(!isDeactivateButton)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: deactivateButton visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isUpdateButton = validateElementText(updateButton, "Update");
+        if(!isUpdateButton)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: updateButton text visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        isUpdateButtonDis = validateDisabledElement(updateButton, "updateButton");
+        if(!isUpdateButtonDis)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verified Element: updateButton disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+        if(isSettingTitle && isAccountTab && isNotificationTab && isAccountSettingTitle && isFullNameTextBox && isEmailTextBox && isPhoneNoTextBox &&
+                isFirNameTextBox && isRoleTextBox && isFirmSizeDropBox && isFirmLogo && isLogoUploadButton && isDeactivateButton && isUpdateButton && isUpdateButtonDis )
+        {
+            NXGReports.addStep("verified Elements On Account Tab", LogAs.PASSED, null);
+        }
     }
 
     public void navigateToNotificationTab() {
         waitForVisibleElement(notificationTab, "notificationTab");
         getLogger().info("verify Element: notificationTab displayed.");
-        notificationTab.click();
+        clickElement(notificationTab, "click to notificationTab");
         NXGReports.addStep("Go to Notification Tab successfully.", LogAs.PASSED, (CaptureScreen) null);
     }
 
     public void navigateToDevicesTab() {
-        waitForVisibleElement(devicesTab, "devicesTab");
-        getLogger().info("verify Element: devicesTab displayed.");
-        devicesTab.click();
-        NXGReports.addStep("Go to Device Tab successfully.", LogAs.PASSED, (CaptureScreen) null);
+        //waitForVisibleElement(devicesTab, "devicesTab");
+        //getLogger().info("verify Element: devicesTab displayed.");
+        //devicesTab.click();
+        //NXGReports.addStep("Go to Device Tab successfully.", LogAs.PASSED, (CaptureScreen) null);
     }
 
     public void verifyElementsOnNotificationTab() {

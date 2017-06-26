@@ -80,7 +80,6 @@ public class AuditorSettingsTest extends AbstractTest {
             getLogger().info("Input any value on FullName TextBox.");
             auditorAccountSettingsService.inputFullName("Doai Test");
             auditorAccountSettingsService.sendTabkeyFullNametxt();
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test First and Last name on Auditor Setting Page: Passed", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
