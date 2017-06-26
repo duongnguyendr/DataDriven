@@ -40,7 +40,6 @@ public class AccountSettingsTest extends AbstractTest {
             throw e;
         }
     }
-
 }
 
 

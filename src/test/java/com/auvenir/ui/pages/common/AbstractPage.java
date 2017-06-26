@@ -244,44 +244,116 @@ public class AbstractPage {
     private List<String> tabs = null;
 
     public void verifyFooter() {
-        validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
-        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
-        validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
-        validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
-        validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
+        boolean isAuvenirIncTxt, isTermsOfServiceLnk, isTermsOfServiceDotTxt, isPrivacyStatementLnk, isPrivacyStatementDotTxt, isCookieNoticeLnk = false;
+        isAuvenirIncTxt = validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
+        if(!isAuvenirIncTxt)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleAuvenirIncTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isTermsOfServiceLnk = validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
+        if(!isTermsOfServiceLnk)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleTermsOfServiceLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isTermsOfServiceDotTxt = validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
+        if(!isTermsOfServiceDotTxt)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleTermsOfServiceDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isPrivacyStatementLnk = validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
+        if(!isPrivacyStatementLnk)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("elePrivacyStatementLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isPrivacyStatementDotTxt = validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
+        if(!isPrivacyStatementDotTxt)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("elePrivacyStatementDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isCookieNoticeLnk = validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
+        if(!isCookieNoticeLnk) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleCookieNoticeLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        if(isAuvenirIncTxt && isTermsOfServiceLnk && isTermsOfServiceDotTxt && isPrivacyStatementLnk && isPrivacyStatementDotTxt && isCookieNoticeLnk)
+        {
+            NXGReports.addStep("verify Footer.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyTermsOfServiceLink() throws AWTException {
-        getLogger().info("Verify Terms of service link.");
-        clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
-        getLogger().info("verify texts are rendered.");
-        switchToOtherTab(1);
-        waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
-        WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
-        validateElementText(terms, "Terms of Service");
-        tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1)).close();
+    public void verifyTermsOfServiceLink() throws AWTException, InterruptedException {
+        try {
+            getLogger().info("Verify Terms of service link.");
+            boolean isCheckTermOfService = false;
+            clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
+            getLogger().info("verify texts are rendered.");
+            switchToOtherTab(1);
+            waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
+            WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
+            isCheckTermOfService = validateElementText(terms, "Terms of Service");
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1)).close();
+            Thread.sleep(smallTimeOut);
+            if(isCheckTermOfService)
+            {
+                NXGReports.addStep("verify Terms Of Service Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Terms Of Service Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyPrivacyStateLink() {
-        getLogger().info("Verify Pricacy statement link.");
-        switchToOtherTab(0);
-        clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
-        switchToOtherTab(1);
-        WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
-        validateElementText(privacy, "Privacy Policy");
-        tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1)).close();
+    public void verifyPrivacyStateLink() throws InterruptedException {
+        try {
+            boolean isPrivacyState = false;
+            getLogger().info("Verify Pricacy statement link.");
+            switchToOtherTab(0);
+            clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
+            switchToOtherTab(1);
+            WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
+            isPrivacyState = validateElementText(privacy, "Privacy Policy");
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1)).close();
+            Thread.sleep(smallTimeOut);
+            if(isPrivacyState)
+            {
+                NXGReports.addStep("verify Privacy State Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Privacy State Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void verifyCookieNotice() {
-        getLogger().info("verify cookie notices page.");
-        switchToOtherTab(0);
-        clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
-        switchToOtherTab(1);
-        WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
-        validateElementText(cookie, "Cookie Notice");
+        try {
+            boolean isCheckCookieNotice = false;
+            getLogger().info("verify cookie notices page.");
+            switchToOtherTab(0);
+            clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
+            switchToOtherTab(1);
+            WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
+            isCheckCookieNotice = validateElementText(cookie, "Cookie Notice");
+            if(isCheckCookieNotice)
+            {
+                NXGReports.addStep("verify Cookie Notice.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
+        catch (Exception ex)
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Cookie Notice.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     /**
@@ -496,7 +568,7 @@ public class AbstractPage {
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Element: " + element.getText() + "is not visible.");
+            getLogger().info("Element: " + elementName + "is not visible.");
             NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
@@ -696,10 +768,10 @@ public class AbstractPage {
     public void navigateToSettingsPage() {
         try {
             waitForClickableOfElement(dashboardUserNameEle, "dashboardUserNameEle");
-            dashboardUserNameEle.click();
+            clickElement(dashboardUserNameEle, "click to dashboardUserNameEle");
             waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
             waitForClickableOfElement(settingsTabEle, "dashboardUserNameEle");
-            settingsTabEle.click();
+            clickElement(settingsTabEle, "click to settingsTabEle");
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to go to setting page.");
