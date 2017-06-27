@@ -35,7 +35,7 @@ public class AuditorEngagementService extends AbstractService {
         try {
             auditorEngagementPage.scrollPageDown();
             getLogger().info("verify footer page.");
-            auditorEngagementPage.verifyFooter();
+            auditorEngagementPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
             auditorEngagementPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");
@@ -45,6 +45,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.scrollPageUp();
             NXGReports.addStep("verify footer page", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -57,21 +58,15 @@ public class AuditorEngagementService extends AbstractService {
             //auditorEngagementTeamPage.navigateToClientSettingsPage();
             NXGReports.addStep("navigate to client setting tab.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to client settings tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
 
     public void verifyAuditorEngagementPage() {
-
-        try {
             getLogger().info("verify Auditor Engagement page.");
             auditorEngagementPage.verifyAuditorEngagementPage();
-            NXGReports.addStep("verify Auditor Engagement page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify Auditor Engagement page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        }
     }
 
     public void navigateToContactsTab() {
@@ -80,20 +75,15 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.navigateToContactsTab();
             NXGReports.addStep("navigate to Contacts page.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Contacts page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
 
     public void navigateToSettingsPage() {
-        try {
             getLogger().info("navigate to Auditor Settings page.");
             auditorEngagementPage.navigateToSettingsPage();
-            NXGReports.addStep("navigate Auditor Setting page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("navigate to Auditor Settings page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
     }
 
     public void clickNewEnagementButton() {
@@ -102,6 +92,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.clickNewEnagementButton();
             NXGReports.addStep("click Add New engagement button.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("click Add New engagement button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -132,6 +123,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.waitForProgressOverlayIsClosed();
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -142,6 +134,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.enterEngagementDetailWithName(engagementTitle, engagementName);
             NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -181,6 +174,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.auditorPageHeaderContent();
             NXGReports.addStep("verify content header auditor engagement page.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("verify content header auditor engagement pag.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -386,6 +380,7 @@ public class AuditorEngagementService extends AbstractService {
 						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 			}
 		} catch (Exception e) {
+            AbstractService.sStatusCnt++;
 			NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.FAILED,
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}

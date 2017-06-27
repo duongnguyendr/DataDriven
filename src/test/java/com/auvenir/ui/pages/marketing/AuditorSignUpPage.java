@@ -54,20 +54,12 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement eleFirmNameError;
 
     // Element of checkbox rule changed Name
-    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'Firm') or starts-with(text(),'Le')]")
-    private WebElement chkChangedName;
-
-    public WebElement getChkChangedName() {
-        return chkChangedName;
-    }
+//    @FindBy(xpath = "//*[@id='img-upload-label']/ancestor::form//div[contains(@class,'ui checked')]/label")
+//    private WebElement chkChangedName;
 
     // Element of Firm previous Name
     @FindBy(xpath = "//input[@name='firm_previous_name']")
     private WebElement elePreFirmName;
-
-    public WebElement getElePreFirmName() {
-        return elePreFirmName;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_previous_name']")
     private WebElement elePreFirmNameError;
@@ -76,20 +68,12 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_website']")
     private WebElement eleFirmWebsite;
 
-    public WebElement getEleFirmWebsite() {
-        return eleFirmWebsite;
-    }
-
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_website']")
     private WebElement elePreFirmWebsiteError;
 
     // Element of Full Address
     @FindBy(xpath = "//input[@name='firm_full_address']")
     private WebElement eleFullAddress;
-
-    public WebElement getEleFullAddress() {
-        return eleFullAddress;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_full_address']")
     private WebElement eleFullAddressError;
@@ -98,25 +82,14 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_street_address']")
     private WebElement eleStreetAddress;
 
-    public WebElement getEleStreetAddress() {
-        return eleStreetAddress;
-    }
 
     // Element of Office number
     @FindBy(xpath = "//input[@name='firm_suit_number']")
     private WebElement eleOfficeNumber;
 
-    public WebElement getEleOfficeNumber() {
-        return eleOfficeNumber;
-    }
-
     // Element of Zip Code
     @FindBy(xpath = "//input[@name='firm_postal_code']")
     private WebElement eleZipCode;
-
-    public WebElement getEleZipCode() {
-        return eleZipCode;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_postal_code']")
     private WebElement eleZipCodeError;
@@ -125,33 +98,17 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_city']")
     private WebElement eleCity;
 
-    public WebElement getEleCity() {
-        return eleCity;
-    }
-
     // Element of State Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[1]")
     private WebElement provinceDropdownEle;
-
-    public WebElement getProvinceDropdownEle() {
-        return provinceDropdownEle;
-    }
 
     // Element with locator of Menu listbox
     @FindBy(xpath = "//div[@class='menu transition visible']")
     private WebElement eleMenu;
 
-    public WebElement getEleMenu() {
-        return eleMenu;
-    }
-
     // Element of Member I.D
     @FindBy(xpath = "//input[@name='firm_member_id']")
     private WebElement eleMemberID;
-
-    public WebElement getEleMemberID() {
-        return eleMemberID;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_member_id']")
     private WebElement eleMemberIdError;
@@ -160,36 +117,20 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[2]")
     private WebElement numberEmployeeDropdown;
 
-    public WebElement getNumberEmployeeDropdown() {
-        return numberEmployeeDropdown;
-    }
-
     // Element of Phone Number
     @FindBy(xpath = "//input[@name='firm_phone_number']")
     private WebElement phoneNumberFirmInfoEle;
-
-    public WebElement getPhoneNumberFirmInfoEle() {
-        return phoneNumberFirmInfoEle;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_phone_number']")
     private WebElement elePhoneNumberIdError;
 
     // Element of checkbox affiliated Firm
-    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'I') or starts-with(text(),'Je')]")
+    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'I am affiliated') or starts-with(text(),'Je')]")
     private WebElement chkAffFirm;
-
-    public WebElement getChkAffFirm() {
-        return chkAffFirm;
-    }
 
     // Element of Affiliated Firm Name
     @FindBy(xpath = "//label[text()='Affiliated Firm’s Name' or contains(text(),'Nom de')]/following-sibling::div[1]/input")
     private WebElement eleAffFirm;
-
-    public WebElement getEleAffFirm() {
-        return eleAffFirm;
-    }
 
     @FindBy(xpath = "//div[@class='error field']//label[text()='Affiliated Firm’s Name' or contains(text(),'Nom de')]/following-sibling::div[1]/input")
     private WebElement eleAffFirmError;
@@ -199,57 +140,32 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(css = ".add-field")
     private WebElement lnkAddFirm;
 
-    public WebElement getLnkAddFirm() {
-        return lnkAddFirm;
-    }
-
     // Element of Update Logo button
     @FindBy(xpath = "//label[@for='btn-upload']")
     private WebElement btnUpdateLogo;
-
-    public WebElement getBtnUpdateLogo() {
-        return btnUpdateLogo;
-    }
 
     // Element of checkbox Rule Logo
     @FindBy(xpath = "//label[starts-with(text(),'Once') or starts-with(text(),'Un')]")
     private WebElement chkRuleLogo;
 
-    public WebElement getChkRuleLogo() {
-        return chkRuleLogo;
-    }
 
     // Element of button Continue
     @FindBy(id = "btn-continue")
     private WebElement btnContinue;
 
-    public WebElement getBtnContinue() {
-        return btnContinue;
-    }
 
     // Page Security Information Div Element
     @FindBy(xpath = "//*[@id='create-password']")
     private WebElement pageSecurityInfoEle;
 
-    public WebElement getPageSecurityInfoEle() {
-        return pageSecurityInfoEle;
-    }
-
     // List Item of Province/State Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[1]//div[@class='menu transition visible']/div")
     private List<WebElement> provinceDdlListItemEle;
 
-    public List<WebElement> getprovinceDdlListItemEle() {
-        return provinceDdlListItemEle;
-    }
 
     // List Item of Number Of Employee Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
     private List<WebElement> numberEmployeeDdlListItemEle;
-
-    public List<WebElement> getNumberEmployeeDdlListItemEle() {
-        return numberEmployeeDdlListItemEle;
-    }
 
 //    final String warningBorderCSSColor = "rgb(253, 109, 71)";
 //    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
@@ -262,73 +178,38 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='step-content' and @id='step1']")
     private WebElement eleFrameAuditorPersonal;
 
-    public WebElement getEleFrameAuditorPersonal() {
-        return eleFrameAuditorPersonal;
-    }
 
     // ================================= Element of First and Last Name =======================================
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_fullname']")
     private WebElement eleName;
 
-    public WebElement getEleName() {
-        return eleName;
-    }
-
     // Element of EmailAddress
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email']")
     private WebElement eleEmail;
-
-    public WebElement getEleEmail() {
-        return eleEmail;
-    }
 
     // Element with locator of confirm EmailAddress
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email_confirm']")
     private WebElement eleConfirmEmail;
 
-    public WebElement getEleConfirmEmail() {
-        return eleConfirmEmail;
-    }
-
     // Element of ListBox Role in Firm
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[1]")
     private WebElement eleRoleFirm;
-
-    public WebElement getEleRoleFirm() {
-        return eleRoleFirm;
-    }
 
     // Element of Phone Number
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_phone_number']")
     private WebElement elePhoneNumber;
 
-    public WebElement getElePhoneNumber() {
-        return phoneNumberFirmInfoEle;
-    }
-
     // Element of Hear about Auvenir
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[2]")
     private WebElement eleReference;
-
-    public WebElement getEleReference() {
-        return eleReference;
-    }
 
     // Element of checkbox I agree
     @FindBy(xpath = "//div[@class='ui checkbox']/label/span")
     private WebElement chkAgree;
 
-    public WebElement getChkAgree() {
-        return chkAgree;
-    }
-
     // Element of checkbox I confirm
     @FindBy(xpath = "//div[@class='ui checkbox']/label[contains(text(),'confirm')]/..")
     private WebElement chkConfirm;
-
-    public WebElement getChkConfirm() {
-        return chkConfirm;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_fullname']")
     private WebElement fullNameError;
@@ -346,76 +227,40 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[1]//div[@class='menu transition visible']/div")
     private List<WebElement> listItemRoleFirmEle;
 
-    public List<WebElement> getListItemRoleFirmEle() {
-        return listItemRoleFirmEle;
-    }
-
     // List Item of Option 'Hear about Auvenir'
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
     private List<WebElement> listItemReferenceEle;
 
-    public List<WebElement> getListItemReferenceEle() {
-        return listItemReferenceEle;
-    }
 
     // Page Provide Firm Information Div Element
     @FindBy(xpath = "//div[@class='step-content' and @id='step2']")
     private WebElement pageProvideFirmInfoEle;
 
-    public WebElement getPageProvideFirmInfoEle() {
-        return pageProvideFirmInfoEle;
-    }
-
     //Header Provide Personal Info form.
     @FindBy(xpath = "//*[@id='step1']/h2")
     private WebElement personalPageSignUpHeaderEle;
-
-    public WebElement getPersonalPageSignUpHeaderEle() {
-        return personalPageSignUpHeaderEle;
-    }
-
 
     // Element of Breadcrumb Completed page FIRM
     @FindBy(xpath = "(//div[@class='completed step']/div/div[@class='title'])[2]")
     private WebElement firmInfoCompleteIconEle;
 
-    public WebElement getFirmInfoCompleteIconEle() {
-        return firmInfoCompleteIconEle;
-    }
-
     // Element of Breadcrumb of Security page
     @FindBy(xpath = "//div[@class='active step']/div[div[text()='SÉCURITÉ'] or text()='SECURITY']")
     private WebElement securityInfoActiveIconEle;
-
-    public WebElement getSecurityInfoActiveIconEle() {
-        return securityInfoActiveIconEle;
-    }
 
     // ======================================  Element of Create Password ===================================================
 //    @FindBy(xpath = "//input[@name='password']")
     @FindBy(xpath = "//input[@id='first-password']")
     private WebElement elePassword;
 
-    public WebElement getElePassword() {
-        return elePassword;
-    }
-
     // Element of Confirm Password
 //    @FindBy(xpath = "//input[@name='retype_password']")
     @FindBy(xpath = "//input[@id='second-password']")
     private WebElement eleConfirmPass;
 
-    public WebElement getEleConfirmPass() {
-        return eleConfirmPass;
-    }
-
     // Element of checkbox Captcha
     @FindBy(css = ".rc-anchor-checkbox-holder")
     private WebElement chkCaptcha;
-
-    public WebElement getChkCaptcha() {
-        return chkCaptcha;
-    }
 
     // Element of Create password warning
     @FindBy(id = "reset-password-warning-popup")
@@ -490,17 +335,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(id = "create-password-warning-popup")
     private WebElement createPasswordWarningPopup;
 
-    public WebElement getCreatePasswordWarningPopup() {
-        return createPasswordWarningPopup;
-    }
-
     // Element of Confirm password warning
     @FindBy(id = "confirm-password-message")
     private WebElement confirmPasswordWarningPopup;
-
-    public WebElement getConfirmPasswordWarningPopup() {
-        return confirmPasswordWarningPopup;
-    }
 
     @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
     private WebElement captchaCheckBox;
@@ -513,17 +350,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='account-created-confirmation']//h1[@class='ui header']")
     private WebElement successPageHeaderEle;
 
-    public WebElement getSuccessPageHeaderEle() {
-        return successPageHeaderEle;
-    }
-
     // Element image letter
     @FindBy(css = ".ui.image")
     private WebElement eleImageLetter;
-
-    public WebElement getEleImageLetter() {
-        return eleImageLetter;
-    }
 
     // ======================================  Element of Confirm Information Sign Up=====================================
     @FindBy(xpath = "//*[@id='personal-name']")
@@ -630,29 +459,29 @@ public class AuditorSignUpPage extends AbstractPage {
     public void verifyFirmInfoPageContent() {
         getLogger().info("Verify Content of Register Firm Information Page");
         if (IS_ENGLISH_LANGUAGE)
-            validateElememt(personalInfoCompleteIconEle, "PERSONAL", Element_Type.TEXT_VALUE);
+            validateElementText(personalInfoCompleteIconEle, "PERSONAL");
         else
-            validateElememt(personalInfoCompleteIconEle, "PERSONNEL", Element_Type.TEXT_VALUE);
+            validateElementText(personalInfoCompleteIconEle, "PERSONNEL");
 
-        validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
-        validateElememt(chkChangedName, "Element of Checkbox Changed Name", Element_Type.DISPLAYED);
-        validateElememt(eleFirmWebsite, "Element of Firm Website", Element_Type.DISPLAYED);
-        validateElememt(eleZipCode, "Element of Zip Code", Element_Type.DISPLAYED);
-        validateElememt(eleCity, "Element of City", Element_Type.DISPLAYED);
-        validateElememt(provinceDropdownEle, "Element of State", Element_Type.DISPLAYED);
-        validateElememt(eleMemberID, "Element of Member I.D", Element_Type.DISPLAYED);
+        validateDisPlayedElement(eleFirmName, "ELement of Firm Name");
+//        validateDisPlayedElement(chkChangedName, "Element of Checkbox Changed Name");
+        validateDisPlayedElement(eleFirmWebsite, "Element of Firm Website");
+        validateDisPlayedElement(eleZipCode, "Element of Zip Code");
+        validateDisPlayedElement(eleCity, "Element of City");
+        validateDisPlayedElement(provinceDropdownEle, "Element of State");
+        validateDisPlayedElement(eleMemberID, "Element of Member I.D");
         // Checking Number of Employee element is displayed
-        validateElememt(numberEmployeeDropdown, "Element of Number Employee", Element_Type.DISPLAYED);
+        validateDisPlayedElement(numberEmployeeDropdown, "Element of Number Employee");
         // Checking Phone Number element is displayed
-        validateElememt(phoneNumberFirmInfoEle, "Element of Phone Number", Element_Type.DISPLAYED);
+        validateDisPlayedElement(phoneNumberFirmInfoEle, "Element of Phone Number");
         // Checking checkbox Affiliated Firm element is displayed
-        validateElememt(chkAffFirm, "Element of checkbox Affiliated", Element_Type.DISPLAYED);
+        validateDisPlayedElement(chkAffFirm, "Element of checkbox Affiliated");
         // Checking button Update Logo element is displayed
-        validateElememt(btnUpdateLogo, "Element of button Update Logo", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnUpdateLogo, "Element of button Update Logo");
         // Checking checkbox Rule Logo element is displayed
-        validateElememt(chkRuleLogo, "Element of checkbox Rule Logo", Element_Type.DISPLAYED);
+        validateDisPlayedElement(chkRuleLogo, "Element of checkbox Rule Logo");
         // Checking button Continue element is displayed
-        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnContinue, "Element of button Continue");
     }
 
     /**
@@ -775,9 +604,7 @@ public class AuditorSignUpPage extends AbstractPage {
             final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
             System.out.println("iframes: " + iframes.size());
             getDriver().switchTo().frame(0);
-//            System.out.println("capcharCheckBoxEle get Attribute: " + iframes.get(0).getAttribute("src"));
-//            capcharCheckBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
-//            WebElement spanCapCharCheckBoxEle = getDriver().findElement(By.xpath("//*[@id='recaptcha-anchor']"));
+
             clickElement(capcharCheckBoxEle, "Capchar Text Box");
             waitForAtrributeValueChanged(spanCapCharCheckBoxEle,"Span CapChar", "aria-checked", "true");
             System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
@@ -786,10 +613,7 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
             Thread.sleep(5000);
-            // Verify Register Auditor FIRM Page is passed
-//            result = validateDisPlayedElement(pageSecurityInfoEle, "Page Securiy Infomation");
-//            Assert.assertTrue(result, "Page Security Information should be loaded.");
-//            NXGReports.addStep("Register Auditor Firm passed", LogAs.PASSED, null);
+
         } catch (AssertionError e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
@@ -860,10 +684,10 @@ public class AuditorSignUpPage extends AbstractPage {
         }
     }
 
-    public void clickOnChangedNameCheckBox() {
-        hoverElement(this.chkChangedName, " change name check box");
-        clickElement(this.chkChangedName, " change name check box");
-    }
+//    public void clickOnChangedNameCheckBox() {
+//        hoverElement(this.chkChangedName, " change name check box");
+//        clickElement(this.chkChangedName, " change name check box");
+//    }
 
     public void clickOnAllFirmCheckBox() {
         hoverElement(this.chkAffFirm, " all firm check box");
@@ -947,7 +771,7 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     public void verifyInputInValidValueOnZipCodeTextBox(String invalidValue) {
-        getLogger().info("Verify Input InValid Value On Full Address TextBox.");
+        getLogger().info("Verify Input InValid Value On Zip Code TextBox.");
         inputValueIntoZipCodeTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
         verifyColorControl(eleZipCodeError, "zip code error", "border-color", warningBorderCSSColor);

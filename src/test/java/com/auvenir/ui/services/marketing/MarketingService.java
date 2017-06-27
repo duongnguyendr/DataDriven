@@ -198,12 +198,27 @@ Vien.Pham added login With New User Role
     /**
      * Added by huy.huynh on 19/06/2017.
      * Scenarios : SmokeTest R2
+     * Vien.Pham seperated 3 funtions of Login as aTan suggestion.
      */
+
+    public void goToAuvenirMarketingPageURL() {
+        goToBaseURL();
+    }
+
+    public void selectLoginBtn() {
+        clickLoginButton();
+    }
+    public void loginWithUserPwd(String  username, String pwd){
+        loginWithUserNamePassword(username, pwd);
+    }
+
     public void loginWithUserRolesUsingUsernamePassword(String username, String password) {
         goToBaseURL();
         clickLoginButton();
         loginWithUserNamePassword(username, password);
     }
+
+
     /**
      * -----end of huy.huynh 19/06/2017.-----
      */
