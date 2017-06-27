@@ -29,9 +29,9 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhone, strAffName, strPathLogo);
     }
 
-    public void clickOnChangedNameCheckBox() {
-        auditorSignUpPage.clickOnChangedNameCheckBox();
-    }
+//    public void clickOnChangedNameCheckBox() {
+//        auditorSignUpPage.clickOnChangedNameCheckBox();
+//    }
 
     public void clickOnAllFirmCheckBox() {
         auditorSignUpPage.clickOnAllFirmCheckBox();

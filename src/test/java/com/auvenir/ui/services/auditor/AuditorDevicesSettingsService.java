@@ -32,7 +32,7 @@ public class AuditorDevicesSettingsService extends AbstractService {
         try {
             auditorDevicesSettingsPage.scrollPageDown();
             getLogger().info("verify footer page.");
-            auditorDevicesSettingsPage.verifyFooter();
+            auditorDevicesSettingsPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
             auditorDevicesSettingsPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");

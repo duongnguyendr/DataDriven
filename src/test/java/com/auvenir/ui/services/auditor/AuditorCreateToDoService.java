@@ -175,7 +175,7 @@ public class AuditorCreateToDoService extends AbstractService {
             //createToDoTask.navigateToEngagementTask();
             createToDoTask.navigateToToDoList();
             createToDoTask.clickCreateToDoTask();
-            //createToDoTask.verifyAddNewToDoTask();
+            //createToDoTask.createNewToDoTask();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -342,7 +342,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception {
+    public void createNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -773,7 +773,7 @@ public class AuditorCreateToDoService extends AbstractService {
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName);
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName);
     }
 
     public void verifyDefaultHintValueInputComment() {
@@ -803,12 +803,12 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyInputMultiComment(String commentType, int numberComment) {
         for (int i = 0; i < numberComment; i++) {
             createToDoPage.verifyInputAComment(commentType + i);
-            clickPostComment();
+            clickOnPostCommentButton();
         }
     }
 
-    public void clickPostComment() {
-        createToDoPage.clickPostComment();
+    public void clickOnPostCommentButton() {
+        createToDoPage.clickOnPostCommentButton();
     }
 
     public int getNumberOfListComment() {
@@ -823,7 +823,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void clickAddRequestButton() {
+    public void verifyClickAddRequestBtn() {
         createToDoPage.verifyClickAddRequestBtn();
     }
 
@@ -834,8 +834,8 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
-    public void clickNewRequestImg() {
-        createToDoPage.verifyAddNewRequestImg();
+    public void verifyColorAddRequestBtn() {
+        createToDoPage.verifyColorAddRequestBtn();
     }
 
     /**
@@ -856,32 +856,38 @@ public class AuditorCreateToDoService extends AbstractService {
 
     /**
      * Author minh.nguyen
+     * Vien.Pham added upload, download request file.
      */
-//    public void verifyUpdateRequest(String requestName3, String requestName4) {
-//        createToDoPage.verifyNewRequestStoreInDatabase(requestName3,requestName4);
-//    }
+
+
     public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
         createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+
+    }
+
+    public void verifyUploadFileSuccessfully(String fileName){
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
-    public void uploadCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
-        createToDoPage.uploadeCreateRequestNewFileClient(uploadLocation.concat(fileName));
-        createToDoPage.verifyUploadFileSuccessfullyClient(fileName);
+    public void uploadFileNewRequestByClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadFileNewRequestByClient(uploadLocation.concat(fileName));
     }
 
-    public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
-        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName),1);
-
-//        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
-        //createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
-    }
-    public void auditorAttachNewFile(String attachLocation, String fileName){
-        createToDoPage.attachFile(attachLocation,fileName);
+    public void verifyUploadFileNewRequestByClient(String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
     }
 
-    public void clientDownloadAttachFile(String pathOfUpload,String pathOfDownload,String fileName){
-        createToDoPage.downloadAttachFile(pathOfUpload,pathOfDownload,fileName);
+    public void auditorDownloadNewRequestFile(String uploadLocation, String downloadLocation, String fileName) {
+        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName), 1);
+
+    }
+
+    public void auditorAttachNewFile(String attachLocation, String fileName) {
+        createToDoPage.attachFile(attachLocation, fileName);
+    }
+
+    public void clientDownloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
+        createToDoPage.downloadAttachFile(pathOfUpload, pathOfDownload, fileName);
     }
 
     public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
@@ -961,8 +967,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.waitForNewTodoNameSaved();
     }
 
-    public void createCategories(String cate1) throws Exception {
-        createToDoPage.createNewCategory(cate1);
+    public void createCategories(String cate) throws Exception {
+        createToDoPage.createNewCategory(cate);
     }
 
     public void createMultiCategory(String cate1, String cate2, String cate3) throws Exception {
@@ -976,16 +982,14 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyTodosTextBox_DefaultGUI() throws InterruptedException {
-        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+    public void verifyTodosTextBox_AfterClickedAddTodo() throws InterruptedException {
+        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
         createToDoPage.verifyTodoTextboxBorder_AfterClickedAddTodo();
-        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
+//        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
-
-
     }
 
-    public void InputValidValue(String validValue) {
+    public void inputValidValue(String validValue) {
 
         createToDoPage.InputValue_TodoName(validValue);
     }
@@ -994,12 +998,12 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyInputValidValue(validValue);
     }
 
-    public void InputOnlyNumber(int number) {
-        createToDoPage.InputValue_TodoName(Integer.toString(number));
+    public void inputOnlyNumber(String number) {
+        createToDoPage.InputValue_TodoName(number);
     }
 
-    public void verifyInputNumber(int number) {
-        createToDoPage.verifyInputValidValue(Integer.toString(number));
+    public void verifyInputNumber(String number) {
+        createToDoPage.verifyInputValidValue(number);
 
     }
 
@@ -1026,7 +1030,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCategoryComboBox_DefaultGUI() {
         getLogger().info("Verifying Category ComboBox...");
         createToDoPage.verifyCategoryBox_DefaultValue();
-        createToDoPage.verifyBorderCategoryBox_WhileHovered();
+//        createToDoPage.verifyBorderCategoryBox_WhileHovered();
     }
 
     public void verifyNewCategorySaved(String cate1) {
@@ -1268,7 +1272,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
 
     public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName, isClient);
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName, isClient);
     }
 
     /**

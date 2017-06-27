@@ -7,7 +7,6 @@ import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -70,7 +69,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
     private WebElement newEngagementHeaderTextEle;
 
-    @FindBy(xpath="//*[@id='h-engagementsLink']")
+    @FindBy(xpath = "//*[@id='h-engagementsLink']")
     private WebElement linkEngagement;
 
     @FindBy(xpath = "//*[@id='CreateEngagementParent']/../../../..")
@@ -426,7 +425,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("26");
-            validateElementJSTextContain(inputEngagementReportDeadline, "26", "Engagement Report Deadline");
+            validateElementJavaScriptTextContain(inputEngagementReportDeadline, "26", "Engagement Report Deadline");
             validateElementText(titleEngagementDateRange, "Select a Date Range of Bank Statements to be requested from your client.");
             validatePlaceholder(inputEngagementDateRangeStart, "DD/MM/YYYY", "Engagement DateRange Start");
             waitForInvisibleElement(widgetDatePicker, "Date Picker");
@@ -434,13 +433,13 @@ public class AuditorNewEngagementPage extends AbstractPage {
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("27");
-            validateElementJSTextContain(inputEngagementDateRangeStart, "27", "Engagement Report Deadline");
+            validateElementJavaScriptTextContain(inputEngagementDateRangeStart, "27", "Engagement Report Deadline");
             validatePlaceholder(inputEngagementDateRangeEnd, "DD/MM/YYYY", "Engagement DateRange End");
             clickElement(inputEngagementDateRangeEnd);
             validateAttributeNotContain(widgetDatePicker, "style", "display: none", "Date Picker");
             datePicker = new DatePicker(getDriver(), widgetDatePicker);
             datePicker.pickADate("28");
-            validateElementJSTextContain(inputEngagementDateRangeEnd, "28", "Engagement Report Deadline");
+            validateElementJavaScriptTextContain(inputEngagementDateRangeEnd, "28", "Engagement Report Deadline");
 
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
