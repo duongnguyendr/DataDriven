@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
  * Created by huy.huynh on 13/06/2017.
  * SmokeTest for R2
  */
-public class SmokeTestt extends AbstractTest {
+public class SmokeTest extends AbstractTest {
     private AdminService adminService;
     private AuvenirService auvenirService;
     private AuditorService auditorService;
