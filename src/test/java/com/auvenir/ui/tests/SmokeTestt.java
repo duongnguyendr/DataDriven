@@ -342,7 +342,7 @@ public class SmokeTestt extends AbstractTest {
             gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
             gmailLoginService.filterEmail();
-            gmailLoginService.clickOnboardingInvitationLink();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
 
             clientSignUpService.navigateToSignUpForm();
             clientSignUpService.fillUpPersonalForm("0123456789");//10 number required
@@ -466,8 +466,8 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
 //            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
-            auditorCreateToDoService.clickNewRequestImg();
-            auditorCreateToDoService.clickAddRequestButton();
+            auditorCreateToDoService.verifyColorAddRequestBtn();
+            auditorCreateToDoService.verifyClickAddRequestBtn();
             getLogger().info("Verifying auditor create 1st request name.. ");
             auditorCreateToDoService.verifyCreateRequest("New_Request 01", "client request");
             getLogger().info("Verifying upload TXT file..");
@@ -500,8 +500,8 @@ public class SmokeTestt extends AbstractTest {
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.clickNewRequestImg();
-            auditorCreateToDoService.uploadCreateRequestNewFileClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
+            auditorCreateToDoService.verifyColorAddRequestBtn();
+            auditorCreateToDoService.uploadFileNewRequestByClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -531,8 +531,8 @@ public class SmokeTestt extends AbstractTest {
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.clickNewRequestImg();
-            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.verifyColorAddRequestBtn();
+            auditorCreateToDoService.auditorDownloadNewRequestFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -571,7 +571,7 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyInputAComment(commentContent);
             int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickPostComment();
+            auditorCreateToDoService.clickOnPostCommentButton();
             auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
@@ -938,7 +938,7 @@ public class SmokeTestt extends AbstractTest {
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName, true);
             auditorCreateToDoService.verifyInputAComment(commentContent);
             int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickPostComment();
+            auditorCreateToDoService.clickOnPostCommentButton();
             auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
 
 
@@ -1008,7 +1008,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
 
 
             int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
@@ -1071,10 +1071,10 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteSingle);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple01);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple02);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple03);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteSingle);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple01);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple02);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple03);
 
             auditorCreateToDoService.selectToDoTaskName(toDoNameDeleteSingle);
             auditorCreateToDoService.clickBulkActionsDropdown();
@@ -1231,7 +1231,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickNewRequestImg();
+            auditorCreateToDoService.verifyColorAddRequestBtn();
             getLogger().info("Verifying auditor attach a TXT file..");
             auditorCreateToDoService.auditorAttachNewFile(GenericService.sDirPath + pathOfAttachLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1260,7 +1260,7 @@ public class SmokeTestt extends AbstractTest {
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.clickNewRequestImg();
+            auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.clientDownloadAttachFile(GenericService.sDirPath+pathOfUploadLocation,GenericService.sDirPath +pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);
