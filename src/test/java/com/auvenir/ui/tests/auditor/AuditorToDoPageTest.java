@@ -37,8 +37,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         String validTodo = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Todo Name  01");
         String number = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Number Value", "Todo Name  01");
+        String specialChars = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Special Chars", "Todo Name  01");
+        String nullChars = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Null Char", "Todo Name  01");
+
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId,auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -46,12 +51,10 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorCreateToDoService.verifyTodosTextBox_AfterClickedAddTodo();
             auditorCreateToDoService.inputValidValue(validTodo);
             auditorCreateToDoService.verifyInputValidValue(validTodo);
-            auditorCreateToDoService.inputOnlyNumber("1212121");
-            auditorCreateToDoService.verifyInputNumber("1212121");
-            getLogger().info("Verifying input Special Char..");
-            auditorCreateToDoService.InputSpecialChar("1308@#%^&*()");
-            auditorCreateToDoService.verifyInputSpecialChar("1308@#%^&*()");
-            getLogger().info("Verifying input Nullchar...");
+            auditorCreateToDoService.inputOnlyNumber(number);
+            auditorCreateToDoService.verifyInputNumber(number);
+            auditorCreateToDoService.InputSpecialChar(specialChars);
+            auditorCreateToDoService.verifyInputSpecialChar(specialChars);
             auditorCreateToDoService.InputNullChar("");
             auditorCreateToDoService.verifyInputNullChar("");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -61,24 +64,28 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = false, description = "Verify Category Combo box")
+    @Test(priority = 2, enabled = true, description = "Verify Category Combo box")
     public void verifyCategoryComboBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
+        String validTodo = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Todo Name  01");
+        String categoryName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Category Name");
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId,auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            getLogger().info("Verifying Category box default value..");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorCreateToDoService.inputValidValue(validTodo);
             auditorCreateToDoService.verifyCategoryComboBox_DefaultGUI();
-            getLogger().info("Verifying new Category was created correctly..");
-            auditorCreateToDoService.createCategories("automation011");
-            auditorCreateToDoService.verifyNewCategorySaved("automation010");
+            auditorCreateToDoService.createCategories(categoryName);
+            auditorCreateToDoService.verifyNewCategorySaved(categoryName);
             getLogger().info("Verifying new Category was chosen and displayed correctly..");
             auditorCreateToDoService.selectCategory();
             auditorCreateToDoService.verifyNewCategoryChosenCorrectly("automation011");

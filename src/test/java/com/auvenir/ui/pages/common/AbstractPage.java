@@ -3,6 +3,8 @@ package com.auvenir.ui.pages.common;
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -141,8 +143,7 @@ public class AbstractPage {
     List<WebElement> listOfCategoryDropdown;
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
-//    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-            List<WebElement> listOfAddNewCategory;
+    List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -246,42 +247,36 @@ public class AbstractPage {
     public void verifyFooter() {
         boolean isAuvenirIncTxt, isTermsOfServiceLnk, isTermsOfServiceDotTxt, isPrivacyStatementLnk, isPrivacyStatementDotTxt, isCookieNoticeLnk = false;
         isAuvenirIncTxt = validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        if(!isAuvenirIncTxt)
-        {
+        if (!isAuvenirIncTxt) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("eleAuvenirIncTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         isTermsOfServiceLnk = validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
-        if(!isTermsOfServiceLnk)
-        {
+        if (!isTermsOfServiceLnk) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("eleTermsOfServiceLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         isTermsOfServiceDotTxt = validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
-        if(!isTermsOfServiceDotTxt)
-        {
+        if (!isTermsOfServiceDotTxt) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("eleTermsOfServiceDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         isPrivacyStatementLnk = validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
-        if(!isPrivacyStatementLnk)
-        {
+        if (!isPrivacyStatementLnk) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("elePrivacyStatementLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         isPrivacyStatementDotTxt = validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
-        if(!isPrivacyStatementDotTxt)
-        {
+        if (!isPrivacyStatementDotTxt) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("elePrivacyStatementDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         isCookieNoticeLnk = validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
-        if(!isCookieNoticeLnk) {
+        if (!isCookieNoticeLnk) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("eleCookieNoticeLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-        if(isAuvenirIncTxt && isTermsOfServiceLnk && isTermsOfServiceDotTxt && isPrivacyStatementLnk && isPrivacyStatementDotTxt && isCookieNoticeLnk)
-        {
+        if (isAuvenirIncTxt && isTermsOfServiceLnk && isTermsOfServiceDotTxt && isPrivacyStatementLnk && isPrivacyStatementDotTxt && isCookieNoticeLnk) {
             NXGReports.addStep("verify Footer.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -299,13 +294,10 @@ public class AbstractPage {
             tabs = new ArrayList<String>(driver.getWindowHandles());
             driver.switchTo().window(tabs.get(1)).close();
             Thread.sleep(smallTimeOut);
-            if(isCheckTermOfService)
-            {
+            if (isCheckTermOfService) {
                 NXGReports.addStep("verify Terms Of Service Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("verify Terms Of Service Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -323,13 +315,10 @@ public class AbstractPage {
             tabs = new ArrayList<String>(driver.getWindowHandles());
             driver.switchTo().window(tabs.get(1)).close();
             Thread.sleep(smallTimeOut);
-            if(isPrivacyState)
-            {
+            if (isPrivacyState) {
                 NXGReports.addStep("verify Privacy State Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("verify Privacy State Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -344,13 +333,10 @@ public class AbstractPage {
             switchToOtherTab(1);
             WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
             isCheckCookieNotice = validateElementText(cookie, "Cookie Notice");
-            if(isCheckCookieNotice)
-            {
+            if (isCheckCookieNotice) {
                 NXGReports.addStep("verify Cookie Notice.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("verify Cookie Notice.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -2808,8 +2794,8 @@ public class AbstractPage {
      */
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-//        Thread.sleep(3000);
-//        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
+        Thread.sleep(smallerTimeOut);
+//        waitForClickableOfLocator(By.xpath("//div[@class='ui dropdown todoCategory todo-category todo-bulkDdl']//div[@class='menu dropdown-empty']/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
 
@@ -2858,17 +2844,19 @@ public class AbstractPage {
 
 
     public void returnToTodoListPage_LoginToEngagementAgain() {
-        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
+        AuditorEngagementService auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        AuditorDetailsEngagementService auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         try {
             getLogger().info("Back to Engagement page...");
             engagementBackBtn.click();
             getLogger().info("Return to Todo list page again..");
-            auditorEngagementPage.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             NXGReports.addStep("Return to Todo ListPage successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Return to Todo ListPage failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -2890,8 +2878,6 @@ public class AbstractPage {
         String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Click anywhere...");
-            clickElement(eleAuvenirIncTxt, "Auvernir Inc");
             getLogger().info("Verifying border of todo Textbox is Orange while missed or entered invalid values or not...");
             validateCssValueElement(textbox1, "border", OrangeBorder);
             NXGReports.addStep("Border color while inputting invalid value.", LogAs.PASSED, null);

@@ -966,8 +966,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.waitForNewTodoNameSaved();
     }
 
-    public void createCategories(String cate1) throws Exception {
-        createToDoPage.createNewCategory(cate1);
+    public void createCategories(String cate) throws Exception {
+        createToDoPage.createNewCategory(cate);
     }
 
     public void createMultiCategory(String cate1, String cate2, String cate3) throws Exception {
@@ -1029,7 +1029,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCategoryComboBox_DefaultGUI() {
         getLogger().info("Verifying Category ComboBox...");
         createToDoPage.verifyCategoryBox_DefaultValue();
-        createToDoPage.verifyBorderCategoryBox_WhileHovered();
+//        createToDoPage.verifyBorderCategoryBox_WhileHovered();
     }
 
     public void verifyNewCategorySaved(String cate1) {

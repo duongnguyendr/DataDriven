@@ -1057,7 +1057,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 String strSearchValueAuditAssignee = "";
                 try {
                     strSearchValueTodoName = TodosTextboxEle.get(i).getAttribute("value");
-                    strSearchValueCategoryName = DropdownCategoryEle.get(i).getText();
+                    strSearchValueCategoryName = dropdownCategoryEle.get(i).getText();
                     strSearchValueClientAssignee = DropdownClientAssignee.get(i).getText();
                     strSearchValueAuditAssignee = DropdownAuditAssignee.get(i).getText();
                 } catch (Exception ex) {
@@ -3675,8 +3675,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//input [contains(@class,\"due\")]")
     List<WebElement> newDueDateEle;
 
-    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]")
-    List<WebElement> DropdownCategoryEle;
+    @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory todo-category todo-bulkDdl')]/div")
+    private List<WebElement> dropdownCategoryEle;
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown client')]")
     List<WebElement> DropdownClientAssignee;
@@ -3786,14 +3786,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
             WebElement textbox1 = TodosTextboxEle.get(0);
             clickElement(TodosTextboxEle.get(0),"Todos Textbox");
             getLogger().info("Inputting a value..");
-            sendKeyTextBox(textbox1, value, "Todos Textbox");
+            sendKeyTextBox(textbox1,value, "Todos Textbox");
             NXGReports.addStep("Ending input a value.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Ending input a value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
     public void verifyInputValidValue(String validValue) {
         try {
             getLogger().info("Verifying show all Text..");
@@ -3814,8 +3813,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             getLogger().info("Verifying show all Text..");
             verifyShowAllTextTodoName(invalidValue);
-            getLogger().info("Verifying the border of todo name..");
-            verifyBorderTodoTextBox_InputInvalidValue();
+//            getLogger().info("Verifying the border of todo name..");
+//            verifyBorderTodoTextBox_InputInvalidValue();
             getLogger().info("Verifying valid value should be saved..");
             verifyInvalidTodoNameNotSaved(invalidValue);
             NXGReports.addStep("Verify Input invalid Value complete.", LogAs.PASSED, null);
@@ -3831,7 +3830,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String defaultValue = "Select";
         try {
             Thread.sleep(smallerTimeOut);
-            if (DropdownCategoryEle.get(0).getText().equals(defaultValue)) {
+            if (dropdownCategoryEle.get(0).getText().equals(defaultValue)) {
                 NXGReports.addStep("Verify default value of CategoryBox.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -3843,17 +3842,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void verifyBorderCategoryBox_WhileHovered() {
+   /* public void verifyBorderCategoryBox_WhileHovered() {
         String GreenBorder = "1px solid rgb(92, 155, 160)";
         try {
-            hoverElement(DropdownCategoryEle.get(0), "Category Dropdown Menu");
-            validateCssValueElement(DropdownCategoryEle.get(0), "border", GreenBorder);
+            hoverElement(dropdownCategoryEle.get(0), "Category Dropdown Menu");
+            validateCssValueElement(dropdownCategoryEle.get(0), "border", GreenBorder);
             NXGReports.addStep("Verify Border of Categorybox when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Border of Categorybox when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
+    }*/
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[2]")
     WebElement editCategoryBtn;
@@ -3907,8 +3906,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void selectCategory() {
         try {
-            waitForClickableOfElement(DropdownCategoryEle.get(0));
-            clickElement(DropdownCategoryEle.get(0), "Dropdown Cate");
+            waitForClickableOfElement(dropdownCategoryEle.get(0));
+            clickElement(dropdownCategoryEle.get(0), "Dropdown Cate");
             clickElement(listOfCategoryItemsDropdown.get(0), "");
             Thread.sleep(smallerTimeOut);
             NXGReports.addStep("Ending select category.", LogAs.PASSED, null);
@@ -3924,7 +3923,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyCategoryIsSelectedCorrectly(String value1) {
         try {
             Thread.sleep(smallerTimeOut);
-            String value2 = DropdownCategoryEle.get(0).getText();
+            String value2 = dropdownCategoryEle.get(0).getText();
             if (value1.equals(value2)) {
                 NXGReports.addStep("Category is selected successfully.", LogAs.PASSED, null);
             } else {
