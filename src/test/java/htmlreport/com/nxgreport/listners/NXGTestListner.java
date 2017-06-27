@@ -44,6 +44,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
     List<ITestResult> passedTests = new ArrayList();
     List<ITestResult> failedTests = new ArrayList();
     List<ITestResult> skippedTests = new ArrayList();
+    public static ArrayList sTestName= new ArrayList<String>();
     /*private Recorder recorder;
     private Recorder testRecorder;*/
     private boolean isSuiteStarted = false;
@@ -97,6 +98,9 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
     public void onTestStart(ITestResult testResult) {
         createReportDir(testResult);
         setPlatfromBrowserDetails(testResult);
+        if (!sTestName.contains(testResult.getTestName().toString())) {
+            sTestName.add(testResult.getTestName().toString());
+        }
         /*if(TestDirectory.recordTestExecution) {
             try {
                 this.testRecorder = new Recorder(getReportDir(testResult) + TestDirectory.SEP + testResult.getName() + ".mov");
@@ -336,7 +340,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
             printWriter = new PrintWriter(TestDirectory.RUNDIR + TestDirectory.SEP + "Result.html");
             ResultPageWriter.printHeader(printWriter, this.passedTests.size(), this.failedTests.size(), this.skippedTests.size());
             ResultPageWriter.printMenuLink(printWriter, 0);
-            ResultPageWriter.printContent(printWriter, this.passedTests, this.failedTests, this.skippedTests, startTime, endTime);
+            ResultPageWriter.printContent(printWriter, this.sTestName, this.passedTests, this.failedTests, this.skippedTests, startTime, endTime);
             ResultPageWriter.printFooter(printWriter);
         } catch (FileNotFoundException var15) {
             var15.printStackTrace();
