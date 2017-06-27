@@ -484,6 +484,9 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
+    /**
+     * Added by Minh Nguyen on June 20, 2017
+     */
     @Test(priority = 20, enabled = true, description = "Verify to create new request on ToDo page")
     public void verifyClientUploadOnRequest() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -513,6 +516,9 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
+    /**
+     * Added by Minh Nguyen on June 20, 2017
+     */
     @Test(priority = 21, enabled = true, description = "Verify auditor can download.")
     public void verifyAuditorDownloadOnRequest() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
