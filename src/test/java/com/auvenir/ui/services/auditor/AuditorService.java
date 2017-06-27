@@ -149,12 +149,7 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyheaderPage() {
-        try {
-            auvenirPage.verifyHeader();
-            NXGReports.addStep("verify header page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify header page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auvenirPage.verifyHeader();
     }
 
     public void verifyDisplayElementInAuditorDashBoardPage() {

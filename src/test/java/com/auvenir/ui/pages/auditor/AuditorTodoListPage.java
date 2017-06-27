@@ -6,6 +6,7 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,33 +35,33 @@ public class AuditorTodoListPage extends AbstractPage {
     @FindBy(xpath = "//table[@id='todo-table']//..//..//th//input[@type='checkbox']")
     private WebElement eleCheckBox;
 
-    @FindBy(xpath = "//th[@data-id='name']")
+    @FindBy(xpath = "//table[@id='todo-table']//th[@data-id='name']")
     private WebElement eleNameToDoTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='name']//i")
+    @FindBy(xpath = "//table[@id='todo-table']//th[@data-id='name']//i")
     private WebElement eleSortByNameToDo;
 
-    @FindBy(xpath = "//th[@data-id='categoryName']")
+    @FindBy(xpath = "//th[@data-id='category']")
     private WebElement eleCategoryTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='categoryName']//i")
+    @FindBy(xpath = "//th[@data-id='category']//i")
     private WebElement eleSortByCategory;
 
-    @FindBy(xpath = "//th[@data-id='clientAssigneeName']")
+    @FindBy(xpath = "//th[@data-id='clientAssignee']")
     private WebElement eleClientAssigneeTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='clientAssigneeName']//i")
+    @FindBy(xpath = "//th[@data-id='clientAssignee']//i")
     private WebElement eleSortByClientAssignee;
 
-    @FindBy(xpath = "//th[@data-id='dueDate']")
+    @FindBy(xpath = "//table[@id='todo-table']//th[@data-id='dueDate']")
     private WebElement eleDueDateTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='dueDate']//i")
+    @FindBy(xpath = "//table[@id='todo-table']//th[@data-id='dueDate']//i")
     private WebElement eleSortByDueDate;
 
-    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']")
+    @FindBy(xpath = "//th[@data-id='auditorAssignee']")
     private WebElement eleAuditAssigneeTitleLabel;
-    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']//i")
+    @FindBy(xpath = "//th[@data-id='auditorAssignee']//i")
     private WebElement eleSortByAuditAssignee;
 
 
@@ -97,48 +98,18 @@ public class AuditorTodoListPage extends AbstractPage {
     List<WebElement> tableTodoList;
 
     /////////////////////////////////////////////////
-    public void verifyTodoListPageColumnHeader() throws Exception {
-        getLogger().info("verify create to do button.");
+    public void verifyTodoListPageColumnHeader(){
+        getLogger().info("verify To Do List page.");
         verifyButtonCreateToDo();
-        NXGReports.addStep("verify create to do button.", LogAs.PASSED, null);
-
-        getLogger().info("verify filter button.");
         verifyFilterDropDownList();
-        NXGReports.addStep("verify filter button.", LogAs.PASSED, null);
-
-        getLogger().info("verify check on checkbox.");
         verifyCheckOnCheckBox();
-        NXGReports.addStep("verify check on checkbox.", LogAs.PASSED, null);
-
-        getLogger().info("verify uncheck on checkbox.");
         verifyUnCheckOnCheckBox();
-        NXGReports.addStep("verify uncheck on checkbox.", LogAs.PASSED, null);
-
-        getLogger().info("verify columns in gird.");
         verifyColumnsInGrid();
-        NXGReports.addStep("verify columns in gird.", LogAs.PASSED, null);
-
-        getLogger().info("verify icon sort on title.");
-        verifySortOnTitle();
-        NXGReports.addStep("verify icon sort on title.", LogAs.PASSED, null);
-
-        getLogger().info("verify search hover.");
+        verifySortIconOnEachColumn();
         verifySearchHover();
-        NXGReports.addStep("verify search hover.", LogAs.PASSED, null);
-
-        getLogger().info("verify input text for field search.");
         verifySearchInputText();
-        NXGReports.addStep("verify input text for field search.", LogAs.PASSED, null);
-
-        getLogger().info("verify input number for field search.");
         verifySearchInputNumber();
-        NXGReports.addStep("verify input number for field search.", LogAs.PASSED, null);
-
-        getLogger().info("verify default value(hint) field search.");
         verifySearchDefault();
-        NXGReports.addStep("verify default value(hint) field search.", LogAs.PASSED, null);
-
-
     }
 
     /*
@@ -152,41 +123,78 @@ public class AuditorTodoListPage extends AbstractPage {
     }
 
 
-    public void verifyButtonCreateToDo() throws Exception {
-        validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
-        validateCssValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
+    public void verifyButtonCreateToDo() {
+        getLogger().info("Verify create to do button.");
+        boolean result;
+        int countFail = 0;
         validateDisPlayedElement(eleCreateToDoBtn, "Create Todo Button");
-
+        result = validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
+        if (!result) {
+            countFail++;
+            NXGReports.addStep("Fail: Verify background-color create to do button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        result = validateCssValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
+        if (!result) {
+            countFail++;
+            NXGReports.addStep("Fail: Verify color create to do button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        if (countFail == 0) {
+            NXGReports.addStep("Verify create to do button.", LogAs.PASSED, null);
+        }
     }
 
     public void verifyButtonFilter() throws Exception {
         validateDisPlayedElement(eleFilterBtn, "Filter button");
     }
 
-    public void verifySearchDefault() throws Exception {
-        validateAttributeElement(eleToDoSearchInput, "placeholder", "Search...");
+    public void verifySearchDefault() {
+        getLogger().info("Verify default value(hint) field search.");
+        boolean result = validateAttributeElement(eleToDoSearchInput, "placeholder", "Search...");
+        if (result) {
+            NXGReports.addStep("Verify default value(hint) field search.", LogAs.PASSED, null);
+        } else {
+            NXGReports.addStep("Verify default value(hint) field search.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifySearchHover() throws Exception {
+    public void verifySearchHover() {
+        getLogger().info("Verify search hover.");
         clickAndHold(eleToDoSearchInput, "Search Button");
-        waitForPresentOfLocator(By.xpath("//input[@id='todo-search']"));
-
-        validateCssValueElement(eleToDoSearchInput, "border-color", "rgb(89, 155, 161)");
+        waitForVisibleElement(eleToDoSearchInput, "Search Button");
+        boolean result = validateCssValueElement(eleToDoSearchInput, "border-color", "rgb(89, 155, 161)");
+        if (result) {
+            NXGReports.addStep("Verify search hover.", LogAs.PASSED, null);
+        } else {
+            NXGReports.addStep("Verify search hover.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifySearchInputText() throws Exception {
+    public void verifySearchInputText() {
+        getLogger().info("Verify input text for field search.");
         enterSearchToDoTask("To do task name");
-        validateAttributeElement(eleToDoSearchInput, "value", "To do task name");
+        boolean result = validateAttributeElement(eleToDoSearchInput, "value", "To do task name");
+        if (result) {
+            NXGReports.addStep("Verify input text for field search.", LogAs.PASSED, null);
+        } else {
+            NXGReports.addStep("Verify input text for field search.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
 
-    public void verifySearchInputNumber() throws Exception {
+    public void verifySearchInputNumber() {
+        getLogger().info("Verify input number for field search.");
         enterSearchToDoTask("123");
-        validateAttributeElement(eleToDoSearchInput, "value", "123");
+        boolean result = validateAttributeElement(eleToDoSearchInput, "value", "123");
+        if (result) {
+            NXGReports.addStep("Verify input number for field search.", LogAs.PASSED, null);
+        } else {
+            NXGReports.addStep("Verify input number for field search.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
 
-    public void verifyColumnsInGrid() throws Exception {
+    public void verifyColumnsInGrid() {
+        getLogger().info("Verify columns in gird.");
         validateElementText(eleNameToDoTitleLabel, "To-Dos");
         validateElementText(eleCategoryTitleLabel, "Category");
         validateElementText(eleClientAssigneeTitleLabel, "Client Assignee");
@@ -195,40 +203,51 @@ public class AuditorTodoListPage extends AbstractPage {
     }
 
 
-    public void verifySortOnTitle() throws Exception {
+    public void verifySortIconOnEachColumn() {
+        getLogger().info("Verify Sort Icon on each column.");
         validateDisPlayedElement(eleSortByNameToDo, "Sort By name");
         validateDisPlayedElement(eleSortByClientAssignee, "Sort By Client Assignee");
         validateDisPlayedElement(eleSortByDueDate, "Sort By due Date");
         validateDisPlayedElement(eleSortByAuditAssignee, "Sort By Auditor Assignee");
     }
 
-    public void verifyCheckOnCheckBox() throws Exception {
+    public void verifyCheckOnCheckBox() {
+        getLogger().info("Verify check on checkbox.");
         checkAllToDoTask();
-        waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
-        validateCssValueElement(eleCheckBox, "background-color", "rgba(92, 212, 192, 1)");
+        waitForVisibleElement(eleCheckBox, "Check Box All To Do list");
+        boolean result = validateCssValueElement(eleCheckBox, "background-color", "rgba(89, 155, 161, 1)");
+        if (result)
+            NXGReports.addStep("Verify check on checkbox.", LogAs.PASSED, null);
+        else
+            NXGReports.addStep("Verify check on checkbox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
     }
 
-    public void verifyUnCheckOnCheckBox() throws Exception {
+    public void verifyUnCheckOnCheckBox() {
+        getLogger().info("Verify UnCheck on checkbox.");
         unCheckAllToDoTask();
-        waitForPresentOfLocator(By.xpath("//table[@id='todo-table']//..//..//th//input[@type='checkbox']"));
-        validateCssValueElement(eleCheckBox, "background-color", "rgba(202, 206, 206, 1)");
+        waitForVisibleElement(eleCheckBox, "Check Box All To Do list");
+        boolean result = validateCssValueElement(eleCheckBox, "background-color", "rgba(255, 255, 255, 1)");
+        if (result)
+            NXGReports.addStep("Verify uncheck on checkbox.", LogAs.PASSED, null);
+        else
+            NXGReports.addStep("Verify uncheck on checkbox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
     }
 
     public void clickCreateToDoBtn() throws Exception{
-        // Create todo button could sleep before click, investigate in-progress.
-//        Thread.sleep(smallTimeOut);
-//        waitForClickableOfElement(eleCreateToDoBtn);
+        getLogger().info("Click Create ToDo Button");
         waitForTextValueChanged(eleCreateToDoBtn,"Create Todo Butto","Create To-Do");
         clickElement(eleCreateToDoBtn, "Create Todo Button");
     }
 
     public void checkAllToDoTask() {
+        getLogger().info("Click Check All To Do Task.");
         if (!eleCheckBox.isSelected()) {
             clickOnCheckBox(eleCheckBox, "All Check Box");
         }
     }
 
     public void unCheckAllToDoTask() {
+        getLogger().info("UnCheck All To Do Task.");
         if (eleCheckBox.isSelected()) {
             clickOnCheckBox(eleCheckBox, "CheckBox");
         }
@@ -267,24 +286,30 @@ public class AuditorTodoListPage extends AbstractPage {
     }
 
     public void verifyFilterDropDownList() {
+        getLogger().info("Verify filter button.");
+        boolean result;
         waitForVisibleElement(eleFilterDropDownList, "eleFilterDropDownList");
         hoverElement(eleFilterDropDownList, "eleFilterDropDownList");
-        clickElement(eleFilterDropDownList, "eleFilterDropDownList");
+        result = clickElement(eleFilterDropDownList, "eleFilterDropDownList");
+        if (!result)
+            NXGReports.addStep("Verify filter button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        else
+            NXGReports.addStep("Verify filter button.", LogAs.PASSED, null);
         waitForVisibleElement(eleShowAllBTN, "eleShowAllBTN");
         // Busniess rule is changed, remove Due Date and FlagForRequest Option.
 //        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
+//        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+//        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
+//        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
         waitForVisibleElement(eleAssignedBTN, "eleAssignedBTN");
         waitForVisibleElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForVisibleElement(eleCompleteBTN, "eleCompleteBTN");
         waitForVisibleElement(eleOutstandingBTN, "eleOutstandingBTN");
-//        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
         waitForClickableOfElement(eleShowAllBTN, "eleShowAllBTN");
-//        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
         waitForClickableOfElement(eleAssignedBTN, "eleAssignedBTN");
         waitForClickableOfElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForClickableOfElement(eleCompleteBTN, "eleCompleteBTN");
         waitForClickableOfElement(eleOutstandingBTN, "eleOutstandingBTN");
-//        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
     }
 
     public void verifyDefaultValueFilterDropDownList() {

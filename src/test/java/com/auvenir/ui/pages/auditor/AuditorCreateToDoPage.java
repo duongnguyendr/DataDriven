@@ -51,7 +51,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private List<WebElement> planningEngagementPage;
 
     private String todoNamePage = "";
-    private String todoContentTextSearch = "name";
+//    private String todoContentTextSearch = "name";
     private String todoPageAddRequestImg = "//img[contains(@src,'slideOutMenu')]";
     //    private String todoPageAddRequestImg = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img";
     private String todoPageAddRequestBtn = "//*[@id='add-request-btn']";
@@ -68,6 +68,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private static final String markCompletePopupArchiveBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]";
     private static final String popUpWindowsToClose = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]";
     private static final String GreenColor = "rgb(92, 155, 160)";
+    private static final String defaultValueComboBox = "Select Category";
+
     @FindBy(id = "auv-todo-createToDo")
     private WebElement createToDoBtnEle;
 
@@ -83,33 +85,34 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//th[@data-id='name']")
     private WebElement eleNameToDoTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='name']//i")
+    @FindBy(xpath = "//*[@id='todo-table']//th[@data-id='name']//i")
     private WebElement sortByToDoNameIconEle;
-    @FindBy(xpath = "//th[@data-id='categoryName']/i")
+    @FindBy(xpath = "//th[@data-id='category']/i")
     private WebElement sortByCategoryNameIconEle;
 
-    @FindBy(xpath = "//th[@data-id='categoryName']")
+    @FindBy(xpath = "//th[@data-id='category']")
     private WebElement eleCategoryTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='category']//i")
-    private WebElement eleSortByCategory;
+    // It never uses.
+//    @FindBy(xpath = "//th[@data-id='category']//i")
+//    private WebElement eleSortByCategory;
 
-    @FindBy(xpath = "//th[@data-id='clientAssigneeName']")
+    @FindBy(xpath = "//th[@data-id='clientAssignee']")
     private WebElement eleClientAssigneeTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='clientAssigneeName']//i")
+    @FindBy(xpath = "//th[@data-id='clientAssignee']//i")
     private WebElement eleSortByClientAssignee;
 
-    @FindBy(xpath = "//th[@data-id='dueDate']")
+    @FindBy(xpath = "//*[@id='todo-table']//th[@data-id='dueDate']")
     private WebElement eleDueDateTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='dueDate']//i")
+    @FindBy(xpath = "//*[@id='todo-table']//th[@data-id='dueDate']//i")
     private WebElement eleSortByDueDate;
 
-    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']")
+    @FindBy(xpath = "//th[@data-id='auditorAssignee']")
     private WebElement eleAuditAssigneeTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='auditorAssigneeName']/i")
+    @FindBy(xpath = "//th[@data-id='auditorAssignee']/i")
     private WebElement eleSortByAuditAssignee;
 
     @FindBy(xpath = "//div[@class='e-widget-content']")
@@ -590,7 +593,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             result = validateAttributeElement(toDoNameTextColumnEle.get(0), "value", toDoName);
             Assert.assertTrue(result, String.format("New To Do task '%s' is NOT added successfully", toDoName));
             NXGReports.addStep("New To Do task is added successfully", LogAs.PASSED, null);
-        } catch (Exception e) {
+        } catch (AssertionError e) {
+            getLogger().info(e);
             NXGReports.addStep("New To Do task is added unsuccessfully", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -1022,7 +1026,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify realtime search", LogAs.FAILED, null);
+                NXGReports.addStep("Verify realtime search", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
             getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
         } catch (Exception e) {
@@ -1095,15 +1099,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     }
 
-    public void checkContentTextSearch() {
+    public void checkContentTextSearch(String toDoName) {
         getLogger().info("Run checkContentTextSearch()");
         try {
-            //boolean isCheckData = createToDoPage.checkContentTextSearch();
             boolean isCheckData = false;
             waitForVisibleOfLocator(By.id("todo-search"));
             clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
             clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-            sendKeyTextBox(eleToDoSearchInput, todoContentTextSearch, "sendkey to todoContentTextSearch");
+            sendKeyTextBox(eleToDoSearchInput, toDoName, "sendkey to todoContentTextSearch");
             waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")), "");
             // Check the result in the list data
             List<WebElement> tr_collection = tblIdTodoTable.findElements(By.xpath("id('todo-table')/tbody/tr"));
@@ -1116,7 +1119,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     } catch (Exception ex) {
                     }
                     getLogger().info("Search contain text = " + strSearchValue);
-                    if (strSearchValue.contains(todoContentTextSearch)) {
+                    if (strSearchValue.contains(toDoName)) {
                         isCheckData = true;
                         break;
                     }
@@ -1129,7 +1132,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify content of text search", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify content of text search", LogAs.FAILED, null);
+                NXGReports.addStep("Verify content of text search", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
             getLogger().info("verifyContentTextSearch() isCheckContentText = " + isCheckData);
         } catch (Exception e) {
@@ -1211,7 +1214,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox) {
+    public void verifyDefaultValueofCategoryComboBox() {
         boolean result = false;
         getLogger().info("Verify Default Value Of Category ComboBox");
         System.out.println("Default Value in Dropdown box: " + categoryComboBoxTextEle.get(0).getText());
@@ -1230,26 +1233,29 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public void createToDoTaskWithCategoryName(String toDoName, String categoryName) throws Exception {
-        waitForClickableOfElement(createToDoBtnEle, "Create To Do Button");
-        clickElement(createToDoBtnEle, "click to createToDoBtnEle");
-        // Will changed after finding new solution for waiting Element
-        Thread.sleep(smallTimeOut);
-        createToDoNameTextBoxEle.sendKeys(toDoName);
-        // Create new category
-        createNewCategory(categoryName);
-        // Will changed after finding new solution for waiting Element
-        //Thread.sleep(smallTimeOut);
-        waitForClickableOfLocator(By.xpath("//*[@class='ui dropdown category todo-bulkDdl ']"));
-        clickElement(categoryDropdownEle, "click to categoryDropdownEle");
-        waitForClickableOfElement(categoryOptionItemEle.get(0), "Category Option Item");
-        clickElement(categoryOptionItemEle.get(0), "click to categoryOptionItemEle.get(0)");
-        waitForClickableOfElement(dueDateFieldEle, "Due Date field");
-        clickElement(dueDateFieldEle, "click to dueDateFieldEle");
-        waitForClickableOfElement(dateItemonCalendarEle, "Date value");
-        clickElement(dateItemonCalendarEle, "click to dateItemonCalendarEle");
-        waitForVisibleElement(toDoSaveIconEle, "Save Icon");
-        clickElement(toDoSaveIconEle, "click to toDoSaveIconEle");
-        verifyAddNewToDoTask(toDoName);
+        getLogger().info("Create To Do Task with 'toDoName' and 'categoryName'");
+        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+        String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+        int size = 1;
+        int index = -1;
+        if (!rowString.equals("")) {
+            size = toDoTaskRowEle.size() + 1;
+            index = findToDoTaskName(toDoName);
+            System.out.println("Index Create: " + index);
+        }
+        if (index == -1) {
+            getLogger().info("Create New To Do Task");
+            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+            clickElement(createToDoBtnEle, "Create To Do button");
+            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            // Create new category
+            createNewCategory(categoryName);
+            NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+        }
     }
 
     public void verifyListValueofCategoryComboxBox(String categoryName) {

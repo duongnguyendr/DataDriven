@@ -161,11 +161,9 @@ public class AuditorEngagementService extends AbstractService {
         // R2: Change bussiness rule, need to mark a commment this line.
 //        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
     }
-    public void createNewEnagement(String engagementName, String engagementType, String company) throws Exception {
-        getLogger().info("Create New Enagement.");
-        auditorEngagementPage.clickNewEnagementButton();
-        auditorNewEngagementPage.verifyNewEngagementPage();
-        auditorNewEngagementPage.createNewEngagement(engagementName, engagementType, company);
+    public void clickEngagementMenuLink() throws Exception {
+        getLogger().info("Click Engagement Menu Link.");
+        auditorNewEngagementPage.clickEngagementMenuLink();
     }
 
     public void verifyAuditorPageHeaderContent(){

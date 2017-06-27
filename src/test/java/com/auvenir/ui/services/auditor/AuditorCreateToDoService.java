@@ -318,7 +318,6 @@ public class AuditorCreateToDoService extends AbstractService {
 
     // Vien.Pham added new numberCategories
     public void createToDoPage() {
-
         try {
             createToDoPage.createToDoTask();
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
@@ -352,17 +351,16 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifyCheckBoxToDoName() throws Exception {
         // bug for check all button so we skip
-        //createToDoPage.verifyCheckAllCheckboxToDoName();
-//        createToDoPage.verifyUnCheckAllCheckboxToDoName();
+        createToDoPage.verifyCheckAllCheckboxToDoName();
+        createToDoPage.verifyUnCheckAllCheckboxToDoName();
         createToDoPage.verifyCheckMultipleCheckBoxToDoName();
     }
 
-    public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox) {
-        createToDoPage.verifyDefaultValueofCategoryComboBox(defaultValueComboBox);
+    public void verifyDefaultValueofCategoryComboBox() {
+        createToDoPage.verifyDefaultValueofCategoryComboBox();
     }
 
     public void verifyHoverCategoryComboBox() {
-
         createToDoPage.verifyHoverCategoryComboBox();
     }
 
@@ -401,9 +399,9 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCheckMaxLength();
     }
 
-    public void verifyContentTextSearch() {
+    public void verifyContentTextSearch(String toDoName) {
         getLogger().info("Verify the content text search");
-        createToDoPage.checkContentTextSearch();
+        createToDoPage.checkContentTextSearch(toDoName);
     }
 
 //    public void createFailedTodoPage() throws Exception {
