@@ -38,7 +38,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 public class AbstractService {
     private WebDriver driver;
     private Logger logger;
-    private static final int waitTime = 1;
+    private static final int waitTime = 60;
     public static WebDriverWait sWebDriverWait = null;
     public static String gmailWindow;
 
