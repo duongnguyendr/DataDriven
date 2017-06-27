@@ -47,13 +47,7 @@ public class AuditorTodoListService extends AbstractService {
 
 
     public void verifyTodoListPageColumnHeader() {
-        try {
-            getLogger().info("verify To Do List page.");
-            auditorTodoListPage.verifyTodoListPageColumnHeader();
-            NXGReports.addStep("verify To Do List page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify To Do List page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorTodoListPage.verifyTodoListPageColumnHeader();
     }
 
 

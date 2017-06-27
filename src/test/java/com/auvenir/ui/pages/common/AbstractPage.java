@@ -189,7 +189,8 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement categoryColors;
 
-    @FindBy(xpath = "//div[contains(@class,'ce-parent todo-modal-container')]/div/h3")
+//  Old Xpath: @FindBy(xpath = "//div[contains(@class,'ce-parent todo-modal-container')]/div/h3")
+    @FindBy(xpath = "//label[contains(@id,'m-categoryModel') and contains(@id,'title-text')]")
     private WebElement idTitleCategory;
 
     @FindBy(xpath = "//*[@id='setup-component-body']/div/div[1]//p[contains(text(),'Not a valid name.')]")
@@ -864,6 +865,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
+            getLogger().info(e);
             NXGReports.addStep("Unable to sendKey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -1412,12 +1414,12 @@ public class AbstractPage {
                 NXGReports.addStep("Verify hover and click to category name", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
+                NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
             return isCheckBorderColor;
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
+            NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(ex.getMessage());
             return isCheckBorderColor;
         }
