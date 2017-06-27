@@ -72,7 +72,7 @@ public class AuditorTest extends AbstractTest{
             auditorService.verifyBodyHomePage();
             auditorService.verifyFooterHomePage();
             auditorService.verifyEmailLoginForm();
-            //auditorService.verifyLoginWithEmail(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            auditorService.verifyLoginWithEmail(auditorId);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {

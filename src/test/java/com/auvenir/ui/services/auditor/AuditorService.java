@@ -96,7 +96,7 @@ public class AuditorService extends AbstractService {
 
     public void verifyLoginWithEmail(String email) {
         auvenirPage.verifyLoginWithEmail(email);
-        auvenirPage.verifyApprovePopupDisplayed();
+        //auvenirPage.verifyApprovePopupDisplayed();
     }
 
     public void verifyPersonalPage() {

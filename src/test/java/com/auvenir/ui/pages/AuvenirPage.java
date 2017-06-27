@@ -573,7 +573,7 @@ public class AuvenirPage extends AbstractPage {
         return eleWelcomePleaseCheckTxt;
     }
 
-    @FindBy(xpath = "//span[contains(text(),'Your email is awaiting verification')]")
+    @FindBy(xpath = "//p[contains(text(),'Email or password can't be empty!')]")
     private WebElement eleWaitVerificationTxt;
 
     public WebElement getEleWaitVerificationTxt() {
@@ -786,11 +786,11 @@ public class AuvenirPage extends AbstractPage {
 
     public void verifyLoginWithEmail(String email) {
         sendKeyTextBox(getEmailAddressFieldEle(), email, "Email Address PopUp Text Field");
-        clickElement(getEleGoBtn(), "Go Button");
-        waitForVisibleElement(getEleWaitVerificationTxt(), "Your email is awaiting verification");
-        sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), "auvaudit", "Auditor Email Address Text Field");
-        sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), email, "Auditor Email Address Text Field");
-        getEleJoinBtn().click();
+        clickElement(loginButtonEle, "click to Login button");
+        waitForVisibleElement(getEleWaitVerificationTxt(), "Email or password can't be empty!");
+        //sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), "auvaudit", "Auditor Email Address Text Field");
+        //sendKeyTextBox(getEleAuditorEmailAddressTxtFld(), email, "Auditor Email Address Text Field");
+        //clickElement(getEleJoinBtn(), "click to getEleJoinBtn()");
     }
 
     public void verifyApprovePopupDisplayed() {
