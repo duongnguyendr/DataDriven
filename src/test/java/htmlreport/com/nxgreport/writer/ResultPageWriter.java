@@ -176,9 +176,9 @@ public class ResultPageWriter {
         printWriter.println("\t\t<div class=\"chartStyle summary\" style=\"width: 32%;background-color: #3B9C9C;\">\n\t\t\t<b>Summary</b><br/><br/>\n\t\t\t<table>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Execution Date</td>\n\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n\t\t\t\t\t<td>" + Utils.getCurrentTime() + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Total Test Cases</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + var13 + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Passed</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + passCount + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Failed</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + failCount + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Skipped</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + skipCount + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t</table> \n" + "\t\t</div>" + "\t\t<div class=\"chartStyle\" style=\"text-align: left;margin-left: 30px;float: left;width: 60%;\">\n" + "\t\t\t<div id=\"chart\" style=\"height:300px;color:black;\"></div>\n" + "\t\t</div>\n" + "\t</div>\n" + " <div>\n");
         printWriter.println("<div style=\"float:left; color: #585858; font-size: 14px;\">\n\t\t<select id=\"tcFilter\" class=\"filter\">\n\t\t\t<option class=\"filterOption\" value=\"all\">All Methods</option>\n\t\t\t<option class=\"filterOption\" value=\"tests\">Test Methods</option>\n\t\t\t<option class=\"filterOption\" value=\"pass\">Passed Test Cases</option>\n\t\t\t<option class=\"filterOption\" value=\"fail\">Failed Test Cases</option>\n\t\t\t<option class=\"filterOption\" value=\"skip\">Skipped Test Cases</option>\n\t\t\t<option class=\"filterOption\" value=\"config\">Configuration Methods</option>\n\t\t</select>Filter The Methods Based on Selection</div>");
         printWriter.println("<table id=\"tableStyle\" class=\"chartStyle\" style=\"height:50px; float: left\">\n\t\t<tr>\t\t\t<th>Package Name</th>\n\t\t\t<th>Class Name</th>\n\t\t\t<th>Method Type</th>\n\t\t\t<th>Test Case Name</th>\n<th>Iteration</th>\t\t\t<th>Time</th>\n\t\t\t<th style=\"width: 7%\">Status</th>\n\t\t</tr>\n");
-        writePassedData(printWriter, passedTests, 1);
-        writeFailedData(printWriter, failedTests, 1);
-        writeSkippedData(printWriter, skippedTests, 1);
+        writePassedDataFollowBrowser(printWriter, passedTests, passedBrowserTest, browserName, 1);
+        writeFailedDataFollowBrowser(printWriter, failedTests, failedBrowserTest, browserName, 1);
+        writeSkippedDataFollowBrowser(printWriter, skippedTests, skippedBrowserTest, browserName, 1);
         printWriter.print("</table>");
     }
 
@@ -190,5 +190,56 @@ public class ResultPageWriter {
             }
         }
         return count;
+    }
+
+    private static void writeSkippedDataFollowBrowser(PrintWriter printWriter, List<ITestResult> skippedTests, ArrayList<String> skippedBrowserTest, String browserName, int runNumber) {
+        String strPass = "skip";
+        Iterator var5 = skippedTests.iterator();
+        int i = 0;
+        while(var5.hasNext()) {
+            ITestResult testResult = (ITestResult) var5.next();
+            if(skippedBrowserTest.get(i).equals(browserName)) {
+                printWriter.print("<tr class=\"all " + strPass + "\">\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getPackageName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getClassName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getMethodType(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getTestCaseName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getIteration(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getExecutionTime(testResult) + "</a></td>\n" + "\t\t<td><img style=\"border: none; width: 25px\" src=\"../" + TestDirectory.RESOURCESDIRName + "/" + TestDirectory.IMGDIRName + "/skip.png\"></td>\n" + "\t</tr>\n");
+                if (!testResult.getMethod().isTest()) {
+                    strPass = "config";
+                }
+            }
+            i++;
+        }
+
+    }
+
+    private static void writeFailedDataFollowBrowser(PrintWriter printWriter, List<ITestResult> failedTests, ArrayList<String> failedBrowserTest, String browserName, int runNumber) {
+        String strPass = "fail";
+        Iterator var5 = failedTests.iterator();
+        int i = 0;
+        while(var5.hasNext()) {
+            ITestResult testResult = (ITestResult) var5.next();
+            if(failedBrowserTest.get(i).equals(browserName)) {
+                printWriter.print("<tr class=\"all " + strPass + "\">\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getPackageName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getClassName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getMethodType(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getTestCaseName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getIteration(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getExecutionTime(testResult) + "</a></td>\n" + "\t\t<td><img style=\"border: none; width: 25px\" src=\"../" + TestDirectory.RESOURCESDIRName + "/" + TestDirectory.IMGDIRName + "/fail.png\"></td>\n" + "\t</tr>\n");
+                if (!testResult.getMethod().isTest()) {
+                    strPass = "config";
+                }
+            }
+            i++;
+        }
+
+    }
+
+    private static void writePassedDataFollowBrowser(PrintWriter printWriter, List<ITestResult> passedTests,ArrayList<String> passBrowserTest, String browserName , int runNumber) {
+        String strPass = "pass";
+        Iterator var5 = passedTests.iterator();
+        int i=0;
+        while(var5.hasNext()) {
+            ITestResult testResult = (ITestResult) var5.next();
+            if(passBrowserTest.get(i).equals(browserName)) {
+                printWriter.print("<tr class=\"all " + strPass + "\">\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getPackageName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getClassName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getMethodType(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getTestCaseName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getIteration(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getExecutionTime(testResult) + "</a></td>\n" + "\t\t<td><img style=\"border: none; width: 25px\" src=\"../" + TestDirectory.RESOURCESDIRName + "/" + TestDirectory.IMGDIRName + "/pass.png\"></td>\n" + "\t</tr>\n");
+                if (!testResult.getMethod().isTest()) {
+                    strPass = "config";
+                }
+            }
+            i++;
+        }
+
     }
 }
