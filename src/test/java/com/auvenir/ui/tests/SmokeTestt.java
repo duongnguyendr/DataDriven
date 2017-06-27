@@ -493,7 +493,6 @@ public class SmokeTestt extends AbstractTest {
         String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
         String clientPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        marketingService = new MarketingService(getLogger(), getDriver());
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
         String pathFileUpload = GenericService.sDirPath + pathOfUploadLocation;
@@ -501,8 +500,8 @@ public class SmokeTestt extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.uploadCreateRequestNewFileClient(pathFileUpload, fileName);
-            auditorCreateToDoService.verifyUploadFileSuccessfullyClient(fileName);
+            auditorCreateToDoService.uploadFileNewRequestByClient(pathFileUpload, fileName);
+            auditorCreateToDoService.verifyUploadFileNewRequestByClient(fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -520,12 +519,9 @@ public class SmokeTestt extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        //String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        //String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        marketingService = new MarketingService(getLogger(), getDriver());
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
@@ -569,7 +565,7 @@ public class SmokeTestt extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             // Will uncomment when the code is updated with the new xpath and business.
-//            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+//            auditorCreateToDoService.createNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyInputAComment(commentContent);
@@ -614,7 +610,7 @@ public class SmokeTestt extends AbstractTest {
             // Verify GUI engagement detail page
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             // Create new to do
-            //auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            //auditorCreateToDoService.createNewToDoTask(toDoName);
             // Select to do follow to do name
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             // Click on Bulk Action drop down
@@ -1008,7 +1004,7 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
 
 
             int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
@@ -1071,10 +1067,10 @@ public class SmokeTestt extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteSingle);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple01);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple02);
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoNameDeleteMultiple03);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteSingle);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple01);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple02);
+            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple03);
 
             auditorCreateToDoService.selectToDoTaskName(toDoNameDeleteSingle);
             auditorCreateToDoService.clickBulkActionsDropdown();

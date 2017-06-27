@@ -271,19 +271,20 @@ public class AuditorTodoListPage extends AbstractPage {
         hoverElement(eleFilterDropDownList, "eleFilterDropDownList");
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
         waitForVisibleElement(eleShowAllBTN, "eleShowAllBTN");
-        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
+        // Busniess rule is changed, remove Due Date and FlagForRequest Option.
+//        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
         waitForVisibleElement(eleAssignedBTN, "eleAssignedBTN");
         waitForVisibleElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForVisibleElement(eleCompleteBTN, "eleCompleteBTN");
         waitForVisibleElement(eleOutstandingBTN, "eleOutstandingBTN");
-        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+//        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
         waitForClickableOfElement(eleShowAllBTN, "eleShowAllBTN");
-        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
+//        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
         waitForClickableOfElement(eleAssignedBTN, "eleAssignedBTN");
         waitForClickableOfElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForClickableOfElement(eleCompleteBTN, "eleCompleteBTN");
         waitForClickableOfElement(eleOutstandingBTN, "eleOutstandingBTN");
-        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+//        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
     }
 
     public void verifyDefaultValueFilterDropDownList() {

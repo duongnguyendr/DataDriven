@@ -35,7 +35,7 @@ public class AuditorEngagementService extends AbstractService {
         try {
             auditorEngagementPage.scrollPageDown();
             getLogger().info("verify footer page.");
-            auditorEngagementPage.verifyFooter();
+            auditorEngagementPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
             auditorEngagementPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");

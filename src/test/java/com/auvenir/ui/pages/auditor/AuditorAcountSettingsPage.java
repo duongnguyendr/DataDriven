@@ -176,7 +176,7 @@ public class AuditorAcountSettingsPage extends AbstractPage {
     /*
     Verify all elements on body of Auditor Settings Page
     Created by DoaiTran on 5/5/2017
-    Updated bt Minh Nguyen on June 26, 2017
+    Refactored by Minh Nguyen on June 26, 2017
      */
     public void verifyElementsOnAccountTab() {
         boolean isSettingTitle, isAccountTab, isNotificationTab, isAccountSettingTitle, isFullNameTextBox, isEmailTextBox, isPhoneNoTextBox,

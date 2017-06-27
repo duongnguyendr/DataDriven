@@ -330,7 +330,7 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
             // Will uncomment when the code is updated with the new xpath and business.
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyInputAComment(commentContent);
@@ -360,13 +360,13 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();
             auditorCreateToDoService.verifyClickCloseMarkPopup();
 
-            auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
+            auditorCreateToDoService.createNewToDoTask(toDoName);
             int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.verifyCompleteMarkPopup();

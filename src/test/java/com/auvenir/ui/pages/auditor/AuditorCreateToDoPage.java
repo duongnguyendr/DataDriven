@@ -4254,7 +4254,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void uploadCreateRequestNewFileClient(String concatUpload) throws AWTException, InterruptedException, IOException {
+
+    public void uploadFileNewRequestByClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
             Thread.sleep(smallTimeOut);
             clickElement(uploadClientCreateRequestBtn);
@@ -4314,7 +4315,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void verifyUploadFileSuccessfullyClient(String fileName) {
+    public void verifyUploadFileSuccessfullyByClient(String fileName) {
         try {
             waitForCssValueChanged(fileNameAfterUploadedClient, "fileName After uploaded", "display", "inline-block");
             String isCheck = fileNameAfterUploadedClient.getText();
@@ -4356,7 +4357,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             } else {
                 clickElement(verifyAttachComplete, "download attachment");
             }
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
             String checkMd5UploadFile = calculateMD5(concatUpload);
             getLogger().info("md5 upload is: " + checkMd5UploadFile);
             String checkMd5DownloadFile = calculateMD5(concatDownload);
@@ -4376,7 +4377,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
         try {
             clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
-            Thread.sleep(2000);
+            Thread.sleep(largeTimeOut);
             String checkMd5UploadFile = calculateMD5(concatUpload);
             System.out.println("md5 upload is: " + checkMd5UploadFile);
             String checkMd5DownloadFile = calculateMD5(concatDownload);
