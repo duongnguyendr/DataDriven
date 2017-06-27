@@ -62,8 +62,8 @@ public class AuditorSignUpTest extends AbstractTest {
     final String emailCreate = "ff.minhtest@gmail.com";
     */
     final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User2", "Admin");
-    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
+//    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User2", "Admin");
+//    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 
     @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User")
     public void verifyRegisterAndActiveAuditorUser() throws Exception {
@@ -74,44 +74,37 @@ public class AuditorSignUpTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-//        final String emailCreate = "auvenirad@gmail.com";
+        final String strAdminEmail = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
+        final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
+        //        final String emailCreate = "auvenirad@gmail.com";
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
             // Below comment code need to be verify with new environment due to the business rule is changed.
             auditorSignUpService.deleteUserUsingApi(emailCreate);
-            auditorSignUpService.deleteUserUsingMongoDB(emailCreate);
 
-//            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
-//            auditorSignUpService.verifyFirmSignUpPage();
+            auditorSignUpService.verifyFirmSignUpPage();
             auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
-//            auditorSignUpService.verifySecuritySignUpPage();
-//            auditorSignUpService.createPassword(passwordCreate, "");
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 
-
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
-//            marketingService.setPrefixProtocol(httpProtocol);
 
             marketingService.goToBaseURL();
             marketingService.clickLoginButton();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
-//            marketingService.loginWithUserRole("admin@auvenir.com");
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
 
             gmailLoginService.gmailReLogin(passwordCreate);
             gmailLoginService.selectActiveEmaill();
-//            emailTemplateService.verifyActiveEmailTemplateContent();
+            emailTemplateService.verifyActiveEmailTemplateContent();
 
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
-
-//            auditorSignUpService.confirmInfomationNewAuditorUser(strFullName, emailCreate, passwordCreate);
 
             auditorSignUpService.createPassword(passwordCreate);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -145,7 +138,7 @@ public class AuditorSignUpTest extends AbstractTest {
         }
         //Create List Invalid Data for Zip Code Text Box.
         List<String> zipCodeInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 7; i++) {
+        for (int i = 4; i < 7; i++) {
             zipCodeInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 11));
         }
         //Create List Invalid Data for Member Id Text Box.
@@ -168,7 +161,6 @@ public class AuditorSignUpTest extends AbstractTest {
         }
 
         try {
-            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -177,8 +169,9 @@ public class AuditorSignUpTest extends AbstractTest {
 //            Verify input valid Value on Firm name: with one Blank, two spaces in character, with one blank and character"
             auditorSignUpService.verifyInputValidValueOnFirmNameTextBox(firmNameInvalidDataList);
 //            Verify input valid Value on Previous name: with one Blank, two spaces in character and special character"
-            auditorSignUpService.clickOnChangedNameCheckBox();
-            auditorSignUpService.verifyInputValidValueOnPreFirmNameTextBox(preFirmNameInvalidDataList);
+            // Business rule changed. The previous name is removed.
+//            auditorSignUpService.clickOnChangedNameCheckBox();
+//            auditorSignUpService.verifyInputValidValueOnPreFirmNameTextBox(preFirmNameInvalidDataList);
 //            Verify input valid Value on Website Textbox: with one Blank, space before character, invalid format, special character"
             auditorSignUpService.verifyInputValidValueOnFirmWebsiteTextBox(firmWebsiteInvalidDataList);
 //            Verify input valid Value on Zip Code: with one Blank, five character, seventh character, with Number and Special Character, Special Character
@@ -205,7 +198,7 @@ public class AuditorSignUpTest extends AbstractTest {
         final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         //Create List Invalid Data for First Last Name Text Box.
         List<String> firstLastNameInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 8; i++) {
+        for (int i = 4; i < 8; i++) {
             firstLastNameInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 1));
         }
         List<String> emailInvalidDataList = new ArrayList<>();
@@ -221,7 +214,6 @@ public class AuditorSignUpTest extends AbstractTest {
             phoneInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 4));
         }
         try {
-            auditorSignUpService.setPrefixProtocol("http://");
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -245,6 +237,10 @@ public class AuditorSignUpTest extends AbstractTest {
     @Test(priority = 4, enabled = true, description = "Verify GUI when input password random blank")
     public void verifyAuditorSecurityInputInvalidPassword() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         final String blankPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "blankPassword", "Invalid Value");
         final String invalidLengthPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "invalidLengthPassword", "Invalid Value");
@@ -254,15 +250,35 @@ public class AuditorSignUpTest extends AbstractTest {
         final String noCharPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noCharPassword", "Invalid Value");
         final String successPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "successPassword", "Invalid Value");
         final String confirmPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "confirmPassword", "Invalid Value");
+        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        final String strAdminEmail = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
+        final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
         try {
-            auditorSignUpService.setPrefixProtocol("http://");
+            // This test cases is verified creating new user.
+            // It must be deleted old user in database before create new one.
+            // Below comment code need to be verify with new environment due to the business rule is changed.
+            auditorSignUpService.deleteUserUsingApi(emailCreate);
+
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
-            auditorSignUpService.verifyPersonalSignUpPage();
-            auditorSignUpService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
-            auditorSignUpService.verifyFirmSignUpPage();
+            auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
             auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
-            auditorSignUpService.verifySecuritySignUpPage();
+            auditorSignUpService.verifySuccessSignUpPage();
+            auditorSignUpService.acceptCreateAccountAuditor();
+
+            gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
+
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+            adminService.changeTheStatusUser(emailCreate, "Onboarding");
+
+            gmailLoginService.gmailReLogin(passwordCreate);
+            gmailLoginService.selectActiveEmaill();
+
+            emailTemplateService.navigateToConfirmationLink();
+            adminService.clickClosePopupWarningBrowser();
+
             auditorSignUpService.verifyCreateInvalidPassword(blankPassword, false, false, false);
             auditorSignUpService.verifyCreateInvalidPassword(invalidLengthPassword, true, true, true);
             auditorSignUpService.verifyCreateInvalidPassword(noUpperCasePassword, false, true, true);

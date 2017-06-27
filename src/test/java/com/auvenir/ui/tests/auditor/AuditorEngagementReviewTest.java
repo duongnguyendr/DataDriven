@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 /**
  * Created by toan.nguyenp on 5/8/2017.
- * Updated by minh.nguyen on June 16, 2017
+ * Refactored by minh.nguyen on June 16, 2017
  */
 public class AuditorEngagementReviewTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;

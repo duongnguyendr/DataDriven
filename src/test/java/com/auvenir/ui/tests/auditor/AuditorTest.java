@@ -3,6 +3,7 @@ package com.auvenir.ui.tests.auditor;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.auditor.AuditorService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 /**
  * Created by duong.nguyen on 5/24/2017.
+ * Refactored by Minh Nguyen on June 26, 2017
  */
 public class AuditorTest extends AbstractTest{
 //    AdminLoginPage adminLoginPage = null;
@@ -31,6 +33,8 @@ public class AuditorTest extends AbstractTest{
     DateFormat dateFormat = null;
     Date date = null;
     static String CurrentDate = null;
+    private MarketingService marketingService;
+    String auditorId, auditorPwd;
 
     @BeforeClass
     public void preCondition() {
@@ -53,21 +57,22 @@ public class AuditorTest extends AbstractTest{
         } catch (Exception e) {
 
         }*/
-        abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+        //abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
     }
 
     @Test(priority = 1, enabled = true, description = "To Verify the display of Elements in Auditor Login Page")
     public void verifyAuditorLoginPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            //abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            auditorService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            auditorService.verifyBodyLoginPage();
-            auditorService.verifyFooterLoginPage();
+            auditorService.goToBaseURL();
+            auditorService.verifyBodyHomePage();
+            auditorService.verifyFooterHomePage();
             auditorService.verifyEmailLoginForm();
-            auditorService.verifyLoginWithEmail(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-
+            auditorService.verifyLoginWithEmail(auditorId);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {

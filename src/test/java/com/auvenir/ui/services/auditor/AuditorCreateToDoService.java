@@ -175,7 +175,7 @@ public class AuditorCreateToDoService extends AbstractService {
             //createToDoTask.navigateToEngagementTask();
             createToDoTask.navigateToToDoList();
             createToDoTask.clickCreateToDoTask();
-            //createToDoTask.verifyAddNewToDoTask();
+            //createToDoTask.createNewToDoTask();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -342,7 +342,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception {
+    public void createNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -823,7 +823,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void clickAddRequestButton() {
+    public void verifyClickAddRequestBtn() {
         createToDoPage.verifyClickAddRequestBtn();
     }
 
@@ -834,8 +834,8 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
-    public void clickNewRequestImg() {
-        createToDoPage.verifyAddNewRequestImg();
+    public void verifyColorAddRequestBtn() {
+        createToDoPage.verifyColorAddRequestBtn();
     }
 
     /**
@@ -856,29 +856,38 @@ public class AuditorCreateToDoService extends AbstractService {
 
     /**
      * Author minh.nguyen
+     * Vien.Pham added upload, download request file.
      */
-//    public void verifyUpdateRequest(String requestName3, String requestName4) {
-//        createToDoPage.verifyNewRequestStoreInDatabase(requestName3,requestName4);
-//    }
+
+
     public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
         createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+
+    }
+
+    public void verifyUploadFileSuccessfully(String fileName){
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
-    public void uploadCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
-        createToDoPage.uploadeCreateRequestNewFileClient(uploadLocation.concat(fileName));
-        createToDoPage.verifyUploadFileSuccessfullyClient(fileName);
+    public void uploadFileNewRequestByClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadFileNewRequestByClient(uploadLocation.concat(fileName));
     }
 
-    public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
-        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName),1);
-    }
-    public void auditorAttachNewFile(String attachLocation, String fileName){
-        createToDoPage.attachFile(attachLocation,fileName);
+    public void verifyUploadFileNewRequestByClient(String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
     }
 
-    public void clientDownloadAttachFile(String pathOfUpload,String pathOfDownload,String fileName){
-        createToDoPage.downloadAttachFile(pathOfUpload,pathOfDownload,fileName);
+    public void auditorDownloadNewRequestFile(String uploadLocation, String downloadLocation, String fileName) {
+        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName), 1);
+
+    }
+
+    public void auditorAttachNewFile(String attachLocation, String fileName) {
+        createToDoPage.attachFile(attachLocation, fileName);
+    }
+
+    public void clientDownloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
+        createToDoPage.downloadAttachFile(pathOfUpload, pathOfDownload, fileName);
     }
 
     public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
@@ -973,16 +982,14 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyTodosTextBox_DefaultGUI() throws InterruptedException {
-        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+    public void verifyTodosTextBox_AfterClickedAddTodo() throws InterruptedException {
+        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
         createToDoPage.verifyTodoTextboxBorder_AfterClickedAddTodo();
-        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
+//        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
-
-
     }
 
-    public void InputValidValue(String validValue) {
+    public void inputValidValue(String validValue) {
 
         createToDoPage.InputValue_TodoName(validValue);
     }
@@ -991,12 +998,12 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyInputValidValue(validValue);
     }
 
-    public void InputOnlyNumber(int number) {
-        createToDoPage.InputValue_TodoName(Integer.toString(number));
+    public void inputOnlyNumber(String number) {
+        createToDoPage.InputValue_TodoName(number);
     }
 
-    public void verifyInputNumber(int number) {
-        createToDoPage.verifyInputValidValue(Integer.toString(number));
+    public void verifyInputNumber(String number) {
+        createToDoPage.verifyInputValidValue(number);
 
     }
 
