@@ -342,7 +342,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
 
         try {
             printWriter = new PrintWriter(TestDirectory.RUNDIR + TestDirectory.SEP + "Result.html");
-            ResultPageWriter.printHeader(printWriter, this.passedTests.size(), this.failedTests.size(), this.skippedTests.size());
+            ResultPageWriter.printHeader(printWriter, this.passBrowserTest, this.failBrowserTest, this.skipBrowserTest, this.passedTests, this.failedTests, this.skippedTests);
             ResultPageWriter.printMenuLink(printWriter, 0);
             ResultPageWriter.printContent(printWriter, this.passBrowserTest, this.failBrowserTest, this.skipBrowserTest, this.passedTests, this.failedTests, this.skippedTests, startTime, endTime);
             ResultPageWriter.printFooter(printWriter);
