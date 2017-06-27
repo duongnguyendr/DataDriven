@@ -1,8 +1,14 @@
 package com.auvenir.ui.tests.client;
 
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.GmailLoginService;
+import com.auvenir.ui.services.admin.AdminService;
+import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.auditor.AuditorNewEngagementService;
+import com.auvenir.ui.services.auditor.AuditorTodoListService;
 import com.auvenir.ui.services.client.ClientService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -19,7 +25,20 @@ import org.testng.annotations.Test;
 public class ClientTest extends AbstractTest {
     private ClientService clientService;
     private AuditorEngagementService auditorEngagementService;
-    AbstractService abstractService;
+    private MarketingService marketingService;
+    private AuditorNewEngagementService auditorNewEngagementService;
+    private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    private AuditorTodoListService auditorTodoListService;
+    private AdminService adminService;
+    private GmailLoginService gmailLoginService;
+
+    //AbstractService abstractService;
+
+    private String adminId, auditorId, clientId;
+    private String adminPassword, auditorPassword, clientPassword;
+    private String clientEmailPassword;
+    private String engagementName;
+
     @BeforeClass
     public void preCondition() {
 
@@ -34,12 +53,14 @@ public class ClientTest extends AbstractTest {
             getLogger().info("The client is not existed in database.");
         } else {
         }*/
-        abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+        //abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
     }
+
     @AfterMethod
     public void deleteCookies() {
         getDriver().manage().deleteAllCookies();
     }
+
     /*
      * @Description: Inviting a client
 	 * @Author:Lakshmi BS
@@ -102,7 +123,7 @@ public class ClientTest extends AbstractTest {
             //Will be update later. Create new class of API testing to change status.
             //driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
             //Thread.sleep(5000);
-            //loadURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
+            //navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "URL"));
             clientService.gmailLogin(client_ID, gmailPassword);
             clientService.searchGmail(searchGmailName);
             clientService.inviteEmail();
@@ -179,7 +200,7 @@ public class ClientTest extends AbstractTest {
         try {
             //Will be update later. Create new class of API testing to change status.
             //driver.get("https://ariel.auvenir.com/api/user/"+GenericService.getConfigValue(GenericService.sConfigFile, "CLIENT_ID")+"/update?status=ONBOARDING");
-            clientService.loadURL(url);
+            clientService.navigateToURL(url);
             clientService.signInEmailOnClientLoginPage(client_ID);
             clientService.verifyWelcomePleaseCheckTxtIsDisplayed();
             clientService.gmailLogin(client_ID, gmailPassword);
@@ -211,8 +232,8 @@ public class ClientTest extends AbstractTest {
             clientService.gmailLogin(client_ID, gmailPassword);
             clientService.searchGmail(searchGmailName);
             clientService.searchGmail(searchGmailName);
-	    	/* Edited: Doai Tran
-	    	Currently, Run manually we do not get an active mail
+            /* Edited: Doai Tran
+            Currently, Run manually we do not get an active mail
 			clientService.accountActiveEmail();
 	    	clientService.verifyClientLoginPageAfterActiveAccount();
 			gmailPage.gmailLogout();

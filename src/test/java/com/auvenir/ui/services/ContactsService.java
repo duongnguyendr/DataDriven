@@ -31,7 +31,7 @@ public class ContactsService extends AbstractService {
         try {
             auditorContactsPage.scrollPageDown();
             getLogger().info("verify footer page.");
-            auditorContactsPage.verifyFooter();
+            auditorContactsPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
             auditorContactsPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");
@@ -57,6 +57,9 @@ public class ContactsService extends AbstractService {
         }
     }
 
+    public void verifyContactDisplayedInContactsPage(String contactName, String emailContact){
+    	auditorContactsPage.verifyContactDisplayedInContactsPage(contactName, emailContact);
+    }
 
 }
 

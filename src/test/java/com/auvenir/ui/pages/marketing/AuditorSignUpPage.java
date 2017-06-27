@@ -1,7 +1,6 @@
 package com.auvenir.ui.pages.marketing;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -9,14 +8,12 @@ import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -57,20 +54,12 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement eleFirmNameError;
 
     // Element of checkbox rule changed Name
-    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'Firm') or starts-with(text(),'Le')]")
-    private WebElement chkChangedName;
-
-    public WebElement getChkChangedName() {
-        return chkChangedName;
-    }
+//    @FindBy(xpath = "//*[@id='img-upload-label']/ancestor::form//div[contains(@class,'ui checked')]/label")
+//    private WebElement chkChangedName;
 
     // Element of Firm previous Name
     @FindBy(xpath = "//input[@name='firm_previous_name']")
     private WebElement elePreFirmName;
-
-    public WebElement getElePreFirmName() {
-        return elePreFirmName;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_previous_name']")
     private WebElement elePreFirmNameError;
@@ -79,20 +68,12 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_website']")
     private WebElement eleFirmWebsite;
 
-    public WebElement getEleFirmWebsite() {
-        return eleFirmWebsite;
-    }
-
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_website']")
     private WebElement elePreFirmWebsiteError;
 
     // Element of Full Address
     @FindBy(xpath = "//input[@name='firm_full_address']")
     private WebElement eleFullAddress;
-
-    public WebElement getEleFullAddress() {
-        return eleFullAddress;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_full_address']")
     private WebElement eleFullAddressError;
@@ -101,25 +82,14 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_street_address']")
     private WebElement eleStreetAddress;
 
-    public WebElement getEleStreetAddress() {
-        return eleStreetAddress;
-    }
 
     // Element of Office number
     @FindBy(xpath = "//input[@name='firm_suit_number']")
     private WebElement eleOfficeNumber;
 
-    public WebElement getEleOfficeNumber() {
-        return eleOfficeNumber;
-    }
-
     // Element of Zip Code
     @FindBy(xpath = "//input[@name='firm_postal_code']")
     private WebElement eleZipCode;
-
-    public WebElement getEleZipCode() {
-        return eleZipCode;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_postal_code']")
     private WebElement eleZipCodeError;
@@ -128,33 +98,17 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_city']")
     private WebElement eleCity;
 
-    public WebElement getEleCity() {
-        return eleCity;
-    }
-
     // Element of State Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[1]")
     private WebElement provinceDropdownEle;
-
-    public WebElement getProvinceDropdownEle() {
-        return provinceDropdownEle;
-    }
 
     // Element with locator of Menu listbox
     @FindBy(xpath = "//div[@class='menu transition visible']")
     private WebElement eleMenu;
 
-    public WebElement getEleMenu() {
-        return eleMenu;
-    }
-
     // Element of Member I.D
     @FindBy(xpath = "//input[@name='firm_member_id']")
     private WebElement eleMemberID;
-
-    public WebElement getEleMemberID() {
-        return eleMemberID;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_member_id']")
     private WebElement eleMemberIdError;
@@ -163,36 +117,20 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[2]")
     private WebElement numberEmployeeDropdown;
 
-    public WebElement getNumberEmployeeDropdown() {
-        return numberEmployeeDropdown;
-    }
-
     // Element of Phone Number
     @FindBy(xpath = "//input[@name='firm_phone_number']")
     private WebElement phoneNumberFirmInfoEle;
-
-    public WebElement getPhoneNumberFirmInfoEle() {
-        return phoneNumberFirmInfoEle;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_phone_number']")
     private WebElement elePhoneNumberIdError;
 
     // Element of checkbox affiliated Firm
-    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'I') or starts-with(text(),'Je')]")
+    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'I am affiliated') or starts-with(text(),'Je')]")
     private WebElement chkAffFirm;
-
-    public WebElement getChkAffFirm() {
-        return chkAffFirm;
-    }
 
     // Element of Affiliated Firm Name
     @FindBy(xpath = "//label[text()='Affiliated Firm’s Name' or contains(text(),'Nom de')]/following-sibling::div[1]/input")
     private WebElement eleAffFirm;
-
-    public WebElement getEleAffFirm() {
-        return eleAffFirm;
-    }
 
     @FindBy(xpath = "//div[@class='error field']//label[text()='Affiliated Firm’s Name' or contains(text(),'Nom de')]/following-sibling::div[1]/input")
     private WebElement eleAffFirmError;
@@ -202,57 +140,32 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(css = ".add-field")
     private WebElement lnkAddFirm;
 
-    public WebElement getLnkAddFirm() {
-        return lnkAddFirm;
-    }
-
     // Element of Update Logo button
     @FindBy(xpath = "//label[@for='btn-upload']")
     private WebElement btnUpdateLogo;
-
-    public WebElement getBtnUpdateLogo() {
-        return btnUpdateLogo;
-    }
 
     // Element of checkbox Rule Logo
     @FindBy(xpath = "//label[starts-with(text(),'Once') or starts-with(text(),'Un')]")
     private WebElement chkRuleLogo;
 
-    public WebElement getChkRuleLogo() {
-        return chkRuleLogo;
-    }
 
     // Element of button Continue
     @FindBy(id = "btn-continue")
     private WebElement btnContinue;
 
-    public WebElement getBtnContinue() {
-        return btnContinue;
-    }
 
     // Page Security Information Div Element
     @FindBy(xpath = "//*[@id='create-password']")
     private WebElement pageSecurityInfoEle;
 
-    public WebElement getPageSecurityInfoEle() {
-        return pageSecurityInfoEle;
-    }
-
     // List Item of Province/State Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[1]//div[@class='menu transition visible']/div")
     private List<WebElement> provinceDdlListItemEle;
 
-    public List<WebElement> getprovinceDdlListItemEle() {
-        return provinceDdlListItemEle;
-    }
 
     // List Item of Number Of Employee Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
     private List<WebElement> numberEmployeeDdlListItemEle;
-
-    public List<WebElement> getNumberEmployeeDdlListItemEle() {
-        return numberEmployeeDdlListItemEle;
-    }
 
 //    final String warningBorderCSSColor = "rgb(253, 109, 71)";
 //    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
@@ -265,73 +178,38 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='step-content' and @id='step1']")
     private WebElement eleFrameAuditorPersonal;
 
-    public WebElement getEleFrameAuditorPersonal() {
-        return eleFrameAuditorPersonal;
-    }
 
     // ================================= Element of First and Last Name =======================================
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_fullname']")
     private WebElement eleName;
 
-    public WebElement getEleName() {
-        return eleName;
-    }
-
     // Element of EmailAddress
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email']")
     private WebElement eleEmail;
-
-    public WebElement getEleEmail() {
-        return eleEmail;
-    }
 
     // Element with locator of confirm EmailAddress
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email_confirm']")
     private WebElement eleConfirmEmail;
 
-    public WebElement getEleConfirmEmail() {
-        return eleConfirmEmail;
-    }
-
     // Element of ListBox Role in Firm
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[1]")
     private WebElement eleRoleFirm;
-
-    public WebElement getEleRoleFirm() {
-        return eleRoleFirm;
-    }
 
     // Element of Phone Number
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_phone_number']")
     private WebElement elePhoneNumber;
 
-    public WebElement getElePhoneNumber() {
-        return phoneNumberFirmInfoEle;
-    }
-
     // Element of Hear about Auvenir
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[2]")
     private WebElement eleReference;
-
-    public WebElement getEleReference() {
-        return eleReference;
-    }
 
     // Element of checkbox I agree
     @FindBy(xpath = "//div[@class='ui checkbox']/label/span")
     private WebElement chkAgree;
 
-    public WebElement getChkAgree() {
-        return chkAgree;
-    }
-
     // Element of checkbox I confirm
     @FindBy(xpath = "//div[@class='ui checkbox']/label[contains(text(),'confirm')]/..")
     private WebElement chkConfirm;
-
-    public WebElement getChkConfirm() {
-        return chkConfirm;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_fullname']")
     private WebElement fullNameError;
@@ -349,76 +227,40 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[1]//div[@class='menu transition visible']/div")
     private List<WebElement> listItemRoleFirmEle;
 
-    public List<WebElement> getListItemRoleFirmEle() {
-        return listItemRoleFirmEle;
-    }
-
     // List Item of Option 'Hear about Auvenir'
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
     private List<WebElement> listItemReferenceEle;
 
-    public List<WebElement> getListItemReferenceEle() {
-        return listItemReferenceEle;
-    }
 
     // Page Provide Firm Information Div Element
     @FindBy(xpath = "//div[@class='step-content' and @id='step2']")
     private WebElement pageProvideFirmInfoEle;
 
-    public WebElement getPageProvideFirmInfoEle() {
-        return pageProvideFirmInfoEle;
-    }
-
     //Header Provide Personal Info form.
     @FindBy(xpath = "//*[@id='step1']/h2")
     private WebElement personalPageSignUpHeaderEle;
-
-    public WebElement getPersonalPageSignUpHeaderEle() {
-        return personalPageSignUpHeaderEle;
-    }
-
 
     // Element of Breadcrumb Completed page FIRM
     @FindBy(xpath = "(//div[@class='completed step']/div/div[@class='title'])[2]")
     private WebElement firmInfoCompleteIconEle;
 
-    public WebElement getFirmInfoCompleteIconEle() {
-        return firmInfoCompleteIconEle;
-    }
-
     // Element of Breadcrumb of Security page
     @FindBy(xpath = "//div[@class='active step']/div[div[text()='SÉCURITÉ'] or text()='SECURITY']")
     private WebElement securityInfoActiveIconEle;
-
-    public WebElement getSecurityInfoActiveIconEle() {
-        return securityInfoActiveIconEle;
-    }
 
     // ======================================  Element of Create Password ===================================================
 //    @FindBy(xpath = "//input[@name='password']")
     @FindBy(xpath = "//input[@id='first-password']")
     private WebElement elePassword;
 
-    public WebElement getElePassword() {
-        return elePassword;
-    }
-
     // Element of Confirm Password
 //    @FindBy(xpath = "//input[@name='retype_password']")
     @FindBy(xpath = "//input[@id='second-password']")
     private WebElement eleConfirmPass;
 
-    public WebElement getEleConfirmPass() {
-        return eleConfirmPass;
-    }
-
     // Element of checkbox Captcha
     @FindBy(css = ".rc-anchor-checkbox-holder")
     private WebElement chkCaptcha;
-
-    public WebElement getChkCaptcha() {
-        return chkCaptcha;
-    }
 
     // Element of Create password warning
     @FindBy(id = "reset-password-warning-popup")
@@ -493,17 +335,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(id = "create-password-warning-popup")
     private WebElement createPasswordWarningPopup;
 
-    public WebElement getCreatePasswordWarningPopup() {
-        return createPasswordWarningPopup;
-    }
-
     // Element of Confirm password warning
     @FindBy(id = "confirm-password-message")
     private WebElement confirmPasswordWarningPopup;
-
-    public WebElement getConfirmPasswordWarningPopup() {
-        return confirmPasswordWarningPopup;
-    }
 
     @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
     private WebElement captchaCheckBox;
@@ -516,17 +350,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='account-created-confirmation']//h1[@class='ui header']")
     private WebElement successPageHeaderEle;
 
-    public WebElement getSuccessPageHeaderEle() {
-        return successPageHeaderEle;
-    }
-
     // Element image letter
     @FindBy(css = ".ui.image")
     private WebElement eleImageLetter;
-
-    public WebElement getEleImageLetter() {
-        return eleImageLetter;
-    }
 
     // ======================================  Element of Confirm Information Sign Up=====================================
     @FindBy(xpath = "//*[@id='personal-name']")
@@ -549,6 +375,9 @@ public class AuditorSignUpPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='personal-referral-container']/ul/li")
     private List<WebElement> listItemreferalConfirmDrdEle;
+
+    @FindBy(xpath = "//*[@id='personal-referral']/../ul")
+    private WebElement referalDropdownPopupEle;
 
     @FindBy(xpath = "//*[@id='agreement-personal']")
     private WebElement agreePrivacyConfirmCheckboxEle;
@@ -589,6 +418,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='firm-size-container']/ul/li")
     private List<WebElement> firmListItemEmployeeConfirmDrdEle;
 
+    @FindBy(xpath = "//*[@id='firm-size']/../ul")
+    private WebElement firmDropdownPopup;
+
     @FindBy(xpath = "//*[@id='firm-phone']")
     private List<WebElement> firmPhoneConfirmTxtEle;
 
@@ -611,8 +443,11 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement closeSusscessMessageBtnEle;
 
 //    @FindBy(xpath = "//div[@class = 'recaptcha-checkbox-checkmark']")
-    @FindBy(xpath = "//div[contains(@class,'rc-anchor')]")
-    private WebElement capcharTextBoxEle;
+    @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
+    private WebElement capcharCheckBoxEle;
+
+    @FindBy(xpath = "//*[@id='recaptcha-anchor']")
+    private WebElement spanCapCharCheckBoxEle;
 
     @FindBy(xpath = "//button[@id='security-continueBtn']")
     private WebElement createAccountBtnEle;
@@ -624,29 +459,29 @@ public class AuditorSignUpPage extends AbstractPage {
     public void verifyFirmInfoPageContent() {
         getLogger().info("Verify Content of Register Firm Information Page");
         if (IS_ENGLISH_LANGUAGE)
-            validateElememt(personalInfoCompleteIconEle, "PERSONAL", Element_Type.TEXT_VALUE);
+            validateElementText(personalInfoCompleteIconEle, "PERSONAL");
         else
-            validateElememt(personalInfoCompleteIconEle, "PERSONNEL", Element_Type.TEXT_VALUE);
+            validateElementText(personalInfoCompleteIconEle, "PERSONNEL");
 
-        validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
-        validateElememt(chkChangedName, "Element of Checkbox Changed Name", Element_Type.DISPLAYED);
-        validateElememt(eleFirmWebsite, "Element of Firm Website", Element_Type.DISPLAYED);
-        validateElememt(eleZipCode, "Element of Zip Code", Element_Type.DISPLAYED);
-        validateElememt(eleCity, "Element of City", Element_Type.DISPLAYED);
-        validateElememt(provinceDropdownEle, "Element of State", Element_Type.DISPLAYED);
-        validateElememt(eleMemberID, "Element of Member I.D", Element_Type.DISPLAYED);
+        validateDisPlayedElement(eleFirmName, "ELement of Firm Name");
+//        validateDisPlayedElement(chkChangedName, "Element of Checkbox Changed Name");
+        validateDisPlayedElement(eleFirmWebsite, "Element of Firm Website");
+        validateDisPlayedElement(eleZipCode, "Element of Zip Code");
+        validateDisPlayedElement(eleCity, "Element of City");
+        validateDisPlayedElement(provinceDropdownEle, "Element of State");
+        validateDisPlayedElement(eleMemberID, "Element of Member I.D");
         // Checking Number of Employee element is displayed
-        validateElememt(numberEmployeeDropdown, "Element of Number Employee", Element_Type.DISPLAYED);
+        validateDisPlayedElement(numberEmployeeDropdown, "Element of Number Employee");
         // Checking Phone Number element is displayed
-        validateElememt(phoneNumberFirmInfoEle, "Element of Phone Number", Element_Type.DISPLAYED);
+        validateDisPlayedElement(phoneNumberFirmInfoEle, "Element of Phone Number");
         // Checking checkbox Affiliated Firm element is displayed
-        validateElememt(chkAffFirm, "Element of checkbox Affiliated", Element_Type.DISPLAYED);
+        validateDisPlayedElement(chkAffFirm, "Element of checkbox Affiliated");
         // Checking button Update Logo element is displayed
-        validateElememt(btnUpdateLogo, "Element of button Update Logo", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnUpdateLogo, "Element of button Update Logo");
         // Checking checkbox Rule Logo element is displayed
-        validateElememt(chkRuleLogo, "Element of checkbox Rule Logo", Element_Type.DISPLAYED);
+        validateDisPlayedElement(chkRuleLogo, "Element of checkbox Rule Logo");
         // Checking button Continue element is displayed
-        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnContinue, "Element of button Continue");
     }
 
     /**
@@ -655,13 +490,13 @@ public class AuditorSignUpPage extends AbstractPage {
     public void verifySuccessPageContent() {
         getLogger().info("Verify Content of Register Success Page");
         waitForVisibleElement(successPageHeaderEle, "Success Page Header");
-        validateElememt(successPageHeaderEle, "Success Page Header", Element_Type.DISPLAYED);
-        validateElememt(successPageHeaderEle, "Your Account Is on the Waitlist!", Element_Type.TEXT_VALUE);
+        validateDisPlayedElement(successPageHeaderEle, "Success Page Header");
+        validateElementText(successPageHeaderEle, "Your Account is on the Waitlist!");
         // Checking Image Letter element is displayed
         waitForVisibleElement(eleImageLetter, "Image Letter");
-        validateElememt(eleImageLetter, "Element of Image Letter", Element_Type.DISPLAYED);
+        validateDisPlayedElement(eleImageLetter, "Element of Image Letter");
         // Checking button Close element is displayed
-        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnContinue, "Element of button Continue");
     }
 
     /**
@@ -720,7 +555,7 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strAffName    Affiliated Firm's Name
      * @param strPathLogo   Path Logo
      */
-    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
+    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
         getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
         boolean result;
         try {
@@ -765,30 +600,24 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForVisibleElement(eleAffFirm, "Affiliated Firm's Name Input");
             sendKeyTextBox(eleAffFirm, strAffName, "Affiliated Firm's Name Input");
 
-            Thread.sleep(2000);
             scrollToFooter();
             final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
             System.out.println("iframes: " + iframes.size());
             getDriver().switchTo().frame(0);
-//            System.out.println("capcharTextBoxEle get Attribute: " + iframes.get(0).getAttribute("src"));
-            capcharTextBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
-            System.out.println("capcharTextBoxEle get Attribute: " + capcharTextBoxEle.getAttribute("class"));
-            clickElement(capcharTextBoxEle, "Capchar Text Box");
+
+            clickElement(capcharCheckBoxEle, "Capchar Text Box");
+            waitForAtrributeValueChanged(spanCapCharCheckBoxEle,"Span CapChar", "aria-checked", "true");
+            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
 
             getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
+            Thread.sleep(5000);
 
-            // Verify Register Auditor FIRM Page is passed
-//            result = validateDisPlayedElement(pageSecurityInfoEle, "Page Securiy Infomation");
-//            Assert.assertTrue(result, "Page Security Information should be loaded.");
-//            NXGReports.addStep("Register Auditor Firm passed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Register Auditor FIRM Page is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -807,15 +636,12 @@ public class AuditorSignUpPage extends AbstractPage {
         try {
             waitForVisibleElement(eleName, "Full name");
             sendKeyTextBox(eleName, strName, "Full Name TextBox");
-//            eleName.sendKeys(strName);
 
             waitForVisibleElement(eleEmail, "Email");
             sendKeyTextBox(eleEmail, strEmail, "Email Name TextBox");
-//            eleEmail.sendKeys(strEmail);
 
             waitForVisibleElement(eleConfirmEmail, "Email");
             sendKeyTextBox(eleConfirmEmail, strEmail, "Confirm Email TextBox");
-//            eleConfirmEmail.sendKeys(strEmail);
 
             waitForClickableOfElement(eleRoleFirm, "Role in Firm Dropdown");
             clickElement(eleRoleFirm, "Role");
@@ -858,10 +684,10 @@ public class AuditorSignUpPage extends AbstractPage {
         }
     }
 
-    public void clickOnChangedNameCheckBox() {
-        hoverElement(this.chkChangedName, " change name check box");
-        clickElement(this.chkChangedName, " change name check box");
-    }
+//    public void clickOnChangedNameCheckBox() {
+//        hoverElement(this.chkChangedName, " change name check box");
+//        clickElement(this.chkChangedName, " change name check box");
+//    }
 
     public void clickOnAllFirmCheckBox() {
         hoverElement(this.chkAffFirm, " all firm check box");
@@ -945,7 +771,7 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     public void verifyInputInValidValueOnZipCodeTextBox(String invalidValue) {
-        getLogger().info("Verify Input InValid Value On Full Address TextBox.");
+        getLogger().info("Verify Input InValid Value On Zip Code TextBox.");
         inputValueIntoZipCodeTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
         verifyColorControl(eleZipCodeError, "zip code error", "border-color", warningBorderCSSColor);
@@ -1037,7 +863,7 @@ public class AuditorSignUpPage extends AbstractPage {
         verifyColorControl(phoneError, "phone nunber error", "background-color", warningBackgroundCSSColor);
     }
 
-    public void createPassword(String strPass, String strCaptcha) {
+    public void createPassword(String strPass) {
         getLogger().info("Create Password for New User.");
         boolean result;
         try {
@@ -1046,8 +872,9 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(eleConfirmPass, "Confirm Password Input");
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
-
+            waitForJSandJQueryToLoad();
             clickElement(createAccountBtnEle, "Create Account button");
+
             // Verify Register Auditor Security Page is passed
 //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
 //            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
@@ -1171,7 +998,7 @@ public class AuditorSignUpPage extends AbstractPage {
         clickElement(btnContinue, "Continue Button");
     }
 
-    public void registerNewAuditorUser(String fullName, String strEmail, String strPassword){
+    public void registerNewAuditorUser(String fullName, String strEmail, String strPassword) throws InterruptedException {
         marketingPage = new MarketingPage(getLogger(), getDriver());
         marketingPage.clickOnSignupButton();
         verifyPersonalInfoPageContent();
@@ -1181,12 +1008,10 @@ public class AuditorSignUpPage extends AbstractPage {
 //            switchToOtherTab(0);
 //        }
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
-        verifyFirmInfoPageContent();
+
         registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
-        verifySecurityInfoPageContent();
-        createPassword(strPassword, strPassword);
         verifySuccessPageContent();
         acceptCreateAccountAuditor();
     }
@@ -1196,9 +1021,17 @@ public class AuditorSignUpPage extends AbstractPage {
         confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
-        clickCreateAccountBtn();
-        verifyConfirmSuccessPageContent();
-        clickCloseSuccessMessageBtn();
+        createPassword(strPassword);
+        waitForJSandJQueryToLoad();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //Change business rule, don't need to input below field.
+//        clickCreateAccountBtn();
+//        verifyConfirmSuccessPageContent();
+//        clickCloseSuccessMessageBtn();
     }
 
     /**
@@ -1214,8 +1047,9 @@ public class AuditorSignUpPage extends AbstractPage {
         getLogger().info("Input all field in Register Personal Information Page and click Continue Button");
         boolean result;
         try {
-//            waitForVisibleElement(fullNameConfirmTxtEle, "Full name");
-//            sendKeyTextBox(fullNameConfirmTxtEle, strName, "Full Name TextBox");
+            //Change business rule, don't need to input below field.
+            waitForVisibleElement(fullNameConfirmTxtEle, "Full name");
+            sendKeyTextBox(fullNameConfirmTxtEle, strName, "Full Name TextBox");
 
 //            waitForVisibleElement(emailConfirmTxtEle, "Email");
 //            sendKeyTextBox(emailConfirmTxtEle, strEmail, "Email Name TextBox");
@@ -1223,18 +1057,17 @@ public class AuditorSignUpPage extends AbstractPage {
 //            waitForVisibleElement(emailReEnterConfirmTxtEle, "Email");
 //            sendKeyTextBox(emailReEnterConfirmTxtEle, strEmail, "Confirm Email TextBox");
 
-            waitForVisibleElement(roleConfirmTxtEle, "Role Firm Textbox");
-            sendKeyTextBox(roleConfirmTxtEle, strRoleFirm,"Role Firm Textbox");
+//            waitForVisibleElement(roleConfirmTxtEle, "Role Firm Textbox");
+//            sendKeyTextBox(roleConfirmTxtEle, strRoleFirm,"Role Firm Textbox");
 
             waitForVisibleElement(phoneConfirmTxtEle, "Phone number");
             sendKeyTextBox(phoneConfirmTxtEle, strPhone, "Phone number TextBox");
             waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox","value", strPhone);
 
-            WebElement dropdownpopup = getDriver().findElement(By.xpath("//*[@id='personal-referral']/../ul"));
             waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
             clickElement(referalConfirmDrdEle, "Referal Dropdown List");
 
-            waitForAtrributeValueChanged(dropdownpopup, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
 
             String firstItemText = listItemreferalConfirmDrdEle.get(0).getText();
             clickElement(listItemreferalConfirmDrdEle.get(0), "First Item on Role Dropdown");
@@ -1242,8 +1075,8 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForAtrributeValueChanged(referalConfirmDrdEle, "Referal Dropdown List", "value", firstItemText);
             if (GenericService.sBrowserData.equals("ff."))
                 clickElement(referalConfirmDrdEle, "Referal Dropdown List");
-            waitForAtrributeValueChanged(dropdownpopup, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
-
+            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
+            scrollToFooter();
             waitForVisibleElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
             clickElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
 
@@ -1288,29 +1121,31 @@ public class AuditorSignUpPage extends AbstractPage {
         boolean result;
         try {
 
-            waitForVisibleElement(firmWebsiteConfirmTxtEle, "Firm Website Input");
-            sendKeyTextBox(firmWebsiteConfirmTxtEle, firmWebsite, "Firm Website Input");
+            //Change business rule, don't need to input below field.
+//            waitForVisibleElement(firmWebsiteConfirmTxtEle, "Firm Website Input");
+//            sendKeyTextBox(firmWebsiteConfirmTxtEle, firmWebsite, "Firm Website Input");
+//
+//
+//            waitForVisibleElement(firmSuiteNumConfirmTxtEle, "Office Number Input");
+//            sendKeyTextBox(firmSuiteNumConfirmTxtEle, strOffNum, "Office Number Input");
+//
+//
+//            waitForVisibleElement(firmCountryConfirmTxtEle, "City Input");
+//            sendKeyTextBox(firmCountryConfirmTxtEle, strState, "City Input");
+//
+//            waitForVisibleElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+//            clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+//            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+//
+//            String firstItemText = firmListItemEmployeeConfirmDrdEle.get(0).getText();
+//            clickElement(firmListItemEmployeeConfirmDrdEle.get(0), "First Item on Number of Employee Dropdown");
+//            System.out.print("firstItemText: " + firstItemText);
+//            waitForAtrributeValueChanged(firmNumEmployeeConfirmTxtEle, "Referal Dropdown List", "value", firstItemText);
+//            if (GenericService.sBrowserData.equals("ff."))
+//                clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+//            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl");
 
-
-            waitForVisibleElement(firmSuiteNumConfirmTxtEle, "Office Number Input");
-            sendKeyTextBox(firmSuiteNumConfirmTxtEle, strOffNum, "Office Number Input");
-
-
-            waitForVisibleElement(firmCountryConfirmTxtEle, "City Input");
-            sendKeyTextBox(firmCountryConfirmTxtEle, strState, "City Input");
-
-            WebElement dropdownpopup = getDriver().findElement(By.xpath("//*[@id='firm-size']/../ul"));
-            waitForVisibleElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-            clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-            waitForAtrributeValueChanged(dropdownpopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl inputDdl-after");
-
-            String firstItemText = firmListItemEmployeeConfirmDrdEle.get(0).getText();
-            clickElement(firmListItemEmployeeConfirmDrdEle.get(0), "First Item on Number of Employee Dropdown");
-            System.out.print("firstItemText: " + firstItemText);
-            waitForAtrributeValueChanged(firmNumEmployeeConfirmTxtEle, "Referal Dropdown List", "value", firstItemText);
-            if (GenericService.sBrowserData.equals("ff."))
-                clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-            waitForAtrributeValueChanged(dropdownpopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl");
+            scrollToFooter();
 
             waitForVisibleElement(continueFirmConfirmBtnEle, "Continue Firm Button");
             clickElement(continueFirmConfirmBtnEle, "Continue Firm Button");

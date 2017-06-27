@@ -1,5 +1,6 @@
 package com.auvenir.ui.services.auditor;
 
+import com.auvenir.ui.pages.auditor.AuditorEngagementFilePage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +17,7 @@ import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 public class AuditorDetailsEngagementService extends AbstractService {
 
     AuditorDetailsEngagementPage auditorDetailsEngagementPage;
-
+    AuditorEngagementFilePage auditorEngagementFilePage;
     /*
      * contructor
      */
@@ -24,6 +25,7 @@ public class AuditorDetailsEngagementService extends AbstractService {
 
         super(logger, driver);
         auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
+        auditorEngagementFilePage = new AuditorEngagementFilePage(getLogger(), getDriver());
 
     }
 
@@ -32,7 +34,7 @@ public class AuditorDetailsEngagementService extends AbstractService {
 
         try {
             getLogger().info("navigate to client Settings page.");
-            //auditorEngagementPage.navigateToClientSettingsPage();
+            //auditorEngagementTeamPage.navigateToClientSettingsPage();
             NXGReports.addStep("navigate to client setting tab.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("navigate to client settings tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -70,8 +72,56 @@ public class AuditorDetailsEngagementService extends AbstractService {
         }
     }
 
+    /**
+     * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - Start
+     */
 
+    /**
+     * Click on file manager link
+     */
+    public void clickOnFileManagerLink(){
+        auditorDetailsEngagementPage.clickOnFileManagerLink();
+    }
 
+    /**
+     * Verify file manager page follow engagement name
+     * @param engagementName
+     */
+    public void verifyEngagementManagePage(String engagementName){
+        auditorEngagementFilePage.verifyDetailsEngagementPage(engagementName);
+    }
+
+    /**
+     * Click on all file check box
+     */
+    public void clickOnAllFileCheckBox(){
+        auditorEngagementFilePage.clickOnAllFileCheckBox();
+    }
+
+    /**
+     * Click on down load icon
+     */
+    public void clickOnDownLoadIcon(){
+        auditorEngagementFilePage.clickOnDownLoadIcon();
+    }
+
+    /**
+     * Verify down load popup
+     */
+    public void verifyDownLoadPopup(){
+        auditorEngagementFilePage.verifyDownLoadPopup();
+    }
+
+    /**
+     * Click on down load button in popup
+     */
+    public void clickOnDownLoadButtonInPopup(){
+        auditorEngagementFilePage.clickOnDownloadButtonInPopup();
+    }
+
+    /**
+     * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
+     */
 }
 
 

@@ -216,8 +216,9 @@ public class AuditorTodoListPage extends AbstractPage {
 
     public void clickCreateToDoBtn() throws Exception{
         // Create todo button could sleep before click, investigate in-progress.
-        Thread.sleep(smallTimeOut);
-        waitForClickableOfElement(eleCreateToDoBtn);
+//        Thread.sleep(smallTimeOut);
+//        waitForClickableOfElement(eleCreateToDoBtn);
+        waitForTextValueChanged(eleCreateToDoBtn,"Create Todo Butto","Create To-Do");
         clickElement(eleCreateToDoBtn, "Create Todo Button");
     }
 
@@ -270,19 +271,20 @@ public class AuditorTodoListPage extends AbstractPage {
         hoverElement(eleFilterDropDownList, "eleFilterDropDownList");
         clickElement(eleFilterDropDownList, "eleFilterDropDownList");
         waitForVisibleElement(eleShowAllBTN, "eleShowAllBTN");
-        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
+        // Busniess rule is changed, remove Due Date and FlagForRequest Option.
+//        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
         waitForVisibleElement(eleAssignedBTN, "eleAssignedBTN");
         waitForVisibleElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForVisibleElement(eleCompleteBTN, "eleCompleteBTN");
         waitForVisibleElement(eleOutstandingBTN, "eleOutstandingBTN");
-        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+//        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
         waitForClickableOfElement(eleShowAllBTN, "eleShowAllBTN");
-        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
+//        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
         waitForClickableOfElement(eleAssignedBTN, "eleAssignedBTN");
         waitForClickableOfElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForClickableOfElement(eleCompleteBTN, "eleCompleteBTN");
         waitForClickableOfElement(eleOutstandingBTN, "eleOutstandingBTN");
-        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+//        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
     }
 
     public void verifyDefaultValueFilterDropDownList() {

@@ -15,6 +15,7 @@ import org.openqa.selenium.WebDriver;
 
 /**
  * Created by cuong.nguyen on 4/25/2017.
+ * refactored by huy.huynh 23/06/2017
  */
 public class ClientService extends AbstractService {
 
@@ -34,6 +35,7 @@ public class ClientService extends AbstractService {
     CreateNewAuditPage createNewAuditPage;
     AddNewClientPage addNewClientPage;
     AdminLoginPage adminLoginPage;
+    ClientToDoPage clientToDoPage;
 
 
     public ClientService(Logger logger, WebDriver driver) {
@@ -54,6 +56,7 @@ public class ClientService extends AbstractService {
         createNewAuditPage = new CreateNewAuditPage(getLogger(), getDriver());
         addNewClientPage = new AddNewClientPage(getLogger(), getDriver());
         adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        clientToDoPage = new ClientToDoPage(getLogger(), getDriver());
     }
 
 
@@ -76,7 +79,6 @@ public class ClientService extends AbstractService {
     }
 
     public void verifyClientFooter() {
-        getLogger().info("verify footer page.");
         clientDashboardPage.verifyClientFooter();
     }
 
@@ -92,14 +94,7 @@ public class ClientService extends AbstractService {
     }
 
     public void navigateToClientSettingsPage() {
-
-        try {
-            getLogger().info("navigate to client Settings page.");
-            clientDashboardPage.navigateToClientSettingsPage();
-            NXGReports.addStep("navigate to client setting tab.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("navigate to client settings tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        clientDashboardPage.navigateToClientSettingsPage();
     }
 
     public void navigateToAccountTab() {
@@ -149,13 +144,7 @@ public class ClientService extends AbstractService {
     }
 
     public void verifyAccountSettingsPage() {
-        try {
-            getLogger().info("verifyAccountSettingsPage.");
-            clientAccountSettingsPage.verifyAccountSettingsPage();
-            NXGReports.addStep("Account Settings page rendered.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Account Settings page rendered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        clientAccountSettingsPage.verifyAccountSettingsPage();
     }
 
     public void verifyNotificationsSettingsPage() {
@@ -190,7 +179,6 @@ public class ClientService extends AbstractService {
     }
 
     public void verifyClientHomePage() {
-        getLogger().info("verify client home page.");
         clientDashboardPage.verifyClientHomePage();
     }
 
@@ -427,5 +415,13 @@ public class ClientService extends AbstractService {
     public void verifyInviteClientSuccess(String message) {
         createNewAuditPage.verifyInviteClientSuccess(message);
     }
+
+    public void verifyInviteClientFailure(String message) {
+        createNewAuditPage.verifyInviteClientFailure(message);
+    }
      /*-----------end of huy.huynh on 02/06/2017.*/
+
+    public void verifyToDoTaskExist(String toDoName, boolean isClient) {
+        clientToDoPage.verifyToDoTaskExist(toDoName, isClient);
+    }
 }

@@ -1,17 +1,17 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.services.AbstractService;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
 import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
+import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -175,7 +175,7 @@ public class AuditorCreateToDoService extends AbstractService {
             //createToDoTask.navigateToEngagementTask();
             createToDoTask.navigateToToDoList();
             createToDoTask.clickCreateToDoTask();
-            //createToDoTask.verifyAddNewToDoTask();
+            //createToDoTask.createNewToDoTask();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -342,7 +342,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception {
+    public void createNewToDoTask(String toDoName) throws Exception {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -773,7 +773,7 @@ public class AuditorCreateToDoService extends AbstractService {
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName);
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName);
     }
 
     public void verifyDefaultHintValueInputComment() {
@@ -800,8 +800,15 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyInputAComment(commentContent);
     }
 
-    public void clickPostComment() {
-        createToDoPage.clickPostComment();
+    public void verifyInputMultiComment(String commentType, int numberComment) {
+        for (int i = 0; i < numberComment; i++) {
+            createToDoPage.verifyInputAComment(commentType + i);
+            clickOnPostCommentButton();
+        }
+    }
+
+    public void clickOnPostCommentButton() {
+        createToDoPage.clickOnPostCommentButton();
     }
 
     public int getNumberOfListComment() {
@@ -813,6 +820,22 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void verifyAddNewRequestButton() {
         createToDoPage.verifyAddNewRequestButton();
+
+    }
+
+    public void verifyClickAddRequestBtn() {
+        createToDoPage.verifyClickAddRequestBtn();
+    }
+
+    public void selectAddNewRequestButton() {
+        createToDoPage.verifyClickAddRequestBtn();
+    }
+
+    /**
+     * Author minh.nguyen
+     */
+    public void verifyColorAddRequestBtn() {
+        createToDoPage.verifyColorAddRequestBtn();
     }
 
     /**
@@ -826,16 +849,51 @@ public class AuditorCreateToDoService extends AbstractService {
      * Author minh.nguyen
      * Vien.Pham modified for smoke test
      */
-    public void verifyCreateRequest(String requestName1) {
-        createToDoPage.verifyNewRequestStoreInDatabase(requestName1);
+    public void verifyCreateRequest(String requestName1, String requestName2) {
+        createToDoPage.verifyNewRequestStoreInDatabase(requestName1, requestName2);
     }
 
 
     /**
      * Author minh.nguyen
+     * Vien.Pham added upload, download request file.
      */
-    public void verifyUpdateRequest(String requestName2) {
-        createToDoPage.verifyNewRequestStoreInDatabase(requestName2);
+
+
+    public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+
+    }
+
+    public void verifyUploadFileSuccessfully(String fileName){
+        createToDoPage.verifyUploadFileSuccessfully(fileName);
+    }
+
+    public void uploadFileNewRequestByClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadFileNewRequestByClient(uploadLocation.concat(fileName));
+    }
+
+    public void verifyUploadFileNewRequestByClient(String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
+    }
+
+    public void auditorDownloadNewRequestFile(String uploadLocation, String downloadLocation, String fileName) {
+        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName), 1);
+
+    }
+
+    public void auditorAttachNewFile(String attachLocation, String fileName) {
+        createToDoPage.attachFile(attachLocation, fileName);
+    }
+
+    public void clientDownloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
+        createToDoPage.downloadAttachFile(pathOfUpload, pathOfDownload, fileName);
+    }
+
+    public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
+        createToDoPage.downloadCreateRequestNewFileClient(uploadLocation.concat(fileName), downloadLocation.concat(fileName));
+//        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
+//        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
     }
 
     /**
@@ -909,8 +967,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.waitForNewTodoNameSaved();
     }
 
-    public void createCategories(String cate1) throws Exception {
-        createToDoPage.createNewCategory(cate1);
+    public void createCategories(String cate) throws Exception {
+        createToDoPage.createNewCategory(cate);
     }
 
     public void createMultiCategory(String cate1, String cate2, String cate3) throws Exception {
@@ -924,15 +982,14 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyTodosTextBox_DefaultGUI() throws InterruptedException {
-//        createToDoPage.verifyTodoTextbox_DefaultName();
-        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+    public void verifyTodosTextBox_AfterClickedAddTodo() throws InterruptedException {
+        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
+        createToDoPage.verifyTodoTextboxBorder_AfterClickedAddTodo();
+//        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
-        createToDoPage.verifyTodoTextboxBorder_Default();
-//        createToDoPage.verifyTodoTextboxBorder_WhileHovered();
     }
 
-    public void InputValidValue(String validValue) {
+    public void inputValidValue(String validValue) {
 
         createToDoPage.InputValue_TodoName(validValue);
     }
@@ -941,12 +998,12 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyInputValidValue(validValue);
     }
 
-    public void InputOnlyNumber(int number) {
-        createToDoPage.InputValue_TodoName(Integer.toString(number));
+    public void inputOnlyNumber(String number) {
+        createToDoPage.InputValue_TodoName(number);
     }
 
-    public void verifyInputNumber(int number) {
-        createToDoPage.verifyInputValidValue(Integer.toString(number));
+    public void verifyInputNumber(String number) {
+        createToDoPage.verifyInputValidValue(number);
 
     }
 
@@ -973,7 +1030,7 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCategoryComboBox_DefaultGUI() {
         getLogger().info("Verifying Category ComboBox...");
         createToDoPage.verifyCategoryBox_DefaultValue();
-        createToDoPage.verifyBorderCategoryBox_WhileHovered();
+//        createToDoPage.verifyBorderCategoryBox_WhileHovered();
     }
 
     public void verifyNewCategorySaved(String cate1) {
@@ -1057,9 +1114,222 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.deleteAllExistedTodoItems();
     }
 
-    public void verifyExistedCategory(){
+    public void verifyExistedCategory() {
         createToDoPage.verifyExistedCategory();
     }
 
+    public void verifyAddNewRequestPopUp() {
+        createToDoPage.verifyAddNewRequestPopUp();
+    }
+
+    public void verifyCommentSuccessFul(String comment, int numberOfComment) {
+        createToDoPage.verifyCommentSuccessFul(comment, numberOfComment);
+    }
+
+    public void selectClientAssigneeByName(String toDoName, String clientAssignee) {
+        createToDoPage.selectClientAssigneeByName(toDoName, clientAssignee);
+    }
+
+    public void selectAuditorAssigneeByName(String toDoName, String auditorAssignee) {
+        createToDoPage.selectAuditorAssigneeByName(toDoName, auditorAssignee);
+    }
+
+    public void verifyAuditorAssigneeSelected(String toDoName, String auditorAssignee) {
+        createToDoPage.verifyAuditorAssigneeSelected(toDoName, auditorAssignee);
+    }
+
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
+        createToDoPage.verifyClientAssigneeSelected(toDoName, clientAssignee);
+    }
+
+    /**
+     * Add new by thuan duong on 20/06/2017.
+     * New for smoke test
+     */
+    public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
+        createToDoPage.selectAssigneeToDoUsingBulkAction(userName);
+    }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
+
+    /**
+     * Verify engagement overview status does not change when click on close icon popup
+     *
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewStatusWhenClickOnCloseIconPopup() {
+        createToDoPage.verifyEngagementOverviewStatusDoesNotChange(true);
+    }
+
+    /**
+     * Verify engagement overview todo does not change when click on close icon popup
+     *
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewToDoWhenClickOnCloseIconPopup() {
+        createToDoPage.verifyEngagementOverviewToDoDoesNotChange(true);
+    }
+
+    /**
+     * Verify engagement overview status does not change when click on cancel button
+     *
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewStatusWhenClickOnCancelButton() {
+        createToDoPage.verifyEngagementOverviewStatusDoesNotChange(false);
+    }
+
+    /**
+     * Verify engagement overview todo does not change when click on cancel button
+     *
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewToDoWhenClickOnCancelButton() {
+        createToDoPage.verifyEngagementOverviewToDoDoesNotChange(false);
+    }
+
+    /**
+     * Verify engagement overview status change when click on archive button
+     *
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverviewStatusWhenClickOnArchiveButton() {
+        createToDoPage.verifyEngagementOverviewStatusChange();
+    }
+
+    /**
+     * Verify engagement overview todo change when click on archive button
+     *
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementOverViewToDoWhenClickOnArchiveButton() {
+        createToDoPage.verifyEngagementOverviewToDoChange();
+    }
+
+
+    /**
+     * Click on close icon in mark as complete popup
+     *
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnCloseIconInMarkAsCompletePopup() {
+        createToDoPage.clickOnCloseIconInMarkAsCompletePopup();
+    }
+
+    /**
+     * Click on cancel button in mark as complete popup
+     *
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnCancelButtonInMarkAsCompletePopup() {
+        createToDoPage.clickOnCancelButtonInMarkAsCompletePopup();
+    }
+
+    /**
+     * Click on archive button in mark as complete popup
+     *
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnArchiveButtonInMarkAsCompletePopup() {
+        createToDoPage.clickOnArchiveButtonInMarkAsCompletePopup();
+    }
+
+    /**
+     * Verify mark as complete popup is close
+     *
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyMarksAsCompletePopupIsClose() {
+        createToDoPage.verifyMarksAsCompletePopupIsClose();
+    }
+
+    /**
+     * Click on engagement link
+     *
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void clickOnEngagementLink() {
+        createToDoPage.clickOnEngagementLink();
+    }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     **/
+
+
+    public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName, isClient);
+    }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
+     *
+     **/
+    /**
+     * Verify engagement overview status is complete
+     *
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewStatusIsComplete() {
+        createToDoPage.verifyEngagementOverviewStatusIsComplete();
+    }
+
+    /**
+     * Verify engagement overview ToDo is complete
+     *
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementOverviewToDoIsComplete() {
+        createToDoPage.verifyEngagementOverviewToDoIsComplete();
+    }
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
+     *
+     **/
+
+    /**
+     * Add new by huy.huynh on 21/06/2017.
+     * SmokeTest R2
+     */
+    public void selectDeleteToDoUsingBulkAction() {
+        createToDoPage.chooseOptionDeleteOnBulkActionsDropDown();
+    }
+
+    public void confirmDeleteButton() {
+        createToDoPage.clickConfirmDeleteButton();
+    }
+
+    public void verifyToDoNotExist(String todoName) {
+        createToDoPage.verifyToDoNotExist(todoName);
+    }
+
+    public void checkAllCheckBox() {
+        createToDoPage.checkOrUnCheckCheckAllCheckBox(true);
+    }
+
+    public void verifyEmptyToDoList() {
+        createToDoPage.verifyEmptyToDoList();
+    }
+    /*-----------end of huy.huynh on 21/06/2017.*/
+
+    public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
+        createToDoPage.verifyLastCommentOfUserDisplayed(commentContent, fullNameUser);
+    }
 }
 

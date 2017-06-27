@@ -25,13 +25,13 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.verifyFirmInfoPageContent();
     }
 
-    public void registerFirmInfo(String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
+    public void registerFirmInfo(String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
         auditorSignUpPage.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhone, strAffName, strPathLogo);
     }
 
-    public void clickOnChangedNameCheckBox() {
-        auditorSignUpPage.clickOnChangedNameCheckBox();
-    }
+//    public void clickOnChangedNameCheckBox() {
+//        auditorSignUpPage.clickOnChangedNameCheckBox();
+//    }
 
     public void clickOnAllFirmCheckBox() {
         auditorSignUpPage.clickOnAllFirmCheckBox();
@@ -188,8 +188,8 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.verifySecurityInfoPageContent();
     }
 
-    public void createPassword(String strPass, String strCaptcha) {
-        auditorSignUpPage.createPassword(strPass, strCaptcha);
+    public void createPassword(String strPass) {
+        auditorSignUpPage.createPassword(strPass);
     }
 
     public void verifyCreateInvalidPassword(String password, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber) {

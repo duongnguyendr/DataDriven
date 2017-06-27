@@ -22,6 +22,12 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='onboarding-personal-container']//h3")
     private WebElement titleComponentPersonal;
 
+    @FindBy(xpath = "//div[@id='personal-role-container']//input")
+    private WebElement inputPersonalRole;
+
+    @FindBy(xpath = "//div[@id='personal-role-container']//a[1]")
+    private WebElement optionFirstOnPersonalRoleList;
+
     @FindBy(id = "personal-phoneNumber")
     private WebElement inputPersonalPhoneNumber;
 
@@ -109,6 +115,8 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Personal Form");
             validateElementText(titleComponentPersonal, "Please Confirm your Information");
+            clickElement(inputPersonalRole, "Input Personal Role");
+            clickElement(optionFirstOnPersonalRoleList, "First Option Personal Role");
             sendKeyTextBox(inputPersonalPhoneNumber, phoneNumber, "Input Personal Phone Number");
             clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
             clickElement(buttonPersonalContinue, "Button Personal Continue");
@@ -122,7 +130,7 @@ public class ClientSignUpPage extends AbstractPage {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
             sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
-            scrollToFooter(getDriver());
+            scrollToFooter();
             clickElement(inputIndustry, "Input Industry");
             chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
             //sometime listoption not close after choose an option, so need to click somewhere to close, avoid it cover others element

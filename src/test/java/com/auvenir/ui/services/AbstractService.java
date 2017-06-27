@@ -38,7 +38,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 public class AbstractService {
     private WebDriver driver;
     private Logger logger;
-    private static final int waitTime = 1;
+    private static final int waitTime = 60;
     public static WebDriverWait sWebDriverWait = null;
     public static String gmailWindow;
 
@@ -158,8 +158,8 @@ public class AbstractService {
             //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
-            driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
-            driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().setScriptTimeout(1, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(1, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             NXGReports.addStep("Login with userid: " + userId, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -199,6 +199,7 @@ public class AbstractService {
             if ("".equals(prefixProtocol)) {
                 prefixProtocol = "https://";
             }
+            //TODO: temproryly for stable environment
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
@@ -286,7 +287,7 @@ public class AbstractService {
 
     }
 
-    public void loadURL(String sUrl) {
+    public void navigateToURL(String sUrl) {
         try {
             System.out.println(sUrl);
             driver.get(sUrl);
@@ -357,7 +358,7 @@ public class AbstractService {
     /*
     Refactoring to join AbstractRefactorService
      */
-    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+    public void navigateToURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
         driver.get(sGetTokenURL + sEmailID);
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
@@ -465,7 +466,7 @@ public class AbstractService {
     public String deleteUserViaAPI(String email) {
         String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + email + "/delete";
-        loadURL(deleteURL);
+        navigateToURL(deleteURL);
         return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
     }
 
@@ -493,7 +494,7 @@ public class AbstractService {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
-//            gmailLoginPage.signInGmail(eGMail,ePassword);
+            driver.manage().window().maximize();
             gmailLoginPage.signInGmail(eGMail, ePassword);
             gmailLoginPage.deleteAllMail();
             gmailLoginPage.gmailLogout();
@@ -630,7 +631,7 @@ public class AbstractService {
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
         marketingService.clickLoginButton();
-        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);;
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");

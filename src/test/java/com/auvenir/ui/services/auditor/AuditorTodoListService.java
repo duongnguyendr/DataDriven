@@ -38,7 +38,7 @@ public class AuditorTodoListService extends AbstractService {
 
         try {
             getLogger().info("navigate to client Settings page.");
-            //auditorEngagementPage.navigateToClientSettingsPage();
+            //auditorEngagementTeamPage.navigateToClientSettingsPage();
             NXGReports.addStep("navigate to client setting tab.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("navigate to client settings tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -302,6 +302,7 @@ public class AuditorTodoListService extends AbstractService {
     }
 
     /*-----------end of huy.huynh on 02/06/2017.*/
+
 }
 
 

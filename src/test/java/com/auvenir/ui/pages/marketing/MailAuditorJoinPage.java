@@ -26,7 +26,8 @@ public class MailAuditorJoinPage extends AbstractPage {
         return eleTitle;
     }
 
-    @FindBy(xpath = "//h2[contains(text(),'Your Auvenir')]")
+//    @FindBy(xpath = "//h2[contains(text(),'Your Auvenir')]")
+    @FindBy(xpath = "//h2[contains(text(),'Welcome to the Auvenir')]")
     private WebElement eleSubjectActiveEmail;
 
     @FindBy(xpath = "//h2[contains(text(),'Invitation from ')]")
@@ -86,17 +87,9 @@ public class MailAuditorJoinPage extends AbstractPage {
         return eleContent6InviteClientEmailClient;
     }
 
-    public WebElement getEleSubjectActiveEmail() {
-        return eleSubjectActiveEmail;
-    }
 
     @FindBy(xpath = "//p[contains(text(),'Welcome')]")
     private WebElement eleWelcomeActiveEmail;
-
-    public WebElement getEleWelcomeActiveEmail() {
-        return eleWelcomeActiveEmail;
-    }
-
 
     // Element of content mail
     @FindBy(xpath = "//p[contains(text(),'We ')]")
@@ -109,30 +102,14 @@ public class MailAuditorJoinPage extends AbstractPage {
     @FindBy(xpath = "//p[contains(text(),'Your account')]")
     private WebElement eleInformActive;
 
-    public WebElement getEleInformActive() {
-        return eleInformActive;
-    }
-
     @FindBy(xpath = "//p[contains(text(),'your feedback')]")
     private WebElement eleFeedbackInform;
-
-    public WebElement getEleFeedbackInform() {
-        return eleFeedbackInform;
-    }
 
     @FindBy(xpath = "//center/a")
     private WebElement eleGetStarted;
 
-    public WebElement getEleGetStarted() {
-        return eleGetStarted;
-    }
-
-    @FindBy(xpath = "//a[@href='mailto:feedback@auvenir.com%5C%22']")
+    @FindBy(xpath = "//a[contains(@href,'mailto:feedback@auvenir.com')]")
     private WebElement eleFeedbackLink;
-
-    public WebElement getEleFeedbackLink() {
-        return eleFeedbackLink;
-    }
 
     // Element of button Go to Auvenir website
     @FindBy(xpath = "//center/table[1]/tbody/tr/td/p/a[@href='http://auvenir.s3corp.com.vn:5000']")
@@ -232,24 +209,19 @@ public class MailAuditorJoinPage extends AbstractPage {
         */
     public void verifyActiveEmailContent() {
         //Checking subject Active Email
-        this.validateElememt(getEleSubjectActiveEmail(), "Verify Subject of Active Email", Element_Type.DISPLAYED);
-        NXGReports.addStep("Verify Subject of Active Email", LogAs.PASSED, null);
-        // Checking Content Email is displayed
-        this.validateElememt(getEleWelcomeActiveEmail(), "Element of Title of Mail", Element_Type.DISPLAYED);
-        NXGReports.addStep("Verify Content of Active Email", LogAs.PASSED, null);
+        validateDisPlayedElement(eleSubjectActiveEmail, "Subject of Active Email");
+        // Checking Content of subject Email is displayed
+        validateElementText(eleSubjectActiveEmail, "Welcome to the Auvenir Smarter Audit Platform");
+        validateElementText(eleWelcomeActiveEmail, "Welcome to Auvenir.");
         // Checking content mail
-        this.validateElememt(getEleInformActive(), "Your account has been validated and is now active. When you are ready to audit smarter, click the button below", Element_Type.DISPLAYED);
-        this.validateElememt(getEleFeedbackInform(), "We welcome your feedback, ideas and suggestions to make the audit experience better. Send us an email at feedback@auvenir.com.", Element_Type.DISPLAYED);
-        NXGReports.addStep("Verify content mail", LogAs.PASSED, null);
+        validateElementText(eleInformActive, "Your account has been validated - when you are ready to audit smarter, click the button below to activate your account.");
+        validateElementText(eleFeedbackInform, "We welcome your feedback, ideas and suggestions to make the audit experience better. Send us an email at feedback@auvenir.com.");
         //Checking Get Started button
-        this.validateElememt(getEleGetStarted(), "Get Started", Element_Type.DISPLAYED);
-        NXGReports.addStep("Verify Get started", LogAs.PASSED, null);
+        validateDisPlayedElement(eleGetStarted, "Get Started button");
         //Checking Feedback link
-        this.validateElememt(getEleFeedbackLink(), "feedback@auvenir.com", Element_Type.DISPLAYED);
-        NXGReports.addStep("Verify feedback link", LogAs.PASSED, null);
+        validateDisPlayedElement(eleFeedbackLink, "feedback@auvenir.com link");
         // Checking Signature footer
-        this.validateElememt(eleSignatureMail, "Verify Element of Signature footer", Element_Type.DISPLAYED);
-        NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
+        validateDisPlayedElement(eleSignatureMail, "Verify Element of Signature footer");
     }
 
 
@@ -266,13 +238,13 @@ public class MailAuditorJoinPage extends AbstractPage {
         this.validateElememt(getEleContent4InviteClientEmailClient(), "Verify content 4", Element_Type.DISPLAYED);
         this.validateElememt(getEleContent5InviteClientEmailClient(), "Verify content 5", Element_Type.DISPLAYED);
         this.validateElememt(getEleContent6InviteClientEmailClient(), "Verify content 6", Element_Type.DISPLAYED);
-        this.validateElememt(getEleFeedbackInform(), "Verify Feedback inform", Element_Type.DISPLAYED);
+        this.validateElememt(eleFeedbackInform, "Verify Feedback inform", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Email content ", LogAs.PASSED, null);
         //Checking footer of Invite Email
         this.validateElememt(getEleSignatureMail(), "Verify signature", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Signature footer", LogAs.PASSED, null);
         //Checking getStarted
-        this.validateElememt(getEleGetStarted(), "Verify Get started btn", Element_Type.DISPLAYED);
+        this.validateElememt(eleGetStarted, "Verify Get started btn", Element_Type.DISPLAYED);
         NXGReports.addStep("Verify Get Started btn", LogAs.PASSED, null);
     }
 
@@ -321,6 +293,7 @@ public class MailAuditorJoinPage extends AbstractPage {
         }
         getDriver().get(link);
         getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        getDriver().manage().window().maximize();
         waitForProgressOverlayIsClosed();
     }
     // Element of header mail

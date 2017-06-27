@@ -336,6 +336,37 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='preview-footer']//a[@href][3]")
     private WebElement titleCookieNotice;
 
+    /**
+     * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/21 - Start
+     *
+     **/
+    private static String engagementStatusBefore = "planning";
+    private static String engagementToDoBefore = "";
+
+
+    @FindBy(xpath = "//td[@class='status']/span")
+    private List<WebElement> eleEngagementStatusList;
+
+    @FindBy(xpath = "//td[@class='completed-todos']/span[@class='warning']")
+    private List<WebElement> eleEngagementToDoList;
+
+    /**
+     * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/20 - End
+     *
+     */
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+    private static final String ENGAGEMENT_STATUS_COMPLETE = "complete";
+    private static final String ENGAGEMENT_TODO_COMPLETE = "100";
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     */
+
+
     protected String dateFormat = "MM/dd/YY";
     protected SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 
@@ -387,10 +418,18 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void verifyAuditorEngagementPage() {
+        boolean isCompareText = false;
         waitForVisibleElement(myEngagementTextEle, "myEngagementTextEle");
 //        validateElementText(myEngagementTextEle, "My Engagements");
-        validateElementText(myEngagementTextEle, "All Engagements");
-
+        isCompareText = validateElementText(myEngagementTextEle, "All Engagements");
+        if(isCompareText)
+        {
+            NXGReports.addStep("Verify Auditor Engagement", LogAs.PASSED, null);
+        }
+        else
+        {
+            NXGReports.addStep("Verify Auditor Engagement", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void navigateToContactsTab() {
@@ -414,11 +453,13 @@ public class AuditorEngagementPage extends AbstractPage {
         System.out.println("Position: " + index);
 //        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
+
         if (index == engagementListEle.size() - 1) {
             scrollToFooter();
         } else
             hoverElement(engagementListEle.get(index + 1), engagementName);
         clickElement(engagementListEle.get(index), engagementName);
+
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
@@ -617,7 +658,6 @@ public class AuditorEngagementPage extends AbstractPage {
 
     public void sendKeyCompanyName(String companyName) throws InterruptedException {
         Thread.sleep(smallTimeOut);
-        companyName = "companyName123";
         sendKeyTextBox(eleSearch, companyName, "search key keyCompany");
         Thread.sleep(smallTimeOut);
     }
@@ -625,7 +665,6 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyCompanyName(String companyName)
     {
         try {
-            companyName = "companyName123";
             getLogger().info("companyName = " + companyName);
             boolean isCheckCompany = false;
             if (waitForVisibleOfLocator(By.xpath(companyEleStr))) {
@@ -1124,4 +1163,170 @@ public class AuditorEngagementPage extends AbstractPage {
     public void filter(){
         clickElement(eleFilter, "click to eleFilter");
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+
+    /**
+     * Verify engagement overview ToDo does not change when click on close icon popup / cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusDoesNotChange(boolean isCloseIconClick, String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement status does not change when click on close icon popup";
+        String strStepFail = "TestScript Failed: Verify engagement status change when click on close icon popup";
+        if(!isCloseIconClick){
+            strStepSuccess = "Verify engagement status does not change when click on cancel button";
+            strStepFail = "TestScript Failed: Verify engagement status change when click on cancel button";
+        }
+        try {
+            boolean result;
+            result = engagementStatusBefore.toLowerCase().equals(eleEngagementStatusList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertTrue(result, "Engagement stauts does not change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement status does not change when click on close icon popup / cancel button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoDoesNotChange(boolean isCloseIconClick, String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement ToDo does not change when click on close icon popup";
+        String strStepFail = "TestScript Failed: Verify engagement ToDo change when click on close icon popup";
+        if(!isCloseIconClick){
+            strStepSuccess = "Verify engagement ToDo does not change when click on cancel button";
+            strStepFail = "TestScript Failed: Verify engagement ToDo change when click on cancel button";
+        }
+        try {
+            boolean result;
+            result = engagementToDoBefore.toLowerCase().equals(eleEngagementToDoList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertTrue(result, "Engagement todo does not change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement status change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementStatusChange(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement status change when click on archive button";
+        String strStepFail = "TestScript Failed: Verify engagement status does not change when click on archive button";
+        try {
+            boolean result;
+            result = engagementStatusBefore.toLowerCase().equals(eleEngagementStatusList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertFalse(result, "Engagement stauts change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Verify engagement ToDo change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementToDoChange(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement ToDo change when click on archive button";
+        String strStepFail = "TestScript Failed: Verify engagement ToDo does not change when click on archive button";
+        try {
+            boolean result;
+            result = engagementToDoBefore.toLowerCase().equals(eleEngagementToDoList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertFalse(result, "Engagement todo change");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Get engagement overview status and Todo follow engagement name
+     * @param engagementName : engagement need search
+     * @throws Exception
+     */
+    public void getEngagementStatusAndToDoBefor(String engagementName){
+        int index = findEngagementName(engagementName);
+        if(index != -1){
+            engagementStatusBefore = eleEngagementStatusList.get(index).getText().trim();
+            engagementToDoBefore = eleEngagementToDoList.get(index).getText().trim();
+        }
+    }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     **/
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+    /**
+     * Verify engagement status complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementStatusIsComplete(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement status is complete";
+        String strStepFail = "TestScript Failed: Verify engagement status is not complete";
+        try {
+            boolean result;
+            result = ENGAGEMENT_STATUS_COMPLETE.equals(eleEngagementStatusList.get(index).getText().trim().toLowerCase());
+            org.testng.Assert.assertTrue(result, "Engagement stauts is complete");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     * Verify engagement ToDo complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+
+    public void verifyEngagementToDoIsComplete(String engagementName) {
+        int index = findEngagementName(engagementName);
+        String strStepSuccess = "Verify engagement ToDo is complete";
+        String strStepFail = "TestScript Failed: Verify engagement ToDo is not complete";
+        try {
+            boolean result;
+            String strEngagementToDo =  eleEngagementToDoList.get(index).getText().trim().toLowerCase().split("%")[0];
+            result = ENGAGEMENT_TODO_COMPLETE.equals(strEngagementToDo);
+            org.testng.Assert.assertTrue(result, "Engagement ToDo is complete");
+            NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(strStepFail, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     **/
 }

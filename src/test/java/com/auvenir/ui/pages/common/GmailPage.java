@@ -1,6 +1,5 @@
 package com.auvenir.ui.pages.common;
 
-import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -39,7 +38,8 @@ public class GmailPage extends AbstractPage {
         return eleProfileIcn;
     }
 
-    @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
+    //  Old Xpath gmail:  @FindBy(xpath = "//a[@class='gb_Fa gb_rf gb_yf gb_xb']")
+    @FindBy(xpath = "//a[contains(@href,'https://accounts.google.com/Logout')]")
     private WebElement eleSignOutBtn;
 
     public WebElement getEleSignOutBtn() {
@@ -174,6 +174,7 @@ public class GmailPage extends AbstractPage {
 
             waitForVisibleElement(eleProfileIcn, "eleProfileIcn");
             clickElement(eleProfileIcn, "click to eleProfileIcn");
+            Thread.sleep(2000);
             waitForVisibleElement(eleSignOutBtn, "eleSignOutBtn");
             clickElement(eleSignOutBtn, "click to eleSignOutBtn");
             Thread.sleep(3000);
@@ -341,7 +342,7 @@ public class GmailPage extends AbstractPage {
         return elePassword;
     }
 
-//    @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
+    //    @FindBy(xpath = "//div[@class='yW']/span[@email='no-reply@auvenir.com']")
     @FindBy(xpath = "//div[@class='yW']/span[@email='andi@auvenir.com']")
     private WebElement eleEmailAuvenir;
 
@@ -364,7 +365,10 @@ public class GmailPage extends AbstractPage {
 
     public void goGMail() {
         try {
-            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
+//            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
+            getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            getDriver().manage().window().maximize();
         } catch (Exception e) {
             getLogger().info("Unable to go to Gmail.");
         }
@@ -489,19 +493,19 @@ public class GmailPage extends AbstractPage {
      */
     public void signInGmail(String email, String password) {
         try {
-            Thread.sleep(3000);
+//            Thread.sleep(3000);
             getLogger().info("Try to login GMail");
-            if(!getDriver().getCurrentUrl().contains("accounts.google.com")){
+            if (!getDriver().getCurrentUrl().contains("accounts.google.com")) {
                 clickElement(signButtonEle, "signButtonEle");
             }
             sendKeyTextBox(eleEmail, email, "eleEmail");
             sendTabkey(eleEmail, "eleEmail");
             sendEnterkey(eleEmail, "eleEmail");
             getLogger().info("Send email: " + email);
-            Thread.sleep(2000);
+//            Thread.sleep(2000);
             sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
@@ -530,7 +534,7 @@ public class GmailPage extends AbstractPage {
             sendKeyTextBox(inputSearch, GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_SEARCHMAIL"), "Search Email");
             clickElement(buttonSearch, "Button Search");
             //waitForCssValueChanged(divSearchResultHidden, "Hidden div", "display", "none");
-            GeneralUtilities.waitSomeSeconds(5);
+            waitSomeSeconds(5);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -541,19 +545,20 @@ public class GmailPage extends AbstractPage {
      */
     public void clickOnboardingInvitationLink() {
         try {
-            clickElement(rowSentEmail, "Row Sent Email");
             clickElement(buttonStartEngagement, "Button Start Engagement");
-
-            /* TODO code for wrong link on invited client email unfixed - still unfixed
-            String link = buttonStartEngagement.getAttribute("href");
-            link = link.replace(":3083", "");
-            GeneralUtilities.loadURL(getDriver(), link);*/
-
-            /*
-            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
-            wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
-            */
             getLogger().info("Redirecting for Gmail to Auvenir Welcome Page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Enter the email(after search) n click 'Start Engagement' button to go to Auvenir site
+     */
+    public void clickToEmailDetail() {
+        try {
+            clickElement(rowSentEmail, "Row Sent Email");
+            getLogger().info("Redirecting for Email Detail");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -653,4 +658,92 @@ public class GmailPage extends AbstractPage {
         waitForClickableOfElement(eleEmailAuvenir, "Non-reply Active email");
         clickElement(eleEmailAuvenir, "Non-reply Active email");
     }
+
+    /**
+     * Refactored by huy.huynh on 26/06/2017.
+     * Refactor ClientTest
+     */
+    @FindBy(className = "CToWUd")
+    private WebElement imgAuvenirHeader;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[1]")
+    private WebElement titleGreeting;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[2]")
+    private WebElement titleAnnouncement;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[3]")
+    private WebElement titleAuvenirIntroducing;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[4]")
+    private WebElement titleIntroducingBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[5]")
+    private WebElement titleFirstBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[6]")
+    private WebElement titleSecondBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[7]")
+    private WebElement titleThirdBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[8]")
+    private WebElement titleFeedback;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[9]")
+    private WebElement titleGoodbye;
+
+    String cssGreeting = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.75px; line-height: 0; margin-top: 15px; color: #363a3c";
+    String cssBody = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-weight: normal; font-size: 14px; line-height: 1.6; color: #707070; padding: 0px; margin: 0px";
+
+    public void verifyHeaderImage(String partialSrc) {
+        validateAttributeContain(imgAuvenirHeader, "src", partialSrc, "Auvenir Image Header");
+    }
+
+    public void verifyGreetingTitle(String text) {
+        validateElementTextContain(titleGreeting, text, "Title Greeting");
+        //validateAttributeElement(titleGreeting, "style", cssGreeting);
+    }
+
+    public void verifyAnnouncementTitle(String text) {
+        validateElementTextContain(titleAnnouncement, text, "Title Announcement");
+        //validateAttributeElement(titleAnnouncement, "style", cssBody);
+    }
+
+    public void verifyAuvenirIntroducingTitle(String text) {
+        validateElementTextContain(titleAuvenirIntroducing, text, "Title Auvenir Introducing");
+        //validateAttributeElement(titleAuvenirIntroducing, "style", cssBody);
+    }
+
+    public void verifyIntroducingBenefitTitle(String text) {
+        validateElementTextContain(titleIntroducingBenefit, text, "Title Introducing Benefit");
+        //validateAttributeElement(titleIntroducingBenefit, "style", cssBody);
+    }
+
+    public void verifyFirstBenefitTitle(String text) {
+        validateElementTextContain(titleFirstBenefit, text, "Title First Benefit");
+        //validateAttributeElement(titleFirstBenefit, "style", cssBody);
+    }
+
+    public void verifySecondBenefitTitle(String text) {
+        validateElementTextContain(titleSecondBenefit, text, "Title Second Benefit");
+        //validateAttributeElement(titleSecondBenefit, "style", cssBody);
+    }
+
+    public void verifyThirdBenefitTitle(String text) {
+        validateElementTextContain(titleThirdBenefit, text, "Title Third Benefit");
+        //validateAttributeElement(titleThirdBenefit, "style", cssBody);
+    }
+
+    public void verifyFeedbackTitle(String text) {
+        validateElementTextContain(titleFeedback, text, "Title Feedback");
+        //validateAttributeElement(titleFeedback, "style", cssBody);
+    }
+
+    public void verifyGoodbyeTitle(String text) {
+        validateElementTextContain(titleGoodbye, text, "Title Goodbye");
+        //validateAttributeElement(titleGoodbye, "style", cssBody);
+    }
+
+    /*-----------end of huy.huynh on 26/06/2017.*/
 }

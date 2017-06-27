@@ -2,6 +2,7 @@ package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
@@ -12,7 +13,7 @@ import org.testng.annotations.Test;
 
 /**
  * Created by toan.nguyenp on 5/8/2017.
- * Updated by minh.nguyen on June 16, 2017
+ * Refactored by minh.nguyen on June 16, 2017
  */
 public class AuditorEngagementReviewTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
@@ -21,7 +22,8 @@ public class AuditorEngagementReviewTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private AuditorCreateToDoService auditorCreateToDoService;
     private AuditorEditCategoryService auditorEditCategoryService;
-    String auditorId;
+    private MarketingService marketingService;
+    String auditorId, auditorPwd;
     String timeStamp;
     String firstEngagementTitleOnWeb;
 
@@ -31,13 +33,15 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
 
         try
         {
             String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
             String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.createNewEnagement(engagementNameUnix, "engagement type", companyNameUnix);
             auditorEngagementService.sendKeyCompanyName(companyNameUnix);
@@ -60,9 +64,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortCompanyNameAscending(true);
             auditorEngagementService.verifySortCompanyNameDescending(false);
@@ -82,9 +88,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementNameAscending(true);
             auditorEngagementService.verifySortEngagementNameDescending(false);
@@ -104,9 +112,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementStatusAscending(true);
             auditorEngagementService.verifySortEngagementStatusDescending(false);
@@ -152,9 +162,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementCompleteToDosAscending(true);
             auditorEngagementService.verifySortEngagementCompleteToDosDescending(false);
@@ -174,9 +186,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
             auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
@@ -196,9 +210,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
             auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
@@ -218,9 +234,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementLastActivityAscending(true);
             auditorEngagementService.verifySortEngagementLastActivityDescending(false);
@@ -240,9 +258,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid Userminh", "Auditor");
-            auditorEngagementService.loginWithUserRole(auditorId);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementDueDateAscending(true);
             auditorEngagementService.verifySortEngagementDueDateDescending(false);

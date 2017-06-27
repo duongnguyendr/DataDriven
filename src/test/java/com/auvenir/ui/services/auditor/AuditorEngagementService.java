@@ -1,16 +1,13 @@
 package com.auvenir.ui.services.auditor;
 
+import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
 import com.auvenir.ui.services.AbstractService;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created by cuong.nguyen on 4/27/2017.
@@ -38,7 +35,7 @@ public class AuditorEngagementService extends AbstractService {
         try {
             auditorEngagementPage.scrollPageDown();
             getLogger().info("verify footer page.");
-            auditorEngagementPage.verifyFooter();
+            auditorEngagementPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
             auditorEngagementPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");
@@ -48,6 +45,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.scrollPageUp();
             NXGReports.addStep("verify footer page", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -57,24 +55,18 @@ public class AuditorEngagementService extends AbstractService {
 
         try {
             getLogger().info("navigate to client Settings page.");
-            //auditorEngagementPage.navigateToClientSettingsPage();
+            //auditorEngagementTeamPage.navigateToClientSettingsPage();
             NXGReports.addStep("navigate to client setting tab.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to client settings tab.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
 
     public void verifyAuditorEngagementPage() {
-
-        try {
             getLogger().info("verify Auditor Engagement page.");
             auditorEngagementPage.verifyAuditorEngagementPage();
-            NXGReports.addStep("verify Auditor Engagement page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify Auditor Engagement page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        }
     }
 
     public void navigateToContactsTab() {
@@ -83,20 +75,15 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.navigateToContactsTab();
             NXGReports.addStep("navigate to Contacts page.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Contacts page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
 
     public void navigateToSettingsPage() {
-        try {
             getLogger().info("navigate to Auditor Settings page.");
             auditorEngagementPage.navigateToSettingsPage();
-            NXGReports.addStep("navigate Auditor Setting page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("navigate to Auditor Settings page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
     }
 
     public void clickNewEnagementButton() {
@@ -105,6 +92,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.clickNewEnagementButton();
             NXGReports.addStep("click Add New engagement button.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("click Add New engagement button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
@@ -114,10 +102,10 @@ public class AuditorEngagementService extends AbstractService {
         try {
             getLogger().info("navigate to Engagement detail page.(Hard code)");
             final String companyName = "Company Auvenir";
-            int index = auditorEngagementPage.findEngagementName(engagementName);
+            int index = auditorEngagementTeamPage.findEngagementName(engagementName);
             if(index == -1){
                 createAndSelectNewEnagement(engagementName, "", companyName);
-            }else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            }else auditorEngagementTeamPage.viewEngagementDetailsPage(engagementName);
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -132,8 +120,10 @@ public class AuditorEngagementService extends AbstractService {
             if(index == -1){
                 createAndSelectNewEnagement(engagementName, "", companyName);
             }else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            auditorEngagementPage.waitForProgressOverlayIsClosed();
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -144,6 +134,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.enterEngagementDetailWithName(engagementTitle, engagementName);
             NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -168,7 +159,7 @@ public class AuditorEngagementService extends AbstractService {
         auditorNewEngagementPage.verifyNewEngagementPage();
         auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company);
         // R2: Change bussiness rule, need to mark a commment this line.
-//        auditorEngagementPage.clickEngagementByPosition(auditorEngagementPage.findEngagementName(engagementName));
+//        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
     }
     public void createNewEnagement(String engagementName, String engagementType, String company) throws Exception {
         getLogger().info("Create New Enagement.");
@@ -183,6 +174,7 @@ public class AuditorEngagementService extends AbstractService {
             auditorEngagementPage.auditorPageHeaderContent();
             NXGReports.addStep("verify content header auditor engagement page.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("verify content header auditor engagement pag.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -280,5 +272,119 @@ public class AuditorEngagementService extends AbstractService {
     public void verifySortEngagementDueDateDescending(boolean isAsc) throws InterruptedException {
         auditorEngagementPage.sortEngagementDueDate(isAsc);
     }
+
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+
+    /**
+     * Verify engagement status does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnCloseIconPopup(String engagementName){
+        auditorEngagementPage.verifyEngagementStatusDoesNotChange(true,engagementName);
+    }
+
+    /**
+     * Verify engagement ToDo does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnCloseIconPopup(String engagementName){
+        auditorEngagementPage.verifyEngagementToDoDoesNotChange(true,engagementName);
+    }
+
+    /**
+     * Verify engagement status does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnCancelButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementStatusDoesNotChange(false,engagementname);
+    }
+
+    /**
+     * Verify engagement ToDo does not change when click on close icon popup
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnCancelButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementToDoDoesNotChange(false,engagementname);
+    }
+
+    /**
+     * Verify engagement status change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementStatusWhenClickOnArchiveButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementStatusChange(engagementname);
+    }
+
+    /**
+     * Verify engagement ToDo change when click on archive button
+     * @author : TanPham
+     * @date : 2017/06/20
+     */
+    public void verifyEngagementToDoWhenClickOnArchiveButtonPopup(String engagementname){
+        auditorEngagementPage.verifyEngagementToDoChange(engagementname);
+    }
+
+    /**
+     * Get engagement status and ToDo before
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void getEngagementStatusAndToDoBefor(String engagementName){
+        auditorEngagementPage.getEngagementStatusAndToDoBefor(engagementName);
+    }
+    /**
+     * verifyAuditorMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - Start
+     *
+     **/
+    /**
+     * Verify engagement status complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+    public void verifyEngagementStatusIsComplete(String engagementName) {
+        auditorEngagementPage.verifyEngagementStatusIsComplete(engagementName);
+    }
+    /**
+     * Verify engagement ToDo complete
+     * @author : TanPham
+     * @date : 2017/06/21
+     */
+
+    public void verifyEngagementToDoIsComplete(String engagementName) {
+       auditorEngagementPage.verifyEngagementToDoIsComplete(engagementName);
+    }
+    /**
+     * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
+     *
+     **/
+	public void verifyEngagementExisted(String engagementName) {
+		try {
+			int index = auditorEngagementPage.findEngagementName(engagementName);
+			if (index != -1) {
+				NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.PASSED, null);
+			} else {
+				NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.FAILED,
+						new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+            AbstractService.sStatusCnt++;
+			NXGReports.addStep("Verify engagement: " + engagementName + " exists.", LogAs.FAILED,
+					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+		}
+	}
+
 }
 
