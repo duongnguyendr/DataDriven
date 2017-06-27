@@ -43,12 +43,16 @@ public class ResultPageWriter {
     }
 
     public static void printContent(PrintWriter printWriter, ArrayList<String> passedBrowserTest, ArrayList<String> failedBrowserTest, ArrayList<String> skippedBrowserTest , List<ITestResult> passedTests, List<ITestResult> failedTests, List<ITestResult> skippedTests, long startTime, long endTime) {
-        printWriter.println("<td id=\"content\">\n\t\t<div id='tabs' style=\"border-style: none;\"> \n\t\t  <ul> \n\t\t\t<li><a href='#tabs-1'>CHORME</a></li> \n\t\t\t<li><a href='#tabs-2'>FIREFOX</a></li>\n\t\t  </ul> ");
+        printWriter.println("<td id=\"content\">\n\t\t<div id='tabs' style=\"border-style: none;\"> \n\t\t  <ul> \n\t\t\t<li><a href='#tabs-1'>CHORME</a></li> \n\t\t\t<li><a href='#tabs-2'>FIREFOX</a></li>\n\t\t <li><a href='#tabs-3'>SAFARI</a></li>\n\t\t  </ul> ");
         printWriter.println("\n\t\t  <div id='tabs-1'> \n\t\t\t\t<div style=\"width:100%;\" id='myLineChart'>");
         printContentFollowBrowser(printWriter, passedBrowserTest, failedBrowserTest, skippedBrowserTest, passedTests, failedTests, skippedTests, startTime, endTime ,"CHROME_");
         printWriter.println("</div> \n\t\t  </div> \n\t\t  </div>");
-        printWriter.println("\n\t\t  <div id='tabs-2'> \n\t\t\t<div style=\"width:100%;\" id='myBarChart'></div> \n\t\t  </div>");
-        printWriter.println("\n\t\t</div>");
+        printWriter.println("\n\t\t  <div id='tabs-2'> \n\t\t\t<div style=\"width:100%;\" id='myBarChart'>");
+        printContentFollowBrowser(printWriter, passedBrowserTest, failedBrowserTest, skippedBrowserTest, passedTests, failedTests, skippedTests, startTime, endTime ,"FIREFOX_");
+        printWriter.println("</div> \n\t\t  </div> \n\t\t  </div>");
+        printWriter.println("\n\t\t  <div id='tabs-3'> \n\t\t\t<div style=\"width:100%;\" id='myPieChart'>");
+        printContentFollowBrowser(printWriter, passedBrowserTest, failedBrowserTest, skippedBrowserTest, passedTests, failedTests, skippedTests, startTime, endTime ,"SAFARI_");
+        printWriter.println("</div> \n\t\t  </div> \n\t\t  </div>");
         printWriter.print("</td>\n </tr>");
 
         /*int var13 = passedTests.size() + failedTests.size() + skippedTests.size();
@@ -166,7 +170,8 @@ public class ResultPageWriter {
         int skipCount = countStatusStepTest(skippedBrowserTest, skippedTests, browserName);
         //int var13 = passedTests.size() + failedTests.size() + skippedTests.size();
         int var13 = passCount + failCount + skipCount;
-        printWriter.println("\n\t\t<div class=\"info\" style=\"border-style: none;\" >\n\t\t\tThe following pie chart demonstrates the percentage of Passed, Failed and Skipped Test Cases<br/>\n\t\t\tTime Taken for Executing below Test Cases: <b>" + getExecutionTime(startTime, endTime) + "</b> <br/>\n" + "\t\t\tCurrent Run Number: <b>Run " + 1 + "</b>\n" + "\t\t</div>\n" + "\t\t<div class=\"info\" style=\"border-style: none;\"><br/>" + "\t\t\t<b>Run Description</b>" + "\t\t\t<br/><br/>" + NXGReports.currentRunDescription + "\t\t</div>" + "\t\t<div>\n");
+        String executionTime = getExecutionTimeFollowBrowser(passedBrowserTest,failedBrowserTest,skippedBrowserTest,passedTests,failedTests,skippedTests,browserName);
+        printWriter.println("\n\t\t<div class=\"info\" style=\"border-style: none;\" >\n\t\t\tThe following pie chart demonstrates the percentage of Passed, Failed and Skipped Test Cases<br/>\n\t\t\tTime Taken for Executing below Test Cases: <b>" + executionTime + "</b> <br/>\n" + "\t\t\tCurrent Run Number: <b>Run " + 1 + "</b>\n" + "\t\t</div>\n" + "\t\t<div class=\"info\" style=\"border-style: none;\"><br/>" + "\t\t\t<b>Run Description</b>" + "\t\t\t<br/><br/>" + NXGReports.currentRunDescription + "\t\t</div>" + "\t\t<div>\n");
         if(TestDirectory.recordSuiteExecution) {
             printWriter.println("<p id=\"showmenu\">Click Me to Show/Hide the Execution Video</p><div id=\"video\" class=\"video\"><object classid=\"clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921\" codebase=\"http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab\" width=\"400\" height=\"300\" id=\"vlc\" events=\"True\"> <param name=\"Src\" value=\"suite.mov\"></param> <param name=\"ShowDisplay\" value=\"True\" ></param> <param name=\"AutoLoop\" value=\"no\"></param> <param name=\"AutoPlay\" value=\"no\"></param> <embed type=\"application/x-google-vlc-plugin\" name=\"vlcfirefox\" autoplay=\"no\" loop=\"no\" width=\"99%\" height=\"100%\" target=\"suite.mov\"></embed> </object></div>");
         } else {
@@ -241,5 +246,34 @@ public class ResultPageWriter {
             i++;
         }
 
+    }
+
+    private static long getExecutionTimeFollowBrowser(List<ITestResult> resultTests,ArrayList<String> resultBrowserTest, String browserName) {
+        long var1 = 0L;
+        Iterator var5 = resultTests.iterator();
+        int i=0;
+        while(var5.hasNext()) {
+            ITestResult testResult = (ITestResult) var5.next();
+            if(resultBrowserTest.get(i).equals(browserName)) {
+                var1+= testResult.getEndMillis() - testResult.getStartMillis();
+            }
+            i++;
+        }
+        return var1;
+    }
+    private static String getExecutionTimeFollowBrowser(ArrayList<String> passedBrowserTest, ArrayList<String> failedBrowserTest, ArrayList<String> skippedBrowserTest ,
+                                                        List<ITestResult> passedTests, List<ITestResult> failedTests, List<ITestResult> skippedTests,
+                                                        String browserName) {
+        long var1 = 0L;
+        var1+= getExecutionTimeFollowBrowser(passedTests,passedBrowserTest,browserName);
+        var1+= getExecutionTimeFollowBrowser(failedTests,failedBrowserTest,browserName);
+        var1+= getExecutionTimeFollowBrowser(skippedTests,skippedBrowserTest,browserName);
+
+        if(var1 > 1000L) {
+            var1 /= 1000L;
+            return var1 + " Sec";
+        } else {
+            return var1 + " Milli Sec";
+        }
     }
 }
