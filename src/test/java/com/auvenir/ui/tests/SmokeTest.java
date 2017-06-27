@@ -497,11 +497,12 @@ public class SmokeTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
+        String uploadFilePath = GenericService.sDirPath + pathOfUploadLocation;
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.uploadFileNewRequestByClient(GenericService.sDirPath + pathOfUploadLocation, fileName);
+            auditorCreateToDoService.uploadFileNewRequestByClient(uploadFilePath, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -519,8 +520,6 @@ public class SmokeTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        //String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        //String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
@@ -528,11 +527,13 @@ public class SmokeTest extends AbstractTest {
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User2", "File Upload Name");
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
+        String uploadFilePath = GenericService.sDirPath + pathOfUploadLocation;
+        String downloadFilePath = GenericService.sDirPath + pathOfDownloadLocation;
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.auditorDownloadNewRequestFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.auditorDownloadNewRequestFile(uploadFilePath, downloadFilePath, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {
