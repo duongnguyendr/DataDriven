@@ -31,7 +31,6 @@ public class AuditorSignUpTest extends AbstractTest {
 
     // personal information
     final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
-    //    String strEmail = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 2);
     //    String strEmail = "thuan.duong@titancorpvn.com";
     final String strRoleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
     final String strPhone = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
@@ -50,20 +49,8 @@ public class AuditorSignUpTest extends AbstractTest {
     final String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
     final String strAffName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
     final String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
-    /*
-    security information
-    final String strPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Password", "Valid Value");
-    */
 
-    /*
-    final String fullNameCreate = "Test Login Auditor";
-    final String fullNameCreate = "Minh Nguyen";
-    final String emailCreate = GenericService.readExcelData(testData, "AuditorSignUpTest", 1, 1);
-    final String emailCreate = "ff.minhtest@gmail.com";
-    */
     final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-//    final String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User2", "Admin");
-//    final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 
     @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User")
     public void verifyRegisterAndActiveAuditorUser() throws Exception {
@@ -76,7 +63,6 @@ public class AuditorSignUpTest extends AbstractTest {
         final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         final String strAdminEmail = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
         final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
-        //        final String emailCreate = "auvenirad@gmail.com";
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
