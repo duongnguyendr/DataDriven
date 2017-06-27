@@ -853,7 +853,7 @@ public class AbstractPage {
      * @Description: Send a String to textBox.
      * @Description: Send a String to textBox.
      */
-    public void sendKeyTextBox(WebElement element, String text, String elementName) {
+    public boolean sendKeyTextBox(WebElement element, String text, String elementName) {
         getLogger().info("Try to sendKey on : " + elementName);
         try {
             waitForClickableOfElement(element, "wait for click to " + elementName);
@@ -862,11 +862,13 @@ public class AbstractPage {
             waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
             NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
+            return  true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
             getLogger().info(e);
             NXGReports.addStep("Unable to sendKey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 

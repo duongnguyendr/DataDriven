@@ -23,7 +23,6 @@ import java.util.Date;
  * Refactored by Minh Nguyen on June 26, 2017
  */
 public class AuditorTest extends AbstractTest{
-//    AdminLoginPage adminLoginPage = null;
     AuditorService auditorService;
     AuditorEngagementService auditorEngagementService;
     AbstractService abstractService;
@@ -34,31 +33,7 @@ public class AuditorTest extends AbstractTest{
     Date date = null;
     static String CurrentDate = null;
     private MarketingService marketingService;
-    String auditorId, auditorPwd;
-
-    @BeforeClass
-    public void preCondition() {
-        /*getLogger().info("Delete existed Auditor user.");
-        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
-        String sURL = null;
-        try {
-
-            sURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL") + GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID") + "/delete";
-            getLogger().info("Call api to delete existed Audit user: " + sURL);
-            //driver.get(sURL);
-            Response response = given().keystore(GenericService.sDirPath + "/src/tests/resources/auvenircom.jks", "changeit").get(sURL);
-            if (response.getStatusCode() == 200) {
-                getLogger().info("Existed auditor user has been deleted.");
-                NXGReports.addStep("Auditor is deleted sucessfully", LogAs.PASSED, null);
-            } else if (response.getStatusCode() == 404) {
-                getLogger().info("the auditor is not existed in database.");
-            } else {
-            }
-        } catch (Exception e) {
-
-        }*/
-        //abstractService.deleteUserUsingApi(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-    }
+    String auditorId,auditorIdLogin , auditorPwd;
 
     @Test(priority = 1, enabled = true, description = "To Verify the display of Elements in Auditor Login Page")
     public void verifyAuditorLoginPage() throws Exception {
@@ -84,65 +59,31 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Auditor Onboarding Page")
-    public void verifyAuditorOnboardingPage() throws Exception {
-        testCaseId = "auditor_Onboarding";
-        auditorService = new AuditorService(getLogger(), getDriver());
-        try {
-            sData = GenericService.toReadExcelData(testCaseId);
-            getLogger().info("update status of auditor to onboarding.");
-            abstractService.updateUserOnboardingUsingAPI(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            getLogger().info("Login with auditor role.");
-            abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            auditorService.verifyPersonalPage();
-            auditorService.verifyInputPersonalInfomation(sData[1], sData[2]);
-            auditorService.verifyFirmPage();
-            auditorService.verifyInputFirmInformation(sData[3], sData[4], sData[5], sData[6] + ", " + sData[7], sData[8], sData[9], sData[10], sData[9], sData[11]);
-//            auditorService.verifyInputAffliateField(sData[9]); Affiliate checkbox disabled.
-            auditorService.verifyFooterPage();
-            auditorService.verifySecurityOnBoardingPage();
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        } catch (Exception e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Engagement Page")
-    public void verifyAuditorEngagementPage() throws Exception {
+    @Test(priority = 2, enabled = true, description = "To verify the header of Auditor Engagement Page")
+    public void verifyHeaderAuditorEngagementPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
-        dateFormat = new SimpleDateFormat("MM/d/yyyy");
-        date = new Date();
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            CurrentDate = dateFormat.format(date);
-            abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID"));
-            auditorService.verifyAdminLoginPage();
-            auditorService.verifyChangeActiveStatus("AUDITOR",
-                    GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"), CurrentDate);
-            abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorService.verifyheaderPage();
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorService.verifyFooterPage();
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
+            NXGReports.addStep("To verify the header of Auditor Engagement Page", LogAs.PASSED, null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("To verify the header of Auditor Engagement Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         } catch (Exception e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("To verify the header of Auditor Engagement Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Auditor Dashboard Page")
+    @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Dashboard Page")
     public void verifyAuditorDashboardPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -164,7 +105,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "To Verify the display of Elements in Engagement Requests Page")
+    @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Engagement Requests Page")
     public void verifyEngagementRequestsPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -186,7 +127,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Engagement File Manager Page")
+    @Test(priority = 5, enabled = true, description = "To Verify the display of Elements in Engagement File Manager Page")
     public void verifyEngagementFilesPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -209,7 +150,7 @@ public class AuditorTest extends AbstractTest{
 
     }
 
-    @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Engagement Activity Page")
+    @Test(priority = 6, enabled = true, description = "To Verify the display of Elements in Engagement Activity Page")
     public void verifyEngagementActivityPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -231,7 +172,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Add New Client Page")
+    @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Add New Client Page")
     public void verifyAddNewClientPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
@@ -252,7 +193,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Auditor Client Page")
+    @Test(priority = 8, enabled = true, description = "To Verify the display of Elements in Auditor Client Page")
     public void verifyAuditorClientPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
@@ -273,7 +214,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "To Verify the display of Elements in Auditor Settings Account Page")
+    @Test(priority = 9, enabled = true, description = "To Verify the display of Elements in Auditor Settings Account Page")
     public void auditorSettingsAccountPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
@@ -297,7 +238,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 11, enabled = true, description = "To Verify the display of Elements in Auditor Settings Notification Page")
+    @Test(priority = 10, enabled = true, description = "To Verify the display of Elements in Auditor Settings Notification Page")
     public void verifyAuditorSettingsNotificationPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
@@ -318,7 +259,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 12, enabled = true, description = "To Verify the display of Elements in Archive Page")
+    @Test(priority = 11, enabled = true, description = "To Verify the display of Elements in Archive Page")
     public void verifyEngagementArchivePage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -339,7 +280,7 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 13, enabled = true, description = "To Verify the display of Elements in Clients Page")
+    @Test(priority = 12, enabled = true, description = "To Verify the display of Elements in Clients Page")
     public void verifyEngagementClientPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());

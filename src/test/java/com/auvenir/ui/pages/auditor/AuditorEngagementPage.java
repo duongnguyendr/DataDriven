@@ -420,7 +420,6 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyAuditorEngagementPage() {
         boolean isCompareText = false;
         waitForVisibleElement(myEngagementTextEle, "myEngagementTextEle");
-//        validateElementText(myEngagementTextEle, "My Engagements");
         isCompareText = validateElementText(myEngagementTextEle, "All Engagements");
         if(isCompareText)
         {
@@ -428,6 +427,7 @@ public class AuditorEngagementPage extends AbstractPage {
         }
         else
         {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Auditor Engagement", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
