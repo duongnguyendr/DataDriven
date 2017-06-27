@@ -5,6 +5,7 @@
 
 package htmlreport.com.nxgreport.listners;
 
+import com.auvenir.utilities.GenericService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -44,7 +45,9 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
     List<ITestResult> passedTests = new ArrayList();
     List<ITestResult> failedTests = new ArrayList();
     List<ITestResult> skippedTests = new ArrayList();
-    public static ArrayList sTestName= new ArrayList<String>();
+    ArrayList passBrowserTest= new ArrayList<String>();
+    ArrayList failBrowserTest= new ArrayList<String>();
+    ArrayList skipBrowserTest= new ArrayList<String>();
     /*private Recorder recorder;
     private Recorder testRecorder;*/
     private boolean isSuiteStarted = false;
@@ -72,6 +75,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
 
     public void onTestFailure(ITestResult result) {
         this.failedTests.add(result);
+        failBrowserTest.add(GenericService.sBrowserTestNameList.get(GenericService.sBrowserTestNameList.size()-1));
         /*if(TestDirectory.recordTestExecution) {
             try {
                 this.testRecorder.stopRecording();
@@ -85,6 +89,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
     public void onTestSkipped(ITestResult result) {
         createReportDir(result);
         this.skippedTests.add(result);
+        skipBrowserTest.add(GenericService.sBrowserTestNameList.get(GenericService.sBrowserTestNameList.size()-1));
        /* if(TestDirectory.recordTestExecution) {
             try {
                 this.testRecorder.stopRecording();
@@ -98,9 +103,6 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
     public void onTestStart(ITestResult testResult) {
         createReportDir(testResult);
         setPlatfromBrowserDetails(testResult);
-        if (!sTestName.contains(testResult.getTestName().toString())) {
-            sTestName.add(testResult.getTestName().toString());
-        }
         /*if(TestDirectory.recordTestExecution) {
             try {
                 this.testRecorder = new Recorder(getReportDir(testResult) + TestDirectory.SEP + testResult.getName() + ".mov");
@@ -120,6 +122,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
                 result.setStatus(2);
                 result.setThrowable(new NXGReporterStepFailedException());
                 this.failedTests.add(result);
+                failBrowserTest.add(GenericService.sBrowserTestNameList.get(GenericService.sBrowserTestNameList.size()-1));
                 return;
             }
         } catch (NullPointerException var4) {
@@ -127,6 +130,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
         }
 
         this.passedTests.add(result);
+        passBrowserTest.add(GenericService.sBrowserTestNameList.get(GenericService.sBrowserTestNameList.size()-1));
        /* if(TestDirectory.recordTestExecution) {
             try {
                 this.testRecorder.stopRecording();
@@ -340,7 +344,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
             printWriter = new PrintWriter(TestDirectory.RUNDIR + TestDirectory.SEP + "Result.html");
             ResultPageWriter.printHeader(printWriter, this.passedTests.size(), this.failedTests.size(), this.skippedTests.size());
             ResultPageWriter.printMenuLink(printWriter, 0);
-            ResultPageWriter.printContent(printWriter, this.sTestName, this.passedTests, this.failedTests, this.skippedTests, startTime, endTime);
+            ResultPageWriter.printContent(printWriter, this.passBrowserTest, this.failBrowserTest, this.skipBrowserTest, this.passedTests, this.failedTests, this.skippedTests, startTime, endTime);
             ResultPageWriter.printFooter(printWriter);
         } catch (FileNotFoundException var15) {
             var15.printStackTrace();

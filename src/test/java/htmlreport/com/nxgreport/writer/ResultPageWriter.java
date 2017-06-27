@@ -42,10 +42,10 @@ public class ResultPageWriter {
         printWriter.println("\n </ul>\n </td>\n\n");
     }
 
-    public static void printContent(PrintWriter printWriter, ArrayList<String> nameTests, List<ITestResult> passedTests, List<ITestResult> failedTests, List<ITestResult> skippedTests, long startTime, long endTime) {
+    public static void printContent(PrintWriter printWriter, ArrayList<String> passedBrowserTest, ArrayList<String> failedBrowserTest, ArrayList<String> skippedBrowserTest , List<ITestResult> passedTests, List<ITestResult> failedTests, List<ITestResult> skippedTests, long startTime, long endTime) {
         printWriter.println("<td id=\"content\">\n\t\t<div id='tabs' style=\"border-style: none;\"> \n\t\t  <ul> \n\t\t\t<li><a href='#tabs-1'>CHORME</a></li> \n\t\t\t<li><a href='#tabs-2'>FIREFOX</a></li>\n\t\t  </ul> ");
         printWriter.println("\n\t\t  <div id='tabs-1'> \n\t\t\t\t<div style=\"width:100%;\" id='myLineChart'>");
-        printContentFollowBrowser(printWriter, passedTests, failedTests, skippedTests, startTime, endTime ,"CHROME_");
+        printContentFollowBrowser(printWriter, passedBrowserTest, failedBrowserTest, skippedBrowserTest, passedTests, failedTests, skippedTests, startTime, endTime ,"CHROME_");
         printWriter.println("</div> \n\t\t  </div> \n\t\t  </div>");
         printWriter.println("\n\t\t  <div id='tabs-2'> \n\t\t\t<div style=\"width:100%;\" id='myBarChart'></div> \n\t\t  </div>");
         printWriter.println("\n\t\t</div>");
@@ -160,8 +160,12 @@ public class ResultPageWriter {
         }
     }
 
-    private static void printContentFollowBrowser(PrintWriter printWriter, List<ITestResult> passedTests, List<ITestResult> failedTests, List<ITestResult> skippedTests, long startTime, long endTime, String browserName){
-        int var13 = passedTests.size() + failedTests.size() + skippedTests.size();
+    private static void printContentFollowBrowser(PrintWriter printWriter, ArrayList<String> passedBrowserTest, ArrayList<String> failedBrowserTest, ArrayList<String> skippedBrowserTest , List<ITestResult> passedTests, List<ITestResult> failedTests, List<ITestResult> skippedTests, long startTime, long endTime, String browserName){
+        int passCount = countStatusStepTest(passedBrowserTest,passedTests,browserName);
+        int failCount = countStatusStepTest(failedBrowserTest,failedTests,browserName);
+        int skipCount = countStatusStepTest(skippedBrowserTest, skippedTests, browserName);
+        //int var13 = passedTests.size() + failedTests.size() + skippedTests.size();
+        int var13 = passCount + failCount + skipCount;
         printWriter.println("\n\t\t<div class=\"info\" style=\"border-style: none;\" >\n\t\t\tThe following pie chart demonstrates the percentage of Passed, Failed and Skipped Test Cases<br/>\n\t\t\tTime Taken for Executing below Test Cases: <b>" + getExecutionTime(startTime, endTime) + "</b> <br/>\n" + "\t\t\tCurrent Run Number: <b>Run " + 1 + "</b>\n" + "\t\t</div>\n" + "\t\t<div class=\"info\" style=\"border-style: none;\"><br/>" + "\t\t\t<b>Run Description</b>" + "\t\t\t<br/><br/>" + NXGReports.currentRunDescription + "\t\t</div>" + "\t\t<div>\n");
         if(TestDirectory.recordSuiteExecution) {
             printWriter.println("<p id=\"showmenu\">Click Me to Show/Hide the Execution Video</p><div id=\"video\" class=\"video\"><object classid=\"clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921\" codebase=\"http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab\" width=\"400\" height=\"300\" id=\"vlc\" events=\"True\"> <param name=\"Src\" value=\"suite.mov\"></param> <param name=\"ShowDisplay\" value=\"True\" ></param> <param name=\"AutoLoop\" value=\"no\"></param> <param name=\"AutoPlay\" value=\"no\"></param> <embed type=\"application/x-google-vlc-plugin\" name=\"vlcfirefox\" autoplay=\"no\" loop=\"no\" width=\"99%\" height=\"100%\" target=\"suite.mov\"></embed> </object></div>");
@@ -169,7 +173,7 @@ public class ResultPageWriter {
             printWriter.println("<p id=\"showmenu\">No Video Recording Available</p>");
         }
 
-        printWriter.println("\t\t<div class=\"chartStyle summary\" style=\"width: 32%;background-color: #3B9C9C;\">\n\t\t\t<b>Summary</b><br/><br/>\n\t\t\t<table>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Execution Date</td>\n\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n\t\t\t\t\t<td>" + Utils.getCurrentTime() + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Total Test Cases</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + var13 + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Passed</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + passedTests.size() + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Failed</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + failedTests.size() + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Skipped</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + skippedTests.size() + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t</table> \n" + "\t\t</div>" + "\t\t<div class=\"chartStyle\" style=\"text-align: left;margin-left: 30px;float: left;width: 60%;\">\n" + "\t\t\t<div id=\"chart\" style=\"height:300px;color:black;\"></div>\n" + "\t\t</div>\n" + "\t</div>\n" + " <div>\n");
+        printWriter.println("\t\t<div class=\"chartStyle summary\" style=\"width: 32%;background-color: #3B9C9C;\">\n\t\t\t<b>Summary</b><br/><br/>\n\t\t\t<table>\n\t\t\t\t<tr>\n\t\t\t\t\t<td>Execution Date</td>\n\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n\t\t\t\t\t<td>" + Utils.getCurrentTime() + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Total Test Cases</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + var13 + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Passed</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + passCount + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Failed</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + failCount + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t\t<tr>\n" + "\t\t\t\t\t<td>Skipped</td>\n" + "\t\t\t\t\t<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "\t\t\t\t\t<td>" + skipCount + "</td>\n" + "\t\t\t\t</tr>\n" + "\t\t\t</table> \n" + "\t\t</div>" + "\t\t<div class=\"chartStyle\" style=\"text-align: left;margin-left: 30px;float: left;width: 60%;\">\n" + "\t\t\t<div id=\"chart\" style=\"height:300px;color:black;\"></div>\n" + "\t\t</div>\n" + "\t</div>\n" + " <div>\n");
         printWriter.println("<div style=\"float:left; color: #585858; font-size: 14px;\">\n\t\t<select id=\"tcFilter\" class=\"filter\">\n\t\t\t<option class=\"filterOption\" value=\"all\">All Methods</option>\n\t\t\t<option class=\"filterOption\" value=\"tests\">Test Methods</option>\n\t\t\t<option class=\"filterOption\" value=\"pass\">Passed Test Cases</option>\n\t\t\t<option class=\"filterOption\" value=\"fail\">Failed Test Cases</option>\n\t\t\t<option class=\"filterOption\" value=\"skip\">Skipped Test Cases</option>\n\t\t\t<option class=\"filterOption\" value=\"config\">Configuration Methods</option>\n\t\t</select>Filter The Methods Based on Selection</div>");
         printWriter.println("<table id=\"tableStyle\" class=\"chartStyle\" style=\"height:50px; float: left\">\n\t\t<tr>\t\t\t<th>Package Name</th>\n\t\t\t<th>Class Name</th>\n\t\t\t<th>Method Type</th>\n\t\t\t<th>Test Case Name</th>\n<th>Iteration</th>\t\t\t<th>Time</th>\n\t\t\t<th style=\"width: 7%\">Status</th>\n\t\t</tr>\n");
         writePassedData(printWriter, passedTests, 1);
@@ -178,10 +182,10 @@ public class ResultPageWriter {
         printWriter.print("</table>");
     }
 
-    private static int countStatusStepTest(List<ITestResult> testResult, String browserName){
+    private static int countStatusStepTest(ArrayList<String> browserTest , List<ITestResult> testResult, String browserName){
         int count =0;
         for(int i=0; i<testResult.size();i++){
-            if(GenericService.sBrowserTestNameList.equals(browserName)){
+            if(browserTest.get(i).equals(browserName)){
                 count++;
             }
         }
