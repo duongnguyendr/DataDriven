@@ -67,52 +67,44 @@ public class ClientTest extends AbstractTest {
 	 */
     @Test(priority = 1, enabled = true, description = "Inviting a client from Auditor")
     public void verifyInvitingNewClient() throws Exception {
-        getLogger().info("Verify Auditor inviting a client.");
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        adminService = new AdminService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 
-        clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
-        adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Admin Auvenir Password");
-        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
-        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
-        clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Client Email Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Client Assignee");
-
-//        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-//        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
-//        MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
-        //need precondition for save engagement name, and delete this engagement or client on acl
-
+        String auditUserId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Auditor");
+        String clientUserId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Client");
+        String adminUserId = GenericService.getTestDataFromExcelNoBrowserPrefix("ClientTestData", "Valid User", "Admin");
+        String newClientData[] = GenericService.toReadExcelData("creating_NewClient_Data");
         try {
-            gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
-
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            clientService.loginWithUserRole(auditUserId);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-
-            auditorTodoListService.navigateToInviteClientPage();
-            clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, "");
-            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent. ");
-
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
-            adminService.verifyPageLoad();
-            adminService.scrollToFooter(getDriver());
-            adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
-
+            auditorEngagementService.clickNewEnagementButton();
+            clientService.clickSelectClientButton();
+            clientService.verifyPleaseSelectClientText();
+            clientService.clickCreateNewClient();
+            clientService.verifyAddNewClientPopUpDisplayed();
+            clientService.inputDataKeyContactInfo(newClientData[2], clientUserId, newClientData[3]);
+            clientService.inputDataCompanyInfo(newClientData[1], newClientData[4], newClientData[5], newClientData[7], newClientData[8],
+                    newClientData[9], newClientData[9], newClientData[10]);
+            clientService.selectAllCheckboxInCompanyInformation();
+            clientService.clickAddNewClientButton();
+            clientService.closeSuccessToastMes();
+            clientService.clickSelectClientButton();
+            clientService.clickSelectClient(newClientData[2]);
+            clientService.verifyClientIsSelected(newClientData[2]);
+            clientService.sendInvitationName();
+            //
+            clientService.loginWithUserRole(adminUserId);
+            clientService.verifyAdminLoginPage();
+            //Will be update later. User cannot accept the link invitation to change the status "Onboarding"
+//            clientService.verifyUserIsChangeStatusOnTheList(userType, clientUserId, currentDate, expectedStatus);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Inviting New Client", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            NXGReports.addStep("Testscript Failed: Verify Inviting New Client", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         } catch (Exception e) {
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
+            getLogger().info(e);
+            NXGReports.addStep("Testscript Failed: Verify Inviting New Client", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -241,7 +233,7 @@ public class ClientTest extends AbstractTest {
             clientService.searchGmail(searchGmailName);
             clientService.searchGmail(searchGmailName);
             /* Edited: Doai Tran
-	    	Currently, Run manually we do not get an active mail
+            Currently, Run manually we do not get an active mail
 			clientService.accountActiveEmail();
 	    	clientService.verifyClientLoginPageAfterActiveAccount();
 			gmailPage.gmailLogout();
