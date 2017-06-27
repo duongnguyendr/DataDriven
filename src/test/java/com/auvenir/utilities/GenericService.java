@@ -726,11 +726,11 @@ public class GenericService {
      *              that we input on testNG.XML
      *              Data file: TestData.xlsx
      * @param SheetName
-     * @param sTestCaseID
-     * @param userRole
+     * @param rowName
+     * @param columnName
      * @return
      */
-    public static String getTestDataFromExcel(String SheetName,String sTestCaseID, String userRole){
+    public static String getTestDataFromExcel(String SheetName,String rowName, String columnName){
         String userData = null;
         try{
             String userDataExcel=null;
@@ -742,13 +742,13 @@ public class GenericService {
             int iRowNum = sht.getLastRowNum();
             int k = 0;
             for (int i = 1; i <= iRowNum; i++) {
-                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
                     int iCellNum = sht.getRow(i).getLastCellNum();
                     System.out.println("Row: " + i);
                     System.out.println("The number of Columns:" + iCellNum);
-                    System.out.println(userRole);
+                    System.out.println(columnName);
                     for (int j = 1; j <= iCellNum; j++) {
-                        if(sht.getRow(0).getCell(j).toString().equals(userRole)){
+                        if(sht.getRow(0).getCell(j).toString().equals(columnName)){
                             userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
                             System.out.println("Data login: "+userDataExcel);
                             break;
@@ -763,7 +763,7 @@ public class GenericService {
         }
         return userData;
     }
-    public static String getTestDataFromExcelNoBrowserPrefix(String SheetName,String sTestCaseID, String userRole){
+    public static String getTestDataFromExcelNoBrowserPrefix(String SheetName,String rowName, String columnName){
         String userData = null;
         try{
             String userDataExcel=null;
@@ -774,13 +774,13 @@ public class GenericService {
             int iRowNum = sht.getLastRowNum();
             int k = 0;
             for (int i = 1; i <= iRowNum; i++) {
-                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
                     int iCellNum = sht.getRow(i).getLastCellNum();
                     /*System.out.println("Row: " + i);
                     System.out.println("The number of Columns:" + iCellNum);*/
-                    System.out.println(userRole);
+                    System.out.println(columnName);
                     for (int j = 1; j <= iCellNum; j++) {
-                        if(sht.getRow(0).getCell(j).toString().equals(userRole)){
+                        if(sht.getRow(0).getCell(j).toString().equals(columnName)){
                             userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
                             System.out.println("Data login: "+userDataExcel);
                             break;
