@@ -3,10 +3,13 @@ package com.auvenir.ui.pages.auditor;
 import java.util.List;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.services.AbstractService;
+import com.kirwa.nxgreport.NXGReports;
+import com.kirwa.nxgreport.logging.LogAs;
+import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 //import org.testng.log4testng.Logger;
 import org.apache.log4j.Logger;
 
@@ -26,11 +29,11 @@ public class AuditorDashboardPage extends AbstractPage {
         return eleClientsLnk;
     }
 
-    @FindBy(id = "engagement-invite-button")
-    private WebElement eleInviteBtn;
+    @FindBy(id = "engagementUserBtn")
+    private WebElement inviteBtn;
 
-    public WebElement getEleInviteBtn() {
-        return eleInviteBtn;
+    public WebElement getInviteBtn() {
+        return inviteBtn;
     }
 
     @FindBy(id = "w-tm-tasksDropdownSelected")
@@ -118,17 +121,17 @@ public class AuditorDashboardPage extends AbstractPage {
     }
 
     @FindBy(id = "engagementFileMangerLink")
-    private WebElement eleFilesLnk;
+    private WebElement filesLink;
 
-    public WebElement getEleFilesLnk() {
-        return eleFilesLnk;
+    public WebElement getFilesLink() {
+        return filesLink;
     }
 
     @FindBy(id = "engagementActivityLink")
-    private WebElement eleActivityLnk;
+    private WebElement activityLink;
 
-    public WebElement getEleActivityLnk() {
-        return eleActivityLnk;
+    public WebElement getActivityLink() {
+        return activityLink;
     }
 
     @FindBy(id = "engagement-backButton")
@@ -240,39 +243,65 @@ public class AuditorDashboardPage extends AbstractPage {
     @FindBy(className = "w-activity-text")
     private WebElement eleYouCreatedTxt;
 
+    @FindBy(xpath = "//div[@id='engagementTodoLink']")
+    private WebElement toDosLink;
+
+    @FindBy(xpath = "//div[@id='engagementTeamLink']")
+    private WebElement teamLink;
+
+    @FindBy(xpath = "//input[@id='engOverview-dueDate']")
+    private WebElement overviewDueDateInput;
+
+    @FindBy(xpath = "//p[contains(text(),'Engagement Overview')]")
+    private WebElement engagementOverviewText;
+
+    @FindBy(xpath = "//div[@id='engOverview-status']")
+    private WebElement engagementOverviewStatus;
+
+    @FindBy(xpath = "//p[@id='engOverview-todo']")
+    private WebElement auditorCompleteToDo;
+
+    @FindBy(xpath = "//p[@id='engOverview-clientTodo']")
+    private  WebElement clientCompleteDocument;
+
+
     public WebElement getEleYouCreatedTxt() {
         return eleYouCreatedTxt;
     }
 
     public void verifyDisplayElementOnAuditorDashBoardPage(){
-        validateDisPlayedElement(eleDashboardLnk, "Dashboard Link");
-        validateDisPlayedElement(eleRequestLnk, "Requests Link");
-        validateDisPlayedElement(eleFilesLnk, "Files Link");
-        validateDisPlayedElement(eleActivityLnk, "Activity Link");
-        validateDisPlayedElement(eleTaskDrpDwn, "Current Tasks Dropdown");
-        for (WebElement eleTaskFormTxt : eleTaskFormTxts) {
-            validateDisPlayedElement(eleTaskFormTxt, eleTaskFormTxt.getText());
+        boolean isInviteBtn, isToDosLink, isFilesLink, isActivityLink, isTeamLink, isOverviewDueDateInput, isEngagementOverviewText, isEngagementOverviewStatus, isAuditorCompleteToDo, isClientCompleteDocument = false;
+        isInviteBtn = validateDisPlayedElement(inviteBtn, "Invite Button");
+        isToDosLink = validateDisPlayedElement(toDosLink, "To-Dos Link");
+        isFilesLink = validateDisPlayedElement(filesLink, "Files Link");
+        isActivityLink = validateDisPlayedElement(activityLink, "Activity Link");
+        isTeamLink = validateDisPlayedElement(teamLink, "Team Link");
+        isOverviewDueDateInput = validateDisPlayedElement(overviewDueDateInput, "Overview due date");
+        isEngagementOverviewText = validateDisPlayedElement(engagementOverviewText, "Engagement overview text");
+        isEngagementOverviewStatus = validateDisPlayedElement(engagementOverviewStatus, "Engagement overview status");
+        isAuditorCompleteToDo = validateDisPlayedElement(auditorCompleteToDo, "auditor complete todo");
+        isClientCompleteDocument = validateDisPlayedElement(clientCompleteDocument, "client complete todo");
+        if(isInviteBtn && isToDosLink && isFilesLink && isActivityLink && isTeamLink && isOverviewDueDateInput && isEngagementOverviewText && isEngagementOverviewStatus && isAuditorCompleteToDo && isClientCompleteDocument)
+        {
+            NXGReports.addStep("Verify Auditor Engagement page", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-        validateDisPlayedElement(eleSelectBtn, "Select Button");
-        validateDisPlayedElement(eleSetBtn, "Set Button");
-        validateDisPlayedElement(eleInviteBtn, "Invite Button");
-        validateDisPlayedElement(eleArchiveBtn, "Archive Button");
-        validateDisPlayedElement(eleMyClientTxt, "My Client Text");
-        validateDisPlayedElement(eleProfileImg, "Profile image");
-        validateDisPlayedElement(eleNoClientTxt, "No Client - Text");
-        validateDisPlayedElement(eleMyClientImg, "My client image");
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Auditor Engagement page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
     public void clickRequestLink(){
         waitForClickableOfElement(eleRequestLnk, "Requests Link");
         clickElement(eleRequestLnk, "Requests Link");
     }
     public void clickFilesLink(){
-        waitForClickableOfElement(eleFilesLnk, "File Link");
-        clickElement(eleFilesLnk, "File link");
+        waitForClickableOfElement(filesLink, "File Link");
+        clickElement(filesLink, "File link");
     }
     public void clickActivityLink(){
-        waitForClickableOfElement(eleActivityLnk, "Activity link");
-        clickElement(eleActivityLnk, "Activity link");
+        waitForClickableOfElement(activityLink, "Activity link");
+        clickElement(activityLink, "Activity link");
     }
     public void verifyDisplayElementInActivityPage(){
         validateDisPlayedElement(eleActivityFeedTxt, "Activity Feed Text");

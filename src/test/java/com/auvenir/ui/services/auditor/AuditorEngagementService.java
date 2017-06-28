@@ -82,21 +82,14 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     public void navigateToSettingsPage() {
-            getLogger().info("navigate to Auditor Settings page.");
-            auditorEngagementPage.navigateToSettingsPage();
+        getLogger().info("navigate to Auditor Settings page.");
+        auditorEngagementPage.navigateToSettingsPage();
     }
 
     public void clickNewEnagementButton() {
-        try {
-            getLogger().info("click Add New engagement button.");
-            auditorEngagementPage.clickNewEnagementButton();
-            NXGReports.addStep("click Add New engagement button.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("click Add New engagement button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
+        getLogger().info("click Add New engagement button.");
+        auditorEngagementPage.clickNewEnagementButton();
+}
 
     /*public void viewEngagementDetailsPage(String engagementName) {
         try {
@@ -169,14 +162,8 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     public void verifyAuditorPageHeaderContent(){
-        try {
-            getLogger().info("Verify content header auditor engagement page.");
-            auditorEngagementPage.auditorPageHeaderContent();
-            NXGReports.addStep("verify content header auditor engagement page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify content header auditor engagement pag.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("Verify content header auditor engagement page.");
+        auditorEngagementPage.auditorPageHeaderContent();
     }
 
     public void verifyUIListEngagement() {
