@@ -5,11 +5,13 @@ import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
 
 import java.awt.*;
 import java.io.IOException;
@@ -598,6 +600,12 @@ public class AuditorCreateToDoService extends AbstractService {
             AbstractService.sStatusCnt++;
     }
 
+    public void chooseDateItemInDatePicker(boolean isNewToDoPage,String day,String month,String year) throws Exception {
+        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage,day,month,year);
+        if (!result)
+            AbstractService.sStatusCnt++;
+    }
+
     /**
      * Verify previous date picker link is click
      */
@@ -863,7 +871,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyUploadFileSuccessfully(String fileName){
+    public void verifyUploadFileSuccessfully(String fileName) {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 

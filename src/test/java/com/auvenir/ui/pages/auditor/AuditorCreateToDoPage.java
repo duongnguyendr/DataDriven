@@ -51,7 +51,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private List<WebElement> planningEngagementPage;
 
     private String todoNamePage = "";
-//    private String todoContentTextSearch = "name";
+    //    private String todoContentTextSearch = "name";
     private String todoPageAddRequestImg = "//img[contains(@src,'slideOutMenu')]";
     //    private String todoPageAddRequestImg = "//*[@id='todo-table']/tbody/tr[1]/td[7]/img";
     private String todoPageAddRequestBtn = "//*[@id='add-request-btn']";
@@ -1824,6 +1824,45 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @return true | false
      */
     public boolean chooseDateItemInDataPicker(boolean isNewToDoPage) throws Exception {
+        boolean result = true;
+        try {
+            // If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
+            if (isNewToDoPage) {
+                waitForClickableOfElement(eleIdDueDate, "Due date tex box");
+                eleIdDueDate.click();
+                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
+                eleXpathChooseDate.click();
+                result = "".equals(eleIdDueDate.getAttribute("value").trim());
+            } else {
+                waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
+                eleToDoNewRowDueDateText.get(0).click();
+                //Using DatePicker class
+                inputDueDate();
+//                waitForClickableOfElement(eleXpathChooseDate, "Date picker");
+//                eleXpathChooseDate.click();
+//                sendKeyTextBox(eleToDoNewRowDueDateText.get(0), getDate(2), "eleToDoNewRowDueDateText");
+                result = "".equals(eleToDoNewRowDueDateText.get(0).getAttribute("value").trim());
+                System.out.println("date selected is: " + eleToDoNewRowDueDateText.get(0).getAttribute("value"));
+                Thread.sleep(smallerTimeOut);
+            }
+            //If result = true : before and after value as same --> data picker not work
+            if (result) {
+                NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return false;
+            }
+
+            NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+        return true;
+    }
+    @FindBy(xpath ="//table[@class='ui-datepicker-calendar']" )
+    WebElement datePicker;
+    public boolean chooseDateItemInDataPicker(boolean isNewToDoPage,String date,String month,String year) throws Exception {
+
         boolean result = true;
         try {
             // If isNewToDoPage = true :verify in add new to-do page | isNewToDoPage = false, verify in to-do list page
@@ -4151,11 +4190,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             clickElement(eleToDoNewRowDueDateText.get(0), "");
             sendKeyTextBox(eleToDoNewRowDueDateText.get(0), inputText, "");
-            if (eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(inputText)) {
+            if (!eleToDoNewRowDueDateText.get(0).getAttribute("value").equals(inputText)) {
+                NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.PASSED, null);
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            } else {
-                NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.PASSED, null);
             }
 
         } catch (Exception e) {

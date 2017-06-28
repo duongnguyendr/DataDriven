@@ -5,6 +5,7 @@ import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
+import com.auvenir.utilities.DatePicker;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -24,6 +25,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
+
 
 
     @Test(priority = 1, enabled = true, description = "Verify Todos Textbox")
@@ -144,7 +146,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
         String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
         try {
-//            boolean isNewToDoPage = false;
+            boolean isNewToDoPage = false;
             marketingService.goToAuvenirMarketingPageURL();
             marketingService.selectLoginBtn();
             marketingService.loginWithUserPwd(auditorId, auditorPwd);
@@ -154,14 +156,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorCreateToDoService.verifyDuedateTimebox_DefaultValue(deadlineDate);
             auditorCreateToDoService.checkFormatDueDate();
             auditorCreateToDoService.verifyUnableToInputDuedate("12/4/2017");
-//            getLogger().info("Choosing date in table due-date..");
-//            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
-
-
-//            getLogger().info("Verifying click to Prev Date..");
-//            auditorCreateToDoService.verifyPreviousDatePickerLink(isNewToDoPage);
-//            getLogger().info("Verifying click to Next Date..");
-//            auditorCreateToDoService.verifyNextDatePickerLink(isNewToDoPage);
+            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage,"","","");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Due date Time box.", LogAs.PASSED, null);
         } catch (Exception e) {
