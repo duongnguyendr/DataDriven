@@ -569,7 +569,7 @@ public class AuditorCreateToDoService extends AbstractService {
      * Check deafult format due date
      */
     public void checkFormatDueDate() {
-        boolean result = createToDoPage.checkFormatDueDate_TodoListPage();
+        boolean result = createToDoPage.checkFormatDueDate();
         if (!result)
             AbstractService.sStatusCnt++;
     }
@@ -989,7 +989,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
     }
 
-    public void inputValidValue(String validValue) {
+    public void inputValidValue_TodoName(String validValue) {
 
         createToDoPage.InputValue_TodoName(validValue);
     }
@@ -1027,28 +1027,27 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyCategoryComboBox_DefaultGUI() {
+    public void verifyCategoryComboBox_DefaultValue() {
         getLogger().info("Verifying Category ComboBox...");
         createToDoPage.verifyCategoryBox_DefaultValue();
-//        createToDoPage.verifyBorderCategoryBox_WhileHovered();
     }
 
-    public void verifyNewCategorySaved(String cate1) {
-        createToDoPage.verifyCreateNewCategory(cate1);
+    public void verifyCategoryComboBox_NewValue(String cate) {
+        createToDoPage.verifyCategoryIsSelectedCorrectly(cate);
     }
 
-    public void selectCategory() {
-        createToDoPage.selectCategory();
+    public void selectCategoryByName(String cate) {
+        createToDoPage.selectCategoryByName(cate);
     }
 
     public void verifyNewCategoryChosenCorrectly(String cate1) {
         createToDoPage.verifyCategoryIsSelectedCorrectly(cate1);
     }
 
-    public void verifyClientAssigneeComboBox() {
+    public void verifyClientAssigneeComboBox_DefaultValue() {
         getLogger().info("Verifying Client Assignee ComboBox...");
         createToDoPage.verifyClientAssignee_DefaultValue();
-        createToDoPage.verifyBorderClientAssignee_WhileHovered();
+        createToDoPage.verifyBorderOfClientAssignee_WhileHovered();
     }
 
     public void verifyClientAssigneeIsSelectedCorrectly() {
@@ -1056,11 +1055,9 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
 
-    public void verifyDuedateTimebox() {
-//        getLogger().info("Verifying default value..");
-        //Will added after fixed
-        getLogger().info("Verifying DueDate Timebox...");
-        createToDoPage.verifyBorderDuedate_WhileHovered();
+    public void verifyDuedateTimebox_DefaultValue(String deadlineDate) {
+        getLogger().info("Verifying DueDate default...");
+        createToDoPage.verifyDuedateTimebox_DefaultValue(deadlineDate);
     }
 
     public void verifyUnableToInputDuedate(String dateInput) {

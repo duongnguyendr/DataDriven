@@ -862,6 +862,7 @@ public class AbstractPage {
             element.sendKeys(text);
             NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
+            getLogger().info(e);
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
             NXGReports.addStep("Unable to sendKey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2796,7 +2797,6 @@ public class AbstractPage {
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
         Thread.sleep(smallerTimeOut);
-//        waitForClickableOfLocator(By.xpath("//div[@class='ui dropdown todoCategory todo-category todo-bulkDdl']//div[@class='menu dropdown-empty']/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
 

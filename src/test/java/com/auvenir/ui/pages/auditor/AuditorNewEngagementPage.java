@@ -70,7 +70,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     @FindBy(xpath = "//h2[contains(text(),'New Engagement')]")
     private WebElement newEngagementHeaderTextEle;
 
-    @FindBy(xpath="//*[@id='h-engagementsLink']")
+    @FindBy(xpath = "//*[@id='h-engagementsLink']")
     private WebElement linkEngagement;
 
     @FindBy(xpath = "//*[@id='CreateEngagementParent']/../../../..")
@@ -124,6 +124,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
         NXGReports.addStep("Click create to do button.", LogAs.PASSED, null);
     }
     */
+
     public void enterDataForNewEngagementPage(String name, String engagementType, String company) throws Exception {
 
         getLogger().info("Enter engagement name.");
@@ -143,6 +144,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
         enterDeadLineDate(getDate(10));
         clickElement(eleEngagementNameInput, "engagement Name");
         NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
+
 
         getLogger().info("Enter end date.");
         enterEndDate(getDate(10));
@@ -170,6 +172,67 @@ public class AuditorNewEngagementPage extends AbstractPage {
         clickCreateToDoBtn();
         waitForCssValueChanged(createEngagementPopupEle, "Create Engagement Popup", "display", "none");
     }
+
+
+
+    public void enterDataForNewEngagementPage(String name, String engagementType, String company, String deadlineDate, String endDate, String startDate) throws Exception {
+
+        getLogger().info("Enter engagement name.");
+        enterEngagementName(name);
+        NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
+
+        getLogger().info("Select engagement type.");
+        selectEngagementType(engagementType);
+        NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
+
+        getLogger().info("Enter company name.");
+        enterCompanyName(company);
+        NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
+
+
+        getLogger().info("Enter deadline date.");
+        clickAndHold(eleReportDeadlineInput, "Deadline date Input");
+        if (deadlineDate.equals("")) {
+            enterDeadLineDate(getDate(10));
+        }
+        enterDeadLineDate(deadlineDate);
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
+
+
+        getLogger().info("Enter end date.");
+        if (endDate.equals("")) {
+            enterEndDate(getDate(10));
+        }
+        enterEndDate(endDate);
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
+
+        getLogger().info("Enter start date.");
+        clickAndHold(eleStartDateInput, "Start Date Input");
+        if (startDate.equals("")) {
+            enterStartDate(getDate(1));
+        }
+        enterStartDate(startDate);
+        clickElement(eleEngagementNameInput, "engagement Name");
+        NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
+
+        getLogger().info("Click Continue button.");
+        clickContinueBtn();
+        NXGReports.addStep("Click Continue button.", LogAs.PASSED, null);
+        verifyTeamMemberWizardPage();
+
+        getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
+        clickNoMemberBtn();
+        NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
+        waitForVisibleElement(createNewTodoListTextEle, "Create your To-Do list");
+        //old version
+//        clickContinueBtn();
+
+        clickCreateToDoBtn();
+        waitForCssValueChanged(createEngagementPopupEle, "Create Engagement Popup", "display", "none");
+    }
+
 
     public void createNewEngagement(String name, String engagementType, String company) throws Exception {
 
