@@ -180,6 +180,7 @@ public class AuditorEngagementService extends AbstractService {
     public void clickEngagementMenuLink() throws Exception {
         getLogger().info("Click Engagement Menu Link.");
         auditorNewEngagementPage.clickEngagementMenuLink();
+    }
 
     public void createAndSelectNewEnagement(String engagementName, String engagementType, String company, String deadlineDate, String endDate, String startDate) throws Exception {
         getLogger().info("Create And Select New Enagement.");
