@@ -5,11 +5,13 @@ import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
 
 import java.awt.*;
 import java.io.IOException;
@@ -318,7 +320,6 @@ public class AuditorCreateToDoService extends AbstractService {
 
     // Vien.Pham added new numberCategories
     public void createToDoPage() {
-
         try {
             createToDoPage.createToDoTask();
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
@@ -352,17 +353,16 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifyCheckBoxToDoName() throws Exception {
         // bug for check all button so we skip
-        //createToDoPage.verifyCheckAllCheckboxToDoName();
-//        createToDoPage.verifyUnCheckAllCheckboxToDoName();
+        createToDoPage.verifyCheckAllCheckboxToDoName();
+        createToDoPage.verifyUnCheckAllCheckboxToDoName();
         createToDoPage.verifyCheckMultipleCheckBoxToDoName();
     }
 
-    public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox) {
-        createToDoPage.verifyDefaultValueofCategoryComboBox(defaultValueComboBox);
+    public void verifyDefaultValueofCategoryComboBox() {
+        createToDoPage.verifyDefaultValueofCategoryComboBox();
     }
 
     public void verifyHoverCategoryComboBox() {
-
         createToDoPage.verifyHoverCategoryComboBox();
     }
 
@@ -401,9 +401,9 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCheckMaxLength();
     }
 
-    public void verifyContentTextSearch() {
+    public void verifyContentTextSearch(String toDoName) {
         getLogger().info("Verify the content text search");
-        createToDoPage.checkContentTextSearch();
+        createToDoPage.checkContentTextSearch(toDoName);
     }
 
 //    public void createFailedTodoPage() throws Exception {
@@ -569,7 +569,7 @@ public class AuditorCreateToDoService extends AbstractService {
      * Check deafult format due date
      */
     public void checkFormatDueDate() {
-        boolean result = createToDoPage.checkFormatDueDate_TodoListPage();
+        boolean result = createToDoPage.checkFormatDueDate();
         if (!result)
             AbstractService.sStatusCnt++;
     }
@@ -596,6 +596,12 @@ public class AuditorCreateToDoService extends AbstractService {
      */
     public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
         boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
+        if (!result)
+            AbstractService.sStatusCnt++;
+    }
+
+    public void chooseDateItemInDatePicker(boolean isNewToDoPage,String day,String month,String year) throws Exception {
+        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage,day,month,year);
         if (!result)
             AbstractService.sStatusCnt++;
     }
@@ -865,7 +871,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyUploadFileSuccessfully(String fileName){
+    public void verifyUploadFileSuccessfully(String fileName) {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
@@ -989,7 +995,7 @@ public class AuditorCreateToDoService extends AbstractService {
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
     }
 
-    public void inputValidValue(String validValue) {
+    public void inputValidValue_TodoName(String validValue) {
 
         createToDoPage.InputValue_TodoName(validValue);
     }
@@ -1027,28 +1033,27 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyCategoryComboBox_DefaultGUI() {
+    public void verifyCategoryComboBox_DefaultValue() {
         getLogger().info("Verifying Category ComboBox...");
         createToDoPage.verifyCategoryBox_DefaultValue();
-//        createToDoPage.verifyBorderCategoryBox_WhileHovered();
     }
 
-    public void verifyNewCategorySaved(String cate1) {
-        createToDoPage.verifyCreateNewCategory(cate1);
+    public void verifyCategoryComboBox_NewValue(String cate) {
+        createToDoPage.verifyCategoryIsSelectedCorrectly(cate);
     }
 
-    public void selectCategory() {
-        createToDoPage.selectCategory();
+    public void selectCategoryByName(String cate) {
+        createToDoPage.selectCategoryByName(cate);
     }
 
     public void verifyNewCategoryChosenCorrectly(String cate1) {
         createToDoPage.verifyCategoryIsSelectedCorrectly(cate1);
     }
 
-    public void verifyClientAssigneeComboBox() {
+    public void verifyClientAssigneeComboBox_DefaultValue() {
         getLogger().info("Verifying Client Assignee ComboBox...");
         createToDoPage.verifyClientAssignee_DefaultValue();
-        createToDoPage.verifyBorderClientAssignee_WhileHovered();
+        createToDoPage.verifyBorderOfClientAssignee_WhileHovered();
     }
 
     public void verifyClientAssigneeIsSelectedCorrectly() {
@@ -1056,11 +1061,9 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
 
-    public void verifyDuedateTimebox() {
-//        getLogger().info("Verifying default value..");
-        //Will added after fixed
-        getLogger().info("Verifying DueDate Timebox...");
-        createToDoPage.verifyBorderDuedate_WhileHovered();
+    public void verifyDuedateTimebox_DefaultValue(String deadlineDate) {
+        getLogger().info("Verifying DueDate default...");
+        createToDoPage.verifyDuedateTimebox_DefaultValue(deadlineDate);
     }
 
     public void verifyUnableToInputDuedate(String dateInput) {

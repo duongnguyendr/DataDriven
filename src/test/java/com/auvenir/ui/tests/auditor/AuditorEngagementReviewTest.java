@@ -36,14 +36,15 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-
+        String engagementType = "Review";
         try
         {
             String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
             String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.createNewEnagement(engagementNameUnix, "engagement type", companyNameUnix);
+            auditorEngagementService.createAndSelectNewEnagement(engagementName, engagementType, companyNameUnix);
+            auditorEngagementService.clickEngagementMenuLink();
             auditorEngagementService.sendKeyCompanyName(companyNameUnix);
             auditorEngagementService.verifySearchCompanyName(companyNameUnix);
             auditorEngagementService.sendKeyEngagementName(engagementNameUnix);
