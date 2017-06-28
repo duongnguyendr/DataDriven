@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
 import com.auvenir.ui.pages.admin.AdminAccountSettingsPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import htmlreport.com.nxgreport.NXGReports;
+import htmlreport.com.nxgreport.logging.LogAs;
+import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 
 /**
  * Created by doai.tran on 4/27/2017.

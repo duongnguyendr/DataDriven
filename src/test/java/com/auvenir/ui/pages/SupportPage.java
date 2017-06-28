@@ -2,8 +2,8 @@ package com.auvenir.ui.pages;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.utilities.GeneralUtilities;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
+import htmlreport.com.nxgreport.NXGReports;
+import htmlreport.com.nxgreport.logging.LogAs;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

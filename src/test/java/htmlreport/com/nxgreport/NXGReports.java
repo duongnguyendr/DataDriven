@@ -6,13 +6,13 @@
 package htmlreport.com.nxgreport;
 
 import com.google.common.io.Files;
-import com.kirwa.nxgreport.exceptions.NXGReporterStepFailedException;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.utils.AuthorDetails;
-import com.kirwa.nxgreport.utils.Platform;
-import com.kirwa.nxgreport.utils.Steps;
-import com.kirwa.nxgreport.utils.TestDirectory;
+import htmlreport.com.nxgreport.exceptions.NXGReporterStepFailedException;
+import htmlreport.com.nxgreport.logging.LogAs;
+import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
+import htmlreport.com.nxgreport.utils.AuthorDetails;
+import htmlreport.com.nxgreport.utils.Platform;
+import htmlreport.com.nxgreport.utils.Steps;
+import htmlreport.com.nxgreport.utils.TestDirectory;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;

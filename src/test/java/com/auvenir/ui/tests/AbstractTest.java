@@ -2,7 +2,7 @@ package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
+import htmlreport.com.nxgreport.NXGReports;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;

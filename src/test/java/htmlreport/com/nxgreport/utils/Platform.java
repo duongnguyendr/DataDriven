@@ -1,6 +1,6 @@
 package htmlreport.com.nxgreport.utils;
 
-import com.kirwa.nxgreport.NXGReports;
+import htmlreport.com.nxgreport.NXGReports;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

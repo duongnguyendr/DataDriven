@@ -1,6 +1,12 @@
 package htmlreport.com.nxgreport.writer;
 
+import com.auvenir.ui.pages.marketing.MarketingPage;
+import com.auvenir.ui.tests.AbstractTest;
+import com.auvenir.utilities.GenericService;
 import htmlreport.com.nxgreport.utils.TestDirectory;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
 import java.io.*;
 
@@ -11,37 +17,43 @@ public class ResourceFilesWriter {
     public ResourceFilesWriter() {
     }
 
+
     public static void writeCSS() {
-        copyFile("styles/design.css", TestDirectory.CSSDIR);
-        copyFile("styles/jquery-ui.min.css", TestDirectory.CSSDIR);
+        //Update code replace reloaded class function of source code
+        copyFile(GenericService.sDirPath +"/src/test/java/htmlreport/styles/design.css", TestDirectory.CSSDIR);
+        copyFile(GenericService.sDirPath +"/src/test/java/htmlreport/styles/jquery-ui.min.css", TestDirectory.CSSDIR);
     }
 
     public static void writeIMG() {
-        copyImage("images/fail.png", TestDirectory.IMGDIR);
-        copyImage("images/pass.png", TestDirectory.IMGDIR);
-        copyImage("images/skip.png", TestDirectory.IMGDIR);
-        copyImage("images/loginfo.png", TestDirectory.IMGDIR);
-        copyImage("images/logpass.png", TestDirectory.IMGDIR);
-        copyImage("images/logfail.png", TestDirectory.IMGDIR);
-        copyImage("images/logwarning.png", TestDirectory.IMGDIR);
-        copyImage("images/NXGlogo.png", TestDirectory.IMGDIR);
+        //Update code replace reloaded class function of source code
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/fail.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/pass.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/skip.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/loginfo.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/logpass.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/logfail.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/logwarning.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/NXGlogo.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/htmlreport/images/Auvenir_01.png", TestDirectory.IMGDIR);
     }
 
     public static void writeJS() {
-        copyFile("js/excanvas.js", TestDirectory.JSDIR);
-        copyFile("js/pie.js", TestDirectory.JSDIR);
-        copyFile("js/serial.js", TestDirectory.JSDIR);
-        copyFile("js/amcharts.js", TestDirectory.JSDIR);
-        copyFile("js/jquery.min.js", TestDirectory.JSDIR);
-        copyFile("js/jquery-ui.min.js", TestDirectory.JSDIR);
+        //Update code replace reloaded class function of source code
+        copyFile(GenericService.sDirPath + "/src/test/java/htmlreport/js/excanvas.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/htmlreport/js/pie.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/htmlreport/js/serial.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/htmlreport/js/amcharts.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/htmlreport/js/jquery.min.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/htmlreport/js/jquery-ui.min.js", TestDirectory.JSDIR);
     }
 
     private static void copyFile(String path, String directory) {
         File file = new File(path);
-        InputStream fileinputStream = com.kirwa.nxgreport.writer.ResourceFilesWriter.class.getClassLoader().getResourceAsStream(path);
+        InputStream fileinputStream = null;
         FileOutputStream fileOutputStream = null;
 
         try {
+            fileinputStream = new FileInputStream(path);
             fileOutputStream = new FileOutputStream(directory + TestDirectory.SEP + file.getName());
 
             int tmpbit;
@@ -69,10 +81,11 @@ public class ResourceFilesWriter {
 
     private static void copyImage(String path, String directory) {
         File file = new File(path);
-        InputStream fileinputStream = com.kirwa.nxgreport.writer.ResourceFilesWriter.class.getClassLoader().getResourceAsStream(path);
+        InputStream fileinputStream = null;
         FileOutputStream fileOutputStream = null;
 
         try {
+            fileinputStream = new FileInputStream(path);
             fileOutputStream = new FileOutputStream(directory + TestDirectory.SEP + file.getName());
 
             int tmpBit;

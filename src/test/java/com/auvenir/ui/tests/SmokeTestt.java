@@ -12,9 +12,9 @@ import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import htmlreport.com.nxgreport.NXGReports;
+import htmlreport.com.nxgreport.logging.LogAs;
+import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
