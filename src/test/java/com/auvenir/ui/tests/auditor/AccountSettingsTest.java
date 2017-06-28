@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
  * Created by cuong.nguyen on 4/27/2017.
  * * Refactored by Minh Nguyen on June 26, 2017
  */
-public class AccountSettingsTest extends AbstractTest {
+public class AuditorSettingsTest extends AbstractTest {
     private AuditorAccountSettingsService auditorAccountSettingsService;
     private AuditorEngagementService auditorEngagementService;
     private MarketingService marketingService;
