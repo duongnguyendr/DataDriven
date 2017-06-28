@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import htmlreport.com.nxgreport.NXGReports;
+import htmlreport.com.nxgreport.logging.LogAs;
+import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import com.sun.imageio.plugins.wbmp.WBMPImageReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

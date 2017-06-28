@@ -4,9 +4,9 @@ package com.auvenir.ui.tests.marketing;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.marketing.*;
 import com.auvenir.ui.tests.AbstractTest;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import htmlreport.com.nxgreport.NXGReports;
+import htmlreport.com.nxgreport.logging.LogAs;
+import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
