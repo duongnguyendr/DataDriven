@@ -21,7 +21,7 @@ public class MarketingTest extends AbstractTest {
     public void verifyAboutPageContentTest(){
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol("http://");
+            //marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToAboutPage();
             marketingService.verifyAboutContentPage();
@@ -36,7 +36,6 @@ public class MarketingTest extends AbstractTest {
     public void verifyCareersPageContentTest(){
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToAboutPage();
             marketingService.goToCareersPage();
@@ -52,7 +51,6 @@ public class MarketingTest extends AbstractTest {
     public void verifyContactPageContentTest(){
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToContactPage();
             marketingService.verifyAboutContactPage();
@@ -67,7 +65,6 @@ public class MarketingTest extends AbstractTest {
     public void verifyCookiesNoticePageContent(){
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToCookiesNoticePage();
             marketingService.verifyCookiesNoticeContentPage();
@@ -82,7 +79,6 @@ public class MarketingTest extends AbstractTest {
     public void verifyHomePageContent(){
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.verifyHomeContentPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -96,7 +92,6 @@ public class MarketingTest extends AbstractTest {
     public void verifyPrivacyPolicyPageContent(){
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToPrivacyPolicyPage();
             marketingService.verifyPrivacyPolicyContentPage();
@@ -111,7 +106,6 @@ public class MarketingTest extends AbstractTest {
     public void verifyTermsPageContent() {
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToTermsOfService();
             marketingService.verifyTermsContentPage();

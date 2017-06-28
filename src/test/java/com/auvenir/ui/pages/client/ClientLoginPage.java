@@ -1,13 +1,13 @@
 package com.auvenir.ui.pages.client;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class ClientLoginPage extends AbstractPage {
 
@@ -615,7 +615,7 @@ public class ClientLoginPage extends AbstractPage {
         clickElement(eleGoBtn, "Go Button");
     }
 
-    public void verifyClientLoginPageAfterSignIn(){
+    public void verifyClientLoginPageAfterSignIn() {
         getLogger().info("Verify Client Login Page After Sign In.");
         waitForVisibleElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
         validateDisPlayedElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
@@ -637,7 +637,7 @@ public class ClientLoginPage extends AbstractPage {
         validateDisPlayedElement(eleClickHereLnk, "Click Here - Link");
     }
 
-    public void verifyClientLoginPageAfterActiveAccount(){
+    public void verifyClientLoginPageAfterActiveAccount() {
         getLogger().info("Verify Client Login Page After Active Account.");
         waitForVisibleElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
         validateDisPlayedElement(eleWelcomeAuvenirTxt, "Welcome to Auvenir");
@@ -658,7 +658,7 @@ public class ClientLoginPage extends AbstractPage {
         validateDisPlayedElement(eleClickHereLnk, "Click Here - Link");
     }
 
-    public void verifyClientLoginPageInvitationEmail(){
+    public void verifyClientLoginPageInvitationEmail() {
         getLogger().info("Verify Client Login Page Invitation Email.");
         validateDisPlayedElement(eleAuvenirImg, "Auvenir - Image");
         validateDisPlayedElement(eleHiJackTxt, "Hi Jack, -Text ");
@@ -676,7 +676,7 @@ public class ClientLoginPage extends AbstractPage {
         validateDisPlayedElement(eleClickHereLnk, "Click Here - Link");
     }
 
-    public void clickStartAuditButton(){
+    public void clickStartAuditButton() {
         getLogger().info("Click Start Audit Button.");
         clickElement(eleStartAuditBtn, "Start Audit Button");
     }

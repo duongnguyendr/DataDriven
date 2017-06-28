@@ -2,9 +2,11 @@ package com.auvenir.ui.services;
 
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
+import com.auvenir.ui.services.admin.AdminService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.emailtemplate.EmailTemplateService;
-import com.auvenir.ui.services.marketing.signup.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
@@ -17,7 +19,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -32,11 +33,12 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 /**
  * Created by cuong.nguyen on 4/25/2017.
  * Updated by Doai.Tran
+ * Udpated by Minh.Nguyen on June 19, 2017
  */
 public class AbstractService {
     private WebDriver driver;
     private Logger logger;
-    private static final int waitTime = 60;
+    private static final int waitTime = 30;
     public static WebDriverWait sWebDriverWait = null;
     public static String gmailWindow;
 
@@ -81,10 +83,15 @@ public class AbstractService {
         this.prefixProtocol = prefixProtocol;
     }
 
+    /**
+     * Updated by Minh.Nguyen on June 19, 2017
+     * @param logger
+     * @param driver
+     */
     public AbstractService(Logger logger, WebDriver driver) {
         this.logger = logger;
         this.driver = driver;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
+        PageFactory.initElements(driver, this);
         marketingPage = new MarketingPage(getLogger(), getDriver());
     }
 
@@ -139,6 +146,7 @@ public class AbstractService {
                 prefixProtocol = "https://";
             }
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
+//            setBaseUrl(prefixProtocol + "auvenir-qa-automation.com");
             String getTokenUrl = getBaseUrl() + "/getToken?email=";
             getLogger().info("gettoken link: " + getTokenUrl);
             driver.get(getTokenUrl + userId);
@@ -150,8 +158,8 @@ public class AbstractService {
             //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", checkTokenUrl + userId + "&token=" + token);
             driver.get(checkTokenUrl + userId + "&token=" + token);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
-            driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
-            driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
+            driver.manage().timeouts().setScriptTimeout(1, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(1, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             NXGReports.addStep("Login with userid: " + userId, LogAs.PASSED, null);
         } catch (Exception e) {
@@ -191,11 +199,12 @@ public class AbstractService {
             if ("".equals(prefixProtocol)) {
                 prefixProtocol = "https://";
             }
+            //TODO: temproryly for stable environment
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
             driver.get(baseUrl);
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
@@ -253,7 +262,7 @@ public class AbstractService {
             getLogger().info("Go to home auvenri url : " + homeAuvenir);
             System.out.println(homeAuvenir);
             driver.get(homeAuvenir);
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
         } catch (AssertionError e) {
             NXGReports.addStep("Fail to load main Auvenir URL.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -278,7 +287,7 @@ public class AbstractService {
 
     }
 
-    public void loadURL(String sUrl) {
+    public void navigateToURL(String sUrl) {
         try {
             System.out.println(sUrl);
             driver.get(sUrl);
@@ -349,16 +358,16 @@ public class AbstractService {
     /*
     Refactoring to join AbstractRefactorService
      */
-    public void loadURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
+    public void navigateToURL(String sEmailID, String sGetTokenURL, String sCheckTokenURL) {
         driver.get(sGetTokenURL + sEmailID);
         String s1 = driver.findElement(By.xpath("//pre")).getText();
         String[] parts = s1.split("(\")");
         String token = parts[3];
         //GenericService.setConfigValue(GenericService.sConfigFile, "LOGIN_URL", sCheckTokenURL + sEmailID + "&token=" + token);
         driver.get(sCheckTokenURL + sEmailID + "&token=" + token);
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(waitTime, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(waitTime, TimeUnit.SECONDS);
         driver.manage().window().maximize();
     }
 
@@ -391,7 +400,7 @@ public class AbstractService {
         try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            driver.manage().timeouts().implicitlyWait(10000, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
 
             //gmailLoginPage.getEleSignInLink().click();
@@ -457,7 +466,7 @@ public class AbstractService {
     public String deleteUserViaAPI(String email) {
         String deleteURL = GenericService.getConfigValue(GenericService.sConfigFile, "DELETE_URL")
                 + email + "/delete";
-        loadURL(deleteURL);
+        navigateToURL(deleteURL);
         return GeneralUtilities.getElementByXpath(getDriver(), "//pre").getText();
     }
 
@@ -484,7 +493,8 @@ public class AbstractService {
         try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
             driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-//            gmailLoginPage.signInGmail(eGMail,ePassword);
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+            driver.manage().window().maximize();
             gmailLoginPage.signInGmail(eGMail, ePassword);
             gmailLoginPage.deleteAllMail();
             gmailLoginPage.gmailLogout();
@@ -621,7 +631,7 @@ public class AbstractService {
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
         marketingService.clickLoginButton();
-        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);;
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
@@ -635,5 +645,24 @@ public class AbstractService {
         auditorSignUpService.confirmInfomationNewAuditorUser(fullNameCreate, strEmailCreate, passwordCreatedAuvenir);
         auditorEngagementService.verifyAuditorEngagementPage();
         marketingService.logout();
+    }
+
+    public void clickLoginButton(){
+        getLogger().info("Click on login button.");
+        marketingPage.clickOnLoginBTN();
+    }
+
+    public void loginWithUserNamePassword(String UserName, String Password) {
+        getLogger().info("Input Username and Password.");
+        marketingPage.inputUserNamePassword(UserName,Password);
+        getLogger().info("Click on Login button.");
+        marketingPage.clickOnSubmitBTN();
+        marketingPage.waitForProgressOverlayIsClosed();
+        marketingPage.clickClosePopupWarningBrowser();
+    }
+    public void logout(){
+        marketingPage.clickOnProfile();
+        getLogger().info("Logout.");
+        marketingPage.clickOnLogoutBTN();
     }
 }

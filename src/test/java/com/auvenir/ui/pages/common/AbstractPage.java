@@ -3,6 +3,8 @@ package com.auvenir.ui.pages.common;
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
@@ -13,7 +15,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -35,10 +36,12 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 20;
-    public static final int waitTimeOut = 1;
+    public static final int waitTime = 30;
+    public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
+    public static final int largeTimeOut = 2000;
+    public static final int bigTimeOut = 3000;
     public static final String categoryIndiMode = "indicategory";
     public static final String categoryTitleOfAddNew = "Add New Category";
     public static final String backgroundColor = "background-color";
@@ -68,13 +71,20 @@ public class AbstractPage {
     public static final String popUpDivCategoryModel = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
     private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
-    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+//    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    public final String warningBorderCSSColor = "rgba(253, 109, 71, 0.43)";
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
+    /**
+     * Updated by Minh.Nguyen on June 19, 2017
+     *
+     * @param logger
+     * @param driver
+     */
     public AbstractPage(Logger logger, WebDriver driver) {
         this.driver = driver;
         this.logger = logger;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, waitTime), this);
+        PageFactory.initElements(driver, this);
     }
 
     public WebDriver getDriver() {
@@ -134,8 +144,7 @@ public class AbstractPage {
     List<WebElement> listOfCategoryDropdown;
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
-//    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-            List<WebElement> listOfAddNewCategory;
+    List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -154,7 +163,6 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']/div[1]")
     private WebElement addNewCategoryMenuEle;
 
-//    @FindBy(id = "category-name")
     @FindBy(id = "category-name")
     private WebElement categoryNameFieldOnFormEle;
 
@@ -181,7 +189,8 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement categoryColors;
 
-    @FindBy(xpath = "//div[contains(@class,'ce-parent todo-modal-container')]/div/h3")
+//  Old Xpath: @FindBy(xpath = "//div[contains(@class,'ce-parent todo-modal-container')]/div/h3")
+    @FindBy(xpath = "//label[contains(@id,'m-categoryModel') and contains(@id,'title-text')]")
     private WebElement idTitleCategory;
 
     @FindBy(xpath = "//*[@id='setup-component-body']/div/div[1]//p[contains(text(),'Not a valid name.')]")
@@ -234,71 +243,105 @@ public class AbstractPage {
     @FindBy(xpath = "//div[@class = 'fl-a-container fl-a-container-show'] //div[@class='send-message-success-alert']/span")
     private WebElement successToastMesDescriptionEle;
 
-    public void verifyFooter() {
-        validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
-        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
-        validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
-        validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
-        validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
+    private String termsPrivacyCookieText = "//div[@id='marketing-header']//div[@class='ui center aligned header header-main-text']";
+    private List<String> tabs = null;
+
+    public void verifyFooterOfHomepage() {
+        boolean isAuvenirIncTxt, isTermsOfServiceLnk, isTermsOfServiceDotTxt, isPrivacyStatementLnk, isPrivacyStatementDotTxt, isCookieNoticeLnk = false;
+        isAuvenirIncTxt = validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
+        if (!isAuvenirIncTxt) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleAuvenirIncTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isTermsOfServiceLnk = validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
+        if (!isTermsOfServiceLnk) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleTermsOfServiceLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isTermsOfServiceDotTxt = validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
+        if (!isTermsOfServiceDotTxt) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleTermsOfServiceDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isPrivacyStatementLnk = validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
+        if (!isPrivacyStatementLnk) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("elePrivacyStatementLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isPrivacyStatementDotTxt = validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
+        if (!isPrivacyStatementDotTxt) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("elePrivacyStatementDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isCookieNoticeLnk = validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
+        if (!isCookieNoticeLnk) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleCookieNoticeLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        if (isAuvenirIncTxt && isTermsOfServiceLnk && isTermsOfServiceDotTxt && isPrivacyStatementLnk && isPrivacyStatementDotTxt && isCookieNoticeLnk) {
+            NXGReports.addStep("verify Footer.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyTermsOfServiceLink() throws AWTException {
-        getLogger().info("Verify Terms of service link.");
-        clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
-        //eleTermsOfServiceLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        getLogger().info("verify texts are rendered.");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-        validateElementText(terms, "Terms of Service");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Effective: 16th January, 2017");
-        french.click();
-        getLogger().info("click close Terms of Service wizard.");
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+    public void verifyTermsOfServiceLink() throws AWTException, InterruptedException {
+        try {
+            getLogger().info("Verify Terms of service link.");
+            boolean isCheckTermOfService = false;
+            clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
+            getLogger().info("verify texts are rendered.");
+            switchToOtherTab(1);
+            waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
+            WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
+            isCheckTermOfService = validateElementText(terms, "Terms of Service");
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1)).close();
+            Thread.sleep(smallTimeOut);
+            if (isCheckTermOfService) {
+                NXGReports.addStep("verify Terms Of Service Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Terms Of Service Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyPrivacyStateLink() {
-        getLogger().info("Verify Pricacy statement link.");
-        elePrivacyStatementLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        validateElementText(auvenir, "Auvenir");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-        validateElementText(terms, "Privacy Statement");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Last revised: January 16th, 2017");
-        french.click();
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+    public void verifyPrivacyStateLink() throws InterruptedException {
+        try {
+            boolean isPrivacyState = false;
+            getLogger().info("Verify Pricacy statement link.");
+            switchToOtherTab(0);
+            clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
+            switchToOtherTab(1);
+            WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
+            isPrivacyState = validateElementText(privacy, "Privacy Policy");
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1)).close();
+            Thread.sleep(smallTimeOut);
+            if (isPrivacyState) {
+                NXGReports.addStep("verify Privacy State Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Privacy State Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void verifyCookieNotice() {
-        getLogger().info("verify cookie notices page.");
-        eleCookieNoticeLnk.click();
-        waitForVisibleOfLocator(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        WebElement auvenir = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-header']"));
-        validateElementText(auvenir, "Auvenir");
-        WebElement terms = getDriver().findElement(By.xpath("//div[@id='custom-modal']//h3[@class='custom-modal-title']"));
-        validateElementText(terms, "Cookie Notice");
-        WebElement english = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='english']"));
-        validateElementText(english, "English");
-        WebElement french = getDriver().findElement(By.xpath("//div[@id='custom-modal']//a[@id='french']"));
-        validateElementText(french, "French");
-        WebElement termsDate = getDriver().findElement(By.xpath("//div[@id='custom-modal']//div[@id='agreement']/h3"));
-        validateElementText(termsDate, "Last revised: January 16th, 2017");
-        french.click();
-        getDriver().findElement(By.xpath("//div[@id='custom-modal']//span[@class='custom-close']")).click();
-
+        try {
+            boolean isCheckCookieNotice = false;
+            getLogger().info("verify cookie notices page.");
+            switchToOtherTab(0);
+            clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
+            switchToOtherTab(1);
+            WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
+            isCheckCookieNotice = validateElementText(cookie, "Cookie Notice");
+            if (isCheckCookieNotice) {
+                NXGReports.addStep("verify Cookie Notice.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Cookie Notice.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     /**
@@ -333,7 +376,31 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
+        } catch (Exception ex) {
+            getLogger().info(ex.getMessage());
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
+    }
+
+    /**
+     * Create by Minh.Nguyen on June 19, 2017
+     *
+     * @param xpathElement
+     * @return Web element by xpath
+     */
+    public WebElement findWebElementByXpath(String xpathElement) {
+        WebElement resultWebElement = null;
+        try {
+            getLogger().info("The xpath of web element = " + xpathElement);
+            resultWebElement = getDriver().findElement(By.xpath(xpathElement));
+            NXGReports.addStep("Find web element by xpath", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Find web element by xpath", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return resultWebElement;
     }
 
     /**
@@ -489,7 +556,7 @@ public class AbstractPage {
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Element: " + element.getText() + "is not visible.");
+            getLogger().info("Element: " + elementName + "is not visible.");
             NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
@@ -533,6 +600,7 @@ public class AbstractPage {
 
     /**
      * created by: minh.nguyen
+     *
      * @Description In order to wait element to be visible by locator with seconds input.
      */
     public boolean waitForVisibleOfLocator(By locator, int seconds) {
@@ -540,13 +608,13 @@ public class AbstractPage {
         boolean isResult = false;
         try {
             int i = 0;
-            while(i < seconds){
-                try{
+            while (i < seconds) {
+                try {
                     getDriver().findElement(locator);
                     isResult = true;
                     NXGReports.addStep("Try to waitForVisibleOfLocator by seconds", LogAs.PASSED, null);
                     break;
-                } catch(Exception ex){
+                } catch (Exception ex) {
                 }
                 try {
                     Thread.sleep(smallTimeOut);
@@ -555,8 +623,7 @@ public class AbstractPage {
 
                 }
             }
-            if(!isResult)
-            {
+            if (!isResult) {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
@@ -689,10 +756,10 @@ public class AbstractPage {
     public void navigateToSettingsPage() {
         try {
             waitForClickableOfElement(dashboardUserNameEle, "dashboardUserNameEle");
-            dashboardUserNameEle.click();
+            clickElement(dashboardUserNameEle, "click to dashboardUserNameEle");
             waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
             waitForClickableOfElement(settingsTabEle, "dashboardUserNameEle");
-            settingsTabEle.click();
+            clickElement(settingsTabEle, "click to settingsTabEle");
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to go to setting page.");
@@ -786,7 +853,7 @@ public class AbstractPage {
      * @Description: Send a String to textBox.
      * @Description: Send a String to textBox.
      */
-    public void sendKeyTextBox(WebElement element, String text, String elementName) {
+    public boolean sendKeyTextBox(WebElement element, String text, String elementName) {
         getLogger().info("Try to sendKey on : " + elementName);
         try {
             waitForClickableOfElement(element, "wait for click to " + elementName);
@@ -795,10 +862,13 @@ public class AbstractPage {
             waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
             NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
+            return  true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
+            getLogger().info(e);
             NXGReports.addStep("Unable to sendKey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         }
     }
 
@@ -1346,12 +1416,12 @@ public class AbstractPage {
                 NXGReports.addStep("Verify hover and click to category name", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
+                NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
             return isCheckBorderColor;
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
+            NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(ex.getMessage());
             return isCheckBorderColor;
         }
@@ -1825,7 +1895,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 200);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);
@@ -1880,15 +1950,10 @@ public class AbstractPage {
                     return i;
                 }
             }
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
-
         } catch (Exception e) {
-            AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return -1;
         }
     }
@@ -2198,7 +2263,7 @@ public class AbstractPage {
             result = validateElementText(element, expectedContent);
             Assert.assertTrue(result, "The content of toast message is displayed successfully.");
             return true;
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("The content of toast message is displayed unsuccessfully.");
             return false;
@@ -2350,15 +2415,17 @@ public class AbstractPage {
     /**
      * Select option in select element by text
      *
-     * @param ele
+     * @param webElement
      * @param item
      */
-    public void selectOptionByText(WebElement ele, String item) {
+    public void selectOptionByText(WebElement webElement, String item, String elementName) {
         try {
-            Select select = new Select(ele);
+            Select select = new Select(webElement);
             select.selectByVisibleText(item);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
+            NXGReports.addStep("Can't select item: " + item + " of Dropdown " + elementName, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2673,7 +2740,6 @@ public class AbstractPage {
             getLogger().info("Try to validate Element is not existed.");
             getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             element.click();
-            //getDriver().
             AbstractService.sStatusCnt++;
             NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
@@ -2733,8 +2799,8 @@ public class AbstractPage {
      */
     public void navigateToAddNewCategory() throws Exception {
         clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-//        Thread.sleep(3000);
-//        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
+        Thread.sleep(smallerTimeOut);
+//        waitForClickableOfLocator(By.xpath("//div[@class='ui dropdown todoCategory todo-category todo-bulkDdl']//div[@class='menu dropdown-empty']/div[1]"));
         clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
     }
 
@@ -2743,7 +2809,7 @@ public class AbstractPage {
         try {
             Thread.sleep(smallerTimeOut);
             getLogger().info("Make sure invalid name was not saved after return to Todo list Page again...");
-            returnToTodoListPage();
+            returnToTodoListPage_LoginToEngagementAgain();
             getLogger().info("Comparing...");
             WebElement textbox1 = TodosTextboxEle.get(0);
             String comparedValue = textbox1.getAttribute("value");
@@ -2764,11 +2830,11 @@ public class AbstractPage {
         try {
             Thread.sleep(smallerTimeOut);
             getLogger().info("Make sure valid name was saved after return to Todo list Page again...");
-            returnToTodoListPage();
+            returnToTodoListPage_LoginToEngagementAgain();
             getLogger().info("Comparing...");
             WebElement textbox1 = TodosTextboxEle.get(0);
             String comparedValue = textbox1.getAttribute("value");
-            System.out.println("gia tri luc nay: " + comparedValue);
+            System.out.println("Currently value is: " + comparedValue);
             if (comparedValue.equals(validName)) {
                 NXGReports.addStep("Valid Todo name was saved as expected.", LogAs.PASSED, null);
             } else {
@@ -2777,36 +2843,35 @@ public class AbstractPage {
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Valid Todo name still not saved_Exception.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
 
-    public void returnToTodoListPage() {
-        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
+    public void returnToTodoListPage_LoginToEngagementAgain() {
+        AuditorEngagementService auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        AuditorDetailsEngagementService auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         try {
             getLogger().info("Back to Engagement page...");
             engagementBackBtn.click();
             getLogger().info("Return to Todo list page again..");
-            auditorEngagementPage.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham007");
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             NXGReports.addStep("Return to Todo ListPage successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Return to Todo ListPage failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     public void verifyBorderTodoTextBox_InputValidValue() {
-        String deFaultBorder = "1px solid rgb(255, 255, 255)";
         String GreenBorder = "1px solid rgb(92, 155, 160)";
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
             getLogger().info("Verifying while user inputting valid text, textbox border is green...");
             validateCssValueElement(textbox1, "border", GreenBorder);
-            getLogger().info("Click anywhere to verify textbox border transfered from Green to White..");
-            clickElement(eleAuvenirIncTxt, "Auvenir Inc");
-            validateCssValueElement(textbox1, "border", deFaultBorder);
             NXGReports.addStep("Border color while inputting valid value.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -2818,8 +2883,6 @@ public class AbstractPage {
         String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Click anywhere...");
-            clickElement(eleAuvenirIncTxt, "Auvernir Inc");
             getLogger().info("Verifying border of todo Textbox is Orange while missed or entered invalid values or not...");
             validateCssValueElement(textbox1, "border", OrangeBorder);
             NXGReports.addStep("Border color while inputting invalid value.", LogAs.PASSED, null);
@@ -2905,7 +2968,6 @@ public class AbstractPage {
      */
     public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
         getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
-
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
             wait.until(new ExpectedCondition<Boolean>() {
@@ -2913,9 +2975,11 @@ public class AbstractPage {
                     String actualAttributeValue = null;
                     if (element.getAttribute(attributeName) != null) {
                         actualAttributeValue = element.getAttribute(attributeName);
+                        System.out.println("Actual Displayed Value: " + actualAttributeValue);
+                    } else {
+                        getLogger().info(String.format("Attribute %s is null", attributeName));
                         return false;
                     }
-                    System.out.println("Actual Displayed Value: " + actualAttributeValue);
                     if (actualAttributeValue.equals(attributeValue))
                         return true;
                     else
@@ -3014,19 +3078,27 @@ public class AbstractPage {
      * @param value       Expected attribute value
      * @param elementName Element name
      */
-    public void validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
+    public boolean validateAttributeContain(WebElement webElement, String attribute, String value, String elementName) {
         try {
             getLogger().info("Validate Style Attribute Exist " + elementName);
             if (webElement.getAttribute(attribute).contains(value)) {
                 NXGReports.addStep(value + " exist on " + attribute + " on element: " + elementName, LogAs.PASSED, null);
+                return true;
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep(value + " still exist on " + attribute + " on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return false;
             }
+        } catch (NoSuchElementException e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not existed.");
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate attribute contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
+            return false;
         }
     }
 
@@ -3061,18 +3133,18 @@ public class AbstractPage {
      * @param value       Expected attribute value
      * @param elementName Element name
      */
-    public void validateElementJSTextContain(WebElement webElement, String value, String elementName) {
+    public void validateElementJavaScriptTextContain(WebElement webElement, String value, String elementName) {
         try {
-            getLogger().info("Validate Element Text Contain " + elementName);
+            getLogger().info("Validate Element JavaScript Text Contain " + elementName);
             if (getTextByJavaScripts(webElement, elementName).contains(value)) {
-                NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
+                NXGReports.addStep(elementName + "'s JavaScript text contain: " + value, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep(elementName + "'s text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Fail: " + elementName + "'s JavaScript text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate JavaScript text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
         }
     }
@@ -3104,23 +3176,126 @@ public class AbstractPage {
 
     /**
      * Added by huy.huynh on 15/06/2017.
+     * Fixed 22/06/2017
      * SmokeTest R2
      */
     /**
      * /**
      * Scroll to footer of current page
      * TODO: duplicating with scrollToFooter on AbstractService, find solution later
-     *
-     * @param webDriver current webDriver
      */
-    public void scrollToFooter(WebDriver webDriver) {
+    public void scrollToFooter() {
         getLogger().info("Scroll down to see page footer.");
-        JavascriptExecutor js = ((JavascriptExecutor) webDriver);
+        JavascriptExecutor js = ((JavascriptExecutor) getDriver());
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     public void chooseFirstOptionOfInputSelect(List<WebElement> list, String elementName) {
         clickElement(list.get(0), elementName);
+    }
+
+    /**
+     * @param webElement  Element defined in page class
+     * @param elementName The text name of element
+     * @return The text of web element
+     */
+    public String getTextByAttributeValue(WebElement webElement, String elementName) {
+        getLogger().info("Get text by attribute 'value' " + elementName);
+        try {
+            return webElement.getAttribute("value");
+        } catch (NoSuchElementException e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Element is not existed.");
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Get text by by attribute 'value' " + elementName, LogAs.FAILED, null);
+            getLogger().info(ex.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * wait some seconds- should be use when can't apply ExplicitWait
+     *
+     * @param seconds seconds to wait
+     */
+    public void waitSomeSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * get element which cant use @FindBy to find
+     *
+     * @param xpath xpath to get element
+     * @param arg   vararg for formating
+     */
+    public WebElement getElementByXpath(String xpath, String... arg) {
+        WebElement webElement = null;
+        xpath = String.format(xpath, arg);
+        try {
+            webElement = getDriver().findElement(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return webElement;
+    }
+
+    /**
+     * wait until animation for element finish
+     *
+     * @param webElement  xpath to get element
+     * @param elementName vararg for formating
+     */
+    public void waitForAnimation(WebElement webElement, String elementName) {
+        // This function is waiting to Popup Delete To Do task is displayed after running animation.
+        // We can move this function to Abstract Page or Common Page.
+        try {
+            getLogger().info("Waiting For Animation: " + elementName);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+            wait.until((WebDriver driver) -> {
+                boolean result = false;
+                result = (boolean) ((JavascriptExecutor) driver).executeScript(
+                        "var elm = arguments[0];" +
+                                "var doc1 = elm.ownerDocument || document;" +
+                                "var rect = elm.getBoundingClientRect();" +
+                                "return elm === doc1.elementFromPoint(rect.left, rect.top);", webElement);
+                getLogger().info("result: " + result);
+                return result;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * validate text contain given value
+     *
+     * @param webElement  element need to validate
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateElementTextContain(WebElement webElement, String value, String elementName) {
+        try {
+            getLogger().info("Validate Element Text Contain " + elementName);
+            System.out.println("expected = " + value);
+            System.out.println("actualll = " + webElement.getText());
+            if (webElement.getText().contains(value)) {
+                NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + "'s text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
     }
      /*-----------end of huy.huynh on 15/06/2017.*/
 }
