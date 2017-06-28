@@ -7,6 +7,7 @@ import com.auvenir.ui.services.AbstractService;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.sun.imageio.plugins.wbmp.WBMPImageReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -227,21 +228,21 @@ public class AuditorDashboardPage extends AbstractPage {
     }
 
     @FindBy(xpath = "//h4[text()='Activity Feed']")
-    private WebElement eleActivityFeedTxt;
+    private WebElement activityFeedText;
 
-    public WebElement getEleActivityFeedTxt() {
-        return eleActivityFeedTxt;
+    public WebElement getActivityFeedText() {
+        return activityFeedText;
     }
 
     @FindBy(className = "w-activity-date-text")
-    private WebElement eleActivityDayTxt;
+    private WebElement activityDayText;
 
-    public WebElement getEleActivityDayTxt() {
-        return eleActivityDayTxt;
+    public WebElement getActivityDayText() {
+        return activityDayText;
     }
 
     @FindBy(className = "w-activity-text")
-    private WebElement eleYouCreatedTxt;
+    private WebElement activityCreatedText;
 
     @FindBy(xpath = "//div[@id='engagementTodoLink']")
     private WebElement toDosLink;
@@ -264,11 +265,25 @@ public class AuditorDashboardPage extends AbstractPage {
     @FindBy(xpath = "//p[@id='engOverview-clientTodo']")
     private  WebElement clientCompleteDocument;
 
+    @FindBy(xpath = "//div[@class='auvicon-line-download']")
+    private WebElement activityDownloadIcon;
 
-    public WebElement getEleYouCreatedTxt() {
-        return eleYouCreatedTxt;
+    @FindBy(xpath = "//div[@id='team-bulk-dropdown-inner']")
+    private WebElement teamBulkDropdown;
+
+    @FindBy(xpath="//button[@id='team-addMember-btn']")
+    private WebElement teamAddMember;
+
+    @FindBy(xpath = "//button[@id='team-inviteMember-btn']")
+    private WebElement teamInviteMember;
+
+    public WebElement getActivityCreatedText() {
+        return activityCreatedText;
     }
 
+    /**
+     * Refactored by Minh Nguyen on June 27, 2017
+     */
     public void verifyDisplayElementOnAuditorDashBoardPage(){
         boolean isInviteBtn, isToDosLink, isFilesLink, isActivityLink, isTeamLink, isOverviewDueDateInput, isEngagementOverviewText, isEngagementOverviewStatus, isAuditorCompleteToDo, isClientCompleteDocument = false;
         isInviteBtn = validateDisPlayedElement(inviteBtn, "Invite Button");
@@ -303,10 +318,40 @@ public class AuditorDashboardPage extends AbstractPage {
         waitForClickableOfElement(activityLink, "Activity link");
         clickElement(activityLink, "Activity link");
     }
+    public void clickTeamLink(){
+        waitForClickableOfElement(teamLink, "Team link");
+        clickElement(teamLink, "Team link");
+    }
     public void verifyDisplayElementInActivityPage(){
-        validateDisPlayedElement(eleActivityFeedTxt, "Activity Feed Text");
-        validateDisPlayedElement(eleActivityDayTxt, "Activity Day Text");
-        validateDisPlayedElement(eleYouCreatedTxt, "You created a new Engagement- Text");
+        boolean isActivityFeedText, isActivityDownloadIcon, isActivityDayText, isActivityCreatedText = false;
+        isActivityFeedText = validateDisPlayedElement(activityFeedText, "Activity Feed Text");
+        isActivityDownloadIcon = validateDisPlayedElement(activityDownloadIcon, "Activity Download Icon");
+        isActivityDayText = validateDisPlayedElement(activityDayText, "Activity Day Text");
+        isActivityCreatedText = validateDisPlayedElement(activityCreatedText, "You created a new Engagement- Text");
+        if(isActivityFeedText && isActivityDownloadIcon && isActivityDayText && isActivityCreatedText)
+        {
+            NXGReports.addStep("Verify Auditor Engagement Activity page", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Auditor Engagement Activity page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+    public void verifyDisplayElementInTeamPage(){
+        boolean isTeamBulkDropdown, isTeamAddMember, isTeamInviteMember = false;
+        isTeamBulkDropdown = validateDisPlayedElement(teamBulkDropdown, "Team Bulk dropdown");
+        isTeamAddMember = validateDisPlayedElement(teamAddMember, "Team Add Member");
+        isTeamInviteMember = validateDisPlayedElement(teamInviteMember, "Team Invite Member");
+        if(isTeamBulkDropdown && isTeamAddMember && isTeamInviteMember)
+        {
+            NXGReports.addStep("Verify Auditor Engagement Team page", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Auditor Engagement Team page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
     public void clickArchiveButton(){
         waitForClickableOfElement(eleArchiveBtn, "Archive button");
