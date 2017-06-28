@@ -342,7 +342,7 @@ public class SmokeTestt extends AbstractTest {
             gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
             gmailLoginService.filterEmail();
-            gmailLoginService.clickOnboardingInvitationLink();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
 
             clientSignUpService.navigateToSignUpForm();
             clientSignUpService.fillUpPersonalForm("0123456789");//10 number required

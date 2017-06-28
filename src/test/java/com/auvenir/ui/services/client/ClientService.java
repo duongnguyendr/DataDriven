@@ -415,6 +415,10 @@ public class ClientService extends AbstractService {
     public void verifyInviteClientSuccess(String message) {
         createNewAuditPage.verifyInviteClientSuccess(message);
     }
+
+    public void verifyInviteClientFailure(String message) {
+        createNewAuditPage.verifyInviteClientFailure(message);
+    }
      /*-----------end of huy.huynh on 02/06/2017.*/
 
     public void verifyToDoTaskExist(String toDoName, boolean isClient) {
