@@ -83,21 +83,14 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     public void navigateToSettingsPage() {
-            getLogger().info("navigate to Auditor Settings page.");
-            auditorEngagementPage.navigateToSettingsPage();
+        getLogger().info("navigate to Auditor Settings page.");
+        auditorEngagementPage.navigateToSettingsPage();
     }
 
     public void clickNewEnagementButton() {
-        try {
-            getLogger().info("click Add New engagement button.");
-            auditorEngagementPage.clickNewEnagementButton();
-            NXGReports.addStep("click Add New engagement button.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("click Add New engagement button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-
-    }
+        getLogger().info("click Add New engagement button.");
+        auditorEngagementPage.clickNewEnagementButton();
+}
 
     /*public void viewEngagementDetailsPage(String engagementName) {
         try {
@@ -157,8 +150,8 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     /**
-     * Create New Engagement with the specific Name and Navigate to new engagement which is just created.
-     * <p>
+     *  Create New Engagement with the specific Name and Navigate to new engagement which is just created.
+     *
      * <p>
      * #History business changed:
      * R2: navigate after create engagement done:
@@ -167,7 +160,8 @@ public class AuditorEngagementService extends AbstractService {
      *
      * @param engagementName The name of engagement
      * @param engagementType The type of engagement
-     * @param company        The company of engagement
+     * @param company The company of engagement
+     *
      */
     public void createAndSelectNewEnagement(String engagementName, String engagementType, String company) throws Exception {
         getLogger().info("Create And Select New Enagement.");
@@ -192,15 +186,9 @@ public class AuditorEngagementService extends AbstractService {
     }
 
 
-    public void verifyAuditorPageHeaderContent() {
-        try {
-            getLogger().info("Verify content header auditor engagement page.");
-            auditorEngagementPage.auditorPageHeaderContent();
-            NXGReports.addStep("verify content header auditor engagement page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify content header auditor engagement pag.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifyAuditorPageHeaderContent(){
+        getLogger().info("Verify content header auditor engagement page.");
+        auditorEngagementPage.auditorPageHeaderContent();
     }
 
     public void verifyUIListEngagement() {

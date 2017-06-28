@@ -48,13 +48,13 @@ public class AuditorTest extends AbstractTest{
             auditorService.verifyFooterHomePage();
             auditorService.verifyEmailLoginForm();
             auditorService.verifyLoginWithEmail(auditorId);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify Auditor Login page");
+            NXGReports.addStep("Verify Auditor Login page", LogAs.PASSED, null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Auditor Login page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         } catch (Exception e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Auditor Login page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
@@ -72,7 +72,7 @@ public class AuditorTest extends AbstractTest{
             auditorService.verifyheaderPage();
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorService.verifyFooterPage();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "To verify the header of Auditor Engagement Page");
             NXGReports.addStep("To verify the header of Auditor Engagement Page", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("To verify the header of Auditor Engagement Page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -83,24 +83,25 @@ public class AuditorTest extends AbstractTest{
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Dashboard Page")
-    public void verifyAuditorDashboardPage() throws Exception {
+    @Test(priority = 3, enabled = true, description = "To Verify the display of Elements in Auditor Engagement Dashboard Page")
+    public void verifyAuditorEngagementDashboardPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            abstractService.loginWithUserRole(GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID"));
-            auditorEngagementService.verifyAuditorPageHeaderContent();
-            auditorEngagementService.clickNewEnagementButton();
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            auditorEngagementService.viewEngagementDetailsPage("engagement 01");
             auditorService.verifyDisplayElementInAuditorDashBoardPage();
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("All elements are displayed", LogAs.PASSED, null);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify Auditor Engagement Dashboard page");
+            NXGReports.addStep("Verify Auditor Engagement Dashboard page", LogAs.PASSED, null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Auditor Engagement Dashboard page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         } catch (Exception e) {
-            NXGReports.addStep("Testscript Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Auditor Engagement Dashboard page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }

@@ -153,12 +153,7 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyDisplayElementInAuditorDashBoardPage() {
-        try {
-            auditorDashboardPage.verifyDisplayElementOnAuditorDashBoardPage();
-            NXGReports.addStep("verify element on auditor dashboard page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element on auditor dashboard page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorDashboardPage.verifyDisplayElementOnAuditorDashBoardPage();
     }
 
     public void clickRequestLink() {
