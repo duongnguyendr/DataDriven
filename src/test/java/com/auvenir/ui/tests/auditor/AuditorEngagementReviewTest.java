@@ -45,7 +45,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
             marketingService.clickLoginButton();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.createAndSelectNewEnagement(engagementName, engagementType, companyNameUnix);
+            auditorEngagementService.createAndSelectNewEnagement(engagementNameUnix, engagementType, companyNameUnix);
             auditorEngagementService.clickEngagementMenuLink();
             auditorEngagementService.sendKeyCompanyName(companyNameUnix);
             auditorEngagementService.verifySearchCompanyName(companyNameUnix);
