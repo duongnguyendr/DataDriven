@@ -15,31 +15,31 @@ public class ResourceFilesWriter {
 
     public static void writeCSS() {
         //Update code replace reloaded class function of source code
-        copyFile(GenericService.sDirPath +"/src/test/java/com.auvenir.utilities.htmlreport/styles/design.css", TestDirectory.CSSDIR);
-        copyFile(GenericService.sDirPath +"/src/test/java/com.auvenir.utilities.htmlreport/styles/jquery-ui.min.css", TestDirectory.CSSDIR);
+        copyFile(GenericService.sDirPath +"/src/test/java/com/auvenir/utilities/htmlreport/styles/design.css", TestDirectory.CSSDIR);
+        copyFile(GenericService.sDirPath +"/src/test/java/com/auvenir/utilities/htmlreport/styles/jquery-ui.min.css", TestDirectory.CSSDIR);
     }
 
     public static void writeIMG() {
         //Update code replace reloaded class function of source code
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/fail.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/pass.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/skip.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/loginfo.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/logpass.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/logfail.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/logwarning.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/NXGlogo.png", TestDirectory.IMGDIR);
-        copyImage(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/images/Auvenir_01.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/fail.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/pass.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/skip.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/loginfo.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/logpass.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/logfail.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/logwarning.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/NXGlogo.png", TestDirectory.IMGDIR);
+        copyImage(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/images/Auvenir_01.png", TestDirectory.IMGDIR);
     }
 
     public static void writeJS() {
         //Update code replace reloaded class function of source code
-        copyFile(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/js/excanvas.js", TestDirectory.JSDIR);
-        copyFile(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/js/pie.js", TestDirectory.JSDIR);
-        copyFile(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/js/serial.js", TestDirectory.JSDIR);
-        copyFile(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/js/amcharts.js", TestDirectory.JSDIR);
-        copyFile(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/js/jquery.min.js", TestDirectory.JSDIR);
-        copyFile(GenericService.sDirPath + "/src/test/java/com.auvenir.utilities.htmlreport/js/jquery-ui.min.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/js/excanvas.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/js/pie.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/js/serial.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/js/amcharts.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/js/jquery.min.js", TestDirectory.JSDIR);
+        copyFile(GenericService.sDirPath + "/src/test/java/com/auvenir/utilities/htmlreport/js/jquery-ui.min.js", TestDirectory.JSDIR);
     }
 
     private static void copyFile(String path, String directory) {
