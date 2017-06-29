@@ -14,6 +14,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ import java.util.List;
  */
 public class AuditorSignUpPage extends AbstractPage {
     MarketingPage marketingPage;
+
     public AuditorSignUpPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
@@ -98,6 +100,16 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_city']")
     private WebElement eleCity;
 
+    //Element of Country
+    @FindBy(xpath = "//div[@role='listbox']")
+    private List<WebElement> country_StateDropdownEle;
+
+    //Element of listOfCountry
+    @FindBy(xpath = "//div[@role='listbox']//div[@class='menu transition visible']/div")
+    private List<WebElement> country_StateListEle;
+
+    @FindBy(xpath = "//div[@role='listbox']/div")
+    private WebElement countrySelectedEle;
     // Element of State Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[1]")
     private WebElement provinceDropdownEle;
@@ -167,7 +179,7 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
     private List<WebElement> numberEmployeeDdlListItemEle;
 
-//    final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    //    final String warningBorderCSSColor = "rgb(253, 109, 71)";
 //    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
     // This constant is used with color - CSS name;
     final String warningTextCSSColor = "rgba(235, 80, 44, 1)";
@@ -442,7 +454,7 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//button[@id = 'epilogue-closeBtn']")
     private WebElement closeSusscessMessageBtnEle;
 
-//    @FindBy(xpath = "//div[@class = 'recaptcha-checkbox-checkmark']")
+    //    @FindBy(xpath = "//div[@class = 'recaptcha-checkbox-checkmark']")
     @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
     private WebElement capcharCheckBoxEle;
 
@@ -606,7 +618,7 @@ public class AuditorSignUpPage extends AbstractPage {
             getDriver().switchTo().frame(0);
 
             clickElement(capcharCheckBoxEle, "Capchar Text Box");
-            waitForAtrributeValueChanged(spanCapCharCheckBoxEle,"Span CapChar", "aria-checked", "true");
+            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
             System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
 
             getDriver().switchTo().defaultContent();
@@ -661,7 +673,7 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(chkAgree, "Check box agree");
             clickElement(chkAgree, " check box agree");
-            if(GenericService.sBrowserData.equals("ff.")){
+            if (GenericService.sBrowserData.equals("ff.")) {
                 switchToOtherTab(1);
                 getDriver().close();
                 switchToOtherTab(0);
@@ -1016,7 +1028,7 @@ public class AuditorSignUpPage extends AbstractPage {
         acceptCreateAccountAuditor();
     }
 
-    public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String strPassword){
+    public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String strPassword) {
         confirmAuditorPersonalInfo(fullName, strEmail, "IT", "4167877865", "Online");
         confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
@@ -1062,7 +1074,7 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(phoneConfirmTxtEle, "Phone number");
             sendKeyTextBox(phoneConfirmTxtEle, strPhone, "Phone number TextBox");
-            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox","value", strPhone);
+            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox", "value", strPhone);
 
             waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
             clickElement(referalConfirmDrdEle, "Referal Dropdown List");
@@ -1182,4 +1194,127 @@ public class AuditorSignUpPage extends AbstractPage {
         validateElememt(headerCreateSusscessAccountTxtEle, "Confirm Info Success Page Header", Element_Type.DISPLAYED);
         validateElememt(headerCreateSusscessAccountTxtEle, "Your Account Has Been Created!", Element_Type.TEXT_VALUE);
     }
+
+    /*
+    Vien.Pham added new methods
+     */
+    public void verifyCountryList() {
+        try {
+            getLogger().info("Verifying list of Country displayed correctly..");
+            waitForVisibleElement(country_StateDropdownEle.get(0), "wait for Country menu visible");
+            clickElement(country_StateDropdownEle.get(0), "country dropdown menu");
+            int isCount = country_StateListEle.size();
+            System.out.println("Number of countries in country list is: " + isCount);
+            String firstCountry = country_StateListEle.get(0).getText();
+            System.out.println("First Country in list is: " + firstCountry);
+            String secoundCountry = country_StateListEle.get(1).getText();
+            System.out.println("Second Country in list is: " + secoundCountry);
+            if (isCount == 231 && firstCountry.equals("Canada") && secoundCountry.equals("United States")) {
+                NXGReports.addStep("Verify list of Country: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify list of Country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify list of Country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyStateListAfterSelectCountry(String nameOfCountry) {
+        try {
+            getLogger().info("Verifying list of State of: "+nameOfCountry+ " displayed correctly..");
+            waitForVisibleElement(country_StateDropdownEle.get(1), "wait for Country menu visible");
+            clickElement(country_StateDropdownEle.get(1), "country dropdown menu");
+            int isCount = country_StateListEle.size();
+            System.out.println("Number of countries in country list is: " + isCount);
+            String firstState = country_StateListEle.get(0).getText();
+            System.out.println("First State in list is: " + firstState);
+            String secoundState = country_StateListEle.get(1).getText();
+            System.out.println("Second State in list is: " + secoundState);
+            if (nameOfCountry.equals("Canada")) {
+                if (isCount == 13 && firstState.equals("Alberta") && secoundState.equals("British Columbia")) {
+                    NXGReports.addStep("Verify list of State :"+ nameOfCountry+" passed", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify list of State :"+ nameOfCountry+" failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }if (nameOfCountry.equals("United States")){
+                if (isCount == 51 && firstState.equals("Alabama") && secoundState.equals("Alaska")) {
+                    NXGReports.addStep("Verify list of State :"+ nameOfCountry+" passed", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify list of State :"+ nameOfCountry+" failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+
+            }
+
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify list of Country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
+
+    /*
+        Vien.Pham added new methods
+         */
+    public void selectAnyCountryInList(String nameOfCountry) {
+        try {
+            int index = findCountryInList(nameOfCountry);
+            if (index == -1) {
+                System.out.println("Can not find the country has name is: " + nameOfCountry);
+            }
+            clickElement(country_StateListEle.get(index));
+            NXGReports.addStep("End of selecting country: passed", LogAs.PASSED, null);
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("End of selecting country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+        Vien.Pham added new methods
+         */
+    public void verifyCountrySelectedCorrectly(String nameOfCountry) {
+        try {
+            getLogger().info("Verifying the country is selected correctly..");
+            System.out.println("Country is selected is: " + countrySelectedEle.getText());
+            if (countrySelectedEle.getText().equals(nameOfCountry)) {
+                NXGReports.addStep("Verify the country is selected correctly: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+        Vien.Pham added new methods
+         */
+    public int findCountryInList(String nameOfCountry) {
+        int index;
+        for (index = 0; index < country_StateListEle.size(); index++) {
+            if (country_StateListEle.get(index).getText().equals(nameOfCountry)) {
+                break;
+            }
+        }
+        if (index == 231) {
+            return index = -1;
+        }
+        return index;
+    }
+
+    /*
+    End of Vien.Pham
+     */
 }

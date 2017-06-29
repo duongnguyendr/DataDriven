@@ -105,7 +105,7 @@ public class AuditorTest extends AbstractTest{
     }
 
     @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Engagement File, Activity, Team Page")
-    public void verifyEngagementFilesActivityPage() throws Exception {
+    public void verifyEngagementFilesActivityTeamPage() throws Exception {
         auditorService = new AuditorService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         abstractService = new AbstractService(getLogger(), getDriver());
