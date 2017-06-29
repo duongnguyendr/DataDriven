@@ -2,8 +2,8 @@ package com.auvenir.rests.api.services;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import htmlreport.com.nxgreport.NXGReports;
-import htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;

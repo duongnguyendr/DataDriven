@@ -2,17 +2,10 @@ package com.auvenir.ui.pages.auditor;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 
-import com.auvenir.ui.services.AbstractService;
-import htmlreport.com.nxgreport.NXGReports;
-import htmlreport.com.nxgreport.logging.LogAs;
-import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.

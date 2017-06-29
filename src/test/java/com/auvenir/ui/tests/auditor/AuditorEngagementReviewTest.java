@@ -6,8 +6,8 @@ import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
-import htmlreport.com.nxgreport.NXGReports;
-import htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

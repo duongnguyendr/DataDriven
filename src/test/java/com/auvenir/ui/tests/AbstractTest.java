@@ -2,7 +2,7 @@ package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;
@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;

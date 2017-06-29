@@ -4,10 +4,9 @@ import java.util.List;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
-import htmlreport.com.nxgreport.NXGReports;
-import htmlreport.com.nxgreport.logging.LogAs;
-import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
-import com.sun.imageio.plugins.wbmp.WBMPImageReader;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
