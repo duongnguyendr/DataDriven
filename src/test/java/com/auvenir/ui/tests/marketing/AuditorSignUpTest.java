@@ -280,4 +280,36 @@ public class AuditorSignUpTest extends AbstractTest {
             throw e;
         }
     }
+
+
+    @Test(priority = 5, enabled = true, description = "Verify Provice and State displayed correctly when Auditor Signed up")
+    public void verifyProvinceAndStateWhenSignUp() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        try {
+            auditorSignUpService.deleteUserUsingApi(emailCreate);
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.navigateToSignUpPage();
+            auditorSignUpService.verifyPersonalSignUpPage();
+            auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
+            auditorSignUpService.verifyFirmSignUpPage();
+            auditorSignUpService.verifyCountryList();
+            auditorSignUpService.selectAnyCountry("Canada");
+            auditorSignUpService.verifyCountrySelectedCorrectly("Canada");
+            auditorSignUpService.verifyStateListAfterSelectCountry("Canada");
+            auditorSignUpService.verifyCountryList();
+            auditorSignUpService.selectAnyCountry("United States");
+            auditorSignUpService.verifyCountrySelectedCorrectly("United States");
+            auditorSignUpService.verifyStateListAfterSelectCountry("United States");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Provice and State displayed correctly when Signed up: PASSED", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            NXGReports.addStep("Verify Provice and State displayed correctly when Signed up: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+
+
 }
