@@ -68,7 +68,9 @@ public class AuditorTest extends AbstractTest{
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorService.verifyheaderPage();
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorService.verifyFooterPage();
@@ -92,7 +94,9 @@ public class AuditorTest extends AbstractTest{
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage("engagement 01");
             auditorService.verifyDisplayElementInAuditorDashBoardPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify Auditor Engagement Dashboard page");
@@ -115,7 +119,9 @@ public class AuditorTest extends AbstractTest{
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage("engagement 01");
             auditorService.clickFilesLink();
             auditorService.verifyDisplayElementInEngagementFilesPage();
