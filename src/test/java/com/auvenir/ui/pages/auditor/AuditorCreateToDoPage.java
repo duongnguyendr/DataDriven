@@ -716,29 +716,35 @@ public class AuditorCreateToDoPage extends AbstractPage {
      *
      * @param toDoName The String name of to do task which is created.
      */
-    public void createToDoTask(String toDoName) throws Exception {
-        getLogger().info("Create To Do Task with 'toDoName'");
-        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
-        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
-        waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-        String rowString = toDoTaskRowEle.get(0).getAttribute("class");
-        int size = 1;
-        int index = -1;
-        if (!rowString.equals("")) {
-            size = toDoTaskRowEle.size() + 1;
-            index = findToDoTaskName(toDoName);
-            System.out.println("Index Create: " + index);
-        }
-        if (index == -1) {
-            getLogger().info("Create New To Do Task");
+    public void createToDoTask(String toDoName) {
+        try {
+            getLogger().info("Create To Do Task with 'toDoName'");
+            WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+            System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
             waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
-            clickElement(createToDoBtnEle, "Create To Do button");
-            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
-            sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
-            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
-            // Create new category
-            createNewCategory("");
-            NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+            String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+            int size = 1;
+            int index = -1;
+            if (!rowString.equals("")) {
+                size = toDoTaskRowEle.size() + 1;
+                index = findToDoTaskName(toDoName);
+                System.out.println("Index Create: " + index);
+            }
+            if (index == -1) {
+                getLogger().info("Create New To Do Task");
+                waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+                clickElement(createToDoBtnEle, "Create To Do button");
+                waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+                sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+                sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+                // Create new category
+                createNewCategory("");
+                NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Fail: Create To Do Task with 'toDoName'");
+            NXGReports.addStep("Failed: Create To Do Task with 'toDoName'", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1859,9 +1865,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
         return true;
     }
-    @FindBy(xpath ="//table[@class='ui-datepicker-calendar']" )
+
+    @FindBy(xpath = "//table[@class='ui-datepicker-calendar']")
     WebElement datePicker;
-    public boolean chooseDateItemInDataPicker(boolean isNewToDoPage,String date,String month,String year) throws Exception {
+
+    public boolean chooseDateItemInDataPicker(boolean isNewToDoPage, String date, String month, String year) throws Exception {
 
         boolean result = true;
         try {
@@ -5069,4 +5077,60 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    /**
+     * Add new by huy.huynh on 28/06/2017.
+     * R2.1 NewFeature
+     */
+    @FindBy(id = "auv-todo-details")
+    private WebElement dialogTodoDetail;
+
+    @FindBy(xpath = "//div[@id='auv-todo-details']//input[@value]")
+    private WebElement dueDateOnTodoDetail;
+
+//    @FindBy(xpath = "//div[@id='auv-todo-details']//input[@data-dbdate]")
+//    private WebElement inputDatePickerOn;
+
+    private String xpathDueDateByName = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//input[@id]";
+    private String xpathImageTodoDetailByName = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//img";
+
+    public String getToDoDueDateOnRow(String todoName) {
+        getLogger().info("Get DueDate on Todo Row.");
+        waitSomeSeconds(3);
+        return getTextByAttributeValue(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
+    }
+
+    public void clickImageTodoDetails(String todoName) {
+        getLogger().info("Click Image Todo Detail.");
+        clickElement(getElementByXpath(xpathImageTodoDetailByName, todoName), "Image Todo Detail");
+    }
+
+    public void verifyDueDateMatching(String rowDueDate) {
+        getLogger().info("Verify DueDate on Todo Detail Popup is match with on Todo Row.");
+        getLogger().info("rowwww: " + rowDueDate);
+        getLogger().info("detail: " + getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail"));
+        if (rowDueDate.equals(getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail"))) {
+            NXGReports.addStep("DueDate on Todo Detail Popup is match with on Todo Row.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Fail: DueDate on Todo Detail Popup isn't match with on Todo Row.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void changeDueDateOnTodoDetail() {
+        //waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
+        waitSomeSeconds(1);
+        clickElement(dueDateOnTodoDetail, "DueDate On Row");
+        //clickByJavaScripts(dueDateOnTodoDetail, "DueDate On Row");
+        //System.out.println("dueDateOnTodoDetail = " + dueDateOnTodoDetail.getAttribute("value"));
+        DatePicker dp = new DatePicker(getDriver());
+        dp.selectFirstValidDate();
+    }
+
+    public void changeDueDateOnTodoRow(String todoName) {
+        clickElement(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
+        DatePicker dp = new DatePicker(getDriver());
+        dp.selectSecondValidDate();
+    }
+    /*-----------end of huy.huynh on 28/06/2017.*/
 }

@@ -5,13 +5,11 @@ import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.DatePicker;
 import com.kirwa.nxgreport.NXGReports;
 import com.kirwa.nxgreport.logging.LogAs;
 import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.FindBy;
 
 import java.awt.*;
 import java.io.IOException;
@@ -343,7 +341,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void createNewToDoTask(String toDoName) throws Exception {
+    public void createNewToDoTask(String toDoName){
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -600,8 +598,8 @@ public class AuditorCreateToDoService extends AbstractService {
             AbstractService.sStatusCnt++;
     }
 
-    public void chooseDateItemInDatePicker(boolean isNewToDoPage,String day,String month,String year) throws Exception {
-        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage,day,month,year);
+    public void chooseDateItemInDatePicker(boolean isNewToDoPage, String day, String month, String year) throws Exception {
+        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage, day, month, year);
         if (!result)
             AbstractService.sStatusCnt++;
     }
@@ -1334,5 +1332,34 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
         createToDoPage.verifyLastCommentOfUserDisplayed(commentContent, fullNameUser);
     }
+
+    /**
+     * Add new by huy.huynh on 28/06/2017.
+     * R2.1 NewFeature
+     */
+    public String getToDoDueDateOnRow(String todoName) {
+        return createToDoPage.getToDoDueDateOnRow(todoName);
+    }
+
+    public void openPopupTodoDetail(String todoName) {
+        createToDoPage.clickImageTodoDetails(todoName);
+    }
+
+    public void verifyDueDateMatching(String rowDueDate) {
+        createToDoPage.verifyDueDateMatching(rowDueDate);
+    }
+
+    public void changeDueDateOnTodoDetail() {
+        createToDoPage.changeDueDateOnTodoDetail();
+    }
+
+    public void closePopupTodoDetail() {
+        createToDoPage.closeAddNewRequestWindow();
+    }
+
+    public void changeDueDateOnTodoRow(String todoName) {
+        createToDoPage.changeDueDateOnTodoRow(todoName);
+    }
+    /*-----------end of huy.huynh on 28/06/2017.*/
 }
 
