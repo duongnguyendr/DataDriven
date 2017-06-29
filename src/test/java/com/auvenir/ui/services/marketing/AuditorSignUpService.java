@@ -224,4 +224,19 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.confirmInfomationNewAuditorUser(fullName, strEmail, password);
     }
 
+    public void verifyCountryList(){
+        auditorSignUpPage.verifyCountryList();
+    }
+
+    public void selectAnyCountry(String nameOfCountry){
+        auditorSignUpPage.selectAnyCountryInList(nameOfCountry);
+    }
+
+    public void verifyCountrySelectedCorrectly(String nameOfCountry){
+        auditorSignUpPage.verifyCountrySelectedCorrectly(nameOfCountry);
+    }
+
+    public void verifyStateListAfterSelectCountry(String nameOfCountry){
+        auditorSignUpPage.verifyStateListAfterSelectCountry(nameOfCountry);
+    }
 }
