@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -107,10 +106,10 @@ public class AbstractTest {
         } else if (browser.equalsIgnoreCase("edge")) {
             GenericService.sBrowserData = "edge.";
         }
-        if(browser.equalsIgnoreCase("internet explorer")){
+        if (browser.equalsIgnoreCase("internet explorer")) {
             GenericService.sBrowserTestNameList.add("IE_");
-        }else{
-            GenericService.sBrowserTestNameList.add(browser.toUpperCase()+"_");
+        } else {
+            GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
         }
 
         getLogger().info("setUp: " + browser);
@@ -181,12 +180,12 @@ public class AbstractTest {
                 DesiredCapabilities capabilities;
                 if (GenericService.sBrowserData.equalsIgnoreCase("chr.")) {
                     capabilities = DesiredCapabilities.chrome();
-                    String downloadFilepath = GenericService.sDirPath+ "/src/test/resources/download/";
+                    String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
                     HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
                     chromePrefs.put("profile.default_content_settings.popups", 0);
                     chromePrefs.put("download.default_directory", downloadFilepath);
                     ChromeOptions options = new ChromeOptions();
-                    options.setExperimentalOption("prefs",chromePrefs);
+                    options.setExperimentalOption("prefs", chromePrefs);
                     //DesiredCapabilities capabilities = DesiredCapabilities.chrome();
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilities.setCapability(ChromeOptions.CAPABILITY, options);
@@ -241,7 +240,7 @@ public class AbstractTest {
     public void tearDown(Method method) {
         testName = method.getName();
         logger.info("Close .the browser.");
-        closeAllTab();
+        //closeAllTab();
         logCurrentStepEnd();
     }
 
@@ -308,14 +307,14 @@ public class AbstractTest {
         }
     }
 
-    public DesiredCapabilities setDownloadLocationChrome(){
+    public DesiredCapabilities setDownloadLocationChrome() {
         //Vien.pham added some new rows to set Download dir of Chrome.
-        String downloadFilepath = GenericService.sDirPath+ "/src/test/resources/download/";
+        String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
         chromePrefs.put("download.default_directory", downloadFilepath);
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("prefs",chromePrefs);
+        options.setExperimentalOption("prefs", chromePrefs);
         DesiredCapabilities cap = DesiredCapabilities.chrome();
         cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
         cap.setCapability(ChromeOptions.CAPABILITY, options);

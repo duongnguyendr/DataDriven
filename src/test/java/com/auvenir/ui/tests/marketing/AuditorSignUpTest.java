@@ -81,7 +81,7 @@ public class AuditorSignUpTest extends AbstractTest {
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
 
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
 
@@ -255,7 +255,7 @@ public class AuditorSignUpTest extends AbstractTest {
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
 
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
 

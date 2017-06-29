@@ -97,6 +97,11 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.clickOnboardingInvitationLink();
     }
 
+    public void navigateAuvenirFromResetLink() {
+        gmailLoginPo.clickToEmailDetail();
+        gmailLoginPo.clickResetPasswordLink();
+    }
+
     public void navigateToEmailDetail() {
         gmailLoginPo.clickToEmailDetail();
     }

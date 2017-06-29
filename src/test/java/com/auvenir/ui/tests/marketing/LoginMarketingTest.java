@@ -2,12 +2,9 @@ package com.auvenir.ui.tests.marketing;
 
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.EmailTemplateService;
-import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.kirwa.nxgreport.NXGReports;
@@ -42,7 +39,7 @@ public class LoginMarketingTest extends AbstractTest {
             //marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(emailId);
@@ -57,7 +54,7 @@ public class LoginMarketingTest extends AbstractTest {
             GenericService.updateExcelData(testData, "ForgotPassword", 1, 3, ranPassword);
             NXGReports.addStep("Login again after user resets password successfully.", LogAs.PASSED, null);
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(emailId, ranPassword);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test positive behavior forgot password: PASSED", LogAs.PASSED, (CaptureScreen) null);
@@ -73,7 +70,7 @@ public class LoginMarketingTest extends AbstractTest {
         try {
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.clickOnRequestResetLinkBTN();
@@ -98,7 +95,7 @@ public class LoginMarketingTest extends AbstractTest {
             Assert.assertFalse(GenericService.isValidEmailAddress(invalidEmailAddress), "Email address is readed from excel file which is a invalid.");
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(invalidEmailAddress);
@@ -110,7 +107,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
             marketingService.refreshHomePage();
             String invalidEmailAddress1 = GenericService.readExcelData(testData, "ForgotPassword", 3, 1);
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(invalidEmailAddress1);
@@ -122,7 +119,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
             marketingService.refreshHomePage();
             String invalidEmailAddress2 = GenericService.readExcelData(testData, "ForgotPassword", 4, 1);
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(invalidEmailAddress2);
@@ -147,7 +144,7 @@ public class LoginMarketingTest extends AbstractTest {
             String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 5, 1);
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(invalidEmailAddress);
@@ -169,7 +166,7 @@ public class LoginMarketingTest extends AbstractTest {
         String passwordAuditorLogin = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(emailAuditorLogin, passwordAuditorLogin);
             auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
@@ -188,7 +185,7 @@ public class LoginMarketingTest extends AbstractTest {
         String passwordAuditorLogin = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(emailAuditorLogin, passwordAuditorLogin);
             //Will uncomment this code when web app is redirect to right website.
 //            marketingService.deleteCookieName("token_data");
@@ -265,7 +262,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(emailId);
@@ -309,7 +306,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(emailId);

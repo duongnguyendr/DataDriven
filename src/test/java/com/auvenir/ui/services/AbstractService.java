@@ -4,9 +4,9 @@ import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
-import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
@@ -85,6 +85,7 @@ public class AbstractService {
 
     /**
      * Updated by Minh.Nguyen on June 19, 2017
+     *
      * @param logger
      * @param driver
      */
@@ -596,7 +597,7 @@ public class AbstractService {
         gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
-        marketingService.clickLoginButton();
+        marketingService.openLoginDialog();
         marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
@@ -630,8 +631,9 @@ public class AbstractService {
         gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreatedGmail);
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
-        marketingService.clickLoginButton();
-        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);;
+        marketingService.openLoginDialog();
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        ;
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
@@ -647,20 +649,21 @@ public class AbstractService {
         marketingService.logout();
     }
 
-    public void clickLoginButton(){
+    public void openLoginDialog() {
         getLogger().info("Click on login button.");
         marketingPage.clickOnLoginBTN();
     }
 
     public void loginWithUserNamePassword(String UserName, String Password) {
         getLogger().info("Input Username and Password.");
-        marketingPage.inputUserNamePassword(UserName,Password);
+        marketingPage.inputUserNamePassword(UserName, Password);
         getLogger().info("Click on Login button.");
         marketingPage.clickOnSubmitBTN();
         marketingPage.waitForProgressOverlayIsClosed();
         marketingPage.clickClosePopupWarningBrowser();
     }
-    public void logout(){
+
+    public void logout() {
         marketingPage.clickOnProfile();
         getLogger().info("Logout.");
         marketingPage.clickOnLogoutBTN();
