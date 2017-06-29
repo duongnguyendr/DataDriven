@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,8 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 
 public class ClientToDoPage extends AbstractPage{
 	

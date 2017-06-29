@@ -3,9 +3,9 @@ package com.auvenir.ui.tests.client;
 import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.annotations.Test;
 
 /**

@@ -2,7 +2,7 @@ package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;
@@ -37,7 +37,7 @@ public class AbstractTest {
      */
     String localPropertiesDest = GenericService.sDirPath + "/local.properties";
     protected String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
-    protected String SELENIUM_GRID_HUB = "http://192.168.1.50:4444/wd/hub";
+    protected String SELENIUM_GRID_HUB = "http://192.168.1.213:4444/wd/hub";
 
     /*
     We should input 2 options:
@@ -213,6 +213,7 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown platform - " + os);
                 }
+                capabilities.setVersion(version);
                 driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
             }
             NXGReports.setWebDriver(driver);

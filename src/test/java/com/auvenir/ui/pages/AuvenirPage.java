@@ -2,9 +2,9 @@ package com.auvenir.ui.pages;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

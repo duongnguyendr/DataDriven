@@ -1,14 +1,12 @@
 package com.auvenir.ui.pages.common;
 
-import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -283,7 +281,7 @@ public class AbstractPage {
         }
     }
 
-    public void verifyTermsOfServiceLink() throws AWTException, InterruptedException {
+    public void verifyTermsOfServiceLink() {
         try {
             getLogger().info("Verify Terms of service link.");
             boolean isCheckTermOfService = false;
@@ -305,7 +303,7 @@ public class AbstractPage {
         }
     }
 
-    public void verifyPrivacyStateLink() throws InterruptedException {
+    public void verifyPrivacyStateLink() {
         try {
             boolean isPrivacyState = false;
             getLogger().info("Verify Pricacy statement link.");
@@ -510,7 +508,7 @@ public class AbstractPage {
             Improvement to detect value: true/ false after take actions
             Updated by: Doai.Tran 8/5/2017
              */
-    public void scrollPageUp() throws AWTException {
+    public void scrollPageUp() {
         getLogger().info("Try to scroll Page up.");
         try {
             Robot robot = new Robot();
@@ -528,7 +526,7 @@ public class AbstractPage {
     /*
     Method to scrollPageDown
      */
-    public void scrollPageDown() throws AWTException {
+    public void scrollPageDown() {
         getLogger().info("Try to scroll Page down.");
         try {
             Robot robot = new Robot();

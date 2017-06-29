@@ -3,10 +3,9 @@ package com.auvenir.ui.services.auditor;
 import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -163,7 +162,7 @@ public class AuditorEngagementService extends AbstractService {
      * @param company The company of engagement
      *
      */
-    public void createAndSelectNewEnagement(String engagementName, String engagementType, String company) throws Exception {
+    public void createAndSelectNewEnagement(String engagementName, String engagementType, String company) {
         getLogger().info("Create And Select New Enagement.");
         auditorEngagementPage.clickNewEnagementButton();
         auditorNewEngagementPage.verifyNewEngagementPage();
@@ -176,7 +175,7 @@ public class AuditorEngagementService extends AbstractService {
         auditorNewEngagementPage.clickEngagementMenuLink();
     }
 
-    public void createAndSelectNewEnagement(String engagementName, String engagementType, String company, String deadlineDate, String endDate, String startDate) throws Exception {
+    public void createAndSelectNewEnagement(String engagementName, String engagementType, String company, String deadlineDate, String endDate, String startDate) {
         getLogger().info("Create And Select New Enagement.");
         auditorEngagementPage.clickNewEnagementButton();
         auditorNewEngagementPage.verifyNewEngagementPage();
@@ -197,91 +196,91 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.verifyUIListEngagementFooter();
     }
 
-    public void sendKeyCompanyName(String companyName) throws InterruptedException {
+    public void sendKeyCompanyName(String companyName) {
         auditorEngagementPage.sendKeyCompanyName(companyName);
     }
 
-    public void verifySearchCompanyName(String companyName) throws InterruptedException {
+    public void verifySearchCompanyName(String companyName) {
         auditorEngagementPage.verifyCompanyName(companyName);
     }
 
-    public void sendKeyEngagementName(String engagmentName) throws InterruptedException {
+    public void sendKeyEngagementName(String engagmentName) {
         auditorEngagementPage.sendKeyEngagementName(engagmentName);
     }
 
-    public void verifySearchEngagementName(String engagmentName) throws InterruptedException {
+    public void verifySearchEngagementName(String engagmentName) {
         auditorEngagementPage.verifyEngagementName(engagmentName);
     }
 
-    public void verifySortCompanyNameAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortCompanyNameAscending(boolean isAsc) {
         auditorEngagementPage.sortCompanyName(isAsc);
     }
 
-    public void verifySortCompanyNameDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortCompanyNameDescending(boolean isAsc) {
         auditorEngagementPage.sortCompanyName(isAsc);
     }
 
-    public void verifySortEngagementNameAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementNameAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementName(isAsc);
     }
 
-    public void verifySortEngagementNameDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementNameDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementName(isAsc);
     }
 
-    public void verifySortEngagementStatusAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementStatusAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementStatus(isAsc);
     }
 
-    public void verifySortEngagementStatusDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementStatusDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementStatus(isAsc);
     }
 
-    public void verifySortEngagementAssigneeAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementAssigneeAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementAssignee(isAsc);
     }
 
-    public void verifySortEngagementAssigneeDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementAssigneeDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementAssignee(isAsc);
     }
 
-    public void verifySortEngagementCompleteToDosAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementCompleteToDosAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementCompleteToDos(isAsc);
     }
 
-    public void verifySortEngagementCompleteToDosDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementCompleteToDosDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementCompleteToDos(isAsc);
     }
 
-    public void verifySortEngagementClientAssigneeAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementClientAssigneeAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementClientAssignee(isAsc);
     }
 
-    public void verifySortEngagementClientAssigneeDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementClientAssigneeDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementClientAssignee(isAsc);
     }
 
-    public void verifySortEngagementCompleteDocsAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementCompleteDocsAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementCompletedDocs(isAsc);
     }
 
-    public void verifySortEngagementCompleteDocsDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementCompleteDocsDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementCompletedDocs(isAsc);
     }
 
-    public void verifySortEngagementLastActivityAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementLastActivityAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementLastActivity(isAsc);
     }
 
-    public void verifySortEngagementLastActivityDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementLastActivityDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementLastActivity(isAsc);
     }
 
-    public void verifySortEngagementDueDateAscending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementDueDateAscending(boolean isAsc) {
         auditorEngagementPage.sortEngagementDueDate(isAsc);
     }
 
-    public void verifySortEngagementDueDateDescending(boolean isAsc) throws InterruptedException {
+    public void verifySortEngagementDueDateDescending(boolean isAsc) {
         auditorEngagementPage.sortEngagementDueDate(isAsc);
     }
 
@@ -407,6 +406,5 @@ public class AuditorEngagementService extends AbstractService {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
 }
 

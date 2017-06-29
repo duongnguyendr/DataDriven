@@ -5,9 +5,9 @@ import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.google.common.collect.Ordering;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -656,10 +656,16 @@ public class AuditorEngagementPage extends AbstractPage {
     }
     /*-----------end of huy.huynh on 08/06/2017.*/
 
-    public void sendKeyCompanyName(String companyName) throws InterruptedException {
-        Thread.sleep(smallTimeOut);
-        sendKeyTextBox(eleSearch, companyName, "search key keyCompany");
-        Thread.sleep(smallTimeOut);
+    public void sendKeyCompanyName(String companyName) {
+        try {
+            Thread.sleep(smallTimeOut);
+            sendKeyTextBox(eleSearch, companyName, "search key keyCompany");
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Send Key Company Name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
     }
 
     public void verifyCompanyName(String companyName)
@@ -679,7 +685,7 @@ public class AuditorEngagementPage extends AbstractPage {
             }
             if (!isCheckCompany) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED, null);
+                NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             } else {
                 NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.PASSED, null);
             }
@@ -687,14 +693,20 @@ public class AuditorEngagementPage extends AbstractPage {
         catch (Exception ex)
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED, null);
+            NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void sendKeyEngagementName(String engagementName) throws InterruptedException {
-        Thread.sleep(smallTimeOut);
-        sendKeyTextBox(eleSearch, engagementName, "search key keyEngagement");
-        Thread.sleep(smallTimeOut);
+    public void sendKeyEngagementName(String engagementName) {
+        try {
+            Thread.sleep(smallTimeOut);
+            sendKeyTextBox(eleSearch, engagementName, "search key keyEngagement");
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Send Key Engagement Name " + engagementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void verifyEngagementName(String engagementName)
@@ -715,7 +727,7 @@ public class AuditorEngagementPage extends AbstractPage {
             }
             if (!isCheckEngagement) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED, null);
+                NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             } else {
                 NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.PASSED, null);
             }
@@ -723,7 +735,7 @@ public class AuditorEngagementPage extends AbstractPage {
         catch (Exception ex)
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED, null);
+            NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -989,9 +1001,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Company name by ASC or DESC
      * @param isAsc
      */
-    public void sortCompanyName(boolean isAsc) throws InterruptedException {
+    public void sortCompanyName(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listCompanyEle, eleCompany, isAsc);
         if(isSortAlphabet)
         {
@@ -1000,7 +1016,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort company name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort company name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1008,9 +1024,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Name by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementName(boolean isAsc) throws InterruptedException {
+    public void sortEngagementName(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementNameEle, eleEngagementName, isAsc);
         if(isSortAlphabet)
         {
@@ -1019,7 +1039,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1027,9 +1047,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Status by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementStatus(boolean isAsc) throws InterruptedException {
+    public void sortEngagementStatus(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementStatusEle, engagementStatusHeader, isAsc);
         if(isSortAlphabet)
         {
@@ -1038,7 +1062,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1046,9 +1070,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Assignee by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementAssignee(boolean isAsc) throws InterruptedException {
+    public void sortEngagementAssignee(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementAssigneeEle, engagementAssigneeHeader, isAsc);
         if(isSortAlphabet)
         {
@@ -1057,7 +1085,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1065,9 +1093,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Completed To Dos by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementCompleteToDos(boolean isAsc) throws InterruptedException {
+    public void sortEngagementCompleteToDos(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementCompleteToDosEle, engagementCompleteToDosHeader, isAsc);
         if(isSortAlphabet)
         {
@@ -1076,7 +1108,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1084,9 +1116,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Client Assignee by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementClientAssignee(boolean isAsc) throws InterruptedException {
+    public void sortEngagementClientAssignee(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementClientAssigneeEle, engagementClientAssigneeHeader, isAsc);
         if(isSortAlphabet)
         {
@@ -1095,7 +1131,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1103,9 +1139,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Completed Docs by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementCompletedDocs(boolean isAsc) throws InterruptedException {
+    public void sortEngagementCompletedDocs(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementClientAssigneeEle, engagementClientAssigneeHeader, isAsc);
         if(isSortAlphabet)
         {
@@ -1114,7 +1154,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1122,9 +1162,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Last Activity by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementLastActivity(boolean isAsc) throws InterruptedException {
+    public void sortEngagementLastActivity(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementLastActivityEle, engagementLastActivityHeader, isAsc);
         if(isSortAlphabet)
         {
@@ -1133,7 +1177,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 
@@ -1141,9 +1185,13 @@ public class AuditorEngagementPage extends AbstractPage {
      * Sort Engagement Due Date by ASC or DESC
      * @param isAsc
      */
-    public void sortEngagementDueDate(boolean isAsc) throws InterruptedException {
+    public void sortEngagementDueDate(boolean isAsc) {
 
-        Thread.sleep(smallTimeOut);
+        try {
+            Thread.sleep(smallTimeOut);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementDueDateEle, engagementDueDateHeader, isAsc);
         if(isSortAlphabet)
         {
@@ -1152,7 +1200,7 @@ public class AuditorEngagementPage extends AbstractPage {
         else
         {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, null );
+            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
         }
     }
 

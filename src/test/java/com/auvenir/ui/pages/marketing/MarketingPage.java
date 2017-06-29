@@ -3,9 +3,9 @@ package com.auvenir.ui.pages.marketing;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -834,7 +834,7 @@ public class MarketingPage extends AbstractPage {
         validateElememt(eleRetypeNewPassword, "New retype password input", Element_Type.DISPLAYED);
     }
 
-    public void resetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+    public void resetPassword(String newPass, String retypeResetPass) {
         try {
             getLogger().info("Verify to reset password");
             Thread.sleep(smallTimeOut);
@@ -850,7 +850,7 @@ public class MarketingPage extends AbstractPage {
         }
     }
 
-    public void setNewPassword(String newPassword) throws InterruptedException {
+    public void setNewPassword(String newPassword) {
         try {
 
             Thread.sleep(smallTimeOut);

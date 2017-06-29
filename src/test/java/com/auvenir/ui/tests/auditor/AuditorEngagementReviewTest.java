@@ -6,8 +6,8 @@ import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -41,9 +41,11 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         {
             String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
             String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.createAndSelectNewEnagement(engagementName, engagementType, companyNameUnix);
+            auditorEngagementService.createAndSelectNewEnagement(engagementNameUnix, engagementType, companyNameUnix);
             auditorEngagementService.clickEngagementMenuLink();
             auditorEngagementService.sendKeyCompanyName(companyNameUnix);
             auditorEngagementService.verifySearchCompanyName(companyNameUnix);
@@ -69,7 +71,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortCompanyNameAscending(true);
             auditorEngagementService.verifySortCompanyNameDescending(false);
@@ -93,7 +97,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementNameAscending(true);
             auditorEngagementService.verifySortEngagementNameDescending(false);
@@ -117,7 +123,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementStatusAscending(true);
             auditorEngagementService.verifySortEngagementStatusDescending(false);
@@ -167,7 +175,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementCompleteToDosAscending(true);
             auditorEngagementService.verifySortEngagementCompleteToDosDescending(false);
@@ -191,7 +201,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
             auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
@@ -215,7 +227,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
             auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
@@ -239,7 +253,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementLastActivityAscending(true);
             auditorEngagementService.verifySortEngagementLastActivityDescending(false);
@@ -263,7 +279,9 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.clickLoginButton();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementDueDateAscending(true);
             auditorEngagementService.verifySortEngagementDueDateDescending(false);

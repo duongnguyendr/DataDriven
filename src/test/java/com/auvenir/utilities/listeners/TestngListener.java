@@ -54,7 +54,9 @@ public class TestngListener implements ITestListener {
 		{
 			FileUtils.forceMkdir(sPdfReports);	
 		}
-		System.setProperty("KIRWA.reporter.config", "KIRWA.properties");	
+		/*System.setProperty("KIRWA.reporter.config", "KIRWA.properties");*/
+		System.setProperty("HTMLREPORT.reporter.config", "KIRWA.properties");
+
 	}
 
 	public void onTestStart(ITestResult result) 
