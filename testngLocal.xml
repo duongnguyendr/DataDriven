@@ -77,7 +77,7 @@
    <test name="Regression3" preserve-order="true">
     <parameter name="browser" value="safari"/>
     <parameter name="version" value="lasted"/>
-    <parameter name="os" value="iOS"/>
+    <parameter name="os" value="MAC"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <methods>
