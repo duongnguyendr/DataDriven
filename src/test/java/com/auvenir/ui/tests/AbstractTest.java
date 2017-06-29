@@ -210,6 +210,7 @@ public class AbstractTest {
                     capabilities.setPlatform(Platform.LINUX);
                 } else if (os.equalsIgnoreCase("MAC")) {
                     capabilities.setPlatform(Platform.MAC);
+                    capabilities.setVersion("10.1.1");
                 } else {
                     throw new IllegalArgumentException("Unknown platform - " + os);
                 }
