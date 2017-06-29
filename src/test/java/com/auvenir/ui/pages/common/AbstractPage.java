@@ -283,7 +283,7 @@ public class AbstractPage {
         }
     }
 
-    public void verifyTermsOfServiceLink() throws AWTException, InterruptedException {
+    public void verifyTermsOfServiceLink() {
         try {
             getLogger().info("Verify Terms of service link.");
             boolean isCheckTermOfService = false;
@@ -305,7 +305,7 @@ public class AbstractPage {
         }
     }
 
-    public void verifyPrivacyStateLink() throws InterruptedException {
+    public void verifyPrivacyStateLink() {
         try {
             boolean isPrivacyState = false;
             getLogger().info("Verify Pricacy statement link.");
@@ -510,7 +510,7 @@ public class AbstractPage {
             Improvement to detect value: true/ false after take actions
             Updated by: Doai.Tran 8/5/2017
              */
-    public void scrollPageUp() throws AWTException {
+    public void scrollPageUp() {
         getLogger().info("Try to scroll Page up.");
         try {
             Robot robot = new Robot();
@@ -528,7 +528,7 @@ public class AbstractPage {
     /*
     Method to scrollPageDown
      */
-    public void scrollPageDown() throws AWTException {
+    public void scrollPageDown() {
         getLogger().info("Try to scroll Page down.");
         try {
             Robot robot = new Robot();

@@ -28,7 +28,7 @@ public class AuditorAccountSettingsService extends AbstractService {
 
     }
 
-    public void verifyFooter() throws AWTException, InterruptedException {
+    public void verifyFooter() {
         auditorAccountSettingsPage.scrollPageDown();
         getLogger().info("verify footer page.");
         auditorAccountSettingsPage.verifyFooterOfHomepage();
