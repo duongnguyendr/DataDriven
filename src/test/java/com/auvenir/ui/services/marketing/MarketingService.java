@@ -170,16 +170,16 @@ public class MarketingService extends AbstractService {
     /*
 Vien.Pham added login With New User Role
 */
-    public void loginWithNewUserRole(String userEmail, String usePwd) throws Exception {
+    public void loginWithNewUserRole(String userEmail, String usePwd) {
         loginWithUserNamePassword(userEmail, usePwd);
     }
 
 
-    public void verifyResetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+    public void verifyResetPassword(String newPass, String retypeResetPass) {
         marketingPage.resetPassword(newPass, retypeResetPass);
     }
 
-    public void verifyNewPassword(String newPassword) throws InterruptedException {
+    public void verifyNewPassword(String newPassword) {
         marketingPage.setNewPassword(newPassword);
     }
 

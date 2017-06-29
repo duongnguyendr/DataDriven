@@ -825,7 +825,7 @@ public class MarketingPage extends AbstractPage {
         validateElememt(eleRetypeNewPassword, "New retype password input", Element_Type.DISPLAYED);
     }
 
-    public void resetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+    public void resetPassword(String newPass, String retypeResetPass) {
         try {
             getLogger().info("Verify to reset password");
             Thread.sleep(smallTimeOut);
@@ -843,7 +843,7 @@ public class MarketingPage extends AbstractPage {
         }
     }
 
-    public void setNewPassword(String newPassword) throws InterruptedException {
+    public void setNewPassword(String newPassword) {
         try {
 
             Thread.sleep(smallTimeOut);
