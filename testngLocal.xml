@@ -7,7 +7,7 @@
         <listener class-name="com.auvenir.utilities.listeners.SuiteListener"/>
         <listener class-name="com.auvenir.utilities.htmlreport.com.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
-    <test name="Regression1" preserve-order="false">
+    <!--<test name="Regression1" preserve-order="false">
         <parameter name="browser" value="chrome"/>
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
@@ -51,7 +51,7 @@
                 <include priority="31" name="verifyClientSeeMarkAsComplete"></include>
             </methods>
         </classes>
-    </test>
+    </test>-->
    <!-- <test name="Regression2" preserve-order="false">
         <parameter name="browser" value="firefox"/>
         <parameter name="version" value="lasted"/>
@@ -74,7 +74,7 @@
     </methods>
     </classes>
     </test>-->
-   <!--<test name="Regression3" preserve-order="true">
+   <test name="Regression3" preserve-order="true">
     <parameter name="browser" value="safari"/>
     <parameter name="version" value="lasted"/>
     <parameter name="os" value="MAC"/>
@@ -118,7 +118,7 @@
                 <include priority="31" name="verifyClientSeeMarkAsComplete"></include>
             </methods>
         </classes>
-    </test>-->
+    </test>
     <!--<test name="Regression4" preserve-order="true">
     <parameter name="browser" value="firefox"/>
     <parameter name="version" value="lasted"/>
