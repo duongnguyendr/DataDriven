@@ -6,9 +6,9 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
 import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
-import htmlreport.com.nxgreport.NXGReports;
-import htmlreport.com.nxgreport.logging.LogAs;
-import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.

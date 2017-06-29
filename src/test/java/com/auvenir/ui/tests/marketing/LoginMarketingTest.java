@@ -2,17 +2,14 @@ package com.auvenir.ui.tests.marketing;
 
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.EmailTemplateService;
-import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import htmlreport.com.nxgreport.NXGReports;
-import htmlreport.com.nxgreport.logging.LogAs;
-import htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
