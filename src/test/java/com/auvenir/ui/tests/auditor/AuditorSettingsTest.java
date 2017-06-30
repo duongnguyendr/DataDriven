@@ -34,7 +34,7 @@ public class AuditorSettingsTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
@@ -57,7 +57,7 @@ public class AuditorSettingsTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();
@@ -80,7 +80,7 @@ public class AuditorSettingsTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.navigateToSettingsPage();

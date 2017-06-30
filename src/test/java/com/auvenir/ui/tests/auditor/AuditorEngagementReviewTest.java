@@ -42,7 +42,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
             String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
             String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.createAndSelectNewEnagement(engagementNameUnix, engagementType, companyNameUnix);
@@ -72,7 +72,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortCompanyNameAscending(true);
@@ -98,7 +98,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementNameAscending(true);
@@ -124,7 +124,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementStatusAscending(true);
@@ -176,7 +176,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementCompleteToDosAscending(true);
@@ -202,7 +202,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
@@ -228,7 +228,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
@@ -254,7 +254,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementLastActivityAscending(true);
@@ -280,7 +280,7 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementDueDateAscending(true);
