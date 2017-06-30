@@ -65,8 +65,8 @@ public class AuditorEngagementService extends AbstractService {
 
 
     public void verifyAuditorEngagementPage() {
-            getLogger().info("verify Auditor Engagement page.");
-            auditorEngagementPage.verifyAuditorEngagementPage();
+        getLogger().info("verify Auditor Engagement page.");
+        auditorEngagementPage.verifyAuditorEngagementPage();
     }
 
     public void navigateToContactsTab() {
@@ -89,7 +89,7 @@ public class AuditorEngagementService extends AbstractService {
     public void clickNewEnagementButton() {
         getLogger().info("click Add New engagement button.");
         auditorEngagementPage.clickNewEnagementButton();
-}
+    }
 
     /*public void viewEngagementDetailsPage(String engagementName) {
         try {
@@ -149,8 +149,8 @@ public class AuditorEngagementService extends AbstractService {
     }
 
     /**
-     *  Create New Engagement with the specific Name and Navigate to new engagement which is just created.
-     *
+     * Create New Engagement with the specific Name and Navigate to new engagement which is just created.
+     * <p>
      * <p>
      * #History business changed:
      * R2: navigate after create engagement done:
@@ -159,8 +159,7 @@ public class AuditorEngagementService extends AbstractService {
      *
      * @param engagementName The name of engagement
      * @param engagementType The type of engagement
-     * @param company The company of engagement
-     *
+     * @param company        The company of engagement
      */
     public void createAndSelectNewEnagement(String engagementName, String engagementType, String company) {
         getLogger().info("Create And Select New Enagement.");
@@ -170,6 +169,7 @@ public class AuditorEngagementService extends AbstractService {
         // R2: Change bussiness rule, need to mark a commment this line.
 //        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
     }
+
     public void clickEngagementMenuLink() throws Exception {
         getLogger().info("Click Engagement Menu Link.");
         auditorNewEngagementPage.clickEngagementMenuLink();
@@ -179,13 +179,13 @@ public class AuditorEngagementService extends AbstractService {
         getLogger().info("Create And Select New Enagement.");
         auditorEngagementPage.clickNewEnagementButton();
         auditorNewEngagementPage.verifyNewEngagementPage();
-        auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company, deadlineDate,endDate,startDate);
+        auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company, deadlineDate, endDate, startDate);
         // R2: Change bussiness rule, need to mark a commment this line.
 //        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
     }
 
 
-    public void verifyAuditorPageHeaderContent(){
+    public void verifyAuditorPageHeaderContent() {
         getLogger().info("Verify content header auditor engagement page.");
         auditorEngagementPage.auditorPageHeaderContent();
     }

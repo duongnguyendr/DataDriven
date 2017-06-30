@@ -3,7 +3,9 @@ package com.auvenir.ui.tests.marketing;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.GmailLoginService;
+import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.client.ClientEngagementService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -135,12 +137,14 @@ public class MarketingTest extends AbstractTest {
     private String adminEmailPassword, auditorEmailPassword, clientEmailPassword;
     private GmailLoginService gmailLoginService;
     private AuditorEngagementService auditorEngagementService;
+    private AdminService adminService;
+    private ClientEngagementService clientEngagementService;
 
     @Test(priority = 8, enabled = true, description = "Verify reset admin password flow.")
     public void verifyAdminResetPassword() {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
 
         adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
         adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
@@ -165,7 +169,7 @@ public class MarketingTest extends AbstractTest {
 
             marketingService.verifyResetPasswordPageTitle();
             marketingService.fillUpAndConfirmPassword(adminPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
+            adminService.verifyPageLoad();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify reset admin password flow.", LogAs.PASSED, null);
@@ -225,6 +229,7 @@ public class MarketingTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
 
         clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
         clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
@@ -249,7 +254,7 @@ public class MarketingTest extends AbstractTest {
 
             marketingService.verifyResetPasswordPageTitle();
             marketingService.fillUpAndConfirmPassword(clientPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
+            clientEngagementService.verifyNavigatedToClientEngagementPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify reset client password flow.", LogAs.PASSED, null);
