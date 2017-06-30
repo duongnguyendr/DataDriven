@@ -70,9 +70,6 @@ public class AbstractTest {
     private String testName = "initial";
     // minh.nguyen updated May 26,2017 updated
     public static final String engagementName = "engagement 01";
-    /*
-    Doai.Tran fix
-     */
 
     @BeforeSuite
     public void setConfig() {
@@ -80,14 +77,15 @@ public class AbstractTest {
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
-
-        /*if (server.equalsIgnoreCase("cadet")) {
+        /*
+        if (server.equalsIgnoreCase("cadet")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
         } else if (server.equalsIgnoreCase("local")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         } else {
             GenericService.sConfigFile = GenericService.sDirPath + "/ariel.properties";
-        }*/
+        }
+        */
     }
 
     @Parameters({"browser", "version", "os"})
@@ -133,35 +131,8 @@ public class AbstractTest {
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
-
-//                    ProfilesIni allProfiles = new ProfilesIni();
-//                    System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
-//                    //System.setProperty("webdriver.firefox.profile","your custom firefox profile name");
-//                    String browserProfile = System.getProperty("webdriver.gecko.driver");
-//                    FirefoxProfile profile = allProfiles.getProfile(browserProfile);
-//                    profile.setAcceptUntrustedCertificates (true);
-//                    driver = new FirefoxDriver(profile);
-
-//                    DesiredCapabilities capabilities = new DesiredCapabilities();
-//                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-//                    driver = new FirefoxDriver(capabilities);
-
-                    FirefoxProfile profile = new FirefoxProfile();
-                    profile.setAcceptUntrustedCertificates(false);
+                    FirefoxProfile profile = setDownloadLocationFirefox();
                     driver = new FirefoxDriver(profile);
-
-//                    DesiredCapabilities dc = DesiredCapabilities.firefox();
-//                    dc.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-//
-//                    FirefoxProfile profile = new FirefoxProfile();
-//                    profile.setAcceptUntrustedCertificates(true);
-//
-//                    dc.setCapability(FirefoxDriver.PROFILE, profile);
-//
-//                    // this is the important line - i.e. don't use Marionette
-//                    dc.setCapability(FirefoxDriver.MARIONETTE, true);
-//
-//                    driver =  new FirefoxDriver(dc);
 
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
                     getLogger().info("Intetnet Explorer is set");
@@ -186,12 +157,13 @@ public class AbstractTest {
                     chromePrefs.put("download.default_directory", downloadFilepath);
                     ChromeOptions options = new ChromeOptions();
                     options.setExperimentalOption("prefs", chromePrefs);
-                    //DesiredCapabilities capabilities = DesiredCapabilities.chrome();
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     capabilities = DesiredCapabilities.firefox();
+                    FirefoxProfile profile = setDownloadLocationFirefox();
+                    capabilities.setCapability(FirefoxDriver.PROFILE,profile);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
                     capabilities = DesiredCapabilities.internetExplorer();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("saf.")) {
@@ -241,7 +213,7 @@ public class AbstractTest {
     public void tearDown(Method method) {
         testName = method.getName();
         logger.info("Close .the browser.");
-        //closeAllTab();
+        closeAllTab();
         logCurrentStepEnd();
     }
 
@@ -320,6 +292,19 @@ public class AbstractTest {
         cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
         cap.setCapability(ChromeOptions.CAPABILITY, options);
         return cap;
+    }
+    /*
+    Update for method: setDownload Location on Firefox
+     */
+    public FirefoxProfile setDownloadLocationFirefox(){
+        FirefoxProfile profile = new FirefoxProfile();
+        profile.setPreference("browser.download.folderList", 2);
+        profile.setPreference("browser.download.manager.showWhenStarting", false);
+        String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
+        profile.setPreference("browser.download.dir", downloadFilepath);
+        profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/x-gzip");
+        profile.setAcceptUntrustedCertificates(false);
+        return  profile;
     }
 
 }
