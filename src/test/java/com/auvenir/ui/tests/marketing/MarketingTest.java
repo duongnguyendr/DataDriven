@@ -136,8 +136,50 @@ public class MarketingTest extends AbstractTest {
     private GmailLoginService gmailLoginService;
     private AuditorEngagementService auditorEngagementService;
 
-    @Test(priority = 8, enabled = true, description = "Verify reset password flow.")
-    public void verifyResetPassword() {
+    @Test(priority = 8, enabled = true, description = "Verify reset admin password flow.")
+    public void verifyAdminResetPassword() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+
+        adminId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
+        adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
+        adminEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Admin Email Password");
+
+        try {
+            gmailLoginService.setPrefixProtocol("");
+            gmailLoginService.deleteAllExistedEmail(adminId, adminEmailPassword);
+
+            marketingService.goToBaseURL();
+            //setBaseUrl("https://auvenir-qa-manual-frontend.com/");
+            marketingService.openLoginDialog();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(adminId);
+            marketingService.clickOnRequestResetLinkBTN();
+
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail("", adminEmailPassword);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromResetLink();
+
+            marketingService.verifyResetPasswordPageTitle();
+            marketingService.fillUpAndConfirmPassword(adminPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify reset admin password flow.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify reset admin password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify reset admin password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //throw ex;
+        }
+    }
+
+    @Test(priority = 9, enabled = true, description = "Verify reset auditor password flow.")
+    public void verifyAuditorResetPassword() {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -168,12 +210,54 @@ public class MarketingTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Finish: Verify reset password flow.", LogAs.PASSED, null);
+            NXGReports.addStep("Finish: Verify reset auditor password flow.", LogAs.PASSED, null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Error: Verify reset password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Verify reset auditor password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         } catch (Exception ex) {
-            NXGReports.addStep("Error: Verify reset password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Verify reset auditor password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify reset client password flow.")
+    public void verifyClientResetPassword() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+
+        clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
+        clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+        clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Client Email Password");
+
+        try {
+            gmailLoginService.setPrefixProtocol("");
+            gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
+
+            marketingService.goToBaseURL();
+            //setBaseUrl("https://auvenir-qa-manual-frontend.com/");
+            marketingService.openLoginDialog();
+            marketingService.goToForgotPassword();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(clientId);
+            marketingService.clickOnRequestResetLinkBTN();
+
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail("", clientEmailPassword);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromResetLink();
+
+            marketingService.verifyResetPasswordPageTitle();
+            marketingService.fillUpAndConfirmPassword(clientPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify reset client password flow.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify reset client password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify reset client password flow.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             //throw ex;
         }
     }
