@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 /**
  * Created by toan.nguyenp on 4/11/2017.
- * Update by minh.nguyen on 06/02/2017
+ * Update by minh.nguyen on June 30, 2017
  */
 public class LoginMarketingTest extends AbstractTest {
     private MarketingService marketingService;
@@ -30,7 +30,7 @@ public class LoginMarketingTest extends AbstractTest {
     @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.")
     public void forgotPasswordTest() throws Exception {
         emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-        emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
+        emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
@@ -56,7 +56,7 @@ public class LoginMarketingTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test positive behavior forgot password: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e){
-            NXGReports.addStep("Test positive behavior forgot password: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            NXGReports.addStep("Test positive behavior forgot password: FAILED", LogAs.FAILED, (CaptureScreen) new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
@@ -77,7 +77,7 @@ public class LoginMarketingTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with blank email address: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e){
-            NXGReports.addStep("Forgot password with blank email address: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            NXGReports.addStep("Forgot password with blank email address: FAILED", LogAs.FAILED, (CaptureScreen) new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
@@ -127,7 +127,7 @@ public class LoginMarketingTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with email is invalid: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
-            NXGReports.addStep("Forgot password with email is invalid: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            NXGReports.addStep("Forgot password with email is invalid: FAILED", LogAs.FAILED, (CaptureScreen) new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
@@ -147,7 +147,7 @@ public class LoginMarketingTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with email is not exist: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e) {
-            NXGReports.addStep("Forgot password with email is not exist: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            NXGReports.addStep("Forgot password with email is not exist: FAILED", LogAs.FAILED, (CaptureScreen) new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
@@ -157,7 +157,7 @@ public class LoginMarketingTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-        emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
+        emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -181,9 +181,6 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(emailAuditorLogin, passwordAuditorLogin);
-            //Will uncomment this code when web app is redirect to right website.
-//            marketingService.deleteCookieName("token_data");
-//            marketingService.deleteCookieName("au_urs_info");
             marketingService.deleteCookieName("_ga");
             marketingService.deleteCookieName("_gat");
             marketingService.deleteCookieName("_gid");
@@ -191,9 +188,6 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.deleteCookieName("connect.sid");
             marketingService.deleteCookieName("io");
             marketingService.refreshHomePage();
-            //Will uncomment this code when web app is redirect to right website.
-//            marketingService.verifyLoginBTN();
-//            marketingService.verifySignUpBTN();
             marketingService.verifyLogoutBTNIsNotPresented();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Clear all cookies after user login successfully: PASSED", LogAs.PASSED, (CaptureScreen) null);
@@ -210,15 +204,12 @@ public class LoginMarketingTest extends AbstractTest {
         String emailInvalid2 = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "INVALID VALUE2", "Auditor");
         String emailInvalid3 = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "INVALID VALUE3", "Auditor");
         String emailNotExists = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "NOT EXIST", "Auditor");
-//        String passwordNotExists = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", 5, 2);
         marketingService = new MarketingService(getLogger(),getDriver());
         try {
             marketingService.goToBaseURL();
-            //Verify Test login when user does not input email and password.
             marketingService.loginToMarketingPageWithInvalidValue("","");
             marketingService.verifyColorUserNameTxtBox();
             marketingService.verifyColorPasswordTxtBox();
-            //Verify Test login when user input invalid email.
             marketingService.refreshHomePage();
             marketingService.loginToMarketingPageWithInvalidValue(emailInvalid1,password);
             marketingService.verifyColorUserNameTxtBox();
@@ -231,27 +222,24 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.loginToMarketingPageWithInvalidValue(emailInvalid3,password);
             marketingService.verifyColorUserNameTxtBox();
             marketingService.verifyErrorLoginMessage("The email is invalid!");
-            //Verify Test login with incorrect email or password.
             marketingService.refreshHomePage();
             marketingService.loginToMarketingPageWithInvalidValue(emailNotExists, password);
-            //Business is changed, User Name and Password textbox is not changed color error.
-//            marketingService.verifyColorUserNameTxtBox();
-//            marketingService.verifyColorPasswordTxtBox();
             marketingService.verifyErrorLoginMessage("Wrong username or password!");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test login when user does not input email and password: PASSED", LogAs.PASSED, null);
         }catch (Exception e){
-            NXGReports.addStep("Test login when user does not input email and password: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            NXGReports.addStep("Test login when user does not input email and password: FAILED", LogAs.FAILED, (CaptureScreen) new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
         }
     }
 
     @Test(priority = 8, enabled = true, description = "Forgot password with password is invalid.")
-    public void forgotPasswordWithInvalidValue() {
+    public void forgotPasswordWithInvalidValue() throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
             emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-            emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
+            emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -260,40 +248,36 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.inputEmailForgotPassword(emailId);
             marketingService.clickOnRequestResetLinkBTN();
             gmailLoginService.openGmailIndexForgotPassword(emailId, emailPassword);
-
             String ranPassword = GenericService.genPassword(7, true, true, true);
             NXGReports.addStep("Enter new password: " + ranPassword, LogAs.PASSED, null);
             marketingService.verifyNewPassword(ranPassword);
             marketingService.verifyPopupWarning(ranPassword, true, true, true);
-
             String ranPasswordNotContainsUpperCase = "abc1234d";
             NXGReports.addStep("Enter new  invalid password is: " + ranPasswordNotContainsUpperCase, LogAs.PASSED, null);
             marketingService.verifyNewPassword(ranPasswordNotContainsUpperCase);
             marketingService.verifyPopupWarning(ranPasswordNotContainsUpperCase, false, true, true);
-
             String ranPasswordNotContainsDigit = "abcdABCD";
             NXGReports.addStep("Enter new  invalid password is: " + ranPasswordNotContainsDigit, LogAs.PASSED, null);
             marketingService.verifyNewPassword(ranPasswordNotContainsDigit);
             marketingService.verifyPopupWarning(ranPasswordNotContainsDigit, true, true, false);
-
             String randomPasswordContaintDigit = "12345678";
             NXGReports.addStep("Enter new  invalid password is: " + randomPasswordContaintDigit, LogAs.PASSED, null);
             marketingService.verifyNewPassword(randomPasswordContaintDigit);
             marketingService.verifyPopupWarning(randomPasswordContaintDigit, false, false, true);
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with password is invalid: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
-            NXGReports.addStep("Forgot password with password is invalid: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            NXGReports.addStep("Forgot password with password is invalid: FAILED", LogAs.FAILED, (CaptureScreen) new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
         }
     }
     @Test(priority = 9, enabled = true , description = "Verify alert when user re-types new password not match.")
-    public void forgotPasswordWithRetypePasswordNotMatchTest(){
+    public void forgotPasswordWithRetypePasswordNotMatchTest() throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
             emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-            emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
+            emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -311,7 +295,8 @@ public class LoginMarketingTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify alert when user re-types new password not match: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify alert when user re-types new password not match: FAILED", LogAs.FAILED, (CaptureScreen) null);
+            NXGReports.addStep("Verify alert when user re-types new password not match: FAILED", LogAs.FAILED, (CaptureScreen) new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
         }
     }
 }
