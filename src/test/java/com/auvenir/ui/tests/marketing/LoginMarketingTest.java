@@ -252,7 +252,6 @@ public class LoginMarketingTest extends AbstractTest {
         try {
             emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
             emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
-            marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -295,7 +294,6 @@ public class LoginMarketingTest extends AbstractTest {
         try {
             emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
             emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
-            marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
