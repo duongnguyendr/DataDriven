@@ -69,6 +69,16 @@ public class AuditorEngagementService extends AbstractService {
         auditorEngagementPage.verifyAuditorEngagementPage();
     }
 
+    public void verifyAuditorEngagementFilter() {
+        getLogger().info("verify Auditor Engagement filter.");
+        auditorEngagementPage.verifyAuditorEngagementFilter();
+    }
+
+    public void verifyAuditorEngagementHover() {
+        getLogger().info("verify Auditor Engagement hover.");
+        auditorEngagementPage.verifyAuditorEngagementHover();
+    }
+
     public void navigateToContactsTab() {
         try {
             getLogger().info("navigate to Contacts page.");
