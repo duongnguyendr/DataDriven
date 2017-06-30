@@ -30,13 +30,10 @@ public class LoginMarketingTest extends AbstractTest {
     @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.")
     public void forgotPasswordTest() throws Exception {
         emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-        //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
-        emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
+        emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            //marketingService.createAndActiveNewUserByEmail("minh nguyen","edge.minhtest@gmail.com","hoangminh1240", "Changeit@123","admin@auvenir.com","Changeit@123");
-            //marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -68,7 +65,6 @@ public class LoginMarketingTest extends AbstractTest {
     public void forgotPasswordWithBlankEmail() throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            marketingService.setPrefixProtocol(httpProtocol);
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
@@ -90,15 +86,14 @@ public class LoginMarketingTest extends AbstractTest {
     public void forgotPasswordWithInvalidEmail() throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 2, 1);
-            NXGReports.addStep("Enter " + invalidEmailAddress + " into email address.", LogAs.PASSED, null);
-            Assert.assertFalse(GenericService.isValidEmailAddress(invalidEmailAddress), "Email address is readed from excel file which is a invalid.");
-            marketingService.setPrefixProtocol(httpProtocol);
+            emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+            NXGReports.addStep("Enter " + emailId + " into email address.", LogAs.PASSED, null);
+            Assert.assertFalse(GenericService.isValidEmailAddress(emailId), "Email address is readed from excel file which is a invalid.");
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
-            marketingService.inputEmailForgotPassword(invalidEmailAddress);
+            marketingService.inputEmailForgotPassword(emailId);
             marketingService.clickOnRequestResetLinkBTN();
             marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
             marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
@@ -106,7 +101,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
             marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
             marketingService.refreshHomePage();
-            String invalidEmailAddress1 = GenericService.readExcelData(testData, "ForgotPassword", 3, 1);
+            String invalidEmailAddress1 = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","INVALID VALUE");
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
@@ -118,7 +113,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
             marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
             marketingService.refreshHomePage();
-            String invalidEmailAddress2 = GenericService.readExcelData(testData, "ForgotPassword", 4, 1);
+            String invalidEmailAddress2 = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","NOT EXIST");
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
@@ -141,8 +136,7 @@ public class LoginMarketingTest extends AbstractTest {
     public void forgotPasswordWithEmailIsNotExist() throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            String invalidEmailAddress = GenericService.readExcelData(testData, "ForgotPassword", 5, 1);
-            marketingService.setPrefixProtocol(httpProtocol);
+            String invalidEmailAddress = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","INVALID VALUE");
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
@@ -162,12 +156,12 @@ public class LoginMarketingTest extends AbstractTest {
     public void loginAndLogoutTest() throws Exception {
         marketingService = new MarketingService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        String emailAuditorLogin = GenericService.getTestDataFromExcel("LoginData", "Valid User4", "Auditor");
-        String passwordAuditorLogin = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
+        emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+        emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
-            marketingService.loginWithUserNamePassword(emailAuditorLogin, passwordAuditorLogin);
+            marketingService.loginWithUserNamePassword(emailId, emailPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -256,9 +250,8 @@ public class LoginMarketingTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-            emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
+            emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
@@ -300,9 +293,8 @@ public class LoginMarketingTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
-            //emailId = GenericService.readExcelData(testData, "ForgotPassword", 1, 1);
             emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-            emailPassword = GenericService.readExcelData(testData, "ForgotPassword", 1, 2);
+            emailPassword = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
             marketingService.setPrefixProtocol(httpProtocol);
             marketingService.deleteGmail(emailId,emailPassword);
             marketingService.goToBaseURL();
