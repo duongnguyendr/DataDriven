@@ -766,6 +766,7 @@ public class AdminLoginPage extends AbstractPage {
         SelectStatus = getDriver().findElement(By.xpath("//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + DateCreated + "')]//..//td//select"));
         Select select = new Select(SelectStatus);
         select.selectByVisibleText("Onboarding");
+
         //Thread.sleep(3000);
         getLogger().info("Wait for confirm popup render.");
         visibilityOfElementWait(getEleWAITLISTtoONBOARDINGTxt(), "Confirm Poup", waitTime);
