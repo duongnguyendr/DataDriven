@@ -498,10 +498,12 @@ public class GmailPage extends AbstractPage {
             if (!getDriver().getCurrentUrl().contains("accounts.google.com")) {
                 clickElement(signButtonEle, "signButtonEle");
             }
-            sendKeyTextBox(eleEmail, email, "eleEmail");
-            sendTabkey(eleEmail, "eleEmail");
-            sendEnterkey(eleEmail, "eleEmail");
-            getLogger().info("Send email: " + email);
+            if (!email.isEmpty()) {
+                sendKeyTextBox(eleEmail, email, "eleEmail");
+                sendTabkey(eleEmail, "eleEmail");
+                sendEnterkey(eleEmail, "eleEmail");
+                getLogger().info("Send email: " + email);
+            }
 //            Thread.sleep(2000);
             sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
@@ -546,7 +548,7 @@ public class GmailPage extends AbstractPage {
     public void clickOnboardingInvitationLink() {
         try {
             clickElement(buttonStartEngagement, "Button Start Engagement");
-            getLogger().info("Redirecting for Gmail to Auvenir Welcome Page");
+            getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -693,6 +695,9 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[9]")
     private WebElement titleGoodbye;
 
+    @FindBy(xpath = "//a[text()='Reset Password']")
+    private WebElement buttonResetPassword;
+
     String cssGreeting = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.75px; line-height: 0; margin-top: 15px; color: #363a3c";
     String cssBody = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-weight: normal; font-size: 14px; line-height: 1.6; color: #707070; padding: 0px; margin: 0px";
 
@@ -745,5 +750,16 @@ public class GmailPage extends AbstractPage {
         //validateAttributeElement(titleGoodbye, "style", cssBody);
     }
 
+    /**
+     * Enter the email(after search) n click 'Reset Password' button to go to Auvenir site
+     */
+    public void clickResetPasswordLink() {
+        try {
+            clickElement(buttonResetPassword, "Button Reset Password");
+            getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     /*-----------end of huy.huynh on 26/06/2017.*/
 }

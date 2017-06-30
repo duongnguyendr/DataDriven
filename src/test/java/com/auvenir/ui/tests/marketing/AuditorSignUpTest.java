@@ -43,6 +43,7 @@ public class AuditorSignUpTest extends AbstractTest {
     final String strOffNum = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
     final String strZipCode = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
     final String strCity = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
+    String strCountry = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Country", "Valid Value");
     final String strState = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
     final String strMemberID = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D", "Valid Value");
     final String strNumEmp = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
@@ -74,14 +75,14 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
             auditorSignUpService.verifyFirmSignUpPage();
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry ,strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
 
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
 
@@ -248,14 +249,14 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity,strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
 
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
 
@@ -297,15 +298,50 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.selectAnyCountry("Canada");
             auditorSignUpService.verifyCountrySelectedCorrectly("Canada");
             auditorSignUpService.verifyStateListAfterSelectCountry("Canada");
+            auditorSignUpService.selectAnyState("Quebec");
+            auditorSignUpService.verifyStateSelectedCorrectly("Quebec");
             auditorSignUpService.verifyCountryList();
             auditorSignUpService.selectAnyCountry("United States");
             auditorSignUpService.verifyCountrySelectedCorrectly("United States");
             auditorSignUpService.verifyStateListAfterSelectCountry("United States");
+            auditorSignUpService.selectAnyState("Florida");
+            auditorSignUpService.verifyStateSelectedCorrectly("Florida");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Provice and State displayed correctly when Signed up: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
             NXGReports.addStep("Verify Provice and State displayed correctly when Signed up: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 6, enabled = true, description = "Verify Member ID")
+    public void verifyMemberIDWhenSignUp() throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        try {
+            auditorSignUpService.deleteUserUsingApi(emailCreate);
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.navigateToSignUpPage();
+            auditorSignUpService.verifyPersonalSignUpPage();
+            auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
+            auditorSignUpService.verifyFirmSignUpPage();
+            auditorSignUpService.verifyMemberID_DefaultValue();
+            auditorSignUpService.inputMemberID("ABCDEF");
+            auditorSignUpService.verifyValidMemberID("ABCDEF");
+            auditorSignUpService.inputMemberID("123456");
+            auditorSignUpService.verifyValidMemberID("123456");
+            auditorSignUpService.inputMemberID("A1B2C3D4E5F6");
+            auditorSignUpService.verifyValidMemberID("A1B2C3D4E5F6");
+            auditorSignUpService.inputMemberID("@#$%^&*");
+            auditorSignUpService.verifyInvalidMemberID("@#$%^&*");
+            auditorSignUpService.inputMemberID("ABCDEF 123456");
+            auditorSignUpService.verifyInvalidMemberID("ABCDEF 123456");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Member ID: PASSED", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            NXGReports.addStep("Verify Member ID: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }

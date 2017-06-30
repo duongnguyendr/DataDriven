@@ -1,8 +1,8 @@
 package com.auvenir.ui.services.marketing;
 
 import com.auvenir.ui.pages.admin.AdminLoginPage;
-import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.pages.marketing.AuditorSignUpPage;
+import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -42,8 +42,7 @@ public class MarketingService extends AbstractService {
         marketingPage.verifyCookiesNoticeContentPage();
     }
 
-    public void clickLoginButton() {
-        getLogger().info("Click on login button.");
+    public void openLoginDialog() {
         marketingPage.clickOnLoginBTN();
     }
 
@@ -120,7 +119,8 @@ public class MarketingService extends AbstractService {
 
     public void clickOnRequestResetLinkBTN() throws InterruptedException {
         marketingPage.clickOnRequestResetLinkBTN();
-        marketingPage.waitPageLoad();
+        //marketingPage.waitPageLoad();
+        marketingPage.waitForResetLinkSent();
     }
 
     public void verifyColorEmailForgotPasswordTextBox(String attributeName, String attributeValue) {
@@ -170,16 +170,16 @@ public class MarketingService extends AbstractService {
     /*
 Vien.Pham added login With New User Role
 */
-    public void loginWithNewUserRole(String userEmail, String usePwd) throws Exception {
+    public void loginWithNewUserRole(String userEmail, String usePwd) {
         loginWithUserNamePassword(userEmail, usePwd);
     }
 
 
-    public void verifyResetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+    public void verifyResetPassword(String newPass, String retypeResetPass) {
         marketingPage.resetPassword(newPass, retypeResetPass);
     }
 
-    public void verifyNewPassword(String newPassword) throws InterruptedException {
+    public void verifyNewPassword(String newPassword) {
         marketingPage.setNewPassword(newPassword);
     }
 
@@ -206,15 +206,16 @@ Vien.Pham added login With New User Role
     }
 
     public void selectLoginBtn() {
-        clickLoginButton();
+        openLoginDialog();
     }
-    public void loginWithUserPwd(String  username, String pwd){
+
+    public void loginWithUserPwd(String username, String pwd) {
         loginWithUserNamePassword(username, pwd);
     }
 
     public void loginWithUserRolesUsingUsernamePassword(String username, String password) {
         goToBaseURL();
-        clickLoginButton();
+        openLoginDialog();
         loginWithUserNamePassword(username, password);
     }
 
@@ -222,4 +223,17 @@ Vien.Pham added login With New User Role
     /**
      * -----end of huy.huynh 19/06/2017.-----
      */
+
+    /**
+     * Add new by huy.huynh on 29/06/2017.
+     * R2.1 NewFeature
+     */
+    public void verifyResetPasswordPageTitle() {
+        marketingPage.verifyResetPasswordPageTitle();
+    }
+
+    public void fillUpAndConfirmPassword(String password) {
+        marketingPage.fillUpAndConfirmPassword(password);
+    }
+    /*-----------end of huy.huynh on 29/06/2017.*/
 }

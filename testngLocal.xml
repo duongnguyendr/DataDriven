@@ -7,7 +7,7 @@
         <listener class-name="com.auvenir.utilities.listeners.SuiteListener"/>
         <listener class-name="com.auvenir.utilities.htmlreport.com.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
-   <!-- <test name="Regression1" preserve-order="false">
+    <!--<test name="Regression1" preserve-order="false">
         <parameter name="browser" value="chrome"/>
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
@@ -76,7 +76,7 @@
     </test>-->
    <test name="Regression3" preserve-order="true">
     <parameter name="browser" value="safari"/>
-    <parameter name="version" value="lasted"/>
+    <parameter name="version" value="10.1.1"/>
     <parameter name="os" value="MAC"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>

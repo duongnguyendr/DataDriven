@@ -5,9 +5,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.text.SimpleDateFormat;
 import java.time.Month;
+import java.util.List;
 
 /**
  * Created by huy.huynh on 15/05/2017.
@@ -23,9 +25,23 @@ public class DatePicker {
     @FindBy(className = "ui-icon ui-icon-circle-triangle-e")
     private WebElement btnNext;
 
+    @FindBy(id = "ui-datepicker-div")
+    private WebElement defaultDatePickerElement;
+
+    @FindBy(xpath = "//div[@id='ui-datepicker-div']//td[@data-handler]/a")
+    private List<WebElement> listValidDate;
+
+
     public DatePicker(WebDriver driver, WebElement ele) {
         this.driver = driver;
         datePicker = ele;
+        PageFactory.initElements(driver, this);
+    }
+
+    public DatePicker(WebDriver driver) {
+        this.driver = driver;
+        this.datePicker = defaultDatePickerElement;
+        PageFactory.initElements(driver, this);
     }
 
     public void clickPreviousButton() {
@@ -69,6 +85,14 @@ public class DatePicker {
             }
         }
         pickADate(date);
+    }
+
+    public void selectFirstValidDate() {
+        listValidDate.get(0).click();
+    }
+
+    public void selectSecondValidDate() {
+        listValidDate.get(1).click();
     }
 
     /**

@@ -19,6 +19,7 @@ public class ClientEngagementPage extends AbstractPage {
     }
 
     public void verifyNavigatedToClientEngagementPage() {
+        waitForVisibleElement(titleAllEngagement, "Title All Engagement");
         validateElementText(titleAllEngagement, "All Engagements");
     }
 }

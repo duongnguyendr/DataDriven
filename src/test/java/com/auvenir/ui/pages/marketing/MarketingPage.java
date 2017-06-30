@@ -78,7 +78,7 @@ public class MarketingPage extends AbstractPage {
     @FindBy(xpath = ".//input[@name='name']")
     private WebElement nameTextBox;
     @FindBy(xpath = ".//input[@name='email']")
-    private  WebElement contactEmailTextBox;
+    private WebElement contactEmailTextBox;
     @FindBy(xpath = "//div[@class='ui selection dropdown']")
     private WebElement directMessageDropdown;
     @FindBy(xpath = "//textarea[@name='message']")
@@ -152,10 +152,10 @@ public class MarketingPage extends AbstractPage {
     private WebElement passwordTextBox;
     @FindBy(xpath = ".//*[@id='login-popup']//button")
     private WebElement submitBTN;
-//    @FindBy(xpath = "//*[@class='ui label userAligment']")
+    //    @FindBy(xpath = "//*[@class='ui label userAligment']")
     @FindBy(xpath = "//*[@class='au-dropdown-trigger']")
     private WebElement profileLink;
-//    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+    //    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
     @FindBy(xpath = "//*[@id='h-ddl-signOut']")
     private WebElement logoutBTN;
     @FindBy(xpath = "//*/a[@class='ui large basic inverted button']")
@@ -379,150 +379,162 @@ public class MarketingPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='term']//div[@class='ui container term-container']//div[@class='ui basic segment']//div[@class='terms-detail']")
     private WebElement termsContentText;
 
-    @FindBy(xpath="//*[@id=\"preview-header-left\"]/span")
+    @FindBy(xpath = "//*[@id=\"preview-header-left\"]/span")
     private WebElement allEngagementsEle;
 
     @FindBy(xpath = "//*[@id='reset-password']//input[@name='password']")
     private WebElement eleNewPasword;
-    public WebElement getEleNewPasword(){ return eleNewPasword; }
+
+    public WebElement getEleNewPasword() {
+        return eleNewPasword;
+    }
 
     @FindBy(xpath = "//*[@id='reset-password']//input[@name='retype_password']")
     private WebElement eleRetypeNewPassword;
-    public WebElement getEleRetypeNewPassword() { return eleRetypeNewPassword; }
+
+    public WebElement getEleRetypeNewPassword() {
+        return eleRetypeNewPassword;
+    }
 
     @FindBy(xpath = "//div/button[contains(@class, 'button') and (text()='Cancel' or text()='Annuler')]")
     private WebElement btnCancel;
-    public WebElement getBtnCancel() { return btnCancel; }
+
+    public WebElement getBtnCancel() {
+        return btnCancel;
+    }
 
     @FindBy(xpath = "//div/button[contains(@class, 'button') and (text()='Reset' or text()='Réinitialiser')]")
     private WebElement btnReset;
-    public WebElement getBtnReset() { return btnReset; }
+
+    public WebElement getBtnReset() {
+        return btnReset;
+    }
 
     @FindBy(id = "reset-password-warning-popup")
     private WebElement resetPasswordWarningPopup;
-    public WebElement getResetPasswordWarningPopup() { return resetPasswordWarningPopup; }
 
-    @FindBy(id= "confirm-password-message")
+    public WebElement getResetPasswordWarningPopup() {
+        return resetPasswordWarningPopup;
+    }
+
+    @FindBy(id = "confirm-password-message")
     private WebElement confirmPasswordMessage;
-    public WebElement getConfirmPasswordMessage() { return  confirmPasswordMessage; }
+
+    public WebElement getConfirmPasswordMessage() {
+        return confirmPasswordMessage;
+    }
 
     @FindBy(css = "#reset-password .exit")
     private WebElement btnExit;
-    public WebElement getBtnExit() { return btnExit; }
+
+    public WebElement getBtnExit() {
+        return btnExit;
+    }
 
     @FindBy(css = "#reset-password .login")
     private WebElement btnLogin;
-    public WebElement getBtnLogin() { return btnLogin; }
+
+    public WebElement getBtnLogin() {
+        return btnLogin;
+    }
 
     @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img[@class='au-modal-closeBtn']")
     private WebElement eleCredentialsCloseIcn;
+
     public WebElement getEleCredentialsCloseIcn() {
         return eleCredentialsCloseIcn;
     }
 
-    public void verifyAboutContentPage(){
+    public void verifyAboutContentPage() {
         getLogger().info("Verify about content page");
-        boolean isCheckAboutContentPage,isCheckAboutContentPage1,isCheckAboutContentPage2,isCheckAboutContentPage3,isCheckAboutContentPage4
-                ,isCheckAboutContentPage5,isCheckAboutContentPage6,isCheckAboutContentPage7,isCheckAboutContentPage8,isCheckAboutContentPage9 = false;
+        boolean isCheckAboutContentPage, isCheckAboutContentPage1, isCheckAboutContentPage2, isCheckAboutContentPage3, isCheckAboutContentPage4, isCheckAboutContentPage5, isCheckAboutContentPage6, isCheckAboutContentPage7, isCheckAboutContentPage8, isCheckAboutContentPage9 = false;
 
-        isCheckAboutContentPage = waitForVisibleElement(avenirLogo,"avenirLogo");
-        isCheckAboutContentPage1 = validateElementText(headerText,"Auvenir is a Toronto-based technology company that makes the audit process better for auditors and clients. We are proud to be a Deloitte venture.");
-        isCheckAboutContentPage2 = waitForVisibleElement(meetTheAuvyLeagueText,"meetTheAuvyLeagueText");
-        isCheckAboutContentPage3 = waitForVisibleElement(alexImage,"alexImage");
-        isCheckAboutContentPage4 = waitForVisibleElement(alextNameText,"alextNameText");
-        isCheckAboutContentPage5 = waitForVisibleElement(alextTitleText,"alextTitleText");
-        isCheckAboutContentPage6 = waitForVisibleElement(wannaJoinUsText,"wannaJoinUsText");
-        isCheckAboutContentPage7 = waitForVisibleElement(viewCareerBTN,"viewCareerBTN");
-        isCheckAboutContentPage8 = waitForVisibleElement(highlightSoFourWeekendText,"highlightSoFourWeekendText");
-        isCheckAboutContentPage9 = waitForVisibleElement(firstImage,"firstImage");
+        isCheckAboutContentPage = waitForVisibleElement(avenirLogo, "avenirLogo");
+        isCheckAboutContentPage1 = validateElementText(headerText, "Auvenir is a Toronto-based technology company that makes the audit process better for auditors and clients. We are proud to be a Deloitte venture.");
+        isCheckAboutContentPage2 = waitForVisibleElement(meetTheAuvyLeagueText, "meetTheAuvyLeagueText");
+        isCheckAboutContentPage3 = waitForVisibleElement(alexImage, "alexImage");
+        isCheckAboutContentPage4 = waitForVisibleElement(alextNameText, "alextNameText");
+        isCheckAboutContentPage5 = waitForVisibleElement(alextTitleText, "alextTitleText");
+        isCheckAboutContentPage6 = waitForVisibleElement(wannaJoinUsText, "wannaJoinUsText");
+        isCheckAboutContentPage7 = waitForVisibleElement(viewCareerBTN, "viewCareerBTN");
+        isCheckAboutContentPage8 = waitForVisibleElement(highlightSoFourWeekendText, "highlightSoFourWeekendText");
+        isCheckAboutContentPage9 = waitForVisibleElement(firstImage, "firstImage");
 
-        if(isCheckAboutContentPage & isCheckAboutContentPage1 & isCheckAboutContentPage2 & isCheckAboutContentPage3 & isCheckAboutContentPage4 & isCheckAboutContentPage5
-                & isCheckAboutContentPage6 & isCheckAboutContentPage7 & isCheckAboutContentPage8 & isCheckAboutContentPage9)
-        {
+        if (isCheckAboutContentPage & isCheckAboutContentPage1 & isCheckAboutContentPage2 & isCheckAboutContentPage3 & isCheckAboutContentPage4 & isCheckAboutContentPage5
+                & isCheckAboutContentPage6 & isCheckAboutContentPage7 & isCheckAboutContentPage8 & isCheckAboutContentPage9) {
             NXGReports.addStep("Verify about content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify about content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
         }
     }
-    public void goToCareersPage(){
-        clickElement(viewCareerBTN,"viewCareerBTN");
+
+    public void goToCareersPage() {
+        clickElement(viewCareerBTN, "viewCareerBTN");
     }
 
-    public void verifyCareersContentPage(){
+    public void verifyCareersContentPage() {
         getLogger().info("Verify careers content page");
         boolean checkMarketingHeaderText = false;
         boolean checkCareersAuvenirText = false;
-        boolean isCheckCareersContentPage,isCheckCareersContentPage1, isCheckCareersContentPage2, isCheckCareersContentPage3, isCheckCareersContentPage4
-                ,isCheckCareersContentPage5  = false;
-        isCheckCareersContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
-        isCheckCareersContentPage1 = waitForVisibleElement(marketingHeaderText,"auvenmarketingHeaderTextirLogoImage");
-        if(marketingHeaderText.getText().equals(marketingHeaderTextCst))
-        {
+        boolean isCheckCareersContentPage, isCheckCareersContentPage1, isCheckCareersContentPage2, isCheckCareersContentPage3, isCheckCareersContentPage4, isCheckCareersContentPage5 = false;
+        isCheckCareersContentPage = waitForVisibleElement(auvenirLogoImage, "auvenirLogoImage");
+        isCheckCareersContentPage1 = waitForVisibleElement(marketingHeaderText, "auvenmarketingHeaderTextirLogoImage");
+        if (marketingHeaderText.getText().equals(marketingHeaderTextCst)) {
             checkMarketingHeaderText = true;
         }
         getLogger().info("marketingHeaderText = " + marketingHeaderText.getText());
-        isCheckCareersContentPage2 = waitForVisibleElement(careersAtAuvenirText,"careersAtAuvenirText");
-        if(careersAtAuvenirText.getText().equals(careersAtAuvenirTextCst))
-        {
+        isCheckCareersContentPage2 = waitForVisibleElement(careersAtAuvenirText, "careersAtAuvenirText");
+        if (careersAtAuvenirText.getText().equals(careersAtAuvenirTextCst)) {
             checkCareersAuvenirText = true;
         }
-        isCheckCareersContentPage3 = waitForVisibleElement(EngineeringText,"EngineeringText");
-        isCheckCareersContentPage4 = waitForVisibleElement(ProductText,"ProductText");
-        isCheckCareersContentPage5 = waitForVisibleElement(SalesText,"SalesText");
-        if(isCheckCareersContentPage & isCheckCareersContentPage1 & isCheckCareersContentPage2 & isCheckCareersContentPage3 & isCheckCareersContentPage4
-                & isCheckCareersContentPage5 & checkMarketingHeaderText & checkCareersAuvenirText)
-        {
+        isCheckCareersContentPage3 = waitForVisibleElement(EngineeringText, "EngineeringText");
+        isCheckCareersContentPage4 = waitForVisibleElement(ProductText, "ProductText");
+        isCheckCareersContentPage5 = waitForVisibleElement(SalesText, "SalesText");
+        if (isCheckCareersContentPage & isCheckCareersContentPage1 & isCheckCareersContentPage2 & isCheckCareersContentPage3 & isCheckCareersContentPage4
+                & isCheckCareersContentPage5 & checkMarketingHeaderText & checkCareersAuvenirText) {
             NXGReports.addStep("Verify careers content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else
-        {
-            AbstractService.sStatusCnt ++;
+        } else {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify careers content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 
-    public void verifyContactContentPage(){
+    public void verifyContactContentPage() {
         getLogger().info("Verify contact content page");
         boolean checkHeaderText = false;
         String strGetTouchText = "";
-        boolean isCheckContactContentPage,isCheckContactContentPage1,isCheckContactContentPage2,isCheckContactContentPage3,isCheckContactContentPage4,
-                isCheckContactContentPage5, isCheckContactContentPage6, isCheckContactContentPage7,isCheckContactContentPage8= false;
-        isCheckContactContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
-        isCheckContactContentPage1 = waitForVisibleElement(headerText,"headerText");
-        if(headerText.getText().equals(headerTextCst))
-        {
+        boolean isCheckContactContentPage, isCheckContactContentPage1, isCheckContactContentPage2, isCheckContactContentPage3, isCheckContactContentPage4,
+                isCheckContactContentPage5, isCheckContactContentPage6, isCheckContactContentPage7, isCheckContactContentPage8 = false;
+        isCheckContactContentPage = waitForVisibleElement(auvenirLogoImage, "auvenirLogoImage");
+        isCheckContactContentPage1 = waitForVisibleElement(headerText, "headerText");
+        if (headerText.getText().equals(headerTextCst)) {
             checkHeaderText = true;
         }
-        isCheckContactContentPage2 = waitForVisibleElement(getInTouchText,"getInTouchText");
+        isCheckContactContentPage2 = waitForVisibleElement(getInTouchText, "getInTouchText");
         strGetTouchText = getInTouchText.getText();
         boolean isCheckTouchText = false;
-        if(strGetTouchText.equals(getInTouchTextCst))
-        {
+        if (strGetTouchText.equals(getInTouchTextCst)) {
             isCheckTouchText = true;
         }
         getLogger().info("strGetTouchText = " + strGetTouchText);
-        isCheckContactContentPage3 = waitForVisibleElement(nameTextBox,"nameTextBox");
-        isCheckContactContentPage4 = waitForVisibleElement(contactEmailTextBox,"contactEmailTextBox");
-        isCheckContactContentPage5 = waitForVisibleElement(directMessageDropdown,"directMessageDropdown");
-        isCheckContactContentPage6 = waitForVisibleElement(messageTextBox,"messageTextBox");
-        isCheckContactContentPage7 = waitForVisibleElement(sendMessageBTN,"sendMessageBTN");
-        isCheckContactContentPage8 = waitForVisibleElement(contactMapImage,"contactMapImage");
-        if(isCheckTouchText & isCheckContactContentPage & isCheckContactContentPage1 & isCheckContactContentPage2 & isCheckContactContentPage3
+        isCheckContactContentPage3 = waitForVisibleElement(nameTextBox, "nameTextBox");
+        isCheckContactContentPage4 = waitForVisibleElement(contactEmailTextBox, "contactEmailTextBox");
+        isCheckContactContentPage5 = waitForVisibleElement(directMessageDropdown, "directMessageDropdown");
+        isCheckContactContentPage6 = waitForVisibleElement(messageTextBox, "messageTextBox");
+        isCheckContactContentPage7 = waitForVisibleElement(sendMessageBTN, "sendMessageBTN");
+        isCheckContactContentPage8 = waitForVisibleElement(contactMapImage, "contactMapImage");
+        if (isCheckTouchText & isCheckContactContentPage & isCheckContactContentPage1 & isCheckContactContentPage2 & isCheckContactContentPage3
                 & isCheckContactContentPage4 & isCheckContactContentPage5 & isCheckContactContentPage6 & isCheckContactContentPage7 & isCheckContactContentPage8
-                & checkHeaderText)
-        {
+                & checkHeaderText) {
             NXGReports.addStep("Verify contact content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify contact content page: PASSED", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 
-    public void verifyCookiesNoticeContentPage(){
+    public void verifyCookiesNoticeContentPage() {
         getLogger().info("Verify cookies notice content page");
         String strCookiesNotice = "";
         String strAuvenirCookieNotice = "";
@@ -530,66 +542,69 @@ public class MarketingPage extends AbstractPage {
         boolean checkCookiesNotie = false;
         boolean checkAuvenirCookiesNotice = false;
         boolean checkCookiesNoticecontent = false;
-        boolean checkCookiesNoticeContentPage,checkCookiesNoticeContentPage1 = false;
-        checkCookiesNoticeContentPage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
-        checkCookiesNoticeContentPage1 = waitForVisibleElement(cookiesNoticeText,"cookiesNoticeText");
+        boolean checkCookiesNoticeContentPage, checkCookiesNoticeContentPage1 = false;
+        checkCookiesNoticeContentPage = waitForVisibleElement(auvenirLogoImage, "auvenirLogoImage");
+        checkCookiesNoticeContentPage1 = waitForVisibleElement(cookiesNoticeText, "cookiesNoticeText");
         strCookiesNotice = cookiesNoticeText.getText();
         getLogger().info("strCookiesNotice = " + strCookiesNotice);
-        if(strCookiesNotice.equals(cookiesNoticeTextCst))
-        {
+        if (strCookiesNotice.equals(cookiesNoticeTextCst)) {
             checkCookiesNotie = true;
         }
-        waitForVisibleElement(auvenirCookieNoticeText,"auvenirCookieNoticeText");
+        waitForVisibleElement(auvenirCookieNoticeText, "auvenirCookieNoticeText");
         strAuvenirCookieNotice = auvenirCookieNoticeText.getText();
-        if(strAuvenirCookieNotice.equals(auvenirCookieText))
-        {
+        if (strAuvenirCookieNotice.equals(auvenirCookieText)) {
             checkAuvenirCookiesNotice = true;
         }
-        waitForVisibleElement(ookiesNoticecontentText,"ookiesNoticecontentText");
+        waitForVisibleElement(ookiesNoticecontentText, "ookiesNoticecontentText");
         strCookieNoticeContent = ookiesNoticecontentText.getText();
         getLogger().info("strCookieNoticeContent = " + strCookieNoticeContent);
-        if(strCookieNoticeContent.equals(auvenirCookiesNoticeTextCst))
-        {
+        if (strCookieNoticeContent.equals(auvenirCookiesNoticeTextCst)) {
             checkCookiesNoticecontent = true;
         }
-        if(checkCookiesNoticeContentPage & checkCookiesNoticeContentPage1 & checkCookiesNotie & checkAuvenirCookiesNotice & checkCookiesNoticecontent)
-        {
+        if (checkCookiesNoticeContentPage & checkCookiesNoticeContentPage1 & checkCookiesNotie & checkAuvenirCookiesNotice & checkCookiesNoticecontent) {
             NXGReports.addStep("Verify cookies notice content page: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify cookies notice content page", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 
-    public void clickOnChangeLanguageBTN(){
-        clickElement(changeLanguageBTN,"changeLanguageBTN");
+    public void clickOnChangeLanguageBTN() {
+        clickElement(changeLanguageBTN, "changeLanguageBTN");
     }
-    public void clickOnLoginBTN(){
-        clickElement(loginBTN,"loginBTN");
+
+    public void clickOnLoginBTN() {
+        getLogger().info("Click on login button.");
+        clickElement(loginBTN, "loginBTN");
     }
-    public void inputUserNamePassword(String username, String password){
-        sendKeyTextBox(emailTextBox, username,"emailTextBox");
-        sendKeyTextBox(passwordTextBox,password,"passwordTextBox");
+
+    public void inputUserNamePassword(String username, String password) {
+        sendKeyTextBox(emailTextBox, username, "emailTextBox");
+        sendKeyTextBox(passwordTextBox, password, "passwordTextBox");
     }
-    public void clickOnSubmitBTN(){
-        clickElement(submitBTN,"loginBTN");
+
+    public void clickOnSubmitBTN() {
+        clickElement(submitBTN, "loginBTN");
     }
-    public void clickOnProfile(){
-        clickAndHold(profileLink,"profileLink");
+
+    public void clickOnProfile() {
+        clickAndHold(profileLink, "profileLink");
     }
-    public void clickOnLogoutBTN(){
-        clickElement(logoutBTN,"logoutBTN");
+
+    public void clickOnLogoutBTN() {
+        clickElement(logoutBTN, "logoutBTN");
     }
-    public void verifyLoginBTN(){
-        waitForClickableOfElement(loginBTN,"loginBTN");
+
+    public void verifyLoginBTN() {
+        waitForClickableOfElement(loginBTN, "loginBTN");
     }
-    public void verifySignUpBTN(){
-        waitForClickableOfElement(signUpBTN,"signUpBTN");
+
+    public void verifySignUpBTN() {
+        waitForClickableOfElement(signUpBTN, "signUpBTN");
     }
-    public void verifyLogoutBTNIsNotPresented(){
-        validateNotExistedElement(logoutBTN,"logoutBTN");
+
+    public void verifyLogoutBTNIsNotPresented() {
+        validateNotExistedElement(logoutBTN, "logoutBTN");
     }
 
     public void verifyColorUserNameTxtBox() {
@@ -599,61 +614,72 @@ public class MarketingPage extends AbstractPage {
         waitForCssValueChanged(userError, "User Name Text Box", backgroundColor, warningBackgroundCSSColor);
         validateCssValueElement(userError, backgroundColor, warningBackgroundCSSColor);
     }
-    public void verifyColorPasswordTxtBox(){
-        waitForVisibleElement(passwordError,"Password Text Box");
+
+    public void verifyColorPasswordTxtBox() {
+        waitForVisibleElement(passwordError, "Password Text Box");
         waitForCssValueChanged(passwordError, "Password Text Box", borderColor, warningBorderCSSColor);
         validateCssValueElement(passwordError, borderColor, warningBorderCSSColor);
         waitForCssValueChanged(passwordError, "Password Text Box", backgroundColor, warningBackgroundCSSColor);
         validateCssValueElement(passwordError, backgroundColor, warningBackgroundCSSColor);
 //        validateCssValueElement(passwordError,attributeName,attributeValue);
     }
-    public void verifyErrorLoginMessage(String messsage){
+
+    public void verifyErrorLoginMessage(String messsage) {
         getLogger().info("Verify Error Login Message.");
-        final String errorColorOfLoginMeesage= "rgba(159, 58, 56, 1)";
-        final String errorBackgroundColorOfLoginMeesage= "rgba(255, 246, 246, 1)";
-        waitForVisibleElement(errorMessageBorder,"errorMessageBorder");
-        validateElementText(errorMessage,messsage);
+        final String errorColorOfLoginMeesage = "rgba(159, 58, 56, 1)";
+        final String errorBackgroundColorOfLoginMeesage = "rgba(255, 246, 246, 1)";
+        waitForVisibleElement(errorMessageBorder, "errorMessageBorder");
+        validateElementText(errorMessage, messsage);
         verifyColorErrorLoginMessage(color, errorColorOfLoginMeesage);
         verifyColorErrorLoginMessage(backgroundColor, errorBackgroundColorOfLoginMeesage);
 ////        validateCssValueElement(errorMessageBorder,color, errorColorOfLoginMeesage);
 //        validateCssValueElement(errorMessageBorder,color, errorColorOfLoginMeesage);
     }
-    public void verifyColorErrorLoginMessage(String attributeName, String attributeValue){
+
+    public void verifyColorErrorLoginMessage(String attributeName, String attributeValue) {
         getLogger().info("Verify Error Color of Login Message.");
-        waitForVisibleElement(errorMessageBorder,"errorMessageBorder");
-        validateCssValueElement(errorMessageBorder,attributeName,attributeValue);
-    }
-    public void clickOnForgotPasswordLink(){
-        waitForClickableOfElement(forgotPasswordLink,"forgotPasswordLink");
-        clickElement(forgotPasswordLink,"forgotPasswordLink");
-    }
-    public void verifyForgotPasswordTitle(){
-        waitForVisibleElement(forgotPasswordTitle,"forgotPasswordTitle");
-        validateElementText(forgotPasswordTitle,"Forgot Your Password?");
-    }
-    public void inputEmailForgotPassword(String text){
-        clearTextBox(emailForgotPasswordTextBox,"emailForgotPasswordTextBox");
-        sendKeyTextBox(emailForgotPasswordTextBox,text,"emailForgotPasswordTextBox");
-    }
-    public void clickOnRequestResetLinkBTN(){
-        clickElement(requestResetLinkBTN,"requestResetLinkBTN");
-    }
-    public void verifyColorEmailForgotPasswordTextBox(String attributeName, String attributeValue){
-        waitForVisibleElement(EmailForgotPasswordTextBox,"EmailForgotPasswordTextBox");
-        validateCssValueElement(EmailForgotPasswordTextBox,attributeName,attributeValue);
-    }
-    public void verifyColorEmailForgotPasswordMessage(String attributeName, String attributeValue){
-        waitForVisibleElement(EmailForgotPasswordMessage,"EmailForgotPasswordMessage");
-        validateCssValueElement(EmailForgotPasswordMessage,attributeName,attributeValue);
-    }
-    public void verifyContentEmailForgotPasswordMessage(String text){
-        validateElementText(EmailForgotPasswordMessage,text);
+        waitForVisibleElement(errorMessageBorder, "errorMessageBorder");
+        validateCssValueElement(errorMessageBorder, attributeName, attributeValue);
     }
 
-    public void clickOnSignupButton(){
-        waitForClickableOfElement(signUpBTN,"signup button");
-        clickElement(signUpBTN,"signup button");
+    public void clickOnForgotPasswordLink() {
+        waitForClickableOfElement(forgotPasswordLink, "forgotPasswordLink");
+        clickElement(forgotPasswordLink, "forgotPasswordLink");
     }
+
+    public void verifyForgotPasswordTitle() {
+        waitForVisibleElement(forgotPasswordTitle, "forgotPasswordTitle");
+        validateElementText(forgotPasswordTitle, "Forgot Your Password?");
+    }
+
+    public void inputEmailForgotPassword(String text) {
+        clearTextBox(emailForgotPasswordTextBox, "emailForgotPasswordTextBox");
+        sendKeyTextBox(emailForgotPasswordTextBox, text, "emailForgotPasswordTextBox");
+    }
+
+    public void clickOnRequestResetLinkBTN() {
+        clickElement(requestResetLinkBTN, "requestResetLinkBTN");
+    }
+
+    public void verifyColorEmailForgotPasswordTextBox(String attributeName, String attributeValue) {
+        waitForVisibleElement(EmailForgotPasswordTextBox, "EmailForgotPasswordTextBox");
+        validateCssValueElement(EmailForgotPasswordTextBox, attributeName, attributeValue);
+    }
+
+    public void verifyColorEmailForgotPasswordMessage(String attributeName, String attributeValue) {
+        waitForVisibleElement(EmailForgotPasswordMessage, "EmailForgotPasswordMessage");
+        validateCssValueElement(EmailForgotPasswordMessage, attributeName, attributeValue);
+    }
+
+    public void verifyContentEmailForgotPasswordMessage(String text) {
+        validateElementText(EmailForgotPasswordMessage, text);
+    }
+
+    public void clickOnSignupButton() {
+        waitForClickableOfElement(signUpBTN, "signup button");
+        clickElement(signUpBTN, "signup button");
+    }
+
     public void verifyHomeContentPage() {
         getLogger().info("Verify home content page");
         boolean checkOurMissionText1 = false;
@@ -663,8 +689,7 @@ public class MarketingPage extends AbstractPage {
         boolean checkProductFeatures = false;
         boolean checkBelowProductFeatures = false;
         boolean checkSpendLessTimeDescription = false;
-        boolean checkHomePageContentPage, checkHomePageContentPage1, checkHomePageContentPage2, checkHomePageContentPage3,checkHomePageContentPage4
-                ,checkHomePageContentPage5, checkHomePageContentPage6, checkHomePageContentPage7, checkHomePageContentPage8 = false;
+        boolean checkHomePageContentPage, checkHomePageContentPage1, checkHomePageContentPage2, checkHomePageContentPage3, checkHomePageContentPage4, checkHomePageContentPage5, checkHomePageContentPage6, checkHomePageContentPage7, checkHomePageContentPage8 = false;
         checkHomePageContentPage = waitForVisibleElement(avenirLogo, "avenirLogo");
         checkHomePageContentPage1 = waitForVisibleElement(weHelpYouAuditSmarterText, "weHelpYouAuditSmarterText");
         checkHomePageContentPage2 = waitForVisibleElement(joinAsAnAuditorTodayText, "joinAsAnAuditorTodayText");
@@ -690,121 +715,105 @@ public class MarketingPage extends AbstractPage {
         }
 
         waitForVisibleElement(productFeaturesText, "productFeaturesText");
-        if (productFeaturesText.getText().contains("Product Features"))
-        {
+        if (productFeaturesText.getText().contains("Product Features")) {
             checkProductFeatures = true;
         }
-        waitForVisibleElement(belowProductFeaturesText,"belowProductFeaturesText");
-        if(belowProductFeaturesText.getText().equals(belowProductFeaturesTextCst))
-        {
+        waitForVisibleElement(belowProductFeaturesText, "belowProductFeaturesText");
+        if (belowProductFeaturesText.getText().equals(belowProductFeaturesTextCst)) {
             checkBelowProductFeatures = true;
         }
-        checkHomePageContentPage7 = waitForVisibleElement(spendLessTimeImage,"spendLessTimeImage");
-        checkHomePageContentPage8 = waitForVisibleElement(spendLessTimeText,"spendLessTimeText");
+        checkHomePageContentPage7 = waitForVisibleElement(spendLessTimeImage, "spendLessTimeImage");
+        checkHomePageContentPage8 = waitForVisibleElement(spendLessTimeText, "spendLessTimeText");
 
-        waitForVisibleElement(spendLessTimeDescriptionText,"spendLessTimeDescriptionText");
-        if(spendLessTimeDescriptionText.getText().equals(spendLessTimeDescriptionTextCst))
-        {
+        waitForVisibleElement(spendLessTimeDescriptionText, "spendLessTimeDescriptionText");
+        if (spendLessTimeDescriptionText.getText().equals(spendLessTimeDescriptionTextCst)) {
             checkSpendLessTimeDescription = true;
         }
-        if(checkHomePageContentPage & checkHomePageContentPage1 & checkHomePageContentPage2 & checkHomePageContentPage3 & checkHomePageContentPage4 & checkHomePageContentPage5
+        if (checkHomePageContentPage & checkHomePageContentPage1 & checkHomePageContentPage2 & checkHomePageContentPage3 & checkHomePageContentPage4 & checkHomePageContentPage5
                 & checkHomePageContentPage6 & checkHomePageContentPage7 & checkHomePageContentPage8 & checkOurMissionText1 & checkOurMissionText2 & checkOurMissionText3
-                & checkWhyAuvenir2 & checkProductFeatures & checkBelowProductFeatures & checkSpendLessTimeDescription)
-        {
+                & checkWhyAuvenir2 & checkProductFeatures & checkBelowProductFeatures & checkSpendLessTimeDescription) {
             NXGReports.addStep("Verify home content page", LogAs.PASSED, null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify home content page", LogAs.FAILED, null);
         }
     }
 
-    public void goToAboutPage(){
-        clickElement(aBoutLink,"aBoutLink");
-    }
-    public void goToContactPage(){
-        clickElement(contactLink,"contactLink");
-    }
-    public void goToCookiesNoticePage(){
-        clickElement(cookiesNoticeLink,"cookiesNoticeLink");
-    }
-    public void goToPrivacyPolicyPage(){
-        clickElement(privacyPolicyLink,"privacyPolicyLink");
-    }
-    public void goToTermOfService()
-    {
-        clickElement(termsOfService,"termsOfService");
+    public void goToAboutPage() {
+        clickElement(aBoutLink, "aBoutLink");
     }
 
-    public void verifyPrivacyPolicyContentPage(){
+    public void goToContactPage() {
+        clickElement(contactLink, "contactLink");
+    }
+
+    public void goToCookiesNoticePage() {
+        clickElement(cookiesNoticeLink, "cookiesNoticeLink");
+    }
+
+    public void goToPrivacyPolicyPage() {
+        clickElement(privacyPolicyLink, "privacyPolicyLink");
+    }
+
+    public void goToTermOfService() {
+        clickElement(termsOfService, "termsOfService");
+    }
+
+    public void verifyPrivacyPolicyContentPage() {
         getLogger().info("Verify privacy policy content page");
         boolean checkPrivacyPolicyTextContent = false;
         boolean checkAuvenirPrivacyText = false;
         boolean checkPrivacyHeaderText = false;
         boolean checkAuvenirLogoImage = false;
-        checkAuvenirLogoImage = waitForVisibleElement(auvenirLogoImage,"auvenirImageLogo");
-        waitForVisibleElement(privacyHeaderText,"privacyHeaderText");
-        if(privacyHeaderText.getText().equals("Privacy Policy"))
-        {
+        checkAuvenirLogoImage = waitForVisibleElement(auvenirLogoImage, "auvenirImageLogo");
+        waitForVisibleElement(privacyHeaderText, "privacyHeaderText");
+        if (privacyHeaderText.getText().equals("Privacy Policy")) {
             checkPrivacyHeaderText = true;
         }
-        waitForVisibleElement(auvenirPrivacyPolicyText,"auvenirPrivacyPolicyText");
-        if(auvenirPrivacyPolicyText.getText().equals("Auvenir Privacy Policy"))
-        {
+        waitForVisibleElement(auvenirPrivacyPolicyText, "auvenirPrivacyPolicyText");
+        if (auvenirPrivacyPolicyText.getText().equals("Auvenir Privacy Policy")) {
             checkAuvenirPrivacyText = true;
         }
-        waitForVisibleElement(privacyPolicyTextContent,"privacyPolicyTextContent");
-        if(privacyPolicyTextContent.getText().equals(privacyPolicyTextContentCst))
-        {
+        waitForVisibleElement(privacyPolicyTextContent, "privacyPolicyTextContent");
+        if (privacyPolicyTextContent.getText().equals(privacyPolicyTextContentCst)) {
             checkPrivacyPolicyTextContent = true;
         }
         getLogger().info("privacyPolicyTextContent = " + privacyPolicyTextContent.getText());
-        if(checkPrivacyPolicyTextContent & checkAuvenirPrivacyText & checkPrivacyHeaderText & checkAuvenirLogoImage)
-        {
+        if (checkPrivacyPolicyTextContent & checkAuvenirPrivacyText & checkPrivacyHeaderText & checkAuvenirLogoImage) {
             NXGReports.addStep("Verify privacy policy content page", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify privacy policy content page", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 
-    public void verifyTermsContentPage(){
+    public void verifyTermsContentPage() {
         getLogger().info("Verify terms content page");
         boolean checkTermsHeaderText = false;
         boolean checkTermsContentText = false;
         boolean checkAuvenirTermsOfServiceText = false;
         boolean checkAuvenirLogoImage = false;
-        checkAuvenirLogoImage = waitForVisibleElement(auvenirLogoImage,"auvenirLogoImage");
-        waitForVisibleElement(termsHeaderText,"termsHeaderText");
-        if(termsHeaderText.getText().equals("Terms of Service"))
-        {
+        checkAuvenirLogoImage = waitForVisibleElement(auvenirLogoImage, "auvenirLogoImage");
+        waitForVisibleElement(termsHeaderText, "termsHeaderText");
+        if (termsHeaderText.getText().equals("Terms of Service")) {
             checkTermsHeaderText = true;
         }
-        waitForVisibleElement(auvenirTermsOfServiceText,"auvenirTermsOfServiceText");
-        if(auvenirTermsOfServiceText.getText().equals("Effective: January 16, 2017"))
-        {
+        waitForVisibleElement(auvenirTermsOfServiceText, "auvenirTermsOfServiceText");
+        if (auvenirTermsOfServiceText.getText().equals("Effective: January 16, 2017")) {
             checkAuvenirTermsOfServiceText = true;
         }
-        waitForVisibleElement(termsContentText,"termsContentText");
+        waitForVisibleElement(termsContentText, "termsContentText");
         getLogger().info("termsContentText = " + termsContentText.getText());
-        if(termsContentText.getText().equals(termsContentTextCst))
-        {
+        if (termsContentText.getText().equals(termsContentTextCst)) {
             checkTermsContentText = true;
         }
-        if(checkTermsHeaderText & checkTermsContentText & checkAuvenirTermsOfServiceText & checkAuvenirLogoImage)
-        {
+        if (checkTermsHeaderText & checkTermsContentText & checkAuvenirTermsOfServiceText & checkAuvenirLogoImage) {
             NXGReports.addStep("Verify terms content page", LogAs.PASSED, (CaptureScreen) null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify terms content page", LogAs.FAILED, (CaptureScreen) null);
         }
     }
-
 
 
     protected void isLoadedExitLogin() throws Error {
@@ -812,11 +821,11 @@ public class MarketingPage extends AbstractPage {
         validateElememt(btnLogin, "Login button", Element_Type.DISPLAYED);
     }
 
-    public void exit(){
+    public void exit() {
         clickElement(btnExit, "click to btnExit");
     }
 
-    public void login(){
+    public void login() {
         clickElement(btnLogin, "click to btnLogin");
     }
 
@@ -825,7 +834,7 @@ public class MarketingPage extends AbstractPage {
         validateElememt(eleRetypeNewPassword, "New retype password input", Element_Type.DISPLAYED);
     }
 
-    public void resetPassword(String newPass, String retypeResetPass) throws InterruptedException {
+    public void resetPassword(String newPass, String retypeResetPass) {
         try {
             getLogger().info("Verify to reset password");
             Thread.sleep(smallTimeOut);
@@ -835,24 +844,20 @@ public class MarketingPage extends AbstractPage {
             sendKeyTextBox(eleRetypeNewPassword, retypeResetPass, "send key to eleRetypeNewPassword");
             clickElement(btnReset, "click to btnReset");
             NXGReports.addStep("Verify to reset password", LogAs.PASSED, (CaptureScreen) null);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to reset password", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 
-    public void setNewPassword(String newPassword) throws InterruptedException {
+    public void setNewPassword(String newPassword) {
         try {
 
             Thread.sleep(smallTimeOut);
             switchToOtherTab(1);
             sendKeyTextBox(eleNewPasword, newPassword, "send key to eleNewPasword");
             NXGReports.addStep("Verify to set new password", LogAs.PASSED, (CaptureScreen) null);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to set new password", LogAs.FAILED, (CaptureScreen) null);
         }
@@ -861,9 +866,9 @@ public class MarketingPage extends AbstractPage {
     /**
      * Click Close on Popup which warning about supporting only Chrome Browser.
      */
-    public void clickClosePopupWarningBrowser(){
-        try{
-            if(GenericService.sBrowserData.equals("ff.")) {
+    public void clickClosePopupWarningBrowser() {
+        try {
+            if (GenericService.sBrowserData.equals("ff.")) {
                 getLogger().info("Close Popup Warning Browser");
                 Thread.sleep(3000);
                 waitForVisibleElement(getEleCredentialsCloseIcn(), "Close Icon");
@@ -876,4 +881,44 @@ public class MarketingPage extends AbstractPage {
             getLogger().info(e);
         }
     }
+
+    /**
+     * Add new by huy.huynh on 29/06/2017.
+     * R2.1 NewFeature
+     */
+    @FindBy(className = "email-sending-title")
+    private WebElement titleResetLinkSent;
+
+    @FindBy(id = "security-title")
+    private WebElement titleResetPassword;
+
+    @FindBy(id = "first-password")
+    private WebElement inputFirstPassword;
+
+    @FindBy(id = "second-password")
+    private WebElement inputSecondPassword;
+
+    @FindBy(id = "security-continueBtn")
+    private WebElement buttonSetPassword;
+
+    public void waitForResetLinkSent() {
+        waitForTextValueChanged(titleResetLinkSent, "Title Reset Link Sent", "Reset Link Sent");
+    }
+
+    public void verifyResetPasswordPageTitle() {
+        try {
+            switchToOtherTab(1);
+            validateElementText(titleResetPassword, "Reset Password");
+            getLogger().info("Reset Password Page loaded.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void fillUpAndConfirmPassword(String password) {
+        sendKeyTextBox(inputFirstPassword, password, "Input First Password");
+        sendKeyTextBox(inputSecondPassword, password, "Input Second Password");
+        clickElement(buttonSetPassword, "Button Set Password");
+    }
+    /*-----------end of huy.huynh on 29/06/2017.*/
 }

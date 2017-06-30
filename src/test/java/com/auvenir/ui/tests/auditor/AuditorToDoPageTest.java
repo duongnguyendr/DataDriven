@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
@@ -24,7 +24,6 @@ public class AuditorToDoPageTest extends AbstractTest {
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
-
 
 
     @Test(priority = 1, enabled = true, description = "Verify Todos Textbox")
@@ -155,7 +154,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorCreateToDoService.verifyDuedateTimebox_DefaultValue(deadlineDate);
             auditorCreateToDoService.checkFormatDueDate();
             auditorCreateToDoService.verifyUnableToInputDuedate("12/4/2017");
-            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage,"","","");
+            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage, "", "", "");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Due date Time box.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -321,6 +320,99 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
+
+    /**
+     * Add new by huy.huynh on 28/06/2017.
+     * R2.1 NewFeature
+     */
+    private String adminId, auditorId, clientId;
+    private String adminPassword, auditorPassword, clientPassword;
+    private String engagementName, todoName;
+
+    @Test(priority = 10, enabled = true, description = "Verify dueDate on Todo Detail Popup is match with on Todo Row.")
+    public void verifyDueDateOnToDoDetailsMatchWithOnToDoRow() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        String dueDate = "";
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+
+            auditorCreateToDoService.changeDueDateOnTodoDetail();
+            auditorCreateToDoService.closePopupTodoDetail();
+            dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+
+            auditorCreateToDoService.closePopupTodoDetail();
+            auditorCreateToDoService.changeDueDateOnTodoRow(todoName);
+            dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify dueDate on Todo Detail Popup is match with on Todo Row.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify dueDate on Todo Detail Popup is match with on Todo Row.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify dueDate on Todo Detail Popup is match with on Todo Row.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify UI on Todo Detail Popup.")
+    public void verifyUIOnToDoDetails() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        String dueDate = "";
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            //dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify UI on Todo Detail Popup.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify UI on Todo Detail Popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify UI on Todo Detail Popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+    /*-----------end of huy.huynh on 28/06/2017.*/
 }
 
 

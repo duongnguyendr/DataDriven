@@ -604,7 +604,7 @@ public class SmokeTest extends AbstractTest {
             //Go to marketing page
             marketingService.goToBaseURL();
             // Click on button login
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             // Login with user name and password
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
 
@@ -730,7 +730,7 @@ public class SmokeTest extends AbstractTest {
             //Go to marketing page
             marketingService.goToBaseURL();
             // Click on button login
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             // Login with user name and password
             marketingService.loginWithUserNamePassword(clientId, clientPassword);
             // Verify GUI engagement page
@@ -1118,7 +1118,7 @@ public class SmokeTest extends AbstractTest {
             //Go to marketing page
             marketingService.goToBaseURL();
             // Click on button login
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             // Login with user name and password
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             // Verify GUI engagement page
@@ -1164,7 +1164,7 @@ public class SmokeTest extends AbstractTest {
             //Go to marketing page
             marketingService.goToBaseURL();
             // Click on button login
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             // Login with user name and password
             marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             // Verify GUI engagement page

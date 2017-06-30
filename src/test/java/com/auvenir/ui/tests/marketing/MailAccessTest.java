@@ -57,7 +57,7 @@ public class MailAccessTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorID, password);
             getLogger().info("Admin gives Auditor access..");
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             getLogger().info("Admin find auditor email and status to On boarding..");
 //        adminService.verifyAuditorRowOnAdminUserTable("AUDITOR", "auvenirtestor@gmail.com", "06/7/2017", "Wait listed");
@@ -133,7 +133,7 @@ public class MailAccessTest extends AbstractTest {
             auditorSignUpService.deleteUserUsingApi( clientID);
             getLogger().info("Auditor log in..");
             auditorSignUpService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole( auditorID, password);
             auditorEngagementService.createAndSelectNewEnagement("New World", "", "Company");
             auditorDetailsEngagementPage.verifyDetailsEngagementPage("New World");
@@ -237,7 +237,7 @@ public class MailAccessTest extends AbstractTest {
             String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
 
             marketingService.goToBaseURL();
-            marketingService.clickLoginButton();
+            marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, password);
 
             auditorEngagementService.verifyAuditorEngagementPage();
