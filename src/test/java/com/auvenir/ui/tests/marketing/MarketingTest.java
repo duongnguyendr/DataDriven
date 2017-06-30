@@ -26,7 +26,6 @@ public class MarketingTest extends AbstractTest {
     public void verifyAboutPageContentTest() {
         marketingService = new MarketingService(getLogger(), getDriver());
         try {
-            //marketingService.setPrefixProtocol("http://");
             marketingService.goToBaseURL();
             marketingService.goToAboutPage();
             marketingService.verifyAboutContentPage();
