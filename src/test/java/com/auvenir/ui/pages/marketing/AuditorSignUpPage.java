@@ -573,7 +573,7 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strAffName    Affiliated Firm's Name
      * @param strPathLogo   Path Logo
      */
-    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
+    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity,String strCountry, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
         getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
         boolean result;
         try {
@@ -591,10 +591,10 @@ public class AuditorSignUpPage extends AbstractPage {
 
             //select any Countries
             verifyCountryList();
-            selectAnyCountryInList("Canada");
+            selectAnyCountryInList(strCountry);
             //select any States
-            verifyStateListAfterSelectCountry("Canada");
-            selectAnyStateInList("Quebec");
+            verifyStateListAfterSelectCountry(strCountry);
+            selectAnyStateInList(strState);
 
 
             waitForVisibleElement(eleZipCode, "Zip Code Input");
@@ -604,7 +604,7 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleCity, strCity, "City Input");
 
             //input memberID
-            inputMemberID("1A2B3C4D5E");
+            inputMemberID(strMemberID);
 
 //            waitForVisibleElement(provinceDropdownEle, "Province Dropdown");
 //            clickElement(provinceDropdownEle, "Province Dropdown");
@@ -1045,7 +1045,7 @@ public class AuditorSignUpPage extends AbstractPage {
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
 
         registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
-                "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
+                "12", "K8M9J0", "Toroton", "Canada","Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
         verifySuccessPageContent();
         acceptCreateAccountAuditor();
