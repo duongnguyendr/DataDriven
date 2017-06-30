@@ -1360,6 +1360,14 @@ public class AuditorCreateToDoService extends AbstractService {
     public void changeDueDateOnTodoRow(String todoName) {
         createToDoPage.changeDueDateOnTodoRow(todoName);
     }
+
+    public void verifyDatePickerShow() {
+        createToDoPage.verifyDatePickerShow();
+    }
+
+    public void verifyDatePickerDateFormat() {
+        createToDoPage.verifyDatePickerDateFormat();
+    }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }
 

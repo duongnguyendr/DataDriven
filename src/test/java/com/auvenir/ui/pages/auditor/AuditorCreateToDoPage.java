@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -5135,8 +5136,31 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public void verifyDatePickerShow() {
+        waitSomeSeconds(1);
         clickElement(dueDateOnTodoDetail, "DueDate On Row");
         waitForCssValueChanged(datePicker, "Date Picker", "display", "block");
+        waitSomeSeconds(1);
+    }
+
+    public void verifyDatePickerDateFormat() {
+        try {
+            waitSomeSeconds(1);
+            String date = getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail");
+            if(!date.matches("\\d{2}-\\d{2}-\\d{4}")){
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: DueDate format on Todo Detail Popup is match 'MM/dd/yyyy'.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            sdf.setLenient(false);
+            sdf.parse(date);
+
+            NXGReports.addStep("DueDate format on Todo Detail Popup is match 'MM/dd/yyyy'.", LogAs.PASSED, null);
+        } catch (ParseException e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Fail: DueDate format on Todo Detail Popup is match 'MM/dd/yyyy'.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
     }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }
