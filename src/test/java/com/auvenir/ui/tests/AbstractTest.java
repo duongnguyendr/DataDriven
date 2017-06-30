@@ -70,9 +70,6 @@ public class AbstractTest {
     private String testName = "initial";
     // minh.nguyen updated May 26,2017 updated
     public static final String engagementName = "engagement 01";
-    /*
-    Doai.Tran fix
-     */
 
     @BeforeSuite
     public void setConfig() {
@@ -80,14 +77,15 @@ public class AbstractTest {
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
-
-        /*if (server.equalsIgnoreCase("cadet")) {
+        /*
+        if (server.equalsIgnoreCase("cadet")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
         } else if (server.equalsIgnoreCase("local")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         } else {
             GenericService.sConfigFile = GenericService.sDirPath + "/ariel.properties";
-        }*/
+        }
+        */
     }
 
     @Parameters({"browser", "version", "os"})
@@ -215,7 +213,7 @@ public class AbstractTest {
     public void tearDown(Method method) {
         testName = method.getName();
         logger.info("Close .the browser.");
-        //closeAllTab();
+        closeAllTab();
         logCurrentStepEnd();
     }
 
