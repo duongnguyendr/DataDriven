@@ -1811,12 +1811,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void inputDueDate() {
         Calendar date = Calendar.getInstance();
-        DatePicker datePicker = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
+        DatePicker dp = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
         try {
             //Choose current day + 1
             date.add(Calendar.DATE, 1);
             int day = date.get(Calendar.DAY_OF_MONTH);
-            datePicker.pickADate(String.valueOf(day));
+            dp.pickADate(String.valueOf(day));
             NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -1867,7 +1867,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     @FindBy(xpath = "//table[@class='ui-datepicker-calendar']")
-    WebElement datePicker;
+    WebElement tableDatePicker;
 
     public boolean chooseDateItemInDataPicker(boolean isNewToDoPage, String date, String month, String year) throws Exception {
 
@@ -3759,8 +3759,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1]//input[contains(@class,\"input-due-date\")]")
     WebElement DropdownDuedateBtn;
 
-    @FindBy(xpath = "//div[@id=\"ui-datepicker-div\"]")
-    WebElement TableOfDatePicker;
+    @FindBy(id = "ui-datepicker-div")
+    WebElement datePicker;
 
 
     @FindBy(xpath = "//div[@id=\"ui-datepicker-div\"]//span[contains(@class,\"month\")]")
@@ -4091,17 +4091,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public WebElement getTableOfDataPicker() {
-        return TableOfDatePicker;
+        return datePicker;
     }
 
     public void verifyDuedateTable() {
-//        DatePicker datePicker = new DatePicker();
+//        DatePicker tableDatePicker = new DatePicker();
         try {
             DropdownDuedateBtn.click();
-            waitForCssValueChanged(TableOfDatePicker, "Date Picker Table", "display", "block");
+            waitForCssValueChanged(datePicker, "Date Picker Table", "display", "block");
             getLogger().info("Current Month is: " + Month.getText());
             Thread.sleep(largeTimeOut);
-//            datePicker.pickADate("12","5","2017");
+//            tableDatePicker.pickADate("12","5","2017");
 
 
 //            verifyPrevFunction();
@@ -5085,8 +5085,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "auv-todo-details")
     private WebElement dialogTodoDetail;
 
-    @FindBy(xpath = "//div[@id='auv-todo-details']//input[@value]")
+    @FindBy(id = "todo-detail-dueDate")
     private WebElement dueDateOnTodoDetail;
+
 
 //    @FindBy(xpath = "//div[@id='auv-todo-details']//input[@data-dbdate]")
 //    private WebElement inputDatePickerOn;
@@ -5131,6 +5132,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         clickElement(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
         DatePicker dp = new DatePicker(getDriver());
         dp.selectSecondValidDate();
+    }
+
+    public void verifyDatePickerShow() {
+        clickElement(dueDateOnTodoDetail, "DueDate On Row");
+        waitForCssValueChanged(datePicker, "Date Picker", "display", "block");
     }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }
