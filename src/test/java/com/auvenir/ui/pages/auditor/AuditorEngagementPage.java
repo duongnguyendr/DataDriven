@@ -350,6 +350,38 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//td[@class='completed-todos']/span[@class='warning']")
     private List<WebElement> eleEngagementToDoList;
 
+    @FindBy(xpath = "//div[@id='engagement-filters']")
+    private WebElement auditorEngagementFilter;
+
+    @FindBy(xpath="//span[contains(text(),'Type of Engagement')]")
+    private WebElement filterTypeOfEngagement;
+
+    @FindBy(xpath = "//div[contains(text(),'Financial Audit')]")
+    private WebElement filterEngaFinancialAudit;
+
+    @FindBy(xpath = "//div[contains(text(),'Review')]")
+    private WebElement filterEngaReview;
+
+    @FindBy(xpath = "//div[contains(text(),'Notice to Reader / Compilation')]")
+    private WebElement filterEngaNoticeCompilation;
+
+    @FindBy(xpath = "//div[contains(text(),'Other')]")
+    private WebElement filterEngaOther;
+
+    @FindBy(xpath = "//td[@class='completed-todos']/span[contains(text(),'0% (0/0)')]")
+    private List<WebElement> hoverCompleteToDos;
+
+    @FindBy(xpath = "//div[@class='ui special popup completed-todo-popup top left transition visible']")
+    private WebElement hoverCompleteToDosResult;
+
+    @FindBy(xpath = "//td[@class='completed-docs']/span[contains(text(),'0% (0/0)')]")
+    private List<WebElement> hoverCompleteDocs;
+
+    @FindBy(xpath = "//div[@class='ui special popup completed-todo-popup top left transition visible']")
+    private WebElement hoverCompleteDocsResult;
+
+    //Review
+
     /**
      * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/20 - End
      *
@@ -429,6 +461,42 @@ public class AuditorEngagementPage extends AbstractPage {
         {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Auditor Engagement", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyAuditorEngagementFilter() {
+        boolean isAuditorEngagementFilter, isFilterTypeOfEngagement, isFilterEngaFinancialAudit, isFilterEngaNoticeCompilation, isFilterEngaReview, isFilterEngaOther = false;
+        isAuditorEngagementFilter = clickElement(auditorEngagementFilter, "click to auditorEngagementFilter");
+        isFilterTypeOfEngagement = clickElement(filterTypeOfEngagement, "click to filterTypeOfEngagement");
+        isFilterEngaFinancialAudit = validateDisPlayedElement(filterEngaFinancialAudit, "display filterEngaFinancialAudit");
+        isFilterEngaNoticeCompilation = validateDisPlayedElement(filterEngaNoticeCompilation, "display filterEngaNoticeCompilation");
+        isFilterEngaReview = validateDisPlayedElement(filterEngaReview, "display filterEngaReview");
+        isFilterEngaOther = validateDisPlayedElement(filterEngaOther, "display filterEngaOther");
+        if(isAuditorEngagementFilter && isFilterTypeOfEngagement && isFilterEngaFinancialAudit && isFilterEngaNoticeCompilation && isFilterEngaReview && isFilterEngaOther)
+        {
+            NXGReports.addStep("Verify Auditor Engagement filter", LogAs.PASSED, null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Auditor Engagement filter", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyAuditorEngagementHover() {
+        boolean isHoverCompleteToDosResult, isHoverCompleteDocsResult = false;
+        hoverElement(hoverCompleteToDos.get(0), "hover to hoverCompleteToDos");
+        isHoverCompleteToDosResult = validateDisPlayedElement(hoverCompleteToDosResult, "display hoverCompleteToDosResult");
+        hoverElement(hoverCompleteDocs.get(0), "hover to hoverCompleteDocs");
+        isHoverCompleteDocsResult = validateDisPlayedElement(hoverCompleteDocsResult, "display hoverCompleteDocsResult");
+        if(isHoverCompleteToDosResult && isHoverCompleteDocsResult)
+        {
+            NXGReports.addStep("Verify Auditor Engagement hover", LogAs.PASSED, null);
+        }
+        else
+        {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Auditor Engagement hover", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 

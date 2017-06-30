@@ -294,4 +294,29 @@ public class AuditorEngagementReviewTest extends AbstractTest {
             throw ex;
         }
     }
+
+    @Test(priority = 11, description = "Sort Engagement Due Date by ascending, descending.")
+    public void verifyFilterHoverOnEngagementPage() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
+            auditorEngagementService.verifyAuditorEngagementFilter();
+            auditorEngagementService.verifyAuditorEngagementHover();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify to sort Engagement Due Date by ascending, descending.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify to sort Engagement Due Date by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
+    }
 }
