@@ -295,11 +295,11 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
             auditorSignUpService.verifyFirmSignUpPage();
             auditorSignUpService.verifyCountryList();
-            auditorSignUpService.selectAnyCountry("Canada");
-            auditorSignUpService.verifyCountrySelectedCorrectly("Canada");
-            auditorSignUpService.verifyStateListAfterSelectCountry("Canada");
-            auditorSignUpService.selectAnyState("Quebec");
-            auditorSignUpService.verifyStateSelectedCorrectly("Quebec");
+            auditorSignUpService.selectAnyCountry(strCountry);
+            auditorSignUpService.verifyCountrySelectedCorrectly(strCountry);
+            auditorSignUpService.verifyStateListAfterSelectCountry(strCountry);
+            auditorSignUpService.selectAnyState(strState);
+            auditorSignUpService.verifyStateSelectedCorrectly(strState);
             auditorSignUpService.verifyCountryList();
             auditorSignUpService.selectAnyCountry("United States");
             auditorSignUpService.verifyCountrySelectedCorrectly("United States");
