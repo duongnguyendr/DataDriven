@@ -14,6 +14,7 @@ public class Steps {
     private String lineNum;
     private String screenShot;
     private LogAs logAs;
+    private String stepException;
 
     public Steps() {
     }
@@ -81,4 +82,8 @@ public class Steps {
     public void setLogAs(LogAs logas2) {
         this.logAs = logas2;
     }
+
+    public String  getStepException() {return this.stepException;}
+
+    public void setStepException(String stepException){ this.stepException = stepException;}
 }

@@ -83,7 +83,7 @@ public class NXGReports {
 
     }
 
-    public static void addStep(String discription, LogAs logas, CaptureScreen captureScreen) {
+    private static void takeCaptureScreen(CaptureScreen captureScreen){
         if(captureScreen != null) {
             if(captureScreen.isCaptureBrowserPage()) {
                 takeBrowserPageScreenShot();
@@ -93,6 +93,28 @@ public class NXGReports {
                 takeWebElementScreenShot(captureScreen.getElement());
             }
         }
+    }
+
+    public static void addStep(String discription, LogAs logas, CaptureScreen captureScreen, String stepException) {
+
+        takeCaptureScreen(captureScreen);
+
+        Steps steps = new Steps();
+        steps.setDescription(discription);
+        steps.setInputValue("");
+        steps.setExpectedValue("");
+        steps.setActualValue("");
+        steps.setTime(getExecutionTime());
+        steps.setLineNum(getLineNumDesc());
+        steps.setScreenShot(screenShotNumber);
+        steps.setLogAs(logas);
+        steps.setStepException(stepException);
+
+        stepFailureHandler(Reporter.getCurrentTestResult(), steps, logas);
+    }
+
+    public static void addStep(String discription, LogAs logas, CaptureScreen captureScreen) {
+        takeCaptureScreen(captureScreen);
 
         Steps steps = new Steps();
         steps.setDescription(discription);
@@ -107,15 +129,7 @@ public class NXGReports {
     }
 
     public static void addStep(String description, String inputValue, LogAs logas, CaptureScreen captureScreen) {
-        if(captureScreen != null) {
-            if(captureScreen.isCaptureBrowserPage()) {
-                takeBrowserPageScreenShot();
-            } else if(captureScreen.isCaptureDesktop()) {
-                takeDesktopScreenshot();
-            } else if(captureScreen.isCaptureWebElement()) {
-                takeWebElementScreenShot(captureScreen.getElement());
-            }
-        }
+        takeCaptureScreen(captureScreen);
 
         Steps steps = new Steps();
         steps.setDescription(description);
@@ -130,15 +144,7 @@ public class NXGReports {
     }
 
     public static void addStep(String description, String expectedValue, String actualValue, LogAs logas, CaptureScreen captureScreen) {
-        if(captureScreen != null) {
-            if(captureScreen.isCaptureBrowserPage()) {
-                takeBrowserPageScreenShot();
-            } else if(captureScreen.isCaptureDesktop()) {
-                takeDesktopScreenshot();
-            } else if(captureScreen.isCaptureWebElement()) {
-                takeWebElementScreenShot(captureScreen.getElement());
-            }
-        }
+        takeCaptureScreen(captureScreen);
 
         Steps steps = new Steps();
         steps.setDescription(description);
@@ -152,16 +158,8 @@ public class NXGReports {
         stepFailureHandler(Reporter.getCurrentTestResult(), steps, logas);
     }
 
-    public static void addStep(String description, String inputs, String expectedValue, String actualValue, LogAs logas, CaptureScreen capture) {
-        if(capture != null) {
-            if(capture.isCaptureBrowserPage()) {
-                takeBrowserPageScreenShot();
-            } else if(capture.isCaptureDesktop()) {
-                takeDesktopScreenshot();
-            } else if(capture.isCaptureWebElement()) {
-                takeWebElementScreenShot(capture.getElement());
-            }
-        }
+    public static void addStep(String description, String inputs, String expectedValue, String actualValue, LogAs logas, CaptureScreen captureScreen) {
+        takeCaptureScreen(captureScreen);
 
         Steps steps = new Steps();
         steps.setDescription(description);
