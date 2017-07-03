@@ -175,7 +175,7 @@ public class AbstractTest {
                     capabilitiesChrome.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilitiesChrome.setCapability(ChromeOptions.CAPABILITY, options);
                     capabilitiesChrome.setPlatform(Platform.WIN10);
-                    capabilitiesChrome.setVersion(GenericService.sVersionData);
+                    capabilitiesChrome.setVersion("59.0.3071.115");
                     driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesChrome, capabilitiesChrome);
 
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
@@ -194,7 +194,7 @@ public class AbstractTest {
                     DesiredCapabilities capabilitiesSafari;
                     capabilitiesSafari = DesiredCapabilities.safari();
                     capabilitiesSafari.setPlatform(Platform.MAC);
-                    capabilitiesSafari.setVersion(GenericService.sVersionData);
+                    capabilitiesSafari.setVersion("10.1.1");
                     driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesSafari, capabilitiesSafari);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("edge.")) {
                     DesiredCapabilities capabilitiesEdge;
