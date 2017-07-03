@@ -89,6 +89,7 @@ public class AbstractTest {
     @BeforeClass
     public void setUpForTest(String browser, String version, String os) {
         getLogger().info("Before Class.");
+        getLogger().info(browser + " "+version+" "+os);
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
             GenericService.sBrowserData = "chr.";
