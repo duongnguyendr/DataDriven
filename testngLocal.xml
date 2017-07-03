@@ -1,4 +1,4 @@
-<suite name="Suite" parallel="tests" verbose="1" thread-count="10">
+<suite name="Suite" parallel="tests" verbose="1" thread-count="3">
     <listeners>
         <!--<parameter name="browser" value="chrome"/>
         <parameter name="version" value="lasted"/>
