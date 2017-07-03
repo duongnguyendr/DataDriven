@@ -87,9 +87,9 @@ public class AbstractTest {
 
     @Parameters({"browser", "version", "os"})
     @BeforeTest
-    public void setUpForTest(String browser, String version, String os) {
+    public void setUpForTest(Method method,String browser, String version, String os) {
         getLogger().info("Before Class.");
-        getLogger().info(browser + " "+version+" "+os);
+    /*    getLogger().info(browser + " "+version+" "+os);
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
             GenericService.sBrowserData = "chr.";
@@ -108,8 +108,8 @@ public class AbstractTest {
         GenericService.sOperationData=os;
     }
     @BeforeMethod
-    public void setUp(Method method) {
-        getLogger().info("Before Method.");
+    public void setUp(Method method) {*/
+        //getLogger().info("Before Method.");
         /*getRunMode();
             if (browser.equalsIgnoreCase("chrome")) {
                 GenericService.sBrowserData = "chr.";
@@ -124,7 +124,23 @@ public class AbstractTest {
             } else {
                 GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
         }*/
-
+        getLogger().info(browser + " "+version+" "+os);
+        getRunMode();
+        if (browser.equalsIgnoreCase("chrome")) {
+            GenericService.sBrowserData = "chr.";
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            GenericService.sBrowserData = "ff.";
+        } else if (browser.equalsIgnoreCase("internet explorer")) {
+            GenericService.sBrowserData = "ie.";
+        } else if (browser.equalsIgnoreCase("safari")) {
+            GenericService.sBrowserData = "saf.";
+        } else if (browser.equalsIgnoreCase("edge")) {
+            GenericService.sBrowserData = "edge.";
+        } else {
+            GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
+        }
+        GenericService.sVersionData=version;
+        GenericService.sOperationData=os;
         getLogger().info("setUp: " + GenericService.sBrowserData);
         testName = method.getName();
         logCurrentStepStart();
