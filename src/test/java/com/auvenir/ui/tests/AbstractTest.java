@@ -162,33 +162,49 @@ public class AbstractTest {
 
             /*Initialize Selenium for Selenium Grid*/
 
-                DesiredCapabilities capabilities;
+                //DesiredCapabilities capabilities;
                 if (GenericService.sBrowserData.equalsIgnoreCase("chr.")) {
-                    capabilities = DesiredCapabilities.chrome();
+                    DesiredCapabilities capabilitiesChrome;
+                    capabilitiesChrome = DesiredCapabilities.chrome();
                     String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
                     HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
                     chromePrefs.put("profile.default_content_settings.popups", 0);
                     chromePrefs.put("download.default_directory", downloadFilepath);
                     ChromeOptions options = new ChromeOptions();
                     options.setExperimentalOption("prefs", chromePrefs);
-                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                    capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+                    capabilitiesChrome.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+                    capabilitiesChrome.setCapability(ChromeOptions.CAPABILITY, options);
+                    capabilitiesChrome.setPlatform(Platform.WIN10);
+                    capabilitiesChrome.setVersion(GenericService.sVersionData);
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesChrome, capabilitiesChrome);
 
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
-                    capabilities = DesiredCapabilities.firefox();
+                    DesiredCapabilities capabilitiesFireFox;
+                    capabilitiesFireFox = DesiredCapabilities.firefox();
                     FirefoxProfile profile = setDownloadLocationFirefox();
-                    capabilities.setCapability(FirefoxDriver.PROFILE,profile);
+                    capabilitiesFireFox.setCapability(FirefoxDriver.PROFILE,profile);
+                    capabilitiesFireFox.setPlatform(Platform.WIN10);
+                    capabilitiesFireFox.setVersion(GenericService.sVersionData);
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesFireFox, capabilitiesFireFox);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
-                    capabilities = DesiredCapabilities.internetExplorer();
+                    DesiredCapabilities capabilitiesIE;
+                    capabilitiesIE = DesiredCapabilities.internetExplorer();
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesIE, capabilitiesIE);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("saf.")) {
-                    capabilities = DesiredCapabilities.safari();
+                    DesiredCapabilities capabilitiesSafari;
+                    capabilitiesSafari = DesiredCapabilities.safari();
+                    capabilitiesSafari.setPlatform(Platform.MAC);
+                    capabilitiesSafari.setVersion(GenericService.sVersionData);
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesSafari, capabilitiesSafari);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("edge.")) {
-                    capabilities = DesiredCapabilities.edge();
+                    DesiredCapabilities capabilitiesEdge;
+                    capabilitiesEdge = DesiredCapabilities.edge();
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesEdge, capabilitiesEdge);
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
 
-                if (GenericService.sOperationData.equalsIgnoreCase("WIN10")) {
+                /*if (GenericService.sOperationData.equalsIgnoreCase("WIN10")) {
                     capabilities.setPlatform(Platform.WIN10);
                 } else if (GenericService.sOperationData.equalsIgnoreCase("WIN8")) {
                     capabilities.setPlatform(Platform.WIN8);
@@ -198,9 +214,9 @@ public class AbstractTest {
                     capabilities.setPlatform(Platform.MAC);
                 } else {
                     throw new IllegalArgumentException("Unknown platform - " + GenericService.sOperationData);
-                }
-                capabilities.setVersion(GenericService.sVersionData);
-                driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
+                }*/
+                //capabilities.setVersion(GenericService.sVersionData);
+                //driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
