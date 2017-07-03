@@ -13,9 +13,9 @@
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
-            <methods>
+            <!--<methods>
                 <include priority="1" name="verifyAdminLogin"></include>
-                <include priority="2" name="verifySignUpAuditorUser"></include>
+                <include priority="2" name="verifySignUpAuditorUser"></include>-->
                 <!--<include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
                 <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
                 <include priority="5" name="verifyLoginAuditorUser"></include>
@@ -49,7 +49,7 @@
                 <include priority="29" name="verifyClientDownloadAttachFile"></include>
                 <include priority="30" name="verifyAuditorMarkAsComplete"></include>
                 <include priority="31" name="verifyClientSeeMarkAsComplete"></include>-->
-            </methods>
+            <!--</methods>-->
         </classes>
     </test>
     <!-- <test name="Regression2" preserve-order="false">
@@ -80,9 +80,9 @@
         <parameter name="os" value="MAC"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
-            <methods>
+           <!-- <methods>
                 <include priority="1" name="verifyAdminLogin"></include>
-                <include priority="2" name="verifySignUpAuditorUser"></include>
+                <include priority="2" name="verifySignUpAuditorUser"></include>-->
                 <!--<include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
                 <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
                 <include priority="5" name="verifyLoginAuditorUser"></include>
@@ -116,7 +116,7 @@
                 <include priority="29" name="verifyClientDownloadAttachFile"></include>
                 <include priority="30" name="verifyAuditorMarkAsComplete"></include>
                 <include priority="31" name="verifyClientSeeMarkAsComplete"></include>-->
-            </methods>
+            <!--</methods>-->
         </classes>
     </test>
    <!-- <test name="Regression4" preserve-order="false">
