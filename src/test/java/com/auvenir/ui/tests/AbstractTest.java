@@ -3,7 +3,6 @@ package com.auvenir.ui.tests;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;
@@ -75,7 +74,6 @@ public class AbstractTest {
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
-        System.out.println("********************************");
         /*
         if (server.equalsIgnoreCase("cadet")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
@@ -88,10 +86,9 @@ public class AbstractTest {
     }
 
     @Parameters({"browser", "version", "os"})
-    @BeforeTest
-    public void setUpForTest(Method method,String browser, String version, String os) {
+    @BeforeClass
+    public void setUpForTest(String browser, String version, String os) {
         getLogger().info("Before Class.");
-    /*    getLogger().info(browser + " "+version+" "+os);
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
             GenericService.sBrowserData = "chr.";
@@ -110,8 +107,8 @@ public class AbstractTest {
         GenericService.sOperationData=os;
     }
     @BeforeMethod
-    public void setUp(Method method) {*/
-        //getLogger().info("Before Method.");
+    public void setUp(Method method) {
+        getLogger().info("Before Method.");
         /*getRunMode();
             if (browser.equalsIgnoreCase("chrome")) {
                 GenericService.sBrowserData = "chr.";
@@ -126,23 +123,7 @@ public class AbstractTest {
             } else {
                 GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
         }*/
-        getLogger().info(browser + " "+version+" "+os);
-        getRunMode();
-        if (browser.equalsIgnoreCase("chrome")) {
-            GenericService.sBrowserData = "chr.";
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            GenericService.sBrowserData = "ff.";
-        } else if (browser.equalsIgnoreCase("internet explorer")) {
-            GenericService.sBrowserData = "ie.";
-        } else if (browser.equalsIgnoreCase("safari")) {
-            GenericService.sBrowserData = "saf.";
-        } else if (browser.equalsIgnoreCase("edge")) {
-            GenericService.sBrowserData = "edge.";
-        } else {
-            GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
-        }
-        GenericService.sVersionData=version;
-        GenericService.sOperationData=os;
+
         getLogger().info("setUp: " + GenericService.sBrowserData);
         testName = method.getName();
         logCurrentStepStart();
@@ -220,7 +201,6 @@ public class AbstractTest {
                 }
                 capabilities.setVersion(GenericService.sVersionData);
                 driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
-                System.out.println("CHAY NHE CON");
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
