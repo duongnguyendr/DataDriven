@@ -119,7 +119,7 @@
             </methods>
         </classes>
     </test>
-    <test name="Regression4" preserve-order="false">
+   <!-- <test name="Regression4" preserve-order="false">
         <parameter name="browser" value="firefox"/>
         <parameter name="version" value="50.1.0"/>
         <parameter name="os" value="WIN10"/>
@@ -129,5 +129,5 @@
                 <include priority="1" name="verifyAdminLogin"></include>
             </methods>
         </classes>
-    </test>
+    </test>-->
 </suite>
