@@ -151,19 +151,19 @@ public class AbstractTest {
                 DesiredCapabilities capabilities;
                 if (GenericService.sBrowserData.equalsIgnoreCase("chr.")) {
                     capabilities = DesiredCapabilities.chrome();
-                    /*String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
+                    String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
                     HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
                     chromePrefs.put("profile.default_content_settings.popups", 0);
                     chromePrefs.put("download.default_directory", downloadFilepath);
                     ChromeOptions options = new ChromeOptions();
                     options.setExperimentalOption("prefs", chromePrefs);
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                    capabilities.setCapability(ChromeOptions.CAPABILITY, options);*/
+                    capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     capabilities = DesiredCapabilities.firefox();
-                    /*FirefoxProfile profile = setDownloadLocationFirefox();
-                    capabilities.setCapability(FirefoxDriver.PROFILE,profile);*/
+                    FirefoxProfile profile = setDownloadLocationFirefox();
+                    capabilities.setCapability(FirefoxDriver.PROFILE,profile);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
                     capabilities = DesiredCapabilities.internetExplorer();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("saf.")) {
