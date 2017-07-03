@@ -122,6 +122,10 @@ public class AuditorDetailsEngagementService extends AbstractService {
     /**
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
      */
+
+    public void clickOnContactLink(){
+        auditorDetailsEngagementPage.clickOnContactLink();
+    }
 }
 
 
