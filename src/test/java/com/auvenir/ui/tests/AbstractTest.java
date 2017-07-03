@@ -3,6 +3,7 @@ package com.auvenir.ui.tests;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;
@@ -74,6 +75,7 @@ public class AbstractTest {
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
+        System.out.println("********************************");
         /*
         if (server.equalsIgnoreCase("cadet")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
