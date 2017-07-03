@@ -86,7 +86,7 @@ public class AbstractTest {
     }
 
     @Parameters({"browser", "version", "os"})
-    @BeforeClass
+    @BeforeTest
     public void setUpForTest(String browser, String version, String os) {
         getLogger().info("Before Class.");
         getLogger().info(browser + " "+version+" "+os);
