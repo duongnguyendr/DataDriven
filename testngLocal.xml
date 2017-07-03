@@ -121,7 +121,7 @@
     </test>
     <test name="Regression4" preserve-order="false">
         <parameter name="browser" value="firefox"/>
-        <parameter name="version" value="50.0.1"/>
+        <parameter name="version" value="50.1.0"/>
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
