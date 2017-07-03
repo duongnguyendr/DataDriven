@@ -58,6 +58,8 @@ public class GenericService {
     public static String sConfigFile = null;
     public static String sExecutionDate = null;
     public static String sBrowserData = null;
+    public static String sVersionData = null;
+    public static String sOperationData = null;
     public static ArrayList sBrowserTestNameList = new ArrayList<String>();
     public static String [] browserAutomationTest = new String [] {"CHROME", "FIREFOX", "IE", "SAFARI","EDGE"};
 

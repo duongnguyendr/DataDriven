@@ -16,10 +16,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -89,9 +86,9 @@ public class AbstractTest {
     }
 
     @Parameters({"browser", "version", "os"})
-    @BeforeMethod
-    public void setUp(Method method, String browser, String version, String os) {
-        getLogger().info("Before Method.");
+    @BeforeClass
+    public void setUpForTest(String browser, String version, String os) {
+        getLogger().info("Before Class.");
         getRunMode();
         if (browser.equalsIgnoreCase("chrome")) {
             GenericService.sBrowserData = "chr.";
@@ -103,14 +100,31 @@ public class AbstractTest {
             GenericService.sBrowserData = "saf.";
         } else if (browser.equalsIgnoreCase("edge")) {
             GenericService.sBrowserData = "edge.";
-        }
-        if (browser.equalsIgnoreCase("internet explorer")) {
-            GenericService.sBrowserTestNameList.add("IE_");
         } else {
             GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
         }
+        GenericService.sVersionData=version;
+        GenericService.sOperationData=os;
+    }
+    @BeforeMethod
+    public void setUp(Method method) {
+        getLogger().info("Before Method.");
+        /*getRunMode();
+            if (browser.equalsIgnoreCase("chrome")) {
+                GenericService.sBrowserData = "chr.";
+            } else if (browser.equalsIgnoreCase("firefox")) {
+                GenericService.sBrowserData = "ff.";
+            } else if (browser.equalsIgnoreCase("internet explorer")) {
+                GenericService.sBrowserData = "ie.";
+            } else if (browser.equalsIgnoreCase("safari")) {
+                GenericService.sBrowserData = "saf.";
+            } else if (browser.equalsIgnoreCase("edge")) {
+                GenericService.sBrowserData = "edge.";
+            } else {
+                GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
+        }*/
 
-        getLogger().info("setUp: " + browser);
+        getLogger().info("setUp: " + GenericService.sBrowserData);
         testName = method.getName();
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
@@ -174,18 +188,18 @@ public class AbstractTest {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
 
-                if (os.equalsIgnoreCase("WIN10")) {
+                if (GenericService.sOperationData.equalsIgnoreCase("WIN10")) {
                     capabilities.setPlatform(Platform.WIN10);
-                } else if (os.equalsIgnoreCase("WIN8")) {
+                } else if (GenericService.sOperationData.equalsIgnoreCase("WIN8")) {
                     capabilities.setPlatform(Platform.WIN8);
-                } else if (os.equalsIgnoreCase("LINUX")) {
+                } else if (GenericService.sOperationData.equalsIgnoreCase("LINUX")) {
                     capabilities.setPlatform(Platform.LINUX);
-                } else if (os.equalsIgnoreCase("MAC")) {
+                } else if (GenericService.sOperationData.equalsIgnoreCase("MAC")) {
                     capabilities.setPlatform(Platform.MAC);
                 } else {
-                    throw new IllegalArgumentException("Unknown platform - " + os);
+                    throw new IllegalArgumentException("Unknown platform - " + GenericService.sOperationData);
                 }
-                capabilities.setVersion(version);
+                capabilities.setVersion(GenericService.sVersionData);
                 driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
             }
             NXGReports.setWebDriver(driver);
