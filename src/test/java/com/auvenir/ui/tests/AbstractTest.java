@@ -201,6 +201,7 @@ public class AbstractTest {
                 }
                 capabilities.setVersion(GenericService.sVersionData);
                 driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
+                System.out.println("CHAY NHE CON");
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
