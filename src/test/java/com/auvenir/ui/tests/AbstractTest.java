@@ -157,7 +157,7 @@ public class AbstractTest {
                     chromePrefs.put("download.default_directory", downloadFilepath);
                     ChromeOptions options = new ChromeOptions();
                     options.setExperimentalOption("prefs", chromePrefs);
-                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+                    //capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
