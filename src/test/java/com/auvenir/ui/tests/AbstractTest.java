@@ -144,7 +144,7 @@ public class AbstractTest {
                 GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
         }*/
 
-        getLogger().info("setUp: " + GenericService.sBrowserData);
+        getLogger().info("setUp: " + browser);
         testName = method.getName();
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
