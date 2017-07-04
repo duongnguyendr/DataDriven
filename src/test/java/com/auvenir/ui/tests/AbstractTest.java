@@ -108,7 +108,7 @@ public class AbstractTest {
     }*/
     @Parameters({"browser", "version", "os"})
     @BeforeMethod
-    public void setUp(String browser, String version, String os) {
+    public void setUp(Method method, String browser, String version, String os) {
         getLogger().info("Before Method.");
 
         getLogger().info("Before Class.");
@@ -145,7 +145,7 @@ public class AbstractTest {
         }*/
 
         getLogger().info("setUp: " + GenericService.sBrowserData);
-//        testName = method.getName();
+        testName = method.getName();
         logCurrentStepStart();
         AbstractService.sStatusCnt = 0;
         getLogger().info("=====*****======");
