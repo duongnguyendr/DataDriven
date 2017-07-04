@@ -289,6 +289,7 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
         String reportPath = getReportDir(method);
         TestDirectory.mkDirs(reportPath);
         TestDirectory.mkDirs(reportPath + TestDirectory.SEP + TestDirectory.SCREENSHOT_DIRName);
+        System.out.println("reportPath: " + reportPath);
     }
 
     private static void setPlatfromBrowserDetails(ITestResult method) {

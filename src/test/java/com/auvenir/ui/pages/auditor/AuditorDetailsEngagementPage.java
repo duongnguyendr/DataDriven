@@ -33,6 +33,9 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     @FindBy(id = "engagementTeamLink")
     private WebElement TeamMemberLinkEle;
 
+    @FindBy(id = "h-clientListLink")
+    private WebElement eleContactLink;
+
     /**
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - Start
      */
@@ -77,5 +80,10 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     /**
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
      */
+    public void clickOnContactLink(){
+        waitForClickableOfElement(eleContactLink, "contact link");
+        clickElement(eleContactLink);
+    }
+
 }
 
