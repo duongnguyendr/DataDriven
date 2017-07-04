@@ -194,8 +194,8 @@ public class AbstractTest {
                     options.setExperimentalOption("prefs", chromePrefs);
                     capabilitiesChrome.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilitiesChrome.setCapability(ChromeOptions.CAPABILITY, options);
-                    capabilitiesChrome.setPlatform(Platform.WIN10);
-                    capabilitiesChrome.setVersion("59.0.3071.115");
+                    capabilitiesChrome.setPlatform(setOSForBrowser(os));
+                    capabilitiesChrome.setVersion(version);
                     driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesChrome, capabilitiesChrome);
                     GenericService.sBrowserData = "chr.";
                 } else if (browser.equalsIgnoreCase("firefox")) {
@@ -203,7 +203,7 @@ public class AbstractTest {
                     capabilitiesFireFox = DesiredCapabilities.firefox();
                     FirefoxProfile profile = setDownloadLocationFirefox();
                     capabilitiesFireFox.setCapability(FirefoxDriver.PROFILE,profile);
-                    capabilitiesFireFox.setPlatform(Platform.WIN10);
+                    capabilitiesFireFox.setPlatform(setOSForBrowser(os));
                     capabilitiesFireFox.setVersion(GenericService.sVersionData);
                     driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesFireFox, capabilitiesFireFox);
                     GenericService.sBrowserData = "ff.";
@@ -215,8 +215,8 @@ public class AbstractTest {
                 } else if (browser.equalsIgnoreCase("safari")) {
                     DesiredCapabilities capabilitiesSafari;
                     capabilitiesSafari = DesiredCapabilities.safari();
-                    capabilitiesSafari.setPlatform(Platform.MAC);
-                    capabilitiesSafari.setVersion("10.1.1");
+                    capabilitiesSafari.setPlatform(setOSForBrowser(os));
+                    capabilitiesSafari.setVersion(version);
                     driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesSafari, capabilitiesSafari);
                     GenericService.sBrowserData = "saf.";
                 } else if (browser.equalsIgnoreCase("edge")) {
@@ -247,6 +247,20 @@ public class AbstractTest {
             getLogger().info("Problem in launching driver");
             e.printStackTrace();
         }
+    }
+    public Platform setOSForBrowser(String os){
+
+        Platform osType = null;
+        if(os.equalsIgnoreCase("WIN10")){
+            osType = Platform.WIN10;
+        }if(os.equalsIgnoreCase("WIN8")){
+            osType = Platform.WIN8;
+        }if(os.equalsIgnoreCase("WIN8.1")){
+            osType = Platform.WIN8_1;
+        }if(os.equalsIgnoreCase("MAC")){
+            osType = Platform.MAC;
+        }
+        return osType;
     }
 
     public void closeAllTab() {
