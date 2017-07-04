@@ -44,6 +44,7 @@ public class AbstractPage {
     public static final String categoryTitleOfAddNew = "Add New Category";
     public static final String backgroundColor = "background-color";
     public static final String numberSequence = "123456";
+    public static final String maxLengthCategoryName = "1234567890";
     public static final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit";
     public static final String borderColor = "border-color";
     public static final String border = "border";
@@ -2797,9 +2798,18 @@ public class AbstractPage {
     Vien.Pham modified this method
      */
     public void navigateToAddNewCategory() throws Exception {
-        clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-        Thread.sleep(smallerTimeOut);
-        clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
+        try {
+            clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
+            waitForTextValueChanged(listOfAddNewCategory.get(0),"categoryCreateEle","Add New Category");
+            hoverElement(listOfAddNewCategory.get(0),"categoryCreateEle");
+            clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
+            NXGReports.addStep("Navigate to Add new category: Pass", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }catch (Exception e){
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Navigate to Add new category: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 
 
@@ -2818,6 +2828,7 @@ public class AbstractPage {
                 NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
@@ -2840,6 +2851,7 @@ public class AbstractPage {
                 NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Valid Todo name still not saved_Exception.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -2865,15 +2877,16 @@ public class AbstractPage {
     }
 
     public void verifyBorderTodoTextBox_InputValidValue() {
-        String GreenBorder = "1px solid rgb(92, 155, 160)";
+        String greenBorder = "1px solid rgb(92, 155, 160)";
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Verifying while user inputting valid text, textbox border is green...");
-            validateCssValueElement(textbox1, "border", GreenBorder);
-            NXGReports.addStep("Border color while inputting valid value.", LogAs.PASSED, null);
+            getLogger().info("Verifying textbox border is Green when inputed valid todo name...");
+//            validateCssValueElement(textbox1, "border", whiteBorder);
+            waitForCssValueChanged(textbox1,"Textbox","border",greenBorder);
+            NXGReports.addStep("Border color is green while inputed valid todo name", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Border color while inputting valid value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border color is green while inputed valid todo name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2882,10 +2895,11 @@ public class AbstractPage {
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
             getLogger().info("Verifying border of todo Textbox is Orange while missed or entered invalid values or not...");
+            waitForCssValueChanged(TodosTextboxEle.get(0),"Todo TextBox","border",OrangeBorder);
             validateCssValueElement(textbox1, "border", OrangeBorder);
-            NXGReports.addStep("Border color while inputting invalid value.", LogAs.PASSED, null);
+            NXGReports.addStep("Border color is Orange while inputting invalid value.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Border color while inputting invalid value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border color is Orange while inputting invalid value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
     }
@@ -2895,8 +2909,8 @@ public class AbstractPage {
         boolean isCheckShowAllText = false;
         getLogger().info("Verify check show all text of todo name..");
         try {
-            String strGetCategoryName = getTextByJavaScripts(TodosTextboxEle.get(0), "Todos Textbox");
-            if (todoNameAllText.equals(strGetCategoryName)) {
+            String strGetTodoName = getTextByJavaScripts(TodosTextboxEle.get(0), "Todos Textbox");
+            if (todoNameAllText.equals(strGetTodoName)) {
                 isCheckShowAllText = true;
                 NXGReports.addStep("Verify check show all text of category name", LogAs.PASSED, null);
             } else {
