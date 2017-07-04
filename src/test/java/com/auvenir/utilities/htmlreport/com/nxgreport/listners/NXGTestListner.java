@@ -289,7 +289,6 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
         String reportPath = getReportDir(method);
         TestDirectory.mkDirs(reportPath);
         TestDirectory.mkDirs(reportPath + TestDirectory.SEP + TestDirectory.SCREENSHOT_DIRName);
-        System.out.println("reportPath: " + reportPath);
     }
 
     private static void setPlatfromBrowserDetails(ITestResult method) {
@@ -321,6 +320,8 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
 
         try {
             printWriter = new PrintWriter(TestDirectory.REPORTSDIR + TestDirectory.SEP + "index.html");
+            System.out.println("Writer Folder: " + TestDirectory.REPORTSDIR + TestDirectory.SEP + "index.html");
+            System.out.println("Writer file: " + printWriter);
             IndexPageWriter.printHeader(printWriter);
             IndexPageWriter.printContent(printWriter, NXGReports.indexPageDescription);
             IndexPageWriter.printFooter(printWriter);
