@@ -24,6 +24,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
+    private AuditorToDoService auditorToDoService;
 
 
     @Test(priority = 1, enabled = true, description = "Verify Todos Textbox")
@@ -329,12 +330,13 @@ public class AuditorToDoPageTest extends AbstractTest {
     private String adminPassword, auditorPassword, clientPassword;
     private String engagementName, todoName;
 
-    @Test(priority = 10, enabled = true, description = "Verify dueDate on Todo Detail Popup is match with on Todo Row.", testName = "dp_")
+    @Test(priority = 99, enabled = true, description = "Verify dueDate on Todo Detail Popup is match with on Todo Row.", testName = "dp_")
     public void verifyDueDateOnToDoDetailsMatchWithOnToDoRow() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -350,22 +352,22 @@ public class AuditorToDoPageTest extends AbstractTest {
 
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+            dueDate = auditorToDoService.getToDoDueDateOnRow(todoName);
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDueDateMatching(dueDate);
 
-            auditorCreateToDoService.openDatePickerOnTodoDetail();
-            auditorCreateToDoService.changeDueDateOnTodoDetail(0);
-            auditorCreateToDoService.closePopupTodoDetail();
-            dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+            auditorToDoService.openDatePickerOnTodoDetail();
+            auditorToDoService.changeDueDateOnTodoDetail(0);
+            auditorToDoService.closePopupTodoDetail();
+            dueDate = auditorToDoService.getToDoDueDateOnRow(todoName);
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDueDateMatching(dueDate);
 
-            auditorCreateToDoService.closePopupTodoDetail();
-            auditorCreateToDoService.changeDueDateOnTodoRow(todoName, 0);
-            dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+            auditorToDoService.closePopupTodoDetail();
+            auditorToDoService.changeDueDateOnTodoRow(todoName, 0);
+            dueDate = auditorToDoService.getToDoDueDateOnRow(todoName);
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDueDateMatching(dueDate);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify dueDate on Todo Detail Popup is match with on Todo Row.", LogAs.PASSED, null);
@@ -384,6 +386,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
         auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
@@ -396,8 +399,8 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDatePickerShow();
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDatePickerShow();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify UI on Todo Detail Popup.", LogAs.PASSED, null);
@@ -410,12 +413,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify Default Value on Todo Detail Popup.", testName = "dp_3")
+    @Test(priority = 11, enabled = true, description = "Verify Default Value on Todo Detail Popup.", testName = "dp_3")
     public void verifyDueDateOnToDoDetailsDefaultValue() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -430,9 +434,9 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDueDateMatching(dueDate);
+            dueDate = auditorToDoService.getToDoDueDateOnRow(todoName);
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDueDateMatching(dueDate);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify Default Value on Todo Detail Popup.", LogAs.PASSED, null);
@@ -445,12 +449,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify Date Format on Todo Detail Popup.", testName = "dp_4")
+    @Test(priority = 12, enabled = true, description = "Verify Date Format on Todo Detail Popup.", testName = "dp_4")
     public void verifyDueDateOnToDoDetailsDateFormat() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
         auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
@@ -463,9 +468,9 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDatePickerDateFormat();
-            //auditorCreateToDoService.verifyDatePickerShow();
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDatePickerDateFormat();
+            //auditorToDoService.verifyDatePickerShow();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify Date Format on Todo Detail Popup.", LogAs.PASSED, null);
@@ -478,12 +483,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify date picker when mouse hover on a date.", testName = "dp_5")
+    @Test(priority = 13, enabled = true, description = "Verify date picker when mouse hover on a date.", testName = "dp_5")
     public void verifyDueDateOnToDoDetailsHoverOnField() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -497,10 +503,10 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDatePickerShow();
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDatePickerShow();
 
-            auditorCreateToDoService.verifyHoverOnField();
+            auditorToDoService.verifyHoverOnField();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify date picker when mouse hover on a date.", LogAs.PASSED, null);
@@ -513,12 +519,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify date picker focusing to the current due date.", testName = "dp_6")
+    @Test(priority = 14, enabled = true, description = "Verify date picker focusing to the current due date.", testName = "dp_6")
     public void verifyDueDateOnToDoDetailsFocusingCurrentDueDate() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -532,10 +539,10 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDatePickerShow();
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDatePickerShow();
 
-            auditorCreateToDoService.verifyDueDateFocusing();
+            auditorToDoService.verifyDueDateFocusing();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify date picker focusing to the current due date.", LogAs.PASSED, null);
@@ -548,12 +555,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify date picker Disable Date after Engagement Due Date on Todo Detail Popup.", testName = "dp_7")
+    @Test(priority = 15, enabled = true, description = "Verify date picker Disable Date after Engagement Due Date on Todo Detail Popup.", testName = "dp_7")
     public void verifyDatePickerOnToDoDetailsDisableDateAfterDueDate() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -567,12 +575,12 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
-            engagementDueDate = auditorCreateToDoService.getEngagementDueDate();
+            engagementDueDate = auditorToDoService.getEngagementDueDate();
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.verifyDatePickerShow();
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.verifyDatePickerShow();
 
-            auditorCreateToDoService.verifyDisableDateAfterDueDate(engagementDueDate);
+            auditorToDoService.verifyDisableDateAfterDueDate(engagementDueDate);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify date picker Disable Date after Engagement Due Date on Todo Detail Popup.", LogAs.PASSED, null);
@@ -585,12 +593,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify dueDate on Todo Detail Popup when choose another date.", testName = "dp_8")
+    @Test(priority = 16, enabled = true, description = "Verify dueDate on Todo Detail Popup when choose another date.", testName = "dp_8")
     public void verifyDueDateOnToDoDetailsChooseAnotherDate() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -605,12 +614,12 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.openPopupTodoDetail(todoName);
 
-            auditorCreateToDoService.openDatePickerOnTodoDetail();
-            date = auditorCreateToDoService.getValidDateHasIndex(0);
-            auditorCreateToDoService.changeDueDateOnTodoDetail(0);
-            auditorCreateToDoService.verifyChoosingAnotherDate(date);
+            auditorToDoService.openDatePickerOnTodoDetail();
+            date = auditorToDoService.getValidDateHasIndex(0);
+            auditorToDoService.changeDueDateOnTodoDetail(0);
+            auditorToDoService.verifyChoosingAnotherDate(date);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify dueDate on Todo Detail Popup when choose another date.", LogAs.PASSED, null);
@@ -623,12 +632,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify date picker next month icon.", testName = "dp_10")
+    @Test(priority = 17, enabled = true, description = "Verify date picker next month icon.", testName = "dp_10")
     public void verifyDueDateOnToDoDetailsDatePickerNextMonthIcon() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -643,12 +653,12 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.openDatePickerOnTodoDetail();
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.openDatePickerOnTodoDetail();
 
-            monthYear = auditorCreateToDoService.getMonthYearTitle();
-            auditorCreateToDoService.goToNextMonth();
-            auditorCreateToDoService.verifyNextMonthIcon(monthYear);
+            monthYear = auditorToDoService.getMonthYearTitle();
+            auditorToDoService.goToNextMonth();
+            auditorToDoService.verifyNextMonthIcon(monthYear);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify date picker next month icon.", LogAs.PASSED, null);
@@ -661,12 +671,13 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify date picker previous month icon.", testName = "dp_9")
+    @Test(priority = 18, enabled = true, description = "Verify date picker previous month icon.", testName = "dp_9")
     public void verifyDueDateOnToDoDetailsDatePickerPreviousMonthIcon() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         //clientService = new ClientService(getLogger(), getDriver());
 
         auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
@@ -681,13 +692,13 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
-            auditorCreateToDoService.openPopupTodoDetail(todoName);
-            auditorCreateToDoService.openDatePickerOnTodoDetail();
+            auditorToDoService.openPopupTodoDetail(todoName);
+            auditorToDoService.openDatePickerOnTodoDetail();
 
-            auditorCreateToDoService.goToNextMonth();
-            monthYear = auditorCreateToDoService.getMonthYearTitle();
-            auditorCreateToDoService.goToPreviousMonth();
-            auditorCreateToDoService.verifyPreviousMonthIcon(monthYear);
+            auditorToDoService.goToNextMonth();
+            monthYear = auditorToDoService.getMonthYearTitle();
+            auditorToDoService.goToPreviousMonth();
+            auditorToDoService.verifyPreviousMonthIcon(monthYear);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify date picker previous month icon.", LogAs.PASSED, null);
