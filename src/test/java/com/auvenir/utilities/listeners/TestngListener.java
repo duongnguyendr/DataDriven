@@ -39,10 +39,9 @@ public class TestngListener implements ITestListener {
 		Date date = new Date();
 	    SimpleDateFormat sdtf=new SimpleDateFormat("dd-MM-yyyy_hh_mm_ss");
 	    sdateTime = sdtf.format(date);
-		sHtmlReports=new File(GenericService.sDirPath+"//Reports//HTMLReports");
-		System.out.println("HTML Report folder: " + sHtmlReports.getName());
-		sTestngReports= new File(GenericService.sDirPath+"//Reports//TestNGReports");
-		sPdfReports = new File(GenericService.sDirPath+"//Reports//PDFReports");
+		sHtmlReports=new File(GenericService.sDirPath+"//..//Reports//HTMLReports");
+		sTestngReports= new File(GenericService.sDirPath+"//..//Reports//TestNGReports");
+		sPdfReports = new File(GenericService.sDirPath+"//..//Reports//PDFReports");
 		if(!sHtmlReports.exists())
 		{
 			FileUtils.forceMkdir(sHtmlReports);		
@@ -99,13 +98,9 @@ public class TestngListener implements ITestListener {
 
 	public void onFinish(ITestContext context) 
 	{
-		 /*File testOuput = new File(GenericService.sDirPath+"\\tests-output");
+		 File testOuput = new File(GenericService.sDirPath+"\\tests-output");
 		 String sTestngReports= GenericService.sDirPath+"\\..\\Reports\\TestNGReports\\TestNG_"+sdateTime;
-		 pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");*/
-		File testOuput = new File(GenericService.sDirPath+"\\tests-output");
-		String sTestngReports= GenericService.sDirPath+"\\Reports\\TestNGReports\\TestNG_"+sdateTime;
-		System.out.println("Report folder: " + sTestngReports);
-		pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");
+		 pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");
 		 iPassCount=context.getPassedTests().size();
 	     iFailCount=context.getFailedTests().size(); 
 	     iSkippedCount=context.getSkippedTests().size(); 
