@@ -227,7 +227,7 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
-
+                GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
                 /*if (GenericService.sOperationData.equalsIgnoreCase("WIN10")) {
                     capabilities.setPlatform(Platform.WIN10);
                 } else if (GenericService.sOperationData.equalsIgnoreCase("WIN8")) {
