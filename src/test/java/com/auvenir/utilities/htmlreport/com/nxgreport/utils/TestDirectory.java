@@ -43,6 +43,7 @@ public class TestDirectory {
 
     static {
         REPORTSDIR = CURRENTDIR + SEP + REPORTSDIRNAME;
+        System.out.println("**********REPORTSDIR: " + REPORTSDIR);
         RESOURCESDIRName = "Resources";
         RESOURCESDIR = REPORTSDIR + SEP + RESOURCESDIRName;
         CSSDIRName = "Css";
