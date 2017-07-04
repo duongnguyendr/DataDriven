@@ -74,12 +74,12 @@
     </methods>
     </classes>
     </test>-->
-   <!-- <test name="Regression3" preserve-order="false">
+    <test name="Regression3" preserve-order="false">
         <parameter name="browser" value="safari"/>
         <parameter name="version" value="10.1.1"/>
         <parameter name="os" value="MAC"/>
         <classes>
-            <class name="com.auvenir.ui.tests.SmokeTest"/>-->
+            <class name="com.auvenir.ui.tests.SmokeTest"/>
            <!-- <methods>
                 <include priority="1" name="verifyAdminLogin"></include>
                 <include priority="2" name="verifySignUpAuditorUser"></include>-->
@@ -117,8 +117,8 @@
                 <include priority="30" name="verifyAuditorMarkAsComplete"></include>
                 <include priority="31" name="verifyClientSeeMarkAsComplete"></include>-->
             <!--</methods>-->
-        <!--</classes>
-    </test>-->
+        </classes>
+    </test>
    <!-- <test name="Regression4" preserve-order="false">
         <parameter name="browser" value="firefox"/>
         <parameter name="version" value="50.1.0"/>
