@@ -2,6 +2,7 @@ package com.auvenir.utilities.htmlreport.com.nxgreport.writer;
 
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.ReportLabels;
+import com.auvenir.utilities.htmlreport.com.nxgreport.utils.Platform;
 import com.auvenir.utilities.htmlreport.com.nxgreport.utils.TestDirectory;
 import com.auvenir.utilities.htmlreport.com.nxgreport.utils.Utils;
 import org.testng.ITestNGMethod;
@@ -208,7 +209,7 @@ public class ResultPageWriter {
     private static int countStatusStepTest(ArrayList<String> browserTest , List<ITestResult> testResult, String browserName){
         int count =0;
         for(int i=0; i<testResult.size();i++){
-            if(browserTest.get(i).equals(browserName)){
+            if(testResult.get(i).getAttribute(Platform.BROWSER_NAME_PROP).toString().equals(browserName)){
                 count++;
             }
         }
@@ -221,7 +222,7 @@ public class ResultPageWriter {
         int i = 0;
         while(var5.hasNext()) {
             ITestResult testResult = (ITestResult) var5.next();
-            if(skippedBrowserTest.get(i).equals(browserName)) {
+            if(testResult.getAttribute(Platform.BROWSER_NAME_PROP).toString().equals(browserName)) {
                 printWriter.print("<tr class=\"all " + strPass + "\">\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getPackageName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getClassName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getMethodType(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getTestCaseName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getIteration(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getExecutionTime(testResult) + "</a></td>\n" + "\t\t<td><img style=\"border: none; width: 25px\" src=\"../" + TestDirectory.RESOURCESDIRName + "/" + TestDirectory.IMGDIRName + "/skip.png\"></td>\n" + "\t</tr>\n");
                 if (!testResult.getMethod().isTest()) {
                     strPass = "config" + browserName;
@@ -238,7 +239,7 @@ public class ResultPageWriter {
         int i = 0;
         while(var5.hasNext()) {
             ITestResult testResult = (ITestResult) var5.next();
-            if(failedBrowserTest.get(i).equals(browserName)) {
+            if(testResult.getAttribute(Platform.BROWSER_NAME_PROP).toString().equals(browserName)) {
                 printWriter.print("<tr class=\"all " + strPass + "\">\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getPackageName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getClassName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getMethodType(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getTestCaseName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getIteration(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getExecutionTime(testResult) + "</a></td>\n" + "\t\t<td><img style=\"border: none; width: 25px\" src=\"../" + TestDirectory.RESOURCESDIRName + "/" + TestDirectory.IMGDIRName + "/fail.png\"></td>\n" + "\t</tr>\n");
                 if (!testResult.getMethod().isTest()) {
                     strPass = "config" + browserName;
@@ -255,7 +256,7 @@ public class ResultPageWriter {
         int i=0;
         while(var5.hasNext()) {
             ITestResult testResult = (ITestResult) var5.next();
-            if(passBrowserTest.get(i).equals(browserName)) {
+            if(testResult.getAttribute(Platform.BROWSER_NAME_PROP).toString().equals(browserName)) {
                 printWriter.print("<tr class=\"all " + strPass + "\">\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getPackageName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getClassName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getMethodType(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getTestCaseName(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getIteration(testResult) + "</a></td>\n" + "\t\t<td><a href=\"" + getTestCaseHTMLPath(testResult, runNumber) + "\">" + getExecutionTime(testResult) + "</a></td>\n" + "\t\t<td><img style=\"border: none; width: 25px\" src=\"../" + TestDirectory.RESOURCESDIRName + "/" + TestDirectory.IMGDIRName + "/pass.png\"></td>\n" + "\t</tr>\n");
                 if (!testResult.getMethod().isTest()) {
                     strPass = "config" + browserName;
@@ -272,7 +273,7 @@ public class ResultPageWriter {
         int i=0;
         while(var5.hasNext()) {
             ITestResult testResult = (ITestResult) var5.next();
-            if(resultBrowserTest.get(i).equals(browserName)) {
+            if(testResult.getAttribute(Platform.BROWSER_NAME_PROP).toString().equals(browserName)) {
                 var1+= testResult.getEndMillis() - testResult.getStartMillis();
             }
             i++;
