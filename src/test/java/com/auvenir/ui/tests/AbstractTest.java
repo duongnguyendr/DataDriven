@@ -189,13 +189,14 @@ public class AbstractTest {
     public Platform setOSForBrowser(String os){
 
         Platform osType = null;
+        System.out.println("Current OS: "+os);
         if(os.equalsIgnoreCase("WIN10")){
             osType = Platform.WIN10;
-        }if(os.equalsIgnoreCase("WIN8")){
+        }else if(os.equalsIgnoreCase("WIN8")){
             osType = Platform.WIN8;
-        }if(os.equalsIgnoreCase("WIN8.1")){
+        }else if(os.equalsIgnoreCase("WIN8.1")){
             osType = Platform.WIN8_1;
-        }if(os.equalsIgnoreCase("MAC")){
+        }else if(os.equalsIgnoreCase("MAC")){
             osType = Platform.MAC;
         }else {
             osType = Platform.LINUX;
