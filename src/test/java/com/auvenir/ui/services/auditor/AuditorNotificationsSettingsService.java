@@ -39,7 +39,7 @@ public class AuditorNotificationsSettingsService extends AbstractService {
             auditorNotificationsSettingsPage.verifyPrivacyStateLink();
             getLogger().info("verify cookies notice link.");
             auditorNotificationsSettingsPage.verifyCookieNotice();
-            auditorNotificationsSettingsPage.scrollPageUp();
+            //auditorNotificationsSettingsPage.scrollPageUp();
             NXGReports.addStep("verify footer page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -48,16 +48,17 @@ public class AuditorNotificationsSettingsService extends AbstractService {
 
 
     public void verifyAuditorNotificationSettingsPage() {
-
-        try {
-            getLogger().info("verify Auditor Notifications Settings page.");
-            auditorNotificationsSettingsPage.verifyAuditorNotificationSettingsPage();
-            NXGReports.addStep("verify Auditor Notifications Settings page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify Auditor Notifications Settings page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorNotificationsSettingsPage.verifyAuditorNotificationSettingsPage();
     }
 
+    public void verifyNotificationItemListNotificationSettingsPage(){
+        auditorNotificationsSettingsPage.verifyNotificationItemListNotificationSettingsPage();
+    }
+
+    public void verifyNotificationCheckBoxSliderRoundWorking(){
+        auditorNotificationsSettingsPage.scrollPageDown();
+        auditorNotificationsSettingsPage.verifyNotificationCheckBoxSliderRoundWorking();
+    }
 
 }
 
