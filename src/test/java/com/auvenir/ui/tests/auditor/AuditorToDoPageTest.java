@@ -141,8 +141,8 @@ public class AuditorToDoPageTest extends AbstractTest {
         String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
 
 //        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
-        MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
+     //   MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
+       // MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
         //need precondition for save engagement name, and delete this engagement or client on acl
         try {
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
