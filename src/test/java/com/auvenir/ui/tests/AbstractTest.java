@@ -264,8 +264,8 @@ public class AbstractTest {
     }
 
     @AfterMethod
-    public void tearDown(Method method) {
-        testName = method.getName();
+    public void tearDown() {
+        //testName = method.getName();
         logger.info("Close .the browser.");
         closeAllTab();
         logCurrentStepEnd();
