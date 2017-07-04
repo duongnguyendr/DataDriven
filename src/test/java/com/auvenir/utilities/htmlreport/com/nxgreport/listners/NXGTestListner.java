@@ -320,6 +320,8 @@ public class NXGTestListner implements ITestListener, ISuiteListener, IInvokedMe
 
         try {
             printWriter = new PrintWriter(TestDirectory.REPORTSDIR + TestDirectory.SEP + "index.html");
+            System.out.println("Writer Folder: " + TestDirectory.REPORTSDIR + TestDirectory.SEP + "index.html");
+            System.out.println("Writer file: " + printWriter);
             IndexPageWriter.printHeader(printWriter);
             IndexPageWriter.printContent(printWriter, NXGReports.indexPageDescription);
             IndexPageWriter.printFooter(printWriter);

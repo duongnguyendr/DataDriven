@@ -172,9 +172,12 @@ public class AuditorTodoListTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("verify displayed of this button filter", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("verify displayed of this button filter", LogAs.FAILED,
+            /*NXGReports.addStep("verify displayed of this button filter", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
+            getLogger().info(e);*/
+            String stepException = "Verify displayed of this button filter failed because " + e.getMessage();
+            NXGReports.addStep("verify displayed of this button filter", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), stepException);
             throw e;
         }
     }

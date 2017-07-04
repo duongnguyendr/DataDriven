@@ -171,13 +171,28 @@ public class TestCaseReportsPageWriter {
             }
 
             if(testResult.getStatus() == 2) {
-                printWriter.println("<br/><br/><b>Reason for Failure:&nbsp;&nbsp;</b>" + getExceptionDetails(testResult) + "<br/><br/>\n" + "<b id=\"showmenu\">Click Me to Show/Hide the Full Stack Trace</b>" + "<div class=\"exception\">");
+                /*printWriter.println("<br/><br/><b>Reason for Failure:&nbsp;&nbsp;</b>" + getExceptionDetails(testResult) + "<br/><br/>\n" + "<b id=\"showmenu\">Click Me to Show/Hide the Full Stack Trace</b>" + "<div class=\"exception\">");*/
+                printWriter.println("<b>Step Fail:&nbsp;&nbsp;</b>\n" + "<div class=\"exception\">");
+                List<String> lstResult = Reporter.getOutput(testResult);
+                printWriter.println("\n\t\t\t<table class=\"chartStyle\" id=\"tableStyle\" style=\"height:50px; float: left\">\n\t\t\t\t<tr>\n\t\t\t\t\t<th>S.No</th>\n\t\t\t\t\t<th>Step Description</th>\n\t\t\t\t\t<th>Error Reason</th>\n\t\t\t\t\t</tr>\n");
+                intCount = 1;
+                Iterator var7 = lstResult.iterator();
 
-                try {
+                while(var7.hasNext()) {
+                    String strResult = (String)var7.next();
+                    Steps steps = null;
+                    steps = (Steps)testResult.getAttribute(strResult);
+                    if(steps != null && null != steps.getStepException()) {
+                        printWriter.print("<tr><td>" + intCount + "</td>" + "<td>" + steps.getDescription() + "</td>" + "<td>" + steps.getStepException() + "</td>" +"</tr>");
+                        ++intCount;
+                    }
+                }
+                /*try {
                     testResult.getThrowable().printStackTrace(printWriter);
                 } catch (Exception var13) {
                     ;
-                }
+                }*/
+                printWriter.print("\n</table>  \n");
 
                 printWriter.print("</div>");
             }
