@@ -15,7 +15,8 @@
             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <methods>
                 <include priority="1" name="verifyAdminLogin"></include>
-                <include priority="2" name="verifySignUpAuditorUser"></include>
+                <include priority="11" name="verifyAuditorCreateTodoPage"></include>
+                <!--<include priority="2" name="verifySignUpAuditorUser"></include>-->
                 <!--<include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
                 <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
                 <include priority="5" name="verifyLoginAuditorUser"></include>
@@ -82,7 +83,9 @@
             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <methods>
                 <include priority="1" name="verifyAdminLogin"></include>
-                <include priority="2" name="verifySignUpAuditorUser"></include>
+                <include priority="11" name="verifyAuditorCreateTodoPage"></include>
+                <!--<include priority="1" name="verifyAdminLogin"></include>
+                <include priority="2" name="verifySignUpAuditorUser"></include>-->
                 <!--<include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
                 <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
                 <include priority="5" name="verifyLoginAuditorUser"></include>
