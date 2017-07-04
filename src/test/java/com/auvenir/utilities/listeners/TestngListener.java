@@ -39,9 +39,9 @@ public class TestngListener implements ITestListener {
 		Date date = new Date();
 	    SimpleDateFormat sdtf=new SimpleDateFormat("dd-MM-yyyy_hh_mm_ss");
 	    sdateTime = sdtf.format(date);
-		sHtmlReports=new File(GenericService.sDirPath+"//..//Reports//HTMLReports");
-		sTestngReports= new File(GenericService.sDirPath+"//..//Reports//TestNGReports");
-		sPdfReports = new File(GenericService.sDirPath+"//..//Reports//PDFReports");
+		sHtmlReports=new File(GenericService.sDirPath+"//Reports//HTMLReports");
+		sTestngReports= new File(GenericService.sDirPath+"//Reports//TestNGReports");
+		sPdfReports = new File(GenericService.sDirPath+"//Reports//PDFReports");
 		if(!sHtmlReports.exists())
 		{
 			FileUtils.forceMkdir(sHtmlReports);		
