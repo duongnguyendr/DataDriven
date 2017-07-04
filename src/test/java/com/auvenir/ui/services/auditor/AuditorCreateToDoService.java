@@ -1349,16 +1349,16 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyDueDateMatching(rowDueDate);
     }
 
-    public void changeDueDateOnTodoDetail() {
-        createToDoPage.changeDueDateOnTodoDetail();
+    public void changeDueDateOnTodoDetail(int validDateIndex) {
+        createToDoPage.changeDueDateOnTodoDetail(validDateIndex);
     }
 
     public void closePopupTodoDetail() {
         createToDoPage.closeAddNewRequestWindow();
     }
 
-    public void changeDueDateOnTodoRow(String todoName) {
-        createToDoPage.changeDueDateOnTodoRow(todoName);
+    public void changeDueDateOnTodoRow(String todoName, int validDateIndex) {
+        createToDoPage.changeDueDateOnTodoRow(todoName, validDateIndex);
     }
 
     public void verifyDatePickerShow() {
@@ -1367,6 +1367,54 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifyDatePickerDateFormat() {
         createToDoPage.verifyDatePickerDateFormat();
+    }
+
+    public void verifyHoverOnField() {
+        createToDoPage.verifyHoverOnField();
+    }
+
+    public void verifyDueDateFocusing() {
+        createToDoPage.verifyDueDateFocusing();
+    }
+
+    public int getEngagementDueDate() {
+        return createToDoPage.getEngagementDueDate();
+    }
+
+    public void verifyDisableDateAfterDueDate(int dueDate) {
+        createToDoPage.verifyDisableDateAfterDueDate(dueDate);
+    }
+
+    public void openDatePickerOnTodoDetail() {
+        createToDoPage.clickDueDateOnTodoDetail();
+    }
+
+    public int getValidDateHasIndex(int validDateIndex) {
+        return createToDoPage.getValidDateHasIndex(validDateIndex);
+    }
+
+    public void verifyChoosingAnotherDate(int date) {
+        createToDoPage.verifyChoosingAnotherDate(date);
+    }
+
+    public String getMonthYearTitle() {
+        return createToDoPage.getMonthYearTitle();
+    }
+
+    public void goToNextMonth() {
+        createToDoPage.clickNextMonthIcon();
+    }
+
+    public void goToPreviousMonth() {
+        createToDoPage.clickPreviousMonthIcon();
+    }
+
+    public void verifyNextMonthIcon(String monthYear) {
+        createToDoPage.verifyNextMonthIcon(monthYear);
+    }
+
+    public void verifyPreviousMonthIcon(String monthYear) {
+        createToDoPage.verifyPreviousMonthIcon(monthYear);
     }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }

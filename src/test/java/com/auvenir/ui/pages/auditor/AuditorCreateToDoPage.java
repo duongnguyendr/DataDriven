@@ -5089,6 +5089,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "todo-detail-dueDate")
     private WebElement dueDateOnTodoDetail;
 
+    @FindBy(id = "engOverview-dueDate")
+    private WebElement engagementDueDate;
+    //engOverview-dueDate
+
 
 //    @FindBy(xpath = "//div[@id='auv-todo-details']//input[@data-dbdate]")
 //    private WebElement inputDatePickerOn;
@@ -5119,20 +5123,33 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void changeDueDateOnTodoDetail() {
+    public void clickDueDateOnTodoDetail() {
         //waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
         waitSomeSeconds(1);
         clickElement(dueDateOnTodoDetail, "DueDate On Row");
         //clickByJavaScripts(dueDateOnTodoDetail, "DueDate On Row");
-        //System.out.println("dueDateOnTodoDetail = " + dueDateOnTodoDetail.getAttribute("value"));
-        DatePicker dp = new DatePicker(getDriver());
-        dp.selectFirstValidDate();
     }
 
-    public void changeDueDateOnTodoRow(String todoName) {
-        clickElement(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
-        DatePicker dp = new DatePicker(getDriver());
-        dp.selectSecondValidDate();
+    public void changeDueDateOnTodoDetail(int validDateIndex) {
+        try {
+            //System.out.println("dueDateOnTodoDetail = " + dueDateOnTodoDetail.getAttribute("value"));
+            DatePicker dp = new DatePicker(getDriver());
+            clickElement(dp.getValidDateHasIndex(validDateIndex), "Valid date index " + validDateIndex);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Change Due Date On Todo Detail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void changeDueDateOnTodoRow(String todoName, int validDateIndex) {
+        try {
+            clickElement(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
+            DatePicker dp = new DatePicker(getDriver());
+            clickElement(dp.getValidDateHasIndex(validDateIndex), "Valid date index " + validDateIndex);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Change Due Date On Todo Row", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void verifyDatePickerShow() {
@@ -5146,21 +5163,122 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             waitSomeSeconds(1);
             String date = getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail");
-            if(!date.matches("\\d{2}-\\d{2}-\\d{4}")){
+            if (!date.matches("\\d{2}/\\d{2}/\\d{4}")) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Fail: DueDate format on Todo Detail Popup is match 'MM/dd/yyyy'.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Fail: DueDate format on Todo Detail Popup isn't match 'MM/dd/yyyy'.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return;
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             sdf.setLenient(false);
             sdf.parse(date);
-
             NXGReports.addStep("DueDate format on Todo Detail Popup is match 'MM/dd/yyyy'.", LogAs.PASSED, null);
         } catch (ParseException e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Fail: DueDate format on Todo Detail Popup is match 'MM/dd/yyyy'.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Fail: DueDate on Todo Detail Popup is invalid.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
+    }
+
+    public void verifyHoverOnField() {
+        DatePicker dp = new DatePicker(getDriver());
+        List<WebElement> listValidDates = dp.getListValidDates();
+        for (int i = 0; i < listValidDates.size(); i++) {
+            hoverElement(listValidDates.get(i), "Valid Element index " + i);
+            validateAttributeContain(listValidDates.get(i), "class", "ui-state-hover", "Enable date index " + i);
+        }
+    }
+
+    public void verifyDueDateFocusing() {
+        int date = Integer.parseInt(getText(dueDateOnTodoDetail).split("/")[1]);
+        DatePicker dp = new DatePicker(getDriver());
+        validateAttributeContain(dp.getAEnableDate(String.valueOf(date)), "class", "ui-state-active", "Current Due Date");
+    }
+
+    public void verifyDisableDateAfterDueDate(int dueDate) {
+        DatePicker dp = new DatePicker(getDriver());
+        int maxDate = dp.getDates();
+        int loopDate = dueDate + 1;
+        while (loopDate <= maxDate) {
+            validateAttributeContain(dp.getADateParent(String.valueOf(loopDate)), "class", "ui-datepicker-unselectable ui-state-disabled", "Disable date: " + loopDate);
+            loopDate++;
+        }
+    }
+
+    public int getEngagementDueDate() {
+        return Integer.parseInt(getText(engagementDueDate).split("/")[1]);
+    }
+
+    public int getValidDateHasIndex(int validDateIndex) {
+        int date = 0;
+        try {
+            DatePicker dp = new DatePicker(getDriver());
+            date = Integer.parseInt(dp.getValidDateHasIndex(validDateIndex).getText());
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Change Due Date On Todo Row", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return date;
+    }
+
+    public void verifyChoosingAnotherDate(int date) {
+        if (date == Integer.parseInt(getText(dueDateOnTodoDetail).split("/")[1])) {
+            NXGReports.addStep("DueDate on Todo Detail Popup is match with date just re-choose.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Fail: DueDate on Todo Detail Popup is match with date just re-choose.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public String getMonthYearTitle() {
+        DatePicker dp = new DatePicker(getDriver());
+        return dp.getMonthYearTitle();
+    }
+
+    public void clickNextMonthIcon() {
+        DatePicker dp = new DatePicker(getDriver());
+        dp.clickNextButton();
+    }
+
+    public void clickPreviousMonthIcon() {
+        DatePicker dp = new DatePicker(getDriver());
+        dp.clickPreviousButton();
+    }
+
+    public void verifyNextMonthIcon(String monthYear) {
+        String nextMonthYear = getMonthYearAdded(monthYear, 1);
+        if (nextMonthYear.equals(getMonthYearTitle())) {
+            NXGReports.addStep("Month year title on Datepicker change to next month.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Fail: Month year title on Datepicker not change to next month.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyPreviousMonthIcon(String monthYear) {
+        String previousMonthYear = getMonthYearAdded(monthYear, -1);
+        if (previousMonthYear.equals(getMonthYearTitle())) {
+            NXGReports.addStep("Month year title on Datepicker change to previous month.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Fail: Month year title on Datepicker not change to previous month.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public String getMonthYearAdded(String currentMonth, int amount) {
+        String nextMonth = "";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
+            sdf.setLenient(false);
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(currentMonth));
+            c.add(Calendar.MONTH, amount);
+            nextMonth = sdf.format(c.getTime()).toUpperCase();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return nextMonth;
     }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }

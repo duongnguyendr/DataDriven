@@ -163,7 +163,7 @@ public class AbstractTest {
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
                     capabilities = DesiredCapabilities.firefox();
                     FirefoxProfile profile = setDownloadLocationFirefox();
-                    capabilities.setCapability(FirefoxDriver.PROFILE,profile);
+                    capabilities.setCapability(FirefoxDriver.PROFILE, profile);
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
                     capabilities = DesiredCapabilities.internetExplorer();
                 } else if (GenericService.sBrowserData.equalsIgnoreCase("saf.")) {
@@ -293,10 +293,11 @@ public class AbstractTest {
         cap.setCapability(ChromeOptions.CAPABILITY, options);
         return cap;
     }
+
     /*
     Update for method: setDownload Location on Firefox
      */
-    public FirefoxProfile setDownloadLocationFirefox(){
+    public FirefoxProfile setDownloadLocationFirefox() {
         FirefoxProfile profile = new FirefoxProfile();
         profile.setPreference("browser.download.folderList", 2);
         profile.setPreference("browser.download.manager.showWhenStarting", false);
@@ -304,7 +305,7 @@ public class AbstractTest {
         profile.setPreference("browser.download.dir", downloadFilepath);
         profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/x-gzip");
         profile.setAcceptUntrustedCertificates(false);
-        return  profile;
+        return profile;
     }
 
 }

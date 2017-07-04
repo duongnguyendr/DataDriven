@@ -12,43 +12,42 @@
         <parameter name="version" value="lasted"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <class name="com.auvenir.ui.tests.auditor.AuditorToDoPageTest"/>
             <methods>
-                <include priority="1" name="verifyAdminLogin"></include>
-                <include priority="2" name="verifySignUpAuditorUser"></include>
-                <include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
-                <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
-                <include priority="5" name="verifyLoginAuditorUser"></include>
-                <include priority="6" name="verifyCreateSimpleEngagement"></include>
-                <include priority="7" name="verifyAuditorInvitingTheClient"></include>
-                <include priority="8" name="verifyChangeTheStatusClientToOnBoarding"></include>
+                <!--<include priority="1" name="verifyDueDateOnToDoDetailsUI"></include>-->
+                <!--<include priority="2" name="verifyDueDateOnToDoDetailsDefaultValue"></include>-->
+                <!--<include priority="3" name="verifyDueDateOnToDoDetailsDateFormat"></include>-->
+                <!--<include priority="4" name="verifyDueDateOnToDoDetailsHoverOnField"></include>-->
+                <!--<include priority="5" name="verifyDueDateOnToDoDetailsFocusingCurrentDueDate"></include>-->
+                <!--<include priority="6" name="verifyDatePickerOnToDoDetailsDisableDateAfterDueDate"></include>-->
+                <!--<include priority="7" name="verifyDueDateOnToDoDetailsChooseAnotherDate"></include>-->
+                <!--<include priority="8" name="verifyDueDateOnToDoDetailsDatePickerNextMonthIcon"></include>-->
+                <include priority="9" name="verifyDueDateOnToDoDetailsDatePickerPreviousMonthIcon"></include>
+                <!--<include priority="10" name="verifyClientActiveAfterSignUpSuccess"></include>-->
 
-                <include priority="9" name="verifyClientLogsInAndActive"></include>
-                <include priority="10" name="verifyClientActiveAfterSignUpSuccess"></include>
+                <!--<include priority="11" name="verifyAuditorCreateTodoPage"></include>-->
+                <!--<include priority="12" name="verifyAuditAssignee"></include>-->
+                <!--<include priority="13" name="verifyClientAssignee"></include>-->
+                <!--<include priority="14" name="verifyClientEngagementOverView"></include>-->
+                <!--<include priority="15" name="verifyAuditorPostComment"></include>-->
+                <!--<include priority="16" name="verifyClientViewAuditorComment"></include>-->
+                <!--<include priority="17" name="verifyClientPostComment"></include>-->
+                <!--<include priority="18" name="verifyAuditorViewClientComment"></include>-->
+                <!--<include priority="19" name="verifyAddNewRequestOnToDoPage"></include>-->
+                <!--<include priority="20" name="verifyClientUploadOnRequest"></include>-->
 
-                <include priority="11" name="verifyAuditorCreateTodoPage"></include>
-                <include priority="12" name="verifyAuditAssignee"></include>
-                <include priority="13" name="verifyClientAssignee"></include>
-                <include priority="14" name="verifyClientEngagementOverView"></include>
-                <include priority="15" name="verifyAuditorPostComment"></include>
-                <include priority="16" name="verifyClientViewAuditorComment"></include>
-                <include priority="17" name="verifyClientPostComment"></include>
-                <include priority="18" name="verifyAuditorViewClientComment"></include>
-                <include priority="19" name="verifyAddNewRequestOnToDoPage"></include>
-                <include priority="20" name="verifyClientUploadOnRequest"></include>
+                <!--<include priority="21" name="verifyAuditorDownloadOnRequest"></include>-->
+                <!--<include priority="22" name="verifyInviteNewMemberAuditor"></include>-->
+                <!--<include priority="23" name="verifyAssignToDoBulkAction"></include>-->
 
-                <include priority="21" name="verifyAuditorDownloadOnRequest"></include>
-                <include priority="22" name="verifyInviteNewMemberAuditor"></include>
-                <include priority="23" name="verifyAssignToDoBulkAction"></include>
-
-                <include priority="24" name="verifyDeleteSingleAndMultipleToDo"></include>
-                <include priority="25" name="verifyDownloadAttachmentFromAllToDo"></include>
-                <include priority="26" name="verifyCheckListTeam"></include>
-                <include priority="27" name="verifyCheckContactList"></include>
-                <include priority="28" name="verifyAuditorAttachFile"></include>
-                <include priority="29" name="verifyClientDownloadAttachFile"></include>
-                <include priority="30" name="verifyAuditorMarkAsComplete"></include>
-                <include priority="31" name="verifyClientSeeMarkAsComplete"></include>
+                <!--<include priority="24" name="verifyDeleteSingleAndMultipleToDo"></include>-->
+                <!--<include priority="25" name="verifyDownloadAttachmentFromAllToDo"></include>-->
+                <!--<include priority="26" name="verifyCheckListTeam"></include>-->
+                <!--<include priority="27" name="verifyCheckContactList"></include>-->
+                <!--<include priority="28" name="verifyAuditorAttachFile"></include>-->
+                <!--<include priority="29" name="verifyClientDownloadAttachFile"></include>-->
+                <!--<include priority="30" name="verifyAuditorMarkAsComplete"></include>-->
+                <!--<include priority="31" name="verifyClientSeeMarkAsComplete"></include>-->
             </methods>
         </classes>
     </test>
@@ -74,57 +73,57 @@
     </methods>
     </classes>
     </test>-->
-    <test name="Regression3" preserve-order="true">
-        <parameter name="browser" value="safari"/>
-        <parameter name="version" value="10.1.1"/>
-        <parameter name="os" value="MAC"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.SmokeTest"/>
-            <methods>
-                <include priority="1" name="verifyAdminLogin"></include>
-                <include priority="2" name="verifySignUpAuditorUser"></include>
-                <include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
-                <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
-                <include priority="5" name="verifyLoginAuditorUser"></include>
-                <include priority="6" name="verifyCreateSimpleEngagement"></include>
-                <include priority="7" name="verifyAuditorInvitingTheClient"></include>
-                <include priority="8" name="verifyChangeTheStatusClientToOnBoarding"></include>
+    <!--<test name="Regression3" preserve-order="true">-->
+    <!--<parameter name="browser" value="safari"/>-->
+    <!--<parameter name="version" value="10.1.1"/>-->
+    <!--<parameter name="os" value="MAC"/>-->
+    <!--<classes>-->
+    <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
+    <!--<methods>-->
+    <!--<include priority="1" name="verifyAdminLogin"></include>-->
+    <!--<include priority="2" name="verifySignUpAuditorUser"></include>-->
+    <!--<include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>-->
+    <!--<include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>-->
+    <!--<include priority="5" name="verifyLoginAuditorUser"></include>-->
+    <!--<include priority="6" name="verifyCreateSimpleEngagement"></include>-->
+    <!--<include priority="7" name="verifyAuditorInvitingTheClient"></include>-->
+    <!--<include priority="8" name="verifyChangeTheStatusClientToOnBoarding"></include>-->
 
-                <include priority="9" name="verifyClientLogsInAndActive"></include>
-                <include priority="10" name="verifyClientActiveAfterSignUpSuccess"></include>
+    <!--<include priority="9" name="verifyClientLogsInAndActive"></include>-->
+    <!--<include priority="10" name="verifyClientActiveAfterSignUpSuccess"></include>-->
 
-                <include priority="11" name="verifyAuditorCreateTodoPage"></include>
-                <include priority="12" name="verifyAuditAssignee"></include>
-                <include priority="13" name="verifyClientAssignee"></include>
-                <include priority="14" name="verifyClientEngagementOverView"></include>
-                <include priority="15" name="verifyAuditorPostComment"></include>
-                <include priority="16" name="verifyClientViewAuditorComment"></include>
-                <include priority="17" name="verifyClientPostComment"></include>
-                <include priority="18" name="verifyAuditorViewClientComment"></include>
-                <include priority="19" name="verifyAddNewRequestOnToDoPage"></include>
-                <include priority="20" name="verifyClientUploadOnRequest"></include>
+    <!--<include priority="11" name="verifyAuditorCreateTodoPage"></include>-->
+    <!--<include priority="12" name="verifyAuditAssignee"></include>-->
+    <!--<include priority="13" name="verifyClientAssignee"></include>-->
+    <!--<include priority="14" name="verifyClientEngagementOverView"></include>-->
+    <!--<include priority="15" name="verifyAuditorPostComment"></include>-->
+    <!--<include priority="16" name="verifyClientViewAuditorComment"></include>-->
+    <!--<include priority="17" name="verifyClientPostComment"></include>-->
+    <!--<include priority="18" name="verifyAuditorViewClientComment"></include>-->
+    <!--<include priority="19" name="verifyAddNewRequestOnToDoPage"></include>-->
+    <!--<include priority="20" name="verifyClientUploadOnRequest"></include>-->
 
-                <include priority="21" name="verifyAuditorDownloadOnRequest"></include>
-                <include priority="22" name="verifyInviteNewMemberAuditor"></include>
-                <include priority="23" name="verifyAssignToDoBulkAction"></include>
+    <!--<include priority="21" name="verifyAuditorDownloadOnRequest"></include>-->
+    <!--<include priority="22" name="verifyInviteNewMemberAuditor"></include>-->
+    <!--<include priority="23" name="verifyAssignToDoBulkAction"></include>-->
 
-                <include priority="24" name="verifyDeleteSingleAndMultipleToDo"></include>
-                <include priority="25" name="verifyDownloadAttachmentFromAllToDo"></include>
-                <include priority="26" name="verifyCheckListTeam"></include>
-                <include priority="27" name="verifyCheckContactList"></include>
-                <include priority="28" name="verifyAuditorAttachFile"></include>
-                <include priority="29" name="verifyClientDownloadAttachFile"></include>
-                <include priority="30" name="verifyAuditorMarkAsComplete"></include>
-                <include priority="31" name="verifyClientSeeMarkAsComplete"></include>
-            </methods>
-        </classes>
-    </test>
-    <test name="Regression4" preserve-order="true">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="version" value="lasted"/>
-        <parameter name="os" value="WIN8"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
-        </classes>
-    </test>
+    <!--<include priority="24" name="verifyDeleteSingleAndMultipleToDo"></include>-->
+    <!--<include priority="25" name="verifyDownloadAttachmentFromAllToDo"></include>-->
+    <!--<include priority="26" name="verifyCheckListTeam"></include>-->
+    <!--<include priority="27" name="verifyCheckContactList"></include>-->
+    <!--<include priority="28" name="verifyAuditorAttachFile"></include>-->
+    <!--<include priority="29" name="verifyClientDownloadAttachFile"></include>-->
+    <!--<include priority="30" name="verifyAuditorMarkAsComplete"></include>-->
+    <!--<include priority="31" name="verifyClientSeeMarkAsComplete"></include>-->
+    <!--</methods>-->
+    <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="Regression4" preserve-order="true">
+    <parameter name="browser" value="firefox"/>
+    <parameter name="version" value="lasted"/>
+    <parameter name="os" value="WIN8"/>
+    <classes>
+    <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
+    </classes>
+    </test>-->
 </suite>

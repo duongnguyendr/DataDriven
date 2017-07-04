@@ -354,14 +354,15 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorCreateToDoService.openPopupTodoDetail(todoName);
             auditorCreateToDoService.verifyDueDateMatching(dueDate);
 
-            auditorCreateToDoService.changeDueDateOnTodoDetail();
+            auditorCreateToDoService.openDatePickerOnTodoDetail();
+            auditorCreateToDoService.changeDueDateOnTodoDetail(0);
             auditorCreateToDoService.closePopupTodoDetail();
             dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
             auditorCreateToDoService.openPopupTodoDetail(todoName);
             auditorCreateToDoService.verifyDueDateMatching(dueDate);
 
             auditorCreateToDoService.closePopupTodoDetail();
-            auditorCreateToDoService.changeDueDateOnTodoRow(todoName);
+            auditorCreateToDoService.changeDueDateOnTodoRow(todoName, 0);
             dueDate = auditorCreateToDoService.getToDoDueDateOnRow(todoName);
             auditorCreateToDoService.openPopupTodoDetail(todoName);
             auditorCreateToDoService.verifyDueDateMatching(dueDate);
@@ -473,6 +474,228 @@ public class AuditorToDoPageTest extends AbstractTest {
             throw e;
         } catch (Exception ex) {
             NXGReports.addStep("Error: Verify Date Format on Todo Detail Popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify date picker when mouse hover on a date.", testName = "dp_5")
+    public void verifyDueDateOnToDoDetailsHoverOnField() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.verifyDatePickerShow();
+
+            auditorCreateToDoService.verifyHoverOnField();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify date picker when mouse hover on a date.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify date picker when mouse hover on a date.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify date picker when mouse hover on a date.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify date picker focusing to the current due date.", testName = "dp_6")
+    public void verifyDueDateOnToDoDetailsFocusingCurrentDueDate() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.verifyDatePickerShow();
+
+            auditorCreateToDoService.verifyDueDateFocusing();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify date picker focusing to the current due date.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify date picker focusing to the current due date.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify date picker focusing to the current due date.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify date picker Disable Date after Engagement Due Date on Todo Detail Popup.", testName = "dp_7")
+    public void verifyDatePickerOnToDoDetailsDisableDateAfterDueDate() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        int engagementDueDate;
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+            engagementDueDate = auditorCreateToDoService.getEngagementDueDate();
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.verifyDatePickerShow();
+
+            auditorCreateToDoService.verifyDisableDateAfterDueDate(engagementDueDate);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify date picker Disable Date after Engagement Due Date on Todo Detail Popup.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify date picker Disable Date after Engagement Due Date on Todo Detail Popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify date picker Disable Date after Engagement Due Date on Todo Detail Popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify dueDate on Todo Detail Popup when choose another date.", testName = "dp_8")
+    public void verifyDueDateOnToDoDetailsChooseAnotherDate() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        int date;
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+
+            auditorCreateToDoService.openDatePickerOnTodoDetail();
+            date = auditorCreateToDoService.getValidDateHasIndex(0);
+            auditorCreateToDoService.changeDueDateOnTodoDetail(0);
+            auditorCreateToDoService.verifyChoosingAnotherDate(date);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify dueDate on Todo Detail Popup when choose another date.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify dueDate on Todo Detail Popup when choose another date.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify dueDate on Todo Detail Popup when choose another date.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify date picker next month icon.", testName = "dp_10")
+    public void verifyDueDateOnToDoDetailsDatePickerNextMonthIcon() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        String monthYear = "";
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.openDatePickerOnTodoDetail();
+
+            monthYear = auditorCreateToDoService.getMonthYearTitle();
+            auditorCreateToDoService.goToNextMonth();
+            auditorCreateToDoService.verifyNextMonthIcon(monthYear);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify date picker next month icon.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify date picker next month icon.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify date picker next month icon.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw ex;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "Verify date picker previous month icon.", testName = "dp_9")
+    public void verifyDueDateOnToDoDetailsDatePickerPreviousMonthIcon() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        //clientService = new ClientService(getLogger(), getDriver());
+
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor Auvenir Password");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
+        todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
+        String monthYear = "";
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+            auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorCreateToDoService.openPopupTodoDetail(todoName);
+            auditorCreateToDoService.openDatePickerOnTodoDetail();
+
+            auditorCreateToDoService.goToNextMonth();
+            monthYear = auditorCreateToDoService.getMonthYearTitle();
+            auditorCreateToDoService.goToPreviousMonth();
+            auditorCreateToDoService.verifyPreviousMonthIcon(monthYear);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify date picker previous month icon.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            NXGReports.addStep("Error: Verify date picker previous month icon.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        } catch (Exception ex) {
+            NXGReports.addStep("Error: Verify date picker previous month icon.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw ex;
         }
     }
