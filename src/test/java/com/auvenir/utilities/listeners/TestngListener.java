@@ -98,10 +98,13 @@ public class TestngListener implements ITestListener {
 
 	public void onFinish(ITestContext context) 
 	{
-		 File testOuput = new File(GenericService.sDirPath+"\\tests-output");
+		 /*File testOuput = new File(GenericService.sDirPath+"\\tests-output");
 		 String sTestngReports= GenericService.sDirPath+"\\..\\Reports\\TestNGReports\\TestNG_"+sdateTime;
-		 pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");
-		 iPassCount=context.getPassedTests().size(); 
+		 pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");*/
+		File testOuput = new File(GenericService.sDirPath+"\\tests-output");
+		String sTestngReports= GenericService.sDirPath+"\\Reports\\TestNGReports\\TestNG_"+sdateTime;
+		pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");
+		 iPassCount=context.getPassedTests().size();
 	     iFailCount=context.getFailedTests().size(); 
 	     iSkippedCount=context.getSkippedTests().size(); 
 	     iTotalExecuted = iPassCount+iFailCount+iSkippedCount;
