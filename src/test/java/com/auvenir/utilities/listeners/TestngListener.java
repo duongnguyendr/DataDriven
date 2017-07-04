@@ -49,6 +49,7 @@ public class TestngListener implements ITestListener {
 			FileUtils.forceMkdir(sHtmlReports);		
 		}else {
 			System.out.println("Html report da ton tai");
+			System.out.println("HTML report folder: " + GenericService.sDirPath+"//Reports//HTMLReports");
 		}
 		if(!sTestngReports.exists())
 		{
