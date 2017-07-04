@@ -65,6 +65,7 @@ public class TestDirectory {
     }
 
     private static void verifyRequiredFiles() {
+        System.out.println("********************* REPORTSDIR: " + REPORTSDIR);
         mkDirs(REPORTSDIR);
         if(!exists(RESOURCESDIR)) {
             mkDirs(RESOURCESDIR);
