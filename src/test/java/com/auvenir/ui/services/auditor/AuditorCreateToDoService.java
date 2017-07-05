@@ -113,8 +113,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.inputSearchText(inputSearch);
     }
 
-    public void inputSearchNumber(int number){
-        createToDoPage.inputSearchText(Integer.toString(number));
+    public void inputSearchNumber(String number){
+        createToDoPage.inputSearchText(number);
     }
 
     public void inputSearchCharacter(String specialChars){
@@ -1071,7 +1071,6 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyAuditAssigneeBox(String auditAssignee) {
-        getLogger().info("Verifying AuditAssignee box..");
         createToDoPage.verifyAditAssignee_DefaultValue(auditAssignee);
         createToDoPage.verifyBorderAuditAssignee_WhileHoverd();
     }
