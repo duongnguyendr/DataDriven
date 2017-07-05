@@ -1,6 +1,6 @@
 package com.auvenir.ui.services.marketing;
 
-import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.admin.AdminPage;
 import com.auvenir.ui.pages.marketing.AuditorSignUpPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.AbstractService;
@@ -13,13 +13,13 @@ import org.openqa.selenium.WebDriver;
 public class MarketingService extends AbstractService {
     MarketingPage marketingPage;
     AuditorSignUpPage auditorSignUpPage;
-    AdminLoginPage adminLoginPage;
+    AdminPage adminPage;
 
     public MarketingService(Logger logger, WebDriver driver) {
         super(logger, driver);
         marketingPage = new MarketingPage(getLogger(), getDriver());
         auditorSignUpPage = new AuditorSignUpPage(getLogger(), getDriver());
-        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        adminPage = new AdminPage(getLogger(), getDriver());
     }
 
     public void verifyAboutContentPage() {
@@ -52,7 +52,7 @@ public class MarketingService extends AbstractService {
         getLogger().info("Click on Login button.");
         marketingPage.clickOnSubmitBTN();
         marketingPage.waitForProgressOverlayIsClosed();
-        adminLoginPage.clickClosePopupWarningBrowser();
+        adminPage.clickClosePopupWarningBrowser();
     }
 
     public void logout() {
