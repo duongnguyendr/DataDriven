@@ -253,27 +253,13 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyToDoCloseIcon();
     }
 
-    public void verifyColumnsInGrid() {
-
-        try {
+    public void verifyColumnsInGrid() throws Exception {
             createToDoPage.verifyColumnsInGrid();
-            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+
     }
 
-    public void verifySotleOnTitle() {
-
-        try {
-            createToDoPage.verifySotleOnTitle();
-            NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifySortIconOnTitle() throws Exception {
+            createToDoPage.verifySortIconOnTitle();
     }
 
     public void verifyCheckOnCheckBox() {
@@ -342,7 +328,6 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyCheckBoxToDoName() throws Exception {
-        // bug for check all button so we skip
         createToDoPage.verifyCheckAllCheckboxToDoName();
         createToDoPage.verifyUnCheckAllCheckboxToDoName();
         createToDoPage.verifyCheckMultipleCheckBoxToDoName();
@@ -355,11 +340,6 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyHoverCategoryComboBox() {
         createToDoPage.verifyHoverCategoryComboBox();
     }
-
-//    public void verifyCreateNewCategory() {
-//        getLogger().info("Verify create new Category");
-//        createToDoPage.verifyCreateNewCategory();
-//    }
 
     public void verifyAddNewCategoryPopupTitle() {
         getLogger().info("Verify title of add new category popup");
@@ -389,7 +369,6 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCheckMaxLength() throws Exception {
         getLogger().info("Verify to check max length");
         createToDoPage.verifyCheckMaxLength();
-//        createToDoPage.verifySearchLimit255();
     }
 
     public void verifyCheckMaxLength_CategoryName() {

@@ -82,7 +82,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-table']/thead//th/input[@type='checkbox']")
     private WebElement eleCheckBox;
 
-    @FindBy(xpath = "//th[@data-id='name']")
+    @FindBy(xpath = "//th[(@class='table-header') and contains(@data-id,'name')]")
     private WebElement eleNameToDoTitleLabel;
 
     @FindBy(xpath = "//*[@id='todo-table']//th[@data-id='name']//i")
@@ -112,7 +112,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//th[@data-id='auditorAssignee']")
     private WebElement eleAuditAssigneeTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='auditorAssignee']/i")
+    @FindBy(xpath = "//th[@data-id='auditorAssignee']//i")
     private WebElement eleSortByAuditAssignee;
 
     @FindBy(xpath = "//div[@class='e-widget-content']")
@@ -478,7 +478,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void verifySotleOnTitle() throws Exception {
+    public void verifySortIconOnTitle() throws Exception {
         validateDisPlayedElement(sortByToDoNameIconEle, "Sort By Name Button");
         validateDisPlayedElement(sortByCategoryNameIconEle, "Sort By Category Name");
         validateDisPlayedElement(eleSortByClientAssignee, "Sort By Client Assignee Button.");

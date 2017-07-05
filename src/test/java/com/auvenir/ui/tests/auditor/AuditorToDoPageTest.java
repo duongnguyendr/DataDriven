@@ -298,7 +298,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "Verify CreateNewTodo, Filter, BulkAction buttons")
+   /* @Test(priority = 8, enabled = true, description = "Verify CreateNewTodo, Filter, BulkAction buttons")
     public void verifyTodoPage_Buttons() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -321,7 +321,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         } catch (Exception e) {
             NXGReports.addStep("Verify Buttons of Todo Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
+    }*/
 
     @Test(priority = 9, enabled = true, description = "Verify SearchBox")
     public void verifySearchBox() throws Exception {
@@ -402,7 +402,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorCreateToDoService.verifySearchResult(clientFullName);
             auditorCreateToDoService.inputSearchText(auditAssigneeDefault);
             auditorCreateToDoService.verifySearchResult(auditAssigneeDefault);
-            auditorCreateToDoService.inputSearchText("Anything you want");
+            auditorCreateToDoService.inputSearchText("you can input anything");
             auditorCreateToDoService.verifySearchResutlNotMatch();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
@@ -414,27 +414,28 @@ public class AuditorToDoPageTest extends AbstractTest {
     @Test(priority = 11, enabled = true, description = "Verify Data Grid")
     public void verifyDataGrid() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        marketingService = new MarketingService(getLogger(), getDriver());
+
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
+        String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
+        String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
+        String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            getLogger().info("Verifying column in Grid..");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName, deadlineDate, endDate, startDate);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.verifyColumnsInGrid();
-            getLogger().info("Verifying Sort icon..");
-            auditorCreateToDoService.verifySotleOnTitle();
-            getLogger().info("Verifying Sort action..");
+            auditorCreateToDoService.verifySortIconOnTitle();
             auditorCreateToDoService.verifySortDataGridIcon();
-            getLogger().info("Verifying check checkall..");
             auditorCreateToDoService.verifyCheckAllCheckBox();
-            getLogger().info("Verifying uncheck checkall..");
             auditorCreateToDoService.verifyUncheckAllCheckbox();
-            getLogger().info("Verifying check multi line");
             auditorCreateToDoService.verifyCheckBoxToDoName();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
