@@ -386,9 +386,10 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.checkSearchData();
     }
 
-    public void verifyCheckMaxLength() {
+    public void verifyCheckMaxLength() throws Exception {
         getLogger().info("Verify to check max length");
         createToDoPage.verifyCheckMaxLength();
+//        createToDoPage.verifySearchLimit255();
     }
 
     public void verifyCheckMaxLength_CategoryName() {
@@ -1031,7 +1032,6 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyCategoryComboBox_DefaultValue() {
-        getLogger().info("Verifying Category ComboBox...");
         createToDoPage.verifyCategoryBox_DefaultValue();
     }
 
@@ -1048,7 +1048,6 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyClientAssigneeComboBox_DefaultValue() {
-        getLogger().info("Verifying Client Assignee ComboBox...");
         createToDoPage.verifyClientAssignee_DefaultValue();
         createToDoPage.verifyBorderOfClientAssignee_WhileHovered();
     }
