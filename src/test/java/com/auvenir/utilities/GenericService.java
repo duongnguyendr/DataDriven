@@ -344,8 +344,7 @@ public class GenericService {
             // msg.setSubject("Auvenir_Execution_Report_"+GenericService.getCongigValue(GenericService.sConfigFile,"EXECUTION_REPORT_DATE"));
             /*msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
                     + " " + sExecutionDate);*/
-            msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, AbstractService.baseUrl)
-                    + " " + sExecutionDate);
+            msg.setSubject("Auvenir Execution Report on " + AbstractService.baseUrl + " " + sExecutionDate);
                     msg.setSentDate(new Date());
             Multipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
