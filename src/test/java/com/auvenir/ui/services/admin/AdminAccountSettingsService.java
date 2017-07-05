@@ -60,18 +60,8 @@ public class AdminAccountSettingsService extends AbstractService {
         adminAccountSettingsPage.validateTextMessagePhoneTxtbox();
     }
 
-    public void clickUpdateImageBTN() {
-        getLogger().info("Try to click on Update Image button.");
-        //  try {
-        adminAccountSettingsPage.clickUpdateImageBTN();
-        //  } catch (InterruptedException e) {
-        //       getLogger().info(e);
-        //    }
-    }
-
     public void clickUpdateBTN() {
-        getLogger().info("Try to click on Update button.");
-        adminAccountSettingsPage.ClickUpdateBTN();
+        adminAccountSettingsPage.clickUpdateBTN();
     }
 
     public void waitAndVerifyUpdatedTextMessage() {
@@ -107,5 +97,9 @@ public class AdminAccountSettingsService extends AbstractService {
     public void sendTabkeyPhoneNumbertxt() {
         getLogger().info("Try to sendTabkeyPhoneNumbertxt");
         adminAccountSettingsPage.sendTabkeyPhoneNumberTxt();
+    }
+
+    public void verifyPersonalInfoRendered(String fullName, String email, String phone) {
+        adminAccountSettingsPage.verifyPersonalInfoRendered(fullName, email, phone);
     }
 }

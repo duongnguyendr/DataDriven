@@ -2,7 +2,7 @@ package com.auvenir.ui.services.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.CreateNewAuditPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.admin.AdminPage;
 import com.auvenir.ui.pages.auditor.AddNewClientPage;
 import com.auvenir.ui.pages.client.*;
 import com.auvenir.ui.pages.common.GmailPage;
@@ -34,7 +34,7 @@ public class ClientService extends AbstractService {
     GmailPage gmailPage;
     CreateNewAuditPage createNewAuditPage;
     AddNewClientPage addNewClientPage;
-    AdminLoginPage adminLoginPage;
+    AdminPage adminPage;
     ClientToDoPage clientToDoPage;
 
 
@@ -55,7 +55,7 @@ public class ClientService extends AbstractService {
         gmailPage = new GmailPage(getLogger(), getDriver());
         createNewAuditPage = new CreateNewAuditPage(getLogger(), getDriver());
         addNewClientPage = new AddNewClientPage(getLogger(), getDriver());
-        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        adminPage = new AdminPage(getLogger(), getDriver());
         clientToDoPage = new ClientToDoPage(getLogger(), getDriver());
     }
 
@@ -393,11 +393,11 @@ public class ClientService extends AbstractService {
     }
 
     public void verifyAdminLoginPage() {
-        adminLoginPage.verifyAdminLoginPage();
+        adminPage.verifyHeaderAdminPage();
     }
 
-    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus) {
-        adminLoginPage.verifyUserIsChangeStatusOnTheList(userType, email, dateCreated, expectedStatus);
+    public void verifyUserIsChangeStatusOnTheList(String email, String expectedStatus) {
+        adminPage.verifyUserIsChangeStatusOnTheList(email, expectedStatus);
     }
 
     /**
