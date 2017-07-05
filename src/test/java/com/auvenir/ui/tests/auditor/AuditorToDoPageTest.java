@@ -45,8 +45,8 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         String validTodo = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Todo Name  01");
         String number = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Number Value", "Todo Name  01");
@@ -84,8 +84,8 @@ public class AuditorToDoPageTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         String validTodo = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Todo Name  01");
         String categoryName1 = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Category Name 01");
@@ -128,21 +128,21 @@ public class AuditorToDoPageTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
 
-        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
-        String adminId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client");
+        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client Email Password");
+        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client Assignee");
+        String adminId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Admin");
+        String adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Admin Auvenir Password");
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
-        String adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
-        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
         String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
         String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
         String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
 
 //        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-     //   MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
-       // MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
+        //   MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
+        // MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
         //need precondition for save engagement name, and delete this engagement or client on acl
         try {
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
@@ -175,9 +175,9 @@ public class AuditorToDoPageTest extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
 
-        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
-        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client");
+        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client Email Password");
+        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
 //        MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
 
@@ -202,7 +202,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify Client Assignee Combo box")
+    @Test(priority = 5, enabled = true, description = "Verify Client Assignee Combo box")
     public void verifyClientAssigneeComboBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -211,9 +211,9 @@ public class AuditorToDoPageTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
 
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
+        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client Assignee");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
         String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
@@ -235,14 +235,14 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "Verify Due date Time box")
+    @Test(priority = 6, enabled = true, description = "Verify Due date Time box")
     public void verifyDuedateTimebox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
         String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
@@ -266,7 +266,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "Verify Audit Assignee box")
+    @Test(priority = 7, enabled = true, description = "Verify Audit Assignee box")
     public void verifyAuditAssigneeBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -275,9 +275,8 @@ public class AuditorToDoPageTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
 
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
         String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
@@ -299,7 +298,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "Verify CreateNewTodo, Filter, BulkAction buttons")
+   /* @Test(priority = 8, enabled = true, description = "Verify CreateNewTodo, Filter, BulkAction buttons")
     public void verifyTodoPage_Buttons() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
@@ -322,9 +321,9 @@ public class AuditorToDoPageTest extends AbstractTest {
         } catch (Exception e) {
             NXGReports.addStep("Verify Buttons of Todo Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
+    }*/
 
-    @Test(priority = 10, enabled = true, description = "Verify SearchBox")
+    @Test(priority = 9, enabled = true, description = "Verify SearchBox")
     public void verifySearchBox() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -333,13 +332,15 @@ public class AuditorToDoPageTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
 
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
         String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
         String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
+        String searchText = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Search Input");
+        String searchNumber = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Number Value", "Search Input");
+        String searchSpecialCharacter = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Special Chars", "Search Input");
 
         try {
             marketingService.goToAuvenirMarketingPageURL();
@@ -349,13 +350,13 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName, deadlineDate, endDate, startDate);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.verifySearchBox_DefaultGUI();
-            auditorCreateToDoService.inputSearchText("Search Todo");
+            auditorCreateToDoService.inputSearchText(searchText);
             auditorCreateToDoService.verifySearchWhileInput();
-            auditorCreateToDoService.inputSearchNumber(212121);
+            auditorCreateToDoService.inputSearchNumber(searchNumber);
             auditorCreateToDoService.verifySearchWhileInput();
-            auditorCreateToDoService.inputSearchCharacter("@#@@$@$@$@");
+            auditorCreateToDoService.inputSearchCharacter(searchSpecialCharacter);
             auditorCreateToDoService.verifySearchWhileInput();
-//            auditorCreateToDoService.verifyCheckMaxLength();
+            auditorCreateToDoService.verifyCheckMaxLength();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -363,48 +364,45 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 11, enabled = true, description = "Verify realtime Search")
+    @Test(priority = 10, enabled = true, description = "Verify realtime Search")
     public void verifyRealTimeSearch() throws Exception {
-
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        marketingService = new MarketingService(getLogger(), getDriver());
+
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
+        String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
+        String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
+        String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
+        String validTodo = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Todo Name  02");
+        String categoryName3 = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Category Name 03");
+        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Client Assignee");
+        String auditAssigneeDefault = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
+
         try {
-            boolean isNewToDoPage = false;
-            auditorCreateToDoService.loginWithUserRole(userId);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
-            getLogger().info("Preparing Todo list data..");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName, deadlineDate, endDate, startDate);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.inputValidValue_TodoName("happytime6969");
-            auditorCreateToDoService.waitForNewTodoNameApplied();
-            auditorCreateToDoService.createCategories("automation114");
-            auditorCreateToDoService.selectCategoryByName("automation114");
-//            auditorCreateToDoService.verifyClientAssigneeIsSelectedCorrectly();
-//            auditorCreateToDoService.chooseDateItemInDatePicker(isNewToDoPage);
-            auditorCreateToDoService.verifyAuditAssigneeIsSelectedCorrectly();
-            getLogger().info("Verifying realtime search..");
-            getLogger().info("Input search full match with todo name, categoryname, assignclient or assignAudit..");
-            auditorCreateToDoService.inputSearchText("happytime6969");
-            Thread.sleep(500);
-            auditorCreateToDoService.verifySearchResult("happytime6969");
-            getLogger().info("Input search full match with categoryname..");
-            auditorCreateToDoService.inputSearchText("automation114");
-            Thread.sleep(500);
-            auditorCreateToDoService.verifySearchResult("automation114");
-            getLogger().info("Input search full match with assignclient..");
-            auditorCreateToDoService.inputSearchText("admin client");
-            Thread.sleep(500);
-            auditorCreateToDoService.verifySearchResult("admin client");
-            getLogger().info("Input search full match with assignAudit..");
-            auditorCreateToDoService.inputSearchText("Admin Auditor");
-            Thread.sleep(500);
-            auditorCreateToDoService.verifySearchResult("Admin Auditor");
-            getLogger().info("Input search do not match with todo name, categoryname, assignclient and assignAudit..");
-            auditorCreateToDoService.inputSearchText("FATREWAFDFYRETRETE");
+            auditorCreateToDoService.inputValidValue_TodoName(validTodo);
+            auditorCreateToDoService.createCategories(categoryName3);
+            auditorCreateToDoService.selectClientAssignee(clientFullName);
+            auditorCreateToDoService.chooseDateItemInDatePicker("07", "18", "2017");
+            auditorCreateToDoService.inputSearchText(validTodo);
+            auditorCreateToDoService.verifySearchResult(validTodo);
+            auditorCreateToDoService.inputSearchText(categoryName3);
+            auditorCreateToDoService.verifySearchResult(categoryName3);
+            auditorCreateToDoService.inputSearchText(clientFullName);
+            auditorCreateToDoService.verifySearchResult(clientFullName);
+            auditorCreateToDoService.inputSearchText(auditAssigneeDefault);
+            auditorCreateToDoService.verifySearchResult(auditAssigneeDefault);
+            auditorCreateToDoService.inputSearchText("you can input anything");
             auditorCreateToDoService.verifySearchResutlNotMatch();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
@@ -413,30 +411,31 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 12, enabled = true, description = "Verify Data Grid")
+    @Test(priority = 11, enabled = true, description = "Verify Data Grid")
     public void verifyDataGrid() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String userId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
+        marketingService = new MarketingService(getLogger(), getDriver());
+
+        String auditorId = GenericService.getTestDataFromExcel("TodoTestPage", "Valid Value", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Auditor Auvenir Password");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
+        String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
+        String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
+        String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
         try {
-            auditorCreateToDoService.loginWithUserRole(userId);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementService.verifyDetailsEngagementPage("vienpham007");
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            getLogger().info("Verifying column in Grid..");
+            auditorEngagementService.viewEngagementDetailsPage(engagementName, deadlineDate, endDate, startDate);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.verifyColumnsInGrid();
-            getLogger().info("Verifying Sort icon..");
-            auditorCreateToDoService.verifySotleOnTitle();
-            getLogger().info("Verifying Sort action..");
+            auditorCreateToDoService.verifySortIconOnTitle();
             auditorCreateToDoService.verifySortDataGridIcon();
-            getLogger().info("Verifying check checkall..");
             auditorCreateToDoService.verifyCheckAllCheckBox();
-            getLogger().info("Verifying uncheck checkall..");
             auditorCreateToDoService.verifyUncheckAllCheckbox();
-            getLogger().info("Verifying check multi line");
             auditorCreateToDoService.verifyCheckBoxToDoName();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify SearchBox.", LogAs.PASSED, null);
@@ -454,7 +453,7 @@ public class AuditorToDoPageTest extends AbstractTest {
     private String adminPassword, auditorPassword, clientPassword;
     private String engagementName, todoName;
 
-    @Test(priority = 13, enabled = true, description = "Verify dueDate on Todo Detail Popup is match with on Todo Row.")
+    @Test(priority = 12, enabled = true, description = "Verify dueDate on Todo Detail Popup is match with on Todo Row.")
     public void verifyDueDateOnToDoDetailsMatchWithOnToDoRow() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -502,7 +501,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 14, enabled = true, description = "Verify UI on Todo Detail Popup.")
+    @Test(priority = 13, enabled = true, description = "Verify UI on Todo Detail Popup.")
     public void verifyUIOnToDoDetails() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
