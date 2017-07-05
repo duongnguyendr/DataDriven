@@ -106,27 +106,19 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifySearchHover() {
         getLogger().info("Todo page search hover");
-        createToDoPage.verifySearchHover();
-    }
-
-    public void verifySearchInputText() {
-        getLogger().info("Todo page search to input text");
-        createToDoPage.verifySearchInputText();
-    }
-
-    public void verifySearchInputNumber() {
-        getLogger().info("Todo page search to input number");
-        createToDoPage.verifySearchInputNumber();
-    }
-
-    public void verifySearchInputSpecialChar() {
-
-        createToDoPage.verifySearchInputSpecialChar();
+        createToDoPage.verifySearchBorderWhileHover();
     }
 
     public void inputSearchText(String inputSearch) {
-
         createToDoPage.inputSearchText(inputSearch);
+    }
+
+    public void inputSearchNumber(int number){
+        createToDoPage.inputSearchText(Integer.toString(number));
+    }
+
+    public void inputSearchCharacter(String specialChars){
+        createToDoPage.inputSearchText(specialChars);
     }
 
     public void verifySearchResult(String inputSearch) {
@@ -399,6 +391,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyCheckMaxLength();
     }
 
+    public void verifyCheckMaxLength_CategoryName() {
+        getLogger().info("Verify to check max length");
+        createToDoPage.verifyCheckMaxLength_CategoryName();
+    }
+
     public void verifyContentTextSearch(String toDoName) {
         getLogger().info("Verify the content text search");
         createToDoPage.checkContentTextSearch(toDoName);
@@ -592,16 +589,18 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Choose date item in date picker
      */
-    public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
-        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
-        if (!result)
-            AbstractService.sStatusCnt++;
+//    public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
+//        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
+//        if (!result)
+//            AbstractService.sStatusCnt++;
+//    }
+    public void chooseDateItemInDatePicker(String month, String date, String year) throws Exception {
+        createToDoPage.chooseDateItemInDataPicker(month, date, year);
+
     }
 
-    public void chooseDateItemInDatePicker(boolean isNewToDoPage, String day, String month, String year) throws Exception {
-        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage, day, month, year);
-        if (!result)
-            AbstractService.sStatusCnt++;
+    public void verifyDateSelectedCorrectly(String dateSelected) {
+        createToDoPage.verifyDuedateTimebox(dateSelected);
     }
 
     /**
@@ -1021,7 +1020,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyInputInvalidValue(specialChar);
     }
 
-    public void InputNullChar(String nullChar) {
+    public void inputNullChar(String nullChar) {
         createToDoPage.InputValue_TodoName(nullChar);
 
     }
@@ -1054,23 +1053,26 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyBorderOfClientAssignee_WhileHovered();
     }
 
-    public void verifyClientAssigneeIsSelectedCorrectly() {
-        createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
+    public void selectClientAssignee(String clientName) {
+        createToDoPage.selectClientAssignee(clientName);
+    }
+
+    public void verifyClientAssigneeIsSelectedCorrectly(String clientName) {
+        createToDoPage.verifyClientAssigneeIsSelectedCorrectly(clientName);
     }
 
 
     public void verifyDuedateTimebox_DefaultValue(String deadlineDate) {
-        getLogger().info("Verifying DueDate default...");
-        createToDoPage.verifyDuedateTimebox_DefaultValue(deadlineDate);
+        createToDoPage.verifyDuedateTimebox(deadlineDate);
     }
 
     public void verifyUnableToInputDuedate(String dateInput) {
         createToDoPage.verifyUnableToInputDuedate(dateInput);
     }
 
-    public void verifyAuditAssigneeBox() {
+    public void verifyAuditAssigneeBox(String auditAssignee) {
         getLogger().info("Verifying AuditAssignee box..");
-        createToDoPage.verifyAditAssignee_DefaultValue();
+        createToDoPage.verifyAditAssignee_DefaultValue(auditAssignee);
         createToDoPage.verifyBorderAuditAssignee_WhileHoverd();
     }
 
@@ -1092,10 +1094,12 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifySearchBox_DefaultGUI() {
-        getLogger().info("Verifying default value: Search...");
         createToDoPage.verifySearchDefault();
-        getLogger().info("Verifying Search border is Green when hovered...");
-        createToDoPage.verifySearchHover();
+        createToDoPage.verifySearchBorderWhileHover();
+    }
+
+    public void verifySearchWhileInput(){
+        createToDoPage.verifySearchBorderWhileInput();
     }
 
     public void verifyNameReturnDefault() {

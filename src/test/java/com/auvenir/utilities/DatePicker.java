@@ -34,8 +34,7 @@ public class DatePicker {
 
     public DatePicker(WebDriver driver, WebElement ele) {
         this.driver = driver;
-        datePicker = ele;
-        PageFactory.initElements(driver, this);
+        this.datePicker = ele;
     }
 
     public DatePicker(WebDriver driver) {
@@ -51,6 +50,9 @@ public class DatePicker {
     public void clickNextButton() {
         btnNext.click();
     }
+
+    @FindBy(xpath = "//table[@class='ui-datepicker-calendar']")
+    private WebElement datePicker1;
 
     /**
      * choose given date of current month
@@ -68,17 +70,17 @@ public class DatePicker {
      * @param month month of year
      * @param year  year AD
      */
-    public void pickADate(String date, String month, String year) throws Exception {
-        if (!timeValidation(date, month, year)) {
-            throw new Exception("Date input for DatePicker wrong!");
-        }
+    public void pickADate(String month, String date, String year) throws Exception {
+//        if (!timeValidation(date, month, year)) {
+//            throw new Exception("Date input for DatePicker wrong!");
+//        }
         int monthDif = monthDif(year, month);
-        if (monthDif(year, month) > 0) {
+        if (monthDif > 0) {
             for (int i = 0; i < Math.abs(monthDif); i++) {
                 clickNextButton();
                 Thread.sleep(500);
             }
-        } else {
+        } if (monthDif < 0){
             for (int i = 0; i < Math.abs(monthDif); i++) {
                 clickPreviousButton();
                 Thread.sleep(500);
@@ -103,9 +105,10 @@ public class DatePicker {
      */
     private int monthDif(String year, String month) {
         DateTime now = new DateTime();
-        int yearDif = Integer.valueOf(year) - now.getYear();
-        int monthOfYearDif = Month.valueOf(month.toUpperCase()).getValue() - now.getMonthOfYear();
-
+//        int yearDif = Integer.valueOf(year) - now.getYear();
+//        int monthOfYearDif = Month.valueOf(month.toUpperCase()).getValue() - now.getMonthOfYear();
+        int yearDif = Integer.parseInt(year) - now.getYear();
+        int monthOfYearDif = Integer.parseInt(month) - now.getMonthOfYear();
         return yearDif * 12 + monthOfYearDif;
     }
 
