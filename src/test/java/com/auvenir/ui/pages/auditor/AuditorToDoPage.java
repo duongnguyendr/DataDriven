@@ -223,5 +223,21 @@ public class AuditorToDoPage extends AbstractPage {
         }
         return nextMonth;
     }
+
+    public void inputToDueDate(String value) {
+        try {
+            String before = getText(dueDateOnTodoDetail);
+            dueDateOnTodoDetail.sendKeys(value);
+            String after = getText(dueDateOnTodoDetail);
+            if (before.equals(after)) {
+                NXGReports.addStep("Value not change -> Due Date On Todo Detail can't input.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: Value changed -> Due Date On Todo Detail can input.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }

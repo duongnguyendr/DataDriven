@@ -103,5 +103,9 @@ public class AuditorToDoService extends AbstractService {
     public void verifyPreviousMonthIcon(String monthYear) {
         toDoPage.verifyPreviousMonthIcon(monthYear);
     }
+
+    public void inputToDueDate(String value) {
+        toDoPage.inputToDueDate(value);
+    }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }
