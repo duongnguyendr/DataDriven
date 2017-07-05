@@ -70,7 +70,7 @@ public class AbstractTest {
 
     @BeforeSuite
     public void setConfig() {
-        System.out.println("AAAAAAA");
+        //System.out.println("AAAAAAA");
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
