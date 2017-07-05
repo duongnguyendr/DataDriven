@@ -1,7 +1,7 @@
 package com.auvenir.ui.services.admin;
 
 import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.admin.AdminPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -14,29 +14,23 @@ import org.openqa.selenium.WebDriver;
  * Refactor code and implement for PLAT 2273
  */
 public class AdminService extends AbstractService {
-    AdminLoginPage adminLoginPage;
+    AdminPage adminPage;
     AuvenirPage auvenirPage;
 
     public AdminService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        adminPage = new AdminPage(getLogger(), getDriver());
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
     }
 
     public void navigateToSettingPage() {
-        try {
-            getLogger().info("navigate to Admin Setting page.");
-            adminLoginPage.navigateToSettingsPage();
-            NXGReports.addStep("Go to Setting page successfully.", LogAs.PASSED, (CaptureScreen) null);
-        } catch (Exception e) {
-            NXGReports.addStep("Unable to go to Setting page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        adminPage.navigateToSettingsPage();
     }
 
-    public void verifyAdminLoginPage() {
+    public void verifyHeaderAdminPage() {
         try {
             getLogger().info("verify Admin Login page.");
-            adminLoginPage.verifyAdminLoginPage();
+            adminPage.verifyHeaderAdminPage();
             NXGReports.addStep("verify Admin Login Page.", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
             NXGReports.addStep("verify Admin Login Page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -48,19 +42,19 @@ public class AdminService extends AbstractService {
      * Restructure only
      */
     public void verifyPageLoad() {
-        adminLoginPage.verifyAdminLoginPage();
+        adminPage.verifyHeaderAdminPage();
     }
 
     public void verifyHeader() {
         getLogger().info("Verify Admin logged in header.");
         auvenirPage.verifyHeader();
-        adminLoginPage.verifyAdminHeaderText();
+        adminPage.verifyAdminHeaderText();
     }
 
     public void verifyBody() {
         getLogger().info("Verify Admin logged in body.");
-        adminLoginPage.verifyAdminDashBoard();
-        adminLoginPage.verifyUserTable();
+        adminPage.verifyAdminDashBoard();
+        adminPage.verifyUserTable();
     }
 
     public void verifyFooter() {
@@ -69,79 +63,79 @@ public class AdminService extends AbstractService {
     }
 
     public void viewAndVerifyCredentials() {
-        adminLoginPage.viewAndVerifyCredentials();
+        adminPage.viewAndVerifyCredentials();
     }
 
     public void verifyDropMenuMessage() {
-        adminLoginPage.verifyDropMenuMessage();
+        adminPage.verifyDropMenuMessage();
     }
 
     public void clickNewMessage() {
-        adminLoginPage.clickNewMessage();
+        adminPage.clickNewMessage();
     }
 
     public void verifyNewMessagePopup() {
-        adminLoginPage.verifyNewMessagePopup();
+        adminPage.verifyNewMessagePopup();
     }
 
     public void closeNewMessagePopup() {
-        adminLoginPage.closeNewMessagePopup();
+        adminPage.closeNewMessagePopup();
     }
 
     public void verifyDropMenuNotification() {
-        adminLoginPage.verifyDropMenuNotification();
+        adminPage.verifyDropMenuNotification();
     }
 
     public void clickViewAllNotification() {
-        adminLoginPage.clickViewAllNotification();
+        adminPage.clickViewAllNotification();
     }
 
     public void verifyBodyNotificationPage() {
-        adminLoginPage.verifyBodyNotificationPage();
+        adminPage.verifyBodyNotificationPage();
     }
 
     public void navigateToSettingAccountPage() {
-        adminLoginPage.navigateToSettingAccountPage();
+        adminPage.navigateToSettingAccountPage();
     }
 
     public void verifySettingAccountPage() {
-        adminLoginPage.verifySettingAccountPage();
+        adminPage.verifySettingAccountPage();
     }
 
     public void clickDeactiveLink() {
-        adminLoginPage.clickDeactiveLink();
+        adminPage.clickDeactiveLink();
     }
 
     public void verifyDeactivePopup() {
-        adminLoginPage.verifyDeactivePopup();
+        adminPage.verifyDeactivePopup();
     }
 
     public void closeDeactivePopup() {
-        adminLoginPage.closeDeactivePopup();
+        adminPage.closeDeactivePopup();
     }
 
     public void navigateToSettingDevicesPage() {
-        adminLoginPage.navigateToSettingDevicesPage();
+        adminPage.navigateToSettingDevicesPage();
     }
 
     public void verifySettingDevicesPage() {
-        adminLoginPage.verifySettingDevicesPage();
+        adminPage.verifySettingDevicesPage();
     }
 
     public void addAnotherDeviceLink() {
-        adminLoginPage.addAnotherDeviceLink();
+        adminPage.addAnotherDeviceLink();
     }
 
     public void verifyAddAnotherPopup() {
-        adminLoginPage.verifyAddAnotherPopup();
+        adminPage.verifyAddAnotherPopup();
     }
 
     public void navigateToSettingDevicesDisconnect() {
-        adminLoginPage.navigateToSettingDevicesDisconnect();
+        adminPage.navigateToSettingDevicesDisconnect();
     }
 
     public void verifySettingDevicesDisconnectPopup() {
-        adminLoginPage.verifySettingDevicesDisconnectPopup();
+        adminPage.verifySettingDevicesDisconnectPopup();
     }
     /*-----------end of huy.huynh on 24/05/2017.*/
 
@@ -150,21 +144,32 @@ public class AdminService extends AbstractService {
      * New for smoke test
      */
     public void verifyAuditorRowOnAdminUserTable(String userType, String userEmail, String createdDate, String userStatus) {
-        adminLoginPage.verifyAuditorRowOnAdminUserTable(userType, userEmail, createdDate, userStatus);
+        adminPage.verifyAuditorRowOnAdminUserTable(userType, userEmail, createdDate, userStatus);
     }
 
     public void verifyUserStatusOnAdminUserTable(String userEmail, String userStatus) {
-        adminLoginPage.verifyAuditorStatusOnAdminUserTable(userEmail, userStatus);
+        adminPage.verifyAuditorStatusOnAdminUserTable(userEmail, userStatus);
     }
 
     public void changeTheStatusUser(String userEmail, String chooseOption) {
-        adminLoginPage.changeTheStatusUser(userEmail, chooseOption);
+        adminPage.changeTheStatusUser(userEmail, chooseOption);
     }
     /*-----------end of huy.huynh on 30/05/2017.*/
 
     public void clickClosePopupWarningBrowser() {
-        adminLoginPage.clickClosePopupWarningBrowser();
+        adminPage.clickClosePopupWarningBrowser();
     }
 
+    public void verifyAdminSeeAllUser() {
+        adminPage.verifyAdminSeeAllUser();
+    }
+
+    public void verifyUserIsChangeStatusOnTheList(String email, String expectedStatus) {
+        adminPage.verifyUserIsChangeStatusOnTheList(email, expectedStatus);
+    }
+
+    public void verifyNormalAdminCannotChangeSttUser() {
+        adminPage.verifyNormalAdminCannotChangeSttAdminUser();
+    }
 }
 

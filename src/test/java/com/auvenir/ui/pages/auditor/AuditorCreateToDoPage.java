@@ -82,7 +82,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todo-table']/thead//th/input[@type='checkbox']")
     private WebElement eleCheckBox;
 
-    @FindBy(xpath = "//th[@data-id='name']")
+    @FindBy(xpath = "//th[(@class='table-header') and contains(@data-id,'name')]")
     private WebElement eleNameToDoTitleLabel;
 
     @FindBy(xpath = "//*[@id='todo-table']//th[@data-id='name']//i")
@@ -112,7 +112,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//th[@data-id='auditorAssignee']")
     private WebElement eleAuditAssigneeTitleLabel;
 
-    @FindBy(xpath = "//th[@data-id='auditorAssignee']/i")
+    @FindBy(xpath = "//th[@data-id='auditorAssignee']//i")
     private WebElement eleSortByAuditAssignee;
 
     @FindBy(xpath = "//div[@class='e-widget-content']")
@@ -478,7 +478,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void verifySotleOnTitle() throws Exception {
+    public void verifySortIconOnTitle() throws Exception {
         validateDisPlayedElement(sortByToDoNameIconEle, "Sort By Name Button");
         validateDisPlayedElement(sortByCategoryNameIconEle, "Sort By Category Name");
         validateDisPlayedElement(eleSortByClientAssignee, "Sort By Client Assignee Button.");
@@ -622,28 +622,24 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyCheckMaxLength() {
         try {
-            boolean isCheckMaxLength = false;
-            waitForClickableOfElement(eleToDoSearchInput, "wait for txtIdTodoSearch");
             clickElement(eleToDoSearchInput, "click to txtIdTodoSearch");
-            clearTextBox(eleToDoSearchInput, "clear txtIdTodoSearch");
-            clickElement(eleToDoSearchInput, "cick to eleToDoSearchInput");
+            eleToDoSearchInput.clear();
             eleToDoSearchInput.sendKeys(maxLenghtString);
             eleToDoSearchInput.sendKeys(numberSequence);
-            // Get the text from eleToDoSearchInput
             String txtSearchText = getTextByJavaScripts(eleToDoSearchInput, "eleToDoSearchInput");
             getLogger().info("The input txtSearchText = " + txtSearchText);
             if (txtSearchText.equals(maxLenghtString)) {
-                isCheckMaxLength = true;
+                NXGReports.addStep("Verify check max length of search textbox: Pass", LogAs.PASSED, null);
             } else {
-                isCheckMaxLength = false;
-            }
-            getLogger().info("The result after comparing text search isSearchText = " + isCheckMaxLength);
-
-            if (isCheckMaxLength) {
-                NXGReports.addStep("Verify check max length of search textbox", LogAs.PASSED, null);
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify check max length of search textbox: Fail", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify check max length of search textbox: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -912,7 +908,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifySearchBorderWhileHover() {
         try {
             String GreenBorder = "1px solid rgb(89, 155, 161)";
-            hoverElement(eleToDoSearchInput,"Todo Searchbox");
+            hoverElement(eleToDoSearchInput, "Todo Searchbox");
             boolean isCheckSearchHover = validateCssValueElement(eleToDoSearchInput, "border", GreenBorder);
             if (isCheckSearchHover) {
                 NXGReports.addStep("Verify Search box border is green: Pass", LogAs.PASSED, null);
@@ -956,6 +952,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
             sendKeyTextBox(eleToDoSearchInput, searchValue, "send key to searchTextToDoListPage");
+            Thread.sleep(smallerTimeOut);
             NXGReports.addStep("Ending Input Search.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -966,7 +963,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
 
     public void verifySearchLimit255() throws Exception {
-        waitForClickableOfElement(eleToDoSearchInput, "wait for click eleToDoSearchInput");
+//        waitForClickableOfElement(eleToDoSearchInput, "wait for click eleToDoSearchInput");
         clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
         sendKeyTextBox(eleToDoSearchInput, maxLenghtString, "send key to maxLenghtString");
         validateMaxlenght(this.eleToDoSearchInput, "To Do Search Input", maxLenght);
@@ -1048,18 +1045,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
     and remove By.xpath....
      */
 
-
     @FindBy(xpath = "id('todo-table')/tbody/tr")
     List<WebElement> trTodoTable;
-    @FindBy(xpath = "id('todo-table')/tbody/tr/td")
-    List<WebElement> tdTodoTable;
 
 
     public void checkSearchData(String inputSearch) {
         getLogger().info("Run checkSearchData()");
         try {
             boolean isCheckData = false;
-            getLogger().info("Size row: " + trTodoTable.size());
+            getLogger().info("Size row matched: " + trTodoTable.size());
             for (int i = 0; i < trTodoTable.size(); i++) {
                 String strSearchValueTodoName = "";
                 String strSearchValueCategoryName = "";
@@ -1095,7 +1089,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifySearchResutlNotMatch() {
         try {
             getLogger().info("Verifying todo list disappear..");
-            waitForInvisibleElement(tblIdTodoTable.findElement(By.xpath("id('todo-table')/tbody/tr")), "");
+            waitForVisibleElement(tblIdTodoTable.findElement(By.xpath("./tbody/tr[@id='empty-todo']")), "");
             NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -1847,7 +1841,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForClickableOfElement(eleToDoNewRowDueDateText.get(0), "Select due date text box");
             eleToDoNewRowDueDateText.get(0).click();
             waitForCssValueChanged(statusOfDateTable, "status of Date Table", "display", "block");
-//            Thread.sleep(smallTimeOut);
             inputDueDate(month, date, year);
             waitForCssValueChanged(statusOfDateTable, "status of Date Table", "display", "none");
             NXGReports.addStep("Ending select due date: Pass", LogAs.PASSED, null);
@@ -3774,9 +3767,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyTodoTextboxBorder_AfterClickedAddTodo() {
         WebElement textbox1 = TodosTextboxEle.get(0);
         getLogger().info("Verifying border of todo Textbox is Green after clicked add Todo...");
-        String GreenBorder = "rgb(92, 155, 160)";
+        String WhiteBorder = "rgb(255, 255, 255)";
         try {
-            validateCssValueElement(textbox1, "border-color", GreenBorder);
+            validateCssValueElement(textbox1, "border-color", WhiteBorder);
             NXGReports.addStep("border is Green after clicked add Todo", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4182,15 +4175,88 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(createToDoBtnEle, "color", White_Text);
             NXGReports.addStep("Default value of Create Todo Btn.", LogAs.PASSED, null);
         } catch (Exception e) {
+            e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Default value of Create Todo Btn.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyFilterBtn_Position() {
+    @FindBy(id = "todo-filter-dropdown")
+    WebElement filterBtn;
+
+    public void verifyFilterBtn_DefaultValue() {
+        String defaultValue = "Filter";
+        try {
+            getLogger().info("Verifying default text of Filter Btn..");
+            String value = filterBtn.getText();
+            System.out.println("Default Filter Btn is: " + value);
+            if (value.equals(defaultValue)) {
+                NXGReports.addStep("Verify default Filter Btn: Pass.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify default Filter Btn: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify default Filter Btn: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyBulkActionBtn_Position() {
+    public void verifyFilterBtn_WhileHovered() {
+        String GreenBorder = "rgb(92, 155, 160)";
+        try {
+            hoverElement(filterBtn, "Filter Btn");
+            boolean isCheck = validateCssValueElement(filterBtn, "border-color", GreenBorder);
+            if (isCheck) {
+                NXGReports.addStep("Verify border of Filter Btn while hovered: Pass.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void clickFilterBtn() {
+        try {
+            clickElement(filterBtn, "Filter Btn");
+            NXGReports.addStep("Filter btn is clickable: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Can not click Filter Btn", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @FindBy(xpath = "//div[(@id='todo-bulk-dropdown')and contains(@class,'')]")
+    WebElement BulkActionEnableBtn;
+
+    @FindBy(xpath = "//div[(@id='todo-bulk-dropdown')and contains(@class,'disable')]")
+    WebElement BulkActionDisableBtn;
+
+    public void verifyBulkActionBtn() {
+        if (eleCheckBox.isSelected()) {
+            Boolean isCheck = waitForVisibleElement(BulkActionEnableBtn,"BulkAction Enable");
+            if (isCheck){
+                NXGReports.addStep("BulkAction is Enable: Pass.", LogAs.PASSED, null);
+            }else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("BulkAction is Enable: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } else {
+            Boolean isCheck = waitForVisibleElement(BulkActionDisableBtn,"BulkAction Disable");
+            if (isCheck){
+                NXGReports.addStep("BulkAction is Disable: Pass.", LogAs.PASSED, null);
+            }else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("BulkAction is Disable: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
     }
 
     public void verifyUnableToInputDuedate(String inputText) {
