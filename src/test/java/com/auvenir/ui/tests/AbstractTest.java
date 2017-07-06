@@ -132,7 +132,6 @@ public class AbstractTest {
                 }else {
                     GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
                 }
-                GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
             } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
 
             /*Initialize Selenium for Selenium Grid*/
@@ -187,7 +186,6 @@ public class AbstractTest {
                 }else {
                     GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
                 }
-                GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
