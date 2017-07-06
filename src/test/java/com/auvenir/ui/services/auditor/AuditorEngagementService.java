@@ -8,6 +8,9 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 /**
  * Created by cuong.nguyen on 4/27/2017.
@@ -416,5 +419,211 @@ public class AuditorEngagementService extends AbstractService {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    public void searchEngagementListByName(String engagementName){
+        auditorEngagementPage.searchEngagementListByName(engagementName);
+    }
+
+    public void verifyDataSearchByEngagementName(String engagementName){
+        auditorEngagementPage.verifyDataSearchByEngagementName(engagementName);
+    }
+
+    public void searchEngagementListByCompany(String engagementCompany){
+        auditorEngagementPage.searchEngagementListByCompany(engagementCompany);
+    }
+
+    public void verifyDataSearchByEngagementCompany(String engagementCompany){
+        auditorEngagementPage.verifyDataSearchByEngagementCompany(engagementCompany);
+    }
+
+    public void clickOnEngagementFilter(){
+       auditorEngagementPage.clickOnEngagementFilter();
+    }
+
+    public void clickOnEngagementFilterAll(){
+       auditorEngagementPage.clickOnEngagementFilterAll();
+    }
+
+    public void clickOnTypeOfEngagement(){
+       auditorEngagementPage.clickOnTypeOfEngagement();
+    }
+
+    public void clickOnEngagementFinancialAudit(){
+        auditorEngagementPage.clickOnEngagementFinancialAudit();
+    }
+
+    public void clickOnEngagementReview(){
+        auditorEngagementPage.clickOnEngagementReview();
+    }
+
+    public void clickOnEngagementNotice(){
+       auditorEngagementPage.clickOnEngagementNotice();
+    }
+
+    public void clickOnEngagementOther(){
+        auditorEngagementPage.clickOnEngagementOther();
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnCompanyIconSortDown(){
+        auditorEngagementPage.clickOnCompanyIconSortDown();
+    }
+
+    public void clickOnCompanyIconSortUp(){
+        auditorEngagementPage.clickOnCompanyIconSortUp();
+    }
+
+    public void verifyCompanyDataListSortAscending(){
+        auditorEngagementPage.verifyCompanyDataListSortAscending();
+    }
+
+    public void verifyCompanyDataListSortDescending(){
+        auditorEngagementPage.verifyCompanyDataListSortDescending();
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementNameIconSortDown(){
+        auditorEngagementPage.clickOnEngagementNameIconSortDown();
+    }
+
+    public void clickOnEngagementNameIconSortUp(){
+        auditorEngagementPage.clickOnEngagementNameIconSortUp();
+    }
+
+    public void verifyEngagementNameDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementNameDataListSortAscending();
+    }
+
+    public void verifyEngagementNameDataListSortDescending(){
+        auditorEngagementPage.verifyEngagementNameDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementStatusIconSortDown(){
+        auditorEngagementPage.clickOnEngagementStatusIconSortDown();
+    }
+
+    public void clickOnEngagementStatusIconSortUp(){
+        auditorEngagementPage.clickOnEngagementStatusIconSortUp();
+    }
+
+    public void verifyEngagementStatusDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementStatusDataListSortAscending();
+    }
+
+    public void verifyEngagementStatusDataListSortDescending(){
+        auditorEngagementPage.verifyEngagementStatusDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementAuditIconSortDown(){
+       auditorEngagementPage.clickOnEngagementAuditIconSortDown();
+    }
+
+    public void clickOnEngagementAuditIconSortUp(){
+        auditorEngagementPage.clickOnEngagementAuditIconSortUp();
+    }
+
+    public void verifyEngagementAuditDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementAuditDataListSortAscending();
+    }
+
+    public void verifyEngagementAuditDataListSortDescending(){
+        auditorEngagementPage.verifyEngagementAuditDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementToDoIconSortDown(){
+        auditorEngagementPage.clickOnEngagementToDoIconSortDown();
+    }
+
+    public void clickOnEngagementToDoIconSortUp(){
+        auditorEngagementPage.clickOnEngagementToDoIconSortUp();
+    }
+
+    public void verifyEngagementToDoDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementToDoDataListSortAscending();
+    }
+
+    public void verifyEngagementToDoDataListSortDescending(){
+        auditorEngagementPage.verifyEngagementToDoDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementClientIconSortDown(){
+        auditorEngagementPage.clickOnEngagementClientIconSortDown();
+    }
+
+    public void clickOnEngagementClientIconSortUp(){
+        auditorEngagementPage.clickOnEngagementClientIconSortUp();
+    }
+
+    public void verifyEngagementClientDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementClientDataListSortAscending();
+    }
+
+    public void verifyEngagementClientDataListSortDescending(){
+        auditorEngagementPage.verifyEngagementClientDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementDocIconSortDown(){
+        auditorEngagementPage.clickOnEngagementDocIconSortDown();
+    }
+
+    public void clickOnEngagementDocIconSortUp(){
+        auditorEngagementPage.clickOnEngagementDocIconSortUp();
+    }
+
+    public void verifyEngagementDocDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementDocDataListSortAscending();
+    }
+
+    public void verifyEngagementDocDataListSortDescending(){
+        auditorEngagementPage.verifyEngagementDocDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementActivityIconSortDown(){
+        auditorEngagementPage.clickOnEngagementActivityIconSortDown();
+    }
+
+    public void clickOnEngagementActivityIconSortUp(){
+        auditorEngagementPage.clickOnEngagementActivityIconSortUp();
+    }
+
+    public void verifyEngagementActivityDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementActivityDataListSortAscending();
+    }
+
+    public void verifyEngagementActivityDataListSortDescending(){
+        auditorEngagementPage. verifyEngagementActivityDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementDueDateIconSortDown(){
+        auditorEngagementPage.clickOnEngagementDueDateIconSortDown();
+    }
+
+    public void clickOnEngagementDueDateIconSortUp(){
+        auditorEngagementPage.clickOnEngagementDueDateIconSortUp();
+    }
+
+    public void verifyEngagementDueDateDataListSortAscending(){
+        auditorEngagementPage.verifyEngagementDueDateDataListSortAscending();
+    }
+
+    public void verifyEngagementDueDateDataListSortDescending(){
+        auditorEngagementPage.verifyEngagementDueDateDataListSortDescending();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

@@ -62,7 +62,7 @@ public class GenericService {
     public static String sOperationData = null;
     public static ArrayList sBrowserTestNameList = new ArrayList<String>();
     public static String [] browserAutomationTest = new String [] {"CHROME", "FIREFOX", "IE", "SAFARI","EDGE"};
-
+    public static String sLanguage = "";
 	/*
      * @author: LAKSHMI BS Description: To read the basic environment settings
 	 * data from config file
@@ -736,22 +736,21 @@ public class GenericService {
         try{
             String userDataExcel=null;
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
-            System.out.println("Folder Path: " + GenericService.sTestDataFile);
+            //System.out.println("Folder Path: " + GenericService.sTestDataFile);
             Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
-            System.out.println(SheetName);
+            /*System.out.println(SheetName);*/
             int iRowNum = sht.getLastRowNum();
             int k = 0;
             for (int i = 1; i <= iRowNum; i++) {
                 if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
                     int iCellNum = sht.getRow(i).getLastCellNum();
-                    System.out.println("Row: " + i);
+                    /*System.out.println("Row: " + i);
                     System.out.println("The number of Columns:" + iCellNum);
-                    System.out.println(columnName);
+                    System.out.println(columnName);*/
                     for (int j = 1; j <= iCellNum; j++) {
                         if(sht.getRow(0).getCell(j).toString().equals(columnName)){
                             userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
-                            System.out.println("Data login: "+userDataExcel);
                             break;
                         }
                     }
@@ -771,19 +770,19 @@ public class GenericService {
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
             Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
-            System.out.println(SheetName);
+            /*System.out.println(SheetName);*/
             int iRowNum = sht.getLastRowNum();
             int k = 0;
             for (int i = 1; i <= iRowNum; i++) {
                 if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
                     int iCellNum = sht.getRow(i).getLastCellNum();
                     /*System.out.println("Row: " + i);
-                    System.out.println("The number of Columns:" + iCellNum);*/
-                    System.out.println(columnName);
+                    System.out.println("The number of Columns:" + iCellNum);
+                    System.out.println(columnName);*/
                     for (int j = 1; j <= iCellNum; j++) {
                         if(sht.getRow(0).getCell(j).toString().equals(columnName)){
                             userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
-                            System.out.println("Data login: "+userDataExcel);
+                            //System.out.println("Data login: "+userDataExcel);
                             break;
                         }
                     }
