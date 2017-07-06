@@ -98,19 +98,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//a[@href='/terms']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(xpath = "//a[@href='/privacy']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(xpath = "//a[@href='/cookies']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -118,6 +118,9 @@ public class AbstractPage {
 
     @FindBy(id = "h-ddl-item-settings")
     WebElement settingsTabEle;
+
+    @FindBy(id = "navTitle")
+    WebElement settingsTitle;
 
     // ====================== ======================
     // Vien.Pham added EditCategories Elements
@@ -301,6 +304,7 @@ public class AbstractPage {
         try {
             getLogger().info("Verify Terms of service link.");
             boolean isCheckTermOfService = false;
+            hoverElement(eleTermsOfServiceLnk, "hover terms of service link");
             clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
             getLogger().info("verify texts are rendered.");
             switchToOtherTab(1);
@@ -771,13 +775,16 @@ public class AbstractPage {
     Method to go to setting page for Admin, Auditor, Client
      */
     public void navigateToSettingsPage() {
+        getLogger().info("navigate to Admin Setting page.");
         try {
             waitForClickableOfElement(dashboardUserNameEle, "dashboardUserNameEle");
             clickElement(dashboardUserNameEle, "click to dashboardUserNameEle");
-            waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
             waitForClickableOfElement(settingsTabEle, "dashboardUserNameEle");
             clickElement(settingsTabEle, "click to settingsTabEle");
-        } catch (Exception e) {
+            boolean result = validateElementText(settingsTitle, "Settings");
+            Assert.assertTrue(result, "The Settings page should be navigated.");
+            NXGReports.addStep("Go to settings page successfully.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to go to setting page.");
             NXGReports.addStep("Unable to go to setting page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
@@ -1917,7 +1924,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);
@@ -2716,7 +2723,7 @@ public class AbstractPage {
     public void refreshPage() {
         try {
             getLogger().info("Refresh Page.");
-            driver.navigate().refresh();
+            getDriver().navigate().refresh();
             NXGReports.addStep("Refresh page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -2726,7 +2733,7 @@ public class AbstractPage {
 
     public void navigateBack() {
         try {
-            driver.navigate().back();
+            getDriver().navigate().back();
             NXGReports.addStep("Back to previous page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -2736,7 +2743,7 @@ public class AbstractPage {
 
     public void navigateForward() {
         try {
-            driver.navigate().forward();
+            getDriver().navigate().forward();
             NXGReports.addStep("Forward to previous page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -2990,7 +2997,7 @@ public class AbstractPage {
     public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
         getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualAttributeValue = null;

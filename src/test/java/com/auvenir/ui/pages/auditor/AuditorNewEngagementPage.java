@@ -11,6 +11,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -629,4 +633,50 @@ public class AuditorNewEngagementPage extends AbstractPage {
         }
     }
     /*-----------end of huy.huynh on 06/06/2017.*/
+
+    public void insertDataForNewEngagementPage(String name, String engagementType, String company) {
+        try {
+            getLogger().info("Insert data for new Engagement form");
+            enterEngagementName(name);
+            selectEngagementType(engagementType);
+            enterCompanyName(company);
+
+            String currentLastDate = getLastDateFollowCurrentMonth();
+            String currentFirstDate = getFirstDateFollowCurrentMonth();
+
+            enterDeadLineDate(currentLastDate);
+            enterStartDate(currentFirstDate);
+            enterEndDate(currentLastDate);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Insert data for new Engagement form", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
+        }
+    }
+
+    private String getLastDateFollowCurrentMonth(){
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_MONTH,
+                calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        String sCurrentLastDay = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        int currentMonth = (calendar.get((Calendar.MONTH)) + 1) ;
+        String sCurrentMonth = currentMonth < 10 ? "0" + String.valueOf(currentMonth) : String.valueOf(currentMonth);
+        String sCurrentYear = String.valueOf(calendar.get(Calendar.YEAR));
+
+        return sCurrentMonth + "/" + sCurrentLastDay + "/" + sCurrentYear;
+    }
+
+    private String getFirstDateFollowCurrentMonth(){
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_MONTH,
+                calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        String sCurrentFirstDay = "0" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        int currentMonth = (calendar.get((Calendar.MONTH)) + 1) ;
+        String sCurrentMonth = currentMonth < 10 ? "0" + String.valueOf(currentMonth) : String.valueOf(currentMonth);
+        String sCurrentYear = String.valueOf(calendar.get(Calendar.YEAR));
+
+        return sCurrentMonth + "/" + sCurrentFirstDay + "/" + sCurrentYear;
+    }
+
 }

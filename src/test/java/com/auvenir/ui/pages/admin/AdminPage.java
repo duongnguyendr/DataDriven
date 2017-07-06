@@ -15,15 +15,17 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import java.util.List;
+
 //import org.testng.log4testng.Logger;
 
-public class AdminLoginPage extends AbstractPage {
+public class AdminPage extends AbstractPage {
 
     AuvenirPage auvenirPage = null;
     WebElement SelectStatus = null;
     private int waitTime = 60;
 
-    public AdminLoginPage(Logger logger, WebDriver driver) {
+    public AdminPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
 
@@ -734,6 +736,9 @@ public class AdminLoginPage extends AbstractPage {
         return eleGetItGooglePlayImg;
     }
 
+    @FindBy(xpath = "//*[@id='w-mu-table']//td[2]")
+    private List<WebElement> listUserTypeEle;
+
 
     public void getEleClientEntryValidate(String UserType, String Email, String DateCreated, String ClientName) throws InterruptedException {
         Thread.sleep(10000);
@@ -751,10 +756,18 @@ public class AdminLoginPage extends AbstractPage {
     }
 
 
-    public String getEleAuditorStatusLst(String UserType, String Email, String DateCreated) throws InterruptedException {
-        Thread.sleep(10000);
+    public String getEleAuditorStatusLst(String UserType, String Email, String DateCreated){
+        waitSomeSeconds(1);
         SelectStatus = getDriver().findElement(By.xpath("//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + DateCreated + "')]//..//td//select"));
         Select select = new Select(SelectStatus);
+        String eleAuditorStatusLst = select.getAllSelectedOptions().get(0).getText();
+        return eleAuditorStatusLst;
+    }
+
+    public String getEleAuditorStatusLst(String Email){
+        waitSomeSeconds(1);
+        WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, Email);
+        Select select = new Select(status);
         String eleAuditorStatusLst = select.getAllSelectedOptions().get(0).getText();
         return eleAuditorStatusLst;
     }
@@ -811,11 +824,10 @@ public class AdminLoginPage extends AbstractPage {
         getEleConfirmBtn().click();
     }
 
-    public void verifyAdminLoginPage() {
+    public void verifyHeaderAdminPage() {
         try {
             waitForVisibleElement(eleAdminHdrTxt, "eleAdminHdrTxt");
             validateElementText(eleAdminHdrTxt, "Admin");
-            validateDisPlayedElement(eleAdminHdrTxt, "eleAdminHdrTxt");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -1017,10 +1029,10 @@ public class AdminLoginPage extends AbstractPage {
         clickElement(getEleCloseIcn(), "Close button");
     }
 
-    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus) {
+    public void verifyUserIsChangeStatusOnTheList(String email, String expectedStatus) {
         getLogger().info("Verify user is changed status on the list.");
         try {
-            String actualStatus = getEleAuditorStatusLst(userType, email, dateCreated);
+            String actualStatus = getEleAuditorStatusLst(email);
             Assert.assertTrue(actualStatus.equals(expectedStatus), String.format("Auditor is not created with %s status", actualStatus));
             NXGReports.addStep("Verify user is changed status on the list.", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -1096,28 +1108,28 @@ public class AdminLoginPage extends AbstractPage {
     public void changeTheStatusUser(String userEmail, String chooseOption) {
         try {
             getLogger().info(String.format("Try change status of user to %s", chooseOption));
-            waitSomeSeconds(2);
+            if(!getEleAuditorStatusLst(userEmail).equals(chooseOption)) {
+                waitSomeSeconds(1);
 //            waitForVisibleElement(eleAdminHdrTxt, "Admin");
 //            validateElementText(eleAdminHdrTxt, "Admin");
 //            waitForVisibleElement(GeneralUtilities.getElementByXpath(getDriver(), xpathStatusCellOnUserTableAdminX, userEmail), "Dropdown Status.");
 
-            WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, userEmail);
-            selectOptionByText(status, chooseOption, "User Status");
+                WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, userEmail);
+                selectOptionByText(status, chooseOption, "User Status");
 
-            getLogger().info("Validate Popup Confirm.");
-            waitForVisibleElement(textViewOnPopupConfirm, "Are you sure you want to change user status from");
-            validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
+                getLogger().info("Validate Popup Confirm.");
+                waitForVisibleElement(textViewOnPopupConfirm, "Are you sure you want to change user status from");
+                validateElementText(textViewOnPopupConfirm, "Are you sure you want to change user status from");
 
-            waitForVisibleElement(getEleStatusConfirmBtn(), "Confirm Poup");
-            waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
-            clickElement(getEleStatusConfirmBtn(), "Status Confirm Button");
-//            getEleStatusConfirmBtn().click();
+                waitForVisibleElement(getEleStatusConfirmBtn(), "Confirm Poup");
+                waitForClickableOfElement(getEleStatusConfirmBtn(), "Confirm Poup");
+                clickElement(getEleStatusConfirmBtn(), "Status Confirm Button");
 
-            waitForProgressOverlayIsClosed();
-            waitForVisibleElement(eleCredentialsCloseIcn, "Close Icon");
-            waitForClickableOfElement(eleCredentialsCloseIcn, "Close Icon");
-            clickElement(eleCredentialsCloseIcn, "Close Icon");
-//            getEleCredentialsCloseIcn().click();
+                waitForProgressOverlayIsClosed();
+                waitForVisibleElement(eleCredentialsCloseIcn, "Close Icon");
+                waitForClickableOfElement(eleCredentialsCloseIcn, "Close Icon");
+                clickElement(eleCredentialsCloseIcn, "Close Icon");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -1140,6 +1152,64 @@ public class AdminLoginPage extends AbstractPage {
             }
         } catch (Exception e) {
             getLogger().info(e);
+        }
+    }
+
+    public void verifyAdminSeeAllUser() {
+        getLogger().info("Verify Admin can see all user in the system.");
+        boolean clientUserType = false;
+        boolean adminUserType = false;
+        boolean auditorUserType = false;
+        boolean superAdminUserType = false;
+        boolean result = false;
+        try {
+            for (int i = 0; i < listUserTypeEle.size(); i++) {
+                if (listUserTypeEle.get(i).getText().equals("CLIENT"))
+                    clientUserType = true;
+                else if (listUserTypeEle.get(i).getText().equals("ADMIN"))
+                    adminUserType = true;
+                else if (listUserTypeEle.get(i).getText().equals("AUDITOR"))
+                    auditorUserType = true;
+                else if (listUserTypeEle.get(i).getText().equals("SUPER ADMIN"))
+                    superAdminUserType = true;
+                if (clientUserType && adminUserType && auditorUserType && superAdminUserType) {
+                    result = true;
+                    break;
+                }
+            }
+            getLogger().info("User " + (clientUserType ? "can" : "cannot") + " see all Client User.");
+            getLogger().info("User " + (adminUserType ? "can" : "cannot") + " see all Admin User.");
+            getLogger().info("User " + (auditorUserType ? "can" : "cannot") + " see all Auditor User.");
+            getLogger().info("User " + (superAdminUserType ? "can" : "cannot") + " see Super Admin User.");
+            Assert.assertTrue(result, "User should see all user in system.");
+            NXGReports.addStep("User can see all user in system.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("User cannot see all user in system.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
+    }
+
+    public void verifyNormalAdminCannotChangeSttAdminUser() {
+        getLogger().info("Verify Normal Admin cannot change the status of Admin user.");
+        WebElement status = null;
+        boolean result = false;
+        try {
+            List<WebElement> userType = getDriver().findElements(By.xpath(String.format(xpathUserTypeCellOnUserTableAdminX, "ADMIN")));
+            System.out.println("Size: " + userType.size());
+            for (int i = 0; i < userType.size(); i++) {
+                status = userType.get(i).findElement(By.tagName("select"));
+                if(status != null) {
+                    result = false;
+                    break;
+                }
+            }
+            Assert.assertTrue(result, "User should not able to change status of Admin user in system.");
+            NXGReports.addStep("User cannot change status of Admin user in system.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("User can change status of Admin user in system.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 }

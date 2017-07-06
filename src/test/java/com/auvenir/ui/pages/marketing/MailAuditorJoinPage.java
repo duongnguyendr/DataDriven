@@ -211,8 +211,8 @@ public class MailAuditorJoinPage extends AbstractPage {
         //Checking subject Active Email
         validateDisPlayedElement(eleSubjectActiveEmail, "Subject of Active Email");
         // Checking Content of subject Email is displayed
-        validateElementText(eleSubjectActiveEmail, "Welcome to the Auvenir Smarter Audit Platform");
-        validateElementText(eleWelcomeActiveEmail, "Welcome to Auvenir.");
+        validateElementText(eleSubjectActiveEmail, "Welcome to the Auvenir Audit Smarter Platform");
+        validateElementText(eleWelcomeActiveEmail, "Welcome to Auvenir!");
         // Checking content mail
         validateElementText(eleInformActive, "Your account has been validated - when you are ready to audit smarter, click the button below to activate your account.");
         validateElementText(eleFeedbackInform, "We welcome your feedback, ideas and suggestions to make the audit experience better. Send us an email at feedback@auvenir.com.");

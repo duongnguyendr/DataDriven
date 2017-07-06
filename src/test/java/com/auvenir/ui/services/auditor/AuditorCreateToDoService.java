@@ -113,11 +113,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.inputSearchText(inputSearch);
     }
 
-    public void inputSearchNumber(String number){
+    public void inputSearchNumber(String number) {
         createToDoPage.inputSearchText(number);
     }
 
-    public void inputSearchCharacter(String specialChars){
+    public void inputSearchCharacter(String specialChars) {
         createToDoPage.inputSearchText(specialChars);
     }
 
@@ -253,27 +253,13 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyToDoCloseIcon();
     }
 
-    public void verifyColumnsInGrid() {
+    public void verifyColumnsInGrid() throws Exception {
+        createToDoPage.verifyColumnsInGrid();
 
-        try {
-            createToDoPage.verifyColumnsInGrid();
-            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
     }
 
-    public void verifySotleOnTitle() {
-
-        try {
-            createToDoPage.verifySotleOnTitle();
-            NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifySortIconOnTitle() throws Exception {
+        createToDoPage.verifySortIconOnTitle();
     }
 
     public void verifyCheckOnCheckBox() {
@@ -342,7 +328,6 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyCheckBoxToDoName() throws Exception {
-        // bug for check all button so we skip
         createToDoPage.verifyCheckAllCheckboxToDoName();
         createToDoPage.verifyUnCheckAllCheckboxToDoName();
         createToDoPage.verifyCheckMultipleCheckBoxToDoName();
@@ -355,11 +340,6 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyHoverCategoryComboBox() {
         createToDoPage.verifyHoverCategoryComboBox();
     }
-
-//    public void verifyCreateNewCategory() {
-//        getLogger().info("Verify create new Category");
-//        createToDoPage.verifyCreateNewCategory();
-//    }
 
     public void verifyAddNewCategoryPopupTitle() {
         getLogger().info("Verify title of add new category popup");
@@ -389,7 +369,6 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyCheckMaxLength() throws Exception {
         getLogger().info("Verify to check max length");
         createToDoPage.verifyCheckMaxLength();
-//        createToDoPage.verifySearchLimit255();
     }
 
     public void verifyCheckMaxLength_CategoryName() {
@@ -987,7 +966,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyTodosTextBox_AfterClickedAddTodo() throws InterruptedException {
-        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
+//        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
         createToDoPage.verifyTodoTextboxBorder_AfterClickedAddTodo();
 //        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
@@ -1084,11 +1063,17 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyFilterBtn() {
-        createToDoPage.verifyFilterBtn_Position();
+        createToDoPage.verifyFilterBtn_DefaultValue();
+        createToDoPage.verifyFilterBtn_WhileHovered();
+        createToDoPage.clickFilterBtn();
+//        createToDoPage.verifyFilterDropdown();
+
     }
 
-    public void verifyBulkActionBtn() {
-        createToDoPage.verifyBulkActionBtn_Position();
+    public void verifyBulkActionBtn() throws Exception {
+        createToDoPage.verifyBulkActionBtn();
+        createToDoPage.verifyCheckAllCheckboxToDoName();
+        createToDoPage.verifyBulkActionBtn();
     }
 
     public void verifySearchBox_DefaultGUI() {
@@ -1096,7 +1081,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifySearchBorderWhileHover();
     }
 
-    public void verifySearchWhileInput(){
+    public void verifySearchWhileInput() {
         createToDoPage.verifySearchBorderWhileInput();
     }
 
