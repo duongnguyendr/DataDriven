@@ -605,21 +605,6 @@ public class AuditorSignUpPage extends AbstractPage {
             //input memberID
             inputMemberID(strMemberID);
 
-//            waitForVisibleElement(provinceDropdownEle, "Province Dropdown");
-//            clickElement(provinceDropdownEle, "Province Dropdown");
-//            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "true");
-//            clickElement(provinceDdlListItemEle.get(0), "Province Dropdown");
-//            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "false");
-
-//            waitForVisibleElement(eleMemberID, "Member ID Input");
-//            sendKeyTextBox(eleMemberID, strMemberID, "Member ID Input");
-
-//            waitForVisibleElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-//            clickElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-//            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "true");
-//            clickElement(numberEmployeeDdlListItemEle.get(0), "First Item on Number of Employee Dropdown");
-//            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "false");
-
             waitForVisibleElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
             clickElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
             waitForAtrributeValueChanged(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown", "aria-expanded", "true");

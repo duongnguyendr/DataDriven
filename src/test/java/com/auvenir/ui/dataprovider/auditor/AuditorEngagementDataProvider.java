@@ -9,16 +9,15 @@ import org.testng.annotations.DataProvider;
  */
 public class AuditorEngagementDataProvider {
 
-    /*private static String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-    private static String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
-
-    private static String auditorId = "chr.auvenirauditor@gmail.com";
-    private static String auditorPwd = "Changeit@123";
-    private static String engagementName = "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
-    private static String companyName = "Company Auvenir";
+    private static  String engagementName = "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
 
     @DataProvider(name = "verifyFooterAuditorEngagementPage")
     public static Object[][] getVerifyFooterAuditorEngagementPage(){
+        /*String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
+        String auditorId = "chr.auvenirauditor@gmail.com";
+        String auditorPwd = "Changeit@123";
+
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
         if(GenericService.sLanguage.equals("French")){
             arrayData = new Object[][]{
@@ -30,6 +29,11 @@ public class AuditorEngagementDataProvider {
 
     @DataProvider(name = "verifyUINewEngagement")
     public static Object[][] getVerifyUINewEngagement(){
+        /*String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
+        String auditorId = "chr.auvenirauditor@gmail.com";
+        String auditorPwd = "Changeit@123";
+
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName}};
         if(GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
@@ -41,6 +45,11 @@ public class AuditorEngagementDataProvider {
 
     @DataProvider(name = "verifyGUIListEngagement")
     public static Object[][] getVerifyGUIListEngagement(){
+        /*String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
+        String auditorId = "chr.auvenirauditor@gmail.com";
+        String auditorPwd = "Changeit@123";
+
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
         if(GenericService.sLanguage.equals("French")){
             arrayData = new Object[][]{
@@ -52,6 +61,12 @@ public class AuditorEngagementDataProvider {
 
     @DataProvider(name = "verifySearchDataListByName")
     public static Object[][] getVerifySearchDataListByName(){
+        /*String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
+        String auditorId = "chr.auvenirauditor@gmail.com";
+        String auditorPwd = "Changeit@123";
+
+
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName}};
         if(GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
@@ -64,6 +79,11 @@ public class AuditorEngagementDataProvider {
 
     @DataProvider(name = "verifySearchDataListByCompany")
     public static Object[][] getVerifySearchDataListByCompany(){
+        /*String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
+        String auditorId = "chr.auvenirauditor@gmail.com";
+        String auditorPwd = "Changeit@123";
+        String companyName = "Company Auvenir";
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, companyName}};
         if(GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
@@ -75,6 +95,10 @@ public class AuditorEngagementDataProvider {
 
     @DataProvider(name = "verifySearchDataListByFilterSelectBox")
     public static Object[][] getVerifySearchDataListByFilterSelectBox(){
+        /*String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
+        String auditorId = "chr.auvenirauditor@gmail.com";
+        String auditorPwd = "Changeit@123";
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
         if(GenericService.sLanguage.equals("French")){
             arrayData = new Object[][]{
@@ -86,6 +110,11 @@ public class AuditorEngagementDataProvider {
 
     @DataProvider(name = "verifyDataSortByClickOnColumnName")
     public static Object[][] getVerifyDataSortByClickOnColumnName(){
+        /*String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");*/
+        String auditorId = "chr.auvenirauditor@gmail.com";
+        String auditorPwd = "Changeit@123";
+
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
         if(GenericService.sLanguage.equals("French")){
             arrayData = new Object[][]{

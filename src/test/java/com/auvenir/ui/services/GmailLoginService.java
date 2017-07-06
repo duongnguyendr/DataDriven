@@ -64,6 +64,10 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.selectActiveEmaill();
     }
 
+    public void navigateToResetPwdPage(){
+        gmailLoginPo.clickResetPasswordLink();
+    }
+
     public void gmailLogout() throws Exception {
         Thread.sleep(10000);
 
