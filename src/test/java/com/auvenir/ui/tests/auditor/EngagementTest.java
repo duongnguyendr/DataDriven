@@ -14,6 +14,7 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
@@ -25,10 +26,11 @@ public class EngagementTest extends AbstractTest {
     private AuditorNewEngagementService auditorNewEngagementService;
     private MarketingService marketingService;
 
-    @Test(priority = 1, enabled = true, description = "Verify footer in auditor engagements page.", dataProvider = "engagementData", dataProviderClass = AuditorEngagementDataProvider.class, groups = "A")
+    @Test(priority = 1, enabled = true, description = "Verify footer in auditor engagements page.", dataProvider = "verifyFooterAuditorEngagementPage", dataProviderClass = AuditorEngagementDataProvider.class)
     public void verifyFooterAuditorEngagementPage(String auditorId,String auditorPwd) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
+
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -52,12 +54,11 @@ public class EngagementTest extends AbstractTest {
     /**
      * verify UI of New Engagement flow
      */
-    @Test(priority = 2, enabled = true, description = "Verify GUI of new engagement page.", dataProvider = "engagementData", dataProviderClass = AuditorEngagementDataProvider.class, groups = "B")
+    @Test(priority = 2, enabled = true, description = "Verify GUI of new engagement page.", dataProvider = "verifyUINewEngagement", dataProviderClass = AuditorEngagementDataProvider.class)
     public void verifyUINewEngagement(String auditorId,String auditorPwd, String engagementName) {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
-
 
         try {
             //Go to marketing page
@@ -88,8 +89,8 @@ public class EngagementTest extends AbstractTest {
     /**
      * verify UI of List Engagement page
      */
-    @Test(priority = 3, enabled = true, description = "Verify GUI of list engagement page.", dataProvider = "engagementData", dataProviderClass = AuditorEngagementDataProvider.class, groups = "A")
-    public void verifyGUIListEngagement(String auditorId,String auditorPwd) {
+    @Test(priority = 3, enabled = true, description = "Verify GUI of list engagement page.", dataProvider = "verifyGUIListEngagement", dataProviderClass = AuditorEngagementDataProvider.class)
+    public void verifyGUIListEngagement(String auditorId, String auditorPwd) {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
@@ -113,8 +114,9 @@ public class EngagementTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify search data list by name.", dataProvider = "engagementData", dataProviderClass = AuditorEngagementDataProvider.class, groups = "B")
-    public void verifySearchDataListByName(String auditorId,String auditorPwd, String engagementName) {
+
+    @Test(priority = 4, enabled = true, description = "Verify search data list by name.",dataProvider = "verifySearchDataListByName", dataProviderClass = AuditorEngagementDataProvider.class)
+    public void verifySearchDataListByName(String auditorId, String auditorPwd, String engagementName) {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
@@ -140,8 +142,8 @@ public class EngagementTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify search data list by company.", dataProvider = "engagementData", dataProviderClass = AuditorEngagementDataProvider.class, groups = "C")
-    public void verifySearchDataListByCompany(String auditorId,String auditorPwd, String companyName) {
+    @Test(priority = 5, enabled = true, description = "Verify search data list by company.",dataProvider = "verifySearchDataListByCompany", dataProviderClass = AuditorEngagementDataProvider.class)
+    public void verifySearchDataListByCompany(String auditorId, String auditorPwd, String companyName) {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
@@ -167,8 +169,8 @@ public class EngagementTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify search data list by filter select.",dataProvider = "engagementData", dataProviderClass = AuditorEngagementDataProvider.class, groups = "A")
-    public void verifySearchDataListByFilterSelectBox(String auditorId,String auditorPwd) {
+    @Test(priority = 6, enabled = true, description = "Verify search data list by filter select.",dataProvider = "verifySearchDataListByFilterSelectBox", dataProviderClass = AuditorEngagementDataProvider.class)
+    public void verifySearchDataListByFilterSelectBox(String auditorId, String auditorPwd) {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
@@ -229,8 +231,8 @@ public class EngagementTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "Verify data sort by click on column name.",dataProvider = "engagementData", dataProviderClass = AuditorEngagementDataProvider.class, groups = "A")
-    public void verifyDataSortByClickOnColumnName(String auditorId,String auditorPwd) {
+    @Test(priority = 7, enabled = true, description = "Verify data sort by click on column name.",dataProvider = "verifyDataSortByClickOnColumnName", dataProviderClass = AuditorEngagementDataProvider.class)
+    public void verifyDataSortByClickOnColumnName(String auditorId, String auditorPwd) {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
