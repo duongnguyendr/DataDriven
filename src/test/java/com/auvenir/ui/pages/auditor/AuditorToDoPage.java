@@ -138,18 +138,35 @@ public class AuditorToDoPage extends AbstractPage {
         validateAttributeContain(dp.getAEnableDate(String.valueOf(date)), "class", "ui-state-active", "Current Due Date");
     }
 
-    public void verifyDisableDateAfterDueDate(int dueDate) {
+    public void verifyDisableDateAfterDueDate(String engagementDueDate) {
+        String todoDueDate = getText(dueDateOnTodoDetail);
         DatePicker dp = new DatePicker(getDriver());
         int maxDate = dp.getDates();
-        int loopDate = dueDate + 1;
-        while (loopDate <= maxDate) {
-            validateAttributeContain(dp.getADateParent(String.valueOf(loopDate)), "class", "ui-datepicker-unselectable ui-state-disabled", "Disable date: " + loopDate);
-            loopDate++;
+        if ((getDueDateYear(engagementDueDate) == getDueDateYear(todoDueDate)) && (getDueDateMonth(engagementDueDate) == getDueDateMonth(todoDueDate))) {
+            int loopDate = getDueDateDate(engagementDueDate) + 1;
+            while (loopDate <= maxDate) {
+                validateAttributeContain(dp.getADateParent(String.valueOf(loopDate)), "class", "ui-datepicker-unselectable ui-state-disabled", "Disable date: " + loopDate);
+                loopDate++;
+            }
+        } else{
+            NXGReports.addStep("Not automate for engagement month not equal todo month.", LogAs.PASSED, null);
         }
     }
 
-    public int getEngagementDueDate() {
-        return Integer.parseInt(getText(engagementDueDate).split("/")[1]);
+    public String getEngagementDueDate() {
+        return getText(engagementDueDate);
+    }
+
+    public int getDueDateDate(String dueDateString) {
+        return Integer.parseInt(dueDateString.split("/")[1]);
+    }
+
+    public int getDueDateMonth(String dueDateString) {
+        return Integer.parseInt(dueDateString.split("/")[0]);
+    }
+
+    public int getDueDateYear(String dueDateString) {
+        return Integer.parseInt(dueDateString.split("/")[2]);
     }
 
     public int getValidDateHasIndex(int validDateIndex) {

@@ -64,12 +64,12 @@ public class AuditorToDoService extends AbstractService {
         toDoPage.verifyDueDateFocusing();
     }
 
-    public int getEngagementDueDate() {
+    public String getEngagementDueDate() {
         return toDoPage.getEngagementDueDate();
     }
 
-    public void verifyDisableDateAfterDueDate(int dueDate) {
-        toDoPage.verifyDisableDateAfterDueDate(dueDate);
+    public void verifyDisableDateAfterDueDate(String engagementDueDate) {
+        toDoPage.verifyDisableDateAfterDueDate(engagementDueDate);
     }
 
     public void openDatePickerOnTodoDetail() {
