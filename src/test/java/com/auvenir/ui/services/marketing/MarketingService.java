@@ -209,6 +209,14 @@ Vien.Pham added login With New User Role
         openLoginDialog();
     }
 
+    public void selectForgotPwd(){
+        marketingPage.clickOnForgotPasswordLink();
+    }
+
+    public void verifyResetPasswordTitle(){
+        marketingPage.verifyResetPasswordPageTitle();
+    }
+
     public void loginWithUserPwd(String username, String pwd) {
         loginWithUserNamePassword(username, pwd);
     }
@@ -236,4 +244,16 @@ Vien.Pham added login With New User Role
         marketingPage.fillUpAndConfirmPassword(password);
     }
     /*-----------end of huy.huynh on 29/06/2017.*/
+
+    public void inputFistNewPassword(String newPwd) throws InterruptedException {
+        marketingPage.inputFirstNewPwd(newPwd);
+    }
+
+    public void verifyInvalidPwdWarning(){
+        marketingPage.verifyPassword();
+    }
+
+    public void verifyValidPwd(){
+        marketingPage.verifyPassword();
+    }
 }
