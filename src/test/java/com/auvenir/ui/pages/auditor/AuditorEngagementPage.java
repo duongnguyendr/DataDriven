@@ -9,7 +9,6 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,6 +16,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.testng.Assert;
 
 //import com.auvenir.ui.pages.marketing.engagement.BaseEngagementPO;
 
@@ -261,7 +261,7 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(id = "dashboardUsername")
     private WebElement dashboardUsername;
 
-    @FindBy(id = "h-ddl-item-settings")
+    @FindBy(xpath = "//div[@id='h-ddl-item-settings']/a")
     private WebElement dashboardSettings;
 
     @FindBy(id = "h-ddl-signOut")
@@ -288,7 +288,7 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='item'][text()='Review']")
     private WebElement optionTypeOfEngagementReview;
 
-    @FindBy(xpath = "//div[@class='item'][text()='Notice to reader / Compilation']")
+    @FindBy(xpath = "//div[@class='item'][text()='Notice to Reader / Compilation']")
     private WebElement optionTypeOfEngagementNoticeToReaderCompilation;
 
     @FindBy(xpath = "//div[@class='item'][text()='Other']")
@@ -335,6 +335,12 @@ public class AuditorEngagementPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@id='preview-footer']//a[@href][3]")
     private WebElement titleCookieNotice;
+
+    @FindBy(xpath = "//td[@class='engagement-name']/a")
+    private List<WebElement> eleEngagementNameList;
+
+    @FindBy(xpath = "//tbody[@id='engagement-tbody']/tr/td[1]")
+    private List<WebElement> eleEngagementCompanyList;
 
     /**
      * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/21 - Start
@@ -435,6 +441,61 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(id = "")
     private WebElement eleTabContacts;
     public WebElement getEleTabContacts() { return  eleTabContacts; }
+
+
+    @FindBy(xpath = "//th[@id='company-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleCompanyIconSortDown;
+
+    @FindBy(xpath = "//th[@id='company-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleCompanyIconSortUp;
+
+    @FindBy(xpath = "//th[@id='engagement-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementNameIconSortDown;
+
+    @FindBy(xpath = "//th[@id='engagement-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementNameIconSortUp;
+
+    @FindBy(xpath = "//th[@id='status-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementStatusIconSortDown;
+
+    @FindBy(xpath = "//th[@id='status-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementStatusIconSortUp;
+
+    @FindBy(xpath = "//th[@id='audit-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementAuditIconSortDown;
+
+    @FindBy(xpath = "//th[@id='audit-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementAuditIconSortUp;
+
+    @FindBy(xpath = "//th[@id='todo-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementToDoIconSortDown;
+
+    @FindBy(xpath = "//th[@id='todo-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementToDoIconSortUp;
+
+    @FindBy(xpath = "//th[@id='client-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementClientIconSortDown;
+
+    @FindBy(xpath = "//th[@id='client-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementClientIconSortUp;
+
+    @FindBy(xpath = "//th[@id='docs-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementDocIconSortDown;
+
+    @FindBy(xpath = "//th[@id='docs-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementDocIconSortUp;
+
+    @FindBy(xpath = "//th[@id='activity-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementActivityIconSortDown;
+
+    @FindBy(xpath = "//th[@id='activity-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementActivityIconSortUp;
+
+    @FindBy(xpath = "//th[@id='duedate-sort']/i[@class='auvicon-sort-down']")
+    private WebElement eleEngagementDueDateIconSortDown;
+
+    @FindBy(xpath = "//th[@id='duedate-sort']/i[@class='auvicon-sort-up']")
+    private WebElement eleEngagementDueDateIconSortUp;
 
     public void auditorPageHeaderContent() {
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
@@ -674,7 +735,7 @@ public class AuditorEngagementPage extends AbstractPage {
             validateElementText(titlePreviewHeader, "All Engagements");
             validateElementText(newEngagementButtonEle, "New Engagement");
 
-            validateElementText(selectEngagementFilters, "Filters");
+            validateElementText(selectEngagementFilters, "Filter");
             clickElement(selectEngagementFilters, "Select Engagement Filters");
             validateElementText(optionFilterAll, "All");
             validateElementText(optionFilterTypeOfEngagement, "Type of Engagement");
@@ -683,7 +744,7 @@ public class AuditorEngagementPage extends AbstractPage {
             validateElementsQuantity(listOptionTypeOfEngagement, 4, "List Option Type Of Engagement");
             validateElementText(optionTypeOfEngagementFinancialAudit, "Financial Audit");
             validateElementText(optionTypeOfEngagementReview, "Review");
-            validateElementText(optionTypeOfEngagementNoticeToReaderCompilation, "Notice to reader / Compilation");
+            validateElementText(optionTypeOfEngagementNoticeToReaderCompilation, "Notice to Reader / Compilation");
             validateElementText(optionTypeOfEngagementOther, "Other");
             validatePlaceholder(inputEngagementSearch, "Search...", "Input Engagement Search");
             clickElement(inputEngagementSearch, "Input Engagement Search");
@@ -1445,4 +1506,406 @@ public class AuditorEngagementPage extends AbstractPage {
      * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
      *
      **/
+
+    private boolean checkEngagementNameSearchIsExist(String engagementName){
+        int total = eleEngagementNameList.size();
+        for(int i=0; i<total; i++){
+            if(eleEngagementNameList.get(i).getText().trim().equals((engagementName))){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean checkEngagementCompanySearchIsExist(String engagementCompany){
+        int total = eleEngagementCompanyList.size();
+        for(int i=0; i<total; i++){
+            if(eleEngagementCompanyList.get(i).getText().trim().equals((engagementCompany))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void searchEngagementListByName(String engagementName){
+        try {
+            waitForVisibleElement(eleSearch, "search text box");
+            sendKeyTextBox(eleSearch,engagementName, "engagement name search");
+            waitSomeSeconds(5);
+            NXGReports.addStep("Search engagement list by engagement name", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Search engagement list by engagement name", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void verifyDataSearchByEngagementName(String engagementName) {
+        try {
+            boolean result;
+            result = this.checkEngagementNameSearchIsExist(engagementName);
+            org.testng.Assert.assertTrue(result, "engagement data has contain engagement name");
+            NXGReports.addStep("Verify data search by engagement name", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify data search by engagement name", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void searchEngagementListByCompany(String engagementCompany){
+        try {
+            waitForVisibleElement(eleSearch, "search text box");
+            sendKeyTextBox(eleSearch,engagementCompany, "engagement company search");
+            NXGReports.addStep("Search engagement list by engagement company", LogAs.PASSED, null);
+            waitSomeSeconds(5);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Search engagement list by engagement company", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void verifyDataSearchByEngagementCompany(String engagementCompany) {
+        try {
+            boolean result;
+            result = this.checkEngagementCompanySearchIsExist(engagementCompany);
+            Assert.assertTrue(result, "engagement data has contain engagement company");
+            NXGReports.addStep("Verify data search by engagement company", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify data search by engagement company", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnEngagementFilter(){
+        try {
+            waitForVisibleElement(selectEngagementFilters, "engagement filter");
+            clickElement(selectEngagementFilters, "Select Engagement Filters");
+            NXGReports.addStep("Click on engagement filters", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on engagement filters", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnEngagementFilterAll(){
+        try {
+            waitForVisibleElement(optionFilterAll, "engagement filter all");
+            clickElement(optionFilterAll, "Select engagement filter all");
+            waitSomeSeconds(5);
+            NXGReports.addStep("Click on engagement filter all", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on engagement filter all", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnTypeOfEngagement(){
+        try {
+            waitForVisibleElement(optionFilterTypeOfEngagement, "type of engagement");
+            clickElement(optionFilterTypeOfEngagement, "Select type of engagement");
+            NXGReports.addStep("Click on type of engagement", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on type of engagement", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnEngagementFinancialAudit(){
+        try {
+            waitForVisibleElement(optionTypeOfEngagementFinancialAudit, "engagement financial audit");
+            clickElement(optionTypeOfEngagementFinancialAudit, "Select engagement financial audit");
+            waitSomeSeconds(5);
+            NXGReports.addStep("Click on engagement financial audit", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on engagement financial audit", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnEngagementReview(){
+        try {
+            waitForVisibleElement(optionTypeOfEngagementReview, "engagement review");
+            clickElement(optionTypeOfEngagementReview, "Select engagement review");
+            waitSomeSeconds(5);
+            NXGReports.addStep("Click on engagement review", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on engagement review", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnEngagementNotice(){
+        try {
+            waitForVisibleElement(optionTypeOfEngagementNoticeToReaderCompilation, "engagement notice");
+            clickElement(optionTypeOfEngagementNoticeToReaderCompilation, "Select engagement notice");
+            waitSomeSeconds(5);
+            NXGReports.addStep("Click on engagement notice", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on engagement notice", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnEngagementOther(){
+        try {
+            waitForVisibleElement(optionTypeOfEngagementOther, "engagement other");
+            clickElement(optionTypeOfEngagementOther, "Select engagement other");
+            waitSomeSeconds(5);
+            NXGReports.addStep("Click on engagement other", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on engagement other", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void clickOnIconSortDown(WebElement webElement, String columnName){
+        try {
+            waitForVisibleElement(webElement, columnName + " column ");
+            clickElement(webElement, "Select " + columnName + " icon sort down");
+            waitSomeSeconds(5);
+            NXGReports.addStep("Click on "+ columnName +" icon sort down", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click on "+ columnName +" icon sort down", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void verifyDataListIsSortAscending(List<WebElement> webElementList, String columnName, boolean isCompleteData){
+        try {
+            int count = webElementList.size();
+            String[] expectedArray = new String[webElementList.size()];
+            for(int i = 0; i < count; i++){
+                if(!isCompleteData){
+                    expectedArray[i] = webElementList.get(i).getText().trim();
+                }else{
+                    expectedArray[i] = webElementList.get(i).getText().trim().split("%")[0];
+                }
+
+            }
+
+
+            for (int i = 0; i < count - 1; i++) {
+                for(int j= i +1; j< count; j++){
+                    if(expectedArray[i].compareTo(expectedArray[j]) >0){
+                        AbstractService.sStatusCnt++;
+                        NXGReports.addStep("Data list of "+ columnName +" is sort ascending", LogAs.FAILED,
+                                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),"Data list are not sort ascending");
+                        return;
+                    }
+                }
+            }
+            NXGReports.addStep("Data list of  "+ columnName +" is sort ascending", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Data list of "+ columnName +" is sort ascending", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    public void verifyDataListIsSortDescending(List<WebElement> webElementList, String columnName, boolean isCompleteData){
+        try {
+            int count = webElementList.size();
+            String[] expectedArray = new String[webElementList.size()];
+            for(int i = 0; i < count; i++){
+                if(!isCompleteData){
+                    expectedArray[i] = webElementList.get(i).getText().trim();
+                }else{
+                    expectedArray[i] = webElementList.get(i).getText().trim().split("%")[0];
+                }
+
+            }
+
+            for (int i = 0; i < count - 1; i++) {
+                for(int j= i +1; j< count; j++){
+                    if(expectedArray[i].compareTo(expectedArray[j]) < 0){
+                        AbstractService.sStatusCnt++;
+                        NXGReports.addStep("Data list of "+ columnName +" is sort descending", LogAs.FAILED,
+                                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),"Data list are not sort descending");
+                        return;
+                    }
+                }
+            }
+            NXGReports.addStep("Data list of  "+ columnName +" is sort descending", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Data list of "+ columnName +" is sort descending", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    public void clickOnCompanyIconSortDown(){
+        this.clickOnIconSortDown(eleCompanyIconSortDown, "company");
+    }
+
+    public void clickOnCompanyIconSortUp(){
+        this.clickOnIconSortDown(eleCompanyIconSortUp, "company");
+    }
+
+    public void verifyCompanyDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listCompanyEle, "company", false);
+    }
+
+    public void verifyCompanyDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listCompanyEle, "company", false);
+    }
+    ///////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementNameIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementNameIconSortDown, "engagement name");
+    }
+
+    public void clickOnEngagementNameIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementNameIconSortUp, "engagement name");
+    }
+
+    public void verifyEngagementNameDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementNameEle, "engagement name", false);
+    }
+
+    public void verifyEngagementNameDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementNameEle, "engagement name",false);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementStatusIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementStatusIconSortDown, "engagement status");
+    }
+
+    public void clickOnEngagementStatusIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementStatusIconSortUp, "engagement status");
+    }
+
+    public void verifyEngagementStatusDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementStatusEle, "engagement status", false);
+    }
+
+    public void verifyEngagementStatusDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementStatusEle, "engagement status",false);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementAuditIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementAuditIconSortDown, "engagement audit");
+    }
+
+    public void clickOnEngagementAuditIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementAuditIconSortUp, "engagement audit");
+    }
+
+    public void verifyEngagementAuditDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementAssigneeEle, "engagement audit", false);
+    }
+
+    public void verifyEngagementAuditDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementAssigneeEle, "engagement audit",false);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementToDoIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementToDoIconSortDown, "engagement todo");
+    }
+
+    public void clickOnEngagementToDoIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementToDoIconSortUp, "engagement todo");
+    }
+
+    public void verifyEngagementToDoDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementCompleteToDosEle, "engagement todo", true);
+    }
+
+    public void verifyEngagementToDoDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementCompleteToDosEle, "engagement todo", true);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementClientIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementClientIconSortDown, "engagement client");
+    }
+
+    public void clickOnEngagementClientIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementClientIconSortUp, "engagement client");
+    }
+
+    public void verifyEngagementClientDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementClientAssigneeEle, "engagement client", false);
+    }
+
+    public void verifyEngagementClientDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementClientAssigneeEle, "engagement client", false);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementDocIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementDocIconSortDown, "engagement doc");
+    }
+
+    public void clickOnEngagementDocIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementDocIconSortUp, "engagement doc");
+    }
+
+    public void verifyEngagementDocDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementCompleteDocsEle, "engagement doc", true);
+    }
+
+    public void verifyEngagementDocDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementCompleteDocsEle, "engagement doc", true);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementActivityIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementActivityIconSortDown, "engagement activity");
+    }
+
+    public void clickOnEngagementActivityIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementActivityIconSortUp, "engagement activity");
+    }
+
+    public void verifyEngagementActivityDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementLastActivityEle, "engagement activity", false);
+    }
+
+    public void verifyEngagementActivityDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementLastActivityEle, "engagement activity", false);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    public void clickOnEngagementDueDateIconSortDown(){
+        this.clickOnIconSortDown(eleEngagementDueDateIconSortDown, "engagement due date");
+    }
+
+    public void clickOnEngagementDueDateIconSortUp(){
+        this.clickOnIconSortDown(eleEngagementDueDateIconSortUp, "engagement due date");
+    }
+
+    public void verifyEngagementDueDateDataListSortAscending(){
+        this.verifyDataListIsSortAscending(listEngagementDueDateEle, "engagement due date", false);
+    }
+
+    public void verifyEngagementDueDateDataListSortDescending(){
+        this.verifyDataListIsSortDescending(listEngagementDueDateEle, "engagement due date", false);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
 }

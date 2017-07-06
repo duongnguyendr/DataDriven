@@ -70,7 +70,7 @@ public class AbstractTest {
 
     @BeforeSuite
     public void setConfig() {
-        System.out.println("AAAAAAA");
+        //System.out.println("AAAAAAA");
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
@@ -127,7 +127,9 @@ public class AbstractTest {
                     System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
                     driver = new EdgeDriver();
                     GenericService.sBrowserData = "edge.";
-                }if (browser.equalsIgnoreCase("internet explorer")){
+                }
+
+                if (browser.equalsIgnoreCase("internet explorer")){
                     GenericService.sBrowserTestNameList.add("IE_");
                 }else {
                     GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
@@ -181,6 +183,7 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
+
                 if (browser.equalsIgnoreCase("internet explorer")){
                     GenericService.sBrowserTestNameList.add("IE_");
                 }else {

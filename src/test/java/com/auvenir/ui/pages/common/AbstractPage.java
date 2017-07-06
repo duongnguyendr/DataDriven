@@ -98,19 +98,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//a[@href='/terms']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(xpath = "//a[@href='/privacy']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(xpath = "//a[@href='/cookies']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -304,6 +304,7 @@ public class AbstractPage {
         try {
             getLogger().info("Verify Terms of service link.");
             boolean isCheckTermOfService = false;
+            hoverElement(eleTermsOfServiceLnk, "hover terms of service link");
             clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
             getLogger().info("verify texts are rendered.");
             switchToOtherTab(1);

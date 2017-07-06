@@ -44,7 +44,8 @@ public class AuditorNewEngagementService extends AbstractService {
 
     public void verifyUINewEngagementSetUp(String name) {
         auditorNewEngagementPage.verifyUINewEngagementHeaderSetUp();
-        auditorNewEngagementPage.verifyUINewEngagementBodySetUp(name);
+        //auditorNewEngagementPage.verifyUINewEngagementBodySetUp(name);
+        auditorNewEngagementPage.insertDataForNewEngagementPage(name,"","Company Auvenir");
         auditorNewEngagementPage.verifyUINewEngagementFooterSetup();
     }
 
