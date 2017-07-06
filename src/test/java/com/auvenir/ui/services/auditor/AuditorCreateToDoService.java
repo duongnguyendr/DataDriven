@@ -113,11 +113,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.inputSearchText(inputSearch);
     }
 
-    public void inputSearchNumber(String number){
+    public void inputSearchNumber(String number) {
         createToDoPage.inputSearchText(number);
     }
 
-    public void inputSearchCharacter(String specialChars){
+    public void inputSearchCharacter(String specialChars) {
         createToDoPage.inputSearchText(specialChars);
     }
 
@@ -254,12 +254,12 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyColumnsInGrid() throws Exception {
-            createToDoPage.verifyColumnsInGrid();
+        createToDoPage.verifyColumnsInGrid();
 
     }
 
     public void verifySortIconOnTitle() throws Exception {
-            createToDoPage.verifySortIconOnTitle();
+        createToDoPage.verifySortIconOnTitle();
     }
 
     public void verifyCheckOnCheckBox() {
@@ -966,7 +966,7 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyTodosTextBox_AfterClickedAddTodo() throws InterruptedException {
-        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
+//        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
         createToDoPage.verifyTodoTextboxBorder_AfterClickedAddTodo();
 //        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
@@ -1063,11 +1063,17 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyFilterBtn() {
-        createToDoPage.verifyFilterBtn_Position();
+        createToDoPage.verifyFilterBtn_DefaultValue();
+        createToDoPage.verifyFilterBtn_WhileHovered();
+        createToDoPage.clickFilterBtn();
+//        createToDoPage.verifyFilterDropdown();
+
     }
 
-    public void verifyBulkActionBtn() {
-        createToDoPage.verifyBulkActionBtn_Position();
+    public void verifyBulkActionBtn() throws Exception {
+        createToDoPage.verifyBulkActionBtn();
+        createToDoPage.verifyCheckAllCheckboxToDoName();
+        createToDoPage.verifyBulkActionBtn();
     }
 
     public void verifySearchBox_DefaultGUI() {
@@ -1075,7 +1081,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifySearchBorderWhileHover();
     }
 
-    public void verifySearchWhileInput(){
+    public void verifySearchWhileInput() {
         createToDoPage.verifySearchBorderWhileInput();
     }
 

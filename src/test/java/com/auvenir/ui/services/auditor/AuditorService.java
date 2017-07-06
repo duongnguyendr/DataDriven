@@ -2,7 +2,7 @@ package com.auvenir.ui.services.auditor;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.EngagementRequestPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
+import com.auvenir.ui.pages.admin.AdminPage;
 import com.auvenir.ui.pages.auditor.*;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class AuditorService extends AbstractService {
     AuvenirPage auvenirPage;
     AuditorOnBoardingPage auditorOnBoardingPage;
-    AdminLoginPage adminLoginPage;
+    AdminPage adminPage;
     AuditorDashboardPage auditorDashboardPage;
     EngagementRequestPage engagementRequestPage;
     EngagementFilesPage engagementFilesPage;
@@ -38,7 +38,7 @@ public class AuditorService extends AbstractService {
         super(logger, driver);
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(), getDriver());
-        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        adminPage = new AdminPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
         engagementRequestPage = new EngagementRequestPage(getLogger(), getDriver());
         engagementFilesPage = new EngagementFilesPage(getLogger(), getDriver());
@@ -131,11 +131,11 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyAdminLoginPage() {
-        adminLoginPage.verifyAdminLoginPage();
+        adminPage.verifyHeaderAdminPage();
     }
 
     public void verifyChangeActiveStatus(String userType, String email, String dateCreated) throws InterruptedException {
-        adminLoginPage.getEleChangeActiveStatus(userType, email, dateCreated);
+        adminPage.getEleChangeActiveStatus(userType, email, dateCreated);
     }
 
     public void verifyheaderPage() {
@@ -207,7 +207,7 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyDisplayElementInDeActivePage() {
-        adminLoginPage.verifyDisplayElementInDeActivePage();
+        adminPage.verifyDisplayElementInDeActivePage();
     }
 
     public void navigateToAuditorAccountSetting() {
