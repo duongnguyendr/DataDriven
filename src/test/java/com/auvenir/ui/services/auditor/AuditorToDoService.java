@@ -107,5 +107,9 @@ public class AuditorToDoService extends AbstractService {
     public void inputToDueDate(String value) {
         toDoPage.inputToDueDate(value);
     }
+
+    public void resetEngagementDueDateToNextMonth(String todoName) {
+        toDoPage.resetEngagementDueDateToNextMonth(todoName);
+    }
     /*-----------end of huy.huynh on 28/06/2017.*/
 }

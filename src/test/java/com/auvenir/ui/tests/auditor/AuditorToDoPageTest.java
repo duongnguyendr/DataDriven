@@ -704,7 +704,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 20, enabled = true, description = "Verify date picker previous month icon.", testName = "dp_9")
+    @Test(priority = 19, enabled = true, description = "Verify date picker previous month icon.", testName = "dp_9")
     public void verifyDueDateOnToDoDetailsDatePickerPreviousMonthIcon() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -725,6 +725,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorToDoService.resetEngagementDueDateToNextMonth(todoName);
             auditorToDoService.openPopupTodoDetail(todoName);
             auditorToDoService.openDatePickerOnTodoDetail();
 
@@ -744,7 +745,7 @@ public class AuditorToDoPageTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 19, enabled = true, description = "Verify date picker next month icon.", testName = "dp_10")
+    @Test(priority = 20, enabled = true, description = "Verify date picker next month icon.", testName = "dp_10")
     public void verifyDueDateOnToDoDetailsDatePickerNextMonthIcon() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -765,6 +766,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             auditorCreateToDoService.createNewToDoTask(todoName);
+            auditorToDoService.resetEngagementDueDateToNextMonth(todoName);
             auditorToDoService.openPopupTodoDetail(todoName);
             auditorToDoService.openDatePickerOnTodoDetail();
 

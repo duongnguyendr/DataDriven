@@ -148,7 +148,7 @@ public class AuditorToDoPage extends AbstractPage {
                 validateAttributeContain(dp.getADateParent(String.valueOf(loopDate)), "class", "ui-datepicker-unselectable ui-state-disabled", "Disable date: " + loopDate);
                 loopDate++;
             }
-        } else{
+        } else {
             NXGReports.addStep("Not automate for engagement month not equal todo month.", LogAs.PASSED, null);
         }
     }
@@ -251,6 +251,19 @@ public class AuditorToDoPage extends AbstractPage {
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Fail: Value changed -> Due Date On Todo Detail can input.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void resetEngagementDueDateToNextMonth(String todoName) {
+        try {
+            if (getDueDateMonth(getEngagementDueDate()) == getDueDateMonth(getToDoDueDateOnRow(todoName))) {
+                clickElement(engagementDueDate);
+                DatePicker dp = new DatePicker(getDriver());
+                dp.clickNextButton();
+                dp.selectSecondValidDate();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
