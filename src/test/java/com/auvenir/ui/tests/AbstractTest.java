@@ -182,7 +182,11 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
-                GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
+                if (browser.equalsIgnoreCase("internet explorer")){
+                    GenericService.sBrowserTestNameList.add("IE_");
+                }else {
+                    GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
+                }
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
