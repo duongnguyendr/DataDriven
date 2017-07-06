@@ -14,7 +14,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import java.security.cert.X509Certificate;
 import java.util.List;
 
 /**
@@ -647,7 +646,7 @@ public class AuditorSignUpPage extends AbstractPage {
 //            getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
-            Thread.sleep(5000);
+            Thread.sleep(10000);
 
         } catch (AssertionError e) {
             getLogger().info(e);
