@@ -13,6 +13,9 @@
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <methods>
+                <include priority="1" name="verifyAdminLogin"></include>
+            </methods>
             <!--<methods>-->
                 <!--<include priority="1" name="verifyAdminLogin"></include>-->
                 <!--<include priority="2" name="verifyCategoryComboBox"></include>-->
@@ -80,6 +83,9 @@
         <parameter name="os" value="MAC"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <methods>
+                <include priority="1" name="verifyAdminLogin"></include>
+            </methods>
             <!--<methods>
                 <include priority="1" name="verifyAdminLogin"></include>
                 <include priority="11" name="verifyAuditorCreateTodoPage"></include>
