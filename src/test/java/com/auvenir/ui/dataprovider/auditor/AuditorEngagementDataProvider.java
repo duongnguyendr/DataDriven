@@ -19,53 +19,80 @@ public class AuditorEngagementDataProvider {
 
     @DataProvider(name = "verifyFooterAuditorEngagementPage")
     public static Object[][] getVerifyFooterAuditorEngagementPage(){
-         return new Object[][]{
-                    {auditorId, auditorPwd}
-         };
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
+        if(GenericService.sLanguage.equals("French")){
+            arrayData = new Object[][]{
+                        {auditorId, auditorPwd}
+            };
+        }
+        return arrayData;
     }
 
     @DataProvider(name = "verifyUINewEngagement")
     public static Object[][] getVerifyUINewEngagement(){
-        return new Object[][]{
-                {auditorId, auditorPwd, engagementName}
-        };
-
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName}};
+        if(GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                        {auditorId, auditorPwd, engagementName}
+            };
+        }
+        return  arrayData;
     }
 
     @DataProvider(name = "verifyGUIListEngagement")
     public static Object[][] getVerifyGUIListEngagement(){
-        return new Object[][]{
-                {auditorId, auditorPwd}
-        };
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
+        if(GenericService.sLanguage.equals("French")){
+            arrayData = new Object[][]{
+                    {auditorId, auditorPwd}
+            };
+        }
+        return arrayData;
     }
 
     @DataProvider(name = "verifySearchDataListByName")
     public static Object[][] getVerifySearchDataListByName(){
-        return new Object[][]{
-                {auditorId, auditorPwd, engagementName}
-        };
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName}};
+        if(GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {auditorId, auditorPwd, engagementName}
+            };
+        }
+        return  arrayData;
 
     }
 
     @DataProvider(name = "verifySearchDataListByCompany")
-    public static Object[][] getEngagementDataGroupC(){
-        return new Object[][]{
-                {auditorId, auditorPwd, companyName}
-        };
+    public static Object[][] getVerifySearchDataListByCompany(){
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, companyName}};
+        if(GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {auditorId, auditorPwd, companyName}
+            };
+        }
+        return arrayData;
     }
 
     @DataProvider(name = "verifySearchDataListByFilterSelectBox")
     public static Object[][] getVerifySearchDataListByFilterSelectBox(){
-        return new Object[][]{
-                {auditorId, auditorPwd}
-        };
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
+        if(GenericService.sLanguage.equals("French")){
+            arrayData = new Object[][]{
+                    {auditorId, auditorPwd}
+            };
+        }
+        return arrayData;
     }
 
     @DataProvider(name = "verifyDataSortByClickOnColumnName")
     public static Object[][] getVerifyDataSortByClickOnColumnName(){
-        return new Object[][]{
-                {auditorId, auditorPwd}
-        };
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd}};
+        if(GenericService.sLanguage.equals("French")){
+            arrayData = new Object[][]{
+                    {auditorId, auditorPwd}
+            };
+        }
+        return arrayData;
     }
 
 }
