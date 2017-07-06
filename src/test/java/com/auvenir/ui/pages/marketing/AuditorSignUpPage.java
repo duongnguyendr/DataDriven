@@ -908,7 +908,7 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
             waitForJSandJQueryToLoad();
             clickElement(createAccountBtnEle, "Create Account button");
-
+            waitSomeSeconds(5);
             // Verify Register Auditor Security Page is passed
 //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
 //            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
