@@ -636,15 +636,15 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleAffFirm, strAffName, "Affiliated Firm's Name Input");
 
             scrollToFooter();
-            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
-            System.out.println("iframes: " + iframes.size());
-            getDriver().switchTo().frame(0);
+//            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
+//            System.out.println("iframes: " + iframes.size());
+//            getDriver().switchTo().frame(0);
 
-            clickElement(capcharCheckBoxEle, "Capchar Text Box");
-            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
-            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
+//            clickElement(capcharCheckBoxEle, "Capchar Text Box");
+//            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
+//            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
 
-            getDriver().switchTo().defaultContent();
+//            getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
             Thread.sleep(5000);
@@ -1429,10 +1429,10 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     public void verifyValidMemberID(String value) {
-        String borderColor = "rgba(34, 36, 38, 0.15)";
+        String border = "1px solid rgba(34, 36, 38, 0.15)";
         try {
             clickElement(eleCity, "City ele");
-            Boolean isCheck = waitForCssValueChanged(eleMemberID, "memberID ele", "border-color", borderColor);
+            Boolean isCheck = waitForCssValueChanged(eleMemberID, "memberID ele", "border", border);
             if (isCheck) {
                 System.out.println("Value " + value + " is valid");
                 NXGReports.addStep("Verify enter valid memberID into Member ID: passed", LogAs.PASSED, null);
