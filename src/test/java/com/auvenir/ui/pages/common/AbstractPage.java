@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class AbstractPage {
     private Logger logger = null;
     private WebDriver driver = null;
-    public static final int waitTime = 5;
+    public static final int waitTime = 30;
     public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
@@ -98,19 +98,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//a[@href='/terms']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(xpath = "//a[@href='/privacy']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(xpath = "//a[@href='/cookies']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -304,6 +304,7 @@ public class AbstractPage {
         try {
             getLogger().info("Verify Terms of service link.");
             boolean isCheckTermOfService = false;
+            hoverElement(eleTermsOfServiceLnk, "hover terms of service link");
             clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
             getLogger().info("verify texts are rendered.");
             switchToOtherTab(1);
@@ -573,7 +574,7 @@ public class AbstractPage {
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Element: " + elementName + "is not visible.");
+            getLogger().info(e);
             //NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
             return false;
@@ -1923,7 +1924,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);

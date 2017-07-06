@@ -204,9 +204,9 @@ public class AbstractService {
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
-            driver.get(baseUrl);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
+            driver.get(baseUrl);
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
             if (sLanguage == null) {
@@ -217,6 +217,7 @@ public class AbstractService {
                 getLogger().info("Language is : " + baseLanguage);
                 marketingPage.clickOnChangeLanguageBTN();
             }
+            GenericService.sLanguage = sLanguage;
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;

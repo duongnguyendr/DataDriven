@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1047,7 +1048,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "id('todo-table')/tbody/tr")
     List<WebElement> trTodoTable;
-
 
 
     public void checkSearchData(String inputSearch) {
@@ -3768,9 +3768,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyTodoTextboxBorder_AfterClickedAddTodo() {
         WebElement textbox1 = TodosTextboxEle.get(0);
         getLogger().info("Verifying border of todo Textbox is Green after clicked add Todo...");
-        String GreenBorder = "rgb(92, 155, 160)";
+        String WhiteBorder = "rgb(255, 255, 255)";
         try {
-            validateCssValueElement(textbox1, "border-color", GreenBorder);
+            validateCssValueElement(textbox1, "border-color", WhiteBorder);
             NXGReports.addStep("border is Green after clicked add Todo", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4176,15 +4176,88 @@ public class AuditorCreateToDoPage extends AbstractPage {
             validateCssValueElement(createToDoBtnEle, "color", White_Text);
             NXGReports.addStep("Default value of Create Todo Btn.", LogAs.PASSED, null);
         } catch (Exception e) {
+            e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Default value of Create Todo Btn.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyFilterBtn_Position() {
+    @FindBy(id = "todo-filter-dropdown")
+    WebElement filterBtn;
+
+    public void verifyFilterBtn_DefaultValue() {
+        String defaultValue = "Filter";
+        try {
+            getLogger().info("Verifying default text of Filter Btn..");
+            String value = filterBtn.getText();
+            System.out.println("Default Filter Btn is: " + value);
+            if (value.equals(defaultValue)) {
+                NXGReports.addStep("Verify default Filter Btn: Pass.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify default Filter Btn: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify default Filter Btn: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyBulkActionBtn_Position() {
+    public void verifyFilterBtn_WhileHovered() {
+        String GreenBorder = "rgb(92, 155, 160)";
+        try {
+            hoverElement(filterBtn, "Filter Btn");
+            boolean isCheck = validateCssValueElement(filterBtn, "border-color", GreenBorder);
+            if (isCheck) {
+                NXGReports.addStep("Verify border of Filter Btn while hovered: Pass.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void clickFilterBtn() {
+        try {
+            clickElement(filterBtn, "Filter Btn");
+            NXGReports.addStep("Filter btn is clickable: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Can not click Filter Btn", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @FindBy(xpath = "//div[(@id='todo-bulk-dropdown')and contains(@class,'')]")
+    WebElement BulkActionEnableBtn;
+
+    @FindBy(xpath = "//div[(@id='todo-bulk-dropdown')and contains(@class,'disable')]")
+    WebElement BulkActionDisableBtn;
+
+    public void verifyBulkActionBtn() {
+        if (eleCheckBox.isSelected()) {
+            Boolean isCheck = waitForVisibleElement(BulkActionEnableBtn,"BulkAction Enable");
+            if (isCheck){
+                NXGReports.addStep("BulkAction is Enable: Pass.", LogAs.PASSED, null);
+            }else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("BulkAction is Enable: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } else {
+            Boolean isCheck = waitForVisibleElement(BulkActionDisableBtn,"BulkAction Disable");
+            if (isCheck){
+                NXGReports.addStep("BulkAction is Disable: Pass.", LogAs.PASSED, null);
+            }else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("BulkAction is Disable: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        }
     }
 
     public void verifyUnableToInputDuedate(String inputText) {
@@ -5070,66 +5143,4 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
-    /**
-     * Add new by huy.huynh on 28/06/2017.
-     * R2.1 NewFeature
-     */
-    @FindBy(id = "auv-todo-details")
-    private WebElement dialogTodoDetail;
-
-    @FindBy(id = "todo-detail-dueDate")
-    private WebElement dueDateOnTodoDetail;
-
-
-//    @FindBy(xpath = "//div[@id='auv-todo-details']//input[@data-dbdate]")
-//    private WebElement inputDatePickerOn;
-
-    private String xpathDueDateByName = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//input[@id]";
-    private String xpathImageTodoDetailByName = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//img";
-
-    public String getToDoDueDateOnRow(String todoName) {
-        getLogger().info("Get DueDate on Todo Row.");
-        waitSomeSeconds(3);
-        return getTextByAttributeValue(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
-    }
-
-    public void clickImageTodoDetails(String todoName) {
-        getLogger().info("Click Image Todo Detail.");
-        clickElement(getElementByXpath(xpathImageTodoDetailByName, todoName), "Image Todo Detail");
-    }
-
-    public void verifyDueDateMatching(String rowDueDate) {
-        getLogger().info("Verify DueDate on Todo Detail Popup is match with on Todo Row.");
-        getLogger().info("rowwww: " + rowDueDate);
-        getLogger().info("detail: " + getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail"));
-        if (rowDueDate.equals(getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail"))) {
-            NXGReports.addStep("DueDate on Todo Detail Popup is match with on Todo Row.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Fail: DueDate on Todo Detail Popup isn't match with on Todo Row.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    public void changeDueDateOnTodoDetail() {
-        //waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
-        waitSomeSeconds(1);
-        clickElement(dueDateOnTodoDetail, "DueDate On Row");
-        //clickByJavaScripts(dueDateOnTodoDetail, "DueDate On Row");
-        //System.out.println("dueDateOnTodoDetail = " + dueDateOnTodoDetail.getAttribute("value"));
-        DatePicker dp = new DatePicker(getDriver());
-        dp.selectFirstValidDate();
-    }
-
-    public void changeDueDateOnTodoRow(String todoName) {
-        clickElement(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
-        DatePicker dp = new DatePicker(getDriver());
-        dp.selectSecondValidDate();
-    }
-
-    public void verifyDatePickerShow() {
-        clickElement(dueDateOnTodoDetail, "DueDate On Row");
-        waitForCssValueChanged(datePicker, "Date Picker", "display", "block");
-    }
-    /*-----------end of huy.huynh on 28/06/2017.*/
 }

@@ -14,7 +14,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-import java.security.cert.X509Certificate;
 import java.util.List;
 
 /**
@@ -606,21 +605,6 @@ public class AuditorSignUpPage extends AbstractPage {
             //input memberID
             inputMemberID(strMemberID);
 
-//            waitForVisibleElement(provinceDropdownEle, "Province Dropdown");
-//            clickElement(provinceDropdownEle, "Province Dropdown");
-//            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "true");
-//            clickElement(provinceDdlListItemEle.get(0), "Province Dropdown");
-//            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "false");
-
-//            waitForVisibleElement(eleMemberID, "Member ID Input");
-//            sendKeyTextBox(eleMemberID, strMemberID, "Member ID Input");
-
-//            waitForVisibleElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-//            clickElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-//            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "true");
-//            clickElement(numberEmployeeDdlListItemEle.get(0), "First Item on Number of Employee Dropdown");
-//            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "false");
-
             waitForVisibleElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
             clickElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
             waitForAtrributeValueChanged(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown", "aria-expanded", "true");
@@ -636,18 +620,18 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleAffFirm, strAffName, "Affiliated Firm's Name Input");
 
             scrollToFooter();
-            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
-            System.out.println("iframes: " + iframes.size());
-            getDriver().switchTo().frame(0);
+//            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
+//            System.out.println("iframes: " + iframes.size());
+//            getDriver().switchTo().frame(0);
 
-            clickElement(capcharCheckBoxEle, "Capchar Text Box");
-            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
-            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
+//            clickElement(capcharCheckBoxEle, "Capchar Text Box");
+//            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
+//            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
 
-            getDriver().switchTo().defaultContent();
+//            getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
-            Thread.sleep(5000);
+            Thread.sleep(10000);
 
         } catch (AssertionError e) {
             getLogger().info(e);
@@ -909,7 +893,7 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
             waitForJSandJQueryToLoad();
             clickElement(createAccountBtnEle, "Create Account button");
-
+            waitSomeSeconds(5);
             // Verify Register Auditor Security Page is passed
 //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
 //            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
@@ -1429,10 +1413,10 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     public void verifyValidMemberID(String value) {
-        String borderColor = "rgba(34, 36, 38, 0.15)";
+        String border = "1px solid rgba(34, 36, 38, 0.15)";
         try {
             clickElement(eleCity, "City ele");
-            Boolean isCheck = waitForCssValueChanged(eleMemberID, "memberID ele", "border-color", borderColor);
+            Boolean isCheck = waitForCssValueChanged(eleMemberID, "memberID ele", "border", border);
             if (isCheck) {
                 System.out.println("Value " + value + " is valid");
                 NXGReports.addStep("Verify enter valid memberID into Member ID: passed", LogAs.PASSED, null);

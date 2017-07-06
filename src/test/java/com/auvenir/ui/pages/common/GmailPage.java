@@ -657,7 +657,7 @@ public class GmailPage extends AbstractPage {
     }
 
     public void selectActiveEmaill() {
-        waitForClickableOfElement(eleEmailAuvenir, "Non-reply Active email");
+//        waitForClickableOfElement(eleEmailAuvenir, "Non-reply Active email");
         clickElement(eleEmailAuvenir, "Non-reply Active email");
     }
 
