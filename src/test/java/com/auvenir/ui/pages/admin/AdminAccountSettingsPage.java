@@ -336,7 +336,7 @@ public class AdminAccountSettingsPage extends AbstractPage {
                 count++;
             if (!validateAttributeElement(phoneNoTextBox, "value", phone))
                 count++;
-            Assert.assertEquals(count, 0, "Personal Information should be rendered correctly.");
+            Assert.assertTrue(count == 0, "Personal Information should be rendered correctly.");
             NXGReports.addStep("Personal Information is rendered correctly.", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);

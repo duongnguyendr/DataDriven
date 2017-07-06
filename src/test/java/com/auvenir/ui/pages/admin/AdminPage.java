@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 //import org.testng.log4testng.Logger;
 
@@ -736,9 +737,29 @@ public class AdminPage extends AbstractPage {
         return eleGetItGooglePlayImg;
     }
 
-    @FindBy(xpath = "//*[@id='w-mu-table']//td[2]")
+    @FindBy(xpath = "//*[@id='w-mu-table']//tr/td[2]")
     private List<WebElement> listUserTypeEle;
 
+    @FindBy(xpath = "//*[contains(@id,'m-demoteUser') and (@class ='au-modal-title-text')]")
+    private WebElement demoteSuperAdminTitleTextPopup;
+
+    @FindBy(xpath = "//*[@id='w-mu-demoteUserModal']/div[@style='display: inherit;']//span")
+    private WebElement demoteSuperAdminContentPopup;
+
+    @FindBy(xpath = "//*[@id='w-mu-demoteUser-removeBtn']")
+    private WebElement continueBtnOnDemotePopup;
+
+    @FindBy(xpath = "//*[@id='w-mu-selectUser-ddl']")
+    private WebElement grantedUserDropdownList;
+
+    @FindBy(xpath = "//*[@id='w-mu-selectUser-cancelBtn']")
+    private WebElement cancelBtnOnDemotePopup;
+
+    @FindBy(xpath = "//*[@id='w-mu-selectUser-removeBtn']")
+    private WebElement selectBtnOnDemotePopup;
+
+    @FindBy(xpath = "//*[contains(@id,'m-demoteUser') and (@class ='au-modal-title')]")
+    private WebElement demoteSuperAdminTitlePopup;
 
     public void getEleClientEntryValidate(String UserType, String Email, String DateCreated, String ClientName) throws InterruptedException {
         Thread.sleep(10000);
@@ -1038,11 +1059,11 @@ public class AdminPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) ,e.getMessage());
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
 
 
@@ -1157,30 +1178,31 @@ public class AdminPage extends AbstractPage {
 
     public void verifyAdminSeeAllUser() {
         getLogger().info("Verify Admin can see all user in the system.");
-        boolean clientUserType = false;
-        boolean adminUserType = false;
-        boolean auditorUserType = false;
-        boolean superAdminUserType = false;
-        boolean result = false;
+        boolean result = true;
         try {
-            for (int i = 0; i < listUserTypeEle.size(); i++) {
-                if (listUserTypeEle.get(i).getText().equals("CLIENT"))
-                    clientUserType = true;
-                else if (listUserTypeEle.get(i).getText().equals("ADMIN"))
-                    adminUserType = true;
-                else if (listUserTypeEle.get(i).getText().equals("AUDITOR"))
-                    auditorUserType = true;
-                else if (listUserTypeEle.get(i).getText().equals("SUPER ADMIN"))
-                    superAdminUserType = true;
-                if (clientUserType && adminUserType && auditorUserType && superAdminUserType) {
-                    result = true;
-                    break;
-                }
+            String xpathUserTypeCellOnAdminPage = "//*[@id='w-mu-table']//tr/td[2][text()='%s']";
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            WebElement clientUser = getElementByXpath(xpathUserTypeCellOnAdminPage, "CLIENT");
+            WebElement adminUser = getElementByXpath(xpathUserTypeCellOnAdminPage, "ADMIN");
+            WebElement auditorUser = getElementByXpath(xpathUserTypeCellOnAdminPage, "AUDITOR");
+            WebElement superAdmin = getElementByXpath(xpathUserTypeCellOnAdminPage, "SUPER ADMIN");
+            getDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            if (clientUser == null) {
+                result = false;
             }
-            getLogger().info("User " + (clientUserType ? "can" : "cannot") + " see all Client User.");
-            getLogger().info("User " + (adminUserType ? "can" : "cannot") + " see all Admin User.");
-            getLogger().info("User " + (auditorUserType ? "can" : "cannot") + " see all Auditor User.");
-            getLogger().info("User " + (superAdminUserType ? "can" : "cannot") + " see Super Admin User.");
+            if (adminUser == null) {
+                result = false;
+            }
+            if (auditorUser == null) {
+                result = false;
+            }
+            if (superAdmin == null) {
+                result = false;
+            }
+            getLogger().info("User " + (clientUser != null ? "can" : "cannot") + " see all Client User.");
+            getLogger().info("User " + (adminUser != null ? "can" : "cannot") + " see all Admin User.");
+            getLogger().info("User " + (auditorUser != null ? "can" : "cannot") + " see all Auditor User.");
+            getLogger().info("User " + (superAdmin != null ? "can" : "cannot") + " see Super Admin User.");
             Assert.assertTrue(result, "User should see all user in system.");
             NXGReports.addStep("User can see all user in system.", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -1192,24 +1214,112 @@ public class AdminPage extends AbstractPage {
 
     public void verifyNormalAdminCannotChangeSttAdminUser() {
         getLogger().info("Verify Normal Admin cannot change the status of Admin user.");
-        WebElement status = null;
         boolean result = false;
         try {
-            List<WebElement> userType = getDriver().findElements(By.xpath(String.format(xpathUserTypeCellOnUserTableAdminX, "ADMIN")));
-            System.out.println("Size: " + userType.size());
-            for (int i = 0; i < userType.size(); i++) {
-                status = userType.get(i).findElement(By.tagName("select"));
-                if(status != null) {
-                    result = false;
-                    break;
-                }
+            String xpathStatusCellOnAdmiPage = "//*[@id='w-mu-table']//tr/td[2][contains(text(),'%s')]/../td[5]/select";
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            List<WebElement> userStatusDropdownList = getListElementsByXpath(xpathStatusCellOnAdmiPage, "ADMIN");
+            getDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            if (userStatusDropdownList.size() == 0) {
+                result = true;
             }
-            Assert.assertTrue(result, "User should not able to change status of Admin user in system.");
-            NXGReports.addStep("User cannot change status of Admin user in system.", LogAs.PASSED, null);
+            Assert.assertTrue(result, "Normal Admin user should not able to change status of Admin user in system.");
+            NXGReports.addStep("Normal Admin user cannot change status of Admin user in system.", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("User can change status of Admin user in system.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+            NXGReports.addStep("Normal Admin user can change status of Admin user in system : Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
+    }
+
+    /**
+     * verify status of user
+     *
+     * @param superAdminEmail String Super Admin Email which is demoted
+     * @param normalAdminName String Normal Admin Name which is assigned to Super Admin role
+     */
+    public void demoteSuperAdminRole(String superAdminEmail, String normalAdminName, boolean confirmation) {
+        getLogger().info("Demote Super Admin role");
+        String contentConfirmDemoteUserPopup = "Are you sure you want to demote your Super Admin status? You will no longer have Super Admin privileges.";
+        String contentSelectGrantedUserPopup = "Select one Admin User who will be promoted as Super Admin.";
+        try {
+            if (getEleAuditorStatusLst(superAdminEmail).equals("Active")) {
+                WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, superAdminEmail);
+                selectOptionByText(status, "Demote", "User Status");
+
+                getLogger().info("Validate Demote Super Admin Popup Confirm.");
+                waitForAnimation(demoteSuperAdminTitlePopup, "Demote Super Admin Title Layout");
+                validateElementText(demoteSuperAdminTitleTextPopup, "Demote Super Admin Status?");
+
+                if (demoteSuperAdminContentPopup.getText().equals(contentConfirmDemoteUserPopup))
+                    clickElement(continueBtnOnDemotePopup, "Continue Button");
+
+                if (demoteSuperAdminContentPopup.getText().equals(contentSelectGrantedUserPopup)) {
+                    selectOptionByText(grantedUserDropdownList, normalAdminName, "grantedUserDropdownList");
+                    if (confirmation) {
+                        clickElement(selectBtnOnDemotePopup, "Select Button");
+                        waitForProgressOverlayIsClosed();
+                    } else {
+                        clickElement(cancelBtnOnDemotePopup, "Cancel Button");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Demote Super Admin role: Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+
+        }
+    }
+
+    public void verifySuperAdminCanChangeSttAllUser() {
+        getLogger().info("Verify Super Admin can change the status of all user.");
+        boolean result = true;
+        try {
+            String xpathStatusCellOnAdmiPage = "//*[@id='w-mu-table']//tr/td[2][text()='%s']/../td[5]/select";
+            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            List<WebElement> adminUserStatusDdl = getListElementsByXpath(xpathStatusCellOnAdmiPage, "ADMIN");
+            List<WebElement> auditorUserStatusDdl = getListElementsByXpath(xpathStatusCellOnAdmiPage, "AUDITOR");
+            List<WebElement> clientUserStatusDdl = getListElementsByXpath(xpathStatusCellOnAdmiPage, "CLIENT");
+            List<WebElement> superAdminUserStatusDdl = getListElementsByXpath(xpathStatusCellOnAdmiPage, "SUPER ADMIN");
+            getDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            if (adminUserStatusDdl.size() == 0) {
+                result = false;
+            }
+            if (auditorUserStatusDdl.size() == 0) {
+                result = false;
+            }
+            if (clientUserStatusDdl.size() == 0) {
+                result = false;
+            }
+            if (superAdminUserStatusDdl.size() == 0) {
+                result = false;
+            }
+            getLogger().info("User " + (clientUserStatusDdl.size() != 0 ? "can" : "cannot") + " change status of Client User.");
+            getLogger().info("User " + (adminUserStatusDdl.size() != 0 ? "can" : "cannot") + " change status of Admin User.");
+            getLogger().info("User " + (auditorUserStatusDdl.size() != 0 ? "can" : "cannot") + " change status of Auditor User.");
+            getLogger().info("User " + (superAdminUserStatusDdl.size() != 0 ? "can" : "cannot") + " change status of Super Admin User.");
+            Assert.assertTrue(result, "Super Admin User should able to change status of Admin user in system.");
+            NXGReports.addStep("Super Admin User can change status of Admin user in system.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Super Admin User cannot change status of Admin user in system.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
+    }
+
+    public void verifyUserRoleOfEmail(String email, String role) {
+        getLogger().info(String.format("Verify User '%s'  has '%s' role", email, role));
+        boolean result = true;
+        try {
+            WebElement actualUserRole = getElementByXpath(xpathUserTypeCellOnUserTableAdminX, email);
+            result = validateElementText(actualUserRole, role);
+            Assert.assertTrue(result, String.format("User '%s'  should have '%s' role", email, role));
+            NXGReports.addStep(String.format("Verify User '%s'  has '%s' role", email, role), LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep(String.format("Verify User '%s'  has '%s' role: Failed", email, role), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 }
