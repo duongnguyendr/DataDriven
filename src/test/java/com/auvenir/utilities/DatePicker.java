@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.text.SimpleDateFormat;
-import java.time.Month;
 import java.util.List;
 
 /**
@@ -19,28 +18,38 @@ public class DatePicker {
     private WebElement datePicker;
     private WebDriver driver;
 
-    @FindBy(className = "ui-icon ui-icon-circle-triangle-w")
+    @FindBy(className = "ui-icon-circle-triangle-w")
     private WebElement btnPrev;
 
-    @FindBy(className = "ui-icon ui-icon-circle-triangle-e")
+    @FindBy(className = "ui-icon-circle-triangle-e")
     private WebElement btnNext;
 
     @FindBy(id = "ui-datepicker-div")
     private WebElement defaultDatePickerElement;
 
     @FindBy(xpath = "//div[@id='ui-datepicker-div']//td[@data-handler]/a")
-    private List<WebElement> listValidDate;
+    private List<WebElement> listValidDates;
 
+    @FindBy(xpath = "//*[contains(@class,'ui-state-default')]")
+    private List<WebElement> listDates;
+
+    @FindBy(className = "ui-datepicker-title")
+    private WebElement titleMonthYear;
+
+
+    String enableDateOnDatePicker = "//a[contains(text(),'%s')][@href='#']";
+    String parentDate = "//*[text()='%s']/ancestor::td";
 
     public DatePicker(WebDriver driver, WebElement ele) {
+        PageFactory.initElements(driver, this);
         this.driver = driver;
-        this.datePicker = ele;
+        datePicker = ele;
     }
 
     public DatePicker(WebDriver driver) {
+        PageFactory.initElements(driver, this);
         this.driver = driver;
         this.datePicker = defaultDatePickerElement;
-        PageFactory.initElements(driver, this);
     }
 
     public void clickPreviousButton() {
@@ -60,8 +69,9 @@ public class DatePicker {
      * @param date name of To-Do to choose
      */
     public void pickADate(String date) {
-        datePicker.findElement(By.xpath("//a[contains(text(),'" + date + "')][@href='#']")).click();
+        datePicker.findElement(By.xpath(String.format(enableDateOnDatePicker, date))).click();
     }
+
 
     /**
      * choose given date as paramaters
@@ -89,13 +99,49 @@ public class DatePicker {
         pickADate(date);
     }
 
-    public void selectFirstValidDate() {
-        listValidDate.get(0).click();
+    public WebElement getAEnableDate(String date) {
+        return datePicker.findElement(By.xpath(String.format(enableDateOnDatePicker, date)));
     }
 
-    public void selectSecondValidDate() {
-        listValidDate.get(1).click();
+    public WebElement getADateParent(String date) {
+        return datePicker.findElement(By.xpath(String.format(parentDate, date)));
     }
+
+    public List<WebElement> getListValidDates() {
+        return listValidDates;
+    }
+
+    public int getDates() {
+        return listDates.size();
+    }
+
+    public WebElement getFirstValidDate() {
+        return listValidDates.get(0);
+    }
+
+    public WebElement getSecondValidDate() {
+        return listValidDates.get(1);
+    }
+
+    public void selectFirstValidDate() throws Exception {
+        listValidDates.get(0).click();
+    }
+
+    public void selectSecondValidDate() throws Exception {
+        listValidDates.get(1).click();
+    }
+
+    public WebElement getValidDateHasIndex(int idx) throws Exception {
+        return listValidDates.get(idx);
+    }
+
+    public String getMonthYearTitle() {
+        return titleMonthYear.getText();
+    }
+
+//    public boolean isMouseHovering(WebElement webElement){
+//
+//    }
 
     /**
      * count months from now

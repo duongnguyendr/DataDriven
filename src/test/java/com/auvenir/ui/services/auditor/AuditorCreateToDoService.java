@@ -1319,34 +1319,5 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
         createToDoPage.verifyLastCommentOfUserDisplayed(commentContent, fullNameUser);
     }
-
-    /**
-     * Add new by huy.huynh on 28/06/2017.
-     * R2.1 NewFeature
-     */
-    public String getToDoDueDateOnRow(String todoName) {
-        return createToDoPage.getToDoDueDateOnRow(todoName);
-    }
-
-    public void openPopupTodoDetail(String todoName) {
-        createToDoPage.clickImageTodoDetails(todoName);
-    }
-
-    public void verifyDueDateMatching(String rowDueDate) {
-        createToDoPage.verifyDueDateMatching(rowDueDate);
-    }
-
-    public void changeDueDateOnTodoDetail() {
-        createToDoPage.changeDueDateOnTodoDetail();
-    }
-
-    public void closePopupTodoDetail() {
-        createToDoPage.closeAddNewRequestWindow();
-    }
-
-    public void changeDueDateOnTodoRow(String todoName) {
-        createToDoPage.changeDueDateOnTodoRow(todoName);
-    }
-    /*-----------end of huy.huynh on 28/06/2017.*/
 }
 

@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -5142,66 +5143,4 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
-    /**
-     * Add new by huy.huynh on 28/06/2017.
-     * R2.1 NewFeature
-     */
-    @FindBy(id = "auv-todo-details")
-    private WebElement dialogTodoDetail;
-
-    @FindBy(id = "todo-detail-dueDate")
-    private WebElement dueDateOnTodoDetail;
-
-
-//    @FindBy(xpath = "//div[@id='auv-todo-details']//input[@data-dbdate]")
-//    private WebElement inputDatePickerOn;
-
-    private String xpathDueDateByName = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//input[@id]";
-    private String xpathImageTodoDetailByName = "//input[@class='newTodoInput'][@value='%s']/ancestor::tr[@class='newRow']//img";
-
-    public String getToDoDueDateOnRow(String todoName) {
-        getLogger().info("Get DueDate on Todo Row.");
-        waitSomeSeconds(3);
-        return getTextByAttributeValue(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
-    }
-
-    public void clickImageTodoDetails(String todoName) {
-        getLogger().info("Click Image Todo Detail.");
-        clickElement(getElementByXpath(xpathImageTodoDetailByName, todoName), "Image Todo Detail");
-    }
-
-    public void verifyDueDateMatching(String rowDueDate) {
-        getLogger().info("Verify DueDate on Todo Detail Popup is match with on Todo Row.");
-        getLogger().info("rowwww: " + rowDueDate);
-        getLogger().info("detail: " + getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail"));
-        if (rowDueDate.equals(getTextByAttributeValue(dueDateOnTodoDetail, "DueDate On Todo Detail"))) {
-            NXGReports.addStep("DueDate on Todo Detail Popup is match with on Todo Row.", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Fail: DueDate on Todo Detail Popup isn't match with on Todo Row.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    public void changeDueDateOnTodoDetail() {
-        //waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
-        waitSomeSeconds(1);
-        clickElement(dueDateOnTodoDetail, "DueDate On Row");
-        //clickByJavaScripts(dueDateOnTodoDetail, "DueDate On Row");
-        //System.out.println("dueDateOnTodoDetail = " + dueDateOnTodoDetail.getAttribute("value"));
-        DatePicker dp = new DatePicker(getDriver());
-        dp.selectFirstValidDate();
-    }
-
-    public void changeDueDateOnTodoRow(String todoName) {
-        clickElement(getElementByXpath(xpathDueDateByName, todoName), "DueDate On Row");
-        DatePicker dp = new DatePicker(getDriver());
-        dp.selectSecondValidDate();
-    }
-
-    public void verifyDatePickerShow() {
-        clickElement(dueDateOnTodoDetail, "DueDate On Row");
-        waitForCssValueChanged(datePicker, "Date Picker", "display", "block");
-    }
-    /*-----------end of huy.huynh on 28/06/2017.*/
 }

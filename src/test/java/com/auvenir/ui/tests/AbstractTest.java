@@ -16,7 +16,10 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -91,8 +94,8 @@ public class AbstractTest {
     public void setUp(Method method, String browser, String version, String os) {
         getLogger().info("Before Method.");
         getRunMode();
-        GenericService.sVersionData=version;
-        GenericService.sOperationData=os;
+        GenericService.sVersionData = version;
+        GenericService.sOperationData = os;
         getLogger().info("setUp: " + browser);
         testName = method.getName();
         logCurrentStepStart();
@@ -111,18 +114,18 @@ public class AbstractTest {
                     getLogger().info("Chrome is set");
                     driver = new ChromeDriver(cap);
                     GenericService.sBrowserData = "chr.";
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("firefox")) {
+                } else if (browser.equalsIgnoreCase("firefox")) {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
                     FirefoxProfile profile = setDownloadLocationFirefox();
                     driver = new FirefoxDriver(profile);
                     GenericService.sBrowserData = "ff.";
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("internet explorer")) {
+                } else if (browser.equalsIgnoreCase("internet explorer")) {
                     getLogger().info("Intetnet Explorer is set");
                     System.setProperty("webdriver.ie.driver", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
                     GenericService.sBrowserData = "ie.";
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("edge")) {
+                } else if (browser.equalsIgnoreCase("edge")) {
                     getLogger().info("Edge is set");
                     System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
                     driver = new EdgeDriver();
@@ -158,7 +161,7 @@ public class AbstractTest {
                     DesiredCapabilities capabilitiesFireFox;
                     capabilitiesFireFox = DesiredCapabilities.firefox();
                     FirefoxProfile profile = setDownloadLocationFirefox();
-                    capabilitiesFireFox.setCapability(FirefoxDriver.PROFILE,profile);
+                    capabilitiesFireFox.setCapability(FirefoxDriver.PROFILE, profile);
                     capabilitiesFireFox.setPlatform(setOSForBrowser(os));
                     capabilitiesFireFox.setVersion(GenericService.sVersionData);
                     driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesFireFox, capabilitiesFireFox);
@@ -196,19 +199,20 @@ public class AbstractTest {
             e.printStackTrace();
         }
     }
-    public Platform setOSForBrowser(String os){
+
+    public Platform setOSForBrowser(String os) {
 
         Platform osType = null;
-        System.out.println("Current OS: "+os);
-        if(os.equalsIgnoreCase("WIN10")){
+        System.out.println("Current OS: " + os);
+        if (os.equalsIgnoreCase("WIN10")) {
             osType = Platform.WIN10;
-        }else if(os.equalsIgnoreCase("WIN8")){
+        } else if (os.equalsIgnoreCase("WIN8")) {
             osType = Platform.WIN8;
-        }else if(os.equalsIgnoreCase("WIN8.1")){
+        } else if (os.equalsIgnoreCase("WIN8.1")) {
             osType = Platform.WIN8_1;
-        }else if(os.equalsIgnoreCase("MAC")){
+        } else if (os.equalsIgnoreCase("MAC")) {
             osType = Platform.MAC;
-        }else {
+        } else {
             osType = Platform.LINUX;
         }
         return osType;
@@ -312,10 +316,11 @@ public class AbstractTest {
         cap.setCapability(ChromeOptions.CAPABILITY, options);
         return cap;
     }
+
     /*
     Update for method: setDownload Location on Firefox
      */
-    public FirefoxProfile setDownloadLocationFirefox(){
+    public FirefoxProfile setDownloadLocationFirefox() {
         FirefoxProfile profile = new FirefoxProfile();
         profile.setPreference("browser.download.folderList", 2);
         profile.setPreference("browser.download.manager.showWhenStarting", false);
@@ -323,7 +328,7 @@ public class AbstractTest {
         profile.setPreference("browser.download.dir", downloadFilepath);
         profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/x-gzip");
         profile.setAcceptUntrustedCertificates(false);
-        return  profile;
+        return profile;
     }
 
 }

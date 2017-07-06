@@ -204,9 +204,9 @@ public class AbstractService {
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
-            driver.get(baseUrl);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
+            driver.get(baseUrl);
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
             if (sLanguage == null) {
