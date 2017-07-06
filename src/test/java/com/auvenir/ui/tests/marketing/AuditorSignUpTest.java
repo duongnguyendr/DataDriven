@@ -43,7 +43,7 @@ public class AuditorSignUpTest extends AbstractTest {
     final String strOffNum = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
     final String strZipCode = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
     final String strCity = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
-    String strCountry = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Country", "Valid Value");
+    final String strCountry = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Country", "Valid Value");
     final String strState = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
     final String strMemberID = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D", "Valid Value");
     final String strNumEmp = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
@@ -78,14 +78,11 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry ,strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
-
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
-
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
-
             gmailLoginService.gmailReLogin(passwordCreate);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.verifyActiveEmailTemplateContent();
@@ -319,6 +316,11 @@ public class AuditorSignUpTest extends AbstractTest {
     public void verifyMemberIDWhenSignUp() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        final String memberIDAlphabet = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D Alphabet", "Valid Value");
+        final String memberIDNumberic = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D Numberic", "Valid Value");
+        final String memberIDSpecialChar = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D SpecialChar", "Valid Value");
+        final String memberIDMoreWords = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D More words", "Valid Value");
+        final String memberIDAlphaNumberic = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D AlphaNumberic", "Valid Value");
         try {
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.goToBaseURL();
@@ -327,16 +329,16 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
             auditorSignUpService.verifyFirmSignUpPage();
             auditorSignUpService.verifyMemberID_DefaultValue();
-            auditorSignUpService.inputMemberID("ABCDEF");
-            auditorSignUpService.verifyValidMemberID("ABCDEF");
-            auditorSignUpService.inputMemberID("123456");
-            auditorSignUpService.verifyValidMemberID("123456");
-            auditorSignUpService.inputMemberID("A1B2C3D4E5F6");
-            auditorSignUpService.verifyValidMemberID("A1B2C3D4E5F6");
-            auditorSignUpService.inputMemberID("@#$%^&*");
-            auditorSignUpService.verifyInvalidMemberID("@#$%^&*");
-            auditorSignUpService.inputMemberID("ABCDEF 123456");
-            auditorSignUpService.verifyInvalidMemberID("ABCDEF 123456");
+            auditorSignUpService.inputMemberID(memberIDAlphabet);
+            auditorSignUpService.verifyValidMemberID(memberIDAlphabet);
+            auditorSignUpService.inputMemberID(memberIDNumberic);
+            auditorSignUpService.verifyValidMemberID(memberIDNumberic);
+            auditorSignUpService.inputMemberID(memberIDAlphaNumberic);
+            auditorSignUpService.verifyValidMemberID(memberIDAlphaNumberic);
+            auditorSignUpService.inputMemberID(memberIDSpecialChar);
+            auditorSignUpService.verifyInvalidMemberID(memberIDSpecialChar);
+            auditorSignUpService.inputMemberID(memberIDMoreWords);
+            auditorSignUpService.verifyInvalidMemberID(memberIDMoreWords);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Member ID: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
