@@ -127,12 +127,14 @@ public class AbstractTest {
                     System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
                     driver = new EdgeDriver();
                     GenericService.sBrowserData = "edge.";
-                }if (browser.equalsIgnoreCase("internet explorer")){
+                }
+
+                if (browser.equalsIgnoreCase("internet explorer")){
                     GenericService.sBrowserTestNameList.add("IE_");
                 }else {
                     GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
                 }
-                GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
+
             } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
 
             /*Initialize Selenium for Selenium Grid*/
@@ -182,12 +184,13 @@ public class AbstractTest {
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
+
                 if (browser.equalsIgnoreCase("internet explorer")){
                     GenericService.sBrowserTestNameList.add("IE_");
                 }else {
                     GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
                 }
-                GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
+
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
