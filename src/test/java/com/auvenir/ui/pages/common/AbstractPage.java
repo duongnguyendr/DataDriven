@@ -1040,7 +1040,7 @@ public class AbstractPage {
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
                 return true;
             } else {
-                throw new Exception();
+                throw new Exception(String.format("Expected ['%s'] but found ['%s']",expectedAttributeValue, actualAttributeValue));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -3325,4 +3325,22 @@ public class AbstractPage {
         }
     }
      /*-----------end of huy.huynh on 15/06/2017.*/
+
+    /**
+     * get list elements which cant use @FindBy to find
+     *
+     * @param xpath xpath to get element
+     * @param arg   vararg for formating
+     */
+    public List<WebElement> getListElementsByXpath(String xpath, String... arg) {
+        List<WebElement> webElement = null;
+        xpath = String.format(xpath, arg);
+        try {
+            webElement = getDriver().findElements(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find list elements for xpath: " + xpath, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
+        }
+        return webElement;
+    }
 }
