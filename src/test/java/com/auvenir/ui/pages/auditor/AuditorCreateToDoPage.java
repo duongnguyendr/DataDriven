@@ -3,7 +3,10 @@ package com.auvenir.ui.pages.auditor;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.utilities.DatePicker;
+import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -3483,7 +3486,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, null);
         }
     }*/
-
+/*
     public void verifyNewRequestStoreInDatabase(String newRequest01, String newRequest02) {
         // Need to use Thread.sleep that support stable scripts
         getLogger().info("Verify these new request are stored in the database.");
@@ -3531,8 +3534,48 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify new request are stored in the database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }*/
+
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']")
+    WebElement newRequestTable;
+
+    public void createNewRequest(String newRequest, String position) {
+        try {
+            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
+            clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
+            getLogger().info("Waiting for textbox border is Green while clicked..");
+            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border", "1px solid rgb(89, 155, 161)");
+            getLogger().info("Sending new request..");
+            clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
+            sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), newRequest, "");
+            closeAddNewRequestWindow();
+            NXGReports.addStep("Create new request at position " + position + ": Done", LogAs.PASSED, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Create new request at position " + position + ": Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
+    @FindBy(id = "engagement-backButton")
+    WebElement engagementBackBtn;
+
+    public void reselectEngagementName(String engagementName){
+        AuditorEngagementService auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        AuditorDetailsEngagementService auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+       try {
+            getLogger().info("Back to Engagement page...");
+            engagementBackBtn.click();
+            getLogger().info("Return to Todo list page again..");
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            NXGReports.addStep("Return to Todo ListPage successfully.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Return to Todo ListPage failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
     /**
      * Author minh.nguyen
@@ -3580,6 +3623,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -4242,18 +4286,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyBulkActionBtn() {
         if (eleCheckBox.isSelected()) {
-            Boolean isCheck = waitForVisibleElement(BulkActionEnableBtn,"BulkAction Enable");
-            if (isCheck){
+            Boolean isCheck = waitForVisibleElement(BulkActionEnableBtn, "BulkAction Enable");
+            if (isCheck) {
                 NXGReports.addStep("BulkAction is Enable: Pass.", LogAs.PASSED, null);
-            }else {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("BulkAction is Enable: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } else {
-            Boolean isCheck = waitForVisibleElement(BulkActionDisableBtn,"BulkAction Disable");
-            if (isCheck){
+            Boolean isCheck = waitForVisibleElement(BulkActionDisableBtn, "BulkAction Disable");
+            if (isCheck) {
                 NXGReports.addStep("BulkAction is Disable: Pass.", LogAs.PASSED, null);
-            }else {
+            } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("BulkAction is Disable: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
@@ -4368,6 +4412,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     /*
     Vien .Pham created new method
      */
+    /*
     public void uploadeCreateRequestNewFile(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
 //            System.out.println("user location is: "+System.getProperty("user.home"));
@@ -4398,6 +4443,53 @@ public class AuditorCreateToDoPage extends AbstractPage {
             itr.printStackTrace();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }*/
+
+    public void uploadeNewFileByRequestName(String concatUpload, String requestName) {
+        try {
+            int isFind = findRequestByName(requestName);
+            clickElement(newRequestTable.findElement(By.xpath("./div["+isFind+"]//label")));
+            Thread.sleep(largeTimeOut);
+            getLogger().info("Input path of file..");
+            StringSelection ss = new StringSelection(concatUpload);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+        } catch (AWTException awt) {
+            AbstractService.sStatusCnt++;
+            awt.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        } catch (InterruptedException itr) {
+            AbstractService.sStatusCnt++;
+            itr.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+    @FindBy(xpath = "//div[@id='todoDetailsReqCont']/div")
+    List<WebElement> newRequestList;
+
+    public int findRequestByName(String requestName) {
+        int isFind = -1;
+        for (int i = 1; i < (newRequestList.size() + 1); i++) {
+            if (newRequestTable.findElement(By.xpath("./div[" + i + "]/span")).getText().equals(requestName)) {
+                isFind =i;
+                break;
+            }
+        }
+        return isFind;
     }
 
 

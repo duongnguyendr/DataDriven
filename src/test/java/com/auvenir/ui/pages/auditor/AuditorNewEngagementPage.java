@@ -349,6 +349,14 @@ public class AuditorNewEngagementPage extends AbstractPage {
             clickElement(eleEngagementNameInput, "engagement Name");
             NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
 
+            getLogger().info("Enter start date.");
+            clickAndHold(eleStartDateInput, "Start Date Input");
+            if (startDate.equals("")) {
+                enterStartDate(getDate(1));
+            }
+            enterStartDate(startDate);
+            clickElement(eleEngagementNameInput, "engagement Name");
+            NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
 
             getLogger().info("Enter end date.");
             if (endDate.equals("")) {
@@ -358,14 +366,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
             clickElement(eleEngagementNameInput, "engagement Name");
             NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
 
-            getLogger().info("Enter start date.");
-            clickAndHold(eleStartDateInput, "Start Date Input");
-            if (startDate.equals("")) {
-                enterStartDate(getDate(1));
-            }
-            enterStartDate(startDate);
-            clickElement(eleEngagementNameInput, "engagement Name");
-            NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
+
 
             getLogger().info("Click Continue button.");
             clickContinueBtn();
