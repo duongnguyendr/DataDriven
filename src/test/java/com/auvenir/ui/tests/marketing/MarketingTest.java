@@ -6,6 +6,7 @@ import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.client.ClientEngagementService;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -266,4 +267,60 @@ public class MarketingTest extends AbstractTest {
         }
     }
     /*-----------end of huy.huynh on 29/06/2017.*/
+
+    /*
+    Vien Pham add @Test 11
+     */
+    @Test(priority = 11, enabled = true, description = "Verify Auditor Reset Password")
+    public void verifyAuditorResetPwd() throws Exception {
+        gmailLoginService = new GmailLoginService(getLogger(),getDriver());
+        marketingService = new MarketingService(getLogger(),getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+
+        final String auditorID = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        final String auditorEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
+        final String auditorNewPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
+        try {
+            gmailLoginService.deleteAllExistedEmail(auditorID, auditorEmailPwd);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.selectForgotPwd();
+            marketingService.verifyForgotPasswordTitle();
+            marketingService.inputEmailForgotPassword(auditorID);
+            marketingService.clickOnRequestResetLinkBTN();
+
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail("", auditorEmailPwd);
+            gmailLoginService.selectActiveEmaill();
+            gmailLoginService.navigateToResetPwdPage();
+            marketingService.verifyResetPasswordPageTitle();
+            marketingService.inputNewResetPassword("vien","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("vien1234","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("vien@1234","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("Vien1234","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("Vien@1234","1");
+            marketingService.verifyValidPwd("1");
+            marketingService.inputNewResetPassword("123","2");
+            marketingService.verifyInvalidPwdWarning("2");
+            marketingService.inputNewResetPassword("Vien@1234","2");
+            marketingService.verifyValidPwd("2");
+            marketingService.selectSetPasswordBtn();
+            auditorEngagementService.verifyAuditorEngagementPage();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Member ID: PASSED", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            NXGReports.addStep("Verify Member ID: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }catch (Exception er){
+            getLogger().info(er);
+            NXGReports.addStep("Verify Member ID: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw er;
+        }
+    }
+
 }
