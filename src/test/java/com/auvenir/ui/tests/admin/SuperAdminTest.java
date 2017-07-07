@@ -41,6 +41,7 @@ public class SuperAdminTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
             adminService.verifyHeaderAdminPage();
             adminService.verifyAdminSeeAllUser();
+            adminService.verifyOnlyOneSuperAdmin();
 
             adminService.verifySuperAdminCanChangeSttAllUser();
             adminService.changeTheStatusUser(clientEmail, onboardingStatus);
@@ -102,6 +103,7 @@ public class SuperAdminTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(normalAdminId, normalAdminPwd);
             adminService.verifyHeaderAdminPage();
             adminService.verifyAdminSeeAllUser();
+            adminService.verifyOnlyOneSuperAdmin();
 
             adminService.changeTheStatusUser(clientEmail, onboardingStatus);
             marketingService.refreshHomePage();
@@ -178,7 +180,6 @@ public class SuperAdminTest extends AbstractTest {
             adminService.verifyHeaderAdminPage();
             adminService.verifyUserRoleOfEmail(superAdminId, "SUPER ADMIN");
             adminService.verifySuperAdminCanChangeSttAllUser();
-
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Assign Super Admin Role.", LogAs.PASSED, null);

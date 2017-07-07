@@ -183,5 +183,9 @@ public class AdminService extends AbstractService {
     public void verifyUserRoleOfEmail(String email, String role) {
         adminPage.verifyUserRoleOfEmail(email, role);
     }
+
+    public void verifyOnlyOneSuperAdmin() {
+        adminPage.verifyOnlyOneSuperAdmin();
+    }
 }
 
