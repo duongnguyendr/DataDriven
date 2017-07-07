@@ -1138,10 +1138,12 @@ public class SmokeTest extends AbstractTest {
             auditorDetailsEngagementService.clickOnAllFileCheckBox();
             // Click on down load icon
             auditorDetailsEngagementService.clickOnDownLoadIcon();
+
+            auditorDetailsEngagementService.closeBrowserAfterDownLoad();
             // verify down load popup
-            auditorDetailsEngagementService.verifyDownLoadPopup();
+            //auditorDetailsEngagementService.verifyDownLoadPopup();
             // Click on down load button in popup
-            auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
+            //auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify download all attachment file form all ToDo.", LogAs.PASSED, null);
