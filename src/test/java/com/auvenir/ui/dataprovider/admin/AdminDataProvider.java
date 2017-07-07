@@ -9,16 +9,16 @@ import org.testng.annotations.DataProvider;
  */
 public class AdminDataProvider {
 
-    private static String superAdminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Email", "Valid Value");;
+    private static String superAdminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin", "Valid Value");;
     private static String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
     private static String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
     private static String superAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Phone", "Valid Value");
-    private static String normalAdminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Email", "Valid Value");
-    private static String normalAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Password", "Valid Value");
-    private static String normalAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Name", "Valid Value");
-    private static String normalAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Phone", "Valid Value");
-    private static String clientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Client Email", "Valid Value");
-    private static String auditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Auditor Email", "Valid Value");
+    private static String normalAdminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin", "Valid Value");
+    private static String normalAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Password", "Valid Value");
+    private static String normalAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Name", "Valid Value");
+    private static String normalAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Phone", "Valid Value");
+    private static String clientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Client", "Valid Value");
+    private static String auditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Auditor", "Valid Value");
     private static String onboardingStatus = GenericData.UserStatus.ONBOARDING.value;
     private static String waitListedStatus = GenericData.UserStatus.WAITLISTED.value;
     private static String activeStatus = GenericData.UserStatus.ACTIVE.value;
