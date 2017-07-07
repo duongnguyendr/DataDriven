@@ -39,23 +39,20 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 1, enabled = true, description = "To Verify the GUI of Normal Admin Home Page")
+    @Test(priority = 1, enabled = true, description = "To Verify the GUI of Admin Home Page")
     public void verifyGUISuperAdminHomePage() {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin Email", "Valid Value");
+        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
         String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
         String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
         String superAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Phone", "Valid Value");
-        String clientEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Client Email", "Valid Value");
-        String auditorEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor Email", "Valid Value");
-        String normalAdminEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Normal Admin Email", "Valid Value");
-        String onboardingStatus = "Onboarding";
-        String waitListedStatus = "Wait Listed";
-        String activeStatus = "Active";
-        String inactiveStatus = "Inactive";
+        String client = GenericService.getTestDataFromExcel("SuperAdminTest", "Client", "Valid Value");
+        String auditor = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor", "Valid Value");
+        String admin = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
             adminService.verifyHeaderAdminPage();
@@ -63,26 +60,26 @@ public class SuperAdminTest extends AbstractTest {
             adminService.verifyOnlyOneSuperAdmin();
 
             adminService.verifySuperAdminCanChangeSttAllUser();
-            adminService.changeTheStatusUser(clientEmail, onboardingStatus);
+            adminService.changeTheStatusUser(client, UserStatus.ONBOARDING.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, onboardingStatus);
-            adminService.changeTheStatusUser(clientEmail, waitListedStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(client, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(client, UserStatus.WAITLISTED.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, waitListedStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(client, UserStatus.WAITLISTED.value);
 
-            adminService.changeTheStatusUser(auditorEmail, onboardingStatus);
+            adminService.changeTheStatusUser(auditor, UserStatus.ONBOARDING.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, onboardingStatus);
-            adminService.changeTheStatusUser(auditorEmail, waitListedStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(auditor, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(auditor, UserStatus.WAITLISTED.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, waitListedStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(auditor, UserStatus.WAITLISTED.value);
 
-            adminService.changeTheStatusUser(normalAdminEmail, inactiveStatus);
+            adminService.changeTheStatusUser(admin, UserStatus.INACTIVE.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(normalAdminEmail, inactiveStatus);
-            adminService.changeTheStatusUser(normalAdminEmail, activeStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(admin, UserStatus.INACTIVE.value);
+            adminService.changeTheStatusUser(admin, UserStatus.ACTIVE.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(normalAdminEmail, activeStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(admin, UserStatus.ACTIVE.value);
 
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyPersonalInfoRendered(superAdminFullName, superAdminId, superAdminPhoneNum);
@@ -104,54 +101,53 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Normal Admin Home Page")
-    public void verifyGUINormalAdminHomePage() {
+    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Admin Home Page")
+    public void verifyGUIAdminHomePage() {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String normalAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Normal Admin Email", "Valid Value");
-        String normalAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Password", "Valid Value");
-        String normalAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Name", "Valid Value");
-        String normalAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Phone", "Valid Value");
-        String clientEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Client Email", "Valid Value");
-        String auditorEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor Email", "Valid Value");
-        String onboardingStatus = "Onboarding";
-        String waitListedStatus = "Wait Listed";
+        String admin = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
+        String adminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Password", "Valid Value");
+        String adminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Name", "Valid Value");
+        String adminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Phone", "Valid Value");
+        String clientEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Client", "Valid Value");
+        String auditorEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor", "Valid Value");
+
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(normalAdminId, normalAdminPwd);
+            marketingService.loginWithUserRolesUsingUsernamePassword(admin, adminPwd);
             adminService.verifyHeaderAdminPage();
             adminService.verifyAdminSeeAllUser();
             adminService.verifyOnlyOneSuperAdmin();
 
-            adminService.changeTheStatusUser(clientEmail, onboardingStatus);
+            adminService.changeTheStatusUser(clientEmail, UserStatus.ONBOARDING.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, onboardingStatus);
-            adminService.changeTheStatusUser(clientEmail, waitListedStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(clientEmail, UserStatus.WAITLISTED.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, waitListedStatus);
-            adminService.changeTheStatusUser(auditorEmail, onboardingStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, UserStatus.WAITLISTED.value);
+            adminService.changeTheStatusUser(auditorEmail, UserStatus.ONBOARDING.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, onboardingStatus);
-            adminService.changeTheStatusUser(auditorEmail, waitListedStatus);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(auditorEmail, UserStatus.WAITLISTED.value);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, waitListedStatus);
-            adminService.verifyNormalAdminCannotChangeSttUser();
+            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, UserStatus.WAITLISTED.value);
+            adminService.verifyAdminCannotChangeSttUser();
 
             adminService.navigateToSettingPage();
-            adminAccountSettingsService.verifyPersonalInfoRendered(normalAdminFullName, normalAdminId, normalAdminPhoneNum);
-            adminAccountSettingsService.inputFullNameAdminSettingPage(normalAdminFullName + "s");
+            adminAccountSettingsService.verifyPersonalInfoRendered(adminFullName, admin, adminPhoneNum);
+            adminAccountSettingsService.inputFullNameAdminSettingPage(adminFullName + "s");
             adminAccountSettingsService.clickUpdateBTN();
             marketingService.refreshHomePage();
             adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
-            adminAccountSettingsService.verifyPersonalInfoRendered(normalAdminFullName + "s", normalAdminId, normalAdminPhoneNum);
-            adminAccountSettingsService.inputFullNameAdminSettingPage(normalAdminFullName);
+            adminAccountSettingsService.verifyPersonalInfoRendered(adminFullName + "s", admin, adminPhoneNum);
+            adminAccountSettingsService.inputFullNameAdminSettingPage(adminFullName);
             adminAccountSettingsService.clickUpdateBTN();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the GUI of Normal Admin Home Page.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify the GUI of Admin Home Page.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the GUI of Normal Admin Home Page: FAILED", LogAs.FAILED,
+            NXGReports.addStep("Verify the GUI of Admin Home Page: FAILED", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
@@ -163,21 +159,21 @@ public class SuperAdminTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin Email", "Valid Value");
+        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
         String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        String normalAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Normal Admin Email", "Valid Value");
-        String normalAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Password", "Valid Value");
+        String admin = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
+        String adminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Password", "Valid Value");
 
-        String normalAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Name", "Valid Value");
+        String adminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Name", "Valid Value");
         String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
             adminService.verifyHeaderAdminPage();
-            adminService.demoteSuperAdminRole(superAdminId, normalAdminFullName, false);
-            adminService.demoteSuperAdminRole(superAdminId, normalAdminFullName, true);
+            adminService.demoteSuperAdminRole(superAdminId, adminFullName, false);
+            adminService.demoteSuperAdminRole(superAdminId, adminFullName, true);
             // Will update if the business change. Future plan: The Super admin will logout after demote user.
-            adminService.verifyNormalAdminCannotChangeSttUser();
+            adminService.verifyAdminCannotChangeSttUser();
             marketingService.logout();
             marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(superAdminId, superAdminPwd);
@@ -185,12 +181,12 @@ public class SuperAdminTest extends AbstractTest {
 
             marketingService.logout();
             marketingService.openLoginDialog();
-            marketingService.loginWithUserNamePassword(normalAdminId, normalAdminPwd);
+            marketingService.loginWithUserNamePassword(admin, adminPwd);
             adminService.verifyHeaderAdminPage();
-            adminService.verifyUserRoleOfEmail(normalAdminId, "SUPER ADMIN");
+            adminService.verifyUserRoleOfEmail(admin, "SUPER ADMIN");
             adminService.verifySuperAdminCanChangeSttAllUser();
-            adminService.demoteSuperAdminRole(normalAdminId, superAdminFullName, true);
-            adminService.verifyNormalAdminCannotChangeSttUser();
+            adminService.demoteSuperAdminRole(admin, superAdminFullName, true);
+            adminService.verifyAdminCannotChangeSttUser();
 
             marketingService.logout();
             marketingService.openLoginDialog();
@@ -213,9 +209,9 @@ public class SuperAdminTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin Email", "Valid Value");
+        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
         superAdminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        adminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Normal Admin Email", "Valid Value");
+        adminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPassword);
@@ -250,7 +246,7 @@ public class SuperAdminTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin Email", "Valid Value");
+        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
         superAdminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
         auditorId = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor", "Valid Value");
 
@@ -302,7 +298,7 @@ public class SuperAdminTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin Email", "Valid Value");
+        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
         superAdminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
         clientId = GenericService.getTestDataFromExcel("SuperAdminTest", "Client", "Valid Value");
 
