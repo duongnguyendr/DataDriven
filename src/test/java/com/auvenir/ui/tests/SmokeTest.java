@@ -133,7 +133,7 @@ public class SmokeTest extends AbstractTest {
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity,strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 
@@ -473,13 +473,15 @@ public class SmokeTest extends AbstractTest {
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.verifyClickAddRequestBtn();
-            getLogger().info("Verifying auditor create 1st request name.. ");
-            auditorCreateToDoService.verifyCreateRequest("New_Request 01", "client request");
-            getLogger().info("Verifying upload TXT file..");
-            //auditorCreateToDoService.uploadeCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, fileName);
-//            getLogger().info("Verifying download TXT file..");
-//            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            auditorCreateToDoService.createNewRequest("request 01","1");
+            auditorCreateToDoService.verifyColorAddRequestBtn();
+            auditorCreateToDoService.verifyClickAddRequestBtn();
+            auditorCreateToDoService.createNewRequest("request 02","2");
+            // temporary return Engagement to verify newRequest.
+            auditorCreateToDoService.reselectEngagementName(engagementName);
+            auditorCreateToDoService.verifyColorAddRequestBtn();
+            auditorCreateToDoService.uploadeNewFileByRequestName(GenericService.sDirPath + pathOfUploadLocation, fileName,"request 01");
+         Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor add new request", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify auditor add new request", LogAs.FAILED,
@@ -1275,7 +1277,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.clientDownloadAttachFile(GenericService.sDirPath+pathOfUploadLocation,GenericService.sDirPath +pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.clientDownloadAttachFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);
         } catch (Exception e) {

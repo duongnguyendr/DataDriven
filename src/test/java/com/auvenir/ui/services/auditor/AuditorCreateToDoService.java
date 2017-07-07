@@ -832,10 +832,18 @@ public class AuditorCreateToDoService extends AbstractService {
      * Author minh.nguyen
      * Vien.Pham modified for smoke test
      */
-    public void verifyCreateRequest(String requestName1, String requestName2) {
-        createToDoPage.verifyNewRequestStoreInDatabase(requestName1, requestName2);
+//    public void verifyCreateRequest(String requestName1, String requestName2) {
+//        createToDoPage.verifyNewRequestStoreInDatabase(requestName1, requestName2);
+//    }
+
+    public void createNewRequest(String newRequest, String position){
+        createToDoPage.createNewRequest(newRequest,position);
     }
 
+    public void reselectEngagementName(String engagementName){
+//        createToDoPage.returnToTodoListPage_LoginToEngagementAgain();
+        createToDoPage.reselectEngagementName(engagementName);
+    }
 
     /**
      * Author minh.nguyen
@@ -843,8 +851,9 @@ public class AuditorCreateToDoService extends AbstractService {
      */
 
 
-    public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
-        createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+    public void uploadeNewFileByRequestName(String uploadLocation, String fileName, String requestName) throws InterruptedException, AWTException, IOException {
+//        createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+        createToDoPage.uploadeNewFileByRequestName(uploadLocation.concat(fileName),requestName);
 
     }
 
