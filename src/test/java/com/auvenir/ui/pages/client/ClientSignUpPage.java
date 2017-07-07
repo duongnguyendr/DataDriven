@@ -148,7 +148,7 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Bank Form");
             validateElementText(titleComponentBank, "Integrate with your Bank");
-            waitSomeSeconds(5);
+            waitSomeSeconds(10);
             waitForJSandJQueryToLoad();
             clickElement(buttonBankSkip, "Button Bank Skip");
         } catch (Exception ex) {
