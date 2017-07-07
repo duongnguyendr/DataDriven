@@ -1,5 +1,6 @@
 package com.auvenir.ui.tests.admin;
 
+import com.auvenir.ui.dataprovider.admin.AdminDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.admin.AdminAccountSettingsService;
 import com.auvenir.ui.services.admin.AdminService;
@@ -10,7 +11,10 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by thuan.duong on 7/5/2017.
@@ -19,6 +23,22 @@ public class SuperAdminTest extends AbstractTest {
     AdminService adminService;
     AdminAccountSettingsService adminAccountSettingsService;
     MarketingService marketingService;
+
+//    @BeforeMethod
+//    public void setUpDataForEachTest(Method method) {
+//        System.out.println("Method Name: " + method.getName());
+//        AdminDataProvider  adminDataProvider = new AdminDataProvider();
+//        try {
+//            Class<?> c = adminDataProvider.getClass();
+//            Method m = c.getMethod("getverifyGUISuperAdminHomePage");
+//            m.invoke(adminDataProvider);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//String superAdminId,String superAdminPwd,String superAdminFullName,String superAdminPhoneNum,String normalAdminEmail
+//            ,String clientEmail,String auditorEmail,String onboardingStatus,String waitListedStatus,String activeStatus,String inactiveStatus
+//    , dataProvider = "verifyGUISuperAdminHomePage", dataProviderClass = AdminDataProvider.class
 
     @Test(priority = 1, enabled = true, description = "To Verify the GUI of Normal Admin Home Page")
     public void verifyGUISuperAdminHomePage() {
