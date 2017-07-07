@@ -9,6 +9,7 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -779,7 +780,7 @@ public class AdminPage extends AbstractPage {
     }
 
 
-    public String getEleAuditorStatusLst(String UserType, String Email, String DateCreated){
+    public String getEleAuditorStatusLst(String UserType, String Email, String DateCreated) {
         waitSomeSeconds(1);
         SelectStatus = getDriver().findElement(By.xpath("//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + DateCreated + "')]//..//td//select"));
         Select select = new Select(SelectStatus);
@@ -787,7 +788,7 @@ public class AdminPage extends AbstractPage {
         return eleAuditorStatusLst;
     }
 
-    public String getEleAuditorStatusLst(String Email){
+    public String getEleAuditorStatusLst(String Email) {
         waitSomeSeconds(1);
         WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, Email);
         Select select = new Select(status);
@@ -1061,11 +1062,11 @@ public class AdminPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) ,e.getMessage());
+            NXGReports.addStep("Failed: Verify user is changed status on the list. Expected: " + expectedStatus, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("Failed: Verify user is changed status on the list.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+            NXGReports.addStep("Failed: Verify user is changed status on the list. Expected: " + expectedStatus, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
 
@@ -1131,7 +1132,7 @@ public class AdminPage extends AbstractPage {
     public void changeTheStatusUser(String userEmail, String chooseOption) {
         try {
             getLogger().info(String.format("Try change status of user to %s", chooseOption));
-            if(!getEleAuditorStatusLst(userEmail).equals(chooseOption)) {
+            if (!getEleAuditorStatusLst(userEmail).equals(chooseOption)) {
                 waitSomeSeconds(1);
 //            waitForVisibleElement(eleAdminHdrTxt, "Admin");
 //            validateElementText(eleAdminHdrTxt, "Admin");
@@ -1331,7 +1332,7 @@ public class AdminPage extends AbstractPage {
         boolean result = false;
         try {
             List<WebElement> superAdmin = getListElementsByXpath(xpathUserTypeCellOnAdminPage, "SUPER ADMIN");
-            if(superAdmin.size() == 1) {
+            if (superAdmin.size() == 1) {
                 result = true;
             }
             Assert.assertTrue(result, "The system should have only one Super Admin.");
@@ -1343,4 +1344,16 @@ public class AdminPage extends AbstractPage {
         }
         return result;
     }
+
+    /**
+     * Add new by huy.huynh on 06/07/2017.
+     * R2.1 NewFeature
+     */
+    private String xpathDueDateByName = "//table[@id='w-mu-table']//td[3][text()='%s']";
+
+    public void scrollToUser(String email) {
+        hoverElement(getElementByXpath(xpathDueDateByName, email), "Cell " + email);
+        ((JavascriptExecutor) getDriver()).executeScript("javascript:window.scrollBy(250,450)");
+    }
+    /*-----------end of huy.huynh on 06/07/2017.*/
 }
