@@ -148,6 +148,8 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Bank Form");
             validateElementText(titleComponentBank, "Integrate with your Bank");
+            waitSomeSeconds(10);
+            waitForJSandJQueryToLoad();
             clickElement(buttonBankSkip, "Button Bank Skip");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -170,7 +172,7 @@ public class ClientSignUpPage extends AbstractPage {
             validateElementText(titleComponentSecurity, "Create Your Password");
             sendKeyTextBox(inputCreatePassword, password, "Input Create Password");
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
-            waitSomeSeconds(2);
+            sendTabkey(inputConfirmPassword,"Input Confirm Password");
             scrollPageDown();
             clickElement(buttonSecurityContinue, "Button Security Continue");
             waitSomeSeconds(5);
