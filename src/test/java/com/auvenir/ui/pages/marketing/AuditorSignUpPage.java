@@ -605,21 +605,6 @@ public class AuditorSignUpPage extends AbstractPage {
             //input memberID
             inputMemberID(strMemberID);
 
-//            waitForVisibleElement(provinceDropdownEle, "Province Dropdown");
-//            clickElement(provinceDropdownEle, "Province Dropdown");
-//            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "true");
-//            clickElement(provinceDdlListItemEle.get(0), "Province Dropdown");
-//            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "false");
-
-//            waitForVisibleElement(eleMemberID, "Member ID Input");
-//            sendKeyTextBox(eleMemberID, strMemberID, "Member ID Input");
-
-//            waitForVisibleElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-//            clickElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-//            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "true");
-//            clickElement(numberEmployeeDdlListItemEle.get(0), "First Item on Number of Employee Dropdown");
-//            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "false");
-
             waitForVisibleElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
             clickElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
             waitForAtrributeValueChanged(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown", "aria-expanded", "true");
@@ -906,9 +891,11 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(eleConfirmPass, "Confirm Password Input");
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
+            scrollPageDown();
             waitForJSandJQueryToLoad();
+            waitSomeSeconds(5);
             clickElement(createAccountBtnEle, "Create Account button");
-
+            waitSomeSeconds(5);
             // Verify Register Auditor Security Page is passed
 //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
 //            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
