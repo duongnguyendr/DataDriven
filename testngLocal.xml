@@ -12,7 +12,12 @@
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <class name="com.auvenir.ui.tests.admin.SuperAdminTest"/>
+            <methods>
+                <include name="verifyGUISuperAdminHomePage"></include>
+                <include name="verifyGUINormalAdminHomePage"></include>
+                <include name="verifyAssignSuperAdminRole"></include>
+            </methods>
             <!--<methods>
                 &lt;!&ndash;<include priority="1" name="verifyAdminLogin"></include>&ndash;&gt;
                 <include priority="2" name="verifySignUpAuditorUser"></include>
