@@ -24,39 +24,18 @@ public class SuperAdminTest extends AbstractTest {
     AdminAccountSettingsService adminAccountSettingsService;
     MarketingService marketingService;
 
-//    @BeforeMethod
-//    public void setUpDataForEachTest(Method method) {
-//        System.out.println("Method Name: " + method.getName());
-//        AdminDataProvider  adminDataProvider = new AdminDataProvider();
-//        try {
-//            Class<?> c = adminDataProvider.getClass();
-//            Method m = c.getMethod("getverifyGUISuperAdminHomePage");
-//            m.invoke(adminDataProvider);
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-//String superAdminId,String superAdminPwd,String superAdminFullName,String superAdminPhoneNum,String normalAdminEmail
-//            ,String clientEmail,String auditorEmail,String onboardingStatus,String waitListedStatus,String activeStatus,String inactiveStatus
-//    , dataProvider = "verifyGUISuperAdminHomePage", dataProviderClass = AdminDataProvider.class
-
-    @Test(priority = 1, enabled = true, description = "To Verify the GUI of Normal Admin Home Page")
-    public void verifyGUISuperAdminHomePage() {
+    @Test(priority = 1, enabled = true, description = "To Verify the GUI of Normal Admin Home Page", dataProvider = "verifyGUISuperAdminHomePage", dataProviderClass = AdminDataProvider.class)
+    public void verifyGUISuperAdminHomePage(String superAdminId,String superAdminPwd,String superAdminFullName,String superAdminPhoneNum,String normalAdminEmail,
+                                            String clientEmail,String auditorEmail,String onboardingStatus,String waitListedStatus,String activeStatus,String inactiveStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin Email", "Valid Value");
-        String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
-        String superAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Phone", "Valid Value");
-        String clientEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Client Email", "Valid Value");
-        String auditorEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor Email", "Valid Value");
-        String normalAdminEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Normal Admin Email", "Valid Value");
-        String onboardingStatus = "Onboarding";
-        String waitListedStatus = "Wait Listed";
-        String activeStatus = "Active";
-        String inactiveStatus = "Inactive";
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+        normalAdminEmail = GenericService.addBrowserPrefix(normalAdminEmail);
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
             adminService.verifyHeaderAdminPage();
@@ -105,20 +84,17 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Normal Admin Home Page")
-    public void verifyGUINormalAdminHomePage() {
+    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Normal Admin Home Page", dataProvider = "verifyGUINormalAdminHomePage", dataProviderClass = AdminDataProvider.class)
+    public void verifyGUINormalAdminHomePage(String normalAdminId, String normalAdminPwd, String normalAdminFullName, String normalAdminPhoneNum,
+                                             String clientEmail, String auditorEmail, String onboardingStatus, String waitListedStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String normalAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Normal Admin Email", "Valid Value");
-        String normalAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Password", "Valid Value");
-        String normalAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Name", "Valid Value");
-        String normalAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Phone", "Valid Value");
-        String clientEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Client Email", "Valid Value");
-        String auditorEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor Email", "Valid Value");
-        String onboardingStatus = "Onboarding";
-        String waitListedStatus = "Wait Listed";
+        normalAdminId = GenericService.addBrowserPrefix(normalAdminId);
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(normalAdminId, normalAdminPwd);
             adminService.verifyHeaderAdminPage();
@@ -159,19 +135,14 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "To Verify Assign Super Admin Role")
-    public void verifyAssignSuperAdminRole() {
+    @Test(priority = 3, enabled = true, description = "To Verify Assign Super Admin Role", dataProvider = "verifyAssignSuperAdminRole", dataProviderClass = AdminDataProvider.class)
+    public void verifyAssignSuperAdminRole(String superAdminId, String  superAdminPwd, String normalAdminId, String normalAdminPwd, String normalAdminFullName, String superAdminFullName) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin Email", "Valid Value");
-        String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        String normalAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Normal Admin Email", "Valid Value");
-        String normalAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Password", "Valid Value");
-
-        String normalAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Normal Admin Name", "Valid Value");
-        String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+        normalAdminId = GenericService.addBrowserPrefix(normalAdminId);
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);

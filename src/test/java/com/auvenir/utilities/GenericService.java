@@ -796,4 +796,8 @@ public class GenericService {
         }
         return userData;
     }
+
+    public static String addBrowserPrefix(String value) {
+        return GenericService.sBrowserData + value;
+    }
 }
