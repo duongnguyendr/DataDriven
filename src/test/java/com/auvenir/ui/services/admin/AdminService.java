@@ -171,5 +171,9 @@ public class AdminService extends AbstractService {
     public void verifyNormalAdminCannotChangeSttUser() {
         adminPage.verifyNormalAdminCannotChangeSttAdminUser();
     }
+
+    public void scrollToUser(String email) {
+        adminPage.scrollToUser(email);
+    }
 }
 
