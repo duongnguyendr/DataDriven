@@ -893,7 +893,6 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
             scrollPageDown();
             waitForJSandJQueryToLoad();
-            waitSomeSeconds(5);
             clickElement(createAccountBtnEle, "Create Account button");
             waitSomeSeconds(5);
             // Verify Register Auditor Security Page is passed

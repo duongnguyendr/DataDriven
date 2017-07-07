@@ -170,7 +170,6 @@ public class ClientSignUpPage extends AbstractPage {
             validateElementText(titleComponentSecurity, "Create Your Password");
             sendKeyTextBox(inputCreatePassword, password, "Input Create Password");
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
-            waitSomeSeconds(2);
             scrollPageDown();
             clickElement(buttonSecurityContinue, "Button Security Continue");
             waitSomeSeconds(5);
