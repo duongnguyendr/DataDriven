@@ -3344,4 +3344,10 @@ public class AbstractPage {
         }
         return webElement;
     }
+
+    public void closeBrowserAfterDownLoad() throws InterruptedException {
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(0)).close();
+            Thread.sleep(smallTimeOut);
+    }
 }

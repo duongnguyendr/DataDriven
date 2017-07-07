@@ -7,6 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by tan.pham on 6/22/2017.
  */
@@ -49,6 +52,9 @@ public class AuditorEngagementFilePage extends AbstractPage {
     @FindBy(xpath = "//*[@class='au-modal-container modalTransition-popUp-container']//img[@class='au-modal-closeBtn']")
     private WebElement eleCloseIconDownLoadPopup;
 
+    @FindBy(xpath = "//span[@id='h-engagementsLink']")
+    private WebElement eleEngagementLink;
+
     /**
      * Verify engagement file of engagement
      * @param engagementName : engagement name need check
@@ -62,14 +68,6 @@ public class AuditorEngagementFilePage extends AbstractPage {
         waitForClickableOfElement(eleDownloadIcon, "down load icon");
         waitForVisibleElement(eleTrashIcon, "trash icon");
         waitForVisibleElement(eleSearchTextBox, "search text box");
-    }
-
-    /**
-     * Click on down load icon
-     */
-    public void clickOnDownLoadIcon(){
-        hoverElement(eleDownloadIcon, "hover down load icon");
-        clickElement(eleDownloadIcon);
     }
 
     /**
@@ -98,5 +96,17 @@ public class AuditorEngagementFilePage extends AbstractPage {
         validateElementText(eleDescriptionDownLoadPopup, DOWN_LOAD_POPUP_DESCRIPTION);
         waitForVisibleElement(eldDownloadButtonInPopup, "down load button in popup");
         waitForVisibleElement(eleCloseIconDownLoadPopup, "close icon down load popup");
+    }
+
+    /**
+     * Click on engagement link
+     */
+    public void clickOnDownLoadIcon(){
+        hoverElement(eleDownloadIcon, "hover down load icon link");
+        clickElement(eleDownloadIcon);
+    }
+
+    public void closeBrowserAfterDownLoad() throws InterruptedException{
+        this.closeBrowserAfterDownLoad();
     }
 }

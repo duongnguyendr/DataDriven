@@ -126,6 +126,10 @@ public class AuditorDetailsEngagementService extends AbstractService {
     public void clickOnContactLink(){
         auditorDetailsEngagementPage.clickOnContactLink();
     }
+
+    public void closeBrowserAfterDownLoad() throws InterruptedException{
+        auditorEngagementFilePage.closeBrowserAfterDownLoad();
+    }
 }
 
 
