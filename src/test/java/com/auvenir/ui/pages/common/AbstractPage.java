@@ -3366,4 +3366,15 @@ public class AbstractPage {
             driver.switchTo().window(tabs.get(0)).close();
             Thread.sleep(smallTimeOut);
     }
+    public void clickElementActions(WebElement element, String ElementName){
+        try{
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.click(element);
+            actions.perform();
+        }catch (Exception e){
+
+        }
+    }
+
 }

@@ -894,7 +894,7 @@ public class AuditorSignUpPage extends AbstractPage {
             sendTabkey(eleConfirmPass,"Confirm Password Input");
             scrollPageDown();
             waitForJSandJQueryToLoad();
-            clickElement(createAccountBtnEle, "Create Account button");
+            clickElementActions(createAccountBtnEle, "Create Account button");
             waitSomeSeconds(5);
             // Verify Register Auditor Security Page is passed
 //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
