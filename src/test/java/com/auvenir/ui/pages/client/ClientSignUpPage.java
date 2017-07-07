@@ -171,7 +171,8 @@ public class ClientSignUpPage extends AbstractPage {
             sendKeyTextBox(inputCreatePassword, password, "Input Create Password");
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
             waitSomeSeconds(2);
-            clickElement(buttonSecurityContinue);
+            scrollPageDown();
+            clickElement(buttonSecurityContinue, "Button Security Continue");
             waitSomeSeconds(5);
         } catch (Exception ex) {
             ex.printStackTrace();
