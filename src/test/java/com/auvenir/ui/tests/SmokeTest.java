@@ -11,7 +11,6 @@ import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
@@ -288,7 +287,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-            adminService.verifyUserStatusOnAdminUserTable(clientId, "Pending");
+            adminService.verifyUserStatusOnAdminUserTable(clientId, "Onboarding");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
@@ -337,7 +336,7 @@ public class SmokeTest extends AbstractTest {
         String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
 
-        MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
+        //MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
 
         try {
             gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
@@ -460,19 +459,24 @@ public class SmokeTest extends AbstractTest {
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+        String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
+        String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
+        String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
+
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName, deadlineDate, endDate, startDate);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
-//            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.verifyClickAddRequestBtn();
             getLogger().info("Verifying auditor create 1st request name.. ");
             auditorCreateToDoService.verifyCreateRequest("New_Request 01", "client request");
             getLogger().info("Verifying upload TXT file..");
-            auditorCreateToDoService.uploadeCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, fileName);
+            //auditorCreateToDoService.uploadeCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, fileName);
 //            getLogger().info("Verifying download TXT file..");
 //            auditorCreateToDoService.downloadCreateRequestNewFile(GenericService.sDirPath + pathOfUploadLocation, GenericService.sDirPath + pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1134,10 +1138,12 @@ public class SmokeTest extends AbstractTest {
             auditorDetailsEngagementService.clickOnAllFileCheckBox();
             // Click on down load icon
             auditorDetailsEngagementService.clickOnDownLoadIcon();
+
+            auditorDetailsEngagementService.closeBrowserAfterDownLoad();
             // verify down load popup
-            auditorDetailsEngagementService.verifyDownLoadPopup();
+            //auditorDetailsEngagementService.verifyDownLoadPopup();
             // Click on down load button in popup
-            auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
+            //auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify download all attachment file form all ToDo.", LogAs.PASSED, null);

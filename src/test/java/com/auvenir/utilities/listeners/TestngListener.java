@@ -69,7 +69,11 @@ public class TestngListener implements ITestListener {
 		sDescription.add(result.getMethod().getDescription());
 		iPassCount = iPassCount+1;
 		sTestName.add(result.getName().toString());
-		sStatus.add("Passed");
+		if(null != result.getAttribute("passedButFailed") && result.getAttribute("passedButFailed").equals("passedButFailed")) {
+			sStatus.add("Failed");
+		}else {
+			sStatus.add("Passed");
+		}
 	}
 
 	public void onTestFailure(ITestResult result) 

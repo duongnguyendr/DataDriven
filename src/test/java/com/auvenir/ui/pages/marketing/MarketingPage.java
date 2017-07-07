@@ -12,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 /**
  * Created by toan.nguyenp on 4/11/2017.
  */
@@ -21,6 +23,7 @@ public class MarketingPage extends AbstractPage {
         super(logger, driver);
         PageFactory.initElements(driver, this);
     }
+
 
     /**
      * About page
@@ -51,6 +54,8 @@ public class MarketingPage extends AbstractPage {
      */
     private String marketingHeaderTextCst = "We are growing. Come join our team.";
     private String careersAtAuvenirTextCst = "Careers at Auvenir";
+    private String errorPwdMesg1 = "Please enter a password and least 8 characters, have a capital letter, lower case letter, a number and a special character (!@#$%^&*)";
+    private String errorPwdMesg2 = "Your passwords don't match.";
     //@FindBy(xpath = "//img[@src='static/images/logo-auvenir.png']")
     //private WebElement auvenirLogoImage;
     @FindBy(xpath = ".//*[@id='marketing-header']//div[@class='row']/div")
@@ -643,13 +648,28 @@ public class MarketingPage extends AbstractPage {
     }
 
     public void clickOnForgotPasswordLink() {
-        waitForClickableOfElement(forgotPasswordLink, "forgotPasswordLink");
+//            waitForClickableOfElement(forgotPasswordLink, "forgotPasswordLink");
         clickElement(forgotPasswordLink, "forgotPasswordLink");
+
     }
 
     public void verifyForgotPasswordTitle() {
-        waitForVisibleElement(forgotPasswordTitle, "forgotPasswordTitle");
-        validateElementText(forgotPasswordTitle, "Forgot Your Password?");
+        try {
+            Boolean isVisible = waitForVisibleElement(forgotPasswordTitle, "forgotPasswordTitle");
+            Boolean isText = validateElementText(forgotPasswordTitle, "Forgot Your Password?");
+            if (isText && isVisible) {
+                NXGReports.addStep("Verify Forgot Password Title: Pass", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify Forgot Password Title: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify Forgot Password Title: Fail_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+
     }
 
     public void inputEmailForgotPassword(String text) {
@@ -657,8 +677,15 @@ public class MarketingPage extends AbstractPage {
         sendKeyTextBox(emailForgotPasswordTextBox, text, "emailForgotPasswordTextBox");
     }
 
+    @FindBy(xpath = "//div[@id='forgot-popup']")
+    WebElement resetPwdPopUp;
+
+    /*
+    Vien.Pham edited clickOnRequestResetLinkBTN()
+     */
     public void clickOnRequestResetLinkBTN() {
         clickElement(requestResetLinkBTN, "requestResetLinkBTN");
+        waitForCssValueChanged(resetPwdPopUp, "ResetPwd PopUp", "display", "none");
     }
 
     public void verifyColorEmailForgotPasswordTextBox(String attributeName, String attributeValue) {
@@ -886,7 +913,7 @@ public class MarketingPage extends AbstractPage {
      * Add new by huy.huynh on 29/06/2017.
      * R2.1 NewFeature
      */
-    @FindBy(className = "email-sending-title")
+    @FindBy(xpath = "//div[@class='email-sending-title']/span")
     private WebElement titleResetLinkSent;
 
     @FindBy(id = "security-title")
@@ -901,7 +928,11 @@ public class MarketingPage extends AbstractPage {
     @FindBy(id = "security-continueBtn")
     private WebElement buttonSetPassword;
 
+    @FindBy(xpath = "//div[@id='email-sending-popup']")
+    private WebElement resetLinkSentPopup;
+
     public void waitForResetLinkSent() {
+//        waitForVisibleElement(titleResetLinkSent,"Title Reset Link Sent");
         waitForTextValueChanged(titleResetLinkSent, "Title Reset Link Sent", "Reset Link Sent");
     }
 
@@ -921,4 +952,89 @@ public class MarketingPage extends AbstractPage {
         clickElement(buttonSetPassword, "Button Set Password");
     }
     /*-----------end of huy.huynh on 29/06/2017.*/
+
+    /*
+    Vien.Pham added new method
+     */
+
+    public void inputNewResetPassword(String newPwd, String position) throws InterruptedException {
+        if (position.equals("1")) {
+            clickElement(inputFirstPassword, "First pwd box");
+            sendKeyTextBox(inputFirstPassword, newPwd, "Input First Password");
+        } else {
+            clickElement(inputSecondPassword, "Second pwd box");
+            sendKeyTextBox(inputSecondPassword, newPwd, "Input Second Password");
+        }
+        Thread.sleep(smallerTimeOut);
+    }
+
+
+    @FindBy(xpath = "//input[contains(@class,'auv-error')]")
+    WebElement errorPwdVerify;
+    @FindBy(xpath = "//div[@id='reset-password-component-container']//p[@class='auv-inputError']")
+    List<WebElement> errorPwdMessage;
+//    @FindBy(xpath = "//button[@id='security-continueBtn']")
+//    WebElement disableSetPasswordBtn;
+
+    public void verifyInvalidPasswordWarning(String position) {
+        try {
+            Boolean isVisible = waitForVisibleElement(errorPwdVerify, "");
+            if (isVisible && position.equals("1")) {
+                Boolean isCheck = validateElementText(errorPwdMessage.get(0), errorPwdMesg1);
+                if (isCheck) {
+                    NXGReports.addStep("Verify error password message: Pass", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify error password message: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+            if (isVisible && position.equals("2")) {
+                Boolean isCheck = validateElementText(errorPwdMessage.get(1), errorPwdMesg2);
+                if (isCheck) {
+                    NXGReports.addStep("Verify error password message: Pass", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify error password message: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify all cases of password input: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyValidPassword(String position) {
+        try {
+            if (position.equals("1")) {
+                Boolean isWait = waitForCssValueChanged(inputFirstPassword, "border first pwd", "border", "1px solid rgb(89, 155, 161)");
+                if (isWait) {
+                    NXGReports.addStep("Verify border Green while input valid pass: Pass", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify border Green while input valid pass: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            } else {
+                Boolean isWait = waitForCssValueChanged(inputSecondPassword, "border first pwd", "border", "1px solid rgb(89, 155, 161)");
+                if (isWait) {
+                    NXGReports.addStep("Verify border Green while input valid pass: Pass", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify border Green while input valid pass: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify border Green while input valid pass: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void selectSetPasswordBtn() {
+        clickElement(buttonSetPassword, "Set password Btn");
+    }
+
+    /*
+    End of Vien.Pham
+     */
 }

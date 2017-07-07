@@ -114,18 +114,18 @@ public class AbstractTest {
                     getLogger().info("Chrome is set");
                     driver = new ChromeDriver(cap);
                     GenericService.sBrowserData = "chr.";
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("firefox")) {
+                } else if (browser.equalsIgnoreCase("firefox")) {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
                     FirefoxProfile profile = setDownloadLocationFirefox();
                     driver = new FirefoxDriver(profile);
                     GenericService.sBrowserData = "ff.";
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("internet explorer")) {
+                } else if (browser.equalsIgnoreCase("internet explorer")) {
                     getLogger().info("Intetnet Explorer is set");
                     System.setProperty("webdriver.ie.driver", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
                     GenericService.sBrowserData = "ie.";
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("edge")) {
+                } else if (browser.equalsIgnoreCase("edge")) {
                     getLogger().info("Edge is set");
                     System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
                     driver = new EdgeDriver();

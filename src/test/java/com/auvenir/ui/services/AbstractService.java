@@ -217,6 +217,7 @@ public class AbstractService {
                 getLogger().info("Language is : " + baseLanguage);
                 marketingPage.clickOnChangeLanguageBTN();
             }
+            GenericService.sLanguage = sLanguage;
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
