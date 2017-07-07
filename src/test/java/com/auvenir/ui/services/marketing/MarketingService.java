@@ -245,15 +245,22 @@ Vien.Pham added login With New User Role
     }
     /*-----------end of huy.huynh on 29/06/2017.*/
 
-    public void inputFistNewPassword(String newPwd) throws InterruptedException {
-        marketingPage.inputFirstNewPwd(newPwd);
+    /*
+    *VienPham add new input reset pwd
+    * R2.1
+     */
+    public void inputNewResetPassword(String newPwd, String position) throws InterruptedException {
+        marketingPage.inputNewResetPassword(newPwd, position);
     }
 
-    public void verifyInvalidPwdWarning(){
-        marketingPage.verifyPassword();
+    public void verifyInvalidPwdWarning(String position){
+        marketingPage.verifyInvalidPasswordWarning(position);
     }
 
-    public void verifyValidPwd(){
-        marketingPage.verifyPassword();
+    public void verifyValidPwd(String position){
+        marketingPage.verifyValidPassword(position);
+    }
+    public void selectSetPasswordBtn(){
+        marketingPage.selectSetPasswordBtn();
     }
 }

@@ -459,13 +459,18 @@ public class SmokeTest extends AbstractTest {
         String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
+        String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
+        String endDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "End Date");
+        String startDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Start Date");
+
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName, deadlineDate, endDate, startDate);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorCreateToDoService.selectToDoTaskName(toDoName);
-//            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.verifyClickAddRequestBtn();
             getLogger().info("Verifying auditor create 1st request name.. ");
@@ -1133,10 +1138,12 @@ public class SmokeTest extends AbstractTest {
             auditorDetailsEngagementService.clickOnAllFileCheckBox();
             // Click on down load icon
             auditorDetailsEngagementService.clickOnDownLoadIcon();
+
+            auditorDetailsEngagementService.closeBrowserAfterDownLoad();
             // verify down load popup
-            auditorDetailsEngagementService.verifyDownLoadPopup();
+            //auditorDetailsEngagementService.verifyDownLoadPopup();
             // Click on down load button in popup
-            auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
+            //auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify download all attachment file form all ToDo.", LogAs.PASSED, null);

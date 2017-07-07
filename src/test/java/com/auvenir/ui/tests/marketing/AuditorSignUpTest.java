@@ -348,7 +348,7 @@ public class AuditorSignUpTest extends AbstractTest {
             throw e;
         }
     }
-
+/*
     @Test(priority = 7, enabled = true, description = "Verify Auditor Reset Password")
     public void verifyAuditorResetPwd() throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(),getDriver());
@@ -373,21 +373,22 @@ public class AuditorSignUpTest extends AbstractTest {
             gmailLoginService.selectActiveEmaill();
             gmailLoginService.navigateToResetPwdPage();
             marketingService.verifyResetPasswordPageTitle();
-            marketingService.inputFistNewPassword("vien");
-            marketingService.verifyInvalidPwdWarning();
-            marketingService.inputFistNewPassword("vien1234");
-            marketingService.verifyInvalidPwdWarning();
-            marketingService.inputFistNewPassword("vien@1234");
-            marketingService.verifyInvalidPwdWarning();
-            marketingService.inputFistNewPassword("Vien1234");
-            marketingService.verifyInvalidPwdWarning();
-            marketingService.inputFistNewPassword("Vien@1234");
-            marketingService.verifyValidPwd();
-//            marketingService.inputSecondNewPassword("");
-//            marketingService.verifyNotMatchPwd();
-//            marketingService.inputSecondNewPassword("");
-//            marketingService.verifyValidPwd();
-//            auditorEngagementService.verifyAuditorEngagementPage();
+            marketingService.inputNewResetPassword("vien","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("vien1234","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("vien@1234","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("Vien1234","1");
+            marketingService.verifyInvalidPwdWarning("1");
+            marketingService.inputNewResetPassword("Changeit@123","1");
+            marketingService.verifyValidPwd("1");
+            marketingService.inputNewResetPassword("123","2");
+            marketingService.verifyInvalidPwdWarning("2");
+            marketingService.inputNewResetPassword("Changeit@123","2");
+            marketingService.verifyValidPwd("2");
+            marketingService.selectSetPasswordBtn();
+            auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Member ID: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -399,6 +400,6 @@ public class AuditorSignUpTest extends AbstractTest {
             NXGReports.addStep("Verify Member ID: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw er;
         }
-    }
+    }*/
 
 }
