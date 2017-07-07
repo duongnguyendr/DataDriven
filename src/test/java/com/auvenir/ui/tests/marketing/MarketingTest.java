@@ -279,8 +279,7 @@ public class MarketingTest extends AbstractTest {
 
         final String auditorID = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         final String auditorEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-        final String auditorNewPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-        try {
+          try {
             gmailLoginService.deleteAllExistedEmail(auditorID, auditorEmailPwd);
             marketingService.goToAuvenirMarketingPageURL();
             marketingService.selectLoginBtn();
@@ -302,11 +301,11 @@ public class MarketingTest extends AbstractTest {
             marketingService.verifyInvalidPwdWarning("1");
             marketingService.inputNewResetPassword("Vien1234","1");
             marketingService.verifyInvalidPwdWarning("1");
-            marketingService.inputNewResetPassword("Vien@1234","1");
+            marketingService.inputNewResetPassword("Changeit@123","1");
             marketingService.verifyValidPwd("1");
             marketingService.inputNewResetPassword("123","2");
             marketingService.verifyInvalidPwdWarning("2");
-            marketingService.inputNewResetPassword("Vien@1234","2");
+            marketingService.inputNewResetPassword("Changeit@123","2");
             marketingService.verifyValidPwd("2");
             marketingService.selectSetPasswordBtn();
             auditorEngagementService.verifyAuditorEngagementPage();
