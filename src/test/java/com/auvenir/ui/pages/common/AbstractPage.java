@@ -2818,7 +2818,7 @@ public class AbstractPage {
             waitForTextValueChanged(listOfAddNewCategory.get(0), "categoryCreateEle", "Add New Category");
             hoverElement(listOfAddNewCategory.get(0), "categoryCreateEle");
             clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
-            NXGReports.addStep("Navigate to Add new category: Pass", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Navigate to Add new category: Pass", LogAs.PASSED,null);
         } catch (Exception e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
