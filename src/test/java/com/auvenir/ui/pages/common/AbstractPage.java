@@ -1313,7 +1313,7 @@ public class AbstractPage {
      * @return
      */
     public boolean HoverAndWaitForClickableOfElement(WebElement element, String elementName) {
-        getLogger().info("Try to waitForClickableOfElement: " + elementName);
+        getLogger().info("Try to HoverAnd waitForClickableOfElement: " + elementName);
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(element);
@@ -2818,7 +2818,7 @@ public class AbstractPage {
             waitForTextValueChanged(listOfAddNewCategory.get(0), "categoryCreateEle", "Add New Category");
             hoverElement(listOfAddNewCategory.get(0), "categoryCreateEle");
             clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
-            NXGReports.addStep("Navigate to Add new category: Pass", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Navigate to Add new category: Pass", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         } catch (Exception e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
