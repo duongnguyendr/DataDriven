@@ -116,6 +116,8 @@ public class ClientSignUpPage extends AbstractPage {
             getLogger().info("Fill Up Personal Form");
             validateElementText(titleComponentPersonal, "Please Confirm your Information");
             clickElement(inputPersonalRole, "Input Personal Role");
+            waitSomeSeconds(5);
+            scrollToFooter();
             clickElement(optionFirstOnPersonalRoleList, "First Option Personal Role");
             sendKeyTextBox(inputPersonalPhoneNumber, phoneNumber, "Input Personal Phone Number");
             clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
@@ -150,6 +152,7 @@ public class ClientSignUpPage extends AbstractPage {
             validateElementText(titleComponentBank, "Integrate with your Bank");
             waitSomeSeconds(10);
             waitForJSandJQueryToLoad();
+            scrollToFooter();
             clickElement(buttonBankSkip, "Button Bank Skip");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -160,6 +163,7 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Bank Form");
             validateElementText(titleComponentFiles, "Integrate With Your File Storage");
+            scrollToFooter();
             clickElement(buttonFilesSkip, "Button File Skip");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -173,7 +177,7 @@ public class ClientSignUpPage extends AbstractPage {
             sendKeyTextBox(inputCreatePassword, password, "Input Create Password");
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
             sendTabkey(inputConfirmPassword,"Input Confirm Password");
-            scrollPageDown();
+            scrollToFooter();
             clickElement(buttonSecurityContinue, "Button Security Continue");
             waitSomeSeconds(5);
         } catch (Exception ex) {
