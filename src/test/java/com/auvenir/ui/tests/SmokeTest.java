@@ -17,7 +17,6 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureSc
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 
 /**
@@ -1052,7 +1051,7 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             clientService.verifyToDoTaskExist(toDoName, false);
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             marketingService.logout();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1091,7 +1090,10 @@ public class SmokeTest extends AbstractTest {
             auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple02);
             auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple03);
 
+            auditorCreateToDoService.scrollDown(getDriver());
+
             auditorCreateToDoService.selectToDoTaskName(toDoNameDeleteSingle);
+            auditorCreateToDoService.scrollUp(getDriver());
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.selectDeleteToDoUsingBulkAction();
             auditorCreateToDoService.confirmDeleteButton();
