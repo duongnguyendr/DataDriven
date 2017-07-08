@@ -144,16 +144,16 @@ public class AuditorEngagementTeamPage extends AbstractPage {
             clickElement(reEmailMemberTxtEle, "Email Textbox");
             clickElement(inviteButtonEle, "Invite Button");
             waitForProgressOverlayIsClosed();
-            boolean result = verifyContentOfSuccessToastMessage("Your team member invitation has been sent.");
-            Assert.assertTrue(result, "The Message Invite New Member Successfull should be displayed");
+            boolean result = verifyContentOfSuccessToastMessage("Your engagement invitation has been sent.");
+            Assert.assertTrue(result, "The Message Invite New Member Successful should be displayed");
             NXGReports.addStep("Input Invite New Member Information.", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt ++;
-            NXGReports.addStep("Test Failed: Input Invite New Member Information.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Test Failed: Input Invite New Member Information.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
             getLogger().info(e);
         } catch (Exception e) {
             AbstractService.sStatusCnt ++;
-            NXGReports.addStep("Test Failed: Input Invite New Member Information.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Test Failed: Input Invite New Member Information.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
             getLogger().info(e);
         }
     }

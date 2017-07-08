@@ -11,7 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -257,12 +256,17 @@ public class AuditorNewEngagementPage extends AbstractPage {
         enterCompanyName(company);
 
         enterDeadLineDate(getDate(10));
+        waitSomeSeconds(3);
+        scrollToFooter();
+        HoverAndWaitForClickableOfElement(eleEngagementNameInput, "engagement Name");
         clickElement(eleEngagementNameInput, "engagement Name");
 
         enterEndDate(getDate(10));
+        HoverAndWaitForClickableOfElement(eleEngagementNameInput, "engagement Name");
         clickElement(eleEngagementNameInput, "engagement Name");
 
         enterStartDate(getDate(1));
+        HoverAndWaitForClickableOfElement(eleEngagementNameInput, "engagement Name");
         clickElement(eleEngagementNameInput, "engagement Name");
 
         clickContinueBtn();
@@ -440,6 +444,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     public void enterDeadLineDate(String dateLineDate) {
         getLogger().info("Enter deadline date.");
         sendKeyTextBox(eleReportDeadlineInput, dateLineDate, "DateLine");
+        sendTabkey(eleReportDeadlineInput,"DateLine");
     }
 
     public void enterStartDate(String startDate) {

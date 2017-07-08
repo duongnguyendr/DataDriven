@@ -1,9 +1,10 @@
 package com.auvenir.ui.pages.client;
 
-import java.util.List;
-
 import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
+import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -11,9 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
-import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import java.util.List;
 
 public class ClientToDoPage extends AbstractPage{
 	
@@ -58,6 +57,7 @@ public class ClientToDoPage extends AbstractPage{
                 NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
                         new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
+            waitSomeSeconds(5);
         } catch (Exception e) {
             AbstractService.sStatusCnt ++;
             NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.FAILED,
