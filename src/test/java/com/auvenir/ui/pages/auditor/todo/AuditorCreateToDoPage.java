@@ -3558,10 +3558,10 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(id = "engagement-backButton")
     WebElement engagementBackBtn;
 
-    public void reselectEngagementName(String engagementName){
+    public void reselectEngagementName(String engagementName) {
         AuditorEngagementService auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         AuditorDetailsEngagementService auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-       try {
+        try {
             getLogger().info("Back to Engagement page...");
             engagementBackBtn.click();
             getLogger().info("Return to Todo list page again..");
@@ -4446,23 +4446,30 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void uploadeNewFileByRequestName(String concatUpload, String requestName) {
         try {
             int isFind = findRequestByName(requestName);
-            clickElement(newRequestTable.findElement(By.xpath("./div["+isFind+"]//label")));
-            Thread.sleep(largeTimeOut);
-            getLogger().info("Input path of file..");
-            StringSelection ss = new StringSelection(concatUpload);
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            getLogger().info("Waiting for checkSign visible..");
-            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+            if (isFind == -1) {
+                getLogger().info("Can not find any request has name is: " + requestName);
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            } else {
+                clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
+                Thread.sleep(largeTimeOut);
+                getLogger().info("Input path of file..");
+                StringSelection ss = new StringSelection(concatUpload);
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                getLogger().info("Waiting for checkSign visible..");
+                waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+                closeAddNewRequestWindow();
+                NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+            }
         } catch (AWTException awt) {
             AbstractService.sStatusCnt++;
             awt.printStackTrace();
@@ -4483,14 +4490,27 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int isFind = -1;
         for (int i = 1; i < (newRequestList.size() + 1); i++) {
             if (newRequestTable.findElement(By.xpath("./div[" + i + "]/span")).getText().equals(requestName)) {
-                isFind =i;
+                isFind = i;
                 break;
             }
         }
         return isFind;
     }
 
+    public int findUploadFile(String fileName) {
+        getLogger().info("Verifying this file existed in the list..");
+        int isFind = -1;
+        for (int i = 0; i < uploadRequestList.size(); i++) {
+            System.out.println("UploadName at position: " + i + " is " + uploadRequestList.get(i).getText());
+            if (uploadRequestList.get(i).getText().equals(fileName)) {
+                isFind = i;
+                break;
+            }
+        }
+        return isFind;
+    }
 
+/*
     public void uploadFileNewRequestByClient(String concatUpload) throws AWTException, InterruptedException, IOException {
         try {
             Thread.sleep(smallTimeOut);
@@ -4522,35 +4542,35 @@ public class AuditorCreateToDoPage extends AbstractPage {
             itr.printStackTrace();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
+    }*/
 
     @FindBy(xpath = "//*[@id=\"todo-req-box-0\"]/div[2]")
     WebElement fileNameAfterUploaded;
     @FindBy(xpath = "//*[@id=\"todo-req-box-1\"]/div[2]")
     WebElement fileNameAfterUploadedClient;
 
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div/div[2]")
+    List<WebElement> uploadRequestList;
+
     /*
     Vien.Pham added new method
      */
     public void verifyUploadFileSuccessfully(String fileName) {
         try {
-            waitForCssValueChanged(fileNameAfterUploaded, "fileName After uploaded", "display", "inline-block");
-            String isCheck = fileNameAfterUploaded.getText();
-            System.out.println("File's Name was uploaded is: " + fileName);
-            System.out.println("File's Name after uploaded is: " + isCheck);
-            if (isCheck.equals(fileName)) {
+            int isFind = findUploadFile(fileName);
+            if (isFind!= -1) {
                 NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify file was uploaded successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify file was uploaded successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
-
+/*
     public void verifyUploadFileSuccessfullyByClient(String fileName) {
         try {
             waitForCssValueChanged(fileNameAfterUploadedClient, "fileName After uploaded", "display", "inline-block");
@@ -4569,18 +4589,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    @FindBy(xpath = "//span[contains(@class,'auvicon-line-download')]")
-    List<WebElement> downloadNewRequestBtn;
 
-    @FindBy(xpath = "//div[@id='todo-req-box-1']//span[contains(@class,'auvicon-line-download')]")
-    List<WebElement> downloadClientNewRequestBtn;
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div//span[contains(@class,'auvicon-line-download')]")
+    List<WebElement> downloadRequestBtn;
+
 
     /*
     Vien.Pham added new method
+    @param : mode 1 for downloading request file, mode 2 for downloading attachfile.
      */
-    public void downloadNewRequestFile(String concatUpload, String concatDownload, int mode1forDownloadUpload_mode2forDownloadAttach) {
+    public void downloadNewRequestFile(String concatUpload, String concatDownload,String fileName, int mode) {
         try {
             //Delete file before download
             Path path = Paths.get(concatDownload);
@@ -4588,8 +4608,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 Files.delete(path);
             }
             Thread.sleep(largeTimeOut);
-            if (mode1forDownloadUpload_mode2forDownloadAttach == 1) {
-                clickElement(downloadClientNewRequestBtn.get(0), "download newRequest");
+            if (mode == 1) {
+                int isFind = findUploadFile(fileName);
+                clickElement(downloadRequestBtn.get(isFind), "download newRequest");
             } else {
                 clickElement(verifyAttachComplete, "download attachment");
             }
@@ -4610,7 +4631,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
+   /* public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
         try {
             clickElement(downloadClientNewRequestBtn.get(0), "download newRequest Btn");
             Thread.sleep(largeTimeOut);
@@ -4628,7 +4649,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify file was download successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
+    }*/
 
     @FindBy(xpath = "//div[@id='comment-form']/div")
     WebElement attachBtn;
@@ -4672,7 +4693,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             getLogger().info("client verifies attached file available..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), 2);
+            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName),fileName, 2);
             NXGReports.addStep("Download attached file Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();

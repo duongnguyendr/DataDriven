@@ -25,744 +25,648 @@ public class AdminPage extends AbstractPage {
 
     AuvenirPage auvenirPage = null;
     WebElement SelectStatus = null;
+    String xpathUserTypeCellOnAdminPage = "//*[@id='w-mu-table']//tr/td[2][text()='%s']";
     private int waitTime = 60;
+    //@FindBy(xpath = "//span[@id='pageHeadBackText']")
+    @FindBy(id = "pageHeadBackText")
+    private WebElement eleAdminHdrTxt;
+    @FindBy(xpath = "//button[text()='View Credentials']")
+    private WebElement eleViewCredentialsBtn;
+    @FindBy(xpath = "//p[text()='Auvenir Users']//..//h3")
+    private WebElement eleAuvenirUserCountTxt;
+    @FindBy(xpath = "//p[text()='Auvenir Users']")
+    private WebElement eleAuvenirUserTxt;
+    @FindBy(xpath = "//p[text()='Auvenir Users']//..//i")
+    private WebElement eleAuvenirUserImg;
+    @FindBy(xpath = "//p[text()='Auditors']//..//h3")
+    private WebElement eleAuditorsCountTxt;
+    @FindBy(xpath = "//p[text()='Auditors']")
+    private WebElement eleAuditorsTxt;
+    @FindBy(xpath = "//p[text()='Auditors']//..//i")
+    private WebElement eleAuditorsImg;
+    @FindBy(xpath = "//p[text()='Businesses']//..//h3")
+    private WebElement eleBusinessesCountTxt;
+    @FindBy(xpath = "//p[text()='Businesses']")
+    private WebElement eleBusinessesTxt;
+    @FindBy(xpath = "//p[text()='Businesses']//..//i")
+    private WebElement eleBusinessesImg;
+    @FindBy(xpath = "//p[text()='Engagements']//..//h3")
+    private WebElement eleEngagementsCountTxt;
+    @FindBy(xpath = "//p[text()='Engagements']")
+    private WebElement eleEngagementsTxt;
+    @FindBy(xpath = "//p[text()='Engagements']//..//i")
+    private WebElement eleEngagementsImg;
+    @FindBy(xpath = "//td[text()='Name']")
+    private WebElement eleNameTxt;
+    @FindBy(xpath = "//td[text()='User Type']")
+    private WebElement eleUserTypeTxt;
+    @FindBy(xpath = "//td[text()='Email']")
+    private WebElement eleEmailTxt;
+    @FindBy(xpath = "//td[text()='Date Created']")
+    private WebElement eleDateCreatedTxt;
+    @FindBy(xpath = "//td[text()='Auvenir Rep']")
+    private WebElement eleAuvenirRepTxt;
+    @FindBy(xpath = "//td[text()='Current CPA']")
+    private WebElement eleCurrentCPATxt;
+    @FindBy(xpath = "//td[text()='Status']")
+    private WebElement eleStatusTxt;
+    @FindBy(xpath = "//button[text()='Confirm']")
+    private WebElement eleStatusConfirmBtn;
+    @FindBy(xpath = "//img[@src='images/icons/x-small.svg']")
+    private WebElement eleVerifyAuditorSuccessFullyBtn;
+    @FindBy(xpath = "//button[text()='Confirm']")
+    private WebElement eleConfirmBtn;
+    @FindBy(xpath = "//p[text()='PENDING to ONBOARDING']")
+    private WebElement elePENDINGtoONBOARDINGTxt;
+    @FindBy(xpath = "//p[text()='WAIT-LIST to ONBOARDING']")
+    private WebElement eleWAITLISTtoONBOARDINGTxt;
+    @FindBy(xpath = "//p[text()='ONBOARDING to ACTIVE']")
+    private WebElement eleONBOARDINGtoACTIVETxt;
+    @FindBy(xpath = "//div[@id='msgContainer']/p/div[contains(text(),'Updated')]")
+    private WebElement eleUpdatedtoACTIVETxt;
+    @FindBy(id = "msgText-vyeaMOlY")
+    private WebElement elePENDINGcanINVITEDTxt;
+    @FindBy(id = "msgText-iP3tMBkM")
+    private WebElement eleUsercannotACTIVETxt;
+    @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img[@class='au-modal-closeBtn']")
+    private WebElement eleCredentialsCloseIcn;
+    @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img")
+    private WebElement eleCloseIcn;
+    @FindBy(xpath = "//div[@class='au-modal-container au-modal-fullScreen modalTransition-fp-container']/img")
+    private WebElement elePopupCloseIcn;
+    @FindBy(xpath = "//img[@src='images/icons/close-x.svg']")
+    private WebElement eleMailCloseIcn;
+    @FindBy(xpath = "//xhtml:pre")
+    private WebElement eleDeletedTxt;
+    @FindBy(xpath = "//b[text()='Auth ID:']")
+    private WebElement eleAuthIDTxt;
+    @FindBy(xpath = "//b[text()='API Key:']")
+    private WebElement eleAPIKeyTxt;
+    @FindBy(className = "inbox-view-messages")
+    private WebElement eleViewMessagesBtn;
+    @FindBy(xpath = "//div[contains(text(),'There are no emails')]")
+    private WebElement eleThereNoEmailsTxt;
+    @FindBy(className = "inbox-header-default-title")
+    private WebElement eleMyMessagesTxt;
+    @FindBy(xpath = "//button[text()='New Message']")
+    private WebElement eleNewMessageBtn;
+    @FindBy(className = "m-email-header")
+    private WebElement eleNewMessageTxt;
+    @FindBy(xpath = "//div[@class='m-email-header']//img")
+    private WebElement eleNewMsgCloseIcn;
+    @FindBy(xpath = "//label[text()='To:']")
+    private WebElement eleEmailToTxt;
+    @FindBy(xpath = "//li[@class='search-field']/input[@type='text']")
+    private WebElement eleEmailToTxtFld;
+    @FindBy(xpath = "//label[text()='Subject:']")
+    private WebElement eleSubjectTxt;
+    @FindBy(id = "m-email-subjectInput")
+    private WebElement eleSubjectTxtFld;
+    @FindBy(id = "m-email-bodyText")
+    private WebElement eleEmailBodyTxtFld;
+    @FindBy(xpath = "//button[text()='Send']")
+    private WebElement eleSendBtn;
+    @FindBy(id = "m-email-fileUpload")
+    private WebElement eleAttachmentIcn;
+    @FindBy(xpath = "//div[@id='inbox-empty']//img")
+    private WebElement eleInboxMsgImg;
+    @FindBy(className = "inbox-empty-text")
+    private WebElement eleYouDontHaveTxt;
+    @FindBy(xpath = "//div[@class='notification-content notification-noContent']")
+    private WebElement eleYouHaveNoNotificationTxt;
+    @FindBy(xpath = "//div[text()='View All']")
+    private WebElement eleViewAllLnk;
+    @FindBy(xpath = "//h4[text()='My Notifications']")
+    private WebElement eleMyNotificationsTxt;
+    @FindBy(xpath = "//i[@class='icon auvicon-notifications']")
+    private WebElement eleNotificationsIcn;
+    @FindBy(className = "notification-noNoti-text")
+    private WebElement eleYouDontHaveNotificationTxt;
+    @FindBy(className = "notification-noNoti-link")
+    private WebElement eleClickHereLnk;
+    @FindBy(id = "navTitle")
+    private WebElement eleSettingsTxt;
+    @FindBy(id = "titleContent")
+    private WebElement eleAccountSettingsTxt;
+    @FindBy(id = "link-setting-account")
+    private WebElement eleAccountLnk;
+    @FindBy(id = "fullNameLabel")
+    private WebElement eleFirstLastNameTxt;
+    @FindBy(id = "acc-ay-fullName")
+    private WebElement eleFirstLastNameTxtFld;
+    @FindBy(id = "emailLabel")
+    private WebElement eleEmailAddressTxt;
+    @FindBy(id = "acc-ay-email")
+    private WebElement eleEmailAddressTxtFld;
+    @FindBy(id = "phoneLabel")
+    private WebElement elePhomeNumberTxt;
+    @FindBy(id = "acc-ay-phone")
+    private WebElement elePhoneNumberTxtFld;
+    @FindBy(id = "acc-ay-photo")
+    private WebElement elePhotoImg;
+    @FindBy(id = "uploadButtonLabel")
+    private WebElement eleYourPhotoTxt;
+    @FindBy(id = "uploadButton")
+    private WebElement eleUpdateBtn;
+    @FindBy(xpath = "//button[text()='Deactivate My Account']")
+    private WebElement eleDeactivateLnk;
+    @FindBy(xpath = "//label[text()='Deactivate Account']")
+    private WebElement eleDeactivatAccTxt;
+    @FindBy(className = "au-modal-title-icon")
+    private WebElement eleAlertIcn;
+    @FindBy(id = "deactivateAccountText")
+    private WebElement eleYouareAboutTxt;
+    @FindBy(xpath = "//*[text()='Cancel']")
+    private WebElement eleCancelBtn;
+    @FindBy(xpath = "//input[@value='Deactivate']")
+    private WebElement eleDeactivateBtn;
+    @FindBy(id = "link-setting-device")
+    private WebElement eleDevicesLnk;
+    @FindBy(className = "card-account-title")
+    private WebElement eleMyDevicesTxt;
+    @FindBy(id = "pNumDevices")
+    private WebElement eleYouRegisteredTxt;
+    @FindBy(className = "c-devices-deviceImg")
+    private WebElement eleDeviceImg;
+    @FindBy(className = "c-devices-deviceCustomName")
+    private WebElement eleDeviceCustomerNmTxt;
+    @FindBy(className = "c-devices-deviceName")
+    private WebElement eleDeviceNameTxt;
+    @FindBy(xpath = "//button[text()='View']")
+    private WebElement eleViewBtn;
+    @FindBy(xpath = "//div[@class='au-modal-title']/label")
+    private WebElement eleCustomerNameTxt;
+    @FindBy(className = "c-devices-deviceViewImg")
+    private WebElement eleDeviceViewImg;
+    @FindBy(xpath = "//button[text()='Disconnect Device']")
+    private WebElement eleDisconnectDeviceBtn;
+    @FindBy(xpath = "//div[text()='Disconnect this device?']")
+    private WebElement eleDisconnectthisDeviceTxt;
+    @FindBy(xpath = "//button[text()='Cancel']")
+    private WebElement eleCancelDisconnectBtn;
+    @FindBy(xpath = "//button[text()='Disconnect']")
+    private WebElement eleDisconnectBtn;
+    @FindBy(xpath = "//td[text()='Device:']")
+    private WebElement eleDeviceTxt;
+    @FindBy(xpath = "//td[text()='OS: ']")
+    private WebElement eleOSTxt;
+    @FindBy(xpath = "//td[text()='Browser: ']")
+    private WebElement eleBrowserTxt;
+    @FindBy(xpath = "//td[text()='Last Used: ']")
+    private WebElement eleLastUsedTxt;
+    @FindBy(xpath = "//button[text()='+ Add Another']")
+    private WebElement eleAddAnotherLnk;
+    @FindBy(id = "component-title")
+    private WebElement eleRegisterDeviceTxt;
+    @FindBy(id = "component-description")
+    private WebElement eleDownloadAuvenirTxt;
+    @FindBy(id = "smsInputBox")
+    private WebElement eleTextMeTxtFld;
+    @FindBy(id = "smsSendBtn")
+    private WebElement eleTextMeBtn;
+    @FindBy(className = "register-mb-img")
+    private WebElement eleRegisterMobileImg;
+    @FindBy(xpath = "//img[@src='images/components/applestore.png']")
+    private WebElement eleDownloadAppStoreImg;
+    @FindBy(xpath = "//img[@src='images/components/googlestore.png']")
+    private WebElement eleGetItGooglePlayImg;
+    @FindBy(xpath = "//*[@id='w-mu-table']//tr/td[2]")
+    private List<WebElement> listUserTypeEle;
+    @FindBy(xpath = "//*[contains(@id,'m-demoteUser') and (@class ='au-modal-title-text')]")
+    private WebElement demoteSuperAdminTitleTextPopup;
+    @FindBy(xpath = "//*[@id='w-mu-demoteUserModal']/div[@style='display: inherit;']//span")
+    private WebElement demoteSuperAdminContentPopup;
+    @FindBy(xpath = "//*[@id='w-mu-demoteUser-removeBtn']")
+    private WebElement continueBtnOnDemotePopup;
+    @FindBy(xpath = "//*[@id='w-mu-selectUser-ddl']")
+    private WebElement grantedUserDropdownList;
+    @FindBy(xpath = "//*[@id='w-mu-selectUser-cancelBtn']")
+    private WebElement cancelBtnOnDemotePopup;
+    @FindBy(xpath = "//*[@id='w-mu-selectUser-removeBtn']")
+    private WebElement selectBtnOnDemotePopup;
+    @FindBy(xpath = "//*[contains(@id,'m-demoteUser') and (@class ='au-modal-title')]")
+    private WebElement demoteSuperAdminTitlePopup;
+    /**
+     * Refactored by huy.huynh on 30/05/2017.
+     * New for smoke test
+     */
+    @FindBy(xpath = "//table[@id='w-mu-table']")
+    private WebElement tableUser;
+    @FindBy(xpath = "//p[contains(@id,'msgText')]/div/p[1]")
+    private WebElement textViewOnPopupConfirm;
+    private String xpathUserTypeCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[2]";
+    private String xpathEmailCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[3]";
+    private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
+    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[5]/select";
+    /**
+     * Add new by huy.huynh on 06/07/2017.
+     * R2.1 NewFeature
+     */
+    private String xpathDueDateByName = "//table[@id='w-mu-table']//td[3][text()='%s']";
 
     public AdminPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
 
-    //@FindBy(xpath = "//span[@id='pageHeadBackText']")
-    @FindBy(id = "pageHeadBackText")
-    private WebElement eleAdminHdrTxt;
-
     public WebElement getEleAdminHdrTxt() {
         return eleAdminHdrTxt;
     }
-
-    @FindBy(xpath = "//button[text()='View Credentials']")
-    private WebElement eleViewCredentialsBtn;
 
     public WebElement getEleViewCredentialsBtn() {
         return eleViewCredentialsBtn;
     }
 
-    @FindBy(xpath = "//p[text()='Auvenir Users']//..//h3")
-    private WebElement eleAuvenirUserCountTxt;
-
     public WebElement getEleAuvenirUserCountTxt() {
         return eleAuvenirUserCountTxt;
     }
-
-    @FindBy(xpath = "//p[text()='Auvenir Users']")
-    private WebElement eleAuvenirUserTxt;
 
     public WebElement getEleAuvenirUserTxt() {
         return eleAuvenirUserTxt;
     }
 
-    @FindBy(xpath = "//p[text()='Auvenir Users']//..//i")
-    private WebElement eleAuvenirUserImg;
-
     public WebElement getEleAuvenirUserImg() {
         return eleAuvenirUserImg;
     }
-
-    @FindBy(xpath = "//p[text()='Auditors']//..//h3")
-    private WebElement eleAuditorsCountTxt;
 
     public WebElement getEleAuditorsCountTxt() {
         return eleAuditorsCountTxt;
     }
 
-    @FindBy(xpath = "//p[text()='Auditors']")
-    private WebElement eleAuditorsTxt;
-
     public WebElement getEleAuditorsTxt() {
         return eleAuditorsTxt;
     }
-
-    @FindBy(xpath = "//p[text()='Auditors']//..//i")
-    private WebElement eleAuditorsImg;
 
     public WebElement getEleAuditorsImg() {
         return eleAuditorsImg;
     }
 
-    @FindBy(xpath = "//p[text()='Businesses']//..//h3")
-    private WebElement eleBusinessesCountTxt;
-
     public WebElement getEleBusinessesCountTxt() {
         return eleBusinessesCountTxt;
     }
-
-    @FindBy(xpath = "//p[text()='Businesses']")
-    private WebElement eleBusinessesTxt;
 
     public WebElement getEleBusinessesTxt() {
         return eleBusinessesTxt;
     }
 
-    @FindBy(xpath = "//p[text()='Businesses']//..//i")
-    private WebElement eleBusinessesImg;
-
     public WebElement getEleBusinessesImg() {
         return eleBusinessesImg;
     }
-
-    @FindBy(xpath = "//p[text()='Engagements']//..//h3")
-    private WebElement eleEngagementsCountTxt;
 
     public WebElement getEleEngagementsCountTxt() {
         return eleEngagementsCountTxt;
     }
 
-    @FindBy(xpath = "//p[text()='Engagements']")
-    private WebElement eleEngagementsTxt;
-
     public WebElement getEleEngagementsTxt() {
         return eleEngagementsTxt;
     }
-
-    @FindBy(xpath = "//p[text()='Engagements']//..//i")
-    private WebElement eleEngagementsImg;
 
     public WebElement getEleEngagementsImg() {
         return eleEngagementsImg;
     }
 
-    @FindBy(xpath = "//td[text()='Name']")
-    private WebElement eleNameTxt;
-
     public WebElement getEleNameTxt() {
         return eleNameTxt;
     }
-
-    @FindBy(xpath = "//td[text()='User Type']")
-    private WebElement eleUserTypeTxt;
 
     public WebElement getEleUserTypeTxt() {
         return eleUserTypeTxt;
     }
 
-    @FindBy(xpath = "//td[text()='Email']")
-    private WebElement eleEmailTxt;
-
     public WebElement getEleEmailTxt() {
         return eleEmailTxt;
     }
-
-    @FindBy(xpath = "//td[text()='Date Created']")
-    private WebElement eleDateCreatedTxt;
 
     public WebElement getEleDateCreatedTxt() {
         return eleDateCreatedTxt;
     }
 
-    @FindBy(xpath = "//td[text()='Auvenir Rep']")
-    private WebElement eleAuvenirRepTxt;
-
     public WebElement getEleAuvenirRepTxt() {
         return eleAuvenirRepTxt;
     }
-
-    @FindBy(xpath = "//td[text()='Current CPA']")
-    private WebElement eleCurrentCPATxt;
 
     public WebElement getEleCurrentCPATxt() {
         return eleCurrentCPATxt;
     }
 
-    @FindBy(xpath = "//td[text()='Status']")
-    private WebElement eleStatusTxt;
-
     public WebElement getEleStatusTxt() {
         return eleStatusTxt;
     }
-
-    @FindBy(xpath = "//button[text()='Confirm']")
-    private WebElement eleStatusConfirmBtn;
 
     public WebElement getEleStatusConfirmBtn() {
         return eleStatusConfirmBtn;
     }
 
-
-    @FindBy(xpath = "//img[@src='images/icons/x-small.svg']")
-    private WebElement eleVerifyAuditorSuccessFullyBtn;
-
     public WebElement getEleVerifyAuditorSuccessFullyBtn() {
         return eleVerifyAuditorSuccessFullyBtn;
     }
-
-    @FindBy(xpath = "//button[text()='Confirm']")
-    private WebElement eleConfirmBtn;
 
     public WebElement getEleConfirmBtn() {
         return eleConfirmBtn;
     }
 
-    @FindBy(xpath = "//p[text()='PENDING to ONBOARDING']")
-    private WebElement elePENDINGtoONBOARDINGTxt;
-
     public WebElement getElePENDINGtoONBOARDINGTxt() {
         return elePENDINGtoONBOARDINGTxt;
     }
-
-    @FindBy(xpath = "//p[text()='WAIT-LIST to ONBOARDING']")
-    private WebElement eleWAITLISTtoONBOARDINGTxt;
 
     public WebElement getEleWAITLISTtoONBOARDINGTxt() {
         return eleWAITLISTtoONBOARDINGTxt;
     }
 
-    @FindBy(xpath = "//p[text()='ONBOARDING to ACTIVE']")
-    private WebElement eleONBOARDINGtoACTIVETxt;
-
     public WebElement getEleONBOARDINGtoACTIVETxt() {
         return eleONBOARDINGtoACTIVETxt;
     }
-
-    @FindBy(xpath = "//div[@id='msgContainer']/p/div[contains(text(),'Updated')]")
-    private WebElement eleUpdatedtoACTIVETxt;
 
     public WebElement getEleUpdatedtoACTIVETxt() {
         return eleUpdatedtoACTIVETxt;
     }
 
-    @FindBy(id = "msgText-vyeaMOlY")
-    private WebElement elePENDINGcanINVITEDTxt;
-
     public WebElement getElePENDINGcanINVITEDTxt() {
         return elePENDINGcanINVITEDTxt;
     }
-
-    @FindBy(id = "msgText-iP3tMBkM")
-    private WebElement eleUsercannotACTIVETxt;
 
     public WebElement getEleUsercannotACTIVETxt() {
         return eleUsercannotACTIVETxt;
     }
 
-
-    @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img[@class='au-modal-closeBtn']")
-    private WebElement eleCredentialsCloseIcn;
-
-    @FindBy(xpath = "//div[@class='au-modal-container modalTransition-popUp-container']/img")
-    private WebElement eleCloseIcn;
-
     public WebElement getEleCloseIcn() {
         return eleCloseIcn;
     }
-
-    @FindBy(xpath = "//div[@class='au-modal-container au-modal-fullScreen modalTransition-fp-container']/img")
-    private WebElement elePopupCloseIcn;
 
     public WebElement getElePopupCloseIcn() {
         return elePopupCloseIcn;
     }
 
-    @FindBy(xpath = "//img[@src='images/icons/close-x.svg']")
-    private WebElement eleMailCloseIcn;
-
     public WebElement getEleMailCloseIcn() {
         return eleMailCloseIcn;
     }
-
-    @FindBy(xpath = "//xhtml:pre")
-    private WebElement eleDeletedTxt;
 
     public WebElement getEleDeletedTxt() {
         return eleDeletedTxt;
     }
 
-    @FindBy(xpath = "//b[text()='Auth ID:']")
-    private WebElement eleAuthIDTxt;
-
     public WebElement getEleAuthIDTxt() {
         return eleAuthIDTxt;
     }
-
-    @FindBy(xpath = "//b[text()='API Key:']")
-    private WebElement eleAPIKeyTxt;
 
     public WebElement getEleAPIKeyTxt() {
         return eleAPIKeyTxt;
     }
 
-    @FindBy(className = "inbox-view-messages")
-    private WebElement eleViewMessagesBtn;
-
     public WebElement getEleViewMessagesBtn() {
         return eleViewMessagesBtn;
     }
-
-    @FindBy(xpath = "//div[contains(text(),'There are no emails')]")
-    private WebElement eleThereNoEmailsTxt;
 
     public WebElement getEleThereNoEmailsTxt() {
         return eleThereNoEmailsTxt;
     }
 
-    @FindBy(className = "inbox-header-default-title")
-    private WebElement eleMyMessagesTxt;
-
     public WebElement getEleMyMessagesTxt() {
         return eleMyMessagesTxt;
     }
-
-    @FindBy(xpath = "//button[text()='New Message']")
-    private WebElement eleNewMessageBtn;
 
     public WebElement getEleNewMessageBtn() {
         return eleNewMessageBtn;
     }
 
-    @FindBy(className = "m-email-header")
-    private WebElement eleNewMessageTxt;
-
     public WebElement getEleNewMessageTxt() {
         return eleNewMessageTxt;
     }
-
-    @FindBy(xpath = "//div[@class='m-email-header']//img")
-    private WebElement eleNewMsgCloseIcn;
 
     public WebElement getEleNewMsgCloseIcn() {
         return eleNewMsgCloseIcn;
     }
 
-    @FindBy(xpath = "//label[text()='To:']")
-    private WebElement eleEmailToTxt;
-
     public WebElement getEleEmailToTxt() {
         return eleEmailToTxt;
     }
-
-    @FindBy(xpath = "//li[@class='search-field']/input[@type='text']")
-    private WebElement eleEmailToTxtFld;
 
     public WebElement getEleEmailToTxtFld() {
         return eleEmailToTxtFld;
     }
 
-    @FindBy(xpath = "//label[text()='Subject:']")
-    private WebElement eleSubjectTxt;
-
     public WebElement getEleSubjectTxt() {
         return eleSubjectTxt;
     }
-
-    @FindBy(id = "m-email-subjectInput")
-    private WebElement eleSubjectTxtFld;
 
     public WebElement getEleSubjectTxtFld() {
         return eleSubjectTxtFld;
     }
 
-    @FindBy(id = "m-email-bodyText")
-    private WebElement eleEmailBodyTxtFld;
-
     public WebElement getEleEmailBodyTxtFld() {
         return eleEmailBodyTxtFld;
     }
-
-    @FindBy(xpath = "//button[text()='Send']")
-    private WebElement eleSendBtn;
 
     public WebElement getEleSendBtn() {
         return eleSendBtn;
     }
 
-    @FindBy(id = "m-email-fileUpload")
-    private WebElement eleAttachmentIcn;
-
     public WebElement getEleAttachmentIcn() {
         return eleAttachmentIcn;
     }
-
-    @FindBy(xpath = "//div[@id='inbox-empty']//img")
-    private WebElement eleInboxMsgImg;
 
     public WebElement getEleInboxMsgImg() {
         return eleInboxMsgImg;
     }
 
-    @FindBy(className = "inbox-empty-text")
-    private WebElement eleYouDontHaveTxt;
-
     public WebElement getEleYouDontHaveTxt() {
         return eleYouDontHaveTxt;
     }
-
-    @FindBy(xpath = "//div[@class='notification-content notification-noContent']")
-    private WebElement eleYouHaveNoNotificationTxt;
 
     public WebElement getEleYouHaveNoNotificationTxt() {
         return eleYouHaveNoNotificationTxt;
     }
 
-    @FindBy(xpath = "//div[text()='View All']")
-    private WebElement eleViewAllLnk;
-
     public WebElement getEleViewAllLnk() {
         return eleViewAllLnk;
     }
-
-    @FindBy(xpath = "//h4[text()='My Notifications']")
-    private WebElement eleMyNotificationsTxt;
 
     public WebElement getEleMyNotificationsTxt() {
         return eleMyNotificationsTxt;
     }
 
-    @FindBy(xpath = "//i[@class='icon auvicon-notifications']")
-    private WebElement eleNotificationsIcn;
-
     public WebElement getEleNotificationsIcn() {
         return eleNotificationsIcn;
     }
-
-    @FindBy(className = "notification-noNoti-text")
-    private WebElement eleYouDontHaveNotificationTxt;
 
     public WebElement getEleYouDontHaveNotificationTxt() {
         return eleYouDontHaveNotificationTxt;
     }
 
-    @FindBy(className = "notification-noNoti-link")
-    private WebElement eleClickHereLnk;
-
     public WebElement getEleClickHereLnk() {
         return eleClickHereLnk;
     }
-
-    @FindBy(id = "navTitle")
-    private WebElement eleSettingsTxt;
 
     public WebElement getEleSettingsTxt() {
         return eleSettingsTxt;
     }
 
-    @FindBy(id = "titleContent")
-    private WebElement eleAccountSettingsTxt;
-
     public WebElement getEleAccountSettingsTxt() {
         return eleAccountSettingsTxt;
     }
-
-    @FindBy(id = "link-setting-account")
-    private WebElement eleAccountLnk;
 
     public WebElement getEleAccountLnk() {
         return eleAccountLnk;
     }
 
-    @FindBy(id = "fullNameLabel")
-    private WebElement eleFirstLastNameTxt;
-
     public WebElement getEleFirstLastNameTxt() {
         return eleFirstLastNameTxt;
     }
-
-    @FindBy(id = "acc-ay-fullName")
-    private WebElement eleFirstLastNameTxtFld;
 
     public WebElement getEleFirstLastNameTxtFld() {
         return eleFirstLastNameTxtFld;
     }
 
-    @FindBy(id = "emailLabel")
-    private WebElement eleEmailAddressTxt;
-
     public WebElement getEleEmailAddressTxt() {
         return eleEmailAddressTxt;
     }
-
-    @FindBy(id = "acc-ay-email")
-    private WebElement eleEmailAddressTxtFld;
 
     public WebElement getEleEmailAddressTxtFld() {
         return eleEmailAddressTxtFld;
     }
 
-    @FindBy(id = "phoneLabel")
-    private WebElement elePhomeNumberTxt;
-
     public WebElement getElePhomeNumberTxt() {
         return elePhomeNumberTxt;
     }
-
-    @FindBy(id = "acc-ay-phone")
-    private WebElement elePhoneNumberTxtFld;
 
     public WebElement getElePhoneNumberTxtFld() {
         return elePhoneNumberTxtFld;
     }
 
-    @FindBy(id = "acc-ay-photo")
-    private WebElement elePhotoImg;
-
     public WebElement getElePhotoImg() {
         return elePhotoImg;
     }
-
-    @FindBy(id = "uploadButtonLabel")
-    private WebElement eleYourPhotoTxt;
 
     public WebElement getEleYourPhotoTxt() {
         return eleYourPhotoTxt;
     }
 
-    @FindBy(id = "uploadButton")
-    private WebElement eleUpdateBtn;
-
     public WebElement getEleUpdateBtn() {
         return eleUpdateBtn;
     }
-
-    @FindBy(xpath = "//button[text()='Deactivate My Account']")
-    private WebElement eleDeactivateLnk;
 
     public WebElement getEleDeactivateLnk() {
         return eleDeactivateLnk;
     }
 
-    @FindBy(xpath = "//label[text()='Deactivate Account']")
-    private WebElement eleDeactivatAccTxt;
-
     public WebElement getEleDeactivatAccTxt() {
         return eleDeactivatAccTxt;
     }
-
-    @FindBy(className = "au-modal-title-icon")
-    private WebElement eleAlertIcn;
 
     public WebElement getEleAlertIcn() {
         return eleAlertIcn;
     }
 
-    @FindBy(id = "deactivateAccountText")
-    private WebElement eleYouareAboutTxt;
-
     public WebElement getEleYouareAboutTxt() {
         return eleYouareAboutTxt;
     }
-
-    @FindBy(xpath = "//*[text()='Cancel']")
-    private WebElement eleCancelBtn;
 
     public WebElement getEleCancelBtn() {
         return eleCancelBtn;
     }
 
-    @FindBy(xpath = "//input[@value='Deactivate']")
-    private WebElement eleDeactivateBtn;
-
     public WebElement getEleDeactivateBtn() {
         return eleDeactivateBtn;
     }
-
-    @FindBy(id = "link-setting-device")
-    private WebElement eleDevicesLnk;
 
     public WebElement getEleDevicesLnk() {
         return eleDevicesLnk;
     }
 
-    @FindBy(className = "card-account-title")
-    private WebElement eleMyDevicesTxt;
-
     public WebElement getEleMyDevicesTxt() {
         return eleMyDevicesTxt;
     }
-
-    @FindBy(id = "pNumDevices")
-    private WebElement eleYouRegisteredTxt;
 
     public WebElement getEleYouRegisteredTxt() {
         return eleYouRegisteredTxt;
     }
 
-    @FindBy(className = "c-devices-deviceImg")
-    private WebElement eleDeviceImg;
-
     public WebElement getEleDeviceImg() {
         return eleDeviceImg;
     }
-
-    @FindBy(className = "c-devices-deviceCustomName")
-    private WebElement eleDeviceCustomerNmTxt;
 
     public WebElement getEleDeviceCustomerNmTxt() {
         return eleDeviceCustomerNmTxt;
     }
 
-    @FindBy(className = "c-devices-deviceName")
-    private WebElement eleDeviceNameTxt;
-
     public WebElement getEleDeviceNameTxt() {
         return eleDeviceNameTxt;
     }
-
-    @FindBy(xpath = "//button[text()='View']")
-    private WebElement eleViewBtn;
 
     public WebElement getEleViewBtn() {
         return eleViewBtn;
     }
 
-    @FindBy(xpath = "//div[@class='au-modal-title']/label")
-    private WebElement eleCustomerNameTxt;
-
     public WebElement getEleCustomerNameTxt() {
         return eleCustomerNameTxt;
     }
-
-    @FindBy(className = "c-devices-deviceViewImg")
-    private WebElement eleDeviceViewImg;
 
     public WebElement getEleDeviceViewImg() {
         return eleDeviceViewImg;
     }
 
-    @FindBy(xpath = "//button[text()='Disconnect Device']")
-    private WebElement eleDisconnectDeviceBtn;
-
     public WebElement getEleDisconnectDeviceBtn() {
         return eleDisconnectDeviceBtn;
     }
-
-    @FindBy(xpath = "//div[text()='Disconnect this device?']")
-    private WebElement eleDisconnectthisDeviceTxt;
 
     public WebElement getEleDisconnectthisDeviceTxt() {
         return eleDisconnectthisDeviceTxt;
     }
 
-    @FindBy(xpath = "//button[text()='Cancel']")
-    private WebElement eleCancelDisconnectBtn;
-
     public WebElement getEleCancelDisconnectBtn() {
         return eleCancelDisconnectBtn;
     }
-
-    @FindBy(xpath = "//button[text()='Disconnect']")
-    private WebElement eleDisconnectBtn;
 
     public WebElement getEleDisconnectBtn() {
         return eleDisconnectBtn;
     }
 
-    @FindBy(xpath = "//td[text()='Device:']")
-    private WebElement eleDeviceTxt;
-
     public WebElement getEleDeviceTxt() {
         return eleDeviceTxt;
     }
-
-    @FindBy(xpath = "//td[text()='OS: ']")
-    private WebElement eleOSTxt;
 
     public WebElement getEleOSTxt() {
         return eleOSTxt;
     }
 
-    @FindBy(xpath = "//td[text()='Browser: ']")
-    private WebElement eleBrowserTxt;
-
     public WebElement getEleBrowserTxt() {
         return eleBrowserTxt;
     }
-
-    @FindBy(xpath = "//td[text()='Last Used: ']")
-    private WebElement eleLastUsedTxt;
 
     public WebElement getEleLastUsedTxt() {
         return eleLastUsedTxt;
     }
 
-
-    @FindBy(xpath = "//button[text()='+ Add Another']")
-    private WebElement eleAddAnotherLnk;
-
     public WebElement getEleAddAnotherLnk() {
         return eleAddAnotherLnk;
     }
-
-    @FindBy(id = "component-title")
-    private WebElement eleRegisterDeviceTxt;
 
     public WebElement getEleRegisterDeviceTxt() {
         return eleRegisterDeviceTxt;
     }
 
-    @FindBy(id = "component-description")
-    private WebElement eleDownloadAuvenirTxt;
-
     public WebElement getEleDownloadAuvenirTxt() {
         return eleDownloadAuvenirTxt;
     }
-
-    @FindBy(id = "smsInputBox")
-    private WebElement eleTextMeTxtFld;
 
     public WebElement getEleTextMeTxtFld() {
         return eleTextMeTxtFld;
     }
 
-    @FindBy(id = "smsSendBtn")
-    private WebElement eleTextMeBtn;
-
     public WebElement getEleTextMeBtn() {
         return eleTextMeBtn;
     }
-
-    @FindBy(className = "register-mb-img")
-    private WebElement eleRegisterMobileImg;
 
     public WebElement getEleRegisterMobileImg() {
         return eleRegisterMobileImg;
     }
 
-    @FindBy(xpath = "//img[@src='images/components/applestore.png']")
-    private WebElement eleDownloadAppStoreImg;
-
     public WebElement getEleDownloadAppStoreImg() {
         return eleDownloadAppStoreImg;
     }
 
-    @FindBy(xpath = "//img[@src='images/components/googlestore.png']")
-    private WebElement eleGetItGooglePlayImg;
-
     public WebElement getEleGetItGooglePlayImg() {
         return eleGetItGooglePlayImg;
     }
-
-    @FindBy(xpath = "//*[@id='w-mu-table']//tr/td[2]")
-    private List<WebElement> listUserTypeEle;
-
-    @FindBy(xpath = "//*[contains(@id,'m-demoteUser') and (@class ='au-modal-title-text')]")
-    private WebElement demoteSuperAdminTitleTextPopup;
-
-    @FindBy(xpath = "//*[@id='w-mu-demoteUserModal']/div[@style='display: inherit;']//span")
-    private WebElement demoteSuperAdminContentPopup;
-
-    @FindBy(xpath = "//*[@id='w-mu-demoteUser-removeBtn']")
-    private WebElement continueBtnOnDemotePopup;
-
-    @FindBy(xpath = "//*[@id='w-mu-selectUser-ddl']")
-    private WebElement grantedUserDropdownList;
-
-    @FindBy(xpath = "//*[@id='w-mu-selectUser-cancelBtn']")
-    private WebElement cancelBtnOnDemotePopup;
-
-    @FindBy(xpath = "//*[@id='w-mu-selectUser-removeBtn']")
-    private WebElement selectBtnOnDemotePopup;
-
-    @FindBy(xpath = "//*[contains(@id,'m-demoteUser') and (@class ='au-modal-title')]")
-    private WebElement demoteSuperAdminTitlePopup;
-
-    String xpathUserTypeCellOnAdminPage = "//*[@id='w-mu-table']//tr/td[2][text()='%s']";
 
     public void getEleClientEntryValidate(String UserType, String Email, String DateCreated, String ClientName) throws InterruptedException {
         Thread.sleep(10000);
@@ -778,7 +682,6 @@ public class AdminPage extends AbstractPage {
         WebElement getEleClientStatusDrpDwn = getDriver().findElement(By.xpath("//td[contains(text(),'" + Email + "')]//..//td[contains(text(),'" + UserType + "')]//..//td[contains(text(),'" + DateCreated + "')]//..//select"));
         validateDisPlayedElement(getEleClientStatusDrpDwn, "Client Status Drop Down");
     }
-
 
     public String getEleAuditorStatusLst(String UserType, String Email, String DateCreated) {
         waitSomeSeconds(1);
@@ -1073,21 +976,6 @@ public class AdminPage extends AbstractPage {
     }
 
     /**
-     * Refactored by huy.huynh on 30/05/2017.
-     * New for smoke test
-     */
-    @FindBy(xpath = "//table[@id='w-mu-table']")
-    private WebElement tableUser;
-
-    @FindBy(xpath = "//p[contains(@id,'msgText')]/div/p[1]")
-    private WebElement textViewOnPopupConfirm;
-
-    private String xpathUserTypeCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[2]";
-    private String xpathEmailCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[3]";
-    private String xpathDateCreatedCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[4]";
-    private String xpathStatusCellOnUserTableAdminX = "//td[text()='%s']/ancestor::tr/td[5]/select";
-
-    /**
      * verify info of user
      *
      * @param userType    type of user
@@ -1122,6 +1010,7 @@ public class AdminPage extends AbstractPage {
         WebElement status = getElementByXpath(xpathStatusCellOnUserTableAdminX, userEmail);
         validateSelectedItemText(status, userStatus);
     }
+    /*-----------end of huy.huynh on 30/05/2017.*/
 
     /**
      * verify status of user
@@ -1158,7 +1047,6 @@ public class AdminPage extends AbstractPage {
             ex.printStackTrace();
         }
     }
-    /*-----------end of huy.huynh on 30/05/2017.*/
 
     /**
      * Click Close on Popup which warning about supporting only Chrome Browser.
@@ -1215,8 +1103,8 @@ public class AdminPage extends AbstractPage {
         }
     }
 
-    public void verifyNormalAdminCannotChangeSttAdminUser() {
-        getLogger().info("Verify Normal Admin cannot change the status of Admin user.");
+    public void verifyAdminCannotChangeSttAdminUser() {
+        getLogger().info("Verify Admin cannot change the status of Admin user.");
         boolean result = false;
         try {
             String xpathStatusCellOnAdmiPage = "//*[@id='w-mu-table']//tr/td[2][contains(text(),'%s')]/../td[5]/select";
@@ -1226,12 +1114,12 @@ public class AdminPage extends AbstractPage {
             if (userStatusDropdownList.size() == 0) {
                 result = true;
             }
-            Assert.assertTrue(result, "Normal Admin user should not able to change status of Admin user in system.");
-            NXGReports.addStep("Normal Admin user cannot change status of Admin user in system.", LogAs.PASSED, null);
+            Assert.assertTrue(result, "Admin user should not able to change status of Admin user in system.");
+            NXGReports.addStep("Admin user cannot change status of Admin user in system.", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("Failed: Normal Admin user can change status of Admin user in system", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+            NXGReports.addStep("Failed: Admin user can change status of Admin user in system", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -1239,9 +1127,9 @@ public class AdminPage extends AbstractPage {
      * verify status of user
      *
      * @param superAdminEmail String Super Admin Email which is demoted
-     * @param normalAdminName String Normal Admin Name which is assigned to Super Admin role
+     * @param adminName       String  Admin Name which is assigned to Super Admin role
      */
-    public void demoteSuperAdminRole(String superAdminEmail, String normalAdminName, boolean confirmation) {
+    public void demoteSuperAdminRole(String superAdminEmail, String adminName, boolean confirmation) {
         getLogger().info("Demote Super Admin role");
         String contentConfirmDemoteUserPopup = "Are you sure you want to demote your Super Admin status? You will no longer have Super Admin privileges.";
         String contentSelectGrantedUserPopup = "Select one Admin User who will be promoted as Super Admin.";
@@ -1258,7 +1146,7 @@ public class AdminPage extends AbstractPage {
                     clickElement(continueBtnOnDemotePopup, "Continue Button");
 
                 if (demoteSuperAdminContentPopup.getText().equals(contentSelectGrantedUserPopup)) {
-                    selectOptionByText(grantedUserDropdownList, normalAdminName, "grantedUserDropdownList");
+                    selectOptionByText(grantedUserDropdownList, adminName, "grantedUserDropdownList");
                     if (confirmation) {
                         clickElement(selectBtnOnDemotePopup, "Select Button");
                         waitForProgressOverlayIsClosed();
@@ -1344,12 +1232,6 @@ public class AdminPage extends AbstractPage {
         }
         return result;
     }
-
-    /**
-     * Add new by huy.huynh on 06/07/2017.
-     * R2.1 NewFeature
-     */
-    private String xpathDueDateByName = "//table[@id='w-mu-table']//td[3][text()='%s']";
 
     public void scrollToUser(String email) {
         hoverElement(getElementByXpath(xpathDueDateByName, email), "Cell " + email);
