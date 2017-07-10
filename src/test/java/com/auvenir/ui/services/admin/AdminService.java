@@ -168,12 +168,12 @@ public class AdminService extends AbstractService {
         adminPage.verifyUserIsChangeStatusOnTheList(email, expectedStatus);
     }
 
-    public void verifyNormalAdminCannotChangeSttAdminUser() {
-        adminPage.verifyNormalAdminCannotChangeSttAdminUser();
+    public void verifyAdminCannotChangeSttAdminUser() {
+        adminPage.verifyAdminCannotChangeSttAdminUser();
     }
 
-    public void demoteSuperAdminRole(String superAdminEmail, String normalAdminName, boolean confirmation) {
-        adminPage.demoteSuperAdminRole(superAdminEmail, normalAdminName, confirmation);
+    public void demoteSuperAdminRole(String superAdminEmail, String adminName, boolean confirmation) {
+        adminPage.demoteSuperAdminRole(superAdminEmail, adminName, confirmation);
     }
 
     public void verifySuperAdminCanChangeSttAllUser() {
