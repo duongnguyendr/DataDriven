@@ -1,11 +1,14 @@
 package com.auvenir.ui.tests.auditor;
 
 import com.auvenir.ui.services.*;
+import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.*;
+import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
@@ -34,6 +37,10 @@ public class AuditorTodoListTest extends AbstractTest {
     String timeStamp;
     String firstEngagementTitleOnWeb;
     String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "Engagement Name", "Valid Data");
+    private ClientService clientService;
+    private AdminService adminService;
+    private GmailLoginService gmailLoginService;
+
 
     @Test(priority = 1, enabled = true, description = "Verify Auditor empty Todo List page.")
     public void verifyAuditorEmptyTodoListPage() throws Exception {
@@ -1789,6 +1796,54 @@ End of merged VienPham.
             throw e;
         }
     }*/
+
+    @Test(priority = 51, enabled = true, description = "Verify notification email when Auditor invite a lead client")
+    public void verifyNotificationAuditorInviteClient() throws Exception {
+        getLogger().info("Verify Auditor inviting a client.");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+
+
+        auditorId = GenericService.getTestDataFromExcel("NotificationEmailTest", "Auditor", "Valid Value");
+        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Auditor Password", "Valid Value");
+        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Engagement Name", "Valid Value");
+        String clientId = GenericService.getTestDataFromExcel("NotificationEmailTest", "New Client", "Valid Value");
+        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Email Password", "Valid Value");
+        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Full Name", "Valid Value");
+//
+//        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+
+        //need precondition for save engagement name, and delete this engagement or client on acl
+
+        try {
+
+            MongoDBService.removeEngagementByInvitedClientEmail(MongoDBService.getCollection("engagements"), clientId);
+            MongoDBService.removeBusinessByInvitedClientEmail(MongoDBService.getCollection("businesses"), clientId);
+            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
+
+            gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+
+            auditorTodoListService.navigateToInviteClientPage();
+            clientService.selectAddNewClient();
+            clientService.inviteNewClient(clientFullName, clientId, "");
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
 }
 
 
