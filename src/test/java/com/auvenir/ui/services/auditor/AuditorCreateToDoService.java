@@ -861,16 +861,16 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
-    public void uploadFileNewRequestByClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+  /*  public void uploadFileNewRequestByClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
         createToDoPage.uploadFileNewRequestByClient(uploadLocation.concat(fileName));
-    }
+    }*/
 
-    public void verifyUploadFileNewRequestByClient(String fileName) throws InterruptedException, AWTException, IOException {
+   /* public void verifyUploadFileNewRequestByClient(String fileName) throws InterruptedException, AWTException, IOException {
         createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
-    }
+    }*/
 
-    public void auditorDownloadNewRequestFile(String uploadLocation, String downloadLocation, String fileName) {
-        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName), 1);
+    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, int mode) {
+        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName),fileName ,mode);
 
     }
 
@@ -882,11 +882,11 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.downloadAttachFile(pathOfUpload, pathOfDownload, fileName);
     }
 
-    public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
+   /* public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
         createToDoPage.downloadCreateRequestNewFileClient(uploadLocation.concat(fileName), downloadLocation.concat(fileName));
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
 //        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
-    }
+    }*/
 
     /**
      * Author minh.nguyen
