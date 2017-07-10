@@ -1,5 +1,6 @@
 package com.auvenir.ui.pages.common;
 
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -657,8 +658,13 @@ public class GmailPage extends AbstractPage {
     }
 
     public void selectActiveEmaill() {
-//        waitForClickableOfElement(eleEmailAuvenir, "Non-reply Active email");
-        clickElement(eleEmailAuvenir, "Non-reply Active email");
+        Boolean isSelect = clickElement(eleEmailAuvenir, "Non-reply Active email");
+        if (isSelect) {
+            NXGReports.addStep("Email is existed: Pass", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Email is not existed: Fail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     /**

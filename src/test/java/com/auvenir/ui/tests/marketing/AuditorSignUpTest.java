@@ -348,58 +348,39 @@ public class AuditorSignUpTest extends AbstractTest {
             throw e;
         }
     }
-/*
-    @Test(priority = 7, enabled = true, description = "Verify Auditor Reset Password")
-    public void verifyAuditorResetPwd() throws Exception {
-        gmailLoginService = new GmailLoginService(getLogger(),getDriver());
+
+
+    @Test(priority = 7, enabled = true, description = "Email to Customer Success Team (internal) after Lead Auditor sign up")
+    public void verifyEmailToCustomerSuccessTeam() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(),getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(),getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(),getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(),getDriver());
+        final String auditorAccount = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+        final String successTeamEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Success Team Email", "Valid Value");
+        final String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
 
-        final String auditorID = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-        final String auditorEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
-        final String auditorNewPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
         try {
-            gmailLoginService.deleteAllExistedEmail(auditorID, auditorEmailPwd);
-            marketingService.goToAuvenirMarketingPageURL();
-            marketingService.selectLoginBtn();
-            marketingService.selectForgotPwd();
-            marketingService.verifyForgotPasswordTitle();
-            marketingService.inputEmailForgotPassword(auditorID);
-            marketingService.clickOnRequestResetLinkBTN();
-
-            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            gmailLoginService.signInGmail("", auditorEmailPwd);
+            auditorSignUpService.deleteUserUsingApi(auditorAccount);
+            auditorSignUpService.deleteAllExistedGMail(successTeamEmail,successTeamEmailPwd);
+            auditorSignUpService.goToBaseURL();
+            auditorSignUpService.navigateToSignUpPage();
+            auditorSignUpService.verifyPersonalSignUpPage();
+            auditorSignUpService.registerAuditorPersonal(strFullName, auditorAccount, strRoleFirm, strPhone, strReference);
+            auditorSignUpService.verifyFirmSignUpPage();
+            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService.verifySuccessSignUpPage();
+            auditorSignUpService.acceptCreateAccountAuditor();
+            //Verify email to success Team
+            gmailLoginService.gmailReLogin(successTeamEmailPwd);
             gmailLoginService.selectActiveEmaill();
-            gmailLoginService.navigateToResetPwdPage();
-            marketingService.verifyResetPasswordPageTitle();
-            marketingService.inputNewResetPassword("vien","1");
-            marketingService.verifyInvalidPwdWarning("1");
-            marketingService.inputNewResetPassword("vien1234","1");
-            marketingService.verifyInvalidPwdWarning("1");
-            marketingService.inputNewResetPassword("vien@1234","1");
-            marketingService.verifyInvalidPwdWarning("1");
-            marketingService.inputNewResetPassword("Vien1234","1");
-            marketingService.verifyInvalidPwdWarning("1");
-            marketingService.inputNewResetPassword("Changeit@123","1");
-            marketingService.verifyValidPwd("1");
-            marketingService.inputNewResetPassword("123","2");
-            marketingService.verifyInvalidPwdWarning("2");
-            marketingService.inputNewResetPassword("Changeit@123","2");
-            marketingService.verifyValidPwd("2");
-            marketingService.selectSetPasswordBtn();
-            auditorEngagementService.verifyAuditorEngagementPage();
+            emailTemplateService.verifyEmailToCustomerSuccessTeam(auditorAccount,strFullName,strName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Member ID: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
             NXGReports.addStep("Verify Member ID: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
-        }catch (Exception er){
-            getLogger().info(er);
-            NXGReports.addStep("Verify Member ID: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw er;
         }
-    }*/
+    }
 
 }
