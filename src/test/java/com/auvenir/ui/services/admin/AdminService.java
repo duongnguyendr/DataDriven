@@ -168,7 +168,7 @@ public class AdminService extends AbstractService {
         adminPage.verifyUserIsChangeStatusOnTheList(email, expectedStatus);
     }
 
-    public void verifyAdminCannotChangeSttUser() {
+    public void verifyNormalAdminCannotChangeSttAdminUser() {
         adminPage.verifyNormalAdminCannotChangeSttAdminUser();
     }
 

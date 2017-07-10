@@ -1170,8 +1170,7 @@ public class SmokeTest extends AbstractTest {
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         String fullNameMember = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Full Name");
-        String roleMember = "Auditor";
-
+        String roleMember = "Partner";
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
