@@ -22,26 +22,6 @@ public class SuperAdminTest extends AbstractTest {
     AdminAccountSettingsService adminAccountSettingsService;
     MarketingService marketingService;
 
-//    private String superAdminId, adminId, auditorId, clientId;
-//    private String superAdminPassword, adminPassword, auditorPassword, clientPassword;
-
-
-    public enum UserStatus {
-        ONBOARDING("Onboarding"),
-        ACTIVE("Active"),
-        INACTIVE("Inactive"),
-        LOCKED("Locked"),
-        WAITLISTED("Wait Listed"),
-        PENDING("Pending");
-
-        private String value;
-
-        private UserStatus(String value) {
-            this.value = value;
-        }
-    }
-
-
     @Test(priority = 1, enabled = true, description = "To Verify the GUI of Admin Home Page", dataProvider = "verifyGUISuperAdminHomePage", dataProviderClass = AdminDataProvider.class)
     public void verifyGUISuperAdminHomePage(String superAdminId, String superAdminPwd, String superAdminFullName, String superAdminPhoneNum, String adminEmail,
                                             String clientEmail, String auditorEmail, String onboardingStatus, String waitListedStatus, String activeStatus, String inactiveStatus) {
@@ -308,7 +288,7 @@ public class SuperAdminTest extends AbstractTest {
             adminService.scrollToUser(clientId);
             adminService.verifyUserIsChangeStatusOnTheList(clientId, lockedStatus);
 
-            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", UserStatus.ACTIVE.toString());
+            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", activeStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(clientId);
             adminService.verifyUserIsChangeStatusOnTheList(clientId, activeStatus);
