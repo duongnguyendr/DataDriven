@@ -1,7 +1,7 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
-import com.auvenir.ui.pages.auditor.AuditorToDoPage;
+import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
+import com.auvenir.ui.pages.auditor.todo.AuditorToDoPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

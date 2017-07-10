@@ -1,8 +1,8 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
-import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
-import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
+import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorDetailsEngagementPage;
+import com.auvenir.ui.pages.auditor.todo.AuditorTodoListPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;

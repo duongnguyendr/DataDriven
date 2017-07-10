@@ -1,7 +1,7 @@
 package com.auvenir.ui.tests.marketing;
 
 
-import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorDetailsEngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.GmailLoginService;

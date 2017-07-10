@@ -1,6 +1,6 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.client.ClientDetailsEngagementPage;
+import com.auvenir.ui.pages.client.engagement.ClientDetailsEngagementPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
