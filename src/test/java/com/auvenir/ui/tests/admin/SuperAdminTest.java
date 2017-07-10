@@ -1,5 +1,6 @@
 package com.auvenir.ui.tests.admin;
 
+import com.auvenir.ui.dataprovider.admin.AdminDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.admin.AdminAccountSettingsService;
 import com.auvenir.ui.services.admin.AdminService;
@@ -21,37 +22,17 @@ public class SuperAdminTest extends AbstractTest {
     AdminAccountSettingsService adminAccountSettingsService;
     MarketingService marketingService;
 
-    private String superAdminId, adminId, auditorId, clientId;
-    private String superAdminPassword, adminPassword, auditorPassword, clientPassword;
-
-    public enum UserStatus {
-        ONBOARDING("Onboarding"),
-        ACTIVE("Active"),
-        INACTIVE("Inactive"),
-        LOCKED("Locked"),
-        WAITLISTED("Wait Listed"),
-        PENDING("Pending");
-
-        private String value;
-
-        private UserStatus(String value) {
-            this.value = value;
-        }
-    }
-
-    @Test(priority = 1, enabled = true, description = "To Verify the GUI of Admin Home Page")
-    public void verifyGUISuperAdminHomePage() {
+    @Test(priority = 1, enabled = true, description = "To Verify the GUI of Admin Home Page", dataProvider = "verifyGUISuperAdminHomePage", dataProviderClass = AdminDataProvider.class)
+    public void verifyGUISuperAdminHomePage(String superAdminId, String superAdminPwd, String superAdminFullName, String superAdminPhoneNum, String adminEmail,
+                                            String clientEmail, String auditorEmail, String onboardingStatus, String waitListedStatus, String activeStatus, String inactiveStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
-        String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
-        String superAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Phone", "Valid Value");
-        String client = GenericService.getTestDataFromExcel("SuperAdminTest", "Client", "Valid Value");
-        String auditor = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor", "Valid Value");
-        String admin = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+        adminEmail = GenericService.addBrowserPrefix(adminEmail);
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
@@ -60,26 +41,26 @@ public class SuperAdminTest extends AbstractTest {
             adminService.verifyOnlyOneSuperAdmin();
 
             adminService.verifySuperAdminCanChangeSttAllUser();
-            adminService.changeTheStatusUser(client, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(clientEmail, onboardingStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(client, UserStatus.ONBOARDING.value);
-            adminService.changeTheStatusUser(client, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, onboardingStatus);
+            adminService.changeTheStatusUser(clientEmail, waitListedStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(client, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, waitListedStatus);
 
-            adminService.changeTheStatusUser(auditor, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(auditorEmail, onboardingStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditor, UserStatus.ONBOARDING.value);
-            adminService.changeTheStatusUser(auditor, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, onboardingStatus);
+            adminService.changeTheStatusUser(auditorEmail, waitListedStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditor, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, waitListedStatus);
 
-            adminService.changeTheStatusUser(admin, UserStatus.INACTIVE.value);
+            adminService.changeTheStatusUser(adminEmail, inactiveStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(admin, UserStatus.INACTIVE.value);
-            adminService.changeTheStatusUser(admin, UserStatus.ACTIVE.value);
+            adminService.verifyUserIsChangeStatusOnTheList(adminEmail, inactiveStatus);
+            adminService.changeTheStatusUser(adminEmail, activeStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(admin, UserStatus.ACTIVE.value);
+            adminService.verifyUserIsChangeStatusOnTheList(adminEmail, activeStatus);
 
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyPersonalInfoRendered(superAdminFullName, superAdminId, superAdminPhoneNum);
@@ -101,47 +82,46 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Admin Home Page")
-    public void verifyGUIAdminHomePage() {
+    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Admin Home Page", dataProvider = "getVerifyGUIAdminHomePage", dataProviderClass = AdminDataProvider.class)
+    public void verifyGUIAdminHomePage(String adminId, String adminPwd, String adminFullName, String adminPhoneNum,
+                                       String clientEmail, String auditorEmail, String onboardingStatus, String waitListedStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String admin = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
-        String adminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Password", "Valid Value");
-        String adminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Name", "Valid Value");
-        String adminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Phone", "Valid Value");
-        String clientEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Client", "Valid Value");
-        String auditorEmail = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor", "Valid Value");
+        adminId = GenericService.addBrowserPrefix(adminId);
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(admin, adminPwd);
+            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPwd);
             adminService.verifyHeaderAdminPage();
             adminService.verifyAdminSeeAllUser();
             adminService.verifyOnlyOneSuperAdmin();
 
-            adminService.changeTheStatusUser(clientEmail, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(clientEmail, onboardingStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, UserStatus.ONBOARDING.value);
-            adminService.changeTheStatusUser(clientEmail, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, onboardingStatus);
+            adminService.changeTheStatusUser(clientEmail, waitListedStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, UserStatus.WAITLISTED.value);
-            adminService.changeTheStatusUser(auditorEmail, UserStatus.ONBOARDING.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientEmail, waitListedStatus);
+            adminService.changeTheStatusUser(auditorEmail, onboardingStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, UserStatus.ONBOARDING.value);
-            adminService.changeTheStatusUser(auditorEmail, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, onboardingStatus);
+            adminService.changeTheStatusUser(auditorEmail, waitListedStatus);
             marketingService.refreshHomePage();
-            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, UserStatus.WAITLISTED.value);
-            adminService.verifyAdminCannotChangeSttUser();
+            adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, waitListedStatus);
+            adminService.verifyAdminCannotChangeSttAdminUser();
 
             adminService.navigateToSettingPage();
-            adminAccountSettingsService.verifyPersonalInfoRendered(adminFullName, admin, adminPhoneNum);
+            adminAccountSettingsService.verifyPersonalInfoRendered(adminFullName, adminId, adminPhoneNum);
             adminAccountSettingsService.inputFullNameAdminSettingPage(adminFullName + "s");
             adminAccountSettingsService.clickUpdateBTN();
             marketingService.refreshHomePage();
             adminService.verifyHeaderAdminPage();
+
             adminService.navigateToSettingPage();
-            adminAccountSettingsService.verifyPersonalInfoRendered(adminFullName + "s", admin, adminPhoneNum);
+            adminAccountSettingsService.verifyPersonalInfoRendered(adminFullName + "s", adminId, adminPhoneNum);
             adminAccountSettingsService.inputFullNameAdminSettingPage(adminFullName);
             adminAccountSettingsService.clickUpdateBTN();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -153,19 +133,14 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "To Verify Assign Super Admin Role")
-    public void verifyAssignSuperAdminRole() {
+    @Test(priority = 3, enabled = true, description = "To Verify Assign Super Admin Role", dataProvider = "verifyAssignSuperAdminRole", dataProviderClass = AdminDataProvider.class)
+    public void verifyAssignSuperAdminRole(String superAdminId, String superAdminPwd, String adminId, String adminPwd, String adminFullName, String superAdminFullName) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
 
-        String superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
-        String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        String admin = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
-        String adminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Password", "Valid Value");
-
-        String adminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Name", "Valid Value");
-        String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+        adminId = GenericService.addBrowserPrefix(adminId);
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
@@ -173,7 +148,7 @@ public class SuperAdminTest extends AbstractTest {
             adminService.demoteSuperAdminRole(superAdminId, adminFullName, false);
             adminService.demoteSuperAdminRole(superAdminId, adminFullName, true);
             // Will update if the business change. Future plan: The Super admin will logout after demote user.
-            adminService.verifyAdminCannotChangeSttUser();
+            adminService.verifyAdminCannotChangeSttAdminUser();
             marketingService.logout();
             marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(superAdminId, superAdminPwd);
@@ -181,12 +156,12 @@ public class SuperAdminTest extends AbstractTest {
 
             marketingService.logout();
             marketingService.openLoginDialog();
-            marketingService.loginWithUserNamePassword(admin, adminPwd);
+            marketingService.loginWithUserNamePassword(adminId, adminPwd);
             adminService.verifyHeaderAdminPage();
-            adminService.verifyUserRoleOfEmail(admin, "SUPER ADMIN");
+            adminService.verifyUserRoleOfEmail(adminId, "SUPER ADMIN");
             adminService.verifySuperAdminCanChangeSttAllUser();
-            adminService.demoteSuperAdminRole(admin, superAdminFullName, true);
-            adminService.verifyAdminCannotChangeSttUser();
+            adminService.demoteSuperAdminRole(adminId, superAdminFullName, true);
+            adminService.verifyAdminCannotChangeSttAdminUser();
 
             marketingService.logout();
             marketingService.openLoginDialog();
@@ -204,33 +179,32 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify flow SuperAdmin change status of Admin.", testName = "sa_25, 26, 27")
-    public void verifySuperAdminChangeStatusAdmin() {
+    @Test(priority = 4, enabled = true, description = "Verify flow SuperAdmin change status of Admin.", dataProvider = "verifyAssignSuperAdminRole", dataProviderClass = AdminDataProvider.class, testName = "sa_25, 26, 27")
+    public void verifySuperAdminChangeStatusAdmin(String superAdminId, String superAdminPassword, String adminId, String inactiveStatus, String lockedStatus, String onboardingStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
-        superAdminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        adminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Admin", "Valid Value");
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+        adminId = GenericService.addBrowserPrefix(adminId);
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPassword);
             adminService.scrollToUser(adminId);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.INACTIVE.value);
+            adminService.changeTheStatusUser(adminId, inactiveStatus);
             marketingService.refreshHomePage();
-            adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.INACTIVE.value);
+            adminService.scrollToUser(adminId);
+            adminService.verifyUserIsChangeStatusOnTheList(adminId, inactiveStatus);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.LOCKED.value);
+            adminService.changeTheStatusUser(adminId, lockedStatus);
             marketingService.refreshHomePage();
-            adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.LOCKED.value);
+            adminService.scrollToUser(adminId);
+            adminService.verifyUserIsChangeStatusOnTheList(adminId, lockedStatus);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(adminId, onboardingStatus);
             marketingService.refreshHomePage();
-            adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.ONBOARDING.value);
+            adminService.scrollToUser(adminId);
+            adminService.verifyUserIsChangeStatusOnTheList(adminId, onboardingStatus);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify flow SuperAdmin change status of Admin.", LogAs.PASSED, null);
@@ -241,48 +215,47 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify flow SuperAdmin change status of Auditor.", testName = "sa_28, 29, 30, 31")
-    public void verifySuperAdminChangeStatusAuditor() {
+    @Test(priority = 5, enabled = true, description = "Verify flow SuperAdmin change status of Auditor.", dataProvider = "verifySuperAdminChangeStatusAuditor", dataProviderClass = AdminDataProvider.class, testName = "sa_28, 29, 30, 31")
+    public void verifySuperAdminChangeStatusAuditor(String superAdminId, String superAdminPassword, String auditorId, String inactiveStatus, String lockedStatus, String activeStatus, String waitListedStatus, String onboardingStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
-        superAdminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        auditorId = GenericService.getTestDataFromExcel("SuperAdminTest", "Auditor", "Valid Value");
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+        auditorId = GenericService.addBrowserPrefix(auditorId);
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPassword);
             adminService.scrollToUser(auditorId);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.INACTIVE.value);
+            adminService.changeTheStatusUser(auditorId, inactiveStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.INACTIVE.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorId, inactiveStatus);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.LOCKED.value);
+            adminService.changeTheStatusUser(auditorId, lockedStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.LOCKED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorId, lockedStatus);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.ACTIVE.value);
+            adminService.changeTheStatusUser(auditorId, activeStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.ACTIVE.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorId, activeStatus);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(auditorId, onboardingStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.ONBOARDING.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorId, onboardingStatus);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.WAITLISTED.value);
+            adminService.changeTheStatusUser(auditorId, waitListedStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorId, waitListedStatus);
 
-            adminService.changeTheStatusUser(auditorId, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(auditorId, onboardingStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(auditorId);
-            adminService.verifyUserIsChangeStatusOnTheList(auditorId, UserStatus.ONBOARDING.value);
+            adminService.verifyUserIsChangeStatusOnTheList(auditorId, onboardingStatus);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify flow SuperAdmin change status of Auditor.", LogAs.PASSED, null);
@@ -293,49 +266,47 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify flow SuperAdmin change status of Client.", testName = "sa_32,33,34,35")
-    public void verifySuperAdminChangeStatusClient() throws Exception {
+    @Test(priority = 6, enabled = true, description = "Verify flow SuperAdmin change status of Client.", dataProvider = "verifySuperAdminChangeStatusClient", dataProviderClass = AdminDataProvider.class, testName = "sa_32,33,34,35")
+    public void verifySuperAdminChangeStatusClient(String superAdminId, String superAdminPassword, String clientId, String inactiveStatus, String lockedStatus, String activeStatus, String waitListedStatus, String onboardingStatus) throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        superAdminId = GenericService.getTestDataFromExcel("SuperAdminTest", "Super Admin", "Valid Value");
-        superAdminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
-        clientId = GenericService.getTestDataFromExcel("SuperAdminTest", "Client", "Valid Value");
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+        clientId = GenericService.addBrowserPrefix(clientId);
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPassword);
             adminService.scrollToUser(clientId);
 
-            System.out.println("clientId = " + clientId);
-            adminService.changeTheStatusUser(clientId, UserStatus.INACTIVE.value);
+            adminService.changeTheStatusUser(clientId, inactiveStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(clientId);
-            adminService.verifyUserIsChangeStatusOnTheList(clientId, UserStatus.INACTIVE.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientId, inactiveStatus);
 
-            adminService.changeTheStatusUser(clientId, UserStatus.LOCKED.value);
+            adminService.changeTheStatusUser(clientId, lockedStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(clientId);
-            adminService.verifyUserIsChangeStatusOnTheList(clientId, UserStatus.LOCKED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientId, lockedStatus);
 
-            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", UserStatus.ACTIVE.toString());
+            MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", activeStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(clientId);
-            adminService.verifyUserIsChangeStatusOnTheList(clientId, UserStatus.ACTIVE.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientId, activeStatus);
 
-            adminService.changeTheStatusUser(clientId, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(clientId, onboardingStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(clientId);
-            adminService.verifyUserIsChangeStatusOnTheList(clientId, UserStatus.ONBOARDING.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientId, onboardingStatus);
 
-            adminService.changeTheStatusUser(clientId, UserStatus.WAITLISTED.value);
+            adminService.changeTheStatusUser(clientId, waitListedStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(clientId);
-            adminService.verifyUserIsChangeStatusOnTheList(clientId, UserStatus.WAITLISTED.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientId, waitListedStatus);
 
-            adminService.changeTheStatusUser(clientId, UserStatus.ONBOARDING.value);
+            adminService.changeTheStatusUser(clientId, onboardingStatus);
             marketingService.refreshHomePage();
             adminService.scrollToUser(clientId);
-            adminService.verifyUserIsChangeStatusOnTheList(clientId, UserStatus.ONBOARDING.value);
+            adminService.verifyUserIsChangeStatusOnTheList(clientId, onboardingStatus);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify flow SuperAdmin change status of Client.", LogAs.PASSED, null);

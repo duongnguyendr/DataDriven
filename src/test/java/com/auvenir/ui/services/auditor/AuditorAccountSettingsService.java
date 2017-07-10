@@ -1,14 +1,12 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.pages.auditor.AuditorAcountSettingsPage;
+import com.auvenir.ui.pages.auditor.settings.AuditorAcountSettingsPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-
-import java.awt.*;
 
 /**
  * Created by cuong.nguyen on 4/27/2017.

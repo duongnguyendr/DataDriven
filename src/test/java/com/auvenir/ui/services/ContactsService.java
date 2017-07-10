@@ -1,6 +1,6 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.auditor.AuditorContactsPage;
+import com.auvenir.ui.pages.auditor.contact.AuditorContactsPage;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;

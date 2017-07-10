@@ -58,6 +58,7 @@ public class MarketingService extends AbstractService {
     public void logout() {
         marketingPage.clickOnProfile();
         getLogger().info("Logout.");
+        marketingPage.waitSomeSeconds(5);
         marketingPage.clickOnLogoutBTN();
     }
 

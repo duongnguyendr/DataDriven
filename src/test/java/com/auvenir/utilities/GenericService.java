@@ -733,6 +733,7 @@ public class GenericService {
      */
     public static String getTestDataFromExcel(String SheetName,String rowName, String columnName){
         String userData = null;
+        System.out.println("Get Data from Excel file");
         try{
             String userDataExcel=null;
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
@@ -794,5 +795,9 @@ public class GenericService {
             e.printStackTrace();
         }
         return userData;
+    }
+
+    public static String addBrowserPrefix(String value) {
+        return GenericService.sBrowserData + value;
     }
 }

@@ -1054,7 +1054,7 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             clientService.verifyToDoTaskExist(toDoName, false);
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             marketingService.logout();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1093,7 +1093,10 @@ public class SmokeTest extends AbstractTest {
             auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple02);
             auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple03);
 
+            auditorCreateToDoService.scrollDown(getDriver());
+
             auditorCreateToDoService.selectToDoTaskName(toDoNameDeleteSingle);
+            auditorCreateToDoService.scrollUp(getDriver());
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.selectDeleteToDoUsingBulkAction();
             auditorCreateToDoService.confirmDeleteButton();
@@ -1170,8 +1173,7 @@ public class SmokeTest extends AbstractTest {
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         String fullNameMember = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Full Name");
-        String roleMember = "Auditor";
-
+        String roleMember = "Partner";
         try {
             //Go to marketing page
             marketingService.goToBaseURL();

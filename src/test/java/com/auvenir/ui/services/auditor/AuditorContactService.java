@@ -3,8 +3,7 @@ package com.auvenir.ui.services.auditor;
 /**
  * Created by tan.pham on 6/30/2017.
  */
-import com.auvenir.ui.pages.auditor.AuditorAcountSettingsPage;
-import com.auvenir.ui.pages.auditor.AuditorContactsPage;
+import com.auvenir.ui.pages.auditor.contact.AuditorContactsPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

@@ -671,4 +671,16 @@ public class AbstractService {
         getLogger().info("Logout.");
         marketingPage.clickOnLogoutBTN();
     }
+    public void scrollDown(WebDriver webDriver) {
+        //marketingPage.scrollToFooter(webDriver);
+        getLogger().info("Scroll down.");
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,250)", "");
+    }
+    public void scrollUp(WebDriver webDriver) {
+        //marketingPage.scrollToFooter(webDriver);
+        getLogger().info("Scroll up.");
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,-250)", "");
+    }
 }
