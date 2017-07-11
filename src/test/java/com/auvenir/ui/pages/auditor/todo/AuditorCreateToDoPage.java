@@ -2529,7 +2529,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
             clickElement(toDoSaveIconEle, "Save New Todo Icon");
             NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.PASSED, null);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -4558,7 +4558,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyUploadFileSuccessfully(String fileName) {
         try {
             int isFind = findUploadFile(fileName);
-            if (isFind!= -1) {
+            if (isFind != -1) {
                 NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4566,7 +4566,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
             e.printStackTrace();
         }
     }
@@ -4600,7 +4600,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     Vien.Pham added new method
     @param : mode 1 for downloading request file, mode 2 for downloading attachfile.
      */
-    public void downloadNewRequestFile(String concatUpload, String concatDownload,String fileName, int mode) {
+    public void downloadNewRequestFile(String concatUpload, String concatDownload, String fileName, int mode) {
         try {
             //Delete file before download
             Path path = Paths.get(concatDownload);
@@ -4693,7 +4693,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             getLogger().info("client verifies attached file available..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName),fileName, 2);
+            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), fileName, 2);
             NXGReports.addStep("Download attached file Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();

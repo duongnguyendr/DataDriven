@@ -135,13 +135,13 @@ public class AuditorToDoPage extends AbstractPage {
     public void verifyDueDateFocusing() {
         int date = Integer.parseInt(getText(dueDateOnTodoDetail).split("/")[1]);
         DatePicker dp = new DatePicker(getDriver());
-        validateAttributeContain(dp.getAEnableDate(String.valueOf(date)), "class", "ui-state-active", "Current Due Date");
+        validateAttributeContain(dp.getADate(String.valueOf(date)), "class", "ui-state-active", "Current Due Date");
     }
 
     public void verifyDisableDateAfterDueDate(String engagementDueDate) {
         String todoDueDate = getText(dueDateOnTodoDetail);
         DatePicker dp = new DatePicker(getDriver());
-        int maxDate = dp.getDates();
+        int maxDate = dp.getQuantityDateOfMonth();
         if ((getDueDateYear(engagementDueDate) == getDueDateYear(todoDueDate)) && (getDueDateMonth(engagementDueDate) == getDueDateMonth(todoDueDate))) {
             int loopDate = getDueDateDate(engagementDueDate) + 1;
             while (loopDate <= maxDate) {
@@ -263,7 +263,7 @@ public class AuditorToDoPage extends AbstractPage {
                 clickElement(engagementDueDate);
                 DatePicker dp = new DatePicker(getDriver());
                 dp.clickNextButton();
-                dp.selectSecondValidDate();
+                clickElement(dp.getValidDateHasIndex(1), "Second valid date");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
