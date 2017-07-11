@@ -1855,8 +1855,7 @@ End of merged VienPham.
     }*/
 
     @Test(priority = 51, enabled = true, description = "Verify notification email when Auditor invite a lead client")
-    public void verifyNotificationAuditorInviteClient(String auditorId, String auditorPassword, String engagementName,
-                                                      String clientId, String clientEmailPassword, String clientFullName) throws Exception {
+    public void verifyNotificationAuditorInviteClient() throws Exception {
         getLogger().info("Verify Auditor inviting a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -1869,9 +1868,9 @@ End of merged VienPham.
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
 
 
-        auditorId = GenericService.getTestDataFromExcel("NotificationEmailTest", "Auditor", "Valid Value");
+        String auditorId = GenericService.getTestDataFromExcel("NotificationEmailTest", "Auditor", "Valid Value");
         String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Auditor Password", "Valid Value");
-        engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Engagement Name", "Valid Value");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Engagement Name", "Valid Value");
         String clientId = GenericService.getTestDataFromExcel("NotificationEmailTest", "New Client", "Valid Value");
         String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Email Password", "Valid Value");
         String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Full Name", "Valid Value");
