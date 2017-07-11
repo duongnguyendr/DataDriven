@@ -15,7 +15,7 @@
             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <methods>
 
-                <!--<include priority="1" name="verifyAdminLogin"></include>
+                <include priority="1" name="verifyAdminLogin"></include>
                 <include priority="2" name="verifySignUpAuditorUser"></include>
                 <include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
                 <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
@@ -32,7 +32,7 @@
                 <include priority="15" name="verifyAuditorPostComment"></include>
                 <include priority="16" name="verifyClientViewAuditorComment"></include>
                 <include priority="17" name="verifyClientPostComment"></include>
-                <include priority="18" name="verifyAuditorViewClientComment"></include>-->
+                <include priority="18" name="verifyAuditorViewClientComment"></include>
                 <include priority="19" name="verifyAddNewRequestOnToDoPage"></include>
                 <include priority="20" name="verifyClientUploadOnRequest"></include>
                 <include priority="21" name="verifyAuditorDownloadOnRequest"></include>
