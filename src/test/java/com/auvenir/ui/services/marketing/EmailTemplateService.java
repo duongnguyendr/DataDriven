@@ -27,6 +27,9 @@ public class EmailTemplateService extends AbstractService {
     public void verifyActiveEmailTemplateContent() {
         mailAuditorJoinPage.verifyActiveEmailContent();
     }
+    public void verifyEmailToCustomerSuccessTeam(String autitorAccount, String fullName, String firmName){
+        mailAuditorJoinPage.verifyEmailToCustomerSuccessTeam(autitorAccount,fullName,firmName);
+    }
 
     public void verifyAuditorInviteClientEmail() {
         mailAuditorJoinPage.verifyAuditorInviteClientEmail();
