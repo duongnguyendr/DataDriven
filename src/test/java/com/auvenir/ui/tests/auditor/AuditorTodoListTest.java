@@ -4,6 +4,7 @@ import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.services.client.ClientService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
@@ -40,6 +41,7 @@ public class AuditorTodoListTest extends AbstractTest {
     private ClientService clientService;
     private AdminService adminService;
     private GmailLoginService gmailLoginService;
+    private EmailTemplateService emailTemplateService;
 
 
     @Test(priority = 1, enabled = true, description = "Verify Auditor empty Todo List page.")
@@ -1808,6 +1810,7 @@ End of merged VienPham.
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
 
 
         auditorId = GenericService.getTestDataFromExcel("NotificationEmailTest", "Auditor", "Valid Value");
@@ -1816,17 +1819,20 @@ End of merged VienPham.
         String clientId = GenericService.getTestDataFromExcel("NotificationEmailTest", "New Client", "Valid Value");
         String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Email Password", "Valid Value");
         String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Full Name", "Valid Value");
-//
-//        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-
-        //need precondition for save engagement name, and delete this engagement or client on acl
+        String auditorFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Auditor Full Name", "Valid Value");
+        String subjectContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Subject Email Auditor Invite Client", "Valid Value");
+        String greetingContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Greeting Content", "Valid Value");
+        String announcementContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Announcement Content", "Valid Value");
+        String introducingContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Introducing Content", "Valid Value");
+        String introducingBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Introducing Benefit Content", "Valid Value");
+        String firstBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "First Benefit Content", "Valid Value");
+        String secondBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Second Benefit Content", "Valid Value");
+        String thirdBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Third Benefit Content", "Valid Value");
+        String feedBackContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "FeedBack Content", "Valid Value");
+        String goodbyeContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Goodbye Content", "Valid Value");
 
         try {
-
-            MongoDBService.removeEngagementByInvitedClientEmail(MongoDBService.getCollection("engagements"), clientId);
-            MongoDBService.removeBusinessByInvitedClientEmail(MongoDBService.getCollection("businesses"), clientId);
-            MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
-
+            MongoDBService.removeUserAndIndicatedValueByEmail(clientId);
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1836,6 +1842,17 @@ End of merged VienPham.
             clientService.selectAddNewClient();
             clientService.inviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+
+            gmailLoginService.gmailReLogin(clientEmailPassword);
+            gmailLoginService.selectActiveEmaill();
+
+            emailTemplateService.verifySubjectEmailAuditorInviteClient(auditorFullName, subjectContent);
+            emailTemplateService.verifyGreetingContentEmailAuditorInviteClient(clientFullName, greetingContent);
+            emailTemplateService.verifyAnnouncementEmailAuditorInviteClient(auditorFullName, announcementContent);
+            emailTemplateService.verifyAuvenirIntroducingContent(introducingContent);
+            emailTemplateService.verifyBenefitContentEmailAuditorInviteClient(introducingBenefitContent, firstBenefitContent, secondBenefitContent, thirdBenefitContent);
+            emailTemplateService.verifyFeedbackContent(feedBackContent);
+            emailTemplateService.verifyGoodbyeContent(goodbyeContent);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);

@@ -61,9 +61,7 @@ public class MongoDBService {
                 MongoClient mongoClient = new MongoClient(hosts, credentials, options.build());
                 return mongoClient;
             } else if (SSL.equals("no") && username == null && password == null) {
-                System.out.println("bbbbbbb");
                 MongoClient mongoClient = new MongoClient(ServerHost, portNo);
-                System.out.println("AAAAAAA");
                 return mongoClient;
             }
             //getLogger().info("Connected successfully.");
@@ -647,7 +645,11 @@ public class MongoDBService {
         }
     }
 
-
+    /**
+     * Get the Object ID of Email Users in 'users' collection.
+     * @param email String email which is a email value in 'users' collection.
+     * @return String Object ID of Email Users.
+     */
     public static String getObjectIdOfEmailUser( String email) {
         String objectId = null;
         try {
@@ -675,16 +677,16 @@ public class MongoDBService {
     }
 
     /**
-     *
-     * @param dBCollection
-     * @param email
+     * Remove all Engagement indicating the email(Object ID) in 'acl' array object in 'engagements' collection.
+     * @param email the String email which has object ID displayed in 'acl' array object.
      */
-    public static void removeEngagementByInvitedClientEmail(DBCollection dBCollection, String email) {
-        String objectId = "";
+    public static void removeEngagementByInvitedClientEmail(String email) {
+        String objectId = null;
         int count = 0;
         try {
+            DBCollection dBCollection = getCollection("engagements");
             objectId = getObjectIdOfEmailUser(email);
-            if(!objectId.isEmpty()) {
+            if(objectId != null) {
                 BasicDBObject searchQuery = new BasicDBObject();
                 searchQuery.put("acl.id", new ObjectId(objectId));
                 DBCursor curs = dBCollection.find(searchQuery);
@@ -695,7 +697,6 @@ public class MongoDBService {
                     dBCollection.remove(dBbject);
                     count++;
                 }
-                System.out.println("Count: " + count);
             }
             if (count == 0) {
                 System.out.println(String.format("Engagement integrated with email '%s' is not exist on database", email));
@@ -709,16 +710,16 @@ public class MongoDBService {
     }
 
     /**
-     *
-     * @param dBCollection
-     * @param email
+     * Remove all business indicating the email(Object ID) in 'acl' array object in 'businesses' collection.
+     * @param email the String email which has object ID displayed in 'acl' array object.
      */
-    public static void removeBusinessByInvitedClientEmail(DBCollection dBCollection, String email) {
-        String objectId = "";
+    public static void removeBusinessByInvitedClientEmail(String email) {
+        String objectId = null;
         int count = 0;
         try {
+            DBCollection dBCollection = getCollection("businesses");
             objectId = getObjectIdOfEmailUser(email);
-            if(!objectId.isEmpty()) {
+            if (objectId != null) {
                 BasicDBObject searchQuery = new BasicDBObject();
                 searchQuery.put("acl.id", new ObjectId(objectId));
                 DBCursor curs = dBCollection.find(searchQuery);
@@ -729,7 +730,6 @@ public class MongoDBService {
                     dBCollection.remove(dBbject);
                     count++;
                 }
-                System.out.println("Count: " + count);
             }
             if (count == 0) {
                 System.out.println(String.format("Businesses integrated with email '%s' is not exist on database", email));
@@ -741,4 +741,15 @@ public class MongoDBService {
             ex.printStackTrace();
         }
     }
+
+    public static void removeUserAndIndicatedValueByEmail(String email) {
+        removeEngagementByInvitedClientEmail(email);
+        removeBusinessByInvitedClientEmail(email);
+        try {
+            removeUserObjectByEmail(getCollection("users"), email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
