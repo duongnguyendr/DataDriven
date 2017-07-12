@@ -51,7 +51,7 @@
     </test>-->
      <test name="Regression2" preserve-order="false">
          <parameter name="browser" value="chrome"/>
-         <parameter name="version" value="lasted"/>
+         <parameter name="version" value="59.0.3071.115"/>
          <parameter name="os" value="WIN8"/>
          <classes>
              <class name="com.auvenir.ui.tests.SmokeTest"/>
