@@ -17,8 +17,6 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureSc
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Created by huy.huynh on 13/06/2017.
  * SmokeTest for R2
@@ -132,7 +130,7 @@ public class SmokeTest extends AbstractTest {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
 //            auditorSignUpService.deleteUserUsingApi(emailCreate);
-
+            auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -290,6 +288,8 @@ public class SmokeTest extends AbstractTest {
         //need precondition for save engagement name, and delete this engagement or client on acl
 
         try {
+            auditorSignUpService.deleteUserUsingApi(clientId);
+
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
@@ -825,7 +825,7 @@ public class SmokeTest extends AbstractTest {
 //            auditorEngagementTeamService.deleteAllMemberInEngagement();
             auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
 
-            //auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
+            auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
             gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
