@@ -1,9 +1,15 @@
 package com.auvenir.ui.tests.marketing;
 
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.ClientDetailsEngagementService;
 import com.auvenir.ui.services.admin.AdminService;
+import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
+import com.auvenir.ui.services.auditor.AuditorNewEngagementService;
+import com.auvenir.ui.services.auditor.AuditorTodoListService;
+import com.auvenir.ui.services.client.ClientService;
+import com.auvenir.ui.services.client.ClientSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
@@ -28,6 +34,12 @@ public class AuditorSignUpTest extends AbstractTest {
     private GmailLoginService gmailLoginService;
     private EmailTemplateService emailTemplateService;
     private AuditorEngagementService auditorEngagementService;
+    private AuditorNewEngagementService auditorNewEngagementService;
+    private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    private AuditorTodoListService auditorTodoListService;
+    private ClientService clientService;
+    private ClientSignUpService clientSignUpService;
+    private ClientDetailsEngagementService clientDetailsEngagementService;
 
 
     // personal information
@@ -351,17 +363,17 @@ public class AuditorSignUpTest extends AbstractTest {
 
 
     @Test(priority = 7, enabled = true, description = "Email to Customer Success Team (internal) after Lead Auditor sign up")
-    public void verifyEmailToCustomerSuccessTeam() throws Exception {
+    public void verifyEmailToCustomerSuccessTeamAfterLeadAuditorSignedUp() throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(),getDriver());
-        emailTemplateService = new EmailTemplateService(getLogger(),getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         final String auditorAccount = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         final String successTeamEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Success Team Email", "Valid Value");
         final String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
 
         try {
             auditorSignUpService.deleteUserUsingApi(auditorAccount);
-            auditorSignUpService.deleteAllExistedGMail(successTeamEmail,successTeamEmailPwd);
+            auditorSignUpService.deleteAllExistedGMail(successTeamEmail, successTeamEmailPwd);
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
@@ -373,7 +385,7 @@ public class AuditorSignUpTest extends AbstractTest {
             //Verify email to success Team
             gmailLoginService.gmailReLogin(successTeamEmailPwd);
             gmailLoginService.selectActiveEmaill();
-            emailTemplateService.verifyEmailToCustomerSuccessTeam(auditorAccount,strFullName,strName);
+            emailTemplateService.verifyEmailToCustomerSuccessTeam(auditorAccount, strFullName, strName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Member ID: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -382,5 +394,135 @@ public class AuditorSignUpTest extends AbstractTest {
             throw e;
         }
     }
+
+    @Test(priority = 8, enabled = true, description = "Verify Auditor invite client")
+    public void verifyAuditorInviteClient() throws Exception {
+        getLogger().info("Verify Auditor invite a client.");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+
+        String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
+        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
+        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
+
+        try {
+            gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
+            gmailLoginService.deleteAllExistedEmailUseAnotherAccount(successTeamEmail, successTeamEmailPwd);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            //auditor invite client
+            auditorTodoListService.navigateToInviteClientPage();
+            clientService.selectAddNewClient();
+//            clientService.inviteNewClient(clientFullName, clientId, "");
+            clientService.inviteNewAuditor(clientFullName,clientId,"");
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+            // client login Gmail to Signup
+            gmailLoginService.gmailReLoginUseAnotherAccount(clientId, clientEmailPassword);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm("0123456789");
+            clientSignUpService.fillUpBusinessForm("Titancorpvn");
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm(clientAuvenirPassword);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test(priority = 9, enabled = true, description = "Customer Success Team  has not received any Email(internal) after Lead Client sign up")
+    public void verifyNoEmailToCustomerSuccessTeamAfterLeadClientSignUp() throws Exception {
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+
+        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
+        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
+
+        try {
+            gmailLoginService.gmailLogin(successTeamEmail, successTeamEmailPwd);
+            //Verify no email to Customer successteam
+            gmailLoginService.verifyNoEmailToCSTeamInbox();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test(priority = 10, enabled = true, description = "Verify Auditor invite general Auditor")
+    public void verifyAuditorInviteGeneralAuditor() throws Exception {
+        getLogger().info("Verify Auditor invite a client.");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+
+        String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
+        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
+        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
+
+        try {
+            gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
+            gmailLoginService.deleteAllExistedEmailUseAnotherAccount(successTeamEmail, successTeamEmailPwd);
+            marketingService.goToAuvenirMarketingPageURL();
+            marketingService.selectLoginBtn();
+            marketingService.loginWithUserPwd(auditorId, auditorPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            //auditor invite client
+//            auditorTodoListService.navigateToInviteClientPage();
+            auditorTodoListService.navigateToInviteGeneralAuditor();
+//            clientService.selectAddNewClient();
+            clientService.inviteNewClient(clientFullName, clientId, "");
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+            // client login Gmail to Signup
+            gmailLoginService.gmailReLoginUseAnotherAccount(clientId, clientEmailPassword);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm("0123456789");
+            clientSignUpService.fillUpBusinessForm("Titancorpvn");
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm(clientAuvenirPassword);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
 
 }

@@ -19,7 +19,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.sikuli.script.FindFailed;
+import org.sikuli.script.Screen;
 import org.testng.Assert;
+
 
 import javax.sql.rowset.spi.SyncFactoryException;
 import java.awt.*;
@@ -4407,41 +4410,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     private String requestNameText = "client request";
 
-    /*
-    Vien .Pham created new method
-     */
-    /*
-    public void uploadeCreateRequestNewFile(String concatUpload) throws AWTException, InterruptedException, IOException {
-        try {
-//            System.out.println("user location is: "+System.getProperty("user.home"));
-            clickElement(uploadCreateRequestBtn);
-            Thread.sleep(largeTimeOut);
-            getLogger().info("Enter path of file..");
-            StringSelection ss = new StringSelection(concatUpload);
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            getLogger().info("Waiting for checkSign visible..");
-            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
-        } catch (AWTException awt) {
-            AbstractService.sStatusCnt++;
-            awt.printStackTrace();
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        } catch (InterruptedException itr) {
-            AbstractService.sStatusCnt++;
-            itr.printStackTrace();
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }*/
+ /*
+ Vien.Pham created new uploadedNewFile
+  */
 
     public void uploadeNewFileByRequestName(String concatUpload, String requestName) {
         try {
@@ -4453,34 +4424,40 @@ public class AuditorCreateToDoPage extends AbstractPage {
             } else {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
                 Thread.sleep(largeTimeOut);
-                getLogger().info("Input path of file..");
-                StringSelection ss = new StringSelection(concatUpload);
-                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-                Robot robot = new Robot();
-                robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);
-                robot.keyPress(KeyEvent.VK_CONTROL);
-                robot.keyPress(KeyEvent.VK_V);
-                robot.keyRelease(KeyEvent.VK_V);
-                robot.keyRelease(KeyEvent.VK_CONTROL);
-                robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);
+//                getLogger().info("Input path of file..");
+                upLoadRequestFile(concatUpload);
+//                StringSelection ss = new StringSelection(concatUpload);
+//                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+//                Robot robot = new Robot();
+//                robot.keyPress(KeyEvent.VK_ENTER);
+//                robot.keyRelease(KeyEvent.VK_ENTER);
+//                robot.keyPress(KeyEvent.VK_CONTROL);
+//                robot.keyPress(KeyEvent.VK_V);
+//                robot.keyRelease(KeyEvent.VK_V);
+//                robot.keyRelease(KeyEvent.VK_CONTROL);
+//                robot.keyPress(KeyEvent.VK_ENTER);
+//                robot.keyRelease(KeyEvent.VK_ENTER);
                 getLogger().info("Waiting for checkSign visible..");
                 waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
                 closeAddNewRequestWindow();
                 NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
             }
-        } catch (AWTException awt) {
-            AbstractService.sStatusCnt++;
-            awt.printStackTrace();
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
         } catch (InterruptedException itr) {
             AbstractService.sStatusCnt++;
             itr.printStackTrace();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
         }
 
+    }
+
+    public void upLoadRequestFile(String path) throws FindFailed {
+        Screen screen = new Screen();
+//        screen.click("src/resources/ChromeIcon.PNG");
+        screen.click("src\\test\\resources\\imagesSikuli\\textbox.PNG");
+        screen.type(path);
+        screen.click("src\\test\\resources\\imagesSikuli\\openBtn.PNG");
     }
 
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']/div")
@@ -4558,7 +4535,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void verifyUploadFileSuccessfully(String fileName) {
         try {
             int isFind = findUploadFile(fileName);
-            if (isFind!= -1) {
+            if (isFind != -1) {
                 NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -4600,7 +4577,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     Vien.Pham added new method
     @param : mode 1 for downloading request file, mode 2 for downloading attachfile.
      */
-    public void downloadNewRequestFile(String concatUpload, String concatDownload,String fileName, int mode) {
+    public void downloadNewRequestFile(String concatUpload, String concatDownload, String fileName, int mode) {
         try {
             //Delete file before download
             Path path = Paths.get(concatDownload);
@@ -4693,7 +4670,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             getLogger().info("client verifies attached file available..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName),fileName, 2);
+            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), fileName, 2);
             NXGReports.addStep("Download attached file Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();

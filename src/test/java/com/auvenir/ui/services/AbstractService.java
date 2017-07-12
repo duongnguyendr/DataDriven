@@ -492,7 +492,8 @@ public class AbstractService {
     /*
     Method to delete all existed mail in GMail.
      */
-    public void deleteAllExistedGMail(String eGMail, String ePassword) {
+
+     public void deleteAllExistedGMail(String eGMail, String ePassword) {
         getLogger().info("Try to delete all existed eGMail");
         try {
             GmailPage gmailLoginPage = new GmailPage(logger, driver);
@@ -505,6 +506,31 @@ public class AbstractService {
         } catch (Exception e) {
             getLogger().info("Unable to delete all existed mail.");
         }
+    }
+
+    public void deleteAllExistedGmailUseAnotherAccount(String eGmail, String ePassword){
+        getLogger().info("Try to delete all existed eGMail");
+        try {
+            GmailPage gmailLoginPage = new GmailPage(logger, driver);
+            driver.get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
+            driver.manage().window().maximize();
+            gmailLoginPage.signInUseAnotherAccount(eGmail, ePassword);
+            gmailLoginPage.deleteAllMail();
+            gmailLoginPage.gmailLogout();
+        } catch (Exception e) {
+            getLogger().info("Unable to delete all existed mail.");
+        }
+    }
+
+    public void reLoginUseAnotherAccount(String user, String pwd){
+        GmailPage gmailLoginPage = new GmailPage(logger, driver);
+        try {
+            gmailLoginPage.reSignInUseAnotherAccount(user, pwd);
+        }catch (Exception e){
+            getLogger().info("Unable to relogin use another account.");
+        }
+
     }
 
     /*

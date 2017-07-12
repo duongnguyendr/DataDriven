@@ -455,7 +455,6 @@ public class SmokeTest extends AbstractTest {
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         String pathOfUploadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
-        String pathOfDownloadLocation = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Download Location");
         String fileName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "File Upload Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
         String deadlineDate = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "DeadLine Date");
@@ -472,17 +471,17 @@ public class SmokeTest extends AbstractTest {
             auditorCreateToDoService.selectToDoTaskName(toDoName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.verifyClickAddRequestBtn();
-            auditorCreateToDoService.createNewRequest("request 01","1");
+            auditorCreateToDoService.createNewRequest("request 01", "1");
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.verifyClickAddRequestBtn();
-            auditorCreateToDoService.createNewRequest("request 02","2");
+            auditorCreateToDoService.createNewRequest("request 02", "2");
             // temporary return Engagement to verify newRequest.
             auditorCreateToDoService.reselectEngagementName(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.uploadeNewFileByRequestName(GenericService.sDirPath + pathOfUploadLocation, fileName,"request 01");
+            auditorCreateToDoService.uploadeNewFileByRequestName(GenericService.sDirPath + pathOfUploadLocation, fileName, "request 01");
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.verifyUploadFileSuccessfully(fileName);
-         Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor add new request", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify auditor add new request", LogAs.FAILED,
@@ -513,7 +512,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.uploadeNewFileByRequestName(uploadFilePath, fileName,"request 02");
+            auditorCreateToDoService.uploadeNewFileByRequestName(uploadFilePath, fileName, "request 02");
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.verifyUploadFileSuccessfully(fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -549,7 +548,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.downloadRequestFile(uploadFilePath, downloadFilePath, fileName,1);
+            auditorCreateToDoService.downloadRequestFile(uploadFilePath, downloadFilePath, fileName, 1);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {
