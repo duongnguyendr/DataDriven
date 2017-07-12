@@ -2532,7 +2532,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
             clickElement(toDoSaveIconEle, "Save New Todo Icon");
             NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.PASSED, null);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -4543,7 +4543,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
             e.printStackTrace();
         }
     }

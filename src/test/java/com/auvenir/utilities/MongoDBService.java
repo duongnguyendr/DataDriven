@@ -10,10 +10,7 @@ import org.json.JSONObject;
 
 import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static com.auvenir.utilities.GenericService.sDirPath;
 import static com.mongodb.MongoClientOptions.builder;
@@ -64,9 +61,7 @@ public class MongoDBService {
                 MongoClient mongoClient = new MongoClient(hosts, credentials, options.build());
                 return mongoClient;
             } else if (SSL.equals("no") && username == null && password == null) {
-                System.out.println("bbbbbbb");
                 MongoClient mongoClient = new MongoClient(ServerHost, portNo);
-                System.out.println("AAAAAAA");
                 return mongoClient;
             }
             //getLogger().info("Connected successfully.");
@@ -649,4 +644,112 @@ public class MongoDBService {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Get the Object ID of Email Users in 'users' collection.
+     * @param email String email which is a email value in 'users' collection.
+     * @return String Object ID of Email Users.
+     */
+    public static String getObjectIdOfEmailUser( String email) {
+        String objectId = null;
+        try {
+            DBCollection dBCollection = getCollection("users");
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("email", email);
+            DBCursor cursor = dBCollection.find(searchQuery);
+            int count  = 0;
+            while(cursor.hasNext()) {
+                DBObject dBbject = cursor.next();
+                // shows the whole result document
+                ObjectId aclObject = (ObjectId) dBbject.get("_id");
+                System.out.println("ObjectID User: " + aclObject.toString());
+                objectId = aclObject.toString();
+                count ++;
+            }
+            if(count == 0 )
+                System.out.println("This users not exist on database.");
+        } catch (NoSuchElementException ex) {
+            System.out.println("This users not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return objectId;
+    }
+
+    /**
+     * Remove all Engagement indicating the email(Object ID) in 'acl' array object in 'engagements' collection.
+     * @param email the String email which has object ID displayed in 'acl' array object.
+     */
+    public static void removeEngagementByInvitedClientEmail(String email) {
+        String objectId = null;
+        int count = 0;
+        try {
+            DBCollection dBCollection = getCollection("engagements");
+            objectId = getObjectIdOfEmailUser(email);
+            if(objectId != null) {
+                BasicDBObject searchQuery = new BasicDBObject();
+                searchQuery.put("acl.id", new ObjectId(objectId));
+                DBCursor curs = dBCollection.find(searchQuery);
+                while (curs.hasNext()) {
+                    DBObject dBbject = curs.next();
+                    // shows the whole result document
+                    System.out.println("Engagement ObjectID: " + dBbject.get("_id"));
+                    dBCollection.remove(dBbject);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                System.out.println(String.format("Engagement integrated with email '%s' is not exist on database", email));
+            } else
+                System.out.println("Deleted Engagement successfully.");
+        } catch (NoSuchElementException ex) {
+            System.out.println("This engagement not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Remove all business indicating the email(Object ID) in 'acl' array object in 'businesses' collection.
+     * @param email the String email which has object ID displayed in 'acl' array object.
+     */
+    public static void removeBusinessByInvitedClientEmail(String email) {
+        String objectId = null;
+        int count = 0;
+        try {
+            DBCollection dBCollection = getCollection("businesses");
+            objectId = getObjectIdOfEmailUser(email);
+            if (objectId != null) {
+                BasicDBObject searchQuery = new BasicDBObject();
+                searchQuery.put("acl.id", new ObjectId(objectId));
+                DBCursor curs = dBCollection.find(searchQuery);
+                while (curs.hasNext()) {
+                    DBObject dBbject = curs.next();
+                    // shows the whole result document
+                    System.out.println("Businesses ObjectID: " + dBbject.get("_id"));
+                    dBCollection.remove(dBbject);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                System.out.println(String.format("Businesses integrated with email '%s' is not exist on database", email));
+            } else
+                System.out.println("Deleted Businesses successfully.");
+        } catch (NoSuchElementException ex) {
+            System.out.println("This Businesses not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void removeUserAndIndicatedValueByEmail(String email) {
+        removeEngagementByInvitedClientEmail(email);
+        removeBusinessByInvitedClientEmail(email);
+        try {
+            removeUserObjectByEmail(getCollection("users"), email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
