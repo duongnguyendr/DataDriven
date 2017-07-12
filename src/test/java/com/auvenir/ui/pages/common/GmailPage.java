@@ -486,6 +486,12 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='gmail-nav__nav-link gmail-nav__nav-link__sign-in']")
     private WebElement signButtonEle;
 
+    @FindBy(xpath = "(//content/span)[1]")
+    private WebElement dropdownOption;
+
+    @FindBy(xpath = "//p[contains(text(),'Use another account')]")
+    private WebElement selectAnotherAccount;
+
     /**
      * Sign in to gmail with given email and password
      *
@@ -494,7 +500,6 @@ public class GmailPage extends AbstractPage {
      */
     public void signInGmail(String email, String password) {
         try {
-//            Thread.sleep(3000);
             getLogger().info("Try to login GMail");
             if (!getDriver().getCurrentUrl().contains("accounts.google.com")) {
                 clickElement(signButtonEle, "signButtonEle");
@@ -505,10 +510,26 @@ public class GmailPage extends AbstractPage {
                 sendEnterkey(eleEmail, "eleEmail");
                 getLogger().info("Send email: " + email);
             }
-//            Thread.sleep(2000);
             sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
-//            Thread.sleep(1000);
+            clickElement(eleNext, "click to eleNext");
+            getLogger().info("DONE => LOGIN");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void signInUseAnotherAccount(String email, String password) {
+        try {
+            getLogger().info("Try to login GMail");
+            clickElement(dropdownOption);
+            clickElement(selectAnotherAccount);
+            sendKeyTextBox(eleEmail, email, "eleEmail");
+            sendTabkey(eleEmail, "eleEmail");
+            sendEnterkey(eleEmail, "eleEmail");
+            getLogger().info("Send email: " + email);
+            sendKeyTextBox(elePassword, password, "password");
+            getLogger().info("Send password: " + password);
             clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
@@ -522,6 +543,23 @@ public class GmailPage extends AbstractPage {
             elePassword.sendKeys(password);
             getLogger().info("Send password: " + password);
             Thread.sleep(1000);
+            clickElement(eleNext, "click to eleNext");
+            getLogger().info("DONE => LOGIN");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void reSignInUseAnotherAccount(String email, String password) {
+        try {
+            getLogger().info("Try to login GMail");
+            clickElement(selectAnotherAccount);
+            sendKeyTextBox(eleEmail, email, "eleEmail");
+            sendTabkey(eleEmail, "eleEmail");
+            sendEnterkey(eleEmail, "eleEmail");
+            getLogger().info("Send email: " + email);
+            sendKeyTextBox(elePassword, password, "password");
+            getLogger().info("Send password: " + password);
             clickElement(eleNext, "click to eleNext");
             getLogger().info("DONE => LOGIN");
         } catch (Exception ex) {
@@ -664,6 +702,18 @@ public class GmailPage extends AbstractPage {
         } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Email is not existed: Fail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyNoEmailToCSTeam() throws InterruptedException {
+        allMailCheckBox.click();
+        Thread.sleep(200);
+        if (!deleteBTN.isDisplayed()) {
+            getLogger().info("There no email in Inbox");
+            NXGReports.addStep("Verify no new Email to CS team: Pass", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify no new Email to CS team: Fail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
         }
     }
 

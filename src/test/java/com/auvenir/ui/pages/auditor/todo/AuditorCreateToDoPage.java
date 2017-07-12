@@ -19,7 +19,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.sikuli.script.FindFailed;
+import org.sikuli.script.Screen;
 import org.testng.Assert;
+
 
 import javax.sql.rowset.spi.SyncFactoryException;
 import java.awt.*;
@@ -4407,41 +4410,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     private String requestNameText = "client request";
 
-    /*
-    Vien .Pham created new method
-     */
-    /*
-    public void uploadeCreateRequestNewFile(String concatUpload) throws AWTException, InterruptedException, IOException {
-        try {
-//            System.out.println("user location is: "+System.getProperty("user.home"));
-            clickElement(uploadCreateRequestBtn);
-            Thread.sleep(largeTimeOut);
-            getLogger().info("Enter path of file..");
-            StringSelection ss = new StringSelection(concatUpload);
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_V);
-            robot.keyRelease(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_ENTER);
-            robot.keyRelease(KeyEvent.VK_ENTER);
-            getLogger().info("Waiting for checkSign visible..");
-            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
-        } catch (AWTException awt) {
-            AbstractService.sStatusCnt++;
-            awt.printStackTrace();
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        } catch (InterruptedException itr) {
-            AbstractService.sStatusCnt++;
-            itr.printStackTrace();
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }*/
+ /*
+ Vien.Pham created new uploadedNewFile
+  */
 
     public void uploadeNewFileByRequestName(String concatUpload, String requestName) {
         try {
@@ -4453,34 +4424,40 @@ public class AuditorCreateToDoPage extends AbstractPage {
             } else {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
                 Thread.sleep(largeTimeOut);
-                getLogger().info("Input path of file..");
-                StringSelection ss = new StringSelection(concatUpload);
-                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-                Robot robot = new Robot();
-                robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);
-                robot.keyPress(KeyEvent.VK_CONTROL);
-                robot.keyPress(KeyEvent.VK_V);
-                robot.keyRelease(KeyEvent.VK_V);
-                robot.keyRelease(KeyEvent.VK_CONTROL);
-                robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);
+//                getLogger().info("Input path of file..");
+                upLoadRequestFile(concatUpload);
+//                StringSelection ss = new StringSelection(concatUpload);
+//                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+//                Robot robot = new Robot();
+//                robot.keyPress(KeyEvent.VK_ENTER);
+//                robot.keyRelease(KeyEvent.VK_ENTER);
+//                robot.keyPress(KeyEvent.VK_CONTROL);
+//                robot.keyPress(KeyEvent.VK_V);
+//                robot.keyRelease(KeyEvent.VK_V);
+//                robot.keyRelease(KeyEvent.VK_CONTROL);
+//                robot.keyPress(KeyEvent.VK_ENTER);
+//                robot.keyRelease(KeyEvent.VK_ENTER);
                 getLogger().info("Waiting for checkSign visible..");
                 waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
                 closeAddNewRequestWindow();
                 NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
             }
-        } catch (AWTException awt) {
-            AbstractService.sStatusCnt++;
-            awt.printStackTrace();
-            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
         } catch (InterruptedException itr) {
             AbstractService.sStatusCnt++;
             itr.printStackTrace();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
         }
 
+    }
+
+    public void upLoadRequestFile(String path) throws FindFailed {
+        Screen screen = new Screen();
+//        screen.click("src/resources/ChromeIcon.PNG");
+        screen.click("src\\test\\resources\\imagesSikuli\\textbox.PNG");
+        screen.type(path);
+        screen.click("src\\test\\resources\\imagesSikuli\\openBtn.PNG");
     }
 
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']/div")

@@ -120,11 +120,24 @@ public class GmailLoginService extends AbstractService {
         deleteAllExistedGMail(userName, pwd);
     }
 
+    public void deleteAllExistedEmailUseAnotherAccount(String userName, String pwd){
+        deleteAllExistedGmailUseAnotherAccount(userName,pwd);
+    }
+
     public void gmailReLogin(String gmailPwd) throws InterruptedException {
         gmailLoginPo.goGMail();
         gmailLoginPo.reSignInGmail(gmailPwd);
     }
 
+    public void gmailReLoginUseAnotherAccount(String user, String pwd){
+        gmailLoginPo.goGMail();
+        reLoginUseAnotherAccount(user,pwd);
+    }
+
+
+    public void verifyNoEmailToCSTeamInbox() throws InterruptedException {
+        gmailLoginPo.verifyNoEmailToCSTeam();
+    }
     /**
      * Refactored by huy.huynh on 26/06/2017.
      * Refactor ClientTest
