@@ -1,10 +1,10 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.pages.auditor.AuditorNewEngagementPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorNewEngagementPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -39,18 +39,13 @@ public class AuditorNewEngagementService extends AbstractService {
 
 
     public void enterDataForNewEngagementPage(String name, String engagementType, String company) {
-        try {
-            getLogger().info("Enter data for new Engagement form.(Hard code)");
-            auditorNewEngagementPage.enterDataForNewEngagementPage(name, engagementType, company);
-            NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Enter data for new Engagement form.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorNewEngagementPage.enterDataForNewEngagementPage(name, engagementType, company);
     }
 
     public void verifyUINewEngagementSetUp(String name) {
         auditorNewEngagementPage.verifyUINewEngagementHeaderSetUp();
-        auditorNewEngagementPage.verifyUINewEngagementBodySetUp(name);
+        //auditorNewEngagementPage.verifyUINewEngagementBodySetUp(name);
+        auditorNewEngagementPage.insertDataForNewEngagementPage(name,"","Company Auvenir");
         auditorNewEngagementPage.verifyUINewEngagementFooterSetup();
     }
 

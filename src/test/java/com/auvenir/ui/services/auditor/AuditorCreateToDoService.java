@@ -1,13 +1,13 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.pages.auditor.AuditorCreateToDoPage;
-import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
-import com.auvenir.ui.pages.auditor.AuditorTodoListPage;
+import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorDetailsEngagementPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementPage;
+import com.auvenir.ui.pages.auditor.todo.AuditorTodoListPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -106,27 +106,19 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifySearchHover() {
         getLogger().info("Todo page search hover");
-        createToDoPage.verifySearchHover();
-    }
-
-    public void verifySearchInputText() {
-        getLogger().info("Todo page search to input text");
-        createToDoPage.verifySearchInputText();
-    }
-
-    public void verifySearchInputNumber() {
-        getLogger().info("Todo page search to input number");
-        createToDoPage.verifySearchInputNumber();
-    }
-
-    public void verifySearchInputSpecialChar() {
-
-        createToDoPage.verifySearchInputSpecialChar();
+        createToDoPage.verifySearchBorderWhileHover();
     }
 
     public void inputSearchText(String inputSearch) {
-
         createToDoPage.inputSearchText(inputSearch);
+    }
+
+    public void inputSearchNumber(String number) {
+        createToDoPage.inputSearchText(number);
+    }
+
+    public void inputSearchCharacter(String specialChars) {
+        createToDoPage.inputSearchText(specialChars);
     }
 
     public void verifySearchResult(String inputSearch) {
@@ -175,7 +167,7 @@ public class AuditorCreateToDoService extends AbstractService {
             //createToDoTask.navigateToEngagementTask();
             createToDoTask.navigateToToDoList();
             createToDoTask.clickCreateToDoTask();
-            //createToDoTask.verifyAddNewToDoTask();
+            //createToDoTask.createNewToDoTask();
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify Create ToDo TextBox", LogAs.FAILED,
@@ -261,27 +253,13 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyToDoCloseIcon();
     }
 
-    public void verifyColumnsInGrid() {
+    public void verifyColumnsInGrid() throws Exception {
+        createToDoPage.verifyColumnsInGrid();
 
-        try {
-            createToDoPage.verifyColumnsInGrid();
-            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify show to-do list with : Check box, To-do title, Category title, Client Assignee title, Due date title, Audit Assignee title", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
     }
 
-    public void verifySotleOnTitle() {
-
-        try {
-            createToDoPage.verifySotleOnTitle();
-            NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("[PLAT 2288]-15: verify after each column title have a arrow icon to sort.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifySortIconOnTitle() throws Exception {
+        createToDoPage.verifySortIconOnTitle();
     }
 
     public void verifyCheckOnCheckBox() {
@@ -318,7 +296,6 @@ public class AuditorCreateToDoService extends AbstractService {
 
     // Vien.Pham added new numberCategories
     public void createToDoPage() {
-
         try {
             createToDoPage.createToDoTask();
             NXGReports.addStep("Create To-Do page", LogAs.PASSED, null);
@@ -342,7 +319,7 @@ public class AuditorCreateToDoService extends AbstractService {
             }
         }
     */
-    public void verifyAddNewToDoTask(String toDoName) throws Exception {
+    public void createNewToDoTask(String toDoName) {
         createToDoPage.createToDoTask(toDoName);
     }
 
@@ -351,25 +328,18 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyCheckBoxToDoName() throws Exception {
-        // bug for check all button so we skip
-        //createToDoPage.verifyCheckAllCheckboxToDoName();
-//        createToDoPage.verifyUnCheckAllCheckboxToDoName();
+        createToDoPage.verifyCheckAllCheckboxToDoName();
+        createToDoPage.verifyUnCheckAllCheckboxToDoName();
         createToDoPage.verifyCheckMultipleCheckBoxToDoName();
     }
 
-    public void verifyDefaultValueofCategoryComboBox(String defaultValueComboBox) {
-        createToDoPage.verifyDefaultValueofCategoryComboBox(defaultValueComboBox);
+    public void verifyDefaultValueofCategoryComboBox() {
+        createToDoPage.verifyDefaultValueofCategoryComboBox();
     }
 
     public void verifyHoverCategoryComboBox() {
-
         createToDoPage.verifyHoverCategoryComboBox();
     }
-
-//    public void verifyCreateNewCategory() {
-//        getLogger().info("Verify create new Category");
-//        createToDoPage.verifyCreateNewCategory();
-//    }
 
     public void verifyAddNewCategoryPopupTitle() {
         getLogger().info("Verify title of add new category popup");
@@ -396,14 +366,19 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.checkSearchData();
     }
 
-    public void verifyCheckMaxLength() {
+    public void verifyCheckMaxLength() throws Exception {
         getLogger().info("Verify to check max length");
         createToDoPage.verifyCheckMaxLength();
     }
 
-    public void verifyContentTextSearch() {
+    public void verifyCheckMaxLength_CategoryName() {
+        getLogger().info("Verify to check max length");
+        createToDoPage.verifyCheckMaxLength_CategoryName();
+    }
+
+    public void verifyContentTextSearch(String toDoName) {
         getLogger().info("Verify the content text search");
-        createToDoPage.checkContentTextSearch();
+        createToDoPage.checkContentTextSearch(toDoName);
     }
 
 //    public void createFailedTodoPage() throws Exception {
@@ -569,7 +544,7 @@ public class AuditorCreateToDoService extends AbstractService {
      * Check deafult format due date
      */
     public void checkFormatDueDate() {
-        boolean result = createToDoPage.checkFormatDueDate_TodoListPage();
+        boolean result = createToDoPage.checkFormatDueDate();
         if (!result)
             AbstractService.sStatusCnt++;
     }
@@ -594,10 +569,18 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Choose date item in date picker
      */
-    public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
-        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
-        if (!result)
-            AbstractService.sStatusCnt++;
+//    public void chooseDateItemInDatePicker(boolean isNewToDoPage) throws Exception {
+//        boolean result = createToDoPage.chooseDateItemInDataPicker(isNewToDoPage);
+//        if (!result)
+//            AbstractService.sStatusCnt++;
+//    }
+    public void chooseDateItemInDatePicker(String month, String date, String year) throws Exception {
+        createToDoPage.chooseDateItemInDataPicker(month, date, year);
+
+    }
+
+    public void verifyDateSelectedCorrectly(String dateSelected) {
+        createToDoPage.verifyDuedateTimebox(dateSelected);
     }
 
     /**
@@ -773,7 +756,7 @@ public class AuditorCreateToDoService extends AbstractService {
     //[PLAT-2286] Add delete icon TanPH 2017/05/17 -- End
 
     public void clickCommentIconPerTaskName(String toDoTaskName) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName);
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName);
     }
 
     public void verifyDefaultHintValueInputComment() {
@@ -803,12 +786,12 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyInputMultiComment(String commentType, int numberComment) {
         for (int i = 0; i < numberComment; i++) {
             createToDoPage.verifyInputAComment(commentType + i);
-            clickPostComment();
+            clickOnPostCommentButton();
         }
     }
 
-    public void clickPostComment() {
-        createToDoPage.clickPostComment();
+    public void clickOnPostCommentButton() {
+        createToDoPage.clickOnPostCommentButton();
     }
 
     public int getNumberOfListComment() {
@@ -823,7 +806,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void clickAddRequestButton() {
+    public void verifyClickAddRequestBtn() {
         createToDoPage.verifyClickAddRequestBtn();
     }
 
@@ -834,8 +817,8 @@ public class AuditorCreateToDoService extends AbstractService {
     /**
      * Author minh.nguyen
      */
-    public void clickNewRequestImg() {
-        createToDoPage.verifyAddNewRequestImg();
+    public void verifyColorAddRequestBtn() {
+        createToDoPage.verifyColorAddRequestBtn();
     }
 
     /**
@@ -849,46 +832,61 @@ public class AuditorCreateToDoService extends AbstractService {
      * Author minh.nguyen
      * Vien.Pham modified for smoke test
      */
-    public void verifyCreateRequest(String requestName1, String requestName2) {
-        createToDoPage.verifyNewRequestStoreInDatabase(requestName1, requestName2);
+//    public void verifyCreateRequest(String requestName1, String requestName2) {
+//        createToDoPage.verifyNewRequestStoreInDatabase(requestName1, requestName2);
+//    }
+
+    public void createNewRequest(String newRequest, String position){
+        createToDoPage.createNewRequest(newRequest,position);
     }
 
+    public void reselectEngagementName(String engagementName){
+//        createToDoPage.returnToTodoListPage_LoginToEngagementAgain();
+        createToDoPage.reselectEngagementName(engagementName);
+    }
 
     /**
      * Author minh.nguyen
+     * Vien.Pham added upload, download request file.
      */
-//    public void verifyUpdateRequest(String requestName3, String requestName4) {
-//        createToDoPage.verifyNewRequestStoreInDatabase(requestName3,requestName4);
-//    }
-    public void uploadeCreateRequestNewFile(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
-        createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+
+
+    public void uploadeNewFileByRequestName(String uploadLocation, String fileName, String requestName) throws InterruptedException, AWTException, IOException {
+//        createToDoPage.uploadeCreateRequestNewFile(uploadLocation.concat(fileName));
+        createToDoPage.uploadeNewFileByRequestName(uploadLocation.concat(fileName),requestName);
+
+    }
+
+    public void verifyUploadFileSuccessfully(String fileName) {
         createToDoPage.verifyUploadFileSuccessfully(fileName);
     }
 
-    public void uploadCreateRequestNewFileClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
-        createToDoPage.uploadeCreateRequestNewFileClient(uploadLocation.concat(fileName));
-        createToDoPage.verifyUploadFileSuccessfullyClient(fileName);
+  /*  public void uploadFileNewRequestByClient(String uploadLocation, String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.uploadFileNewRequestByClient(uploadLocation.concat(fileName));
+    }*/
+
+   /* public void verifyUploadFileNewRequestByClient(String fileName) throws InterruptedException, AWTException, IOException {
+        createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
+    }*/
+
+    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, int mode) {
+        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName),fileName ,mode);
+
     }
 
-    public void downloadCreateRequestNewFile(String uploadLocation,String downloadLocation, String fileName){
-        createToDoPage.downloadCreateRequestNewFile(uploadLocation.concat(fileName),downloadLocation.concat(fileName),1);
-
-//        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
-        //createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
-    }
-    public void auditorAttachNewFile(String attachLocation, String fileName){
-        createToDoPage.attachFile(attachLocation,fileName);
+    public void auditorAttachNewFile(String attachLocation, String fileName) {
+        createToDoPage.attachFile(attachLocation, fileName);
     }
 
-    public void clientDownloadAttachFile(String pathOfUpload,String pathOfDownload,String fileName){
-        createToDoPage.downloadAttachFile(pathOfUpload,pathOfDownload,fileName);
+    public void clientDownloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
+        createToDoPage.downloadAttachFile(pathOfUpload, pathOfDownload, fileName);
     }
 
-    public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
+   /* public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
         createToDoPage.downloadCreateRequestNewFileClient(uploadLocation.concat(fileName), downloadLocation.concat(fileName));
 //        createToDoPage.calculateMd5(downloadLocation.concat(fileName));
 //        createToDoPage.verifyDownloadSuccessfully(uploadLocation,downloadLocation,fileName);
-    }
+    }*/
 
     /**
      * Author minh.nguyen
@@ -961,8 +959,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.waitForNewTodoNameSaved();
     }
 
-    public void createCategories(String cate1) throws Exception {
-        createToDoPage.createNewCategory(cate1);
+    public void createCategories(String cate) throws Exception {
+        createToDoPage.createNewCategory(cate);
     }
 
     public void createMultiCategory(String cate1, String cate2, String cate3) throws Exception {
@@ -976,16 +974,14 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyTodosTextBox_DefaultGUI() throws InterruptedException {
-        createToDoPage.verifyFirstTodoTextbox_PlaceHolderValue();
+    public void verifyTodosTextBox_AfterClickedAddTodo() throws InterruptedException {
+//        createToDoPage.verifyOnlyTodoTextbox_PlaceHolderValue();
         createToDoPage.verifyTodoTextboxBorder_AfterClickedAddTodo();
-        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
+//        createToDoPage.verifyTodoTextboxBorder_WhileHoveredOrFocus();
 //        createToDoPage.verifySecondTodoTextbox_PlaceHolderValue();
-
-
     }
 
-    public void InputValidValue(String validValue) {
+    public void inputValidValue_TodoName(String validValue) {
 
         createToDoPage.InputValue_TodoName(validValue);
     }
@@ -994,12 +990,12 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyInputValidValue(validValue);
     }
 
-    public void InputOnlyNumber(int number) {
-        createToDoPage.InputValue_TodoName(Integer.toString(number));
+    public void inputOnlyNumber(String number) {
+        createToDoPage.InputValue_TodoName(number);
     }
 
-    public void verifyInputNumber(int number) {
-        createToDoPage.verifyInputValidValue(Integer.toString(number));
+    public void verifyInputNumber(String number) {
+        createToDoPage.verifyInputValidValue(number);
 
     }
 
@@ -1013,7 +1009,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyInputInvalidValue(specialChar);
     }
 
-    public void InputNullChar(String nullChar) {
+    public void inputNullChar(String nullChar) {
         createToDoPage.InputValue_TodoName(nullChar);
 
     }
@@ -1023,49 +1019,46 @@ public class AuditorCreateToDoService extends AbstractService {
 
     }
 
-    public void verifyCategoryComboBox_DefaultGUI() {
-        getLogger().info("Verifying Category ComboBox...");
+    public void verifyCategoryComboBox_DefaultValue() {
         createToDoPage.verifyCategoryBox_DefaultValue();
-        createToDoPage.verifyBorderCategoryBox_WhileHovered();
     }
 
-    public void verifyNewCategorySaved(String cate1) {
-        createToDoPage.verifyCreateNewCategory(cate1);
+    public void verifyCategoryComboBox_NewValue(String cate) {
+        createToDoPage.verifyCategoryIsSelectedCorrectly(cate);
     }
 
-    public void selectCategory() {
-        createToDoPage.selectCategory();
+    public void selectCategoryByName(String cate) {
+        createToDoPage.selectCategoryByName(cate);
     }
 
     public void verifyNewCategoryChosenCorrectly(String cate1) {
         createToDoPage.verifyCategoryIsSelectedCorrectly(cate1);
     }
 
-    public void verifyClientAssigneeComboBox() {
-        getLogger().info("Verifying Client Assignee ComboBox...");
+    public void verifyClientAssigneeComboBox_DefaultValue() {
         createToDoPage.verifyClientAssignee_DefaultValue();
-        createToDoPage.verifyBorderClientAssignee_WhileHovered();
+        createToDoPage.verifyBorderOfClientAssignee_WhileHovered();
     }
 
-    public void verifyClientAssigneeIsSelectedCorrectly() {
-        createToDoPage.verifyClientAssigneeIsSelectedCorrectly();
+    public void selectClientAssignee(String clientName) {
+        createToDoPage.selectClientAssignee(clientName);
+    }
+
+    public void verifyClientAssigneeIsSelectedCorrectly(String clientName) {
+        createToDoPage.verifyClientAssigneeIsSelectedCorrectly(clientName);
     }
 
 
-    public void verifyDuedateTimebox() {
-//        getLogger().info("Verifying default value..");
-        //Will added after fixed
-        getLogger().info("Verifying DueDate Timebox...");
-        createToDoPage.verifyBorderDuedate_WhileHovered();
+    public void verifyDuedateTimebox_DefaultValue(String deadlineDate) {
+        createToDoPage.verifyDuedateTimebox(deadlineDate);
     }
 
     public void verifyUnableToInputDuedate(String dateInput) {
         createToDoPage.verifyUnableToInputDuedate(dateInput);
     }
 
-    public void verifyAuditAssigneeBox() {
-        getLogger().info("Verifying AuditAssignee box..");
-        createToDoPage.verifyAditAssignee_DefaultValue();
+    public void verifyAuditAssigneeBox(String auditAssignee) {
+        createToDoPage.verifyAditAssignee_DefaultValue(auditAssignee);
         createToDoPage.verifyBorderAuditAssignee_WhileHoverd();
     }
 
@@ -1079,18 +1072,26 @@ public class AuditorCreateToDoService extends AbstractService {
     }
 
     public void verifyFilterBtn() {
-        createToDoPage.verifyFilterBtn_Position();
+        createToDoPage.verifyFilterBtn_DefaultValue();
+        createToDoPage.verifyFilterBtn_WhileHovered();
+        createToDoPage.clickFilterBtn();
+//        createToDoPage.verifyFilterDropdown();
+
     }
 
-    public void verifyBulkActionBtn() {
-        createToDoPage.verifyBulkActionBtn_Position();
+    public void verifyBulkActionBtn() throws Exception {
+        createToDoPage.verifyBulkActionBtn();
+        createToDoPage.verifyCheckAllCheckboxToDoName();
+        createToDoPage.verifyBulkActionBtn();
     }
 
     public void verifySearchBox_DefaultGUI() {
-        getLogger().info("Verifying default value: Search...");
         createToDoPage.verifySearchDefault();
-        getLogger().info("Verifying Search border is Green when hovered...");
-        createToDoPage.verifySearchHover();
+        createToDoPage.verifySearchBorderWhileHover();
+    }
+
+    public void verifySearchWhileInput() {
+        createToDoPage.verifySearchBorderWhileInput();
     }
 
     public void verifyNameReturnDefault() {
@@ -1268,7 +1269,7 @@ public class AuditorCreateToDoService extends AbstractService {
 
 
     public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
-        createToDoPage.selectToDoCommentIconByName(toDoTaskName, isClient);
+        createToDoPage.clickCommentIconPerTaskName(toDoTaskName, isClient);
     }
 
     /**

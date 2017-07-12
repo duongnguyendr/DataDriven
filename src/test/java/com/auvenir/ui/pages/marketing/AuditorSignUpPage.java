@@ -3,9 +3,9 @@ package com.auvenir.ui.pages.marketing;
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class AuditorSignUpPage extends AbstractPage {
     MarketingPage marketingPage;
+
     public AuditorSignUpPage(Logger logger, WebDriver driver) {
         super(logger, driver);
         PageFactory.initElements(driver, this);
@@ -54,20 +55,12 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement eleFirmNameError;
 
     // Element of checkbox rule changed Name
-    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'Firm') or starts-with(text(),'Le')]")
-    private WebElement chkChangedName;
-
-    public WebElement getChkChangedName() {
-        return chkChangedName;
-    }
+//    @FindBy(xpath = "//*[@id='img-upload-label']/ancestor::form//div[contains(@class,'ui checked')]/label")
+//    private WebElement chkChangedName;
 
     // Element of Firm previous Name
     @FindBy(xpath = "//input[@name='firm_previous_name']")
     private WebElement elePreFirmName;
-
-    public WebElement getElePreFirmName() {
-        return elePreFirmName;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_previous_name']")
     private WebElement elePreFirmNameError;
@@ -76,20 +69,12 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_website']")
     private WebElement eleFirmWebsite;
 
-    public WebElement getEleFirmWebsite() {
-        return eleFirmWebsite;
-    }
-
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_website']")
     private WebElement elePreFirmWebsiteError;
 
     // Element of Full Address
     @FindBy(xpath = "//input[@name='firm_full_address']")
     private WebElement eleFullAddress;
-
-    public WebElement getEleFullAddress() {
-        return eleFullAddress;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_full_address']")
     private WebElement eleFullAddressError;
@@ -98,25 +83,14 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_street_address']")
     private WebElement eleStreetAddress;
 
-    public WebElement getEleStreetAddress() {
-        return eleStreetAddress;
-    }
 
     // Element of Office number
     @FindBy(xpath = "//input[@name='firm_suit_number']")
     private WebElement eleOfficeNumber;
 
-    public WebElement getEleOfficeNumber() {
-        return eleOfficeNumber;
-    }
-
     // Element of Zip Code
     @FindBy(xpath = "//input[@name='firm_postal_code']")
     private WebElement eleZipCode;
-
-    public WebElement getEleZipCode() {
-        return eleZipCode;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_postal_code']")
     private WebElement eleZipCodeError;
@@ -125,71 +99,57 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//input[@name='firm_city']")
     private WebElement eleCity;
 
-    public WebElement getEleCity() {
-        return eleCity;
-    }
+    //Element of Country dropdown
+    @FindBy(xpath = "(//div[@role='listbox'])[1]")
+    private WebElement countryDropdownEle;
 
+    //Element of State dropdown
+    @FindBy(xpath = "(//div[@role='listbox'])[2]")
+    private WebElement stateDropdownEle;
+
+    //Element of Country_State
+    @FindBy(xpath = "(//div[@role='listbox'])[3]")
+    private WebElement numberOfEmployeeDropdownEle;
+
+    //Element of listOfCountry_State
+    @FindBy(xpath = "//div[@role='listbox']//div[@class='menu transition visible']/div")
+    private List<WebElement> country_State_NumberOfEmployee_ListEle;
+
+    @FindBy(xpath = "//div[@role='listbox']/div[@class='text']")
+    private WebElement countrySelectedEle;
     // Element of State Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[1]")
     private WebElement provinceDropdownEle;
-
-    public WebElement getProvinceDropdownEle() {
-        return provinceDropdownEle;
-    }
 
     // Element with locator of Menu listbox
     @FindBy(xpath = "//div[@class='menu transition visible']")
     private WebElement eleMenu;
 
-    public WebElement getEleMenu() {
-        return eleMenu;
-    }
-
     // Element of Member I.D
     @FindBy(xpath = "//input[@name='firm_member_id']")
     private WebElement eleMemberID;
-
-    public WebElement getEleMemberID() {
-        return eleMemberID;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_member_id']")
     private WebElement eleMemberIdError;
 
     // Element of Number of Employees Dropdown
-    @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[2]")
+    @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[3]")
     private WebElement numberEmployeeDropdown;
-
-    public WebElement getNumberEmployeeDropdown() {
-        return numberEmployeeDropdown;
-    }
 
     // Element of Phone Number
     @FindBy(xpath = "//input[@name='firm_phone_number']")
     private WebElement phoneNumberFirmInfoEle;
 
-    public WebElement getPhoneNumberFirmInfoEle() {
-        return phoneNumberFirmInfoEle;
-    }
-
     @FindBy(xpath = "//form[@id='onboarding-firm-info']//div[@class='ui input']//input[@name='firm_phone_number']")
     private WebElement elePhoneNumberIdError;
 
     // Element of checkbox affiliated Firm
-    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'I') or starts-with(text(),'Je')]")
+    @FindBy(xpath = "//div[@class='ui checkbox']/label[starts-with(text(),'I am affiliated') or starts-with(text(),'Je')]")
     private WebElement chkAffFirm;
-
-    public WebElement getChkAffFirm() {
-        return chkAffFirm;
-    }
 
     // Element of Affiliated Firm Name
     @FindBy(xpath = "//label[text()='Affiliated Firm’s Name' or contains(text(),'Nom de')]/following-sibling::div[1]/input")
     private WebElement eleAffFirm;
-
-    public WebElement getEleAffFirm() {
-        return eleAffFirm;
-    }
 
     @FindBy(xpath = "//div[@class='error field']//label[text()='Affiliated Firm’s Name' or contains(text(),'Nom de')]/following-sibling::div[1]/input")
     private WebElement eleAffFirmError;
@@ -199,59 +159,34 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(css = ".add-field")
     private WebElement lnkAddFirm;
 
-    public WebElement getLnkAddFirm() {
-        return lnkAddFirm;
-    }
-
     // Element of Update Logo button
     @FindBy(xpath = "//label[@for='btn-upload']")
     private WebElement btnUpdateLogo;
-
-    public WebElement getBtnUpdateLogo() {
-        return btnUpdateLogo;
-    }
 
     // Element of checkbox Rule Logo
     @FindBy(xpath = "//label[starts-with(text(),'Once') or starts-with(text(),'Un')]")
     private WebElement chkRuleLogo;
 
-    public WebElement getChkRuleLogo() {
-        return chkRuleLogo;
-    }
 
     // Element of button Continue
     @FindBy(id = "btn-continue")
     private WebElement btnContinue;
 
-    public WebElement getBtnContinue() {
-        return btnContinue;
-    }
 
     // Page Security Information Div Element
     @FindBy(xpath = "//*[@id='create-password']")
     private WebElement pageSecurityInfoEle;
 
-    public WebElement getPageSecurityInfoEle() {
-        return pageSecurityInfoEle;
-    }
-
     // List Item of Province/State Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[1]//div[@class='menu transition visible']/div")
     private List<WebElement> provinceDdlListItemEle;
 
-    public List<WebElement> getprovinceDdlListItemEle() {
-        return provinceDdlListItemEle;
-    }
 
     // List Item of Number Of Employee Dropdown list
     @FindBy(xpath = "(//form[@id='onboarding-firm-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
     private List<WebElement> numberEmployeeDdlListItemEle;
 
-    public List<WebElement> getNumberEmployeeDdlListItemEle() {
-        return numberEmployeeDdlListItemEle;
-    }
-
-//    final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    //    final String warningBorderCSSColor = "rgb(253, 109, 71)";
 //    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
     // This constant is used with color - CSS name;
     final String warningTextCSSColor = "rgba(235, 80, 44, 1)";
@@ -262,73 +197,38 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='step-content' and @id='step1']")
     private WebElement eleFrameAuditorPersonal;
 
-    public WebElement getEleFrameAuditorPersonal() {
-        return eleFrameAuditorPersonal;
-    }
 
     // ================================= Element of First and Last Name =======================================
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_fullname']")
     private WebElement eleName;
 
-    public WebElement getEleName() {
-        return eleName;
-    }
-
     // Element of EmailAddress
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email']")
     private WebElement eleEmail;
-
-    public WebElement getEleEmail() {
-        return eleEmail;
-    }
 
     // Element with locator of confirm EmailAddress
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_email_confirm']")
     private WebElement eleConfirmEmail;
 
-    public WebElement getEleConfirmEmail() {
-        return eleConfirmEmail;
-    }
-
     // Element of ListBox Role in Firm
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[1]")
     private WebElement eleRoleFirm;
-
-    public WebElement getEleRoleFirm() {
-        return eleRoleFirm;
-    }
 
     // Element of Phone Number
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_phone_number']")
     private WebElement elePhoneNumber;
 
-    public WebElement getElePhoneNumber() {
-        return phoneNumberFirmInfoEle;
-    }
-
     // Element of Hear about Auvenir
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[2]")
     private WebElement eleReference;
-
-    public WebElement getEleReference() {
-        return eleReference;
-    }
 
     // Element of checkbox I agree
     @FindBy(xpath = "//div[@class='ui checkbox']/label/span")
     private WebElement chkAgree;
 
-    public WebElement getChkAgree() {
-        return chkAgree;
-    }
-
     // Element of checkbox I confirm
     @FindBy(xpath = "//div[@class='ui checkbox']/label[contains(text(),'confirm')]/..")
     private WebElement chkConfirm;
-
-    public WebElement getChkConfirm() {
-        return chkConfirm;
-    }
 
     @FindBy(xpath = "//form[@id='onboarding-personal-info']//div[@class='ui input']//input[@name='member_fullname']")
     private WebElement fullNameError;
@@ -346,76 +246,40 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[1]//div[@class='menu transition visible']/div")
     private List<WebElement> listItemRoleFirmEle;
 
-    public List<WebElement> getListItemRoleFirmEle() {
-        return listItemRoleFirmEle;
-    }
-
     // List Item of Option 'Hear about Auvenir'
     @FindBy(xpath = "(//form[@id='onboarding-personal-info']//div[@role='listbox'])[2]//div[@class='menu transition visible']/div")
     private List<WebElement> listItemReferenceEle;
 
-    public List<WebElement> getListItemReferenceEle() {
-        return listItemReferenceEle;
-    }
 
     // Page Provide Firm Information Div Element
     @FindBy(xpath = "//div[@class='step-content' and @id='step2']")
     private WebElement pageProvideFirmInfoEle;
 
-    public WebElement getPageProvideFirmInfoEle() {
-        return pageProvideFirmInfoEle;
-    }
-
     //Header Provide Personal Info form.
     @FindBy(xpath = "//*[@id='step1']/h2")
     private WebElement personalPageSignUpHeaderEle;
-
-    public WebElement getPersonalPageSignUpHeaderEle() {
-        return personalPageSignUpHeaderEle;
-    }
-
 
     // Element of Breadcrumb Completed page FIRM
     @FindBy(xpath = "(//div[@class='completed step']/div/div[@class='title'])[2]")
     private WebElement firmInfoCompleteIconEle;
 
-    public WebElement getFirmInfoCompleteIconEle() {
-        return firmInfoCompleteIconEle;
-    }
-
     // Element of Breadcrumb of Security page
     @FindBy(xpath = "//div[@class='active step']/div[div[text()='SÉCURITÉ'] or text()='SECURITY']")
     private WebElement securityInfoActiveIconEle;
-
-    public WebElement getSecurityInfoActiveIconEle() {
-        return securityInfoActiveIconEle;
-    }
 
     // ======================================  Element of Create Password ===================================================
 //    @FindBy(xpath = "//input[@name='password']")
     @FindBy(xpath = "//input[@id='first-password']")
     private WebElement elePassword;
 
-    public WebElement getElePassword() {
-        return elePassword;
-    }
-
     // Element of Confirm Password
 //    @FindBy(xpath = "//input[@name='retype_password']")
     @FindBy(xpath = "//input[@id='second-password']")
     private WebElement eleConfirmPass;
 
-    public WebElement getEleConfirmPass() {
-        return eleConfirmPass;
-    }
-
     // Element of checkbox Captcha
     @FindBy(css = ".rc-anchor-checkbox-holder")
     private WebElement chkCaptcha;
-
-    public WebElement getChkCaptcha() {
-        return chkCaptcha;
-    }
 
     // Element of Create password warning
     @FindBy(id = "reset-password-warning-popup")
@@ -490,17 +354,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(id = "create-password-warning-popup")
     private WebElement createPasswordWarningPopup;
 
-    public WebElement getCreatePasswordWarningPopup() {
-        return createPasswordWarningPopup;
-    }
-
     // Element of Confirm password warning
     @FindBy(id = "confirm-password-message")
     private WebElement confirmPasswordWarningPopup;
-
-    public WebElement getConfirmPasswordWarningPopup() {
-        return confirmPasswordWarningPopup;
-    }
 
     @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
     private WebElement captchaCheckBox;
@@ -513,17 +369,9 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='account-created-confirmation']//h1[@class='ui header']")
     private WebElement successPageHeaderEle;
 
-    public WebElement getSuccessPageHeaderEle() {
-        return successPageHeaderEle;
-    }
-
     // Element image letter
     @FindBy(css = ".ui.image")
     private WebElement eleImageLetter;
-
-    public WebElement getEleImageLetter() {
-        return eleImageLetter;
-    }
 
     // ======================================  Element of Confirm Information Sign Up=====================================
     @FindBy(xpath = "//*[@id='personal-name']")
@@ -613,7 +461,7 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//button[@id = 'epilogue-closeBtn']")
     private WebElement closeSusscessMessageBtnEle;
 
-//    @FindBy(xpath = "//div[@class = 'recaptcha-checkbox-checkmark']")
+    //    @FindBy(xpath = "//div[@class = 'recaptcha-checkbox-checkmark']")
     @FindBy(xpath = "//div[@class='recaptcha-checkbox-checkmark']")
     private WebElement capcharCheckBoxEle;
 
@@ -630,29 +478,27 @@ public class AuditorSignUpPage extends AbstractPage {
     public void verifyFirmInfoPageContent() {
         getLogger().info("Verify Content of Register Firm Information Page");
         if (IS_ENGLISH_LANGUAGE)
-            validateElememt(personalInfoCompleteIconEle, "PERSONAL", Element_Type.TEXT_VALUE);
+            validateElementText(personalInfoCompleteIconEle, "PERSONAL");
         else
-            validateElememt(personalInfoCompleteIconEle, "PERSONNEL", Element_Type.TEXT_VALUE);
+            validateElementText(personalInfoCompleteIconEle, "PERSONNEL");
 
-        validateElememt(eleFirmName, "ELement of Firm Name", Element_Type.DISPLAYED);
-        validateElememt(chkChangedName, "Element of Checkbox Changed Name", Element_Type.DISPLAYED);
-        validateElememt(eleFirmWebsite, "Element of Firm Website", Element_Type.DISPLAYED);
-        validateElememt(eleZipCode, "Element of Zip Code", Element_Type.DISPLAYED);
-        validateElememt(eleCity, "Element of City", Element_Type.DISPLAYED);
-        validateElememt(provinceDropdownEle, "Element of State", Element_Type.DISPLAYED);
-        validateElememt(eleMemberID, "Element of Member I.D", Element_Type.DISPLAYED);
-        // Checking Number of Employee element is displayed
-        validateElememt(numberEmployeeDropdown, "Element of Number Employee", Element_Type.DISPLAYED);
+        validateDisPlayedElement(eleFirmName, "ELement of Firm Name");
+//        validateDisPlayedElement(chkChangedName, "Element of Checkbox Changed Name");
+        validateDisPlayedElement(eleFirmWebsite, "Element of Firm Website");
+        validateDisPlayedElement(eleZipCode, "Element of Zip Code");
+        validateDisPlayedElement(eleCity, "Element of City");
+        validateDisPlayedElement(countryDropdownEle, "Element of Country");
+        validateDisPlayedElement(eleMemberID, "Element of Member I.D");
         // Checking Phone Number element is displayed
-        validateElememt(phoneNumberFirmInfoEle, "Element of Phone Number", Element_Type.DISPLAYED);
+        validateDisPlayedElement(phoneNumberFirmInfoEle, "Element of Phone Number");
         // Checking checkbox Affiliated Firm element is displayed
-        validateElememt(chkAffFirm, "Element of checkbox Affiliated", Element_Type.DISPLAYED);
+        validateDisPlayedElement(chkAffFirm, "Element of checkbox Affiliated");
         // Checking button Update Logo element is displayed
-        validateElememt(btnUpdateLogo, "Element of button Update Logo", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnUpdateLogo, "Element of button Update Logo");
         // Checking checkbox Rule Logo element is displayed
-        validateElememt(chkRuleLogo, "Element of checkbox Rule Logo", Element_Type.DISPLAYED);
+        validateDisPlayedElement(chkRuleLogo, "Element of checkbox Rule Logo");
         // Checking button Continue element is displayed
-        validateElememt(btnContinue, "Element of button Continue", Element_Type.DISPLAYED);
+        validateDisPlayedElement(btnContinue, "Element of button Continue");
     }
 
     /**
@@ -726,7 +572,7 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strAffName    Affiliated Firm's Name
      * @param strPathLogo   Path Logo
      */
-    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
+    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity,String strCountry, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
         getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
         boolean result;
         try {
@@ -742,26 +588,28 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForVisibleElement(eleOfficeNumber, "Office Number Input");
             sendKeyTextBox(eleOfficeNumber, strOffNum, "Office Number Input");
 
+            //select any Countries
+            verifyCountryList();
+            selectAnyCountryInList(strCountry);
+            //select any States
+            verifyStateListAfterSelectCountry(strCountry);
+            selectAnyStateInList(strState);
+
+
             waitForVisibleElement(eleZipCode, "Zip Code Input");
             sendKeyTextBox(eleZipCode, strZipCode, "Zip Code Input");
 
             waitForVisibleElement(eleCity, "City Input");
             sendKeyTextBox(eleCity, strCity, "City Input");
 
-            waitForVisibleElement(provinceDropdownEle, "Province Dropdown");
-            clickElement(provinceDropdownEle, "Province Dropdown");
-            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "true");
-            clickElement(provinceDdlListItemEle.get(0), "Province Dropdown");
-            waitForAtrributeValueChanged(provinceDropdownEle, "Province Dropdown", "aria-expanded", "false");
+            //input memberID
+            inputMemberID(strMemberID);
 
-            waitForVisibleElement(eleMemberID, "Member ID Input");
-            sendKeyTextBox(eleMemberID, strMemberID, "Member ID Input");
-
-            waitForVisibleElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-            clickElement(numberEmployeeDropdown, "Number Of Employee Dropdown");
-            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "true");
-            clickElement(numberEmployeeDdlListItemEle.get(0), "First Item on Number of Employee Dropdown");
-            waitForAtrributeValueChanged(numberEmployeeDropdown, "Number Of Employee Dropdown", "aria-expanded", "false");
+            waitForVisibleElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
+            clickElement(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown");
+            waitForAtrributeValueChanged(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown", "aria-expanded", "true");
+            clickElement(country_State_NumberOfEmployee_ListEle.get(0), "First Item on Number of Employee Dropdown");
+            waitForAtrributeValueChanged(numberOfEmployeeDropdownEle, "Number Of Employee Dropdown", "aria-expanded", "false");
 
             waitForVisibleElement(phoneNumberFirmInfoEle, "Phone Number Input");
             sendKeyTextBox(phoneNumberFirmInfoEle, strPhone, "Phone Number Input");
@@ -772,24 +620,19 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleAffFirm, strAffName, "Affiliated Firm's Name Input");
 
             scrollToFooter();
-            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
-            System.out.println("iframes: " + iframes.size());
-            getDriver().switchTo().frame(0);
-//            System.out.println("capcharCheckBoxEle get Attribute: " + iframes.get(0).getAttribute("src"));
-//            capcharCheckBoxEle = getDriver().findElement(By.xpath("//div[@class='recaptcha-checkbox-checkmark']"));
-//            WebElement spanCapCharCheckBoxEle = getDriver().findElement(By.xpath("//*[@id='recaptcha-anchor']"));
-            clickElement(capcharCheckBoxEle, "Capchar Text Box");
-            waitForAtrributeValueChanged(spanCapCharCheckBoxEle,"Span CapChar", "aria-checked", "true");
-            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
+//            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
+//            System.out.println("iframes: " + iframes.size());
+//            getDriver().switchTo().frame(0);
 
-            getDriver().switchTo().defaultContent();
+//            clickElement(capcharCheckBoxEle, "Capchar Text Box");
+//            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
+//            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
+
+//            getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
-            Thread.sleep(5000);
-            // Verify Register Auditor FIRM Page is passed
-//            result = validateDisPlayedElement(pageSecurityInfoEle, "Page Securiy Infomation");
-//            Assert.assertTrue(result, "Page Security Information should be loaded.");
-//            NXGReports.addStep("Register Auditor Firm passed", LogAs.PASSED, null);
+            Thread.sleep(10000);
+
         } catch (AssertionError e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
@@ -837,7 +680,7 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(chkAgree, "Check box agree");
             clickElement(chkAgree, " check box agree");
-            if(GenericService.sBrowserData.equals("ff.")){
+            if (GenericService.sBrowserData.equals("ff.")) {
                 switchToOtherTab(1);
                 getDriver().close();
                 switchToOtherTab(0);
@@ -860,10 +703,10 @@ public class AuditorSignUpPage extends AbstractPage {
         }
     }
 
-    public void clickOnChangedNameCheckBox() {
-        hoverElement(this.chkChangedName, " change name check box");
-        clickElement(this.chkChangedName, " change name check box");
-    }
+//    public void clickOnChangedNameCheckBox() {
+//        hoverElement(this.chkChangedName, " change name check box");
+//        clickElement(this.chkChangedName, " change name check box");
+//    }
 
     public void clickOnAllFirmCheckBox() {
         hoverElement(this.chkAffFirm, " all firm check box");
@@ -947,7 +790,7 @@ public class AuditorSignUpPage extends AbstractPage {
     }
 
     public void verifyInputInValidValueOnZipCodeTextBox(String invalidValue) {
-        getLogger().info("Verify Input InValid Value On Full Address TextBox.");
+        getLogger().info("Verify Input InValid Value On Zip Code TextBox.");
         inputValueIntoZipCodeTextBox(invalidValue);
         clickOnRuleLogoCheckBox();
         verifyColorControl(eleZipCodeError, "zip code error", "border-color", warningBorderCSSColor);
@@ -1048,9 +891,13 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(eleConfirmPass, "Confirm Password Input");
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
-            waitForJSandJQueryToLoad();
-            clickElement(createAccountBtnEle, "Create Account button");
-
+            sendTabkey(eleConfirmPass,"Confirm Password Input");
+            scrollToFooter();
+            /*scrollPageDown();
+            waitForJSandJQueryToLoad();*/
+            HoverAndWaitForClickableOfElement(createAccountBtnEle, "Create Account button");
+            clickElementActions(createAccountBtnEle, "Create Account button");
+            waitSomeSeconds(5);
             // Verify Register Auditor Security Page is passed
 //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
 //            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
@@ -1186,13 +1033,13 @@ public class AuditorSignUpPage extends AbstractPage {
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
 
         registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
-                "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
+                "12", "K8M9J0", "Toroton", "Canada","Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
         verifySuccessPageContent();
         acceptCreateAccountAuditor();
     }
 
-    public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String strPassword){
+    public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String strPassword) {
         confirmAuditorPersonalInfo(fullName, strEmail, "IT", "4167877865", "Online");
         confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
@@ -1238,7 +1085,7 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(phoneConfirmTxtEle, "Phone number");
             sendKeyTextBox(phoneConfirmTxtEle, strPhone, "Phone number TextBox");
-            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox","value", strPhone);
+            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox", "value", strPhone);
 
             waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
             clickElement(referalConfirmDrdEle, "Referal Dropdown List");
@@ -1358,4 +1205,258 @@ public class AuditorSignUpPage extends AbstractPage {
         validateElememt(headerCreateSusscessAccountTxtEle, "Confirm Info Success Page Header", Element_Type.DISPLAYED);
         validateElememt(headerCreateSusscessAccountTxtEle, "Your Account Has Been Created!", Element_Type.TEXT_VALUE);
     }
+
+    /*
+    Vien.Pham added new methods
+     */
+    public void verifyCountryList() {
+        try {
+            getLogger().info("Verifying list of Country displayed correctly..");
+            waitForVisibleElement(countryDropdownEle, "wait for Country menu visible");
+            clickElement(countryDropdownEle, "country dropdown menu");
+            int isCount = country_State_NumberOfEmployee_ListEle.size();
+            System.out.println("Number of countries in country list is: " + isCount);
+            String firstCountry = country_State_NumberOfEmployee_ListEle.get(0).getText();
+            System.out.println("First Country in list is: " + firstCountry);
+            String secoundCountry = country_State_NumberOfEmployee_ListEle.get(1).getText();
+            System.out.println("Second Country in list is: " + secoundCountry);
+            if (isCount == 231 && firstCountry.equals("Canada") && secoundCountry.equals("United States")) {
+                NXGReports.addStep("Verify list of Country: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify list of Country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify list of Country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyStateListAfterSelectCountry(String nameOfCountry) {
+        try {
+            getLogger().info("Verifying list of State of: " + nameOfCountry + " displayed correctly..");
+            waitForVisibleElement(stateDropdownEle, "wait for Country menu visible");
+            clickElement(stateDropdownEle, "country dropdown menu");
+            int isCount = country_State_NumberOfEmployee_ListEle.size();
+            System.out.println("Number of states in country list is: " + isCount);
+            String firstState = country_State_NumberOfEmployee_ListEle.get(0).getText();
+            System.out.println("First State in list is: " + firstState);
+            String secoundState = country_State_NumberOfEmployee_ListEle.get(1).getText();
+            System.out.println("Second State in list is: " + secoundState);
+            if (nameOfCountry.equals("Canada")) {
+                if (isCount == 13 && firstState.equals("Alberta") && secoundState.equals("British Columbia")) {
+                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " passed", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+            if (nameOfCountry.equals("United States")) {
+                if (isCount == 51 && firstState.equals("Alabama") && secoundState.equals("Alaska")) {
+                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " passed", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+
+            }
+
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify list of Country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+
+    }
+
+    /*
+        Vien.Pham added new methods
+         */
+    public void selectAnyCountryInList(String nameOfCountry) {
+        try {
+            int index = findCountry_StateInList(nameOfCountry);
+            if (index == -1) {
+                System.out.println("Can not find the country has name is: " + nameOfCountry);
+            }
+            clickElement(country_State_NumberOfEmployee_ListEle.get(index));
+            NXGReports.addStep("End of selecting country: passed", LogAs.PASSED, null);
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("End of selecting country: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void selectAnyStateInList(String nameOfState) {
+        try {
+            int index = findCountry_StateInList(nameOfState);
+            if (index == -1) {
+                System.out.println("Can not find the state has name is: " + nameOfState);
+            }
+            clickElement(country_State_NumberOfEmployee_ListEle.get(index));
+            NXGReports.addStep("End of selecting country: passed", LogAs.PASSED, null);
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("End of selecting state: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+        Vien.Pham added new methods
+         */
+    public void verifyCountrySelectedCorrectly(String nameOfCountry) {
+        try {
+            getLogger().info("Verifying the country is selected correctly..");
+            WebElement countrySelected = countryDropdownEle.findElement(By.xpath("div[@class='text']"));
+//            System.out.println("Country is selected is: " + countrySelectedEle.getText());
+            System.out.println("Country is selected is: " + countrySelected.getText());
+            if (countrySelected.getText().equals(nameOfCountry)) {
+                NXGReports.addStep("Verify the country is selected correctly: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+    Vien.Pham added new method
+     */
+    public void verifyStateSelectedCorrectly(String nameOfState) {
+        try {
+            getLogger().info("Verifying the state is selected correctly..");
+            WebElement stateSelected = stateDropdownEle.findElement(By.xpath("div[@class='text']"));
+//            System.out.println("Country is selected is: " + countrySelectedEle.getText());
+            System.out.println("Country is selected is: " + stateSelected.getText());
+            if (stateSelected.getText().equals(nameOfState)) {
+                NXGReports.addStep("Verify the state is selected correctly: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify the state is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify the state is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*
+        Vien.Pham added new methods
+         */
+    public int findCountry_StateInList(String value) {
+        int index;
+        for (index = 0; index < country_State_NumberOfEmployee_ListEle.size(); index++) {
+            if (country_State_NumberOfEmployee_ListEle.get(index).getText().equals(value)) {
+                break;
+            }
+        }
+        if (index == country_State_NumberOfEmployee_ListEle.size()) {
+            return index = -1;
+        }
+        return index;
+    }
+
+
+    public void verifyMemberID_DefaultValueIsNull() {
+        try {
+            if (eleMemberID.getAttribute("value").equals("")) {
+                NXGReports.addStep("Verify default memberID is Null: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify default memberID is Null: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify default memberID is Null: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void selectMemberID() {
+        waitForVisibleElement(eleMemberID, "member ID");
+        clickElement(eleMemberID);
+    }
+
+    public void verifyMemberID_BorderColor() {
+        try {
+            String borderColor = "rgb(133, 183, 217)";
+            Boolean isTest = waitForCssValueChanged(eleMemberID, "memberID", "border-color", borderColor);
+            if (isTest) {
+                NXGReports.addStep("Verify border color of MemberID while actived: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify border color of MemberID while actived: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify border color of MemberID while actived: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void inputMemberID(String value) {
+        try {
+            clickElement(eleMemberID, "click to memberID");
+            sendKeyTextBox(eleMemberID, value, "sendkey to member ID");
+            NXGReports.addStep("Ending enter value into memberID: passed", LogAs.PASSED, null);
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Ending enter value into memberID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public void verifyValidMemberID(String value) {
+        String border = "1px solid rgba(34, 36, 38, 0.15)";
+        try {
+            clickElement(eleCity, "City ele");
+            Boolean isCheck = waitForCssValueChanged(eleMemberID, "memberID ele", "border", border);
+            if (isCheck) {
+                System.out.println("Value " + value + " is valid");
+                NXGReports.addStep("Verify enter valid memberID into Member ID: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify enter valid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify enter valid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyInvalidMemberID(String value) {
+        String borderColor = "rgba(253, 109, 71, 0.43)";
+        try {
+            clickElement(eleCity, "City ele");
+            Boolean isCheck = waitForCssValueChanged(eleMemberID, "memberID ele", "border-color", borderColor);
+            if (isCheck) {
+                System.out.println("Value " + value + " is invalid");
+                NXGReports.addStep("Verify enter invalid memberID into Member ID: passed", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify enter invalid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify enter invalid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+
+    /*
+    End of Vien.Pham
+     */
 }

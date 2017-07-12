@@ -1,9 +1,9 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.auditor.AuditorContactsPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.ui.pages.auditor.contact.AuditorContactsPage;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -31,7 +31,7 @@ public class ContactsService extends AbstractService {
         try {
             auditorContactsPage.scrollPageDown();
             getLogger().info("verify footer page.");
-            auditorContactsPage.verifyFooter();
+            auditorContactsPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
             auditorContactsPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");

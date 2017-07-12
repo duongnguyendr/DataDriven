@@ -1,11 +1,10 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.pages.auditor.AuditorAcountSettingsPage;
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
+import com.auvenir.ui.pages.auditor.settings.AuditorAcountSettingsPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -28,23 +27,16 @@ public class AuditorAccountSettingsService extends AbstractService {
     }
 
     public void verifyFooter() {
-
-        try {
-            auditorAccountSettingsPage.scrollPageDown();
-            getLogger().info("verify footer page.");
-            auditorAccountSettingsPage.verifyFooter();
-            getLogger().info("verfify term of service link.");
-            auditorAccountSettingsPage.verifyTermsOfServiceLink();
-            getLogger().info("verify privacy state link.");
-            auditorAccountSettingsPage.verifyPrivacyStateLink();
-            getLogger().info("verify cookies notice link.");
-            auditorAccountSettingsPage.verifyCookieNotice();
-            auditorAccountSettingsPage.scrollPageUp();
-            NXGReports.addStep("verify footer page", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorAccountSettingsPage.scrollPageDown();
+        getLogger().info("verify footer page.");
+        auditorAccountSettingsPage.verifyFooterOfHomepage();
+        getLogger().info("verfify term of service link.");
+        auditorAccountSettingsPage.verifyTermsOfServiceLink();
+        getLogger().info("verify privacy state link.");
+        auditorAccountSettingsPage.verifyPrivacyStateLink();
+        getLogger().info("verify cookies notice link.");
+        auditorAccountSettingsPage.verifyCookieNotice();
+        auditorAccountSettingsPage.scrollPageUp();
     }
 
 
@@ -84,22 +76,12 @@ public class AuditorAccountSettingsService extends AbstractService {
     }
 
     public void verifyBody() {
-        try {
-            getLogger().info("Start verify account tab of auditor settings page.");
-            auditorAccountSettingsPage.verifyElementsOnAccountTab();
-            getLogger().info("Go to Notification tab of auditor settings page.");
-            auditorAccountSettingsPage.navigateToNotificationTab();
-            getLogger().info("Start verify Notification Tab of auditor settings page.");
-            auditorAccountSettingsPage.verifyElementsOnNotificationTab();
-            getLogger().info("Go to Devices tab of auditor settings page.");
-            auditorAccountSettingsPage.navigateToDevicesTab();
-            getLogger().info("Start verify Devices Tab of auditor settings page.");
-            auditorAccountSettingsPage.verifyElementsOnDevicesTab();
-            NXGReports.addStep("Some elements on body are not displayed", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Some elements on body are not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        getLogger().info("Start verify account tab of auditor settings page.");
+        auditorAccountSettingsPage.verifyElementsOnAccountTab();
+        getLogger().info("Go to Notification tab of auditor settings page.");
+        auditorAccountSettingsPage.navigateToNotificationTab();
+        getLogger().info("Start verify Notification Tab of auditor settings page.");
+        auditorAccountSettingsPage.verifyElementsOnNotificationTab();
     }
 
     public void inputFullName(String TextValue) {

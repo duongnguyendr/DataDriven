@@ -5,9 +5,9 @@ import com.auvenir.ui.services.admin.AdminAccountSettingsService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -32,7 +32,7 @@ public class AdminSettingsTest extends AbstractTest {
         try {
             //adminService.loginWithUserRole(userId, getTokenUrl, checkTokenUrl);
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyHeaderAdminSettingPage();
             adminAccountSettingsService.verifyBodyAdminSettingPage();
@@ -54,7 +54,7 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input any value on FullName TextBox.");
             adminAccountSettingsService.inputFullNameAdminSettingPage("Doai Test");
@@ -92,7 +92,7 @@ public class AdminSettingsTest extends AbstractTest {
         String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyEmailTextBoxVisible();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -112,7 +112,7 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input any value on PhoneNumber TextBox.");
             adminAccountSettingsService.inputFullNameAdminSettingPage("0934567890");
@@ -154,9 +154,9 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
-            adminAccountSettingsService.clickUpdateImageBTN();
+            adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Run autoIT");
             getLogger().info("Run autoIT to select an image file");
             String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
@@ -181,15 +181,15 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             adminAccountSettingsService.inputFullNameAdminSettingPage("ADMIN TEST");
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("0906973152");
             adminAccountSettingsService.verifyEmailTextBoxVisible();
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
-            adminAccountSettingsService.clickUpdateImageBTN();
+            adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Run autoIT to select an image file");
             String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
             String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile4.txt\"";
@@ -213,9 +213,9 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
-            adminAccountSettingsService.clickUpdateImageBTN();
+            adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Run autoIT to select an image file");
             String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
             String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile2.jpg\"";
@@ -240,7 +240,7 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Verify disable default Update Button.");
             adminAccountSettingsService.verifyUpdateButtonDisableDefault();
@@ -267,7 +267,7 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input an invalid value on phone number");
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("abcdcdsfafs");
@@ -284,7 +284,7 @@ public class AdminSettingsTest extends AbstractTest {
             getLogger().info("Verify disable default Update Button.");
             adminAccountSettingsService.verifyUpdateButtonDisableDefault();
             getLogger().info("Upload an invalid image file.");
-            adminAccountSettingsService.clickUpdateImageBTN();
+            adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Run autoIT to select an image file");
             String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
             String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile2.jpg\"";
@@ -308,7 +308,7 @@ public class AdminSettingsTest extends AbstractTest {
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input an invalid data on FullName");
             adminAccountSettingsService.inputFullNameAdminSettingPage("123456");
@@ -332,7 +332,7 @@ public class AdminSettingsTest extends AbstractTest {
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input CHARACTER on PhoneNumber TextBox.");
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("abcdcdsfafs");
@@ -356,10 +356,10 @@ public class AdminSettingsTest extends AbstractTest {
         String userId = GenericService.getConfigValue(GenericService.sConfigFile, "ADMIN_ID");
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Upload an invalid image file.");
-            adminAccountSettingsService.clickUpdateImageBTN();
+            adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Run autoIT to select an image file");
             String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
             String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile2.jpg\"";
@@ -386,7 +386,7 @@ public class AdminSettingsTest extends AbstractTest {
 
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input valid Full Name.");
             adminAccountSettingsService.inputFullNameAdminSettingPage("Admin test");
@@ -410,7 +410,7 @@ public class AdminSettingsTest extends AbstractTest {
         String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input valid phone number.");
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("0906973162");
@@ -434,10 +434,10 @@ public class AdminSettingsTest extends AbstractTest {
         String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Upload an valid image file.");
-            adminAccountSettingsService.clickUpdateImageBTN();
+            adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Run autoIT to select an image file");
             String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
             String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile3.jpg\"";
@@ -463,14 +463,14 @@ public class AdminSettingsTest extends AbstractTest {
         String checkTokenUrl = GenericService.getConfigValue(GenericService.sConfigFile, "CHECKTOKENURL");
         try {
             adminService.loginWithUserRole(userId);
-            adminService.verifyAdminLoginPage();
+            adminService.verifyHeaderAdminPage();
             adminService.navigateToSettingPage();
             getLogger().info("Input valid Full Name.");
             adminAccountSettingsService.inputFullNameAdminSettingPage("Admin test");
             getLogger().info("Input valid phone number.");
             adminAccountSettingsService.inputPhoneNumberAdminSettingPage("0906973162");
             getLogger().info("Upload an valid image file.");
-            adminAccountSettingsService.clickUpdateImageBTN();
+            adminAccountSettingsService.clickUpdateBTN();
             getLogger().info("Run autoIT to select an image file");
             String autoITExecutable = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\UploadImageProfile_64bit.exe\"";
             String fileName = "\"" + GenericService.sDirPath + "\\src\\test\\resources\\TestData\\TestProfile3.jpg\"";

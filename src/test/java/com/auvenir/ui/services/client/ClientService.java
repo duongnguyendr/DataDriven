@@ -2,14 +2,16 @@ package com.auvenir.ui.services.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.CreateNewAuditPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
-import com.auvenir.ui.pages.auditor.AddNewClientPage;
-import com.auvenir.ui.pages.client.*;
+import com.auvenir.ui.pages.admin.AdminPage;
+import com.auvenir.ui.pages.auditor.auditorclient.AddNewClientPage;
+import com.auvenir.ui.pages.client.general.*;
+import com.auvenir.ui.pages.client.settings.*;
+import com.auvenir.ui.pages.client.todo.ClientToDoPage;
 import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -34,7 +36,7 @@ public class ClientService extends AbstractService {
     GmailPage gmailPage;
     CreateNewAuditPage createNewAuditPage;
     AddNewClientPage addNewClientPage;
-    AdminLoginPage adminLoginPage;
+    AdminPage adminPage;
     ClientToDoPage clientToDoPage;
 
 
@@ -55,7 +57,7 @@ public class ClientService extends AbstractService {
         gmailPage = new GmailPage(getLogger(), getDriver());
         createNewAuditPage = new CreateNewAuditPage(getLogger(), getDriver());
         addNewClientPage = new AddNewClientPage(getLogger(), getDriver());
-        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        adminPage = new AdminPage(getLogger(), getDriver());
         clientToDoPage = new ClientToDoPage(getLogger(), getDriver());
     }
 
@@ -393,11 +395,11 @@ public class ClientService extends AbstractService {
     }
 
     public void verifyAdminLoginPage() {
-        adminLoginPage.verifyAdminLoginPage();
+        adminPage.verifyHeaderAdminPage();
     }
 
-    public void verifyUserIsChangeStatusOnTheList(String userType, String email, String dateCreated, String expectedStatus) {
-        adminLoginPage.verifyUserIsChangeStatusOnTheList(userType, email, dateCreated, expectedStatus);
+    public void verifyUserIsChangeStatusOnTheList(String email, String expectedStatus) {
+        adminPage.verifyUserIsChangeStatusOnTheList(email, expectedStatus);
     }
 
     /**
@@ -414,6 +416,10 @@ public class ClientService extends AbstractService {
 
     public void verifyInviteClientSuccess(String message) {
         createNewAuditPage.verifyInviteClientSuccess(message);
+    }
+
+    public void verifyInviteClientFailure(String message) {
+        createNewAuditPage.verifyInviteClientFailure(message);
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
 

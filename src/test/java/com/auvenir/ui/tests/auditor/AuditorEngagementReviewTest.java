@@ -6,14 +6,14 @@ import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
  * Created by toan.nguyenp on 5/8/2017.
- * Updated by minh.nguyen on June 16, 2017
+ * Refactored by minh.nguyen on June 16, 2017
  */
 public class AuditorEngagementReviewTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
@@ -36,19 +36,22 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-
+        String engagementType = "Review";
         try
         {
             String engagementNameUnix = "enga" + GeneralUtilities.randomNumber();
             String companyNameUnix = "comau" + GeneralUtilities.randomNumber();
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.createNewEnagement(engagementNameUnix, "engagement type", companyNameUnix);
+            auditorEngagementService.createAndSelectNewEnagement(engagementNameUnix, engagementType, companyNameUnix);
+            auditorEngagementService.clickEngagementMenuLink();
             auditorEngagementService.sendKeyCompanyName(companyNameUnix);
             auditorEngagementService.verifySearchCompanyName(companyNameUnix);
             auditorEngagementService.sendKeyEngagementName(engagementNameUnix);
             auditorEngagementService.verifySearchEngagementName(engagementNameUnix);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to search engagement by company, engagement name.");
             NXGReports.addStep("Verify to search engagement by company, engagement name.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -68,11 +71,13 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortCompanyNameAscending(true);
             auditorEngagementService.verifySortCompanyNameDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Company name by ascending, descending.");
             NXGReports.addStep("Verify to sort Company name by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -92,11 +97,13 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementNameAscending(true);
             auditorEngagementService.verifySortEngagementNameDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Engagement name by ascending, descending.");
             NXGReports.addStep("Verify to sort Engagement name by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -116,11 +123,13 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementStatusAscending(true);
             auditorEngagementService.verifySortEngagementStatusDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Engagement Status by ascending, descending.");
             NXGReports.addStep("Verify to sort Engagement Status by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -166,11 +175,13 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementCompleteToDosAscending(true);
             auditorEngagementService.verifySortEngagementCompleteToDosDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Engagement Completed To Dos by ascending, descending.");
             NXGReports.addStep("Verify to sort Engagement Completed To Dos by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -190,11 +201,13 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
             auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Engagement Client Assignee by ascending, descending.");
             NXGReports.addStep("Verify to sort Engagement Client Assignee by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -214,11 +227,13 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementClientAssigneeAscending(true);
             auditorEngagementService.verifySortEngagementClientAssigneeDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Engagement Completed Docs by ascending, descending.");
             NXGReports.addStep("Verify to sort Engagement Completed Docs by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -238,11 +253,13 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementLastActivityAscending(true);
             auditorEngagementService.verifySortEngagementLastActivityDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Engagement Last Activity by ascending, descending.");
             NXGReports.addStep("Verify to sort Engagement Last Activity by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
@@ -262,16 +279,43 @@ public class AuditorEngagementReviewTest extends AbstractTest {
         auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.verifySortEngagementDueDateAscending(true);
             auditorEngagementService.verifySortEngagementDueDateDescending(false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Verify to sort Engagement Due Date by ascending, descending.");
             NXGReports.addStep("Verify to sort Engagement Due Date by ascending, descending.", LogAs.PASSED, null);
         }
         catch (Exception ex)
         {
             NXGReports.addStep("Verify to sort Engagement Due Date by ascending, descending.", LogAs.FAILED, null);
+            throw ex;
+        }
+    }
+
+    @Test(priority = 11, description = "Filter and Hover on Engagement page.")
+    public void verifyFilterHoverOnEngagementPage() throws InterruptedException {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
+        auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
+            auditorEngagementService.verifyAuditorEngagementFilter();
+            auditorEngagementService.verifyAuditorEngagementHover();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Filter and Hover on Engagement page.");
+            NXGReports.addStep("Verify Filter and Hover on Engagement page.", LogAs.PASSED, null);
+        }
+        catch (Exception ex)
+        {
+            NXGReports.addStep("Verify Filter and Hover on Engagement page.", LogAs.FAILED, null);
             throw ex;
         }
     }

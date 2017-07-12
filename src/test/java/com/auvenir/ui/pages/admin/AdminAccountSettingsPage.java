@@ -2,17 +2,17 @@ package com.auvenir.ui.pages.admin;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 /*
 Created by: Doai. Tran
@@ -30,65 +30,29 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy(xpath = "//img[@src='images/logos/auvenir/auvenir.svg']")
     private WebElement eleAuvenirLogoImg;
 
-    public WebElement getAuvenirLogoImg() {
-        return eleAuvenirLogoImg;
-    }
-
     @FindBy(id = "dashboardUsername")
     private WebElement dashboardUserNameEle;
-
-    public WebElement getDashboardUserNameEle() {
-        return dashboardUserNameEle;
-    }
 
     @FindBy(id = "navTitle")
     private WebElement settingTitle;
 
-    public WebElement getSettingTitle() {
-        return settingTitle;
-    }
-
     @FindBy(id = "link-setting-account")
     private WebElement accountTab;
-
-    public WebElement getAccountTab() {
-        return accountTab;
-    }
 
     @FindBy(id = "link-setting-device")
     private WebElement devicesTab;
 
-    public WebElement getDevicesTab() {
-        return devicesTab;
-    }
-
     @FindBy(id = "titleContainer")
     private WebElement accountSettingTitle;
-
-    public WebElement getAccountSettingTitle() {
-        return accountSettingTitle;
-    }
 
     @FindBy(id = "acc-ay-fullName")
     private WebElement fullNameTextBox;
 
-    public WebElement getFullnameTextBox() {
-        return fullNameTextBox;
-    }
-
     @FindBy(id = "acc-ay-email")
     private WebElement emailTextBox;
 
-    public WebElement getEmailTextBox() {
-        return emailTextBox;
-    }
-
     @FindBy(id = "acc-ay-phone")
     private WebElement phoneNoTextBox;
-
-    public WebElement getPhoneNoTextBox() {
-        return phoneNoTextBox;
-    }
 
     @FindBy(id = "acc-ay-photo")
     private WebElement userPhoto;
@@ -100,100 +64,44 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy(id = "uploadButton")
     private WebElement uploadButton;
 
-    public WebElement getUploadButton() {
-        return uploadButton;
-    }
-
     @FindBy(xpath = "//*[@class='auvbtn secondary']")
     private WebElement deactivateButton;
 
-    public WebElement getDeactivateButton() {
-        return deactivateButton;
-    }
-
-    @FindBy(xpath = "//*[@class='auvbtn primary']")
+    @FindBy(id = "ac-updatebtn")
     private WebElement updateButton;
-
-    public WebElement getUpdateButton() {
-        return updateButton;
-    }
 
     @FindBy(xpath = "//*[@id='card-Mydevices']/div[1]/div")
     private WebElement myDeviceTitle;
 
-    public WebElement getMyDeviceTitle() {
-        return myDeviceTitle;
-    }
-
     @FindBy(id = "pNumDevices")
     private WebElement numberDevicesText;
-
-    public WebElement getNumberDevicesText() {
-        return numberDevicesText;
-    }
 
     @FindBy(xpath = "//img[@src='images/illustrations/devices/Desktop.svg']")
     private WebElement computerImage;
 
-    public WebElement getComputerImage() {
-        return computerImage;
-    }
-
     @FindBy(xpath = "//*[@class='c-devices-deviceCustomName']")
     private WebElement deviceCustomName;
-
-    public WebElement getDeviceCustomName() {
-        return deviceCustomName;
-    }
 
     @FindBy(xpath = "//*[@class='c-devices-deviceName']")
     private WebElement deviceName;
 
-    public WebElement getDeviceName() {
-        return deviceName;
-    }
-
     @FindBy(xpath = "//*[@class='btn-lg ghost c-devices-viewDeviceBtn']")
     private WebElement viewButton;
-
-    public WebElement getViewButton() {
-        return viewButton;
-    }
 
     @FindBy(xpath = "//*[@id='card-Mydevices']/button")
     private WebElement addAnotherButton;
 
-    public WebElement getAddAnotherButton() {
-        return addAnotherButton;
-    }
-
     @FindBy(xpath = "/html/body/footer/div/div/div[1]/span")
     private WebElement allRightReservedLink;
-
-    public WebElement getAllRightReservedText() {
-        return allRightReservedLink;
-    }
 
     @FindBy(xpath = "/html/body/footer/div/div/div[2]/a[1]")
     private WebElement termOfServiceLink;
 
-    public WebElement getTermOfService() {
-        return termOfServiceLink;
-    }
-
     @FindBy(xpath = "/html/body/footer/div/div/div[2]/a[3]")
     private WebElement privacyStatementLink;
 
-    public WebElement getPrivacyStatementLink() {
-        return privacyStatementLink;
-    }
-
     @FindBy(xpath = "/html/body/footer/div/div/div[2]/a[5]")
     private WebElement cookiesNoticeLink;
-
-    public WebElement getCookiesNoticeLink() {
-        return cookiesNoticeLink;
-    }
 
     @FindBy(id = "h-ddl-item-settings")
     private WebElement settingsTabEle;
@@ -219,10 +127,6 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy(xpath = "//*[contains(text(),'Your account has been updated.')]")
     private WebElement updatedTextMessage;
 
-    public WebElement getUpdatedTextMessage() {
-        return updatedTextMessage;
-    }
-
     @FindBy(xpath = "//*[contains(text(),'*Please select a valid image file.')]")
     private WebElement errorMessageWrongTypeImage;
 
@@ -233,14 +137,13 @@ public class AdminAccountSettingsPage extends AbstractPage {
     @FindBy(xpath = "//*[contains(text(),'*Your image is too big. Please upload an image less than 2MB.')]")
     private WebElement errorMessageBigFile;
 
-    public WebElement getErrorMessageBigFile() {
-        return this.errorMessageBigFile;
-    }
+    @FindBy(xpath = "//*[@id='loaderContainer']")
+    private WebElement loaderUpdateButton;
 
     public void goToSettingPage() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 60L);
         wait.until(ExpectedConditions.visibilityOf(dashboardUserNameEle));
-        getDashboardUserNameEle().click();
+        clickElement(dashboardUserNameEle,"Dashboard User Name");
         wait.until(ExpectedConditions.visibilityOf(settingsTabEle));
         getSettingTabEle().click();
     }
@@ -364,11 +267,13 @@ public class AdminAccountSettingsPage extends AbstractPage {
     public void inputValueFullName(String Value) {
         waitForVisibleElement(fullNameTextBox, "fullNameTextBox");
         sendKeyTextBox(fullNameTextBox, Value, "fullNameTextBox");
+        sendTabkey(fullNameTextBox, "fullNameTextBox");
     }
 
     public void inputValuePhoneNumber(String Value) {
         waitForVisibleElement(phoneNoTextBox, "phoneNoTextBox");
         sendKeyTextBox(phoneNoTextBox, Value, "phoneNoTextBox");
+        sendTabkey(phoneNoTextBox, "phoneNoTextBox");
     }
 
     public void verifyEmailTextBoxIsDisable() {
@@ -383,14 +288,10 @@ public class AdminAccountSettingsPage extends AbstractPage {
         validateElementText(phoneLable, "Phone Number");
     }
 
-    public void clickUpdateImageBTN() {
-        getLogger().info("waited clickable");
-        clickAndHold(uploadButton, "updateButton");
-    }
-
-    public void ClickUpdateBTN() {
-        waitForClickableOfElement(updateButton, "updateButton");
-        clickAndHold(updateButton, "updateButton");
+    public void clickUpdateBTN() {
+        getLogger().info("Try to click on Update Image button.");
+        clickElement(updateButton, "updateButton");
+        waitForCssValueChanged(loaderUpdateButton, "Loader Update Button", "display", "none");
     }
 
     public void waitAndVerifyUpdatedTextMessage() {
@@ -423,5 +324,25 @@ public class AdminAccountSettingsPage extends AbstractPage {
 
     public void sendTabkeyPhoneNumberTxt() {
         sendTabkey(phoneNoTextBox, "phoneNoTextBox");
+    }
+
+    public void verifyPersonalInfoRendered(String fullName, String email, String phone) {
+        getLogger().info("Verify Personal Information is rendered.");
+        try {
+            int count = 0;
+            if (!validateAttributeElement(fullNameTextBox, "value", fullName))
+                count++;
+            if (!validateAttributeElement(emailTextBox, "value", email))
+                count++;
+            if (!validateAttributeElement(phoneNoTextBox, "value", phone))
+                count++;
+            Assert.assertTrue(count == 0, "Personal Information should be rendered correctly.");
+            NXGReports.addStep("Personal Information is rendered correctly.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt ++;
+            NXGReports.addStep("Personal Information is not rendered correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+        }
+
     }
 }

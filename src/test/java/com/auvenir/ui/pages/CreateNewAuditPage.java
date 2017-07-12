@@ -261,5 +261,9 @@ public class CreateNewAuditPage extends AbstractPage {
         verifyContentOfSuccessToastMessage(message);
     }
 
-	 /*-----------end of huy.huynh on 02/06/2017.*/
+    public void verifyInviteClientFailure(String message) {
+        waitForProgressOverlayIsClosed();
+        verifyContentOfWarningToastMessage(message);
+    }
+     /*-----------end of huy.huynh on 02/06/2017.*/
 }

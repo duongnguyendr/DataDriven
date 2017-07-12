@@ -25,13 +25,13 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.verifyFirmInfoPageContent();
     }
 
-    public void registerFirmInfo(String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
-        auditorSignUpPage.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strState, strMemberID, strNumEmp, strPhone, strAffName, strPathLogo);
+    public void registerFirmInfo(String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity,String strCountry, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
+        auditorSignUpPage.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity,strCountry, strState, strMemberID, strNumEmp, strPhone, strAffName, strPathLogo);
     }
 
-    public void clickOnChangedNameCheckBox() {
-        auditorSignUpPage.clickOnChangedNameCheckBox();
-    }
+//    public void clickOnChangedNameCheckBox() {
+//        auditorSignUpPage.clickOnChangedNameCheckBox();
+//    }
 
     public void clickOnAllFirmCheckBox() {
         auditorSignUpPage.clickOnAllFirmCheckBox();
@@ -224,4 +224,43 @@ public class AuditorSignUpService extends AbstractService {
         auditorSignUpPage.confirmInfomationNewAuditorUser(fullName, strEmail, password);
     }
 
+    public void verifyCountryList() {
+        auditorSignUpPage.verifyCountryList();
+    }
+
+    public void selectAnyCountry(String nameOfCountry) {
+        auditorSignUpPage.selectAnyCountryInList(nameOfCountry);
+    }
+
+    public void verifyCountrySelectedCorrectly(String nameOfCountry) {
+        auditorSignUpPage.verifyCountrySelectedCorrectly(nameOfCountry);
+    }
+    public void verifyStateSelectedCorrectly(String nameOfState){
+        auditorSignUpPage.verifyStateSelectedCorrectly(nameOfState);
+    }
+
+    public void verifyStateListAfterSelectCountry(String nameOfCountry) {
+        auditorSignUpPage.verifyStateListAfterSelectCountry(nameOfCountry);
+    }
+
+    public void selectAnyState(String nameOfState){
+        auditorSignUpPage.selectAnyStateInList(nameOfState);
+
+    }
+
+    public void verifyMemberID_DefaultValue(){
+        auditorSignUpPage.verifyMemberID_DefaultValueIsNull();
+        auditorSignUpPage.selectMemberID();
+        auditorSignUpPage.verifyMemberID_BorderColor();
+    }
+
+    public void inputMemberID(String value){
+        auditorSignUpPage.inputMemberID(value);
+    }
+    public void verifyValidMemberID(String value){
+        auditorSignUpPage.verifyValidMemberID(value);
+    }
+    public void verifyInvalidMemberID(String value){
+        auditorSignUpPage.verifyInvalidMemberID(value);
+    }
 }

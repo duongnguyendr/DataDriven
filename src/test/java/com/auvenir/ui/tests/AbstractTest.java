@@ -2,7 +2,7 @@ package com.auvenir.ui.tests;
 
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.openqa.selenium.Platform;
@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -38,7 +37,7 @@ public class AbstractTest {
      */
     String localPropertiesDest = GenericService.sDirPath + "/local.properties";
     protected String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
-    protected String SELENIUM_GRID_HUB = "http://192.168.1.50:4444/wd/hub";
+    protected String SELENIUM_GRID_HUB = "http://192.168.1.213:4444/wd/hub";
 
     /*
     We should input 2 options:
@@ -70,49 +69,33 @@ public class AbstractTest {
     protected static final String SD_FAILURE = "failure";
     private String testName = "initial";
     // minh.nguyen updated May 26,2017 updated
-    public static final String engagementName = "engagement 01";
-    /*
-    Doai.Tran fix
-     */
+    //public static final String engagementName = "engagement 01";
 
     @BeforeSuite
     public void setConfig() {
-        System.out.println("AAAAAAA");
+        //System.out.println("AAAAAAA");
         getRunMode();
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
-
-        /*if (server.equalsIgnoreCase("cadet")) {
+        /*
+        if (server.equalsIgnoreCase("cadet")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
         } else if (server.equalsIgnoreCase("local")) {
             GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         } else {
             GenericService.sConfigFile = GenericService.sDirPath + "/ariel.properties";
-        }*/
+        }
+        */
     }
+
 
     @Parameters({"browser", "version", "os"})
     @BeforeMethod
     public void setUp(Method method, String browser, String version, String os) {
         getLogger().info("Before Method.");
         getRunMode();
-        if (browser.equalsIgnoreCase("chrome")) {
-            GenericService.sBrowserData = "chr.";
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            GenericService.sBrowserData = "ff.";
-        } else if (browser.equalsIgnoreCase("internet explorer")) {
-            GenericService.sBrowserData = "ie.";
-        } else if (browser.equalsIgnoreCase("safari")) {
-            GenericService.sBrowserData = "saf.";
-        } else if (browser.equalsIgnoreCase("edge")) {
-            GenericService.sBrowserData = "edge.";
-        }
-        if(browser.equalsIgnoreCase("internet explorer")){
-            GenericService.sBrowserTestNameList.add("IE_");
-        }else{
-            GenericService.sBrowserTestNameList.add(browser.toUpperCase()+"_");
-        }
-
+        GenericService.sVersionData = version;
+        GenericService.sOperationData = os;
         getLogger().info("setUp: " + browser);
         testName = method.getName();
         logCurrentStepStart();
@@ -123,104 +106,116 @@ public class AbstractTest {
             /*
             Initialize Selenium Local WebDriver
              */
-                if (GenericService.sBrowserData.equalsIgnoreCase("chr.")) {
+                if (browser.equalsIgnoreCase("chrome")) {
                     //if (GenericService.getConfigValue(GenericService.sConfigFile, "BROWSER").equalsIgnoreCase("Chrome")) {
                     getLogger().info("Chrome is open.");
                     System.setProperty("webdriver.chrome.driver", GenericService.sDirPath + "/src/test/resources/chromedriver.exe");
                     DesiredCapabilities cap = setDownloadLocationChrome();
                     getLogger().info("Chrome is set");
                     driver = new ChromeDriver(cap);
-
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
+                    GenericService.sBrowserData = "chr.";
+                } else if (browser.equalsIgnoreCase("firefox")) {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
-
-//                    ProfilesIni allProfiles = new ProfilesIni();
-//                    System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
-//                    //System.setProperty("webdriver.firefox.profile","your custom firefox profile name");
-//                    String browserProfile = System.getProperty("webdriver.gecko.driver");
-//                    FirefoxProfile profile = allProfiles.getProfile(browserProfile);
-//                    profile.setAcceptUntrustedCertificates (true);
-//                    driver = new FirefoxDriver(profile);
-
-//                    DesiredCapabilities capabilities = new DesiredCapabilities();
-//                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-//                    driver = new FirefoxDriver(capabilities);
-
-                    FirefoxProfile profile = new FirefoxProfile();
-                    profile.setAcceptUntrustedCertificates(false);
+                    FirefoxProfile profile = setDownloadLocationFirefox();
                     driver = new FirefoxDriver(profile);
-
-//                    DesiredCapabilities dc = DesiredCapabilities.firefox();
-//                    dc.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-//
-//                    FirefoxProfile profile = new FirefoxProfile();
-//                    profile.setAcceptUntrustedCertificates(true);
-//
-//                    dc.setCapability(FirefoxDriver.PROFILE, profile);
-//
-//                    // this is the important line - i.e. don't use Marionette
-//                    dc.setCapability(FirefoxDriver.MARIONETTE, true);
-//
-//                    driver =  new FirefoxDriver(dc);
-
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
+                    GenericService.sBrowserData = "ff.";
+                } else if (browser.equalsIgnoreCase("internet explorer")) {
                     getLogger().info("Intetnet Explorer is set");
                     System.setProperty("webdriver.ie.driver", GenericService.sDirPath + "/src/test/resources/IEDriverServer.exe");
                     driver = new InternetExplorerDriver();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("edge.")) {
+                    GenericService.sBrowserData = "ie.";
+                } else if (browser.equalsIgnoreCase("edge")) {
                     getLogger().info("Edge is set");
                     System.setProperty("webdriver.edge.driver", GenericService.sDirPath + "/src/test/resources/MicrosoftWebDriver.exe");
                     driver = new EdgeDriver();
+                    GenericService.sBrowserData = "edge.";
                 }
 
+                if (browser.equalsIgnoreCase("internet explorer")){
+                    GenericService.sBrowserTestNameList.add("IE_");
+                }else {
+                    GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
+                }
             } else if (runMode.equalsIgnoreCase("SeleniumGrid")) {
 
             /*Initialize Selenium for Selenium Grid*/
 
-                DesiredCapabilities capabilities;
-                if (GenericService.sBrowserData.equalsIgnoreCase("chr.")) {
-                    capabilities = DesiredCapabilities.chrome();
-                    String downloadFilepath = GenericService.sDirPath+ "/src/test/resources/download/";
+                //DesiredCapabilities capabilities;
+                if (browser.equalsIgnoreCase("chrome")) {
+                    DesiredCapabilities capabilitiesChrome;
+                    capabilitiesChrome = DesiredCapabilities.chrome();
+                    String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
                     HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
                     chromePrefs.put("profile.default_content_settings.popups", 0);
                     chromePrefs.put("download.default_directory", downloadFilepath);
                     ChromeOptions options = new ChromeOptions();
-                    options.setExperimentalOption("prefs",chromePrefs);
-                    //DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                    capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("ff.")) {
-                    capabilities = DesiredCapabilities.firefox();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("ie.")) {
-                    capabilities = DesiredCapabilities.internetExplorer();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("saf.")) {
-                    capabilities = DesiredCapabilities.safari();
-                } else if (GenericService.sBrowserData.equalsIgnoreCase("edge.")) {
-                    capabilities = DesiredCapabilities.edge();
+                    options.setExperimentalOption("prefs", chromePrefs);
+                    capabilitiesChrome.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+                    capabilitiesChrome.setCapability(ChromeOptions.CAPABILITY, options);
+                    capabilitiesChrome.setPlatform(setOSForBrowser(os));
+                    capabilitiesChrome.setVersion(version);
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesChrome, capabilitiesChrome);
+                    GenericService.sBrowserData = "chr.";
+                } else if (browser.equalsIgnoreCase("firefox")) {
+                    DesiredCapabilities capabilitiesFireFox;
+                    capabilitiesFireFox = DesiredCapabilities.firefox();
+                    FirefoxProfile profile = setDownloadLocationFirefox();
+                    capabilitiesFireFox.setCapability(FirefoxDriver.PROFILE, profile);
+                    capabilitiesFireFox.setPlatform(setOSForBrowser(os));
+                    capabilitiesFireFox.setVersion(GenericService.sVersionData);
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesFireFox, capabilitiesFireFox);
+                    GenericService.sBrowserData = "ff.";
+                } else if (browser.equalsIgnoreCase("internet explorer")) {
+                    DesiredCapabilities capabilitiesIE;
+                    capabilitiesIE = DesiredCapabilities.internetExplorer();
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesIE, capabilitiesIE);
+                    GenericService.sBrowserData = "ie.";
+                } else if (browser.equalsIgnoreCase("safari")) {
+                    DesiredCapabilities capabilitiesSafari;
+                    capabilitiesSafari = DesiredCapabilities.safari();
+                    capabilitiesSafari.setPlatform(setOSForBrowser(os));
+                    capabilitiesSafari.setVersion(version);
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesSafari, capabilitiesSafari);
+                    GenericService.sBrowserData = "saf.";
+                } else if (browser.equalsIgnoreCase("edge")) {
+                    DesiredCapabilities capabilitiesEdge;
+                    capabilitiesEdge = DesiredCapabilities.edge();
+                    driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilitiesEdge, capabilitiesEdge);
+                    GenericService.sBrowserData = "edge.";
                 } else {
                     throw new IllegalArgumentException("Unknown browser - " + GenericService.sBrowserData);
                 }
 
-                if (os.equalsIgnoreCase("WIN10")) {
-                    capabilities.setPlatform(Platform.WIN10);
-                } else if (os.equalsIgnoreCase("WIN8")) {
-                    capabilities.setPlatform(Platform.WIN8);
-                } else if (os.equalsIgnoreCase("LINUX")) {
-                    capabilities.setPlatform(Platform.LINUX);
-                } else if (os.equalsIgnoreCase("MAC")) {
-                    capabilities.setPlatform(Platform.MAC);
-                } else {
-                    throw new IllegalArgumentException("Unknown platform - " + os);
+                if (browser.equalsIgnoreCase("internet explorer")){
+                    GenericService.sBrowserTestNameList.add("IE_");
+                }else {
+                    GenericService.sBrowserTestNameList.add(browser.toUpperCase() + "_");
                 }
-                driver = new RemoteWebDriver(new URL(SELENIUM_GRID_HUB), capabilities, capabilities);
             }
             NXGReports.setWebDriver(driver);
         } catch (Exception e) {
             getLogger().info("Problem in launching driver");
             e.printStackTrace();
         }
+    }
+
+    public Platform setOSForBrowser(String os) {
+
+        Platform osType = null;
+        System.out.println("Current OS: " + os);
+        if (os.equalsIgnoreCase("WIN10")) {
+            osType = Platform.WIN10;
+        } else if (os.equalsIgnoreCase("WIN8")) {
+            osType = Platform.WIN8;
+        } else if (os.equalsIgnoreCase("WIN8.1")) {
+            osType = Platform.WIN8_1;
+        } else if (os.equalsIgnoreCase("MAC")) {
+            osType = Platform.MAC;
+        } else {
+            osType = Platform.LINUX;
+        }
+        return osType;
     }
 
     public void closeAllTab() {
@@ -308,18 +303,32 @@ public class AbstractTest {
         }
     }
 
-    public DesiredCapabilities setDownloadLocationChrome(){
+    public DesiredCapabilities setDownloadLocationChrome() {
         //Vien.pham added some new rows to set Download dir of Chrome.
-        String downloadFilepath = GenericService.sDirPath+ "/src/test/resources/download/";
+        String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
         chromePrefs.put("download.default_directory", downloadFilepath);
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("prefs",chromePrefs);
+        options.setExperimentalOption("prefs", chromePrefs);
         DesiredCapabilities cap = DesiredCapabilities.chrome();
         cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
         cap.setCapability(ChromeOptions.CAPABILITY, options);
         return cap;
+    }
+
+    /*
+    Update for method: setDownload Location on Firefox
+     */
+    public FirefoxProfile setDownloadLocationFirefox() {
+        FirefoxProfile profile = new FirefoxProfile();
+        profile.setPreference("browser.download.folderList", 2);
+        profile.setPreference("browser.download.manager.showWhenStarting", false);
+        String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
+        profile.setPreference("browser.download.dir", downloadFilepath);
+        profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/x-gzip");
+        profile.setAcceptUntrustedCertificates(false);
+        return profile;
     }
 
 }

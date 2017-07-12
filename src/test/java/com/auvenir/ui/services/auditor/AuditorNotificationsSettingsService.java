@@ -1,10 +1,10 @@
 package com.auvenir.ui.services.auditor;
 
-import com.auvenir.ui.pages.auditor.AuditorNotificationsSettingsPage;
+import com.auvenir.ui.pages.auditor.settings.AuditorNotificationsSettingsPage;
 import com.auvenir.ui.services.AbstractService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -32,14 +32,14 @@ public class AuditorNotificationsSettingsService extends AbstractService {
         try {
             auditorNotificationsSettingsPage.scrollPageDown();
             getLogger().info("verify footer page.");
-            auditorNotificationsSettingsPage.verifyFooter();
+            auditorNotificationsSettingsPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
             auditorNotificationsSettingsPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");
             auditorNotificationsSettingsPage.verifyPrivacyStateLink();
             getLogger().info("verify cookies notice link.");
             auditorNotificationsSettingsPage.verifyCookieNotice();
-            auditorNotificationsSettingsPage.scrollPageUp();
+            //auditorNotificationsSettingsPage.scrollPageUp();
             NXGReports.addStep("verify footer page", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("verify footer page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -48,16 +48,17 @@ public class AuditorNotificationsSettingsService extends AbstractService {
 
 
     public void verifyAuditorNotificationSettingsPage() {
-
-        try {
-            getLogger().info("verify Auditor Notifications Settings page.");
-            auditorNotificationsSettingsPage.verifyAuditorNotificationSettingsPage();
-            NXGReports.addStep("verify Auditor Notifications Settings page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify Auditor Notifications Settings page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorNotificationsSettingsPage.verifyAuditorNotificationSettingsPage();
     }
 
+    public void verifyNotificationItemListNotificationSettingsPage(){
+        auditorNotificationsSettingsPage.verifyNotificationItemListNotificationSettingsPage();
+    }
+
+    public void verifyNotificationCheckBoxSliderRoundWorking(){
+        auditorNotificationsSettingsPage.scrollPageDown();
+        auditorNotificationsSettingsPage.verifyNotificationCheckBoxSliderRoundWorking();
+    }
 
 }
 

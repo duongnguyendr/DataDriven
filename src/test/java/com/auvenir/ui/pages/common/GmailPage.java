@@ -1,10 +1,11 @@
 package com.auvenir.ui.pages.common;
 
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen.ScreenshotOf;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -498,10 +499,12 @@ public class GmailPage extends AbstractPage {
             if (!getDriver().getCurrentUrl().contains("accounts.google.com")) {
                 clickElement(signButtonEle, "signButtonEle");
             }
-            sendKeyTextBox(eleEmail, email, "eleEmail");
-            sendTabkey(eleEmail, "eleEmail");
-            sendEnterkey(eleEmail, "eleEmail");
-            getLogger().info("Send email: " + email);
+            if (!email.isEmpty()) {
+                sendKeyTextBox(eleEmail, email, "eleEmail");
+                sendTabkey(eleEmail, "eleEmail");
+                sendEnterkey(eleEmail, "eleEmail");
+                getLogger().info("Send email: " + email);
+            }
 //            Thread.sleep(2000);
             sendKeyTextBox(elePassword, password, "password");
             getLogger().info("Send password: " + password);
@@ -545,19 +548,20 @@ public class GmailPage extends AbstractPage {
      */
     public void clickOnboardingInvitationLink() {
         try {
-            clickElement(rowSentEmail, "Row Sent Email");
             clickElement(buttonStartEngagement, "Button Start Engagement");
+            getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
-            /* TODO code for wrong link on invited client email unfixed - still unfixed
-            String link = buttonStartEngagement.getAttribute("href");
-            link = link.replace(":3083", "");
-            GeneralUtilities.navigateToURL(getDriver(), link);*/
-
-            /*
-            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
-            wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
-            */
-            getLogger().info("Redirecting for Gmail to Auvenir Welcome Page");
+    /**
+     * Enter the email(after search) n click 'Start Engagement' button to go to Auvenir site
+     */
+    public void clickToEmailDetail() {
+        try {
+            clickElement(rowSentEmail, "Row Sent Email");
+            getLogger().info("Redirecting for Email Detail");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -654,7 +658,114 @@ public class GmailPage extends AbstractPage {
     }
 
     public void selectActiveEmaill() {
-        waitForClickableOfElement(eleEmailAuvenir, "Non-reply Active email");
-        clickElement(eleEmailAuvenir, "Non-reply Active email");
+        Boolean isSelect = clickElement(eleEmailAuvenir, "Non-reply Active email");
+        if (isSelect) {
+            NXGReports.addStep("Email is existed: Pass", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Email is not existed: Fail", LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
+        }
     }
+
+    /**
+     * Refactored by huy.huynh on 26/06/2017.
+     * Refactor ClientTest
+     */
+    @FindBy(className = "CToWUd")
+    private WebElement imgAuvenirHeader;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[1]")
+    private WebElement titleGreeting;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[2]")
+    private WebElement titleAnnouncement;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[3]")
+    private WebElement titleAuvenirIntroducing;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[4]")
+    private WebElement titleIntroducingBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[5]")
+    private WebElement titleFirstBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[6]")
+    private WebElement titleSecondBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[7]")
+    private WebElement titleThirdBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[8]")
+    private WebElement titleFeedback;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[9]")
+    private WebElement titleGoodbye;
+
+    @FindBy(xpath = "//a[text()='Reset Password']")
+    private WebElement buttonResetPassword;
+
+    String cssGreeting = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.75px; line-height: 0; margin-top: 15px; color: #363a3c";
+    String cssBody = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-weight: normal; font-size: 14px; line-height: 1.6; color: #707070; padding: 0px; margin: 0px";
+
+    public void verifyHeaderImage(String partialSrc) {
+        validateAttributeContain(imgAuvenirHeader, "src", partialSrc, "Auvenir Image Header");
+    }
+
+    public void verifyGreetingTitle(String text) {
+        validateElementTextContain(titleGreeting, text, "Title Greeting");
+        //validateAttributeElement(titleGreeting, "style", cssGreeting);
+    }
+
+    public void verifyAnnouncementTitle(String text) {
+        validateElementTextContain(titleAnnouncement, text, "Title Announcement");
+        //validateAttributeElement(titleAnnouncement, "style", cssBody);
+    }
+
+    public void verifyAuvenirIntroducingTitle(String text) {
+        validateElementTextContain(titleAuvenirIntroducing, text, "Title Auvenir Introducing");
+        //validateAttributeElement(titleAuvenirIntroducing, "style", cssBody);
+    }
+
+    public void verifyIntroducingBenefitTitle(String text) {
+        validateElementTextContain(titleIntroducingBenefit, text, "Title Introducing Benefit");
+        //validateAttributeElement(titleIntroducingBenefit, "style", cssBody);
+    }
+
+    public void verifyFirstBenefitTitle(String text) {
+        validateElementTextContain(titleFirstBenefit, text, "Title First Benefit");
+        //validateAttributeElement(titleFirstBenefit, "style", cssBody);
+    }
+
+    public void verifySecondBenefitTitle(String text) {
+        validateElementTextContain(titleSecondBenefit, text, "Title Second Benefit");
+        //validateAttributeElement(titleSecondBenefit, "style", cssBody);
+    }
+
+    public void verifyThirdBenefitTitle(String text) {
+        validateElementTextContain(titleThirdBenefit, text, "Title Third Benefit");
+        //validateAttributeElement(titleThirdBenefit, "style", cssBody);
+    }
+
+    public void verifyFeedbackTitle(String text) {
+        validateElementTextContain(titleFeedback, text, "Title Feedback");
+        //validateAttributeElement(titleFeedback, "style", cssBody);
+    }
+
+    public void verifyGoodbyeTitle(String text) {
+        validateElementTextContain(titleGoodbye, text, "Title Goodbye");
+        //validateAttributeElement(titleGoodbye, "style", cssBody);
+    }
+
+    /**
+     * Enter the email(after search) n click 'Reset Password' button to go to Auvenir site
+     */
+    public void clickResetPasswordLink() {
+        try {
+            clickElement(buttonResetPassword, "Button Reset Password");
+            getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    /*-----------end of huy.huynh on 26/06/2017.*/
 }

@@ -4,15 +4,15 @@ import com.auvenir.ui.pages.common.GmailPage;
 import com.auvenir.ui.pages.marketing.MarketingPage;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
-import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.WebService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -38,7 +38,7 @@ import static com.auvenir.ui.tests.AbstractTest.httpProtocol;
 public class AbstractService {
     private WebDriver driver;
     private Logger logger;
-    private static final int waitTime = 60;
+    private static final int waitTime = 20;
     public static WebDriverWait sWebDriverWait = null;
     public static String gmailWindow;
 
@@ -85,6 +85,7 @@ public class AbstractService {
 
     /**
      * Updated by Minh.Nguyen on June 19, 2017
+     *
      * @param logger
      * @param driver
      */
@@ -203,9 +204,9 @@ public class AbstractService {
             setBaseUrl(prefixProtocol + System.getProperty("serverDomainName"));
             String baseUrl = getBaseUrl();
             getLogger().info("Go to baseURL: " + baseUrl);
-            driver.get(baseUrl);
             driver.manage().timeouts().implicitlyWait(waitTime, TimeUnit.SECONDS);
             driver.manage().window().maximize();
+            driver.get(baseUrl);
             setLanguage(System.getProperty("language"));
             String sLanguage = getLanguage();
             if (sLanguage == null) {
@@ -216,10 +217,13 @@ public class AbstractService {
                 getLogger().info("Language is : " + baseLanguage);
                 marketingPage.clickOnChangeLanguageBTN();
             }
+            GenericService.sLanguage = sLanguage;
             NXGReports.addStep("Go to home page successfully", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("unable to go to home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //NXGReports.addStep("unable to go to home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("unable to go to home page.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
         }
     }
 
@@ -596,7 +600,7 @@ public class AbstractService {
         gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreate);
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
-        marketingService.clickLoginButton();
+        marketingService.openLoginDialog();
         marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
@@ -630,8 +634,9 @@ public class AbstractService {
         gmailLoginService.deleteAllExistedEmail(strEmailCreate, passwordCreatedGmail);
         marketingService.setPrefixProtocol(httpProtocol);
         goToBaseURL();
-        marketingService.clickLoginButton();
-        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);;
+        marketingService.openLoginDialog();
+        marketingService.loginWithNewUserRole(strAdminEmail, strAdminPwd);
+        ;
         adminService.changeTheStatusUser(strEmailCreate, "Onboarding");
         getLogger().info("Auditor open Email and verify it.. ");
         getLogger().info("Auditor login his email to verify Welcome email template");
@@ -647,22 +652,35 @@ public class AbstractService {
         marketingService.logout();
     }
 
-    public void clickLoginButton(){
+    public void openLoginDialog() {
         getLogger().info("Click on login button.");
         marketingPage.clickOnLoginBTN();
     }
 
     public void loginWithUserNamePassword(String UserName, String Password) {
         getLogger().info("Input Username and Password.");
-        marketingPage.inputUserNamePassword(UserName,Password);
+        marketingPage.inputUserNamePassword(UserName, Password);
         getLogger().info("Click on Login button.");
         marketingPage.clickOnSubmitBTN();
         marketingPage.waitForProgressOverlayIsClosed();
         marketingPage.clickClosePopupWarningBrowser();
     }
-    public void logout(){
+
+    public void logout() {
         marketingPage.clickOnProfile();
         getLogger().info("Logout.");
         marketingPage.clickOnLogoutBTN();
+    }
+    public void scrollDown(WebDriver webDriver) {
+        //marketingPage.scrollToFooter(webDriver);
+        getLogger().info("Scroll down.");
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,250)", "");
+    }
+    public void scrollUp(WebDriver webDriver) {
+        //marketingPage.scrollToFooter(webDriver);
+        getLogger().info("Scroll up.");
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,-250)", "");
     }
 }

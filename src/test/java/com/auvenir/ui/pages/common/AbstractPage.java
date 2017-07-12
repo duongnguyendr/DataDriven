@@ -1,12 +1,12 @@
 package com.auvenir.ui.pages.common;
 
-import com.auvenir.ui.pages.auditor.AuditorDetailsEngagementPage;
-import com.auvenir.ui.pages.auditor.AuditorEngagementPage;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
+import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.utilities.GenericService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -38,10 +38,13 @@ public class AbstractPage {
     public static final int waitTimeOut = 10;
     public static final int smallerTimeOut = 500;
     public static final int smallTimeOut = 1000;
+    public static final int largeTimeOut = 2000;
+    public static final int bigTimeOut = 3000;
     public static final String categoryIndiMode = "indicategory";
     public static final String categoryTitleOfAddNew = "Add New Category";
     public static final String backgroundColor = "background-color";
     public static final String numberSequence = "123456";
+    public static final String maxLengthCategoryName = "1234567890";
     public static final String maxLenghtString = "limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit with 255 character limit";
     public static final String borderColor = "border-color";
     public static final String border = "border";
@@ -67,7 +70,8 @@ public class AbstractPage {
     public static final String popUpDivCategoryModel = "//div[starts-with(@id, 'categoryModel') and contains(@style,'display: block')]";
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
     private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
-    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    //    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
+    public final String warningBorderCSSColor = "rgba(253, 109, 71, 0.43)";
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
     /**
@@ -94,19 +98,19 @@ public class AbstractPage {
     @FindBy(xpath = "//span[contains(text(),'© 2017 Auvenir Inc')]")
     private WebElement eleAuvenirIncTxt;
 
-    @FindBy(xpath = "//a[@href='/terms']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/terms']")
     private WebElement eleTermsOfServiceLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
     private WebElement eleTermsOfServiceDotTxt;
 
-    @FindBy(xpath = "//a[@href='/privacy']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/privacy']")
     private WebElement elePrivacyStatementLnk;
 
     @FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
     private WebElement elePrivacyStatementDotTxt;
 
-    @FindBy(xpath = "//a[@href='/cookies']")
+    @FindBy(xpath = "//div[@id='preview-footer']/footer/div/div/div[2]/a[@href='/cookies']")
     private WebElement eleCookieNoticeLnk;
 
     @FindBy(id = "dashboardUsername")
@@ -114,6 +118,9 @@ public class AbstractPage {
 
     @FindBy(id = "h-ddl-item-settings")
     WebElement settingsTabEle;
+
+    @FindBy(id = "navTitle")
+    WebElement settingsTitle;
 
     // ====================== ======================
     // Vien.Pham added EditCategories Elements
@@ -139,8 +146,7 @@ public class AbstractPage {
     List<WebElement> listOfCategoryDropdown;
 
     @FindBy(xpath = "//*[contains(@class,'ui dropdown todoCategory')]//div[text()='Add New Category']")
-//    @FindBy(xpath = "//*[contains(@class,'ui dropdown category')]/div[@class=\"menu\"]/div[1]")
-            List<WebElement> listOfAddNewCategory;
+    List<WebElement> listOfAddNewCategory;
 
     @FindBy(xpath = "//table[@id=\"todo-table\"]//tr[1][contains(@class,\"newRow\")]/td[3]//div[@class=\"item act_item\"]")
     WebElement addNewCategoryEle;
@@ -185,7 +191,8 @@ public class AbstractPage {
     @FindBy(xpath = "//*[@id=\"category-color-container\"]/ul/li")
     private WebElement categoryColors;
 
-    @FindBy(xpath = "//div[contains(@class,'ce-parent todo-modal-container')]/div/h3")
+    //  Old Xpath: @FindBy(xpath = "//div[contains(@class,'ce-parent todo-modal-container')]/div/h3")
+    @FindBy(xpath = "//label[contains(@id,'m-categoryModel') and contains(@id,'title-text')]")
     private WebElement idTitleCategory;
 
     @FindBy(xpath = "//*[@id='setup-component-body']/div/div[1]//p[contains(text(),'Not a valid name.')]")
@@ -241,45 +248,118 @@ public class AbstractPage {
     private String termsPrivacyCookieText = "//div[@id='marketing-header']//div[@class='ui center aligned header header-main-text']";
     private List<String> tabs = null;
 
-    public void verifyFooter() {
-        validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
-        validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
-        validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
-        validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
-        validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
-        validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
+    @FindBy(xpath = "//*[@id='language-flag']/button")
+    private WebElement changeLanguageBTN;
+    @FindBy(xpath = "//*[@class='ui right aligned container']/button")
+    private WebElement loginBTN;
+    @FindBy(xpath = "//form[@class='ui form login-form']//input[@name='email']")
+    private WebElement emailTextBox;
+    @FindBy(xpath = "//form[@class='ui form login-form']//input[@name='password']")
+    private WebElement passwordTextBox;
+    @FindBy(xpath = "//form[@class='ui form login-form']//button")
+    private WebElement submitBTN;
+    @FindBy(className = "ui label userAligment")
+    private WebElement profileLink;
+    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
+    private WebElement logoutBTN;
+
+    public void verifyFooterOfHomepage() {
+        boolean isAuvenirIncTxt, isTermsOfServiceLnk, isTermsOfServiceDotTxt, isPrivacyStatementLnk, isPrivacyStatementDotTxt, isCookieNoticeLnk = false;
+        isAuvenirIncTxt = validateDisPlayedElement(eleAuvenirIncTxt, "eleAuvenirIncTxt");
+        if (!isAuvenirIncTxt) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleAuvenirIncTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isTermsOfServiceLnk = validateDisPlayedElement(eleTermsOfServiceLnk, "eleTermsOfServiceLnk");
+        if (!isTermsOfServiceLnk) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleTermsOfServiceLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isTermsOfServiceDotTxt = validateDisPlayedElement(eleTermsOfServiceDotTxt, "eleTermsOfServiceDotTxt");
+        if (!isTermsOfServiceDotTxt) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleTermsOfServiceDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isPrivacyStatementLnk = validateDisPlayedElement(elePrivacyStatementLnk, "elePrivacyStatementLnk");
+        if (!isPrivacyStatementLnk) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("elePrivacyStatementLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isPrivacyStatementDotTxt = validateDisPlayedElement(elePrivacyStatementDotTxt, "elePrivacyStatementDotTxt");
+        if (!isPrivacyStatementDotTxt) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("elePrivacyStatementDotTxt is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        isCookieNoticeLnk = validateDisPlayedElement(eleCookieNoticeLnk, "eleCookieNoticeLnk");
+        if (!isCookieNoticeLnk) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("eleCookieNoticeLnk is not displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        if (isAuvenirIncTxt && isTermsOfServiceLnk && isTermsOfServiceDotTxt && isPrivacyStatementLnk && isPrivacyStatementDotTxt && isCookieNoticeLnk) {
+            NXGReports.addStep("verify Footer.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
-    public void verifyTermsOfServiceLink() throws AWTException {
-        getLogger().info("Verify Terms of service link.");
-        clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
-        getLogger().info("verify texts are rendered.");
-        switchToOtherTab(1);
-        waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
-        WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
-        validateElementText(terms, "Terms of Service");
-        tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1)).close();
+    public void verifyTermsOfServiceLink() {
+        try {
+            getLogger().info("Verify Terms of service link.");
+            boolean isCheckTermOfService = false;
+            hoverElement(eleTermsOfServiceLnk, "hover terms of service link");
+            clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
+            getLogger().info("verify texts are rendered.");
+            switchToOtherTab(1);
+            waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
+            WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
+            isCheckTermOfService = validateElementText(terms, "Terms of Service");
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1)).close();
+            Thread.sleep(smallTimeOut);
+            if (isCheckTermOfService) {
+                NXGReports.addStep("verify Terms Of Service Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Terms Of Service Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
     }
 
     public void verifyPrivacyStateLink() {
-        getLogger().info("Verify Pricacy statement link.");
-        switchToOtherTab(0);
-        clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
-        switchToOtherTab(1);
-        WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
-        validateElementText(privacy, "Privacy Policy");
-        tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1)).close();
+        try {
+            boolean isPrivacyState = false;
+            getLogger().info("Verify Pricacy statement link.");
+            switchToOtherTab(0);
+            clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
+            switchToOtherTab(1);
+            WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
+            isPrivacyState = validateElementText(privacy, "Privacy Policy");
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1)).close();
+            Thread.sleep(smallTimeOut);
+            if (isPrivacyState) {
+                NXGReports.addStep("verify Privacy State Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Privacy State Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
     }
 
     public void verifyCookieNotice() {
-        getLogger().info("verify cookie notices page.");
-        switchToOtherTab(0);
-        clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
-        switchToOtherTab(1);
-        WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
-        validateElementText(cookie, "Cookie Notice");
+        try {
+            boolean isCheckCookieNotice = false;
+            getLogger().info("verify cookie notices page.");
+            switchToOtherTab(0);
+            clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
+            switchToOtherTab(1);
+            WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
+            isCheckCookieNotice = validateElementText(cookie, "Cookie Notice");
+            if (isCheckCookieNotice) {
+                NXGReports.addStep("verify Cookie Notice.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify Cookie Notice.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
     }
 
     /**
@@ -294,7 +374,7 @@ public class AbstractPage {
             NXGReports.addStep(elementName + " is visibility.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementName + " is not visibility.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(elementName + " is not visibility.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -304,20 +384,20 @@ public class AbstractPage {
      */
     public boolean validateElementText(WebElement webElement, String elementText) {
         try {
-            getLogger().info("Check renderd of text: " + elementText);
+            getLogger().info("Check rendered of text: " + elementText.trim());
             getLogger().info("Actual Text is displayed: " + webElement.getText().trim());
-            Assert.assertEquals(webElement.getText().trim(), elementText);
+            Assert.assertEquals(webElement.getText().trim(), elementText.trim());
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
             getLogger().info(error);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), error.getMessage());
             return false;
-        } catch (Exception ex) {
-            getLogger().info(ex.getMessage());
+        } catch (Exception e) {
+            getLogger().info(e.getMessage());
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -334,9 +414,9 @@ public class AbstractPage {
             getLogger().info("The xpath of web element = " + xpathElement);
             resultWebElement = getDriver().findElement(By.xpath(xpathElement));
             NXGReports.addStep("Find web element by xpath", LogAs.PASSED, null);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Find web element by xpath", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Find web element by xpath", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
         return resultWebElement;
     }
@@ -356,7 +436,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + element + "is not presented");
-            NXGReports.addStep("Element : " + elementName + "is not presented", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element : " + elementName + "is not presented", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -377,7 +457,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + elementName + "is not enable.");
-            NXGReports.addStep("Element : " + elementName + "is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element : " + elementName + "is not enable", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -397,7 +477,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + element.getText() + "is not selected.");
-            NXGReports.addStep("Element : " + elementName + "is not selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element : " + elementName + "is not selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -420,7 +500,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element : " + element.getText() + "is selected.");
-            NXGReports.addStep("Element : " + elementName + "is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element : " + elementName + "is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -439,7 +519,7 @@ public class AbstractPage {
         } catch (AssertionError error) {
             getLogger().info(error);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("input with max length with " + maxLength + "character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("input with max length with " + maxLength + "character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), error.getMessage());
             return false;
         }
     }
@@ -448,7 +528,7 @@ public class AbstractPage {
             Improvement to detect value: true/ false after take actions
             Updated by: Doai.Tran 8/5/2017
              */
-    public void scrollPageUp() throws AWTException {
+    public void scrollPageUp() {
         getLogger().info("Try to scroll Page up.");
         try {
             Robot robot = new Robot();
@@ -459,14 +539,14 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("scroll Page up unsuccessfully.");
-            NXGReports.addStep("scroll Page up unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("scroll Page up unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
     /*
     Method to scrollPageDown
      */
-    public void scrollPageDown() throws AWTException {
+    public void scrollPageDown() {
         getLogger().info("Try to scroll Page down.");
         try {
             Robot robot = new Robot();
@@ -476,7 +556,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("scroll Page down unsuccessfully.");
-            NXGReports.addStep("scroll Page down unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("scroll Page down unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -494,8 +574,9 @@ public class AbstractPage {
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            getLogger().info("Element: " + element.getText() + "is not visible.");
-            NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            //NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -513,7 +594,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not present.");
-            NXGReports.addStep("Element is not present.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element is not present.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -531,7 +612,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not visible.");
-            NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -569,7 +650,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not visible, try to waitForVisibleOfLocator by seconds.");
-            NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element is not visible, try to waitForVisibleOfLocator by seconds.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return isResult;
         }
     }
@@ -587,7 +668,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not invisible.");
-            NXGReports.addStep("eElement: is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("eElement: is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -605,7 +686,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable.");
-            NXGReports.addStep("eElement: is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("eElement: is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -625,7 +706,8 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable on Element: " + element.getText());
-            NXGReports.addStep("Element: " + elementName + " is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //NXGReports.addStep("Element: " + elementName + " is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -642,6 +724,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable on Element: " + e.getMessage());
+            NXGReports.addStep("Element is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -660,7 +743,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not invisible on Element: " + elementName);
-            NXGReports.addStep("Element: " + elementName + " is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not invisible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -683,7 +766,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info(elementName + " is  not disabled");
-            NXGReports.addStep("Element: " + elementName + " is not disabled.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not disabled.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -692,15 +775,19 @@ public class AbstractPage {
     Method to go to setting page for Admin, Auditor, Client
      */
     public void navigateToSettingsPage() {
+        getLogger().info("navigate to Admin Setting page.");
         try {
             waitForClickableOfElement(dashboardUserNameEle, "dashboardUserNameEle");
-            dashboardUserNameEle.click();
-            waitForPresentOfLocator(By.xpath("//a[contains(text(),'Settings')]"));
+            clickElement(dashboardUserNameEle, "click to dashboardUserNameEle");
             waitForClickableOfElement(settingsTabEle, "dashboardUserNameEle");
-            settingsTabEle.click();
-        } catch (Exception e) {
+            clickElement(settingsTabEle, "click to settingsTabEle");
+            boolean result = validateElementText(settingsTitle, "Settings");
+            Assert.assertTrue(result, "The Settings page should be navigated.");
+            NXGReports.addStep("Go to settings page successfully.", LogAs.PASSED, null);
+        } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to go to setting page.");
+            NXGReports.addStep("Unable to go to setting page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -720,7 +807,8 @@ public class AbstractPage {
             AbstractService.sStatusCnt++;
             System.out.println("exception is: " + e);
             getLogger().info("Unable to Click on: " + elementName);
-            NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            //NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -737,6 +825,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to Click on: " + e.getMessage());
+            NXGReports.addStep("Unable to Click on: ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -759,7 +848,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to ClickAndHold on: " + elementName);
-            NXGReports.addStep("Unable to ClickAndHold on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to ClickAndHold on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -780,7 +869,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to hoverElement on: " + elementName);
-            NXGReports.addStep("Unable to hoverElement on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to hoverElement on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -791,7 +880,7 @@ public class AbstractPage {
      * @Description: Send a String to textBox.
      * @Description: Send a String to textBox.
      */
-    public void sendKeyTextBox(WebElement element, String text, String elementName) {
+    public boolean sendKeyTextBox(WebElement element, String text, String elementName) {
         getLogger().info("Try to sendKey on : " + elementName);
         try {
             waitForClickableOfElement(element, "wait for click to " + elementName);
@@ -800,10 +889,15 @@ public class AbstractPage {
             waitForClickableOfElement(element, "wait for click to " + elementName);
             element.sendKeys(text);
             NXGReports.addStep("Send text: " + text + " on element: " + elementName, LogAs.PASSED, null);
+            return true;
         } catch (Exception e) {
+            getLogger().info(e);
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendKey on: " + elementName);
-            NXGReports.addStep("Unable to sendKey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            //NXGReports.addStep("Unable to sendKey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to sendKey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+            return false;
         }
     }
 
@@ -821,7 +915,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to clear on: " + elementName);
-            NXGReports.addStep("Unable to clear on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to clear on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -838,7 +932,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to click on checkbox element: " + elementName);
-            NXGReports.addStep("Unable to click on checkbox: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to click on checkbox: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -858,7 +952,7 @@ public class AbstractPage {
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to selectByVisibleText on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to selectByVisibleText on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -878,7 +972,7 @@ public class AbstractPage {
             NXGReports.addStep("selectByValue on checkbox: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to selectByValue on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to selectByValue on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -897,7 +991,7 @@ public class AbstractPage {
             NXGReports.addStep("selectByIndex on checkbox: " + elementName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to selectByIndex on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to selectByIndex on element: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -915,7 +1009,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendTabkey on: " + elementName);
-            NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to sendTabkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -927,7 +1021,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Unable to sendEnterkey on: " + elementName);
-            NXGReports.addStep("Unable to sendEnterkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to sendEnterkey on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -947,12 +1041,12 @@ public class AbstractPage {
                 NXGReports.addStep(element.getTagName() + " has attribute " + actualAttributeValue, LogAs.PASSED, null);
                 return true;
             } else {
-                throw new Exception();
+                throw new Exception(String.format("Expected ['%s'] but found ['%s']",expectedAttributeValue, actualAttributeValue));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue);
-            NXGReports.addStep(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(element.getTagName() + " has attribute not as expected with actual:" + actualAttributeValue, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -971,11 +1065,11 @@ public class AbstractPage {
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element has a unexpected style " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element has a unexpected style " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element has a unexpected style  " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element has a unexpected style  " + attributeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
 
@@ -993,7 +1087,7 @@ public class AbstractPage {
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementName + " is not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(elementName + " is not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
 
@@ -1011,10 +1105,10 @@ public class AbstractPage {
             JavascriptExecutor jse = (JavascriptExecutor) getDriver();
             textOfElement = (String) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].value;", eleGetText);
             NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.PASSED, null);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.FAILED, null);
-            getLogger().info(ex.getMessage());
+            NXGReports.addStep("Get text by javascript of element " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+            getLogger().info(e.getMessage());
         }
         return textOfElement;
     }
@@ -1181,7 +1275,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Check box icons are not selected all.");
-            NXGReports.addStep("All checkbox: " + elementListName + " is NOT selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("All checkbox: " + elementListName + " is NOT selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -1208,7 +1302,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Check box icons are  selected all.");
-            NXGReports.addStep("All checkbox: " + elementListName + " is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("All checkbox: " + elementListName + " is selected", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -1219,7 +1313,7 @@ public class AbstractPage {
      * @return
      */
     public boolean HoverAndWaitForClickableOfElement(WebElement element, String elementName) {
-        getLogger().info("Try to waitForClickableOfElement: " + elementName);
+        getLogger().info("Try to HoverAnd waitForClickableOfElement: " + elementName);
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(element);
@@ -1231,7 +1325,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable on Element: " + element.getText());
-            NXGReports.addStep("Element: " + elementName + " is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not clickable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -1255,7 +1349,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable on Element: " + element.getText());
-            NXGReports.addStep("Element: " + elementName + " is not presented and have the incorrect text.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not presented and have the incorrect text.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -1278,7 +1372,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not clickable on Element: " + element.getText());
-            NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not visible.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -1351,12 +1445,12 @@ public class AbstractPage {
                 NXGReports.addStep("Verify hover and click to category name", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
+                NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
             return isCheckBorderColor;
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, null);
+            NXGReports.addStep("Verify hover and click to category name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(ex.getMessage());
             return isCheckBorderColor;
         }
@@ -1830,7 +1924,7 @@ public class AbstractPage {
     public boolean waitForCssValueChanged(WebElement element, String elementName, String cssName, String cssValue) {
         getLogger().info("Try to waitForCssValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 200);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualcssValue = element.getCssValue(cssName);
@@ -1862,7 +1956,7 @@ public class AbstractPage {
         } catch (AssertionError error) {
             getLogger().info(error);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), error.getMessage());
             return false;
         }
     }
@@ -1951,7 +2045,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element: " + element.getText() + "is not disappear.");
-            NXGReports.addStep("Element: " + elementName + " is not disappear.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element: " + elementName + " is not disappear.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -2009,7 +2103,7 @@ public class AbstractPage {
             System.out.println("Number of items after removed: " + result);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Remove completed ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
 
     }
@@ -2068,7 +2162,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info(String.format("Cannot find the text name: %s", textValue));
-            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(String.format("Cannot find the text name: %s", textValue), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return -1;
         }
     }
@@ -2086,7 +2180,7 @@ public class AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Cannot close the Success Toast Message.");
-            NXGReports.addStep("The Toast Message is closed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("The Toast Message is closed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -2149,7 +2243,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("CSS Value is not changed");
-            NXGReports.addStep(String.format("Text Value of element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(String.format("Text Value of element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -2178,7 +2272,7 @@ public class AbstractPage {
             return true;
         } catch (Exception e) {
             getLogger().info("Size of Element is not changed");
-            NXGReports.addStep(String.format("Size of list element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(String.format("Size of list element '%s' is NOT changed", elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -2256,11 +2350,11 @@ public class AbstractPage {
                     NXGReports.addStep(expected + "is displayed.", LogAs.PASSED, null);
                 } catch (NoSuchElementException e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 }
                 break;
@@ -2270,11 +2364,11 @@ public class AbstractPage {
                     NXGReports.addStep(expected + "is enabled.", LogAs.PASSED, null);
                 } catch (NoSuchElementException e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 }
                 break;
@@ -2284,11 +2378,11 @@ public class AbstractPage {
                     NXGReports.addStep(expected + "is selected.", LogAs.PASSED, null);
                 } catch (NoSuchElementException e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 }
                 break;
@@ -2298,11 +2392,11 @@ public class AbstractPage {
                     NXGReports.addStep(expected + "is not displayed.", LogAs.PASSED, null);
                 } catch (NoSuchElementException e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 }
                 break;
@@ -2312,11 +2406,11 @@ public class AbstractPage {
                     NXGReports.addStep(expected + "is matched.", LogAs.PASSED, null);
                 } catch (NoSuchElementException e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(expected + " is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 } catch (AssertionError e) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
                     throw new AssertionError(e.getMessage());
                 }
                 break;
@@ -2326,7 +2420,7 @@ public class AbstractPage {
                     webElement.click();
                     throw new AssertionError(expected + " is still displayed.");
                 } catch (NoSuchElementException e) {
-                    NXGReports.addStep(expected + " is not exist.", LogAs.PASSED, null);
+                    NXGReports.addStep(expected + " is not exist.", LogAs.PASSED, null, e.getMessage());
                 }
 
                 driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -2360,7 +2454,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Can't select item: " + item + " of Dropdown " + elementName, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -2438,7 +2532,7 @@ public class AbstractPage {
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
         } catch (TimeoutException e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             throw new AssertionError(e.getMessage());
         }
     }
@@ -2454,7 +2548,7 @@ public class AbstractPage {
             wait.until(ExpectedConditions.textToBePresentInElement(webElement, text));
         } catch (TimeoutException e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             throw new AssertionError(e.getMessage());
         }
     }
@@ -2471,7 +2565,7 @@ public class AbstractPage {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
         } catch (TimeoutException e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             throw new AssertionError(e.getMessage());
         }
     }
@@ -2566,20 +2660,6 @@ public class AbstractPage {
         }
     }
 
-    @FindBy(xpath = "//*[@id='language-flag']/button")
-    private WebElement changeLanguageBTN;
-    @FindBy(xpath = "//*[@class='ui right aligned container']/button")
-    private WebElement loginBTN;
-    @FindBy(xpath = "//form[@class='ui form login-form']//input[@name='email']")
-    private WebElement emailTextBox;
-    @FindBy(xpath = "//form[@class='ui form login-form']//input[@name='password']")
-    private WebElement passwordTextBox;
-    @FindBy(xpath = "//form[@class='ui form login-form']//button")
-    private WebElement submitBTN;
-    @FindBy(className = "ui label userAligment")
-    private WebElement profileLink;
-    @FindBy(xpath = "//div[@class='menu transition visible']//div[2]/span")
-    private WebElement logoutBTN;
 
     /*
     This method to use to login to Advertisement site and Marketing site.
@@ -2595,9 +2675,9 @@ public class AbstractPage {
             getLogger().info("Login Successfully.");
             NXGReports.addStep("Login Successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("unable to login to marketing home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("unable to login to marketing home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         } catch (Error er) {
-            NXGReports.addStep("unable to login to marketing home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("unable to login to marketing home page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), er.getMessage());
         }
     }
 
@@ -2612,7 +2692,7 @@ public class AbstractPage {
             NXGReports.addStep("Change language successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("unable to Change language.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("unable to Change language.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -2623,7 +2703,7 @@ public class AbstractPage {
             NXGReports.addStep("Delete all cookies successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Delete all cookies successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Delete all cookies successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -2634,7 +2714,7 @@ public class AbstractPage {
             NXGReports.addStep("Delete all cookies :" + cookieName, LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Delete cookie successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Delete cookie successfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
 
         }
     }
@@ -2642,31 +2722,31 @@ public class AbstractPage {
     public void refreshPage() {
         try {
             getLogger().info("Refresh Page.");
-            driver.navigate().refresh();
+            getDriver().navigate().refresh();
             NXGReports.addStep("Refresh page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to refresh page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to refresh page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
     public void navigateBack() {
         try {
-            driver.navigate().back();
+            getDriver().navigate().back();
             NXGReports.addStep("Back to previous page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to back to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to back to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
     public void navigateForward() {
         try {
-            driver.navigate().forward();
+            getDriver().navigate().forward();
             NXGReports.addStep("Forward to previous page successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Unable to forward to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Unable to forward to previous page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
@@ -2680,18 +2760,18 @@ public class AbstractPage {
             return false;
         } catch (NoSuchElementException e) {
             getLogger().info("Element is not existed.");
-            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
+            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null, e.getMessage());
             getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
         } catch (ElementNotVisibleException e) {
             getLogger().info("Element is visible.");
-            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null);
+            NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null, e.getMessage());
             getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is still displayed.");
-            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(elementName + " is still displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return false;
         }
@@ -2733,10 +2813,18 @@ public class AbstractPage {
     Vien.Pham modified this method
      */
     public void navigateToAddNewCategory() throws Exception {
-        clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
-//        Thread.sleep(3000);
-//        waitForClickableOfLocator(By.xpath("//table[@id=\"todo-table\"]/tbody/tr[1]//div[@class=\"menu\"]/div[1]"));
-        clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
+        try {
+            clickElement(dropdownCategoryEle.get(0), "categoryDropdownEle");
+            waitForTextValueChanged(listOfAddNewCategory.get(0), "categoryCreateEle", "Add New Category");
+            hoverElement(listOfAddNewCategory.get(0), "categoryCreateEle");
+            clickElement(listOfAddNewCategory.get(0), "categoryCreateEle");
+            NXGReports.addStep("Navigate to Add new category: Pass", LogAs.PASSED,null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Navigate to Add new category: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 
 
@@ -2744,7 +2832,7 @@ public class AbstractPage {
         try {
             Thread.sleep(smallerTimeOut);
             getLogger().info("Make sure invalid name was not saved after return to Todo list Page again...");
-            returnToTodoListPage();
+            returnToTodoListPage_LoginToEngagementAgain();
             getLogger().info("Comparing...");
             WebElement textbox1 = TodosTextboxEle.get(0);
             String comparedValue = textbox1.getAttribute("value");
@@ -2755,6 +2843,7 @@ public class AbstractPage {
                 NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Invalid name still be saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
@@ -2765,11 +2854,11 @@ public class AbstractPage {
         try {
             Thread.sleep(smallerTimeOut);
             getLogger().info("Make sure valid name was saved after return to Todo list Page again...");
-            returnToTodoListPage();
+            returnToTodoListPage_LoginToEngagementAgain();
             getLogger().info("Comparing...");
             WebElement textbox1 = TodosTextboxEle.get(0);
             String comparedValue = textbox1.getAttribute("value");
-            System.out.println("gia tri luc nay: " + comparedValue);
+            System.out.println("Currently value is: " + comparedValue);
             if (comparedValue.equals(validName)) {
                 NXGReports.addStep("Valid Todo name was saved as expected.", LogAs.PASSED, null);
             } else {
@@ -2777,41 +2866,42 @@ public class AbstractPage {
                 NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Valid Todo name still not saved.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Valid Todo name still not saved_Exception.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
 
-    public void returnToTodoListPage() {
-        AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-        AuditorDetailsEngagementPage auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
+    public void returnToTodoListPage_LoginToEngagementAgain() {
+        AuditorEngagementService auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        AuditorDetailsEngagementService auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("TodoTestPage", "Valid Value", "Engagement Name");
         try {
             getLogger().info("Back to Engagement page...");
             engagementBackBtn.click();
             getLogger().info("Return to Todo list page again..");
-            auditorEngagementPage.viewEngagementDetailsPage("vienpham007");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage("vienpham007");
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             NXGReports.addStep("Return to Todo ListPage successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
+            AbstractService.sStatusCnt++;
             NXGReports.addStep("Return to Todo ListPage failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     public void verifyBorderTodoTextBox_InputValidValue() {
-        String deFaultBorder = "1px solid rgb(255, 255, 255)";
-        String GreenBorder = "1px solid rgb(92, 155, 160)";
+        String greenBorder = "1px solid rgb(92, 155, 160)";
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Verifying while user inputting valid text, textbox border is green...");
-            validateCssValueElement(textbox1, "border", GreenBorder);
-            getLogger().info("Click anywhere to verify textbox border transfered from Green to White..");
-            clickElement(eleAuvenirIncTxt, "Auvenir Inc");
-            validateCssValueElement(textbox1, "border", deFaultBorder);
-            NXGReports.addStep("Border color while inputting valid value.", LogAs.PASSED, null);
+            getLogger().info("Verifying textbox border is Green when inputed valid todo name...");
+//            validateCssValueElement(textbox1, "border", whiteBorder);
+            waitForCssValueChanged(textbox1, "Textbox", "border", greenBorder);
+            NXGReports.addStep("Border color is green while inputed valid todo name", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Border color while inputting valid value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border color is green while inputed valid todo name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2819,13 +2909,12 @@ public class AbstractPage {
         String OrangeBorder = "1px solid rgba(253, 109, 71, 0.4)";
         try {
             WebElement textbox1 = TodosTextboxEle.get(0);
-            getLogger().info("Click anywhere...");
-            clickElement(eleAuvenirIncTxt, "Auvernir Inc");
             getLogger().info("Verifying border of todo Textbox is Orange while missed or entered invalid values or not...");
+            waitForCssValueChanged(TodosTextboxEle.get(0), "Todo TextBox", "border", OrangeBorder);
             validateCssValueElement(textbox1, "border", OrangeBorder);
-            NXGReports.addStep("Border color while inputting invalid value.", LogAs.PASSED, null);
+            NXGReports.addStep("Border color is Orange while inputting invalid value.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Border color while inputting invalid value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border color is Orange while inputting invalid value.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
     }
@@ -2835,8 +2924,8 @@ public class AbstractPage {
         boolean isCheckShowAllText = false;
         getLogger().info("Verify check show all text of todo name..");
         try {
-            String strGetCategoryName = getTextByJavaScripts(TodosTextboxEle.get(0), "Todos Textbox");
-            if (todoNameAllText.equals(strGetCategoryName)) {
+            String strGetTodoName = getTextByJavaScripts(TodosTextboxEle.get(0), "Todos Textbox");
+            if (todoNameAllText.equals(strGetTodoName)) {
                 isCheckShowAllText = true;
                 NXGReports.addStep("Verify check show all text of category name", LogAs.PASSED, null);
             } else {
@@ -2891,7 +2980,7 @@ public class AbstractPage {
             System.out.println("Error is: " + error);
             getLogger().info(error);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(elementText + " rendered", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), error.getMessage());
             return false;
         }
     }
@@ -2907,7 +2996,7 @@ public class AbstractPage {
     public boolean waitForAtrributeValueChanged(WebElement element, String elementName, String attributeName, String attributeValue) {
         getLogger().info("Try to waitForAtrributeValueChanged: " + elementName);
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     String actualAttributeValue = null;
@@ -2929,7 +3018,7 @@ public class AbstractPage {
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Attribute Value is not changed");
-            NXGReports.addStep(String.format("Attribute '%s' of element '%s' is NOT changed", attributeName, elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(String.format("Attribute '%s' of element '%s' is NOT changed", attributeName, elementName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
     }
@@ -2952,7 +3041,7 @@ public class AbstractPage {
             NXGReports.addStep("Input " + elementName, LogAs.PASSED, null);
         } catch (NoSuchElementException e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Element is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Element is not found", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             throw new AssertionError(e.getMessage());
         }
     }
@@ -2980,7 +3069,7 @@ public class AbstractPage {
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Check quantity fail: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Check quantity fail: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -3003,7 +3092,7 @@ public class AbstractPage {
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate placeholder " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate placeholder " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -3030,11 +3119,11 @@ public class AbstractPage {
         } catch (NoSuchElementException e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not existed.");
-            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate attribute contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate attribute contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
             ex.printStackTrace();
             return false;
         }
@@ -3059,7 +3148,7 @@ public class AbstractPage {
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate not exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate not exist " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -3071,18 +3160,18 @@ public class AbstractPage {
      * @param value       Expected attribute value
      * @param elementName Element name
      */
-    public void validateElementJSTextContain(WebElement webElement, String value, String elementName) {
+    public void validateElementJavaScriptTextContain(WebElement webElement, String value, String elementName) {
         try {
-            getLogger().info("Validate Element Text Contain " + elementName);
+            getLogger().info("Validate Element JavaScript Text Contain " + elementName);
             if (getTextByJavaScripts(webElement, elementName).contains(value)) {
-                NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
+                NXGReports.addStep(elementName + "'s JavaScript text contain: " + value, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep(elementName + "'s text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Fail: " + elementName + "'s JavaScript text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error: Validate text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: Validate JavaScript text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -3106,7 +3195,7 @@ public class AbstractPage {
             NXGReports.addStep("Click by javascript of element " + elementName, LogAs.PASSED, null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click by javascript of element " + elementName, LogAs.FAILED, null);
+            NXGReports.addStep("Click by javascript of element " + elementName, LogAs.FAILED, null, ex.getMessage());
             getLogger().info(ex.getMessage());
         }
     }
@@ -3144,10 +3233,10 @@ public class AbstractPage {
         } catch (NoSuchElementException e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Element is not existed.");
-            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Error: " + elementName + " is not exist.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Get text by by attribute 'value' " + elementName, LogAs.FAILED, null);
+            NXGReports.addStep("Get text by by attribute 'value' " + elementName, LogAs.FAILED, null, ex.getMessage());
             getLogger().info(ex.getMessage());
         }
         return null;
@@ -3179,9 +3268,113 @@ public class AbstractPage {
             webElement = getDriver().findElement(By.xpath(xpath));
         } catch (Exception ex) {
             NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
         }
         return webElement;
     }
+
+    /**
+     * wait until animation for element finish
+     *
+     * @param webElement  xpath to get element
+     * @param elementName vararg for formating
+     */
+    public void waitForAnimation(WebElement webElement, String elementName) {
+        // This function is waiting to Popup Delete To Do task is displayed after running animation.
+        // We can move this function to Abstract Page or Common Page.
+        try {
+            getLogger().info("Waiting For Animation: " + elementName);
+            WebDriverWait wait = new WebDriverWait(getDriver(), 30);
+            wait.until((WebDriver driver) -> {
+                boolean result = false;
+                result = (boolean) ((JavascriptExecutor) driver).executeScript(
+                        "var elm = arguments[0];" +
+                                "var doc1 = elm.ownerDocument || document;" +
+                                "var rect = elm.getBoundingClientRect();" +
+                                "return elm === doc1.elementFromPoint(rect.left, rect.top);", webElement);
+                getLogger().info("result: " + result);
+                return result;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * validate text contain given value
+     *
+     * @param webElement  element need to validate
+     * @param value       Expected attribute value
+     * @param elementName Element name
+     */
+    public void validateElementTextContain(WebElement webElement, String value, String elementName) {
+        try {
+            getLogger().info("Validate Element Text Contain " + elementName);
+            System.out.println("expected = " + value);
+            System.out.println("actualll = " + webElement.getText());
+            if (webElement.getText().contains(value)) {
+                NXGReports.addStep(elementName + "'s text contain: " + value, LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + "'s text not contain: " + value, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Error: Validate text contain " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    /*
+        Method to scrollPageDown
+     */
+    public void scrollWithKeyDown() {
+        getLogger().info("Try to key down.");
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_DOWN);
+            robot.keyRelease(KeyEvent.VK_DOWN);
+            NXGReports.addStep("Key down.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Key down unsuccessfully.");
+            NXGReports.addStep("Key down unsuccessfully.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
+    }
      /*-----------end of huy.huynh on 15/06/2017.*/
+
+    /**
+     * get list elements which cant use @FindBy to find
+     *
+     * @param xpath xpath to get element
+     * @param arg   vararg for formating
+     */
+    public List<WebElement> getListElementsByXpath(String xpath, String... arg) {
+        List<WebElement> webElement = null;
+        xpath = String.format(xpath, arg);
+        try {
+            webElement = getDriver().findElements(By.xpath(xpath));
+        } catch (Exception ex) {
+            NXGReports.addStep("Can't find list elements for xpath: " + xpath, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
+        }
+        return webElement;
+    }
+
+    public void closeBrowserAfterDownLoad() throws InterruptedException {
+            tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(0)).close();
+            Thread.sleep(smallTimeOut);
+    }
+    public void clickElementActions(WebElement element, String ElementName){
+        try{
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.click(element);
+            actions.perform();
+        }catch (Exception e){
+
+        }
+    }
+
 }

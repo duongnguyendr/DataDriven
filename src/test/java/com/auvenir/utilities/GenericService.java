@@ -58,9 +58,11 @@ public class GenericService {
     public static String sConfigFile = null;
     public static String sExecutionDate = null;
     public static String sBrowserData = null;
+    public static String sVersionData = null;
+    public static String sOperationData = null;
     public static ArrayList sBrowserTestNameList = new ArrayList<String>();
     public static String [] browserAutomationTest = new String [] {"CHROME", "FIREFOX", "IE", "SAFARI","EDGE"};
-
+    public static String sLanguage = "";
 	/*
      * @author: LAKSHMI BS Description: To read the basic environment settings
 	 * data from config file
@@ -342,8 +344,7 @@ public class GenericService {
             // msg.setSubject("Auvenir_Execution_Report_"+GenericService.getCongigValue(GenericService.sConfigFile,"EXECUTION_REPORT_DATE"));
             /*msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
                     + " " + sExecutionDate);*/
-            msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, AbstractService.baseUrl)
-                    + " " + sExecutionDate);
+            msg.setSubject("Auvenir Execution Report on " + AbstractService.baseUrl + " " + sExecutionDate);
                     msg.setSentDate(new Date());
             Multipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
@@ -726,31 +727,31 @@ public class GenericService {
      *              that we input on testNG.XML
      *              Data file: TestData.xlsx
      * @param SheetName
-     * @param sTestCaseID
-     * @param userRole
+     * @param rowName
+     * @param columnName
      * @return
      */
-    public static String getTestDataFromExcel(String SheetName,String sTestCaseID, String userRole){
+    public static String getTestDataFromExcel(String SheetName,String rowName, String columnName){
         String userData = null;
+        System.out.println("Get Data from Excel file");
         try{
             String userDataExcel=null;
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
-            System.out.println("Folder Path: " + GenericService.sTestDataFile);
+            //System.out.println("Folder Path: " + GenericService.sTestDataFile);
             Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
-            System.out.println(SheetName);
+            /*System.out.println(SheetName);*/
             int iRowNum = sht.getLastRowNum();
             int k = 0;
             for (int i = 1; i <= iRowNum; i++) {
-                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
                     int iCellNum = sht.getRow(i).getLastCellNum();
-                    System.out.println("Row: " + i);
+                    /*System.out.println("Row: " + i);
                     System.out.println("The number of Columns:" + iCellNum);
-                    System.out.println(userRole);
+                    System.out.println(columnName);*/
                     for (int j = 1; j <= iCellNum; j++) {
-                        if(sht.getRow(0).getCell(j).toString().equals(userRole)){
+                        if(sht.getRow(0).getCell(j).toString().equals(columnName)){
                             userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
-                            System.out.println("Data login: "+userDataExcel);
                             break;
                         }
                     }
@@ -763,26 +764,26 @@ public class GenericService {
         }
         return userData;
     }
-    public static String getTestDataFromExcelNoBrowserPrefix(String SheetName,String sTestCaseID, String userRole){
+    public static String getTestDataFromExcelNoBrowserPrefix(String SheetName,String rowName, String columnName){
         String userData = null;
         try{
             String userDataExcel=null;
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
             Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
-            System.out.println(SheetName);
+            /*System.out.println(SheetName);*/
             int iRowNum = sht.getLastRowNum();
             int k = 0;
             for (int i = 1; i <= iRowNum; i++) {
-                if (sht.getRow(i).getCell(0).toString().equals(sTestCaseID)) {
+                if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
                     int iCellNum = sht.getRow(i).getLastCellNum();
                     /*System.out.println("Row: " + i);
-                    System.out.println("The number of Columns:" + iCellNum);*/
-                    System.out.println(userRole);
+                    System.out.println("The number of Columns:" + iCellNum);
+                    System.out.println(columnName);*/
                     for (int j = 1; j <= iCellNum; j++) {
-                        if(sht.getRow(0).getCell(j).toString().equals(userRole)){
+                        if(sht.getRow(0).getCell(j).toString().equals(columnName)){
                             userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
-                            System.out.println("Data login: "+userDataExcel);
+                            //System.out.println("Data login: "+userDataExcel);
                             break;
                         }
                     }
@@ -794,5 +795,9 @@ public class GenericService {
             e.printStackTrace();
         }
         return userData;
+    }
+
+    public static String addBrowserPrefix(String value) {
+        return GenericService.sBrowserData + value;
     }
 }

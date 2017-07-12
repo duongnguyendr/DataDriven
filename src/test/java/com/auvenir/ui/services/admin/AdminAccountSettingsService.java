@@ -5,9 +5,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
 import com.auvenir.ui.pages.admin.AdminAccountSettingsPage;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
 
 /**
  * Created by doai.tran on 4/27/2017.
@@ -63,18 +60,8 @@ public class AdminAccountSettingsService extends AbstractService {
         adminAccountSettingsPage.validateTextMessagePhoneTxtbox();
     }
 
-    public void clickUpdateImageBTN() {
-        getLogger().info("Try to click on Update Image button.");
-        //  try {
-        adminAccountSettingsPage.clickUpdateImageBTN();
-        //  } catch (InterruptedException e) {
-        //       getLogger().info(e);
-        //    }
-    }
-
     public void clickUpdateBTN() {
-        getLogger().info("Try to click on Update button.");
-        adminAccountSettingsPage.ClickUpdateBTN();
+        adminAccountSettingsPage.clickUpdateBTN();
     }
 
     public void waitAndVerifyUpdatedTextMessage() {
@@ -110,5 +97,9 @@ public class AdminAccountSettingsService extends AbstractService {
     public void sendTabkeyPhoneNumbertxt() {
         getLogger().info("Try to sendTabkeyPhoneNumbertxt");
         adminAccountSettingsPage.sendTabkeyPhoneNumberTxt();
+    }
+
+    public void verifyPersonalInfoRendered(String fullName, String email, String phone) {
+        adminAccountSettingsPage.verifyPersonalInfoRendered(fullName, email, phone);
     }
 }

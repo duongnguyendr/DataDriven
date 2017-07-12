@@ -64,6 +64,10 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.selectActiveEmaill();
     }
 
+    public void navigateToResetPwdPage(){
+        gmailLoginPo.clickResetPasswordLink();
+    }
+
     public void gmailLogout() throws Exception {
         Thread.sleep(10000);
 
@@ -92,8 +96,18 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.filterEmail();
     }
 
-    public void clickOnboardingInvitationLink() {
+    public void navigateAuvenirFromInvitationLink() {
+        gmailLoginPo.clickToEmailDetail();
         gmailLoginPo.clickOnboardingInvitationLink();
+    }
+
+    public void navigateAuvenirFromResetLink() {
+        gmailLoginPo.clickToEmailDetail();
+        gmailLoginPo.clickResetPasswordLink();
+    }
+
+    public void navigateToEmailDetail() {
+        gmailLoginPo.clickToEmailDetail();
     }
     /*-----------end of huy.huynh on 02/06/2017.*/
 
@@ -110,4 +124,50 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.goGMail();
         gmailLoginPo.reSignInGmail(gmailPwd);
     }
+
+    /**
+     * Refactored by huy.huynh on 26/06/2017.
+     * Refactor ClientTest
+     */
+    public void verifyHeaderImage(String partialSrc) {
+        gmailLoginPo.verifyHeaderImage(partialSrc);
+    }
+
+    public void verifyGreetingTitle(String text) {
+        gmailLoginPo.verifyGreetingTitle(text);
+    }
+
+    public void verifyAnnouncementTitle(String text) {
+        gmailLoginPo.verifyAnnouncementTitle(text);
+    }
+
+    public void verifyAuvenirIntroducingTitle(String text) {
+        gmailLoginPo.verifyAuvenirIntroducingTitle(text);
+    }
+
+    public void verifyIntroducingBenefitTitle(String text) {
+        gmailLoginPo.verifyIntroducingBenefitTitle(text);
+    }
+
+    public void verifyFirstBenefitTitle(String text) {
+        gmailLoginPo.verifyFirstBenefitTitle(text);
+    }
+
+    public void verifySecondBenefitTitle(String text) {
+        gmailLoginPo.verifySecondBenefitTitle(text);
+    }
+
+    public void verifyThirdBenefitTitle(String text) {
+        gmailLoginPo.verifyThirdBenefitTitle(text);
+    }
+
+    public void verifyFeedbackTitle(String text) {
+        gmailLoginPo.verifyFeedbackTitle(text);
+    }
+
+    public void verifyGoodbyeTitle(String text) {
+        gmailLoginPo.verifyGoodbyeTitle(text);
+    }
+
+    /*-----------end of huy.huynh on 26/06/2017.*/
 }

@@ -55,13 +55,13 @@
                         <id>install-external</id>
                         <phase>clean</phase>
                         <configuration>
-                            <file>${basedir}/jars/NXGReport.jar</file>
+                            <!--<file>${basedir}/jars/NXGReport.jar</file>
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>com.mylib</groupId>
                             <artifactId>NXGReport</artifactId>
                             <version>0.0.1</version>
                             <packaging>jar</packaging>
-                            <generatePom>true</generatePom>
+                            <generatePom>true</generatePom>-->
                             <file>${basedir}\jars\customizer.jar</file>
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>com.mylib</groupId>
@@ -84,13 +84,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.mylib</groupId>
-            <artifactId>NXGReport</artifactId>
-            <version>0.0.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}\jars\NXGReport.jar</systemPath>
-        </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>

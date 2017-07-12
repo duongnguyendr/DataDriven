@@ -2,14 +2,20 @@ package com.auvenir.ui.services.auditor;
 
 import com.auvenir.ui.pages.AuvenirPage;
 import com.auvenir.ui.pages.EngagementRequestPage;
-import com.auvenir.ui.pages.admin.AdminLoginPage;
-import com.auvenir.ui.pages.auditor.*;
+import com.auvenir.ui.pages.admin.AdminPage;
+import com.auvenir.ui.pages.auditor.auditorclient.AddNewClientPage;
+import com.auvenir.ui.pages.auditor.auditorclient.AuditorClientPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementPage;
+import com.auvenir.ui.pages.auditor.engagement.EngagementFilesPage;
+import com.auvenir.ui.pages.auditor.general.AuditorDashboardPage;
+import com.auvenir.ui.pages.auditor.general.AuditorOnBoardingPage;
+import com.auvenir.ui.pages.auditor.settings.AuditorSettingsPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.WebService;
-import com.kirwa.nxgreport.NXGReports;
-import com.kirwa.nxgreport.logging.LogAs;
-import com.kirwa.nxgreport.selenium.reports.CaptureScreen;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class AuditorService extends AbstractService {
     AuvenirPage auvenirPage;
     AuditorOnBoardingPage auditorOnBoardingPage;
-    AdminLoginPage adminLoginPage;
+    AdminPage adminPage;
     AuditorDashboardPage auditorDashboardPage;
     EngagementRequestPage engagementRequestPage;
     EngagementFilesPage engagementFilesPage;
@@ -38,7 +44,7 @@ public class AuditorService extends AbstractService {
         super(logger, driver);
         auvenirPage = new AuvenirPage(getLogger(), getDriver());
         auditorOnBoardingPage = new AuditorOnBoardingPage(getLogger(), getDriver());
-        adminLoginPage = new AdminLoginPage(getLogger(), getDriver());
+        adminPage = new AdminPage(getLogger(), getDriver());
         auditorDashboardPage = new AuditorDashboardPage(getLogger(), getDriver());
         engagementRequestPage = new EngagementRequestPage(getLogger(), getDriver());
         engagementFilesPage = new EngagementFilesPage(getLogger(), getDriver());
@@ -82,12 +88,12 @@ public class AuditorService extends AbstractService {
         }
     }
 
-    public void verifyBodyLoginPage() {
-        auvenirPage.verifyBodyLoginPage();
+    public void verifyBodyHomePage() {
+        auvenirPage.verifyBodyHomePage();
     }
 
-    public void verifyFooterLoginPage() {
-        auvenirPage.verifyFooter();
+    public void verifyFooterHomePage() {
+        auvenirPage.verifyFooterOfHomepage();
     }
 
     public void verifyEmailLoginForm() {
@@ -96,7 +102,7 @@ public class AuditorService extends AbstractService {
 
     public void verifyLoginWithEmail(String email) {
         auvenirPage.verifyLoginWithEmail(email);
-        auvenirPage.verifyApprovePopupDisplayed();
+        //auvenirPage.verifyApprovePopupDisplayed();
     }
 
     public void verifyPersonalPage() {
@@ -131,39 +137,19 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyAdminLoginPage() {
-        try {
-            adminLoginPage.verifyAdminLoginPage();
-            NXGReports.addStep("Admin Login is able to login correctly", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Admin Login is able to login correctly", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        adminPage.verifyHeaderAdminPage();
     }
 
-    public void verifyChangeActiveStatus(String userType, String email, String dateCreated) {
-        try {
-            adminLoginPage.getEleChangeActiveStatus(userType, email, dateCreated);
-            NXGReports.addStep("status of auditor changed to ACTIVE.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("status of auditor changed to ACTIVE.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+    public void verifyChangeActiveStatus(String userType, String email, String dateCreated) throws InterruptedException {
+        adminPage.getEleChangeActiveStatus(userType, email, dateCreated);
     }
 
     public void verifyheaderPage() {
-        try {
-            auvenirPage.verifyHeader();
-            NXGReports.addStep("verify header page.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify header page.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auvenirPage.verifyHeader();
     }
 
     public void verifyDisplayElementInAuditorDashBoardPage() {
-        try {
-            auditorDashboardPage.verifyDisplayElementOnAuditorDashBoardPage();
-            NXGReports.addStep("verify element on auditor dashboard page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element on auditor dashboard page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorDashboardPage.verifyDisplayElementOnAuditorDashBoardPage();
     }
 
     public void clickRequestLink() {
@@ -171,21 +157,11 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyDisplayElementInEngagementRequestPage() {
-        try {
-            engagementRequestPage.verifyDisplayElementInRequestPage();
-            NXGReports.addStep("verify element on engagement request page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element on engagement request page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        engagementRequestPage.verifyDisplayElementInRequestPage();
     }
 
     public void verifyDisplayElementInEngagementFilesPage() {
-        try {
-            engagementFilesPage.verifyDisplayElementInEngagementFilesPage();
-            NXGReports.addStep("verify element in engagement files manager page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in engagement files manager page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        engagementFilesPage.verifyDisplayElementInEngagementFilesPage();
     }
 
     public void clickFilesLink() {
@@ -196,14 +172,16 @@ public class AuditorService extends AbstractService {
         auditorDashboardPage.clickActivityLink();
     }
 
+    public void clickTeamLink() {
+        auditorDashboardPage.clickTeamLink();
+    }
 
     public void verifyDisplayElementInEngagementActivityPage() {
-        try {
-            auditorDashboardPage.verifyDisplayElementInActivityPage();
-            NXGReports.addStep("verify element in engagement activity page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in engagement activity page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorDashboardPage.verifyDisplayElementInActivityPage();
+    }
+
+    public void verifyDisplayElementInEngagementTeamPage() {
+        auditorDashboardPage.verifyDisplayElementInTeamPage();
     }
 
     public void clickClientsLink() {
@@ -215,30 +193,15 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyDisplayElementInAddNewClientPage() {
-        try {
-            addNewClientPage.verifyDisplayElementInAddNewClientPage();
-            NXGReports.addStep("verify element in add new client page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in add new client page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        addNewClientPage.verifyDisplayElementInAddNewClientPage();
     }
 
     public void auditorPageHeaderContent() {
-        try {
-            auditorEngagementPage.auditorPageHeaderContent();
-            NXGReports.addStep("verify auditor client page header content.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify auditor client page header content.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorEngagementPage.auditorPageHeaderContent();
     }
 
     public void verifyDisplayElementInClientPage() {
-        try {
-            auditorClientPage.verifyDisplayElementInClientPage();
-            NXGReports.addStep("verify element in client page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in client page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorClientPage.verifyDisplayElementInClientPage();
     }
 
     public void clickdropDownSetingLink() {
@@ -246,21 +209,11 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyDisplayElementInAuditorAccountSettingPage() {
-        try {
-            auditorSettingsPage.verifyDisplayElementInAuditorAccountSettingPage();
-            NXGReports.addStep("verify element in auditor account setting page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in auditor setting account page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorSettingsPage.verifyDisplayElementInAuditorAccountSettingPage();
     }
 
     public void verifyDisplayElementInDeActivePage() {
-        try {
-            adminLoginPage.verifyDisplayElementInDeActivePage();
-            NXGReports.addStep("verify element in deactive page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in deactive page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        adminPage.verifyDisplayElementInDeActivePage();
     }
 
     public void navigateToAuditorAccountSetting() {
@@ -269,21 +222,11 @@ public class AuditorService extends AbstractService {
     }
 
     public void verifyDisplayElementInAuditorNotificationSettingPage() {
-        try {
-            auditorSettingsPage.verifyDisplayElementInAuditorNotificationSettingPage();
-            NXGReports.addStep("verify element in auditor notification setting page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in auditor notification setting page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorSettingsPage.verifyDisplayElementInAuditorNotificationSettingPage();
     }
 
     public void verifyDisplayElementInArchivePage() {
-        try {
-            auditorDashboardPage.verifyDisplayElementInArchivePage();
-            NXGReports.addStep("verify element in auditor archive page displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("verify element in auditor archive page displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
+        auditorDashboardPage.verifyDisplayElementInArchivePage();
     }
 
     /**

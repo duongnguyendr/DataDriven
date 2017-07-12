@@ -39,12 +39,12 @@ public class TestngListener implements ITestListener {
 		Date date = new Date();
 	    SimpleDateFormat sdtf=new SimpleDateFormat("dd-MM-yyyy_hh_mm_ss");
 	    sdateTime = sdtf.format(date);
-		sHtmlReports=new File(GenericService.sDirPath+"//..//Reports//HTMLReports");
-		sTestngReports= new File(GenericService.sDirPath+"//..//Reports//TestNGReports");
-		sPdfReports = new File(GenericService.sDirPath+"//..//Reports//PDFReports");
+		sHtmlReports=new File(GenericService.sDirPath+"//Reports//HTMLReports");
+		sTestngReports= new File(GenericService.sDirPath+"//Reports//TestNGReports");
+		sPdfReports = new File(GenericService.sDirPath+"//Reports//PDFReports");
 		if(!sHtmlReports.exists())
 		{
-			FileUtils.forceMkdir(sHtmlReports);		
+			FileUtils.forceMkdir(sHtmlReports);
 		}
 		if(!sTestngReports.exists())
 		{
@@ -54,7 +54,9 @@ public class TestngListener implements ITestListener {
 		{
 			FileUtils.forceMkdir(sPdfReports);	
 		}
-		System.setProperty("KIRWA.reporter.config", "KIRWA.properties");	
+		/*System.setProperty("KIRWA.reporter.config", "KIRWA.properties");*/
+		System.setProperty("HTMLREPORT.reporter.config", "KIRWA.properties");
+
 	}
 
 	public void onTestStart(ITestResult result) 
@@ -67,7 +69,11 @@ public class TestngListener implements ITestListener {
 		sDescription.add(result.getMethod().getDescription());
 		iPassCount = iPassCount+1;
 		sTestName.add(result.getName().toString());
-		sStatus.add("Passed");
+		if(null != result.getAttribute("passedButFailed") && result.getAttribute("passedButFailed").equals("passedButFailed")) {
+			sStatus.add("Failed");
+		}else {
+			sStatus.add("Passed");
+		}
 	}
 
 	public void onTestFailure(ITestResult result) 
@@ -99,14 +105,14 @@ public class TestngListener implements ITestListener {
 		 File testOuput = new File(GenericService.sDirPath+"\\tests-output");
 		 String sTestngReports= GenericService.sDirPath+"\\..\\Reports\\TestNGReports\\TestNG_"+sdateTime;
 		 pdfReports = new File(sPdfReports+"\\PDFReports"+sdateTime+".pdf");
-		 iPassCount=context.getPassedTests().size(); 
+		 iPassCount=context.getPassedTests().size();
 	     iFailCount=context.getFailedTests().size(); 
 	     iSkippedCount=context.getSkippedTests().size(); 
 	     iTotalExecuted = iPassCount+iFailCount+iSkippedCount;
 	     //GenericService.getPieChart(iPassCount,iFailCount,iSkippedCount);
 		//GenericService.getBarChart(iPassCount,iFailCount,iSkippedCount);
-		 GenericService.getPieChartFollowBrowser(sTestName,sStatus);
-		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);
+		 /*GenericService.getPieChartFollowBrowser(sTestName,sStatus);
+		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);*/
          pdf = new PdfGenerater();
 
      	try
