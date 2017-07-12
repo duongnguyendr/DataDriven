@@ -73,7 +73,7 @@
                             <file>${basedir}\jars\sikulixapi.jar</file>
                             <repositoryLayout>default</repositoryLayout>
                             <groupId>com.mylib</groupId>
-                            <artifactId>customizer</artifactId>
+                            <artifactId>sikulixapi</artifactId>
                             <version>0.0.1</version>
                             <packaging>jar</packaging>
                             <generatePom>true</generatePom>
