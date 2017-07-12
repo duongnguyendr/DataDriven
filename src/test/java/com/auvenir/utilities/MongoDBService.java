@@ -677,10 +677,10 @@ public class MongoDBService {
     }
 
     /**
-     * Remove all Engagement indicating the email(Object ID) in 'acl' array object in 'engagements' collection.
+     * Remove all the email(Object ID) in 'acl' array object in 'engagements' collection.
      * @param email the String email which has object ID displayed in 'acl' array object.
      */
-    public static void removeEngagementByInvitedClientEmail(String email) {
+    public static void removeInvitedClientInEngagementCollection(String email) {
         String objectId = null;
         int count = 0;
         try {
@@ -694,7 +694,11 @@ public class MongoDBService {
                     DBObject dBbject = curs.next();
                     // shows the whole result document
                     System.out.println("Engagement ObjectID: " + dBbject.get("_id"));
-                    dBCollection.remove(dBbject);
+                    BasicDBObject aclObject = new BasicDBObject("acl", new BasicDBObject("id", new ObjectId(objectId)));
+                    dBCollection.update(searchQuery, new BasicDBObject("$pull", aclObject));
+//                    BasicDBObject toDoObject = new BasicDBObject("todos", new BasicDBObject("clientAssignee", new ObjectId(objectId)));
+//                    dBCollection.update(searchQuery, new BasicDBObject("$pull", toDoObject));
+//                    dBCollection.remove(dBbject);
                     count++;
                 }
             }
@@ -710,10 +714,10 @@ public class MongoDBService {
     }
 
     /**
-     * Remove all business indicating the email(Object ID) in 'acl' array object in 'businesses' collection.
+     * Remove all the email(Object ID) in 'acl' array object in 'businesses' collection.
      * @param email the String email which has object ID displayed in 'acl' array object.
      */
-    public static void removeBusinessByInvitedClientEmail(String email) {
+    public static void removeInvitedClientInBusinessesCollection(String email) {
         String objectId = null;
         int count = 0;
         try {
@@ -727,7 +731,9 @@ public class MongoDBService {
                     DBObject dBbject = curs.next();
                     // shows the whole result document
                     System.out.println("Businesses ObjectID: " + dBbject.get("_id"));
-                    dBCollection.remove(dBbject);
+                    BasicDBObject aclObject = new BasicDBObject("acl", new BasicDBObject("id", new ObjectId(objectId)));
+                    dBCollection.update(searchQuery, new BasicDBObject("$pull", aclObject));
+//                    dBCollection.remove(dBbject);
                     count++;
                 }
             }
@@ -742,9 +748,14 @@ public class MongoDBService {
         }
     }
 
-    public static void removeUserAndIndicatedValueByEmail(String email) {
-        removeEngagementByInvitedClientEmail(email);
-        removeBusinessByInvitedClientEmail(email);
+    /**
+     * Remove Client User from database and all indicated value in 'acl' array object of Client User in Engagement and Business Collection.
+     * @param email
+     */
+    public static void removeClientAndIndicatedValueByEmail(String email) {
+        System.out.println("Deleted Client User and All Indicated Value.");
+        removeInvitedClientInEngagementCollection(email);
+        removeInvitedClientInBusinessesCollection(email);
         try {
             removeUserObjectByEmail(getCollection("users"), email);
         } catch (Exception e) {

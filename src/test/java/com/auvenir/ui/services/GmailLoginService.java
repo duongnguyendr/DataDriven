@@ -182,5 +182,9 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.verifyGoodbyeTitle(text);
     }
 
+    public void clickOnboardingInvitationLink() {
+        gmailLoginPo.clickOnboardingInvitationLink();
+    }
+
     /*-----------end of huy.huynh on 26/06/2017.*/
 }
