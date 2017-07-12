@@ -82,13 +82,13 @@ public class SmokeTest extends AbstractTest {
 //    final String strAdminEmail = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Admin");
     //final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
 
-   /* private String adminId, auditorId, clientId;
-    private String adminPassword, auditorPassword, clientPassword;
-    private String engagementName;
-    private String clientEmailPassword;
-    private String sData[];
-    private String testCaseId;
-    private SimpleDateFormat dateFormat;*/
+    /* private String adminId, auditorId, clientId;
+     private String adminPassword, auditorPassword, clientPassword;
+     private String engagementName;
+     private String clientEmailPassword;
+     private String sData[];
+     private String testCaseId;
+     private SimpleDateFormat dateFormat;*/
     private String timeStamp;
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin", dataProviderClass = SmokeDataProvider.class)
@@ -478,6 +478,7 @@ public class SmokeTest extends AbstractTest {
             NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     @Test(priority = 13, enabled = true, description = "Verify Client Assignee", dataProvider = "verifyClientAssignee", dataProviderClass = SmokeDataProvider.class)
     public void verifyClientAssignee(String auditorId, String auditorPassword, String engagement,
                                      String toDoName, String clientAssign) throws Exception {
@@ -509,6 +510,7 @@ public class SmokeTest extends AbstractTest {
             NXGReports.addStep("Verify Client Assignee.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     @Test(priority = 14, enabled = true, description = "Client verify engagement, assigned To-Do", dataProvider = "verifyClientEngagementOverView", dataProviderClass = SmokeDataProvider.class)
     public void verifyClientEngagementOverView(String clientId, String clientPassword, String engagement, String toDoName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -536,6 +538,7 @@ public class SmokeTest extends AbstractTest {
             NXGReports.addStep("Client verify engagement, assigned To-Do.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     @Test(priority = 15, enabled = true, description = "Verify Auditor post new comment on a ToDo.", dataProvider = "verifyAuditorPostComment", dataProviderClass = SmokeDataProvider.class)
     public void verifyAuditorPostComment(String auditorId, String auditorPwd, String engagementName,
                                          String toDoName, String commentContent) throws Exception {
@@ -573,6 +576,7 @@ public class SmokeTest extends AbstractTest {
             throw e;
         }
     }
+
     @Test(priority = 16, enabled = true, description = "Verify Client can see Auditor's post comment.", dataProvider = "verifyClientViewAuditorComment", dataProviderClass = SmokeDataProvider.class)
     public void verifyClientViewAuditorComment(String clientId, String clientPassword,
                                                String engagementName, String toDoName, String commentContent, boolean isClient) throws Exception {
@@ -797,10 +801,12 @@ public class SmokeTest extends AbstractTest {
             throw e;
         }
     }
+
     @Test(priority = 22, enabled = true, description = "Verify that Auditor can add new member.", dataProvider = "verifyInviteNewMemberAuditor", dataProviderClass = SmokeDataProvider.class)
-    public void verifyInviteNewMemberAuditor(String auditorId, String auditorPwd, String engagementName,
-                                             String auditorInvitedUserEmail, String fullNameMember,
-                                             String roleMember, String auditorInvitedUserPwd) throws Exception {
+    public void verifyInviteNewMemberAuditor(
+            String auditorId, String auditorPwd, String engagementName,
+            String auditorInvitedUserEmail, String fullNameMember,
+            String roleMember, String auditorInvitedUserPwd) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
@@ -857,6 +863,7 @@ public class SmokeTest extends AbstractTest {
             throw e;
         }
     }
+
     @Test(priority = 23, enabled = true, description = "verify that Assign ToDo Bulk Action", dataProvider = "verifyAssignToDoBulkAction", dataProviderClass = SmokeDataProvider.class)
     public void verifyAssignToDoBulkAction(String auditorId, String auditorPwd, String engagementName,
                                            String fullNameInvitedMember, String auditorInvitedId, String auditorInvitedUserPwd,
@@ -1152,7 +1159,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.clientDownloadAttachFile( pathOfUploadLocation, pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.clientDownloadAttachFile(pathOfUploadLocation, pathOfDownloadLocation, fileName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1332,19 +1339,6 @@ public class SmokeTest extends AbstractTest {
             throw e;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

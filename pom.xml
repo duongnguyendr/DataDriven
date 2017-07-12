@@ -70,13 +70,6 @@
                             <packaging>jar</packaging>
                             <generatePom>true</generatePom>
 
-                            <file>${basedir}\jars\sikulixapi.jar</file>
-                            <repositoryLayout>default</repositoryLayout>
-                            <groupId>com.mylib</groupId>
-                            <artifactId>sikuliapi</artifactId>
-                            <version>0.0.1</version>
-                            <packaging>jar</packaging>
-                            <generatePom>true</generatePom>
                         </configuration>
 
                         <goals>
@@ -186,6 +179,12 @@
             <artifactId>json</artifactId>
             <version>20160810</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.sikulixapi</groupId>
+            <artifactId>sikuliapi</artifactId>
+            <systemPath>${basedir}\jars\sikulixapi.jar</systemPath>
+            <version>1.0</version>
+            <scope>system</scope>
+        </dependency>
     </dependencies>
 </project>
