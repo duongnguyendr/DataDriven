@@ -1,6 +1,5 @@
 package com.auvenir.ui.dataprovider;
 
-import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import org.testng.annotations.DataProvider;
 
@@ -223,7 +222,7 @@ public class SmokeDataProvider {
 
     @DataProvider(name = "verifyClientEngagementOverView")
     public static Object[][] getVerifyClientEngagementOverView(){
-        String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
+        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
         String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         String engagement = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
         String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "ToDo Name");
