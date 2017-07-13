@@ -217,7 +217,7 @@ public class GenericService {
         }
     }
 
-    public static void sendMail(int iPassCount, int iFailCount, int skippedCount, int iTotalExecuted, File pdfReports, ArrayList sTestName, ArrayList sStatus) {
+    public static void sendMail(File pdfReports, ArrayList sTestName, ArrayList sStatus, String timeStamp) {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         sExecutionDate = simpleDateFormat.format(date);
@@ -292,7 +292,7 @@ public class GenericService {
             String browserName = browserList.get(i).substring(0,browserList.get(i).length()-1);
             sbBrowserImageRow.append("<tr><td>"+ browserName +"&nbsp;&nbsp;&nbsp;</td>");
             sbBrowserImageRow.append("&nbsp;&nbsp;&nbsp;");
-            sbBrowserImageRow.append("<td><img src=\"cid:"+ browserName +"\" style=\"height:200px; width: 200px; outline: thin solid;\"></td>");
+            sbBrowserImageRow.append("<td><img src=\"cid:"+ browserName + "_" + timeStamp +"\" style=\"height:200px; width: 200px; outline: thin solid;\"></td>");
             sbBrowserImageRow.append("</tr>");
         }
         String message = "<p>Team,</p><div style=\"font-family:Verdana;\">Find the tests automation execution status as below. For detail information, find the attached pdf file.</div><p></p><p></p><p></p><p></p>"
@@ -353,18 +353,20 @@ public class GenericService {
             for (int i = 0; i < totalBrowser; i++) {
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
                 String browserName = browserList.get(i).substring(0, browserList.get(i).length() - 1);
+                /*DataSource fds = new FileDataSource(
+                        System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName + "_" + timeStamp +".png");*/
                 DataSource fds = new FileDataSource(
-                        System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName +".png");
+                        System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp + "\\PieChart"+ browserName + "_" + timeStamp +".png");
                 messageBodyPart.setDataHandler(new DataHandler(fds));
-                messageBodyPart.setHeader("Content-ID", "<" + browserName + ">");
+                messageBodyPart.setHeader("Content-ID", "<" + browserName + "_" + timeStamp + ">");
                 multipart.addBodyPart(messageBodyPart);
             }
+
             /*DataSource fds = new FileDataSource(
                     System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChartCHROME.png");
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "<image>");*/
             multipart.addBodyPart(textPart);
-
             MimeBodyPart attachementPart = new MimeBodyPart();
             // attachementPart.attachFile(new File(pdfReports));
             attachementPart.attachFile(pdfReports);
@@ -519,6 +521,10 @@ public class GenericService {
                                                              ArrayList sBrowserList, String sBrowser,
                                                              ArrayList sStatus, String statusTest){
         int count =0 ;
+        if((sBrowserList.size() != sTestNames.size()) ||(sStatus.size() != sTestNames.size())){
+            return count;
+        }
+
         for (int i = 0; i < sTestNames.size(); i++) {
             if (sBrowserList.get(i).equals(sBrowser) &&
                     sStatus.get(i).equals(statusTest)){
@@ -534,7 +540,7 @@ public class GenericService {
      * @param sTestNames : test name list
      * @param sStatus : status test name list
      */
-    public static void getPieChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus) {
+    public static void getPieChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus, String timeStamp) {
         List<String> browserList = getBrowserList();
         int totalBrowser = browserList.size();
         for(int i=0; i<totalBrowser; i++){
@@ -573,8 +579,11 @@ public class GenericService {
             plot.setLabelGenerator(gen);
             plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
             try {
+                /*ChartUtilities.saveChartAsJPEG(
+                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName + "_" + timeStamp +".png"), piechart,
+                        400, 400);*/
                 ChartUtilities.saveChartAsJPEG(
-                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName +".png"), piechart,
+                        new File(System.getProperty("user.dir") + "\\Reports\\ImageReports\\"+ timeStamp + "\\PieChart"+ browserName + "_" + timeStamp +".png"), piechart,
                         400, 400);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -589,7 +598,7 @@ public class GenericService {
      * @param sTestNames : test name list
      * @param sStatus : status test name list
      */
-    public static void getBarChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus) {
+    public static void getBarChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus, String timeStamp) {
         List<String> browserList = getBrowserList();
         int totalBrowser = browserList.size();
         for (int i = 0; i < totalBrowser; i++) {
@@ -649,8 +658,11 @@ public class GenericService {
             renderer.setSeriesPaint(2, gp2);
 
             try {
+                /*ChartUtilities.saveChartAsJPEG(
+                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart"+ browserName + "_" + timeStamp +".png"), chart,
+                        400, 400);*/
                 ChartUtilities.saveChartAsJPEG(
-                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart"+ browserName +".png"), chart,
+                        new File(System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp +"\\BarChart"+ browserName + "_" + timeStamp +".png"), chart,
                         400, 400);
             } catch (IOException e) {
                 // TODO Auto-generated catch block

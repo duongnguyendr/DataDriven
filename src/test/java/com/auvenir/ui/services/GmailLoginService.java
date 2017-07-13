@@ -64,7 +64,7 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.selectActiveEmaill();
     }
 
-    public void navigateToResetPwdPage(){
+    public void navigateToResetPwdPage() {
         gmailLoginPo.clickResetPasswordLink();
     }
 

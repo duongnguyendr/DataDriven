@@ -38,7 +38,7 @@ public class PdfGenerater {
     private static Font tableCellValue = new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
     private static String browserAutomationTest[] = new String[] {"CHROME","FIREFOX","IE","SAFARI","EDGE"};
 
-    public static void toExecute(ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkippedCount, File pdfReports) {
+    public static void toExecute(ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkippedCount, File pdfReports, String timeStamp) {
         PdfWriter writer = null;
         // String FILE = sTestngReports;
         try {
@@ -46,7 +46,7 @@ public class PdfGenerater {
             writer = PdfWriter.getInstance(document, new FileOutputStream(pdfReports));
             document.open();
             addMetaData(document);
-            addTitlePage(document, sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount);
+            addTitlePage(document, sTestName, sDescription, sStatus, iPassCount, iFailCount, iSkippedCount, timeStamp);
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,7 +62,7 @@ public class PdfGenerater {
         document.addHeader("Test", "Selenium");
     }
 
-    private static void addTitlePage(Document document, ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkipCount) throws DocumentException, IOException {
+    private static void addTitlePage(Document document, ArrayList sTestName, ArrayList sDescription, ArrayList sStatus, int iPassCount, int iFailCount, int iSkipCount, String timeStamp) throws DocumentException, IOException {
 
         //Header header = new Header("header", "D:\\Auvenir.png") ;
         //document.addHeader("tests", "D:\\Auvenir.png");
@@ -132,8 +132,11 @@ public class PdfGenerater {
             table.setWidths(new int[]{1, 1});
             table.setSpacingAfter(10);
 
-            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart" + browserName + ".png"));
-            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart" + browserName + ".png"));
+            /*table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart" + browserName + "_" + timeStamp + ".png"));
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart" + browserName + "_" + timeStamp + ".png"));*/
+
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp +"\\PieChart" + browserName + "_" + timeStamp + ".png"));
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp +"\\BarChart" + browserName + "_" + timeStamp + ".png"));
             document.add(table);
         }
 
