@@ -30,7 +30,7 @@ public class EngagementTest extends AbstractTest {
     public void verifyFooterAuditorEngagementPage(String auditorId,String auditorPwd) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
-
+        auditorId = GenericService.sBrowserData + auditorId;
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -59,7 +59,7 @@ public class EngagementTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
-
+        auditorId = GenericService.sBrowserData + auditorId;
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -94,6 +94,7 @@ public class EngagementTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
+        auditorId = GenericService.sBrowserData + auditorId;
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -120,6 +121,7 @@ public class EngagementTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
+        auditorId = GenericService.sBrowserData + auditorId;
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -147,6 +149,7 @@ public class EngagementTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
+        auditorId = GenericService.sBrowserData + auditorId;
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -174,6 +177,7 @@ public class EngagementTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(),getDriver());
+        auditorId = GenericService.sBrowserData + auditorId;
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
@@ -236,6 +240,7 @@ public class EngagementTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.sBrowserData + auditorId;
         try {
             //Go to marketing page
             marketingService.goToBaseURL();
