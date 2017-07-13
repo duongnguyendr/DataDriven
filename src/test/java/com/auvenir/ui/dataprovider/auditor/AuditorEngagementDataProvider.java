@@ -1,5 +1,6 @@
 package com.auvenir.ui.dataprovider.auditor;
 
+import com.auvenir.ui.dataprovider.commonData.CommonDataProvider;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import org.testng.annotations.DataProvider;
@@ -7,7 +8,7 @@ import org.testng.annotations.DataProvider;
 /**
  * Created by tan.pham on 7/6/2017.
  */
-public class AuditorEngagementDataProvider {
+public class AuditorEngagementDataProvider extends CommonDataProvider{
 
     private static String engagementName = "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
     private static String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
