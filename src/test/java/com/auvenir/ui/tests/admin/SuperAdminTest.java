@@ -23,7 +23,7 @@ public class SuperAdminTest extends AbstractTest {
     MarketingService marketingService;
 
     @Test(priority = 1, enabled = true, description = "To Verify the GUI of Admin Home Page", dataProvider = "verifyGUISuperAdminHomePage", dataProviderClass = AdminDataProvider.class)
-    public void verifyGUISuperAdminHomePage(String superAdminId, String superAdminPwd, String superAdminFullName, String superAdminPhoneNum, String adminEmail,
+    public void verifyGUISuperAdminHomePage(String superAdminId, String superAdminPwd, String adminEmail,
                                             String clientEmail, String auditorEmail, String onboardingStatus, String waitListedStatus, String activeStatus, String inactiveStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -62,17 +62,6 @@ public class SuperAdminTest extends AbstractTest {
             marketingService.refreshHomePage();
             adminService.verifyUserIsChangeStatusOnTheList(adminEmail, activeStatus);
 
-            adminService.navigateToSettingPage();
-            adminAccountSettingsService.verifyPersonalInfoRendered(superAdminFullName, superAdminId, superAdminPhoneNum);
-            adminAccountSettingsService.inputFullNameAdminSettingPage(superAdminFullName + "s");
-            adminAccountSettingsService.clickUpdateBTN();
-            marketingService.refreshHomePage();
-            adminService.verifyHeaderAdminPage();
-
-            adminService.navigateToSettingPage();
-            adminAccountSettingsService.verifyPersonalInfoRendered(superAdminFullName + "s", superAdminId, superAdminPhoneNum);
-            adminAccountSettingsService.inputFullNameAdminSettingPage(superAdminFullName);
-            adminAccountSettingsService.clickUpdateBTN();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the GUI of Super Admin Home Page.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -82,9 +71,8 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Admin Home Page", dataProvider = "getVerifyGUIAdminHomePage", dataProviderClass = AdminDataProvider.class)
-    public void verifyGUIAdminHomePage(String adminId, String adminPwd, String adminFullName, String adminPhoneNum,
-                                       String clientEmail, String auditorEmail, String onboardingStatus, String waitListedStatus) {
+    @Test(priority = 2, enabled = true, description = "To Verify the GUI of Admin Home Page", dataProvider = "verifyGUIAdminHomePage", dataProviderClass = AdminDataProvider.class)
+    public void verifyGUIAdminHomePage(String adminId, String adminPwd, String clientEmail, String auditorEmail, String onboardingStatus, String waitListedStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
@@ -113,6 +101,59 @@ public class SuperAdminTest extends AbstractTest {
             adminService.verifyUserIsChangeStatusOnTheList(auditorEmail, waitListedStatus);
             adminService.verifyAdminCannotChangeSttAdminUser();
 
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify the GUI of Admin Home Page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify the GUI of Admin Home Page: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 3, enabled = true, description = "To Verify Super Admin can change setting.", dataProvider = "verifySuperAdminChangeSetting", dataProviderClass = AdminDataProvider.class)
+    public void verifySuperAdminChangeSetting(String superAdminId, String superAdminPwd, String superAdminFullName, String superAdminPhoneNum) {
+        adminService = new AdminService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
+
+        superAdminId = GenericService.addBrowserPrefix(superAdminId);
+
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
+            adminService.verifyHeaderAdminPage();
+
+            adminService.navigateToSettingPage();
+            adminAccountSettingsService.verifyPersonalInfoRendered(superAdminFullName, superAdminId, superAdminPhoneNum);
+            adminAccountSettingsService.inputFullNameAdminSettingPage(superAdminFullName + "s");
+            adminAccountSettingsService.clickUpdateBTN();
+            marketingService.refreshHomePage();
+            adminService.verifyHeaderAdminPage();
+
+            adminService.navigateToSettingPage();
+            adminAccountSettingsService.verifyPersonalInfoRendered(superAdminFullName + "s", superAdminId, superAdminPhoneNum);
+            adminAccountSettingsService.inputFullNameAdminSettingPage(superAdminFullName);
+            adminAccountSettingsService.clickUpdateBTN();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify the GUI of Super Admin Home Page.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify the GUI of Super Admin Home Page: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 4, enabled = true, description = "To Verify the GUI of Admin Home Page", dataProvider = "verifyAdminChangeSetting", dataProviderClass = AdminDataProvider.class)
+    public void verifyAdminChangeSetting(String adminId, String adminPwd, String adminFullName, String adminPhoneNum) {
+        adminService = new AdminService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        adminAccountSettingsService = new AdminAccountSettingsService(getLogger(), getDriver());
+
+        adminId = GenericService.addBrowserPrefix(adminId);
+
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPwd);
+            adminService.verifyHeaderAdminPage();
+
             adminService.navigateToSettingPage();
             adminAccountSettingsService.verifyPersonalInfoRendered(adminFullName, adminId, adminPhoneNum);
             adminAccountSettingsService.inputFullNameAdminSettingPage(adminFullName + "s");
@@ -133,7 +174,7 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "To Verify Assign Super Admin Role", dataProvider = "verifyAssignSuperAdminRole", dataProviderClass = AdminDataProvider.class)
+    @Test(priority = 5, enabled = true, description = "To Verify Assign Super Admin Role", dataProvider = "verifyAssignSuperAdminRole", dataProviderClass = AdminDataProvider.class)
     public void verifyAssignSuperAdminRole(String superAdminId, String superAdminPwd, String adminId, String adminPwd, String adminFullName, String superAdminFullName) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -179,7 +220,7 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify flow SuperAdmin change status of Admin.", dataProvider = "verifyAssignSuperAdminRole", dataProviderClass = AdminDataProvider.class, testName = "sa_25, 26, 27")
+    @Test(priority = 6, enabled = true, description = "Verify flow SuperAdmin change status of Admin.", dataProvider = "verifySuperAdminChangeStatusAdmin", dataProviderClass = AdminDataProvider.class, testName = "sa_25, 26, 27")
     public void verifySuperAdminChangeStatusAdmin(String superAdminId, String superAdminPassword, String adminId, String inactiveStatus, String lockedStatus, String onboardingStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -215,7 +256,7 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify flow SuperAdmin change status of Auditor.", dataProvider = "verifySuperAdminChangeStatusAuditor", dataProviderClass = AdminDataProvider.class, testName = "sa_28, 29, 30, 31")
+    @Test(priority = 7, enabled = true, description = "Verify flow SuperAdmin change status of Auditor.", dataProvider = "verifySuperAdminChangeStatusAuditor", dataProviderClass = AdminDataProvider.class, testName = "sa_28, 29, 30, 31")
     public void verifySuperAdminChangeStatusAuditor(String superAdminId, String superAdminPassword, String auditorId, String inactiveStatus, String lockedStatus, String activeStatus, String waitListedStatus, String onboardingStatus) {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -266,7 +307,7 @@ public class SuperAdminTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify flow SuperAdmin change status of Client.", dataProvider = "verifySuperAdminChangeStatusClient", dataProviderClass = AdminDataProvider.class, testName = "sa_32,33,34,35")
+    @Test(priority = 8, enabled = true, description = "Verify flow SuperAdmin change status of Client.", dataProvider = "verifySuperAdminChangeStatusClient", dataProviderClass = AdminDataProvider.class, testName = "sa_32,33,34,35")
     public void verifySuperAdminChangeStatusClient(String superAdminId, String superAdminPassword, String clientId, String inactiveStatus, String lockedStatus, String activeStatus, String waitListedStatus, String onboardingStatus) throws Exception {
         adminService = new AdminService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -316,4 +357,6 @@ public class SuperAdminTest extends AbstractTest {
             throw e;
         }
     }
+
+
 }
