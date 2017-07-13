@@ -353,8 +353,10 @@ public class GenericService {
             for (int i = 0; i < totalBrowser; i++) {
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
                 String browserName = browserList.get(i).substring(0, browserList.get(i).length() - 1);
+                /*DataSource fds = new FileDataSource(
+                        System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName + "_" + timeStamp +".png");*/
                 DataSource fds = new FileDataSource(
-                        System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName + "_" + timeStamp +".png");
+                        System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp + "\\PieChart"+ browserName + "_" + timeStamp +".png");
                 messageBodyPart.setDataHandler(new DataHandler(fds));
                 messageBodyPart.setHeader("Content-ID", "<" + browserName + "_" + timeStamp + ">");
                 multipart.addBodyPart(messageBodyPart);
@@ -577,8 +579,11 @@ public class GenericService {
             plot.setLabelGenerator(gen);
             plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
             try {
-                ChartUtilities.saveChartAsJPEG(
+                /*ChartUtilities.saveChartAsJPEG(
                         new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName + "_" + timeStamp +".png"), piechart,
+                        400, 400);*/
+                ChartUtilities.saveChartAsJPEG(
+                        new File(System.getProperty("user.dir") + "\\Reports\\ImageReports\\"+ timeStamp + "\\PieChart"+ browserName + "_" + timeStamp +".png"), piechart,
                         400, 400);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -653,8 +658,11 @@ public class GenericService {
             renderer.setSeriesPaint(2, gp2);
 
             try {
-                ChartUtilities.saveChartAsJPEG(
+                /*ChartUtilities.saveChartAsJPEG(
                         new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart"+ browserName + "_" + timeStamp +".png"), chart,
+                        400, 400);*/
+                ChartUtilities.saveChartAsJPEG(
+                        new File(System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp +"\\BarChart"+ browserName + "_" + timeStamp +".png"), chart,
                         400, 400);
             } catch (IOException e) {
                 // TODO Auto-generated catch block

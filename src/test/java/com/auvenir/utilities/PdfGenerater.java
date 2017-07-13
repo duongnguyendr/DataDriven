@@ -132,8 +132,11 @@ public class PdfGenerater {
             table.setWidths(new int[]{1, 1});
             table.setSpacingAfter(10);
 
-            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart" + browserName + "_" + timeStamp + ".png"));
-            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart" + browserName + "_" + timeStamp + ".png"));
+            /*table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart" + browserName + "_" + timeStamp + ".png"));
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart" + browserName + "_" + timeStamp + ".png"));*/
+
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp +"\\PieChart" + browserName + "_" + timeStamp + ".png"));
+            table.addCell(createImageCell(System.getProperty("user.dir") + "\\Reports\\ImageReports\\" + timeStamp +"\\BarChart" + browserName + "_" + timeStamp + ".png"));
             document.add(table);
         }
 

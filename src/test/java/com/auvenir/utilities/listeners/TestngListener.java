@@ -23,6 +23,7 @@ public class TestngListener implements ITestListener {
 	public static File sHtmlReports;
 	public static File sTestngReports;
 	public static File sPdfReports;
+	public static File sImageReports;
 	public static String sdateTime;
 	public static int iPassCount=0;
 	public static int iFailCount=0;
@@ -42,6 +43,7 @@ public class TestngListener implements ITestListener {
 		sHtmlReports=new File(GenericService.sDirPath+"//Reports//HTMLReports");
 		sTestngReports= new File(GenericService.sDirPath+"//Reports//TestNGReports");
 		sPdfReports = new File(GenericService.sDirPath+"//Reports//PDFReports");
+		sImageReports = new File(GenericService.sDirPath+"//Reports//ImageReports");
 		if(!sHtmlReports.exists())
 		{
 			FileUtils.forceMkdir(sHtmlReports);
@@ -54,6 +56,12 @@ public class TestngListener implements ITestListener {
 		{
 			FileUtils.forceMkdir(sPdfReports);	
 		}
+
+		if(!sImageReports.exists())
+		{
+			FileUtils.forceMkdir(sImageReports);
+		}
+
 		/*System.setProperty("KIRWA.reporter.config", "KIRWA.properties");*/
 		System.setProperty("HTMLREPORT.reporter.config", "KIRWA.properties");
 
