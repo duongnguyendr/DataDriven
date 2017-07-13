@@ -436,10 +436,14 @@ public class AuditorTodoListPage extends AbstractPage {
     /*
  Vien.Pham add new method.
   */
-    public void waitForNumberOfTodoListIncreased() throws Exception {
-        getLogger().info("Waiting for number of Todo list change...");
-        int sizeOfTodoListExpected = tableTodoList.size() + 1;
-        waitForSizeListElementChanged(tableTodoList, "Table Todolist", sizeOfTodoListExpected);
+    @FindBy(xpath = "//span[@class='auvicon-team engagement-icon']")
+    WebElement teamBtn;
+    @FindBy(id = "team-inviteMember-btn")
+    WebElement inviteAuditorBtn;
+    public void navigateToInviteGeneralAuditor(){
+        clickElement(teamBtn);
+        waitForTextValueChanged(inviteAuditorBtn,"invite auditor Btn","Invite New Member");
+        clickElement(inviteAuditorBtn);
     }
 
 

@@ -1692,16 +1692,26 @@ public class AuditorEngagementPage extends AbstractPage {
                 }else{
                     expectedArray[i] = webElementList.get(i).getText().trim().split("%")[0];
                 }
-
             }
 
 
             for (int i = 0; i < count - 1; i++) {
                 for(int j= i +1; j< count; j++){
-                    if(expectedArray[i].compareTo(expectedArray[j]) >0){
+                    boolean isSortAscending = true;
+                    if(!isCompleteData) {
+                        if (expectedArray[i].compareTo(expectedArray[j]) > 0) {
+                            isSortAscending = false;
+                        }
+                    }else{
+                        if(Integer.parseInt(expectedArray[i]) > Integer.parseInt(expectedArray[j])){
+                            isSortAscending = false;
+                        }
+                    }
+
+                    if(!isSortAscending){
                         AbstractService.sStatusCnt++;
-                        NXGReports.addStep("Data list of "+ columnName +" is sort ascending", LogAs.FAILED,
-                                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),"Data list are not sort ascending");
+                        NXGReports.addStep("Data list of " + columnName + " is sort ascending", LogAs.FAILED,
+                                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), "Data list are not sort ascending");
                         return;
                     }
                 }
@@ -1724,15 +1734,25 @@ public class AuditorEngagementPage extends AbstractPage {
                 }else{
                     expectedArray[i] = webElementList.get(i).getText().trim().split("%")[0];
                 }
-
             }
 
             for (int i = 0; i < count - 1; i++) {
                 for(int j= i +1; j< count; j++){
-                    if(expectedArray[i].compareTo(expectedArray[j]) < 0){
+                    boolean isSortDescending = true;
+                    if(!isCompleteData) {
+                        if (expectedArray[i].compareTo(expectedArray[j]) < 0) {
+                            isSortDescending = false;
+                        }
+                    }else{
+                        if(Integer.parseInt(expectedArray[i]) < Integer.parseInt(expectedArray[j])){
+                            isSortDescending = false;
+                        }
+                    }
+
+                    if(!isSortDescending){
                         AbstractService.sStatusCnt++;
-                        NXGReports.addStep("Data list of "+ columnName +" is sort descending", LogAs.FAILED,
-                                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),"Data list are not sort descending");
+                        NXGReports.addStep("Data list of " + columnName + " is sort ascending", LogAs.FAILED,
+                                new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), "Data list are not sort ascending");
                         return;
                     }
                 }

@@ -111,8 +111,8 @@ public class TestngListener implements ITestListener {
 	     iTotalExecuted = iPassCount+iFailCount+iSkippedCount;
 	     //GenericService.getPieChart(iPassCount,iFailCount,iSkippedCount);
 		//GenericService.getBarChart(iPassCount,iFailCount,iSkippedCount);
-		 GenericService.getPieChartFollowBrowser(sTestName,sStatus);
-		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);
+		 /*GenericService.getPieChartFollowBrowser(sTestName,sStatus);
+		 GenericService.getBarChartFollowBrowser(sTestName,sStatus);*/
          pdf = new PdfGenerater();
 
      	try

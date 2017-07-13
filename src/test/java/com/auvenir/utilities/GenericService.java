@@ -217,7 +217,7 @@ public class GenericService {
         }
     }
 
-    public static void sendMail(int iPassCount, int iFailCount, int skippedCount, int iTotalExecuted, File pdfReports, ArrayList sTestName, ArrayList sStatus) {
+    public static void sendMail(File pdfReports, ArrayList sTestName, ArrayList sStatus, String timeStamp) {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         sExecutionDate = simpleDateFormat.format(date);
@@ -292,7 +292,7 @@ public class GenericService {
             String browserName = browserList.get(i).substring(0,browserList.get(i).length()-1);
             sbBrowserImageRow.append("<tr><td>"+ browserName +"&nbsp;&nbsp;&nbsp;</td>");
             sbBrowserImageRow.append("&nbsp;&nbsp;&nbsp;");
-            sbBrowserImageRow.append("<td><img src=\"cid:"+ browserName +"\" style=\"height:200px; width: 200px; outline: thin solid;\"></td>");
+            sbBrowserImageRow.append("<td><img src=\"cid:"+ browserName + "_" + timeStamp +"\" style=\"height:200px; width: 200px; outline: thin solid;\"></td>");
             sbBrowserImageRow.append("</tr>");
         }
         String message = "<p>Team,</p><div style=\"font-family:Verdana;\">Find the tests automation execution status as below. For detail information, find the attached pdf file.</div><p></p><p></p><p></p><p></p>"
@@ -354,17 +354,17 @@ public class GenericService {
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
                 String browserName = browserList.get(i).substring(0, browserList.get(i).length() - 1);
                 DataSource fds = new FileDataSource(
-                        System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName +".png");
+                        System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName + "_" + timeStamp +".png");
                 messageBodyPart.setDataHandler(new DataHandler(fds));
-                messageBodyPart.setHeader("Content-ID", "<" + browserName + ">");
+                messageBodyPart.setHeader("Content-ID", "<" + browserName + "_" + timeStamp + ">");
                 multipart.addBodyPart(messageBodyPart);
             }
+
             /*DataSource fds = new FileDataSource(
                     System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChartCHROME.png");
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "<image>");*/
             multipart.addBodyPart(textPart);
-
             MimeBodyPart attachementPart = new MimeBodyPart();
             // attachementPart.attachFile(new File(pdfReports));
             attachementPart.attachFile(pdfReports);
@@ -534,7 +534,7 @@ public class GenericService {
      * @param sTestNames : test name list
      * @param sStatus : status test name list
      */
-    public static void getPieChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus) {
+    public static void getPieChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus, String timeStamp) {
         List<String> browserList = getBrowserList();
         int totalBrowser = browserList.size();
         for(int i=0; i<totalBrowser; i++){
@@ -574,7 +574,7 @@ public class GenericService {
             plot.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
             try {
                 ChartUtilities.saveChartAsJPEG(
-                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName +".png"), piechart,
+                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\PieChart"+ browserName + "_" + timeStamp +".png"), piechart,
                         400, 400);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -589,7 +589,7 @@ public class GenericService {
      * @param sTestNames : test name list
      * @param sStatus : status test name list
      */
-    public static void getBarChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus) {
+    public static void getBarChartFollowBrowser(ArrayList sTestNames,ArrayList sStatus, String timeStamp) {
         List<String> browserList = getBrowserList();
         int totalBrowser = browserList.size();
         for (int i = 0; i < totalBrowser; i++) {
@@ -650,7 +650,7 @@ public class GenericService {
 
             try {
                 ChartUtilities.saveChartAsJPEG(
-                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart"+ browserName +".png"), chart,
+                        new File(System.getProperty("user.dir") + "\\src\\test\\resources\\images\\BarChart"+ browserName + "_" + timeStamp +".png"), chart,
                         400, 400);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -767,27 +767,30 @@ public class GenericService {
     public static String getTestDataFromExcelNoBrowserPrefix(String SheetName,String rowName, String columnName){
         String userData = null;
         try{
-            String userDataExcel=null;
+            String userDataExcel = null;
             FileInputStream fis = new FileInputStream(GenericService.sTestDataFile);
             Workbook wb = WorkbookFactory.create(fis);
             Sheet sht = wb.getSheet(SheetName);
-            /*System.out.println(SheetName);*/
+//            System.out.println(SheetName);
             int iRowNum = sht.getLastRowNum();
-            int k = 0;
             for (int i = 1; i <= iRowNum; i++) {
-                if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
-                    int iCellNum = sht.getRow(i).getLastCellNum();
-                    /*System.out.println("Row: " + i);
-                    System.out.println("The number of Columns:" + iCellNum);
-                    System.out.println(columnName);*/
-                    for (int j = 1; j <= iCellNum; j++) {
-                        if(sht.getRow(0).getCell(j).toString().equals(columnName)){
-                            userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
-                            //System.out.println("Data login: "+userDataExcel);
-                            break;
+                if (sht.getRow(i).getCell(0) != null) {
+                    if (sht.getRow(i).getCell(0).toString().equals(rowName)) {
+                        int iCellNum = sht.getRow(i).getLastCellNum();
+                        /*System.out.println("Row: " + i);
+                        System.out.println("The number of Columns:" + iCellNum);
+                        System.out.println(columnName);*/
+                        for (int j = 1; j <= iCellNum; j++) {
+                            if (sht.getRow(0).getCell(j) != null) {
+                                if ((sht.getRow(0).getCell(j).toString()).equals(columnName)) {
+                                    userDataExcel = sht.getRow(i).getCell(j).getStringCellValue();
+                                    //System.out.println("Data login: "+userDataExcel);
+                                    break;
+                                }
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
             userData = userDataExcel;

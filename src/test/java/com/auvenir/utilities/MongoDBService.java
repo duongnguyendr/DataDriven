@@ -61,9 +61,7 @@ public class MongoDBService {
                 MongoClient mongoClient = new MongoClient(hosts, credentials, options.build());
                 return mongoClient;
             } else if (SSL.equals("no") && username == null && password == null) {
-                System.out.println("bbbbbbb");
                 MongoClient mongoClient = new MongoClient(ServerHost, portNo);
-                System.out.println("AAAAAAA");
                 return mongoClient;
             }
             //getLogger().info("Connected successfully.");
@@ -647,7 +645,11 @@ public class MongoDBService {
         }
     }
 
-
+    /**
+     * Get the Object ID of Email Users in 'users' collection.
+     * @param email String email which is a email value in 'users' collection.
+     * @return String Object ID of Email Users.
+     */
     public static String getObjectIdOfEmailUser( String email) {
         String objectId = null;
         try {
@@ -675,16 +677,16 @@ public class MongoDBService {
     }
 
     /**
-     *
-     * @param dBCollection
-     * @param email
+     * Remove all the email(Object ID) in 'acl' array object in 'engagements' collection.
+     * @param email the String email which has object ID displayed in 'acl' array object.
      */
-    public static void removeEngagementByInvitedClientEmail(DBCollection dBCollection, String email) {
-        String objectId = "";
+    public static void removeInvitedClientInEngagementCollection(String email) {
+        String objectId = null;
         int count = 0;
         try {
+            DBCollection dBCollection = getCollection("engagements");
             objectId = getObjectIdOfEmailUser(email);
-            if(!objectId.isEmpty()) {
+            if(objectId != null) {
                 BasicDBObject searchQuery = new BasicDBObject();
                 searchQuery.put("acl.id", new ObjectId(objectId));
                 DBCursor curs = dBCollection.find(searchQuery);
@@ -692,10 +694,13 @@ public class MongoDBService {
                     DBObject dBbject = curs.next();
                     // shows the whole result document
                     System.out.println("Engagement ObjectID: " + dBbject.get("_id"));
-                    dBCollection.remove(dBbject);
+                    BasicDBObject aclObject = new BasicDBObject("acl", new BasicDBObject("id", new ObjectId(objectId)));
+                    dBCollection.update(searchQuery, new BasicDBObject("$pull", aclObject));
+//                    BasicDBObject toDoObject = new BasicDBObject("todos", new BasicDBObject("clientAssignee", new ObjectId(objectId)));
+//                    dBCollection.update(searchQuery, new BasicDBObject("$pull", toDoObject));
+//                    dBCollection.remove(dBbject);
                     count++;
                 }
-                System.out.println("Count: " + count);
             }
             if (count == 0) {
                 System.out.println(String.format("Engagement integrated with email '%s' is not exist on database", email));
@@ -709,16 +714,16 @@ public class MongoDBService {
     }
 
     /**
-     *
-     * @param dBCollection
-     * @param email
+     * Remove all the email(Object ID) in 'acl' array object in 'businesses' collection.
+     * @param email the String email which has object ID displayed in 'acl' array object.
      */
-    public static void removeBusinessByInvitedClientEmail(DBCollection dBCollection, String email) {
-        String objectId = "";
+    public static void removeInvitedClientInBusinessesCollection(String email) {
+        String objectId = null;
         int count = 0;
         try {
+            DBCollection dBCollection = getCollection("businesses");
             objectId = getObjectIdOfEmailUser(email);
-            if(!objectId.isEmpty()) {
+            if (objectId != null) {
                 BasicDBObject searchQuery = new BasicDBObject();
                 searchQuery.put("acl.id", new ObjectId(objectId));
                 DBCursor curs = dBCollection.find(searchQuery);
@@ -726,10 +731,11 @@ public class MongoDBService {
                     DBObject dBbject = curs.next();
                     // shows the whole result document
                     System.out.println("Businesses ObjectID: " + dBbject.get("_id"));
-                    dBCollection.remove(dBbject);
+                    BasicDBObject aclObject = new BasicDBObject("acl", new BasicDBObject("id", new ObjectId(objectId)));
+                    dBCollection.update(searchQuery, new BasicDBObject("$pull", aclObject));
+//                    dBCollection.remove(dBbject);
                     count++;
                 }
-                System.out.println("Count: " + count);
             }
             if (count == 0) {
                 System.out.println(String.format("Businesses integrated with email '%s' is not exist on database", email));
@@ -741,4 +747,20 @@ public class MongoDBService {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Remove Client User from database and all indicated value in 'acl' array object of Client User in Engagement and Business Collection.
+     * @param email
+     */
+    public static void removeClientAndIndicatedValueByEmail(String email) {
+        System.out.println("Deleted Client User and All Indicated Value.");
+        removeInvitedClientInEngagementCollection(email);
+        removeInvitedClientInBusinessesCollection(email);
+        try {
+            removeUserObjectByEmail(getCollection("users"), email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

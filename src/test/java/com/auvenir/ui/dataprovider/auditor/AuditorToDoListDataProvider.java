@@ -12,6 +12,18 @@ import java.util.Random;
  */
 public class AuditorToDoListDataProvider {
 
+    private static String subjectContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Subject Email Auditor Invite Client", "Valid Value");
+    private static String greetingContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Greeting Content", "Valid Value");
+    private static String announcementContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Announcement Content", "Valid Value");
+    private static String introducingContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Introducing Content", "Valid Value");
+    private static String introducingBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Introducing Benefit Content", "Valid Value");
+    private static String firstBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "First Benefit Content", "Valid Value");
+    private static String secondBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Second Benefit Content", "Valid Value");
+    private static String thirdBenefitContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Third Benefit Content", "Valid Value");
+    private static String feedBackContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "FeedBack Content", "Valid Value");
+    private static String goodbyeContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Goodbye Content", "Valid Value");
+
+
     @DataProvider(name="verifyAuditorEmptyTodoListPage")
     public static Object[][] getVerifyAuditorEmptyTodoListPage(){
         String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Auditor");
@@ -589,14 +601,17 @@ public class AuditorToDoListDataProvider {
 
     @DataProvider(name = "verifyNotificationAuditorInviteClient")
     public static Object[][] getVerifyNotificationAuditorInviteClient(){
-        String auditorId = GenericService.getTestDataFromExcel("NotificationEmailTest", "Auditor", "Valid Value");
+        String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Auditor", "Valid Value");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Auditor Password", "Valid Value");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Engagement Name", "Valid Value");
-        String clientId = GenericService.getTestDataFromExcel("NotificationEmailTest", "New Client", "Valid Value");
+        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client", "Valid Value");
         String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Email Password", "Valid Value");
         String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Full Name", "Valid Value");
+        String auditorFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Auditor Full Name", "Valid Value");
 
-        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, clientId, clientEmailPassword, clientFullName}};
+        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, clientId, clientEmailPassword,
+                clientFullName, auditorFullName, subjectContent, greetingContent, announcementContent,
+                introducingContent, introducingBenefitContent, firstBenefitContent, secondBenefitContent, thirdBenefitContent, feedBackContent, goodbyeContent}};
         if(GenericService.sLanguage.equalsIgnoreCase("French")){
             arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, clientId, clientEmailPassword, clientFullName}};
         }

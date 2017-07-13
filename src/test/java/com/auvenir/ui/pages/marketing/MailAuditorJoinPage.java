@@ -156,6 +156,39 @@ public class MailAuditorJoinPage extends AbstractPage {
     @FindBy(xpath = "//p[contains(text(),'Best Regards,') and contains(.,'Auvenir Customer Success Team')]")
     private WebElement eleSignatureMail;
 
+
+    // Element for content email in Gmail.
+
+    @FindBy(xpath = "//h2[@class='hP']")
+    private WebElement subjectEmail;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[1]")
+    private WebElement titleGreeting;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[2]")
+    private WebElement titleAnnouncement;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[3]")
+    private WebElement titleAuvenirIntroducing;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[4]")
+    private WebElement titleIntroducingBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[5]")
+    private WebElement titleFirstBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[6]")
+    private WebElement titleSecondBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[7]")
+    private WebElement titleThirdBenefit;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[8]")
+    private WebElement titleFeedback;
+
+    @FindBy(xpath = "//table[contains(@class,'mainTable')]//p[9]")
+    private WebElement titleGoodbye;
+
     public WebElement getEleSignatureMail() {
         return eleSignatureMail;
     }
@@ -384,6 +417,72 @@ public class MailAuditorJoinPage extends AbstractPage {
 
     public WebElement getEleLinkUnSubscribeFooter() {
         return eleLinkUnSubscribeFooter;
+    }
+
+    public void verifyGreetingTitle(String greetingTitleText) {
+        validateElementText(titleGreeting, greetingTitleText);
+    }
+
+    public void verifySubjectEmail(String subjectContent) {
+        validateElementText(subjectEmail, subjectContent);
+    }
+
+    public void verifyAnnouncementTitle(String text) {
+        validateElementText(titleAnnouncement, text);
+    }
+
+    public void verifyAuvenirIntroducingContent(String text) {
+        validateElementText(titleAuvenirIntroducing, text);
+    }
+
+    public void verifyIntroducingBenefitContent(String text) {
+        validateElementText(titleIntroducingBenefit, text);
+    }
+
+    public void verifyFirstBenefitContent(String text) {
+        validateElementText(titleFirstBenefit, text);
+    }
+
+    public void verifySecondBenefitContent(String text) {
+        validateElementText(titleSecondBenefit, text);
+    }
+
+    public void verifyThirdBenefitContent(String text) {
+        validateElementText(titleThirdBenefit, text);
+    }
+
+    public void verifyFeedbackContent(String text) {
+        validateElementText(titleFeedback, text);
+    }
+
+    public void verifyGoodbyeContent(String text) {
+        validateElementText(titleGoodbye, text);
+    }
+
+    public void verifySubjectEmailAuditorInviteClient(String auditorFullName, String subjectContent) {
+        // Checking Content of subject Email is displayed
+        String[] auditorName = auditorFullName.split(" ");
+        String expectedSubjectContent = String.format(subjectContent, auditorName[0] + " " + auditorName[1].charAt(0));
+        verifySubjectEmail(expectedSubjectContent);
+    }
+
+    public void verifyGreetingContentEmailAuditorInviteClient(String clientFullName, String greetingContent) {
+        // Checking Greeting Content of Email is displayed
+        String[] clientName = clientFullName.split(" ");
+        verifyGreetingTitle(greetingContent + " " + clientName[0] +",");
+    }
+
+    public void verifyAnnouncementEmailAuditorInviteClient(String auditorFullName, String announcementContent) {
+        String[] auditorName = auditorFullName.split(" ");
+        String expectedAnnouncementTitle = String.format(announcementContent, auditorName[0]);
+        verifyAnnouncementTitle(expectedAnnouncementTitle);
+    }
+
+    public void verifyBenefitContentEmailAuditorInviteClient(String introducingBenefit, String firstBenefitContent, String secondBenefitContent, String thirdBenefitContent) {
+        verifyIntroducingBenefitContent(introducingBenefit);
+        verifyFirstBenefitContent(firstBenefitContent);
+        verifySecondBenefitContent(secondBenefitContent);
+        verifyThirdBenefitContent(thirdBenefitContent);
     }
 
 }

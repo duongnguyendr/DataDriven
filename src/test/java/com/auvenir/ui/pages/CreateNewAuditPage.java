@@ -200,24 +200,42 @@ public class CreateNewAuditPage extends AbstractPage {
     @FindBy(xpath = "//p[@class='addClient-header']")
     private WebElement titleInviteNewClient;
 
+    @FindBy(xpath = "//h3[@class='inm-subTitle']")
+    private WebElement titleInviteNewAuditor;
+
     @FindBy(id = "m-ac-name")
     private WebElement inputFullName;
+
+    @FindBy(id = "m-inm-name")
+    private WebElement inputFullNameAuditor;
 
     @FindBy(id = "m-ac-email")
     private WebElement inputEmail;
 
+    @FindBy(id = "m-inm-email")
+    private WebElement inputEmailAuditor;
+
     @FindBy(id = "m-ac-emailVerify")
     private WebElement inputVerifyEmail;
+    @FindBy(id = "m-inm-reEmail")
+    private WebElement inputVerifyEmailAuditor;
 
     @FindBy(id = "m-ac-role")
     private WebElement inputRoleEmail;
+    @FindBy(id = "m-inm-jobTitle")
+    private WebElement inputRoleEmailAuditor;
 
     @FindBy(id = "m-ac-addBtn")
     private WebElement buttonInviteNewClient;
 
+    @FindBy(id="m-inm-addBtn")
+    private WebElement buttonInviteNewAuditor;
+
     @FindBy(xpath = "//input[@id='m-ac-role']/following-sibling::ul//a[1]")
     private WebElement optionFirstOnClientRoleList;
 
+    @FindBy(xpath = "(//input[@id='m-ac-role']/following-sibling::ul//a)[1]")
+    private WebElement optionFirstOnAuditorRoleList;
     /**
      * Choose 'Add New Client' option
      */
@@ -235,7 +253,17 @@ public class CreateNewAuditPage extends AbstractPage {
      * @param email    email
      * @param role     role on company
      */
-    public void inviteNewClient(String fullName, String email, String role) {
+    public void inviteNewAuditor(String fullName, String email, String role) {
+        waitForTextValueChanged(titleInviteNewAuditor, "Invite New Auditor", "Invite New Member");
+        sendKeyTextBox(inputFullNameAuditor, fullName, "Full Name Input");
+        sendKeyTextBox(inputEmailAuditor, email, "Email Input");
+        sendKeyTextBox(inputVerifyEmailAuditor, email, "Verify Email Input");
+        clickElement(inputRoleEmailAuditor, "Input Auditor Role In Their Company");
+        clickElement(optionFirstOnAuditorRoleList, "First Option Auditor Role");
+        clickElement(buttonInviteNewAuditor, "Button Invite");
+    }
+
+    public void inviteNewClient(String fullName, String email, String role){
         waitForTextValueChanged(titleInviteNewClient, "Invite New Client", "Invite New Client");
         sendKeyTextBox(inputFullName, fullName, "Full Name Input");
         sendKeyTextBox(inputEmail, email, "Email Input");
@@ -246,6 +274,9 @@ public class CreateNewAuditPage extends AbstractPage {
         clickElement(optionFirstOnClientRoleList, "First Option Client Role");
 
         clickElement(buttonInviteNewClient, "Button Invite");
+
+
+
     }
 
     /**

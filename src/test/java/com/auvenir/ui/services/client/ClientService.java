@@ -413,6 +413,9 @@ public class ClientService extends AbstractService {
     public void inviteNewClient(String fullName, String email, String role) {
         createNewAuditPage.inviteNewClient(fullName, email, role);
     }
+    public void inviteNewAuditor(String fullName,String email,String role){
+        createNewAuditPage.inviteNewAuditor(fullName,email,role);
+    }
 
     public void verifyInviteClientSuccess(String message) {
         createNewAuditPage.verifyInviteClientSuccess(message);

@@ -1,5 +1,6 @@
 package com.auvenir.utilities.listeners;
 
+import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.GenericService;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
@@ -13,8 +14,10 @@ public class SuiteListener implements ISuiteListener{
 
     public void onFinish(ISuite suite) {
         // send report...
-
-        TestngListener.pdf.toExecute(TestngListener.sTestName, TestngListener.sDescription, TestngListener.sStatus, TestngListener.iPassCount, TestngListener.iFailCount, TestngListener.iSkippedCount, TestngListener.pdfReports);
-        GenericService.sendMail(TestngListener.iPassCount, TestngListener.iFailCount, TestngListener.iSkippedCount, TestngListener.iTotalExecuted, TestngListener.pdfReports, TestngListener.sTestName, TestngListener.sStatus);
+        String timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        GenericService.getPieChartFollowBrowser(TestngListener.sTestName,TestngListener.sStatus, timeStamp);
+        GenericService.getBarChartFollowBrowser(TestngListener.sTestName,TestngListener.sStatus, timeStamp);
+        TestngListener.pdf.toExecute(TestngListener.sTestName, TestngListener.sDescription, TestngListener.sStatus, TestngListener.iPassCount, TestngListener.iFailCount, TestngListener.iSkippedCount, TestngListener.pdfReports, timeStamp);
+        GenericService.sendMail(TestngListener.pdfReports, TestngListener.sTestName, TestngListener.sStatus, timeStamp);
     }
 }
