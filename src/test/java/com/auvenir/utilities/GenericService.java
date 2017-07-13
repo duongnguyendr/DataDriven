@@ -519,6 +519,10 @@ public class GenericService {
                                                              ArrayList sBrowserList, String sBrowser,
                                                              ArrayList sStatus, String statusTest){
         int count =0 ;
+        if((sBrowserList.size() != sTestNames.size()) ||(sStatus.size() != sTestNames.size())){
+            return count;
+        }
+
         for (int i = 0; i < sTestNames.size(); i++) {
             if (sBrowserList.get(i).equals(sBrowser) &&
                     sStatus.get(i).equals(statusTest)){
