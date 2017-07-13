@@ -1,5 +1,6 @@
 package com.auvenir.utilities;
 
+import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
@@ -59,14 +60,14 @@ public class DatePicker {
      * go to previous month
      */
     public void clickPreviousButton() {
-        btnPrev.click();
+        clickElement(btnPrev, "Button previous");
     }
 
     /**
      * go to next month
      */
     public void clickNextButton() {
-        btnNext.click();
+        clickElement(btnNext, "Button next");
     }
 
     /**
@@ -75,7 +76,7 @@ public class DatePicker {
      * @param date name of To-Do to choose
      */
     public void pickADate(String date) throws Exception {
-        getElementByXpath(validDate, date).click();
+        clickElement(getElementByXpath(validDate, date), "Datepicker date: " + date);
     }
 
     /**
@@ -86,9 +87,9 @@ public class DatePicker {
      * @param year  year AD
      */
     public void pickADate(String month, String date, String year) throws Exception {
-//        if (!timeValidation(date, month, year)) {
-//            throw new Exception("Date input for DatePicker wrong!");
-//        }
+        //        if (!timeValidation(date, month, year)) {
+        //            throw new Exception("Date input for DatePicker wrong!");
+        //        }
         int monthDif = monthDif(year, month);
         if (monthDif > 0) {
             for (int i = 0; i < Math.abs(monthDif); i++) {
@@ -153,9 +154,9 @@ public class DatePicker {
         return titleMonthYear.getText();
     }
 
-//    public boolean isMouseHovering(WebElement webElement){
-//
-//    }
+    //    public boolean isMouseHovering(WebElement webElement){
+    //
+    //    }
 
     /**
      * count months from now
@@ -165,8 +166,8 @@ public class DatePicker {
      */
     private int monthDif(String year, String month) {
         DateTime now = new DateTime();
-//        int yearDif = Integer.valueOf(year) - now.getYear();
-//        int monthOfYearDif = Month.valueOf(month.toUpperCase()).getValue() - now.getMonthOfYear();
+        //        int yearDif = Integer.valueOf(year) - now.getYear();
+        //        int monthOfYearDif = Month.valueOf(month.toUpperCase()).getValue() - now.getMonthOfYear();
         int yearDif = Integer.parseInt(year) - now.getYear();
         int monthOfYearDif = Integer.parseInt(month) - now.getMonthOfYear();
         return yearDif * 12 + monthOfYearDif;
@@ -202,9 +203,28 @@ public class DatePicker {
         try {
             webElement = datePicker.findElement(By.xpath(xpath));
         } catch (Exception ex) {
-            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
+            NXGReports.addStep("Can't find element for xpath: " + xpath, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    ex.getMessage());
         }
         return webElement;
+    }
+
+    /**
+     * @param element     element defined on page class
+     * @param elementName Name of element that we want to click
+     * @Description: Click on element
+     */
+    public boolean clickElement(WebElement element, String elementName) {
+        try {
+            element.click();
+            return true;
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            System.out.println("Unable to click on: " + elementName);
+            NXGReports.addStep("Unable to Click on: " + elementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 }
