@@ -2,13 +2,16 @@ package com.auvenir.ui.tests.client;
 
 import com.auvenir.ui.dataprovider.client.ClientDataProvider;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.ClientDetailsEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.auditor.AuditorNewEngagementService;
 import com.auvenir.ui.services.auditor.AuditorTodoListService;
+import com.auvenir.ui.services.client.ClientEngagementService;
 import com.auvenir.ui.services.client.ClientService;
+import com.auvenir.ui.services.client.ClientSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
@@ -31,6 +34,9 @@ public class ClientTest extends AbstractTest {
     private AuditorTodoListService auditorTodoListService;
     private AdminService adminService;
     private GmailLoginService gmailLoginService;
+    private ClientDetailsEngagementService clientDetailsEngagementService;
+    private ClientSignUpService clientSignUpService;
+    private ClientEngagementService clientEngagementService;
 
     //    private String adminId, auditorId, clientId;
     //    private String adminPassword, auditorPassword, clientPassword;
@@ -38,10 +44,9 @@ public class ClientTest extends AbstractTest {
     //    private String engagementName;
 
     @Test(priority = 1, enabled = true, description = "Inviting a client from Auditor", dataProvider = "verifyInvitingNewClient",
-          dataProviderClass = ClientDataProvider.class)
+            dataProviderClass = ClientDataProvider.class)
     public void verifyInvitingNewClient(String adminId, String adminPassword, String auditorId, String auditorPassword, String clientId,
-                                        String clientEmailPassword, String clientFullName, String invalidClientId,
-                                        String engagementName) throws Exception {
+            String clientEmailPassword, String clientFullName, String invalidClientId, String engagementName) throws Exception {
         getLogger().info("Verify Auditor inviting a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -59,6 +64,7 @@ public class ClientTest extends AbstractTest {
         //        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
         MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
         MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
+        //MongoDBService.removeBusinessByInvitedClientEmail(MongoDBService.getCollection("businesses"), clientId);
         //need precondition for save engagement name, and delete this engagement or client on acl
 
         try {
@@ -70,7 +76,6 @@ public class ClientTest extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            System.out.println("invalidClientId = " + invalidClientId);
             clientService.inviteNewClient(clientFullName, invalidClientId, "");
             clientService.verifyInviteClientFailure("Error on finding existing user");
 
@@ -93,11 +98,10 @@ public class ClientTest extends AbstractTest {
     }
 
     @Test(priority = 2, enabled = true, description = "To Verify the display of Elements in Email: Invitation from to complete your financial audit",
-          dataProvider = "verifyInvitationEmail", dataProviderClass = ClientDataProvider.class)
+            dataProvider = "verifyInvitationEmail", dataProviderClass = ClientDataProvider.class)
     public void verifyInvitationEmail(String clientId, String clientEmailPassword, String imageLogo, String greetingTitle, String announcementTitle,
-                                      String auvenirIntroducingTitle, String introducingBenefitTitle, String firstBenefitTitle,
-                                      String secondBenefitTitle, String thirdBenefitTitle, String feedbackTitle,
-                                      String goodbyeTitle) throws Exception {
+            String auvenirIntroducingTitle, String introducingBenefitTitle, String firstBenefitTitle, String secondBenefitTitle,
+            String thirdBenefitTitle, String feedbackTitle, String goodbyeTitle) throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
 
         clientId = GenericService.addBrowserPrefix(clientId);
@@ -126,8 +130,77 @@ public class ClientTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "To Verify the content of Login email received at clients account")
-    public void verifySignInEmail() throws Exception {
+    @Test(priority = 3, enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed",
+            dataProvider = "verifyClientLogsInAndActive", dataProviderClass = ClientDataProvider.class)
+    public void verifyClientLogsInAndActive(String clientId, String clientEmailPassword, String personalPhoneNumber, String parentStakeholders,
+            String clientPassword, String engagementName) throws Exception {
+        getLogger().info("Verify client logs in and OnBoarding page is displayed.");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
 
+        //MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
+        clientId = GenericService.addBrowserPrefix(clientId);
+        //clientId = GenericService.addBrowserPrefix(clientId);
+        try {
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail(clientId, clientEmailPassword);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
+
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm(personalPhoneNumber);//10 number required
+            clientSignUpService.fillUpBusinessForm(parentStakeholders);
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm(clientPassword);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Client Home Page", dataProvider = "verifyClientHomePage",
+            dataProviderClass = ClientDataProvider.class)
+    public void verifyClientHomePage(String logoHeaderBluePartialLink, String headerEngagementsText, String headerContactsText,
+            String dashboardUsernameText, String dashboardSettingsText, String dashboardSignOutText, String previewHeaderText,
+            String engagementFiltersText, String filterAllText, String filterTypeOfEngagementText, String typeOfEngagementFinancialAuditText,
+            String typeOfEngagementReviewText, String typeOfEngagementNoticeToReaderCompilationText, String typeOfEngagementOtherText,
+            String engagementSearchText, String engagementColumnText, String auditFirmColumnText, String statusColumnText,
+            String auditAssigneeColumnText, String completedDocsColumnText, String clientColumnText, String activityColumnText,
+            String dueDateColumnText, String companyInfoText, String termsOfServiceText, String termsOfServicePartialLink,
+            String privacyStatementText, String privacyStatementPartialLink, String cookieNoticeText,
+            String cookieNoticePartialLink) throws Exception {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+
+        String clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
+        String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Client Auvenir Password");
+        //System.out.println("clientPassword = " + clientPassword);
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
+
+            clientEngagementService
+                    .verifyUIListEngagementHeader(logoHeaderBluePartialLink, headerEngagementsText, headerContactsText, dashboardUsernameText,
+                            dashboardSettingsText, dashboardSignOutText);
+            clientEngagementService.verifyUIListEngagementBody(previewHeaderText, engagementFiltersText, filterAllText, filterTypeOfEngagementText,
+                    typeOfEngagementFinancialAuditText, typeOfEngagementReviewText, typeOfEngagementNoticeToReaderCompilationText,
+                    typeOfEngagementOtherText, engagementSearchText, engagementColumnText, auditFirmColumnText, statusColumnText,
+                    auditAssigneeColumnText, completedDocsColumnText, clientColumnText, activityColumnText, dueDateColumnText);
+            clientEngagementService.verifyUIListEngagementFooter(companyInfoText, termsOfServiceText, termsOfServicePartialLink, privacyStatementText,
+                    privacyStatementPartialLink, cookieNoticeText, cookieNoticePartialLink);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
     }
 }
