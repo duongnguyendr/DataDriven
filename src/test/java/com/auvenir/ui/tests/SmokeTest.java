@@ -46,7 +46,8 @@ public class SmokeTest extends AbstractTest {
     final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
     private String timeStamp;
 
-    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin",
+            dataProviderClass = SmokeDataProvider.class)
     public void verifyAdminLogin(String adminId, String adminPassword) {
         getLogger().info("Verify admin is able to login.");
         adminService = new AdminService(getLogger(), getDriver());
@@ -61,17 +62,17 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify admin is able to login.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify Register and sign up successfully an Auditor User", dataProvider = "verifySignUpAuditorUser", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 2, enabled = true, description = "Verify Register and sign up successfully an Auditor User",
+            dataProvider = "verifySignUpAuditorUser", dataProviderClass = SmokeDataProvider.class)
     public void verifySignUpAuditorUser(String emailCreate, String strFullName, String strRoleFirm, String strPhone, String strReference,
-                                        String strName, String strPreName, String strWebsite, String strStreetAddress, String strOffNum,
-                                        String strZipCode, String strCity, String strCountry, String strState, String strMemberID, String strNumEmp,
-                                        String strPhoneFirm, String strAffName, String strPathLogo) throws Exception {
+            String strName, String strPreName, String strWebsite, String strStreetAddress, String strOffNum, String strZipCode, String strCity,
+            String strCountry, String strState, String strMemberID, String strNumEmp, String strPhoneFirm, String strAffName,
+            String strPathLogo) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
@@ -88,7 +89,9 @@ public class SmokeTest extends AbstractTest {
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddress, strOffNum, strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService
+                    .registerFirmInfo(strName, strPreName, strWebsite, strStreetAddress, strOffNum, strZipCode, strCity, strCountry, strState,
+                            strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 
@@ -101,8 +104,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.", dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAdminChangeStatusUserToOnBoarding(String emailCreate, String adminEmail, String gmailAuditorPassword, String strAdminPwd) throws Exception {
+    @Test(priority = 3, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
+            dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = SmokeDataProvider.class)
+    public void verifyAdminChangeStatusUserToOnBoarding(String emailCreate, String adminEmail, String gmailAuditorPassword,
+            String strAdminPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
@@ -127,7 +132,8 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", dataProvider = "verifyAuditorLoginGmailAndActiveUser", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 4, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.",
+            dataProvider = "verifyAuditorLoginGmailAndActiveUser", dataProviderClass = SmokeDataProvider.class)
     public void verifyAuditorLoginGmailAndActiveUser(String gmailAuditorPassword, String emailCreate, String auditorPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -156,7 +162,8 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify Auditor User can log in with user and password. ", dataProvider = "verifyLoginAuditorUser", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 5, enabled = true, description = "Verify Auditor User can log in with user and password. ",
+            dataProvider = "verifyLoginAuditorUser", dataProviderClass = SmokeDataProvider.class)
     public void verifyLoginAuditorUser(String emailCreate, String auditorPwd) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -170,12 +177,14 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Test positive tests case login and logout: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Test positive tests case login and logout: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Test positive tests case login and logout: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Auditor create new Engagement (simple engagement)", dataProvider = "verifyCreateSimpleEngagement", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 6, enabled = true, description = "Auditor create new Engagement (simple engagement)",
+            dataProvider = "verifyCreateSimpleEngagement", dataProviderClass = SmokeDataProvider.class)
     public void verifyCreateSimpleEngagement(String auditorId, String auditorPassword, String engagementName) {
         getLogger().info("Auditor create new Engagement (simple engagement).");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -196,16 +205,17 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "Verify that Auditor can invite a client", dataProvider = "verifyAuditorInvitingTheClient", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorInvitingTheClient(String clientId, String adminId, String auditorId,
-                                               String adminPassword, String auditorPassword,
-                                               String engagementName, String clientEmailPassword, String clientFullName,
-                                               String userOnBoardingStatus, String roleClient) throws Exception {
+    @Test(priority = 7, enabled = true, description = "Verify that Auditor can invite a client", dataProvider = "verifyAuditorInvitingTheClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAuditorInvitingTheClient(String clientId, String adminId, String auditorId, String adminPassword, String auditorPassword,
+            String engagementName, String clientEmailPassword, String clientFullName, String userOnBoardingStatus,
+            String roleClient) throws Exception {
         getLogger().info("Verify Auditor inviting a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -216,12 +226,17 @@ public class SmokeTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
 
-        clientId = GenericService.sBrowserData + clientId;
-        adminId = GenericService.sBrowserData + adminId;
-        auditorId = GenericService.sBrowserData + auditorId;
+        adminId = GenericService.addBrowserPrefix(adminId);
+        auditorId = GenericService.addBrowserPrefix(auditorId);
+        clientId = GenericService.addBrowserPrefix(clientId);
+
+        //        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
+        //        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
+        //        MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
+        //MongoDBService.removeClientAndIndicatedValueByEmail(clientId);
+        //need precondition for save engagement name, and delete this engagement or client on acl
 
         try {
-
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
@@ -246,7 +261,8 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 8, enabled = true, description = "Verify that Admin change the status of the client to OnBoarding", dataProvider = "verifyChangeTheStatusClientToOnBoarding", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 8, enabled = true, description = "Verify that Admin change the status of the client to OnBoarding",
+            dataProvider = "verifyChangeTheStatusClientToOnBoarding", dataProviderClass = SmokeDataProvider.class)
     public void verifyChangeTheStatusClientToOnBoarding(String adminId, String clientId, String adminPassword, String chooseOptionValue) {
         getLogger().info("Verify change the status of the client to OnBoarding.");
         adminService = new AdminService(getLogger(), getDriver());
@@ -271,10 +287,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed", dataProvider = "verifyClientLogsInAndActive", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientLogsInAndActive(String adminId, String clientId, String clientEmailPassword,
-                                            String clientAuvenirPassword, String engagementName,
-                                            String phoneNumber, String parentStackHolder) throws Exception {
+    @Test(priority = 9, enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed",
+            dataProvider = "verifyClientLogsInAndActive", dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientLogsInAndActive(String adminId, String clientId, String clientEmailPassword, String clientAuvenirPassword,
+            String engagementName, String phoneNumber, String parentStackHolder) throws Exception {
         getLogger().info("Verify client logs in and OnBoarding page is displayed.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
@@ -302,15 +318,16 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify that client user is active successful and client log in system", dataProvider = "verifyClientActiveAfterSignUpSuccess", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientActiveAfterSignUpSuccess(String adminId, String clientId,
-                                                     String adminPassword, String clientPassword,
-                                                     String userActiveStatus) {
+    @Test(priority = 10, enabled = true, description = "Verify that client user is active successful and client log in system",
+            dataProvider = "verifyClientActiveAfterSignUpSuccess", dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientActiveAfterSignUpSuccess(String adminId, String clientId, String adminPassword, String clientPassword,
+            String userActiveStatus) {
         getLogger().info("Verify client logs in and OnBoarding page is displayed.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
@@ -334,12 +351,14 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 11, enabled = true, description = "Verify that Auditor can create to-do pages", dataProvider = "verifyAuditorCreateTodoPage", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 11, enabled = true, description = "Verify that Auditor can create to-do pages", dataProvider = "verifyAuditorCreateTodoPage",
+            dataProviderClass = SmokeDataProvider.class)
     public void verifyAuditorCreateTodoPage(String auditorId, String auditorPassword, String engagement, String todoName) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -355,14 +374,15 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify create to-do pages.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify create to-do pages.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify create to-do pages.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
-    @Test(priority = 12, enabled = true, description = "Verify that Audit Assignee box", dataProvider = "verifyAuditAssignee", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditAssignee(String auditorId, String auditorPassword, String engagement, String toDoName, String auditorAssign) throws Exception {
+    @Test(priority = 12, enabled = true, description = "Verify that Audit Assignee box", dataProvider = "verifyAuditAssignee",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAuditAssignee(String auditorId, String auditorPassword, String engagement, String toDoName,
+            String auditorAssign) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -384,9 +404,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 13, enabled = true, description = "Verify Client Assignee", dataProvider = "verifyClientAssignee", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientAssignee(String auditorId, String auditorPassword, String engagement,
-                                     String toDoName, String clientAssign) throws Exception {
+    @Test(priority = 13, enabled = true, description = "Verify Client Assignee", dataProvider = "verifyClientAssignee",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientAssignee(String auditorId, String auditorPassword, String engagement, String toDoName,
+            String clientAssign) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -409,7 +430,8 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 14, enabled = true, description = "Client verify engagement, assigned To-Do", dataProvider = "verifyClientEngagementOverView", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 14, enabled = true, description = "Client verify engagement, assigned To-Do", dataProvider = "verifyClientEngagementOverView",
+            dataProviderClass = SmokeDataProvider.class)
     public void verifyClientEngagementOverView(String clientId, String clientPassword, String engagement, String toDoName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
@@ -432,9 +454,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 15, enabled = true, description = "Verify Auditor post new comment on a ToDo.", dataProvider = "verifyAuditorPostComment", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorPostComment(String auditorId, String auditorPwd, String engagementName,
-                                         String toDoName, String commentContent) throws Exception {
+    @Test(priority = 15, enabled = true, description = "Verify Auditor post new comment on a ToDo.", dataProvider = "verifyAuditorPostComment",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAuditorPostComment(String auditorId, String auditorPwd, String engagementName, String toDoName,
+            String commentContent) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -461,15 +484,17 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 16, enabled = true, description = "Verify Client can see Auditor's post comment.", dataProvider = "verifyClientViewAuditorComment", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientViewAuditorComment(String clientId, String clientPassword,
-                                               String engagementName, String toDoName, String commentContent, boolean isClient) throws Exception {
+    @Test(priority = 16, enabled = true, description = "Verify Client can see Auditor's post comment.",
+            dataProvider = "verifyClientViewAuditorComment", dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientViewAuditorComment(String clientId, String clientPassword, String engagementName, String toDoName, String commentContent,
+            boolean isClient) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -496,9 +521,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 17, enabled = true, description = "Verify client post comment.", dataProvider = "verifyClientPostComment", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientPostComment(String clientId, String clientPassword,
-                                        String engagementName, String toDoName, String commentContent, boolean isClient) throws Exception {
+    @Test(priority = 17, enabled = true, description = "Verify client post comment.", dataProvider = "verifyClientPostComment",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientPostComment(String clientId, String clientPassword, String engagementName, String toDoName, String commentContent,
+            boolean isClient) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -529,9 +555,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 18, enabled = true, description = "Verify Auditor can see client's post comment.", dataProvider = "verifyAuditorViewClientComment",dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorViewClientComment(String auditorId, String auditorPwd, String engagementName,
-                                               String toDoName, String commentContent, String clientFullName, boolean isClient) throws Exception {
+    @Test(priority = 18, enabled = true, description = "Verify Auditor can see client's post comment.",
+            dataProvider = "verifyAuditorViewClientComment", dataProviderClass = SmokeDataProvider.class)
+    public void verifyAuditorViewClientComment(String auditorId, String auditorPwd, String engagementName, String toDoName, String commentContent,
+            String clientFullName, boolean isClient) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -553,15 +580,18 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
             NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 19, enabled = true, description = "Verify to create new request on ToDo page",dataProvider = "verifyAddNewRequestOnToDoPage",dataProviderClass = SmokeDataProvider.class)
-    public void verifyAddNewRequestOnToDoPage(String auditorId, String auditorPwd, String engagementName, String pathOfUploadLocation, String fileName, String toDoName,
-                                              String deadlineDate, String endDate, String startDate, String request01Value, String request02Value, String position01Value, String position02Value) throws Exception {
+    @Test(priority = 19, enabled = true, description = "Verify to create new request on ToDo page", dataProvider = "verifyAddNewRequestOnToDoPage",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAddNewRequestOnToDoPage(String auditorId, String auditorPwd, String engagementName, String pathOfUploadLocation,
+            String fileName, String toDoName, String deadlineDate, String endDate, String startDate, String request01Value, String request02Value,
+            String position01Value, String position02Value) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -592,8 +622,7 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor add new request", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify auditor add new request", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify auditor add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
@@ -602,8 +631,10 @@ public class SmokeTest extends AbstractTest {
     /**
      * Added by Vien.pham July, 2017
      */
-    @Test(priority = 20, enabled = true, description = "Verify to client upload file as requested",dataProvider = "verifyClientUploadOnRequest",dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientUploadOnRequest(String clientId, String clientPwd, String engagementName, String pathOfUploadLocation, String fileName, String requestValue) throws Exception {
+    @Test(priority = 20, enabled = true, description = "Verify to client upload file as requested", dataProvider = "verifyClientUploadOnRequest",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientUploadOnRequest(String clientId, String clientPwd, String engagementName, String pathOfUploadLocation, String fileName,
+            String requestValue) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -622,8 +653,7 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload file", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the client upload file", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
@@ -632,8 +662,10 @@ public class SmokeTest extends AbstractTest {
     /**
      * Added by Vien Pham on July 10, 2017
      */
-    @Test(priority = 21, enabled = true, description = "Verify auditor can download.",dataProvider = "verifyAuditorDownloadOnRequest",dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorDownloadOnRequest(String auditorId, String auditorPwd,String engagementName,String pathOfUploadLocation,String fileName,String pathOfDownloadLocation) throws Exception {
+    @Test(priority = 21, enabled = true, description = "Verify auditor can download.", dataProvider = "verifyAuditorDownloadOnRequest",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAuditorDownloadOnRequest(String auditorId, String auditorPwd, String engagementName, String pathOfUploadLocation,
+            String fileName, String pathOfDownloadLocation) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -650,18 +682,16 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the auditor download file", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the auditor download file", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 22, enabled = true, description = "Verify that Auditor can add new member.", dataProvider = "verifyInviteNewMemberAuditor", dataProviderClass = SmokeDataProvider.class)
-    public void verifyInviteNewMemberAuditor(
-            String auditorId, String auditorPwd, String engagementName,
-            String auditorInvitedUserEmail, String fullNameMember,
-            String roleMember, String auditorInvitedUserPwd) throws Exception {
+    @Test(priority = 22, enabled = true, description = "Verify that Auditor can add new member.", dataProvider = "verifyInviteNewMemberAuditor",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyInviteNewMemberAuditor(String auditorId, String auditorPwd, String engagementName, String auditorInvitedUserEmail,
+            String fullNameMember, String roleMember, String auditorInvitedUserPwd) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
@@ -716,11 +746,11 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 23, enabled = true, description = "verify that Assign ToDo Bulk Action", dataProvider = "verifyAssignToDoBulkAction", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAssignToDoBulkAction(String auditorId, String auditorPwd, String engagementName,
-                                           String fullNameInvitedMember, String auditorInvitedId, String auditorInvitedUserPwd,
-                                           String fullNameInvitedClient, String clientInvitedId,
-                                           String clientInvitedUserPwd, String toDoName) throws Exception {
+    @Test(priority = 23, enabled = true, description = "verify that Assign ToDo Bulk Action", dataProvider = "verifyAssignToDoBulkAction",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAssignToDoBulkAction(String auditorId, String auditorPwd, String engagementName, String fullNameInvitedMember,
+            String auditorInvitedId, String auditorInvitedUserPwd, String fullNameInvitedClient, String clientInvitedId, String clientInvitedUserPwd,
+            String toDoName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -778,10 +808,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 24, enabled = true, description = "Verify Create And Delete ToDo.", dataProvider = "verifyDeleteSingleAndMultipleToDo", dataProviderClass = SmokeDataProvider.class)
-    public void verifyDeleteSingleAndMultipleToDo(String auditorId, String auditorPwd,
-                                                  String engagementNameT, String toDoNameDeleteSingle,
-                                                  String toDoNameDeleteMultiple01, String toDoNameDeleteMultiple02, String toDoNameDeleteMultiple03) throws Exception {
+    @Test(priority = 24, enabled = true, description = "Verify Create And Delete ToDo.", dataProvider = "verifyDeleteSingleAndMultipleToDo",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyDeleteSingleAndMultipleToDo(String auditorId, String auditorPwd, String engagementNameT, String toDoNameDeleteSingle,
+            String toDoNameDeleteMultiple01, String toDoNameDeleteMultiple02, String toDoNameDeleteMultiple03) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -822,7 +852,8 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 25, enabled = true, description = "Verify download all attachment file form all ToDo.", dataProvider = "verifyDownloadAttachmentFromAllToDo", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 25, enabled = true, description = "Verify download all attachment file form all ToDo.",
+            dataProvider = "verifyDownloadAttachmentFromAllToDo", dataProviderClass = SmokeDataProvider.class)
     public void verifyDownloadAttachmentFromAllToDo(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -868,9 +899,10 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 26, enabled = true, description = "Verify check list team.", dataProvider = "verifyCheckListTeam", dataProviderClass = SmokeDataProvider.class)
-    public void verifyCheckListTeam(String auditorId, String auditorPwd,
-                                    String engagementName, String fullNameMember, String roleMember) throws Exception {
+    @Test(priority = 26, enabled = true, description = "Verify check list team.", dataProvider = "verifyCheckListTeam",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyCheckListTeam(String auditorId, String auditorPwd, String engagementName, String fullNameMember,
+            String roleMember) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
@@ -899,14 +931,15 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify check list team.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Test script Failed: Verify check list team.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("Test script Failed: Verify check list team.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 27, enabled = true, description = "Verify check contact list.", dataProvider = "verifyCheckContactList", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 27, enabled = true, description = "Verify check contact list.", dataProvider = "verifyCheckContactList",
+            dataProviderClass = SmokeDataProvider.class)
     public void verifyCheckContactList(String auditorId, String auditorPassword, String contactName, String emailContact) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -934,9 +967,10 @@ public class SmokeTest extends AbstractTest {
 
     }
 
-    @Test(priority = 28, enabled = true, description = "Verify auditor attach file.", dataProvider = "verifyAuditorAttachFile", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorAttachFile(String auditorId, String auditorPwd, String engagementName,
-                                        String pathOfAttachLocation, String fileName, String toDoName) throws Exception {
+    @Test(priority = 28, enabled = true, description = "Verify auditor attach file.", dataProvider = "verifyAuditorAttachFile",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAuditorAttachFile(String auditorId, String auditorPwd, String engagementName, String pathOfAttachLocation, String fileName,
+            String toDoName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -956,15 +990,15 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify auditor attach file.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify auditor attach file.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify auditor attach file.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
         }
     }
 
-    @Test(priority = 29, enabled = true, description = "Verify client download attach file.", dataProvider = "verifyClientDownloadAttachFile", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientDownloadAttachFile(String clientId, String clientPwd, String engagementName,
-                                               String fileName, String pathOfDownloadLocation, String pathOfUploadLocation) throws Exception {
+    @Test(priority = 29, enabled = true, description = "Verify client download attach file.", dataProvider = "verifyClientDownloadAttachFile",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientDownloadAttachFile(String clientId, String clientPwd, String engagementName, String fileName,
+            String pathOfDownloadLocation, String pathOfUploadLocation) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -979,14 +1013,15 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify the client download attach file", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the client download attach file", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 30, enabled = true, description = "Verify engagement overview status, todo when complete todo by using marking as complete popup", dataProvider = "verifyAuditorMarkAsComplete", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 30, enabled = true,
+            description = "Verify engagement overview status, todo when complete todo by using marking as complete popup",
+            dataProvider = "verifyAuditorMarkAsComplete", dataProviderClass = SmokeDataProvider.class)
     public void verifyAuditorMarkAsComplete(String auditorId, String auditorPwd, String toDoName, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1104,14 +1139,15 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify engagement overview status, todo when complete todo by using marking as complete popup", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify engagement overview status, todo when complete todo by using marking as complete popup", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify engagement overview status, todo when complete todo by using marking as complete popup",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 31, enabled = true, description = "Verify Client see Todo mark as complete", dataProvider = "verifyClientSeeMarkAsComplete", dataProviderClass = SmokeDataProvider.class)
+    @Test(priority = 31, enabled = true, description = "Verify Client see Todo mark as complete", dataProvider = "verifyClientSeeMarkAsComplete",
+            dataProviderClass = SmokeDataProvider.class)
     public void verifyClientSeeMarkAsComplete(String clientId, String clientPassword, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
