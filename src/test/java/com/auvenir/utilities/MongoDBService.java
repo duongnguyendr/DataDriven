@@ -696,9 +696,8 @@ public class MongoDBService {
                     System.out.println("Engagement ObjectID: " + dBbject.get("_id"));
                     BasicDBObject aclObject = new BasicDBObject("acl", new BasicDBObject("id", new ObjectId(objectId)));
                     dBCollection.update(searchQuery, new BasicDBObject("$pull", aclObject));
-//                    BasicDBObject toDoObject = new BasicDBObject("todos", new BasicDBObject("clientAssignee", new ObjectId(objectId)));
-//                    dBCollection.update(searchQuery, new BasicDBObject("$pull", toDoObject));
-//                    dBCollection.remove(dBbject);
+                    BasicDBObject toDoObject = new BasicDBObject("todos", new BasicDBObject("clientAssignee", new ObjectId(objectId)));
+                    dBCollection.update(searchQuery, new BasicDBObject("$pull", toDoObject));
                     count++;
                 }
             }
@@ -733,7 +732,6 @@ public class MongoDBService {
                     System.out.println("Businesses ObjectID: " + dBbject.get("_id"));
                     BasicDBObject aclObject = new BasicDBObject("acl", new BasicDBObject("id", new ObjectId(objectId)));
                     dBCollection.update(searchQuery, new BasicDBObject("$pull", aclObject));
-//                    dBCollection.remove(dBbject);
                     count++;
                 }
             }
@@ -749,13 +747,47 @@ public class MongoDBService {
     }
 
     /**
-     * Remove Client User from database and all indicated value in 'acl' array object of Client User in Engagement and Business Collection.
+     * Remove activities of the email(Object ID) in Activities collection.
+     * @param email the String email which has object ID displayed in userId object.
+     */
+    public static void removeInvitedClientInActivitiesCollection(String email) {
+        String objectId = null;
+        int count = 0;
+        try {
+            DBCollection dBCollection = getCollection("activities");
+            objectId = getObjectIdOfEmailUser(email);
+            if (objectId != null) {
+                BasicDBObject searchQuery = new BasicDBObject();
+                searchQuery.put("userID", new ObjectId(objectId));
+                DBCursor curs = dBCollection.find(searchQuery);
+                while (curs.hasNext()) {
+                    DBObject dBbject = curs.next();
+                    // shows the whole result document
+                    System.out.println("Activities ObjectID: " + dBbject.get("_id"));
+                    dBCollection.remove(dBbject);
+                    count++;
+                }
+            }
+            if (count == 0) {
+                System.out.println(String.format("Activities integrated with email '%s' is not exist on database", email));
+            } else
+                System.out.println("Deleted Activities successfully.");
+        } catch (NoSuchElementException ex) {
+            System.out.println("This Activities not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Remove Client User from database and all indicated value in 'acl' array object of Client User in Engagement, Activities and Business Collection.
      * @param email
      */
     public static void removeClientAndIndicatedValueByEmail(String email) {
         System.out.println("Deleted Client User and All Indicated Value.");
         removeInvitedClientInEngagementCollection(email);
         removeInvitedClientInBusinessesCollection(email);
+        removeInvitedClientInActivitiesCollection(email);
         try {
             removeUserObjectByEmail(getCollection("users"), email);
         } catch (Exception e) {

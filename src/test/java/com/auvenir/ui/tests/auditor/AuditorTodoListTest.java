@@ -1875,7 +1875,10 @@ End of merged VienPham.
         auditorId = GenericService.addBrowserPrefix(auditorId);
         clientId = GenericService.addBrowserPrefix(clientId);
 
-        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Password", "Valid Value");
+//        String phoneNumber = "0123456789";
+//        String parentStackHolder = "Titancorpvn";
+//
+//        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "New Client Password", "Valid Value");
 
         try {
             MongoDBService.removeClientAndIndicatedValueByEmail(clientId);

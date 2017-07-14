@@ -4424,19 +4424,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
             } else {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
                 Thread.sleep(largeTimeOut);
-//                getLogger().info("Input path of file..");
+                getLogger().info("Input path of file..");
                 upLoadRequestFile(concatUpload);
-//                StringSelection ss = new StringSelection(concatUpload);
-//                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-//                Robot robot = new Robot();
-//                robot.keyPress(KeyEvent.VK_ENTER);
-//                robot.keyRelease(KeyEvent.VK_ENTER);
-//                robot.keyPress(KeyEvent.VK_CONTROL);
-//                robot.keyPress(KeyEvent.VK_V);
-//                robot.keyRelease(KeyEvent.VK_V);
-//                robot.keyRelease(KeyEvent.VK_CONTROL);
-//                robot.keyPress(KeyEvent.VK_ENTER);
-//                robot.keyRelease(KeyEvent.VK_ENTER);
+                /*StringSelection ss = new StringSelection(concatUpload);
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);*/
                 getLogger().info("Waiting for checkSign visible..");
                 waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
                 closeAddNewRequestWindow();
