@@ -12,6 +12,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -157,12 +159,12 @@ public class DatePicker {
      * @param month month of year
      * @param year  year AD
      */
-    private int monthDif(String year, String month) {
-        DateTime now = new DateTime();
-        //        int yearDif = Integer.valueOf(year) - now.getYear();
-        //        int monthOfYearDif = Month.valueOf(month.toUpperCase()).getValue() - now.getMonthOfYear();
-        int yearDif = Integer.parseInt(year) - now.getYear();
-        int monthOfYearDif = Integer.parseInt(month) - now.getMonthOfYear();
+    private int monthDif(String year, String month) throws Exception {
+        Date date = new SimpleDateFormat("MMMM yyyy").parse(titleMonthYear.getText());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int yearDif = Integer.parseInt(year) - cal.get(Calendar.YEAR);
+        int monthOfYearDif = Integer.parseInt(month) - (cal.get(Calendar.MONTH) + 1);
         return yearDif * 12 + monthOfYearDif;
     }
 
