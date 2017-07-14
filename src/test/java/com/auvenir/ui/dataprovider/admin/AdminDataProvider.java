@@ -14,8 +14,6 @@ public class AdminDataProvider extends CommonDataProvider{
     private static String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
     private static String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
     private static String superAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Phone", "Valid Value");
-//    private static String adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin", "Valid Value");
-//    private static String adminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Password", "Valid Value");
     private static String adminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Name", "Valid Value");
     private static String adminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Phone", "Valid Value");
     private static String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Client", "Valid Value");

@@ -38,11 +38,6 @@ public class ClientTest extends AbstractTest {
     private ClientSignUpService clientSignUpService;
     private ClientEngagementService clientEngagementService;
 
-    //    private String adminId, auditorId, clientId;
-    //    private String adminPassword, auditorPassword, clientPassword;
-    //    private String clientEmailPassword;
-    //    private String engagementName;
-
     @Test(priority = 1, enabled = true, description = "Inviting a client from Auditor", dataProvider = "verifyInvitingNewClient",
             dataProviderClass = ClientDataProvider.class)
     public void verifyInvitingNewClient(String adminId, String adminPassword, String auditorId, String auditorPassword, String clientId,
@@ -61,7 +56,6 @@ public class ClientTest extends AbstractTest {
         auditorId = GenericService.addBrowserPrefix(auditorId);
         clientId = GenericService.addBrowserPrefix(clientId);
 
-        //        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
         MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
         MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
         //MongoDBService.removeBusinessByInvitedClientEmail(MongoDBService.getCollection("businesses"), clientId);
@@ -141,7 +135,6 @@ public class ClientTest extends AbstractTest {
 
         //MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
         clientId = GenericService.addBrowserPrefix(clientId);
-        //clientId = GenericService.addBrowserPrefix(clientId);
         try {
             gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
@@ -165,7 +158,7 @@ public class ClientTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "To Verify the display of Elements in Client Home Page", dataProvider = "verifyClientHomePage",
+    @Test(priority = 4, enabled = true, description = "To Verify the display of Elements in Client Home Page", dataProvider = "verifyClientHomePage",
             dataProviderClass = ClientDataProvider.class)
     public void verifyClientHomePage(String logoHeaderBluePartialLink, String headerEngagementsText, String headerContactsText,
             String dashboardUsernameText, String dashboardSettingsText, String dashboardSignOutText, String previewHeaderText,
@@ -181,7 +174,6 @@ public class ClientTest extends AbstractTest {
 
         String clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
         String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Client Auvenir Password");
-        //System.out.println("clientPassword = " + clientPassword);
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
 

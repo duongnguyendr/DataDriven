@@ -268,13 +268,13 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement securityInfoActiveIconEle;
 
     // ======================================  Element of Create Password ===================================================
-//    @FindBy(xpath = "//input[@name='password']")
-    @FindBy(xpath = "//input[@id='first-password']")
+    @FindBy(xpath = "//input[@name='password']")
+//    @FindBy(xpath = "//input[@id='first-password']")
     private WebElement elePassword;
 
     // Element of Confirm Password
-//    @FindBy(xpath = "//input[@name='retype_password']")
-    @FindBy(xpath = "//input[@id='second-password']")
+    @FindBy(xpath = "//input[@name='retype_password']")
+//    @FindBy(xpath = "//input[@id='second-password']")
     private WebElement eleConfirmPass;
 
     // Element of checkbox Captcha
