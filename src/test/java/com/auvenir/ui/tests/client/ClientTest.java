@@ -141,7 +141,6 @@ public class ClientTest extends AbstractTest {
 
         //MongoDBService.changeUserObjectField(MongoDBService.getCollection("users"), clientId, "status", "ONBOARDING");
         clientId = GenericService.addBrowserPrefix(clientId);
-        //clientId = GenericService.addBrowserPrefix(clientId);
         try {
             gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             gmailLoginService.signInGmail(clientId, clientEmailPassword);
@@ -181,7 +180,6 @@ public class ClientTest extends AbstractTest {
 
         String clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
         String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Client Auvenir Password");
-        //System.out.println("clientPassword = " + clientPassword);
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
 
