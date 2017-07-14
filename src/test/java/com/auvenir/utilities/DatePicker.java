@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class DatePicker {
     private WebElement datePicker;
-    private WebDriver driver;
 
     @FindBy(className = "ui-icon-circle-triangle-w")
     private WebElement btnPrev;
@@ -40,19 +39,16 @@ public class DatePicker {
     @FindBy(className = "ui-datepicker-title")
     private WebElement titleMonthYear;
 
-
     private String validDate = "//a[contains(text(),'%s')][@href='#']";
     private String parentDate = "//*[text()='%s']/ancestor::td";
 
     public DatePicker(WebDriver driver, WebElement ele) {
         PageFactory.initElements(driver, this);
-        this.driver = driver;
         datePicker = ele;
     }
 
     public DatePicker(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        this.driver = driver;
         this.datePicker = defaultDatePickerElement;
     }
 
@@ -60,14 +56,14 @@ public class DatePicker {
      * go to previous month
      */
     public void clickPreviousButton() {
-        clickElement(btnPrev, "Button previous");
+        clickElement(btnPrev, "Button previous Datepicker");
     }
 
     /**
      * go to next month
      */
     public void clickNextButton() {
-        clickElement(btnNext, "Button next");
+        clickElement(btnNext, "Button next Datepicker");
     }
 
     /**
@@ -87,9 +83,6 @@ public class DatePicker {
      * @param year  year AD
      */
     public void pickADate(String month, String date, String year) throws Exception {
-        //        if (!timeValidation(date, month, year)) {
-        //            throw new Exception("Date input for DatePicker wrong!");
-        //        }
         int monthDif = monthDif(year, month);
         if (monthDif > 0) {
             for (int i = 0; i < Math.abs(monthDif); i++) {
