@@ -10,9 +10,9 @@
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
-            <!--<methods>
+            <methods>
                 <include priority="1" name="verifyAdminLogin"></include>
-                </methods>-->
+                </methods>
             <!-- &lt;!&ndash;<include priority="2" name="verifySignUpAuditorUser"></include>
              <include priority="3" name="verifyAdminChangeStatusUserToOnBoarding"></include>
              <include priority="4" name="verifyAuditorLoginGmailAndActiveUser"></include>
