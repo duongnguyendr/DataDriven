@@ -132,6 +132,16 @@ public class MarketingService extends AbstractService {
         marketingPage.verifyColorEmailForgotPasswordMessage(attributeName, attributeValue);
     }
 
+    public void verifyGUIEmailForgotPasswordTextBox() {
+        marketingPage.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+        marketingPage.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
+    }
+
+    public void verifyGUIEmailForgotPasswordMessage() {
+        marketingPage.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
+        marketingPage.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
+    }
+
     public void verifyContentEmailForgotPasswordMessage(String text) {
         marketingPage.verifyContentEmailForgotPasswordMessage(text);
     }
