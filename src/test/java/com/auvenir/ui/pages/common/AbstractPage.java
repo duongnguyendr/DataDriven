@@ -1186,8 +1186,6 @@ public class AbstractPage {
         }
     }
 
-    //Vien deleted aMinh method
-
 
     public void chooseCategoryColorInPopup() throws Exception {
         hoverElement(categoryColorFieldOnFromEle, "categoryColorFieldOnFromEle");
@@ -1212,9 +1210,7 @@ public class AbstractPage {
      * categoryMode = "": create new category in a ToDoPage
      */
 
-    /*
-    Vien Pham modified method  createNewCategory from a Minh.Nguyen
-     */
+
     public void createNewCategory(String categoryNameInput) throws Exception {
         Thread.sleep(smallerTimeOut);
         String categoryName = null;
@@ -1235,9 +1231,7 @@ public class AbstractPage {
     }
 
 
-    /*
-    Vien Pham edited
-     */
+
     public boolean chooseCategoryByNameFromDll(String categoryName) {
         boolean isCheckCategoryName = false;
         getLogger().info("Choose category by name from dropdownlist");
