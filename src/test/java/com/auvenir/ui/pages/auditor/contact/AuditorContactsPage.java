@@ -6,6 +6,7 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -32,10 +33,13 @@ public class AuditorContactsPage extends AbstractPage {
 	private final static  String ROLE_HEADER_COLUMN_TITLE = "Role";
 	private final static  String STATUS_HEADER_COLUMN_TITLE = "Status";
 
+	private List<String> tabs = null;
+	private WebDriver driver = null;
+
 
 	public AuditorContactsPage(Logger logger, WebDriver driver) {
 		super(logger, driver);
-
+		this.driver = driver;
 	}
 
 	@FindBy(xpath = "//span[contains(text(),'My Clients')]")
@@ -73,6 +77,23 @@ public class AuditorContactsPage extends AbstractPage {
 
 	@FindBy(xpath = "//table[@id ='v-c-table']/tr/td[@id='v-c-thStatus']")
 	private WebElement eleAuditStatusHeaderColumn;
+
+	@FindBy(xpath = "//div[@id='contacts-footer']/footer/div/div/div[2]/a[@href='/terms']")
+	private WebElement eleTermsOfServiceLnk;
+
+	@FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()-1]")
+	private WebElement eleTermsOfServiceDotTxt;
+
+	@FindBy(xpath = "//div[@id='contacts-footer']/footer/div/div/div[2]/a[@href='/privacy']")
+	private WebElement elePrivacyStatementLnk;
+
+	@FindBy(xpath = "(//span[contains(text(),'© 2017 Auvenir Inc')]//..//..//a[contains(text(),'.')])[last()]")
+	private WebElement elePrivacyStatementDotTxt;
+
+	@FindBy(xpath = "//div[@id='contacts-footer']/footer/div/div/div[2]/a[@href='/cookies']")
+	private WebElement eleCookieNoticeLnk;
+
+	private String termsPrivacyCookieText = "//div[@id='marketing-header']//div[@class='ui center aligned header header-main-text']";
 
 	/**
 	 * Verify GUI of Auditor Contacts Page
@@ -195,4 +216,66 @@ public class AuditorContactsPage extends AbstractPage {
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
+	public void verifyTermsOfServiceLinkContactsPage() {
+		try {
+			getLogger().info("Verify Terms of service link.");
+			boolean isCheckTermOfService = false;
+			hoverElement(eleTermsOfServiceLnk, "hover terms of service link");
+			clickElement(eleTermsOfServiceLnk, "click to eleTermsOfServiceLnk");
+			getLogger().info("verify texts are rendered.");
+			switchToOtherTab(1);
+			waitForVisibleOfLocator(By.xpath(termsPrivacyCookieText));
+			WebElement terms = findWebElementByXpath(termsPrivacyCookieText);
+			isCheckTermOfService = validateElementText(terms, "Terms of Service");
+			tabs = new ArrayList<String>(driver.getWindowHandles());
+			driver.switchTo().window(tabs.get(1)).close();
+			Thread.sleep(smallTimeOut);
+			if (isCheckTermOfService) {
+				NXGReports.addStep("verify Terms Of Service Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("verify Terms Of Service Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+		}
+	}
+
+	public void verifyPrivacyStateLinkContactsPage() {
+		try {
+			boolean isPrivacyState = false;
+			getLogger().info("Verify Pricacy statement link.");
+			switchToOtherTab(0);
+			clickElement(elePrivacyStatementLnk, "click to elePrivacyStatementLnk");
+			switchToOtherTab(1);
+			WebElement privacy = findWebElementByXpath(termsPrivacyCookieText);
+			isPrivacyState = validateElementText(privacy, "Privacy Policy");
+			tabs = new ArrayList<String>(driver.getWindowHandles());
+			driver.switchTo().window(tabs.get(1)).close();
+			Thread.sleep(smallTimeOut);
+			if (isPrivacyState) {
+				NXGReports.addStep("verify Privacy State Link.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("verify Privacy State Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+		}
+	}
+
+	public void verifyCookieNoticeContactsPage() {
+		try {
+			boolean isCheckCookieNotice = false;
+			getLogger().info("verify cookie notices page.");
+			switchToOtherTab(0);
+			clickElement(eleCookieNoticeLnk, "click to eleCookieNoticeLnk");
+			switchToOtherTab(1);
+			WebElement cookie = findWebElementByXpath(termsPrivacyCookieText);
+			isCheckCookieNotice = validateElementText(cookie, "Cookie Notice");
+			if (isCheckCookieNotice) {
+				NXGReports.addStep("verify Cookie Notice.", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+			}
+		} catch (Exception e) {
+			AbstractService.sStatusCnt++;
+			NXGReports.addStep("verify Cookie Notice.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+		}
+	}
+
 }

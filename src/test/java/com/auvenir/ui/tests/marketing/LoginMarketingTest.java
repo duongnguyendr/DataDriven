@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.marketing;
 
 
+import com.auvenir.ui.dataprovider.marketing.LoginMarketingDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
@@ -27,10 +28,12 @@ public class LoginMarketingTest extends AbstractTest {
     private String emailId = null;
     private String emailPassword = null;
 
-    @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.")
-    public void forgotPasswordTest() throws Exception {
-        emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-        emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
+    @Test(priority = 1, enabled= true, description = "Test positive behavior forgot password.", dataProvider = "forgotPasswordTest",
+                                        dataProviderClass = LoginMarketingDataProvider.class)
+    public void forgotPasswordTest(String emailId, String emailPassword, String ranPassword) throws Exception {
+        /*emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+        emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");*/
+        emailId = GenericService.sBrowserData + emailId;
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try {
@@ -43,7 +46,7 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.clickOnRequestResetLinkBTN();
             gmailLoginService.openGmailIndexForgotPassword(emailId, emailPassword);
 
-            String ranPassword = GenericService.genPassword(8, true, true, true);
+            /*String ranPassword = GenericService.genPassword(8, true, true, true);*/
             NXGReports.addStep("Enter new password: " + ranPassword, LogAs.PASSED, null);
             marketingService.verifyResetPassword(ranPassword,ranPassword);
 
@@ -70,10 +73,12 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.clickOnRequestResetLinkBTN();
-            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyGUIEmailForgotPasswordTextBox();
+            marketingService.verifyGUIEmailForgotPasswordMessage();
+            /*marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
             marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
             marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");*/
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with blank email address: PASSED", LogAs.PASSED, (CaptureScreen) null);
         }catch (Exception e){
@@ -82,48 +87,59 @@ public class LoginMarketingTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled= true, description = "Forgot password with email is invalid")
-    public void forgotPasswordWithInvalidEmail() throws InterruptedException {
+    @Test(priority = 3, enabled= true, description = "Forgot password with email is invalid", dataProvider = "forgotPasswordWithInvalidEmail",
+                                       dataProviderClass = LoginMarketingDataProvider.class)
+    public void forgotPasswordWithInvalidEmail(String invalidEmailAddress, String invalidEmailAddress1,
+                                               String invalidEmailAddress2, String errorMessage) throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
+        invalidEmailAddress = GenericService.sBrowserData + invalidEmailAddress;
+        invalidEmailAddress1 = GenericService.sBrowserData + invalidEmailAddress1;
+        invalidEmailAddress2 = GenericService.sBrowserData + invalidEmailAddress2;
         try {
-            emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+            /*emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
             NXGReports.addStep("Enter " + emailId + " into email address.", LogAs.PASSED, null);
-            Assert.assertFalse(GenericService.isValidEmailAddress(emailId), "Email address is readed from excel file which is a invalid.");
+            Assert.assertFalse(GenericService.isValidEmailAddress(emailId), "Email address is readed from excel file which is a invalid.");*/
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
-            marketingService.inputEmailForgotPassword(emailId);
+            marketingService.inputEmailForgotPassword(invalidEmailAddress);
             marketingService.clickOnRequestResetLinkBTN();
-            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyGUIEmailForgotPasswordTextBox();
+            marketingService.verifyGUIEmailForgotPasswordMessage();
+            /*marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
             marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
             marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
-            marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");*/
+            marketingService.verifyContentEmailForgotPasswordMessage(errorMessage);
             marketingService.refreshHomePage();
-            String invalidEmailAddress1 = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","INVALID VALUE");
+            /*String invalidEmailAddress1 = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","INVALID VALUE");*/
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(invalidEmailAddress1);
             marketingService.clickOnRequestResetLinkBTN();
-            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyGUIEmailForgotPasswordTextBox();
+            marketingService.verifyGUIEmailForgotPasswordMessage();
+            /*marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
             marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
             marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
-            marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");*/
+            marketingService.verifyContentEmailForgotPasswordMessage(errorMessage);
             marketingService.refreshHomePage();
-            String invalidEmailAddress2 = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","NOT EXIST");
+            /*String invalidEmailAddress2 = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","NOT EXIST");*/
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
             marketingService.verifyForgotPasswordTitle();
             marketingService.inputEmailForgotPassword(invalidEmailAddress2);
             marketingService.clickOnRequestResetLinkBTN();
-            marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+            marketingService.verifyGUIEmailForgotPasswordTextBox();
+            marketingService.verifyGUIEmailForgotPasswordMessage();
+            /*marketingService.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
             marketingService.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
             marketingService.verifyColorEmailForgotPasswordMessage("background-color","rgba(255, 246, 246, 1)");
-            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");
-            marketingService.verifyContentEmailForgotPasswordMessage("The email is invalid!");
+            marketingService.verifyColorEmailForgotPasswordMessage("color","rgba(159, 58, 56, 1)");*/
+            marketingService.verifyContentEmailForgotPasswordMessage(errorMessage);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Forgot password with email is invalid: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception e) {
@@ -132,11 +148,13 @@ public class LoginMarketingTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled= true, description = "Forgot password with email is not exist.")
-    public void forgotPasswordWithEmailIsNotExist() throws InterruptedException {
+    @Test(priority = 4, enabled= true, description = "Forgot password with email is not exist.", dataProvider = "forgotPasswordWithEmailIsNotExist",
+                                        dataProviderClass = LoginMarketingDataProvider.class)
+    public void forgotPasswordWithEmailIsNotExist(String invalidEmailAddress) throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
+        invalidEmailAddress = GenericService.sBrowserData + invalidEmailAddress;
         try {
-            String invalidEmailAddress = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","INVALID VALUE");
+            /*String invalidEmailAddress = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","INVALID VALUE");*/
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.goToForgotPassword();
@@ -152,12 +170,14 @@ public class LoginMarketingTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout")
-    public void loginAndLogoutTest() throws Exception {
+    @Test(priority = 5,enabled = true, description = "Test positive tests case login and logout", dataProvider = "loginAndLogoutTest",
+                                        dataProviderClass = LoginMarketingDataProvider.class)
+    public void loginAndLogoutTest(String emailId, String emailPassword) throws Exception {
         marketingService = new MarketingService(getLogger(),getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
-        emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
+        emailId = GenericService.sBrowserData + emailId;
+        /*emailId = GenericService.getTestDataFromExcel("ForgotPassword","AUDITOR_EMAIL_ADDRESS","VALID VALUE");
+        emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");*/
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();

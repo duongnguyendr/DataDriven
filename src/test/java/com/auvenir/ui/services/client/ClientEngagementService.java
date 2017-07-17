@@ -19,4 +19,27 @@ public class ClientEngagementService extends AbstractService {
     public void verifyNavigatedToClientEngagementPage() {
         clientEngagementPage.verifyNavigatedToClientEngagementPage();
     }
+
+    public void verifyUIListEngagementHeader(String logoHeaderBluePartialLink, String headerEngagementsText, String headerContactsText,
+            String dashboardUsernameText, String dashboardSettingsText, String dashboardSignOutText) {
+        clientEngagementPage.verifyUIListEngagementHeader(logoHeaderBluePartialLink, headerEngagementsText, headerContactsText, dashboardUsernameText,
+                dashboardSettingsText, dashboardSignOutText);
+    }
+
+    public void verifyUIListEngagementBody(String previewHeaderText, String engagementFiltersText, String filterAllText,
+            String filterTypeOfEngagementText, String typeOfEngagementFinancialAuditText, String typeOfEngagementReviewText,
+            String typeOfEngagementNoticeToReaderCompilationText, String typeOfEngagementOtherText, String engagementSearchText,
+            String engagementColumnText, String auditFirmColumnText, String statusColumnText, String auditAssigneeColumnText,
+            String completedDocsColumnText, String clientColumnText, String activityColumnText, String dueDateColumnText) {
+        clientEngagementPage.verifyUIListEngagementBody(previewHeaderText, engagementFiltersText, filterAllText, filterTypeOfEngagementText,
+                typeOfEngagementFinancialAuditText, typeOfEngagementReviewText, typeOfEngagementNoticeToReaderCompilationText,
+                typeOfEngagementOtherText, engagementSearchText, engagementColumnText, auditFirmColumnText, statusColumnText, auditAssigneeColumnText,
+                completedDocsColumnText, clientColumnText, activityColumnText, dueDateColumnText);
+    }
+
+    public void verifyUIListEngagementFooter(String companyInfoText, String termsOfServiceText, String termsOfServicePartialLink,
+            String privacyStatementText, String privacyStatementPartialLink, String cookieNoticeText, String cookieNoticePartialLink) {
+        clientEngagementPage.verifyUIListEngagementFooter(companyInfoText, termsOfServiceText, termsOfServicePartialLink, privacyStatementText,
+                privacyStatementPartialLink, cookieNoticeText, cookieNoticePartialLink);
+    }
 }

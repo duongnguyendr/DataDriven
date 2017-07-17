@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.client.general;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.utilities.DatePicker;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,7 +20,7 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(id = "welcome-continueBtn")
     private WebElement buttonWelcomeContinue;
 
-    @FindBy(xpath = "//div[@id='onboarding-personal-container']//h3")
+    @FindBy(xpath = "//div[@id='onboarding-personal-container']//h2")
     private WebElement titleComponentPersonal;
 
 
@@ -32,19 +33,24 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(id = "personal-phoneNumber")
     private WebElement inputPersonalPhoneNumber;
 
-    @FindBy(id = "agreement-personal")
+    //@FindBy(id = "agreement-personal")
+    @FindBy(xpath = "//div[@id='icheckbox']")
     private WebElement checkboxAgreementPersonal;
 
-    @FindBy(id = "personal-coninueBtn")
+    @FindBy(xpath = "//div[@id='icheckbox']/following-sibling::div//label")
+    private WebElement checkboxConfirm;
+
+    @FindBy(id = "personal-continueBtn")
     private WebElement buttonPersonalContinue;
 
-    @FindBy(xpath = "//div[@id='onboarding-business-container']//h3")
+    @FindBy(xpath = "//div[@id='onboarding-business-container']//h2")
     private WebElement titleComponentBusiness;
 
     @FindBy(xpath = "//p[@for='business-parentStakeholders']")
     private WebElement titleParentStakeholders;
 
-    @FindBy(id = "business-parentStakeholders")
+    //@FindBy(id = "business-parentStakeholders")
+    @FindBy(name = "business_parent_stake_holders")
     private WebElement textAreaParentStakeholders;
 
     @FindBy(id = "business-industry")
@@ -58,6 +64,9 @@ public class ClientSignUpPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@id='accounting-framework-container']//a")
     private List<WebElement> listOptionAccountingFramework;
+
+    @FindBy(name = "business_fiscal_year")
+    private WebElement inputFiscalEndYear;
 
     @FindBy(id = "onboard-business-continue")
     private WebElement buttonBusinessContinue;
@@ -74,13 +83,13 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='onboarding-files-container']//button[contains(@id,'files-skipBtn')]")
     private WebElement buttonFilesSkip;
 
-    @FindBy(xpath = "//div[@id='onboarding-security-container']//p[@class='component-title']")
+    @FindBy(xpath = "//div[@id='onboarding-security-container']//h2")
     private WebElement titleComponentSecurity;
 
-    @FindBy(id = "first-password")
+    @FindBy(name = "password")
     private WebElement inputCreatePassword;
 
-    @FindBy(id = "second-password")
+    @FindBy(name = "retype_password")
     private WebElement inputConfirmPassword;
 
     @FindBy(id = "security-continueBtn")
@@ -115,13 +124,15 @@ public class ClientSignUpPage extends AbstractPage {
     public void fillUpPersonalForm(String phoneNumber) {
         try {
             getLogger().info("Fill Up Personal Form");
-            validateElementText(titleComponentPersonal, "Please Confirm your Information");
-            clickElement(inputPersonalRole, "Input Personal Role");
-            waitSomeSeconds(5);
-            scrollToFooter();
-            clickElement(optionFirstOnPersonalRoleList, "First Option Personal Role");
+            validateElementText(titleComponentPersonal, "Please Provide your Information");
+            //clickElement(inputPersonalRole, "Input Personal Role");
+            //waitSomeSeconds(5);
+            //scrollToFooter();
+            //clickElement(optionFirstOnPersonalRoleList, "First Option Personal Role");
             sendKeyTextBox(inputPersonalPhoneNumber, phoneNumber, "Input Personal Phone Number");
+            clickElement(checkboxConfirm, "Checkbox Confirm Chartered Professional Accountant");
             clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
+            switchToOtherTab(1);
             clickElement(buttonPersonalContinue, "Button Personal Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -182,13 +193,16 @@ public class ClientSignUpPage extends AbstractPage {
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
             sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
             scrollToFooter();
-            clickElement(inputIndustry, "Input Industry");
-            chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
+            clickElement(inputFiscalEndYear, "Input Fiscal End Year");
+            DatePicker datePicker = new DatePicker(getDriver());
+            datePicker.pickADate("12", "31", "2017");
+            //clickElement(inputIndustry, "Input Industry");
+            //chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
             //sometime listoption not close after choose an option, so need to click somewhere to close, avoid it cover others element
-            clickElement(titleParentStakeholders);
-            clickElement(inputAccountingFramework, "Input Accounting Framework");
-            chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
-            clickElement(titleParentStakeholders);
+            //clickElement(titleParentStakeholders);
+            //clickElement(inputAccountingFramework, "Input Accounting Framework");
+            //chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
+            //clickElement(titleParentStakeholders);
             clickElement(buttonBusinessContinue, "Button Business Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -199,7 +213,7 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Bank Form");
             validateElementText(titleComponentBank, "Integrate with your Bank");
-            waitSomeSeconds(10);
+            //            waitSomeSeconds(10);
             waitForJSandJQueryToLoad();
             scrollToFooter();
             clickElement(buttonBankSkip, "Button Bank Skip");

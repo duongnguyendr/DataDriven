@@ -178,7 +178,7 @@ public class CreateNewAuditPage extends AbstractPage {
 
     public void sendInvitationName() {
         getLogger().info("Send Invitation to Client.");
-//        closeSuccessToastMes();
+        //        closeSuccessToastMes();
         waitForProgressOverlayIsClosed();
         final String expectedContent = "Your engagement invitation has been sent.";
         clickElement(eleInviteBtn, "Invite Button");
@@ -295,6 +295,7 @@ public class CreateNewAuditPage extends AbstractPage {
     public void verifyInviteClientFailure(String message) {
         waitForProgressOverlayIsClosed();
         verifyContentOfWarningToastMessage(message);
+        closeWarningToastMessage();
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
 }

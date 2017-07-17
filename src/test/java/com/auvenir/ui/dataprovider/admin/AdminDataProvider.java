@@ -1,5 +1,6 @@
 package com.auvenir.ui.dataprovider.admin;
 
+import com.auvenir.ui.dataprovider.commonData.CommonDataProvider;
 import com.auvenir.utilities.GenericData;
 import com.auvenir.utilities.GenericService;
 import org.testng.annotations.DataProvider;
@@ -7,27 +8,20 @@ import org.testng.annotations.DataProvider;
 /**
  * Created by thuan.duong on 7/7/2017.
  */
-public class AdminDataProvider {
+public class AdminDataProvider extends CommonDataProvider{
 
     private static String superAdminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin", "Valid Value");
     private static String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Password", "Valid Value");
     private static String superAdminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Name", "Valid Value");
     private static String superAdminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Super Admin Phone", "Valid Value");
-    private static String adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin", "Valid Value");
-    private static String adminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Password", "Valid Value");
     private static String adminFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Name", "Valid Value");
     private static String adminPhoneNum = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Admin Phone", "Valid Value");
     private static String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Client", "Valid Value");
     private static String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SuperAdminTest", "Auditor", "Valid Value");
-    private static String onboardingStatus = GenericData.UserStatus.ONBOARDING.value;
-    private static String waitListedStatus = GenericData.UserStatus.WAITLISTED.value;
-    private static String activeStatus = GenericData.UserStatus.ACTIVE.value;
-    private static String inactiveStatus = GenericData.UserStatus.INACTIVE.value;
-    private static String lockedStatus = GenericData.UserStatus.LOCKED.value;
 
     @DataProvider(name = "verifyGUISuperAdminHomePage")
     public static Object[][] getVerifyGUISuperAdminHomePage() {
-        Object[][] arrayData = new Object[][]{{superAdminId, superAdminPwd, superAdminFullName, superAdminPhoneNum, adminId
+        Object[][] arrayData = new Object[][]{{superAdminId, superAdminPwd, adminId
                 , clientId, auditorId, onboardingStatus, waitListedStatus, activeStatus, inactiveStatus}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
@@ -40,7 +34,7 @@ public class AdminDataProvider {
 
     @DataProvider(name = "verifyGUIAdminHomePage")
     public static Object[][] getVerifyGUIAdminHomePage() {
-        Object[][] arrayData = new Object[][]{{adminId, adminPwd, adminFullName, adminPhoneNum, clientId, auditorId, onboardingStatus, waitListedStatus}};
+        Object[][] arrayData = new Object[][]{{adminId, adminPwd, clientId, auditorId, onboardingStatus, waitListedStatus}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
                     {adminId, adminPwd, adminFullName, adminPhoneNum, clientId, auditorId, onboardingStatus, waitListedStatus}
@@ -88,6 +82,28 @@ public class AdminDataProvider {
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
                     {superAdminId, superAdminPwd, clientId, inactiveStatus, lockedStatus, activeStatus, onboardingStatus, waitListedStatus}
+            };
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifySuperAdminChangeSetting")
+    public static Object[][] getVerifySuperAdminChangeSetting() {
+        Object[][] arrayData = new Object[][]{{superAdminId, superAdminPwd, superAdminFullName, superAdminPhoneNum}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {superAdminId, superAdminPwd, superAdminFullName, superAdminPhoneNum}
+            };
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyAdminChangeSetting")
+    public static Object[][] getVerifyAdminChangeSetting() {
+        Object[][] arrayData = new Object[][]{{adminId, adminPwd, adminFullName, adminPhoneNum}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {adminId, adminPwd, adminFullName, adminPhoneNum}
             };
         }
         return arrayData;

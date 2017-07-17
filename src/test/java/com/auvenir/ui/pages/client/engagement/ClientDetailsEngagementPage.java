@@ -10,15 +10,17 @@ import org.openqa.selenium.support.FindBy;
  * Created by huy.huynh on 21/06/2017.
  */
 public class ClientDetailsEngagementPage extends AbstractPage {
-    @FindBy(xpath = "//div[@class='pageHeader-leftContainer']//input[@id='a-header-title']")
-    private WebElement dashboardTextEle;
+    //@FindBy(xpath = "//div[@class='pageHeader-leftContainer']//input[@id='a-header-title']")
+    @FindBy(xpath = "//div[@class='pageHeader-leftContainer']//span[@id='a-header-title']")
+    private WebElement dashboardText;
 
     public ClientDetailsEngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
 
     public void verifyDetailsEngagementPage(String engagementName) {
-        waitForVisibleElement(dashboardTextEle, "Dashboard text");
-        validateAttributeElement(dashboardTextEle, "value", engagementName);
+        waitForVisibleElement(dashboardText, "Dashboard text");
+        //        validateAttributeElement(dashboardTextEle, "value", engagementName);
+        validateElementText(dashboardText, engagementName);
     }
 }
