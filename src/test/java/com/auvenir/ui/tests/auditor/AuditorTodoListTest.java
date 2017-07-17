@@ -36,16 +36,15 @@ public class AuditorTodoListTest extends AbstractTest {
     private AuditorEditCategoryService auditorEditCategoryService;
     private MarketingService marketingService;
 
-    //String auditorId;
     String timeStamp;
     String firstEngagementTitleOnWeb;
-    //String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "Engagement Name", "Valid Data");
     private ClientService clientService;
     private AdminService adminService;
     private GmailLoginService gmailLoginService;
     private EmailTemplateService emailTemplateService;
     private ClientSignUpService clientSignUpService;
     private ClientDetailsEngagementService clientDetailsEngagementService;
+    int ToDoItemNumber = 4;
 
     @Test(priority = 1, enabled = true, description = "Verify Auditor empty Todo List page.", dataProvider = "verifyAuditorEmptyTodoListPage" , dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyAuditorEmptyTodoListPage(String auditorId, String auditorPwd, String engagementType, String companyName, String engagementName) throws Exception {
@@ -55,10 +54,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-        String engagementType = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "Engagement Type", "Valid Data");
-        String companyName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "Company Name", "Valid Data");*/
+
         try {
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -90,11 +86,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-/*
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "To Do Name", "Valid Data");
-*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -146,9 +138,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "To Do Name", "Valid Data");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -178,8 +168,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -190,9 +179,6 @@ public class AuditorTodoListTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("verify displayed of this button filter", LogAs.PASSED, null);
         } catch (Exception e) {
-            /*NXGReports.addStep("verify displayed of this button filter", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);*/
             String stepException = "Verify displayed of this button filter failed because " + e.getMessage();
             NXGReports.addStep("verify displayed of this button filter", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), stepException);
@@ -208,8 +194,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -233,10 +218,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-/*
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -261,8 +243,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -278,32 +259,32 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-//    @Test(priority = 9, enabled = true, description = "verify input number to field search.")
-//    public void verifySearchInputNumber() throws Exception {
-//        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-//        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-//        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-//        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-//        marketingService = new MarketingService(getLogger(), getDriver());
-//        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-//        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-//        try {
-//            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
-//            auditorEngagementService.verifyAuditorEngagementPage();
-//            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-//            auditorCreateToDoService.inputSearchNumber(12121212);
-//            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-//            NXGReports.addStep("verify input number to field search.", LogAs.PASSED, null);
-//        } catch (Exception e) {
-//            NXGReports.addStep("verify input number to field search.", LogAs.FAILED,
-//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//            getLogger().info(e);
-//            throw e;
-//        }
-//    }
+    /*@Test(priority = 9, enabled = true, description = "verify input number to field search.")
+    public void verifySearchInputNumber() throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
+        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorCreateToDoService.inputSearchNumber(12121212);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("verify input number to field search.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("verify input number to field search.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }*/
 
     // These testcases are removed because the business is changed, Save Icon and Close Icon do not exists anymore.
-/*    @Test(priority = 10, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
+    /*@Test(priority = 10, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Save Icon")
     public void verifyGUIToDoSaveIcon() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -332,9 +313,9 @@ public class AuditorTodoListTest extends AbstractTest {
             getLogger().info(e);
             throw e;
         }
-    }
+    }*/
 
-    @Test(priority = 11, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
+    /*@Test(priority = 11, enabled = true, description = "[PLAT 2282]-03: Verify GUI To Do Close Icon")
 
     public void verifyGUIToDoCloseIcon() throws Exception {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -361,8 +342,8 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }*/
-
-    @Test(priority = 12, enabled = true, description = "[PLAT 2282]-03: Verify Data Grid after adding new To Do Task", dataProvider = "verifyDataGridToDoTaskPage", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2282]-03: Verify Data Grid after adding new To Do Task
+    @Test(priority = 12, enabled = true, description = "Verify Data Grid after adding new To Do Task", dataProvider = "verifyDataGridToDoTaskPage", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyDataGridToDoTaskPage(String auditorId, String auditorPwd, String engagementName, String[] toDoListNames) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -370,9 +351,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-        String toDoListNames[] = {"416 To Do Task02", "a To Do Task02", "z To Do Task02", "b To Do Task02", "c To Do Task02"};*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -391,8 +370,8 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
-    @Test(priority = 13, enabled = true, description = "[PLAT 2289]: Verify 'Category' combo box on Create to-do", dataProvider = "verifyCategoryComboBoxOnCreateToDo", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2289]: Verify 'Category' combo box on Create to-do
+    @Test(priority = 13, enabled = true, description = "Verify 'Category' combo box on Create to-do", dataProvider = "verifyCategoryComboBoxOnCreateToDo", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyCategoryComboxBoxOnCreateToDo(String auditorId, String auditorPwd, String engagementName, String toDoName, String categoryName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -400,10 +379,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "To Do Name", "Valid Data");
-        String categoryName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "Category Name", "Valid Data");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -428,11 +404,8 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
-    /*
-    TestCase to cover ticket: PLAT 2283
-     */
-    @Test(priority = 14, enabled = true, description = "[PLAT 2283]: Verify Filter button next to create to-do button.", dataProviderClass = AuditorToDoListDataProvider.class, dataProvider = "verifyFilterButton")
+    //[PLAT 2283]: Verify Filter button next to create to-do button.
+    @Test(priority = 14, enabled = true, description = "Verify Filter button next to create to-do button.", dataProviderClass = AuditorToDoListDataProvider.class, dataProvider = "verifyFilterButton")
     public void verifyFilterButton(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -440,10 +413,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-/*
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -454,8 +424,8 @@ public class AuditorTodoListTest extends AbstractTest {
             NXGReports.addStep("TestScript Failed: Verify Filter button next to create to-do button", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
-    @Test(priority = 15, enabled = true, description = "[PLAT 2283]: Verify default value on Filter dropdown.", dataProvider = "verifyDefaultValueFilterButton", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2283]: Verify default value on Filter dropdown.
+    @Test(priority = 15, enabled = true, description = "Verify default value on Filter dropdown.", dataProvider = "verifyDefaultValueFilterButton", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyDefaultValueFilterButton(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -463,8 +433,6 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -479,8 +447,8 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
-    @Test(priority = 16, enabled = true, description = "[PLAT 2283]: Verify border on Filter dropdown.",dataProvider = "verifyBorderOnFilterButton" , dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2283]: Verify border on Filter dropdown.
+    @Test(priority = 16, enabled = true, description = "Verify border on Filter dropdown.",dataProvider = "verifyBorderOnFilterButton" , dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyBorderOnFilterButton(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -488,8 +456,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -504,7 +471,7 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
+    //[PLAT 2283]: Verify default value on Filter dropdown.
     @Test(priority = 17, enabled = true, description = "[PLAT 2283]: Verify default value on Filter dropdown.",dataProvider = "verifyChooseAnOptionFilterButton", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyChooseAnOptionFilterButton(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -513,8 +480,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -536,8 +502,9 @@ public class AuditorTodoListTest extends AbstractTest {
         }
 
     }
-
-    @Test(priority = 18, enabled = true, description = "[PLAT 2283]: verify Unable Add More Option Filter DropDownList",dataProvider = "verifyUnableAddMoreOptionFilter", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2283]: verify Unable Add More Option Filter DropDownList
+    @Test(priority = 18, enabled = true, description = "Verify Unable Add More Option Filter DropDownList",dataProvider =
+            "verifyUnableAddMoreOptionFilter", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyUnableAddMoreOptionFilter(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -545,8 +512,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -562,8 +528,8 @@ public class AuditorTodoListTest extends AbstractTest {
         }
 
     }
-
-    @Test(priority = 19, enabled = true, description = "[PLAT 2283]: verify select An VaLue On Assign Option Filter", dataProvider = "selectAnVaLueOnAssignOptionFilter", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2283]: verify select An VaLue On Assign Option Filter
+    @Test(priority = 19, enabled = true, description = "verify select An VaLue On Assign Option Filter", dataProvider = "selectAnVaLueOnAssignOptionFilter", dataProviderClass = AuditorToDoListDataProvider.class)
     public void selectAnVaLueOnAssignOptionFilter(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -571,8 +537,8 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -587,8 +553,9 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
-    @Test(priority = 20, enabled = true, description = "[PLAT 2283]: verify click And Do Not Select Option Filter", dataProvider = "clickAndDoNotSelectOptionFilter", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2283]: verify click And Do Not Select Option Filter
+    @Test(priority = 20, enabled = true, description = "[Verify click And Do Not Select Option Filter", dataProvider =
+            "clickAndDoNotSelectOptionFilter", dataProviderClass = AuditorToDoListDataProvider.class)
     public void clickAndDoNotSelectOptionFilter(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -596,8 +563,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -613,8 +579,8 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
-    @Test(priority = 21, enabled = true, description = "[PLAT 2282]-Verify To Do Name TextBox when Add new To Do", dataProvider = "verifyGUIToDoTextBox", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2282]-Verify To Do Name TextBox when Add new To Do
+    @Test(priority = 21, enabled = true, description = "Verify To Do Name TextBox when Add new To Do", dataProvider = "verifyGUIToDoTextBox", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyGUIToDoTextBox(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -622,8 +588,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -647,8 +612,8 @@ public class AuditorTodoListTest extends AbstractTest {
             throw e;
         }
     }
-
-    @Test(priority = 22, enabled = true, description = "[PLAT 2284]-Verify GUI Add Bulk Actions on To Do Page", dataProvider = "verifyGUIToDoAddBulkActions", dataProviderClass = AuditorToDoListDataProvider.class)
+    //[PLAT 2284]-Verify GUI Add Bulk Actions on To Do Page
+    @Test(priority = 22, enabled = true, description = "Verify GUI Add Bulk Actions on To Do Page", dataProvider = "verifyGUIToDoAddBulkActions", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyGUIToDoAddBulkActions(String auditorId, String auditorPwd, String engagementName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -656,8 +621,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -692,8 +656,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
@@ -837,8 +800,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -886,10 +848,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-        String toDoName = "TestMarkComplete01";
-        String engagementName = "Engagement 07";*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -918,63 +877,6 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    /**
-     * Added by huy.huynh on 18/05/2017.
-     * Scenarios : PLAT 2285 - Add undo option
-     * Modified by huy.huynh on 19/05/2017.
-     * Merge with PLAT 2303(merge frontend and backend)
-     */
-
-    /**
-     * (precondition)init value for variables
-     * dependsOnMethods: setUp on AbstractTest
-     */
-    //TODO
-    //@BeforeMethod(dependsOnMethods = {"setUp"})
-    /*public void initVariable() {
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-
-        auditorId = GenericService.getConfigValue(GenericService.sConfigFile, "AUDITOR_ID");
-        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
-
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
-
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
-    }*/
-
-    /**
-     * (precondition)flow to Needed-To-Test page
-     * dependsOnMethods: initVariable
-     */
-    //@BeforeMethod(dependsOnMethods = {"initVariable"})
-    /*public void navigationPreconditions() {
-        auditorEngagementService.loginWithUserRole(auditorId);
-        auditorEngagementService.verifyAuditorEngagementPage();
-        auditorEngagementService.clickNewEnagementButton();
-        auditorNewEngagementService.verifyNewEngagementPage();
-
-        auditorNewEngagementService.enterDataForNewEngagementPage("engagement" + timeStamp, "type" + timeStamp, "company" + timeStamp);
-        auditorEngagementService.verifyAuditorEngagementPage();
-
-        //TODO temporary code, remove later - always click on the first engagement on web pages, so following to get the title of first to verify on database
-        firstEngagementTitleOnWeb = getDriver().findElement(By.xpath("//p[@class='e-widget-auditTitle'][1]")).getText();
-
-        auditorEngagementService.viewEngagementDetailsPage("engagement" + timeStamp);
-        auditorDetailsEngagementService.navigateToTodoListPage();
-    }*/
 
     /**
      * (case)verify button Undo action exist
@@ -987,8 +889,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -1027,8 +928,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -1071,10 +971,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-/*
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-*/
+
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -1120,8 +1017,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1165,10 +1061,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-/*
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-*/
+
         try {
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -1206,7 +1099,8 @@ public class AuditorTodoListTest extends AbstractTest {
     /**
      * (case)verify Undo action Download Attachments disable
      */
-    @Test(priority = 33, enabled = true, testName = "Undo fail", description = "verify Undo action Download Attachments disable", groups = "workflow", dataProvider = "verifyDownloadAttachmentsDisable", dataProviderClass = AuditorToDoListDataProvider.class)
+    @Test(priority = 33, enabled = true, testName = "Undo failed", description = "verify Undo action Download Attachments disable", groups =
+            "workflow", dataProvider = "verifyDownloadAttachmentsDisable", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyDownloadAttachmentsDisable(String auditorId, String auditorPwd, String engagementName, String engagementType, String companyName, String toDoName01) {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -1214,10 +1108,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-/*
-        auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");
-*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1245,9 +1136,7 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    /**
-     * -----end of huy.huynh PLAT-2285-----
-     */
+
 
     /**
      * Added by tan.pham on 19/05/2017.
@@ -1260,8 +1149,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             //Login
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
@@ -1287,8 +1175,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
@@ -1313,8 +1200,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
@@ -1349,8 +1235,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
@@ -1389,8 +1274,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
@@ -1427,8 +1311,7 @@ public class AuditorTodoListTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
@@ -1457,21 +1340,15 @@ public class AuditorTodoListTest extends AbstractTest {
         }
     }
 
-    /**
-     * -----end of tan.pham PLAT-2286-----
-     */
 
-    /*
-    Vien Pham merged editCategoriesTEst into this page
-     */
+    /* Edit Categories Test into this page */
     @Test(priority = 40, enabled = true, description = "Verify EditCategories GUI ", dataProvider = "verifyDefaultEditCategoryGuiAtCreateNewTodoPage", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyDefaultEditCategoryGuiAtCreateNewTodoPage(String auditorId, String auditorPwd, String categoryName01, String categoryName02, String categoryName03) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorCreateToDoService.navigateToDoListPage();
@@ -1489,9 +1366,7 @@ public class AuditorTodoListTest extends AbstractTest {
             NXGReports.addStep("Verify Default PopUp GUI.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-/*
-Vien.Pham refactor PLAT2291
- */
+
 
     @Test(priority = 42, enabled = true, description = "Verify Edit Function", dataProvider = "verifyEditFunctionAtCreateNewTodoPage", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyEditFunctionAtCreateNewTodoPage(String auditorId, String auditorPwd, String engagementName,
@@ -1503,8 +1378,7 @@ Vien.Pham refactor PLAT2291
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1532,9 +1406,7 @@ Vien.Pham refactor PLAT2291
         }
     }
 
-    /*
-    Vien.Pham refactor PLAT2291
-     */
+    /* PLAT2291: Verify Remove function */
     @Test(priority = 44, enabled = true, description = "Verify Remove function", dataProvider = "verifyRemoveFunctionAtTodoListPage", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyRemoveFunctionAtTodoListPage(String auditorId, String auditorPwd,
                                                    String engagementName, String categoryName01,
@@ -1545,8 +1417,7 @@ Vien.Pham refactor PLAT2291
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
-        /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
-        String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
+
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1566,13 +1437,11 @@ Vien.Pham refactor PLAT2291
         }
     }
 
-/*
-End of merged VienPham.
- */
+
     /**
      * PLAT-2286 : Add new test suite : delete and cancel when user select multi ToDo item - Start
      */
-    int ToDoItemNumber = 4;
+
 
     @Test(priority = 45, enabled = true, description = "Verify work flow of delete multi ToDo item in ToDo page.", dataProvider = "verifyWorkFlowOfDeleteMultiToDoInToDoListPage", dataProviderClass = AuditorToDoListDataProvider.class)
     public void verifyWorkFlowOfDeleteMultiToDoInToDoListPage(String auditorId, String auditorPwd, String engagementName) throws Exception {
