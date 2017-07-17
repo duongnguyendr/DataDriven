@@ -1,5 +1,6 @@
 package com.auvenir.ui.dataprovider.marketing;
 
+import com.auvenir.ui.dataprovider.commonData.CommonDataProvider;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import org.testng.annotations.DataProvider;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by tan.pham on 7/13/2017.
  */
-public class AuditorSignUpDataProvider {
+public class AuditorSignUpDataProvider extends CommonDataProvider {
     public static final String FRENCH_LANGUAGE = "French";
 
     // personal information
@@ -38,12 +39,26 @@ public class AuditorSignUpDataProvider {
     private static String localPropertiesDest = GenericService.sDirPath + "/local.properties";
     private static String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
 
+    private static String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
+    private static String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
+    private static String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
+    private static String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
+    private static String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
+    private static String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+    private static String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+    private static String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
+    private static String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
+    private static String inviteClientSuccessfulMessage = "Your engagement invitation has been sent.";
+    private static String updatePhoneNumber = "0123456789";
+    private static String updateStackerHolder = "Titancorpvn";
+    private static String roleClient = "";
+
     @DataProvider(name = "verifyRegisterAndActiveAuditorUser")
     public static Object[][] getVerifyRegisterAndActiveAuditorUser(){
         String emailCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Admin");
         String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
-        String sStatusUser = "Onboarding";
+        String sStatusUser = onboardingStatus;
 
         Object[][] arrayData = new Object[][]{{strFullName, emailCreate, strRoleFirm, strPhone, strReference,
                                                strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry,
@@ -160,7 +175,7 @@ public class AuditorSignUpDataProvider {
         String emailCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Admin");
         String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
-        String sStatusUser = "Onboarding";
+        String sStatusUser = onboardingStatus;
 
         Object[][] arrayData = new Object[][]{{strFullName, emailCreate, strRoleFirm, strPhone, strReference,
                                             strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry,
@@ -240,19 +255,7 @@ public class AuditorSignUpDataProvider {
 
     @DataProvider(name = "verifyAuditorInviteClient")
     public static Object[][] getVerifyAuditorInviteClient(){
-        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
-        String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
-        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
-        String inviteClientSuccessfulMessage = "Your engagement invitation has been sent.";
-        String updatePhoneNumber = "0123456789";
-        String updateStackerHolder = "Titancorpvn";
-        String roleClient = "";
+
 
         Object[][] arrayData = new Object[][]{{clientId, auditorId, auditorPassword, engagementName,
                                                clientEmailPassword, clientFullName,clientAuvenirPassword,
@@ -285,19 +288,6 @@ public class AuditorSignUpDataProvider {
 
     @DataProvider(name = "verifyAuditorInviteGeneralAuditor")
     public static Object[][] getVerifyAuditorInviteGeneralAuditor(){
-        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
-        String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
-        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
-        String inviteClientSuccessfulMessage = "Your engagement invitation has been sent.";
-        String updatePhoneNumber = "0123456789";
-        String updateStackerHolder = "Titancorpvn";
-        String roleClient = "";
 
         Object[][] arrayData = new Object[][]{{clientId, auditorId, auditorPassword, engagementName,
                                                 clientEmailPassword, clientFullName,clientAuvenirPassword,
