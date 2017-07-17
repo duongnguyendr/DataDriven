@@ -57,7 +57,7 @@ public class AbstractTest {
         getLogger().info("Email that We will send report: " +tosEmail);
     }
     public String  getCcEmail(){
-        setToEmail(System.getProperty("ccEmail"));
+        setCcEmail(System.getProperty("ccEmail"));
         return ccEmail;
     }
     public void setCcEmail(String tocEmail){
@@ -93,7 +93,7 @@ public class AbstractTest {
     public void setConfig() {
         //System.out.println("AAAAAAA");
         getRunMode();
-        getCcEmail();
+        getToEmail();
         getCcEmail();
         GenericService.sToEmail = toEmail;
         GenericService.sCcEmail = ccEmail;
