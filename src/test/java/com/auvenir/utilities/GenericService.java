@@ -408,6 +408,37 @@ public class GenericService {
         }
     }
 
+    private static String symbolsResetPassword = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+
+    /**
+     * Generate radom password
+     * @param lenght
+     * @return
+     */
+    public static String genResetPassword(int lenght, boolean isContainsUpperCase, boolean isContainsLowerCase, boolean isContainsDigit, boolean
+            isContainsSpecialCharacter ) {
+        Random r = new Random();
+        while (true) {
+            char[] password = new char[lenght];
+            boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+            for (int i = 0; i < password.length; i++) {
+                char ch = symbolsResetPassword.charAt(r.nextInt(symbolsResetPassword.length()));
+                if (isContainsUpperCase && Character.isUpperCase(ch))
+                    hasUpper = true;
+                else if (isContainsLowerCase && Character.isLowerCase(ch))
+                    hasLower = true;
+                else if (isContainsDigit && Character.isDigit(ch))
+                    hasDigit = true;
+                else if(isContainsSpecialCharacter)
+                    hasSpecial = true;
+                password[i] = ch;
+            }
+            if (hasUpper && hasLower && hasDigit && hasSpecial) {
+                return new String(password);
+            }
+        }
+    }
+
     /**
      * Parse Rgb to color to hex
      * @param rgb
