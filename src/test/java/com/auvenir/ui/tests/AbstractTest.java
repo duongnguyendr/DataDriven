@@ -46,6 +46,24 @@ public class AbstractTest {
      */
     public static final String httpProtocol = "http://";
     public static final int lagreTimeOut = 2000;
+    private String toEmail = "";
+    private String ccEmail = "";
+    public String   getToEmail(){
+        setToEmail(System.getProperty("toEmail"));
+        return toEmail;
+    }
+    public void setToEmail(String tosEmail){
+        toEmail = tosEmail;
+        getLogger().info("Email that We will send report: " +tosEmail);
+    }
+    public String  getCcEmail(){
+        setToEmail(System.getProperty("ccEmail"));
+        return ccEmail;
+    }
+    public void setCcEmail(String tocEmail){
+        ccEmail = tocEmail;
+        getLogger().info("cc Email that We will send report: " +tocEmail);
+    }
     private String runMode = "Local";
 
     public String getRunMode() {
@@ -75,6 +93,10 @@ public class AbstractTest {
     public void setConfig() {
         //System.out.println("AAAAAAA");
         getRunMode();
+        getCcEmail();
+        getCcEmail();
+        GenericService.sToEmail = toEmail;
+        GenericService.sCcEmail = ccEmail;
         GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
         testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
         /*

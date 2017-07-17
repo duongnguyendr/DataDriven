@@ -63,6 +63,8 @@ public class GenericService {
     public static ArrayList sBrowserTestNameList = new ArrayList<String>();
     public static String [] browserAutomationTest = new String [] {"CHROME", "FIREFOX", "IE", "SAFARI","EDGE"};
     public static String sLanguage = "";
+    public static String sToEmail;
+    public static String sCcEmail;
 	/*
      * @author: LAKSHMI BS Description: To read the basic environment settings
 	 * data from config file
@@ -337,10 +339,10 @@ public class GenericService {
         try {
             MimeMessage msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(GenericService.getConfigValue(GenericService.sConfigFile, "FROM_EMAILID")));
-            msg.setRecipients(Message.RecipientType.TO,
-                    GenericService.getConfigValue(GenericService.sConfigFile, "TO_EMAILID"));
-            msg.setRecipients(Message.RecipientType.CC,
-                    GenericService.getConfigValue(GenericService.sConfigFile, "CC_EMAILID"));
+            //msg.setRecipients(Message.RecipientType.TO,GenericService.getConfigValue(GenericService.sConfigFile, "TO_EMAILID"));
+            //msg.setRecipients(Message.RecipientType.CC,GenericService.getConfigValue(GenericService.sConfigFile, "CC_EMAILID"));
+            msg.setRecipients(Message.RecipientType.TO,GenericService.sToEmail);
+            msg.setRecipients(Message.RecipientType.CC,GenericService.sCcEmail);
             // msg.setSubject("Auvenir_Execution_Report_"+GenericService.getCongigValue(GenericService.sConfigFile,"EXECUTION_REPORT_DATE"));
             /*msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
                     + " " + sExecutionDate);*/
