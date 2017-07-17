@@ -348,8 +348,8 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        //        clientId = GenericService.sBrowserData + clientId;
-        //        auditorId = GenericService.sBrowserData + auditorId;
+//        clientId = GenericService.sBrowserData + clientId;
+//        auditorId = GenericService.sBrowserData + auditorId;
 
         try {
             gmailLoginService.deleteAllExistedEmail(leadClient, leadClientEmailPwd);
@@ -422,17 +422,9 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-       //        clientId = GenericService.sBrowserData + clientId;
-        //        auditorId = GenericService.sBrowserData + auditorId;
-        /*String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");*/
+//        clientId = GenericService.sBrowserData + clientId;
+//        auditorId = GenericService.sBrowserData + auditorId;
+
 
         try {
             auditorSignUpService.deleteUserUsingApi(generalAuditor);
