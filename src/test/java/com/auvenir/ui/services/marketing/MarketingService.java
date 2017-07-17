@@ -42,6 +42,10 @@ public class MarketingService extends AbstractService {
         marketingPage.verifyCookiesNoticeContentPage();
     }
 
+    public void closeForgotPasswordDialog() {
+        marketingPage.clickOnLoginBTN();
+    }
+
     public void openLoginDialog() {
         marketingPage.clickOnLoginBTN();
     }
@@ -68,6 +72,15 @@ public class MarketingService extends AbstractService {
 
     public void deleteCookieName(String cookieName) {
         marketingPage.deleteCookieName(cookieName);
+    }
+
+    public void deleteAllCookieName(){
+        marketingPage.deleteCookieName("_ga");
+        marketingPage.deleteCookieName("_gat");
+        marketingPage.deleteCookieName("_gid");
+        marketingPage.deleteCookieName("_hjIncludedInSample");
+        marketingPage.deleteCookieName("connect.sid");
+        marketingPage.deleteCookieName("io");
     }
 
     public void refreshHomePage() {
@@ -121,7 +134,7 @@ public class MarketingService extends AbstractService {
     public void clickOnRequestResetLinkBTN() throws InterruptedException {
         marketingPage.clickOnRequestResetLinkBTN();
         //marketingPage.waitPageLoad();
-        marketingPage.waitForResetLinkSent();
+        //marketingPage.waitForResetLinkSent();
     }
 
     public void verifyColorEmailForgotPasswordTextBox(String attributeName, String attributeValue) {
@@ -133,7 +146,7 @@ public class MarketingService extends AbstractService {
     }
 
     public void verifyGUIEmailForgotPasswordTextBox() {
-        marketingPage.verifyColorEmailForgotPasswordTextBox("border-color","rgb(253, 109, 71)");
+        //marketingPage.verifyColorEmailForgotPasswordTextBox("border-color",sBorderColorValue);
         marketingPage.verifyColorEmailForgotPasswordTextBox("background-color","rgba(241, 103, 57, 0.2)");
     }
 
@@ -192,6 +205,10 @@ Vien.Pham added login With New User Role
 
     public void verifyNewPassword(String newPassword) {
         marketingPage.setNewPassword(newPassword);
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        marketingPage.setConfirmPassword(confirmPassword);
     }
 
     public void verifyPopupWarning(String passwordString, boolean isContainsCapialLetter, boolean isContainsLetter, boolean isContainsNumber) {
@@ -273,5 +290,14 @@ Vien.Pham added login With New User Role
     }
     public void selectSetPasswordBtn(){
         marketingPage.selectSetPasswordBtn();
+    }
+
+    public void verifyNewPasswordErrorMessage(){
+        marketingPage.verifyNewPasswordErrorMessage();
+    }
+
+    public void verifyConfirmPasswordErrorMessage(){
+        marketingPage.verifyConfirmPasswordErrorMessage();
+
     }
 }
