@@ -269,12 +269,12 @@ public class AuditorSignUpPage extends AbstractPage {
 
     // ======================================  Element of Create Password ===================================================
 //    @FindBy(xpath = "//input[@name='password']")
-    @FindBy(xpath = "//input[@id='first-password']")
+    @FindBy(xpath = "//input[@name='password']")
     private WebElement elePassword;
 
     // Element of Confirm Password
 //    @FindBy(xpath = "//input[@name='retype_password']")
-    @FindBy(xpath = "//input[@id='second-password']")
+    @FindBy(xpath = "//input[@name='retype_password']")
     private WebElement eleConfirmPass;
 
     // Element of checkbox Captcha
@@ -404,7 +404,7 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='agreement-personal-cpa']")
     private WebElement agreeCPAConfirmCheckboxEle;
 
-    @FindBy(xpath = "//button[@id='personal-coninueBtn']")
+    @FindBy(xpath = "//button[@id='personal-continueBtn']")
     private WebElement continuePerConfirmBtnEle;
 
     @FindBy(xpath = "//*[@id='firm-name']")
@@ -443,7 +443,7 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='firm-phone']")
     private List<WebElement> firmPhoneConfirmTxtEle;
 
-    @FindBy(xpath = "//*[@id='onboarding-firm-container']/div/h3")
+    @FindBy(xpath = "//*[@id='onboarding-firm-container']/div//h2")
     private WebElement firmHeaderTxtEle;
 
     @FindBy(xpath = "//button[@id='onboard-firm-continue']")
@@ -452,7 +452,7 @@ public class AuditorSignUpPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='security-continueBtn']")
     private WebElement continueSecurityConfirmBtnEle;
 
-    @FindBy(xpath = "//p[@id= 'security-title']")
+    @FindBy(xpath = "//div[@id='security-react-holder']//h2")
     private WebElement headerSecurityConfirmTxtEle;
 
     @FindBy(xpath = "//p[@id = 'epilogue-title']")
@@ -1041,6 +1041,11 @@ public class AuditorSignUpPage extends AbstractPage {
 
     public void confirmInfomationNewAuditorUser(String fullName, String strEmail, String strPassword) {
         confirmAuditorPersonalInfo(fullName, strEmail, "IT", "4167877865", "Online");
+        ///
+        switchToOtherTab(1);
+        getDriver().close();
+        switchToOtherTab(0);
+        //
         confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
                 "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
                 "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
@@ -1065,7 +1070,28 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strRoleFirm  String Role Firm
      * @param strPhone     String Phone Number Auditor
      * @param strReference String Reference to Auvenir
+     *
+     *
      */
+
+    @FindBy(xpath = "//div[@id='personal-referral']//div[@class='text']")
+    WebElement valueOfHearAuvenir;
+    @FindBy(xpath = "//div[@id='personal-referral']//div[@role='option']")
+    List<WebElement> selectFirstOptionOfHearAuvenir;
+    @FindBy(xpath = "//div[@class='field']/div[@class='ui checkbox']")
+    WebElement herebyCheckbox;
+    @FindBy(id = "firm-affiliated")
+    WebElement affiliatedCheckbox;
+    @FindBy(id = "firm-affiliated-name")
+    WebElement affiliatedName;
+    @FindBy(id = "onboard-firm-continue")
+    WebElement onboardFirmContinueBtn;
+    @FindBy(xpath = "//div[@id='onboarding-personal-container']//h2[@class='ui center aligned header']")
+    WebElement titlePersonalGeneralAuditor;
+    @FindBy(xpath = "(//div[contains(@id,'module-')])[3]")
+    WebElement generalAuditorSignupPage;
+    @FindBy(xpath = "//div[@id='icheckbox']")
+    WebElement agreementCheckbox;
     public void confirmAuditorPersonalInfo(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
         getLogger().info("Input all field in Register Personal Information Page and click Continue Button");
         boolean result;
@@ -1085,26 +1111,35 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(phoneConfirmTxtEle, "Phone number");
             sendKeyTextBox(phoneConfirmTxtEle, strPhone, "Phone number TextBox");
-            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox", "value", strPhone);
+//            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox", "value", strPhone);
 
-            waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
+//            waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
             clickElement(referalConfirmDrdEle, "Referal Dropdown List");
 
-            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+//            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+            waitForAtrributeValueChanged(referalConfirmDrdEle, "Role in Firm Dropdown", "aria-expanded", "true");
+//            String firstItemText = listItemreferalConfirmDrdEle.get(0).getText();
+//            clickElement(listItemreferalConfirmDrdEle.get(0), "First Item on Role Dropdown");
+            String firstItemText = selectFirstOptionOfHearAuvenir.get(0).getText();
+            clickElement(selectFirstOptionOfHearAuvenir.get(0), "First Item on Role Dropdown");
 
-            String firstItemText = listItemreferalConfirmDrdEle.get(0).getText();
-            clickElement(listItemreferalConfirmDrdEle.get(0), "First Item on Role Dropdown");
             System.out.print("firstItemText: " + firstItemText);
-            waitForAtrributeValueChanged(referalConfirmDrdEle, "Referal Dropdown List", "value", firstItemText);
+//            waitForAtrributeValueChanged(referalConfirmDrdEle, "Referal Dropdown List", "value", firstItemText);
+            waitForTextValueChanged(valueOfHearAuvenir,"",firstItemText);
             if (GenericService.sBrowserData.equals("ff."))
                 clickElement(referalConfirmDrdEle, "Referal Dropdown List");
-            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
-            scrollToFooter();
-            waitForVisibleElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
-            clickElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
+//            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
+            waitForAtrributeValueChanged(referalConfirmDrdEle, "Role in Firm Dropdown", "class", "ui selection dropdown");
 
-            waitForVisibleElement(agreeCPAConfirmCheckboxEle, "Confirm CPA Check Box");
-            clickElement(agreeCPAConfirmCheckboxEle, "Confirm CPA Check Box");
+            scrollToFooter();
+//            waitForVisibleElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
+//            clickElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
+
+            waitForVisibleElement(agreementCheckbox, "Agree Check Box");
+            clickElement(agreementCheckbox, "Agree Check Box");
+
+            waitForVisibleElement(herebyCheckbox, "Confirm CPA Check Box");
+            clickElement(herebyCheckbox, "Confirm CPA Check Box");
 
             waitForVisibleElement(continuePerConfirmBtnEle, "Continue button");
             clickElement(continuePerConfirmBtnEle, "continue button");

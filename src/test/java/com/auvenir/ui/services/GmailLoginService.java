@@ -64,6 +64,14 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.selectActiveEmaill();
     }
 
+    public void selectGetStartBtnToNavigateToAuvenirPage(){
+        gmailLoginPo.selectGetStartedButtonInActiveEmail();
+    }
+
+    public void selectStartEngagementBtnToNavigateToAuvenirPage(){
+        gmailLoginPo.selectStartYourEngagementButtonInActiveEmail();
+    }
+
     public void navigateToResetPwdPage(){
         gmailLoginPo.clickResetPasswordLink();
     }
@@ -100,6 +108,8 @@ public class GmailLoginService extends AbstractService {
         gmailLoginPo.clickToEmailDetail();
         gmailLoginPo.clickOnboardingInvitationLink();
     }
+
+
 
     public void navigateAuvenirFromResetLink() {
         gmailLoginPo.clickToEmailDetail();

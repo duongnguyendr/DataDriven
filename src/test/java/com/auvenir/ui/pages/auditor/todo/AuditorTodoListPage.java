@@ -438,12 +438,17 @@ public class AuditorTodoListPage extends AbstractPage {
   */
     @FindBy(xpath = "//span[@class='auvicon-team engagement-icon']")
     WebElement teamBtn;
-    @FindBy(id = "team-inviteMember-btn")
-    WebElement inviteAuditorBtn;
-    public void navigateToInviteGeneralAuditor(){
+    @FindBy(xpath = "//button[@id='team-inviteMember-btn']")
+    WebElement inviteMemberBtn;
+
+    @FindBy(xpath = "//div[@id='engagement-team']")
+    WebElement engagementTeam;
+
+    public void navigateToInviteGeneralMember(){
         clickElement(teamBtn);
-        waitForTextValueChanged(inviteAuditorBtn,"invite auditor Btn","Invite New Member");
-        clickElement(inviteAuditorBtn);
+        waitForCssValueChanged(engagementTeam,"engagementTeam","display","inherit");
+//        waitForTextValueChanged(inviteMemberBtn,"invite auditor Btn","Invite New Member");
+        clickElement(inviteMemberBtn);
     }
 
 
