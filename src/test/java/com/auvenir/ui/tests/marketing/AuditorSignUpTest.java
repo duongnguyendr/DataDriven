@@ -3,17 +3,17 @@ package com.auvenir.ui.tests.marketing;
 import com.auvenir.ui.dataprovider.marketing.AuditorSignUpDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ClientDetailsEngagementService;
+import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
-import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.auditor.AuditorNewEngagementService;
 import com.auvenir.ui.services.auditor.AuditorTodoListService;
 import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.services.client.ClientSignUpService;
-import com.auvenir.ui.services.marketing.MarketingService;
-import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
+import com.auvenir.ui.services.marketing.EmailTemplateService;
+import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
@@ -22,7 +22,6 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureSc
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,30 +42,6 @@ public class AuditorSignUpTest extends AbstractTest {
     private ClientDetailsEngagementService clientDetailsEngagementService;
 
 
-    /*// personal information
-    final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "First and Last Name", "Valid Value");
-    //    String strEmail = "thuan.duong@titancorpvn.com";
-    final String strRoleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
-    final String strPhone = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
-    final String strReference = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Reference to Auvenir", "Valid Value");
-    // firm information
-    final String strName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Name", "Valid Value");
-    final String strPreName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Previous Name", "Valid Value");
-    final String strWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Website", "Valid Value");
-    final String strStreetAddr = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Street Address", "Valid Value");
-    final String strOffNum = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
-    final String strZipCode = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
-    final String strCity = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
-    final String strCountry = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Country", "Valid Value");
-    final String strState = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
-    final String strMemberID = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D", "Valid Value");
-    final String strNumEmp = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
-    final String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
-    final String strAffName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
-    final String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
-
-    final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");*/
-
     @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User",
                                         dataProvider = "verifyRegisterAndActiveAuditorUser", dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyRegisterAndActiveAuditorUser(String strFullName, String emailCreate, String strRoleFirm, String strPhone, String strReference,
@@ -83,9 +58,7 @@ public class AuditorSignUpTest extends AbstractTest {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         emailCreate = GenericService.sBrowserData + emailCreate;
         strAdminEmail = GenericService.sBrowserData + strAdminEmail;
-        /*final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-        final String strAdminEmail = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
-        final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");*/
+
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
@@ -131,45 +104,6 @@ public class AuditorSignUpTest extends AbstractTest {
                                                    List<String> memberIdInvalidDataList,List<String> phoneNumberIdInvalidDataList,
                                                    List<String> affFirmInvalidDataList) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        /*final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
-        //Create List Invalid Data for Firm Name Text Box.
-        List<String> firmNameInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 5; i++) {
-            firmNameInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 6));
-        }
-        //Create List Invalid Data for Previous Firm Name Text Box.
-        List<String> preFirmNameInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 5; i++) {
-            preFirmNameInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 7));
-        }
-        //Create List Invalid Data for Firm Website Text Box.
-        List<String> firmWebsiteInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 6; i++) {
-            firmWebsiteInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 8));
-        }
-        //Create List Invalid Data for Zip Code Text Box.
-        List<String> zipCodeInvalidDataList = new ArrayList<>();
-        for (int i = 4; i < 7; i++) {
-            zipCodeInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 11));
-        }
-        //Create List Invalid Data for Member Id Text Box.
-        List<String> memberIdInvalidDataList = new ArrayList<>();
-        memberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 14));
-        for (int i = 4; i < 6; i++) {
-            memberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 14));
-        }
-        //Create List Invalid Data for Member Id Text Box.
-        List<String> phoneNumberIdInvalidDataList = new ArrayList<>();
-        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", 2, 16));
-        phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", 3, 16));
-        for (int i = 5; i < 7; i++) {
-            phoneNumberIdInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 16));
-        }
-        //Create List Invalid Data for AffFirm Text Box.
-        List<String> affFirmInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 5; i++) {
-            affFirmInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 17));
-        }*/
 
         try {
             auditorSignUpService.goToBaseURL();
@@ -208,24 +142,7 @@ public class AuditorSignUpTest extends AbstractTest {
     public void verifyAuditorPersonalInputInvalidValue(List<String> firstLastNameInvalidDataList, List<String> emailInvalidDataList, String strEmail,
                                                        String confirmEmailInvalidData, List<String>phoneInvalidDataList) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-       /* final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
-        //Create List Invalid Data for First Last Name Text Box.
-        List<String> firstLastNameInvalidDataList = new ArrayList<>();
-        for (int i = 4; i < 8; i++) {
-            firstLastNameInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 1));
-        }
-        List<String> emailInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 6; i++) {
-            emailInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 2));
-        }
-        final String confirmemailInvalidData = "test";
-        List<String> phoneInvalidDataList = new ArrayList<>();
-        for (int i = 2; i < 4; i++) {
-            phoneInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 4));
-        }
-        for (int i = 5; i < 7; i++) {
-            phoneInvalidDataList.add(GenericService.readExcelData(testData, "AuditorSignUpTest", i, 4));
-        }*/
+
         try {
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -263,18 +180,7 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-        /*final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
-        final String blankPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "blankPassword", "Invalid Value");
-        final String invalidLengthPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "invalidLengthPassword", "Invalid Value");
-        final String noUpperCasePassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noUpperCasePassword", "Invalid Value");
-        final String noLowerCasePassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noLowerCasePassword", "Invalid Value");
-        final String noDigitsPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noDigitsPassword", "Invalid Value");
-        final String noCharPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "noCharPassword", "Invalid Value");
-        final String successPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "successPassword", "Invalid Value");
-        final String confirmPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "confirmPassword", "Invalid Value");
-        final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-        final String strAdminEmail = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Admin");
-        final String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");*/
+
         emailCreate = GenericService.sBrowserData + emailCreate;
         strAdminEmail = GenericService.sBrowserData + strAdminEmail;
         try {
@@ -326,7 +232,6 @@ public class AuditorSignUpTest extends AbstractTest {
                                                 String strCountry, String strState, String selectAnyCountry, String selectAnyState) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         emailCreate = GenericService.sBrowserData + emailCreate;
-        //final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
         try {
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.goToBaseURL();
@@ -362,12 +267,7 @@ public class AuditorSignUpTest extends AbstractTest {
                                          String memberIDMoreWords, String memberIDAlphaNumeric) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         emailCreate = GenericService.sBrowserData + emailCreate;
-        /*final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-        final String memberIDAlphabet = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D Alphabet", "Valid Value");
-        final String memberIDNumberic = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D Numberic", "Valid Value");
-        final String memberIDSpecialChar = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D SpecialChar", "Valid Value");
-        final String memberIDMoreWords = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D More words", "Valid Value");
-        final String memberIDAlphaNumberic = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D AlphaNumberic", "Valid Value");*/
+
         try {
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.goToBaseURL();
@@ -407,9 +307,7 @@ public class AuditorSignUpTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorAccount = GenericService.sBrowserData + auditorAccount;
         successTeamEmail = GenericService.sBrowserData + successTeamEmail;
-        /*final String auditorAccount = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
-        final String successTeamEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        final String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");*/
+
 
         try {
             auditorSignUpService.deleteUserUsingApi(auditorAccount);
@@ -453,16 +351,6 @@ public class AuditorSignUpTest extends AbstractTest {
         clientId = GenericService.sBrowserData + clientId;
         auditorId = GenericService.sBrowserData + auditorId;
 
-        /*String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");*/
-
         try {
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
             gmailLoginService.deleteAllExistedEmailUseAnotherAccount(successTeamEmail, successTeamEmailPwd);
@@ -502,8 +390,6 @@ public class AuditorSignUpTest extends AbstractTest {
     public void verifyNoEmailToCustomerSuccessTeamAfterLeadClientSignUp(String successTeamEmail, String successTeamEmailPwd) throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
 
-        /*String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");*/
         try {
             gmailLoginService.gmailLogin(successTeamEmail, successTeamEmailPwd);
             //Verify no email to Customer successteam
@@ -533,15 +419,7 @@ public class AuditorSignUpTest extends AbstractTest {
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
         clientId = GenericService.sBrowserData + clientId;
         auditorId = GenericService.sBrowserData + auditorId;
-        /*String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
-        String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
-        String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-        String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-        String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");*/
+
 
         try {
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
