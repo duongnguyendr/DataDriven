@@ -39,19 +39,24 @@ public class AuditorSignUpDataProvider extends CommonDataProvider {
     private static String localPropertiesDest = GenericService.sDirPath + "/local.properties";
     private static String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
 
-    private static String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
-    private static String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
-    private static String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-    private static String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Engagement Name");
-    private static String clientEmailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-    private static String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
-    private static String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+    private static String leadClient = GenericService.getTestDataFromExcel("AuditorSignUpTest", "CLIENT_USER_ID", "Valid Value");
+    private static String leadAuditor = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
+    private static String leadAuditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");
+    private static String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Engagement Name", "Valid Value");
+    private static String leadClientEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "CLIENT_USER_EMAIL_PASSWORD", "Valid Value");
+    private static String leadClientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "CLIENT_USER_FULLNAME", "Valid Value");
+    private static String leadClientAuvenirPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "CLIENT_USER_PASSWORD", "Valid Value");
     private static String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
     private static String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
     private static String inviteClientSuccessfulMessage = "Your engagement invitation has been sent.";
     private static String updatePhoneNumber = "0123456789";
     private static String updateStackerHolder = "Titancorpvn";
     private static String roleClient = "";
+    private static String generalAuditor = GenericService.getTestDataFromExcel("AuditorSignUpTest", "GENERAL_AUDITOR_USER_ID", "Valid Value");
+    private static String generalAuditorEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_AUDITOR_EMAIL_PASSWORD", "Valid Value");
+    private static String generalAuditorAuvenirPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_AUDITOR_USER_PASSWORD", "Valid Value");
+    private static String generalAuditorFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_AUDITOR_USER_FULLNAME", "Valid Value");
+
 
     @DataProvider(name = "verifyRegisterAndActiveAuditorUser")
     public static Object[][] getVerifyRegisterAndActiveAuditorUser(){
@@ -257,14 +262,14 @@ public class AuditorSignUpDataProvider extends CommonDataProvider {
     public static Object[][] getVerifyAuditorInviteClient(){
 
 
-        Object[][] arrayData = new Object[][]{{clientId, auditorId, auditorPassword, engagementName,
-                                               clientEmailPassword, clientFullName,clientAuvenirPassword,
+        Object[][] arrayData = new Object[][]{{leadClient, leadAuditor, leadAuditorPwd, engagementName,
+                                               leadClientEmailPwd, leadClientFullName,leadClientAuvenirPwd,
                                                successTeamEmail, successTeamEmailPwd, inviteClientSuccessfulMessage,
                                                updatePhoneNumber, updateStackerHolder, roleClient}};
 
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{clientId, auditorId, auditorPassword, engagementName,
-                    clientEmailPassword, clientFullName,clientAuvenirPassword,
+            arrayData = new Object[][]{{leadClient, leadAuditor, leadAuditorPwd, engagementName,
+                    leadClientEmailPwd, leadClientFullName,leadClientAuvenirPwd,
                     successTeamEmail, successTeamEmailPwd , inviteClientSuccessfulMessage,
                     updatePhoneNumber, updateStackerHolder, roleClient}};
         }
@@ -289,16 +294,14 @@ public class AuditorSignUpDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyAuditorInviteGeneralAuditor")
     public static Object[][] getVerifyAuditorInviteGeneralAuditor(){
 
-        Object[][] arrayData = new Object[][]{{clientId, auditorId, auditorPassword, engagementName,
-                                                clientEmailPassword, clientFullName,clientAuvenirPassword,
-                                                successTeamEmail, successTeamEmailPwd, inviteClientSuccessfulMessage,
-                                                updatePhoneNumber, updateStackerHolder, roleClient}};
+        Object[][] arrayData = new Object[][]{{generalAuditor, leadAuditor, leadAuditorPwd, engagementName,
+                                                generalAuditorEmailPwd, generalAuditorFullName,generalAuditorAuvenirPwd,
+                                                successTeamEmail, successTeamEmailPwd}};
 
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{clientId, auditorId, auditorPassword, engagementName,
-                                        clientEmailPassword, clientFullName,clientAuvenirPassword,
-                                        successTeamEmail, successTeamEmailPwd , inviteClientSuccessfulMessage,
-                                        updatePhoneNumber, updateStackerHolder, roleClient}};
+            arrayData = new Object[][]{{generalAuditor, leadAuditor, leadAuditorPwd, engagementName,
+                                        generalAuditorEmailPwd, generalAuditorFullName,generalAuditorAuvenirPwd,
+                                        successTeamEmail, successTeamEmailPwd }};
         }
 
         return arrayData;

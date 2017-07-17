@@ -23,6 +23,7 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='onboarding-personal-container']//h2")
     private WebElement titleComponentPersonal;
 
+
     @FindBy(xpath = "//div[@id='personal-role-container']//input")
     private WebElement inputPersonalRole;
 
@@ -138,6 +139,54 @@ public class ClientSignUpPage extends AbstractPage {
         }
     }
 
+
+    @FindBy(id = "personal-referral")
+    WebElement hearAboutAuvenir;
+    @FindBy(xpath = "//div[@id='personal-referral']//div[@role='option']")
+    WebElement selectFirstOptionOfHearAuvenir;
+    @FindBy(id = "agreement-personal-cpa")
+    WebElement herebyCheckbox;
+    @FindBy(id = "firm-affiliated")
+    WebElement affiliatedCheckbox;
+    @FindBy(id = "firm-affiliated-name")
+    WebElement affiliatedName;
+    @FindBy(id = "onboard-firm-continue")
+    WebElement onboardFirmContinueBtn;
+    @FindBy(xpath = "//div[@id='onboarding-personal-container']//h2[@class='ui center aligned header']")
+    WebElement titlePersonalGeneralAuditor;
+    @FindBy(xpath = "(//div[contains(@id,'module-')])[3]")
+    WebElement generalAuditorSignupPage;
+
+    public void fillUpPersonalFormOfAuditorPage(String phoneNumber) {
+        try {
+            waitSomeSeconds(5);
+//            waitForCssValueChanged(generalAuditorSignupPage,"General Auditor Sign Up page","display","inherit");
+//            waitForTextValueChanged(titlePersonalGeneralAuditor, "", "Please Provide your Information");
+            scrollToFooter();
+            sendKeyTextBox(inputPersonalPhoneNumber, phoneNumber, "Input Personal Phone Number");
+            clickElement(hearAboutAuvenir);
+            clickElement(selectFirstOptionOfHearAuvenir, "first Option of hear Auvenir");
+            clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
+            clickElement(herebyCheckbox, "Hereby checkbox");
+            clickElement(buttonPersonalContinue, "Button Personal Continue");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void fillUpFirmPage(String affiliatedTxt) {
+        try {
+            clickElement(affiliatedCheckbox, "affiliated checkbox");
+            clickElement(affiliatedName);
+            sendKeyTextBox(affiliatedName, affiliatedTxt, "");
+            clickElement(onboardFirmContinueBtn, "Continue Btn");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void fillUpBusinessForm(String parentStakeholders) {
         try {
             getLogger().info("Fill Up Business Form");
@@ -190,9 +239,10 @@ public class ClientSignUpPage extends AbstractPage {
             validateElementText(titleComponentSecurity, "Create Your Password");
             sendKeyTextBox(inputCreatePassword, password, "Input Create Password");
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
-            //sendTabkey(inputConfirmPassword, "Input Confirm Password");
+            sendTabkey(inputConfirmPassword, "Input Confirm Password");
             scrollToFooter();
             clickElement(buttonSecurityContinue, "Button Security Continue");
+            waitSomeSeconds(5);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

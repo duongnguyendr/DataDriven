@@ -25,6 +25,14 @@ public class ClientSignUpService extends AbstractService {
         clientSignUpPage.fillUpPersonalForm(phoneNumber);
     }
 
+    public void fillUpPersonalFormOfAuditorPage(String phoneNumber){
+        clientSignUpPage.fillUpPersonalFormOfAuditorPage(phoneNumber);
+    }
+
+    public void fillUpFirmPage(String affiliatedTxt){
+        clientSignUpPage.fillUpFirmPage(affiliatedTxt);
+    }
+
     public void fillUpBusinessForm(String parentStakeholders) {
         clientSignUpPage.fillUpBusinessForm(parentStakeholders);
     }
