@@ -69,14 +69,12 @@ public class AuditorSignUpTest extends AbstractTest {
 
     final String passwordCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "AUDITOR_USER_PASSWORD", "Valid Value");*/
 
-    @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User",
-                                        dataProvider = "verifyRegisterAndActiveAuditorUser", dataProviderClass = AuditorSignUpDataProvider.class)
+    @Test(priority = 1, enabled = true, description = "Verify Register and Active Auditor User", dataProvider = "verifyRegisterAndActiveAuditorUser",
+            dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyRegisterAndActiveAuditorUser(String strFullName, String emailCreate, String strRoleFirm, String strPhone, String strReference,
-                                                   String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum,
-                                                   String strZipCode, String strCity, String  strCountry,
-                                                   String strState, String strMemberID, String strNumEmp, String strPhoneFirm, String strAffName,
-                                                   String strPathLogo,String passwordCreate, String strAdminEmail, String strAdminPwd,
-                                                   String sStatusUser) throws Exception {
+            String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity,
+            String strCountry, String strState, String strMemberID, String strNumEmp, String strPhoneFirm, String strAffName, String strPathLogo,
+            String passwordCreate, String strAdminEmail, String strAdminPwd, String sStatusUser) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
@@ -99,7 +97,9 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
             auditorSignUpService.verifyFirmSignUpPage();
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService
+                    .registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState,
+                            strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
             gmailLoginService.deleteAllExistedEmail(emailCreate, passwordCreate);
@@ -126,12 +126,11 @@ public class AuditorSignUpTest extends AbstractTest {
     }
 
     @Test(priority = 2, enabled = true, description = "Verify Firm sign up page and Input Invalid Test.",
-                                        dataProvider = "verifyAuditorFirmInputInvalidValue", dataProviderClass = AuditorSignUpDataProvider.class)
+            dataProvider = "verifyAuditorFirmInputInvalidValue", dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyAuditorFirmInputInvalidValue(String strFullName, String strEmail, String strRoleFirm, String strPhone, String strReference,
-                                                   List<String> firmNameInvalidDataList, List<String> preFirmNameInvalidDataList,
-                                                   List<String> firmWebsiteInvalidDataList,List<String> zipCodeInvalidDataList,
-                                                   List<String> memberIdInvalidDataList,List<String> phoneNumberIdInvalidDataList,
-                                                   List<String> affFirmInvalidDataList) throws Exception {
+            List<String> firmNameInvalidDataList, List<String> preFirmNameInvalidDataList, List<String> firmWebsiteInvalidDataList,
+            List<String> zipCodeInvalidDataList, List<String> memberIdInvalidDataList, List<String> phoneNumberIdInvalidDataList,
+            List<String> affFirmInvalidDataList) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         /*final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         //Create List Invalid Data for Firm Name Text Box.
@@ -179,21 +178,21 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, strEmail, strRoleFirm, strPhone, strReference);
             auditorSignUpService.verifyFirmSignUpPage();
-//            Verify input valid Value on Firm name: with one Blank, two spaces in character, with one blank and character"
+            //            Verify input valid Value on Firm name: with one Blank, two spaces in character, with one blank and character"
             auditorSignUpService.verifyInputValidValueOnFirmNameTextBox(firmNameInvalidDataList);
-//            Verify input valid Value on Previous name: with one Blank, two spaces in character and special character"
+            //            Verify input valid Value on Previous name: with one Blank, two spaces in character and special character"
             // Business rule changed. The previous name is removed.
-//            auditorSignUpService.clickOnChangedNameCheckBox();
-//            auditorSignUpService.verifyInputValidValueOnPreFirmNameTextBox(preFirmNameInvalidDataList);
-//            Verify input valid Value on Website Textbox: with one Blank, space before character, invalid format, special character"
+            //            auditorSignUpService.clickOnChangedNameCheckBox();
+            //            auditorSignUpService.verifyInputValidValueOnPreFirmNameTextBox(preFirmNameInvalidDataList);
+            //            Verify input valid Value on Website Textbox: with one Blank, space before character, invalid format, special character"
             auditorSignUpService.verifyInputValidValueOnFirmWebsiteTextBox(firmWebsiteInvalidDataList);
-//            Verify input valid Value on Zip Code: with one Blank, five character, seventh character, with Number and Special Character, Special Character
+            //            Verify input valid Value on Zip Code: with one Blank, five character, seventh character, with Number and Special Character, Special Character
             auditorSignUpService.verifyInputValidValueOnZipCodeTextBox(zipCodeInvalidDataList);
-//            Verify input valid Value on Member Id: with one Blank, with Special Character, with Space between Number
+            //            Verify input valid Value on Member Id: with one Blank, with Special Character, with Space between Number
             auditorSignUpService.verifyInputValidValueOnMemberIdTextBox(memberIdInvalidDataList);
-//            Verify input valid Value on Phone Number Id: with one Blank, with nine number, with Character, with special character
+            //            Verify input valid Value on Phone Number Id: with one Blank, with nine number, with Character, with special character
             auditorSignUpService.verifyInputValidValueOnPhoneNumberIdTextBox(phoneNumberIdInvalidDataList);
-//            Verify input valid Value Affiliated Firm's Name: with one Blank, with 2 Space in character, with Special Character
+            //            Verify input valid Value Affiliated Firm's Name: with one Blank, with 2 Space in character, with Special Character
             auditorSignUpService.clickOnAllFirmCheckBox();
             auditorSignUpService.verifyInputValidValueOnAffFirmTextBox(affFirmInvalidDataList);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -206,9 +205,9 @@ public class AuditorSignUpTest extends AbstractTest {
     }
 
     @Test(priority = 3, enabled = true, description = "Verify Personal sign up page and Input Invalid Test.",
-                                        dataProvider = "verifyAuditorPersonalInputInvalidValue", dataProviderClass = AuditorSignUpDataProvider.class)
+            dataProvider = "verifyAuditorPersonalInputInvalidValue", dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyAuditorPersonalInputInvalidValue(List<String> firstLastNameInvalidDataList, List<String> emailInvalidDataList, String strEmail,
-                                                       String confirmEmailInvalidData, List<String>phoneInvalidDataList) throws Exception {
+            String confirmEmailInvalidData, List<String> phoneInvalidDataList) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
        /* final String strEmail = GenericService.getTestDataFromExcel("AuditorSignUpTest", "Email Address", "Valid Value");
         //Create List Invalid Data for First Last Name Text Box.
@@ -232,33 +231,32 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
-//            Verify input valid Value on Full Name Text box: with one character, only two blank, with one character and one blank, two spaces in character, one special Characters, with number"
+            //            Verify input valid Value on Full Name Text box: with one character, only two blank, with one character and one blank, two spaces in character, one special Characters, with number"
             auditorSignUpService.verifyInputValidValueOnFullNameTxtBox(firstLastNameInvalidDataList);
-//            Verify input valid Value on Email Text box: with one character, input blank, input invalid format Name, input invalid format Style
+            //            Verify input valid Value on Email Text box: with one character, input blank, input invalid format Name, input invalid format Style
             auditorSignUpService.verifyInputValidValueOnEmailTxtBox(emailInvalidDataList);
-//            Verify input valid Value on Confirm Email Text box: with invalid value"
+            //            Verify input valid Value on Confirm Email Text box: with invalid value"
             auditorSignUpService.inputValueIntoEmailTextBox(strEmail);
             auditorSignUpService.verifyInputValidValueOnConfirmEmailTxtBox(confirmEmailInvalidData);
-//            Verify input valid Value on Phone Number Text box: with blank, with 9 number, with character, with Special Character
+            //            Verify input valid Value on Phone Number Text box: with blank, with 9 number, with character, with Special Character
             auditorSignUpService.verifyInputValidValueOnPhoneNumberTxtBox(phoneInvalidDataList);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Full Name are highlight when input only with 1 character: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Full Name are highlight when input only with 1 character: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Full Name are highlight when input only with 1 character: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
     @Test(priority = 4, enabled = true, description = "Verify GUI when input password random blank",
-                        dataProvider = "verifyAuditorSecurityInputInvalidPassword", dataProviderClass = AuditorSignUpDataProvider.class)
-    public void verifyAuditorSecurityInputInvalidPassword(String strFullName, String emailCreate, String strRoleFirm, String strPhone, String strReference,
-                                                        String strName, String strPreName, String strWebsite, String strStreetAddr,
-                                                        String strOffNum, String strZipCode, String strCity, String strCountry,
-                                                        String strState, String strMemberID, String strNumEmp, String strPhoneFirm, String strAffName, String strPathLogo,
-                                                        String passwordCreate, String strAdminEmail, String strAdminPwd, String sStatusUser,
-                                                        String blankPassword, String invalidLengthPassword, String noUpperCasePassword,
-                                                        String noLowerCasePassword, String noDigitsPassword, String noCharPassword,
-                                                        String successPassword, String confirmPassword) throws Exception {
+            dataProvider = "verifyAuditorSecurityInputInvalidPassword", dataProviderClass = AuditorSignUpDataProvider.class)
+    public void verifyAuditorSecurityInputInvalidPassword(String strFullName, String emailCreate, String strRoleFirm, String strPhone,
+            String strReference, String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum, String strZipCode,
+            String strCity, String strCountry, String strState, String strMemberID, String strNumEmp, String strPhoneFirm, String strAffName,
+            String strPathLogo, String passwordCreate, String strAdminEmail, String strAdminPwd, String sStatusUser, String blankPassword,
+            String invalidLengthPassword, String noUpperCasePassword, String noLowerCasePassword, String noDigitsPassword, String noCharPassword,
+            String successPassword, String confirmPassword) throws Exception {
 
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -288,7 +286,9 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService
+                    .registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState,
+                            strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 
@@ -316,16 +316,17 @@ public class AuditorSignUpTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify GUI when input password random have invalid length: PASSED", LogAs.PASSED, (CaptureScreen) null);
         } catch (AssertionError e) {
-            NXGReports.addStep("Verify GUI when input password random have invalid length: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify GUI when input password random have invalid length: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
 
     @Test(priority = 5, enabled = true, description = "Verify Provice and State displayed correctly when Auditor Signed up",
-                        dataProvider = "verifyProvinceAndStateWhenSignUp", dataProviderClass = AuditorSignUpDataProvider.class)
+            dataProvider = "verifyProvinceAndStateWhenSignUp", dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyProvinceAndStateWhenSignUp(String strFullName, String emailCreate, String strRoleFirm, String strPhone, String strReference,
-                                                String strCountry, String strState, String selectAnyCountry, String selectAnyState) throws Exception {
+            String strCountry, String strState, String selectAnyCountry, String selectAnyState) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         emailCreate = GenericService.sBrowserData + emailCreate;
         //final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
@@ -352,16 +353,17 @@ public class AuditorSignUpTest extends AbstractTest {
             NXGReports.addStep("Verify Provice and State displayed correctly when Signed up: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
-            NXGReports.addStep("Verify Provice and State displayed correctly when Signed up: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Provice and State displayed correctly when Signed up: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
     @Test(priority = 6, enabled = true, description = "Verify Member ID", dataProvider = "verifyMemberIDWhenSignUp",
-                                                                    dataProviderClass = AuditorSignUpDataProvider.class)
+            dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyMemberIDWhenSignUp(String strFullName, String emailCreate, String strRoleFirm, String strPhone, String strReference,
-                                         String memberIDAlphabet, String memberIDNumeric, String memberIDSpecialChar,
-                                         String memberIDMoreWords, String memberIDAlphaNumeric) throws Exception {
+            String memberIDAlphabet, String memberIDNumeric, String memberIDSpecialChar, String memberIDMoreWords,
+            String memberIDAlphaNumeric) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         emailCreate = GenericService.sBrowserData + emailCreate;
         /*final String emailCreate = GenericService.getTestDataFromExcel("AuditorSignUpTest", "AUDITOR_USER_ID", "Valid Value");
@@ -401,9 +403,9 @@ public class AuditorSignUpTest extends AbstractTest {
     @Test(priority = 7, enabled = true, description = "Email to Customer Success Team (internal) after Lead Auditor sign up",
             dataProvider = "verifyEmailToCustomerSuccessTeamAfterLeadAuditorSignedUp", dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyEmailToCustomerSuccessTeamAfterLeadAuditorSignedUp(String strFullName, String auditorAccount, String strRoleFirm,
-                  String strPhone, String strReference, String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum,
-                  String strZipCode,String strCity, String strCountry, String strState, String strMemberID, String strNumEmp, String strPhoneFirm,
-                  String strAffName, String strPathLogo, String successTeamEmail, String successTeamEmailPwd) throws Exception {
+            String strPhone, String strReference, String strName, String strPreName, String strWebsite, String strStreetAddr, String strOffNum,
+            String strZipCode, String strCity, String strCountry, String strState, String strMemberID, String strNumEmp, String strPhoneFirm,
+            String strAffName, String strPathLogo, String successTeamEmail, String successTeamEmailPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
@@ -421,7 +423,9 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorSignUpService.verifyPersonalSignUpPage();
             auditorSignUpService.registerAuditorPersonal(strFullName, auditorAccount, strRoleFirm, strPhone, strReference);
             auditorSignUpService.verifyFirmSignUpPage();
-            auditorSignUpService.registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+            auditorSignUpService
+                    .registerFirmInfo(strName, strPreName, strWebsite, strStreetAddr, strOffNum, strZipCode, strCity, strCountry, strState,
+                            strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
             //Verify email to success Team
@@ -432,18 +436,17 @@ public class AuditorSignUpTest extends AbstractTest {
             NXGReports.addStep("Verify Customer inbox after Lead Auditor sign up", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
-            NXGReports.addStep("Verify Customer inbox after Lead Auditor sign up", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Customer inbox after Lead Auditor sign up", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
     @Test(priority = 8, enabled = true, description = "Verify Auditor invite client", dataProvider = "verifyAuditorInviteClient",
-                                        dataProviderClass = AuditorSignUpDataProvider.class)
-    public void verifyAuditorInviteClient(String clientId, String auditorId, String auditorPassword, String engagementName,
-                                          String clientEmailPassword, String clientFullName,
-                                          String clientAuvenirPassword, String successTeamEmail, String successTeamEmailPwd,
-                                          String inviteClientSuccessfulMessage, String updatePhoneNumber,
-                                          String updateStackerHolder, String roleClient) throws Exception {
+            dataProviderClass = AuditorSignUpDataProvider.class)
+    public void verifyAuditorInviteClient(String leadClient, String leadAuditor, String leadAuditorPwd, String engagementName,
+            String leadClientEmailPwd, String leadClientFullName, String leadClientAuvenirPwd, String successTeamEmail, String successTeamEmailPwd,
+            String inviteClientSuccessfulMessage, String updatePhoneNumber, String updateStackerHolder, String roleClient) throws Exception {
         getLogger().info("Verify Auditor invite a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
@@ -452,8 +455,8 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        clientId = GenericService.sBrowserData + clientId;
-        auditorId = GenericService.sBrowserData + auditorId;
+        //        clientId = GenericService.sBrowserData + clientId;
+        //        auditorId = GenericService.sBrowserData + auditorId;
 
         /*String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
@@ -477,18 +480,18 @@ public class AuditorSignUpTest extends AbstractTest {
             //auditor invite client
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-//            clientService.inviteNewClient(clientFullName, clientId, "");
-            clientService.inviteNewClient(clientFullName,clientId,roleClient);
+            //            clientService.inviteNewClient(clientFullName, clientId, "");
+            clientService.inviteNewClient(leadClientFullName, leadClient, roleClient);
             clientService.verifyInviteClientSuccess(inviteClientSuccessfulMessage);
             clientService.inviteNewClient(leadClientFullName, leadClient, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
             // client login Gmail to Signup
             gmailLoginService.gmailReLoginUseAnotherAccount(leadClient, leadClientEmailPwd);
-//            gmailLoginService.filterEmail();
-//            gmailLoginService.navigateAuvenirFromInvitationLink();
+            //            gmailLoginService.filterEmail();
+            //            gmailLoginService.navigateAuvenirFromInvitationLink();
             gmailLoginService.selectActiveEmaill();
             gmailLoginService.selectStartEngagementBtnToNavigateToAuvenirPage();
-//            gmailLoginService.selectGetStartBtnToNavigateToAuvenirPage();
+            //            gmailLoginService.selectGetStartBtnToNavigateToAuvenirPage();
             clientSignUpService.navigateToSignUpForm();
             clientSignUpService.fillUpPersonalForm(updatePhoneNumber);
             clientSignUpService.fillUpBusinessForm(updateStackerHolder);
@@ -519,18 +522,17 @@ public class AuditorSignUpTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Customer inbox after Lead Client sign up", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Customer inbox after Lead Client sign up", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Customer inbox after Lead Client sign up", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
 
     @Test(priority = 10, enabled = true, description = "Verify Auditor invite general Auditor")
-    public void verifyAuditorInviteGeneralAuditor(String clientId, String auditorId, String auditorPassword, String engagementName,
-                                                  String clientEmailPassword, String clientFullName,
-                                                  String clientAuvenirPassword, String successTeamEmail, String successTeamEmailPwd,
-                                                  String inviteClientSuccessfulMessage, String updatePhoneNumber,
-                                                  String updateStackerHolder, String roleClient) throws Exception {
+    public void verifyAuditorInviteGeneralAuditor(String generalAuditor, String leadAuditor, String leadAuditorPwd, String engagementName,
+            String generalAuditorEmailPwd, String generalAuditorFullName, String generalAuditorAuvenirPwd, String successTeamEmail, String successTeamEmailPwd
+            ) throws Exception {
         getLogger().info("Verify Auditor invite a client.");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
@@ -539,8 +541,8 @@ public class AuditorSignUpTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        clientId = GenericService.sBrowserData + clientId;
-        auditorId = GenericService.sBrowserData + auditorId;
+        //        clientId = GenericService.sBrowserData + clientId;
+        //        auditorId = GenericService.sBrowserData + auditorId;
         /*String clientId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Client");
         String auditorId = GenericService.getTestDataFromExcel("SmokeTest", "Valid User", "Auditor");
         String auditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
@@ -560,16 +562,11 @@ public class AuditorSignUpTest extends AbstractTest {
             marketingService.loginWithUserPwd(leadAuditor, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            //auditor invite client
-//            auditorTodoListService.navigateToInviteClientPage();
-            auditorTodoListService.navigateToInviteGeneralMember();
-//            clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, roleClient);
-            clientService.verifyInviteClientSuccess(inviteClientSuccessfulMessage);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+
             auditorTodoListService.navigateToInviteGeneralMember();
             auditorEngagementTeamService.inputInviteNewMemberInfo(generalAuditorFullName, generalAuditor, "");
-            gmailLoginService.gmailReLoginUseAnotherAccount(generalAuditor,generalAuditorEmailPwd);
+            gmailLoginService.gmailReLoginUseAnotherAccount(generalAuditor, generalAuditorEmailPwd);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
@@ -583,12 +580,14 @@ public class AuditorSignUpTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 11, enabled = true, description = "Customer Success Team  has not received any Email(internal) after general Auditor sign up")
-    public void verifyNoEmailToCustomerSuccessTeamAfterGeneralAuditorSignUp() throws Exception {
+    @Test(priority = 11, enabled = true, description = "Customer Success Team  has not received any Email(internal) after general Auditor sign up",
+            dataProvider = "verifyNoEmailToCustomerSuccessTeamAfterLeadClientSignUp", dataProviderClass = AuditorSignUpDataProvider.class)
+    public void verifyNoEmailToCustomerSuccessTeamAfterGeneralAuditorSignUp(String successTeamEmail, String successTeamEmailPwd) throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
 
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
+      /*  String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
+        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid
+        Value");*/
 
         try {
             gmailLoginService.gmailLogin(successTeamEmail, successTeamEmailPwd);
@@ -596,85 +595,90 @@ public class AuditorSignUpTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Customer inbox after general Auditor sign up", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Customer inbox after general Auditor sign up", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Customer inbox after general Auditor sign up", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
 
-    @Test(priority = 12, enabled = true, description = "Verify Lead Client invite general client")
-    public void verifyLeadClientInviteGeneralClient() throws Exception {
-        getLogger().info("Verify Auditor invite a client.");
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        //modify before pushed
-        String generalClient = GenericService.getTestDataFromExcel("AuditorSignUpTest", "GENERAL_CLIENT_USER_ID", "Valid Value");
-        String generalClientAuvenirPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_CLIENT_USER_PASSWORD", "Valid Value");
-        String generalClientEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_CLIENT_EMAIL_PASSWORD", "Valid Value");
-        String generalClientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_CLIENT_USER_FULLNAME", "Valid Value");
-        String leadClient = GenericService.getTestDataFromExcel("AuditorSignUpTest", "CLIENT_USER_ID", "Valid Value");
-        String leadClientPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "CLIENT_USER_PASSWORD", "Valid Value");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Engagement Name", "Valid Value");
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
-
-        try {
-            gmailLoginService.deleteAllExistedEmail(generalClient, generalClientEmailPwd);
-            gmailLoginService.deleteAllExistedEmailUseAnotherAccount(successTeamEmail, successTeamEmailPwd);
-            marketingService.goToAuvenirMarketingPageURL();
-            marketingService.selectLoginBtn();
-            marketingService.loginWithUserPwd(leadClient, leadClientPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorTodoListService.navigateToInviteGeneralMember();
-
-            clientService.inviteNewMember(generalClientFullName, generalClient, "");
-            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
-            // client login Gmail to Signup
-            gmailLoginService.gmailReLoginUseAnotherAccount(generalClient, generalClientEmailPwd);
-//            gmailLoginService.filterEmail();
-//            gmailLoginService.navigateAuvenirFromInvitationLink();
-            gmailLoginService.selectActiveEmaill();
-            gmailLoginService.selectStartEngagementBtnToNavigateToAuvenirPage();
-
-            clientSignUpService.navigateToSignUpForm();
-            clientSignUpService.fillUpPersonalForm(updatePhoneNumber);
-            clientSignUpService.fillUpBusinessForm(updateStackerHolder);
-            clientSignUpService.fillUpBankForm();
-            clientSignUpService.fillUpFileForm();
-            clientSignUpService.fillUpSecurityForm(generalClientAuvenirPwd);
-            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead Client invite general client", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Lead Client invite general client", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 13, enabled = true, description = "Customer Success Team  has not received any Email(internal) after General Client sign up")
-    public void verifyNoEmailToCustomerSuccessTeamAfterGeneralClientSignUp() throws Exception {
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-
-        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
-        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
-
-        try {
-            gmailLoginService.gmailLogin(successTeamEmail, successTeamEmailPwd);
-            //Verify no email to Customer successteam
-            gmailLoginService.verifyNoEmailToCSTeamInbox();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Customer inbox after general client sign up", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Customer inbox after general client sign up", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-
-
-    }
+//    @Test(priority = 12, enabled = true, description = "Verify Lead Client invite general client")
+//    public void verifyLeadClientInviteGeneralClient() throws Exception {
+//        getLogger().info("Verify Auditor invite a client.");
+//        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+//        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+//        clientService = new ClientService(getLogger(), getDriver());
+//        marketingService = new MarketingService(getLogger(), getDriver());
+//        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+//        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+//        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+//        //modify before pushed
+//        String generalClient = GenericService.getTestDataFromExcel("AuditorSignUpTest", "GENERAL_CLIENT_USER_ID", "Valid Value");
+//        String generalClientAuvenirPwd = GenericService
+//                .getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_CLIENT_USER_PASSWORD", "Valid Value");
+//        String generalClientEmailPwd = GenericService
+//                .getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_CLIENT_EMAIL_PASSWORD", "Valid Value");
+//        String generalClientFullName = GenericService
+//                .getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "GENERAL_CLIENT_USER_FULLNAME", "Valid Value");
+//        String leadClient = GenericService.getTestDataFromExcel("AuditorSignUpTest", "CLIENT_USER_ID", "Valid Value");
+//        String leadClientPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "CLIENT_USER_PASSWORD", "Valid Value");
+//        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Engagement Name", "Valid Value");
+//        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
+//        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
+//
+//        try {
+//            gmailLoginService.deleteAllExistedEmail(generalClient, generalClientEmailPwd);
+//            gmailLoginService.deleteAllExistedEmailUseAnotherAccount(successTeamEmail, successTeamEmailPwd);
+//            marketingService.goToAuvenirMarketingPageURL();
+//            marketingService.selectLoginBtn();
+//            marketingService.loginWithUserPwd(leadClient, leadClientPwd);
+//            auditorEngagementService.verifyAuditorEngagementPage();
+//            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+//            auditorTodoListService.navigateToInviteGeneralMember();
+//
+//            clientService.inviteNewMember(generalClientFullName, generalClient, "");
+//            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+//            // client login Gmail to Signup
+//            gmailLoginService.gmailReLoginUseAnotherAccount(generalClient, generalClientEmailPwd);
+//            //            gmailLoginService.filterEmail();
+//            //            gmailLoginService.navigateAuvenirFromInvitationLink();
+//            gmailLoginService.selectActiveEmaill();
+//            gmailLoginService.selectStartEngagementBtnToNavigateToAuvenirPage();
+//
+//            clientSignUpService.navigateToSignUpForm();
+//            clientSignUpService.fillUpPersonalForm(updatePhoneNumber);
+//            clientSignUpService.fillUpBusinessForm(updateStackerHolder);
+//            clientSignUpService.fillUpBankForm();
+//            clientSignUpService.fillUpFileForm();
+//            clientSignUpService.fillUpSecurityForm(generalClientAuvenirPwd);
+//            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+//            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+//            NXGReports.addStep("Verify Lead Client invite general client", LogAs.PASSED, null);
+//        } catch (Exception e) {
+//            NXGReports.addStep("Verify Lead Client invite general client", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Test(priority = 13, enabled = true, description = "Customer Success Team  has not received any Email(internal) after General Client sign up")
+//    public void verifyNoEmailToCustomerSuccessTeamAfterGeneralClientSignUp() throws Exception {
+//        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+//
+//        String successTeamEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email", "Valid Value");
+//        String successTeamEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Success Team Email Pwd", "Valid Value");
+//
+//        try {
+//            gmailLoginService.gmailLogin(successTeamEmail, successTeamEmailPwd);
+//            //Verify no email to Customer successteam
+//            gmailLoginService.verifyNoEmailToCSTeamInbox();
+//            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+//            NXGReports.addStep("Verify Customer inbox after general client sign up", LogAs.PASSED, null);
+//        } catch (Exception e) {
+//            NXGReports.addStep("Verify Customer inbox after general client sign up", LogAs.FAILED,
+//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
 }
