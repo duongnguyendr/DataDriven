@@ -133,6 +133,7 @@ public class ClientSignUpPage extends AbstractPage {
             clickElement(checkboxConfirm, "Checkbox Confirm Chartered Professional Accountant");
             clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
             switchToOtherTab(1);
+            scrollToFooter();
             clickElement(buttonPersonalContinue, "Button Personal Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
