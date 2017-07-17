@@ -85,6 +85,7 @@ public class SmokeTest extends AbstractTest {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
             // auditorSignUpService.deleteUserUsingApi(emailCreate);
+            MongoDBService.removeAllActivitiesCollectionOfAUser(emailCreate);
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();

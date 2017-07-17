@@ -750,7 +750,7 @@ public class MongoDBService {
      * Remove activities of the email(Object ID) in Activities collection.
      * @param email the String email which has object ID displayed in userId object.
      */
-    public static void removeInvitedClientInActivitiesCollection(String email) {
+    public static void removeAllActivitiesCollectionOfAUser(String email) {
         String objectId = null;
         int count = 0;
         try {
@@ -787,7 +787,7 @@ public class MongoDBService {
         System.out.println("Deleted Client User and All Indicated Value.");
         removeInvitedClientInEngagementCollection(email);
         removeInvitedClientInBusinessesCollection(email);
-        removeInvitedClientInActivitiesCollection(email);
+        removeAllActivitiesCollectionOfAUser(email);
         try {
             removeUserObjectByEmail(getCollection("users"), email);
         } catch (Exception e) {
