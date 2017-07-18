@@ -446,7 +446,7 @@ public class AuditorTodoListPage extends AbstractPage {
 
     public void navigateToInviteGeneralMember(){
         clickElement(teamBtn);
-        waitForCssValueChanged(engagementTeam,"engagementTeam","display","inherit");
+        waitForCssValueChanged(engagementTeam,"engagementTeam","display","block");
 //        waitForTextValueChanged(inviteMemberBtn,"invite auditor Btn","Invite New Member");
         clickElement(inviteMemberBtn);
     }

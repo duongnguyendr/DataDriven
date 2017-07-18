@@ -133,6 +133,7 @@ public class ClientSignUpPage extends AbstractPage {
             clickElement(checkboxConfirm, "Checkbox Confirm Chartered Professional Accountant");
             clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
             switchToOtherTab(1);
+            scrollToFooter();
             clickElement(buttonPersonalContinue, "Button Personal Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -191,11 +192,15 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
-            sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
+
+            //Vien commented codes
+            /*sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
             scrollToFooter();
             clickElement(inputFiscalEndYear, "Input Fiscal End Year");
             DatePicker datePicker = new DatePicker(getDriver());
-            datePicker.pickADate("12", "31", "2017");
+            datePicker.pickADate("12", "31", "2017");*/
+
+
             //clickElement(inputIndustry, "Input Industry");
             //chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
             //sometime listoption not close after choose an option, so need to click somewhere to close, avoid it cover others element
@@ -203,6 +208,7 @@ public class ClientSignUpPage extends AbstractPage {
             //clickElement(inputAccountingFramework, "Input Accounting Framework");
             //chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
             //clickElement(titleParentStakeholders);
+            scrollToFooter();
             clickElement(buttonBusinessContinue, "Button Business Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -240,7 +246,8 @@ public class ClientSignUpPage extends AbstractPage {
             sendKeyTextBox(inputCreatePassword, password, "Input Create Password");
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
             sendTabkey(inputConfirmPassword, "Input Confirm Password");
-            scrollToFooter();
+            Thread.sleep(1000);
+//            scrollToFooter();
             clickElement(buttonSecurityContinue, "Button Security Continue");
             waitSomeSeconds(5);
         } catch (Exception ex) {
