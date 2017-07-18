@@ -7,8 +7,11 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
+
+import java.lang.reflect.Method;
 
 //import org.testng.log4testng.Logger;
 
@@ -21,7 +24,8 @@ public class AbstractAPIService {
     private Logger logger = Logger.getLogger(AbstractService.class);
     private WebDriver driver;
     public static int sStatusCnt = 0;
-
+    String localPropertiesDest = GenericService.sDirPath + "/local.properties";
+    protected String testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(localPropertiesDest, "DATA_FILE");
     /*
     Refactor to implement parameter on maven: serverDomainName
     Updated by: Doai.Tran on 8/5/2017
@@ -129,18 +133,46 @@ public class AbstractAPIService {
         }
     }
 
-    @Parameters({"server"})
+    @Parameters({"browser", "version", "os"})
+    @BeforeMethod
+    public void setUp(Method method, String browser, String version, String os) {
+        getLogger().info("Before Method.");
+        getBaseUrl();
+        getDataBaseSer();
+        getDataBase();
+        getPort();
+        getUserName();
+        getPassword();
+        getSSL();
+    }
     @BeforeSuite
-    public void setConfig(String server) {
-        if (server.equalsIgnoreCase("cadet")) {
-            GenericService.sConfigFile = GenericService.sDirPath + "/cadet.properties";
-        } else if (server.equalsIgnoreCase("local")) {
-            GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
-        } else if (server.equalsIgnoreCase("finicity")) {
-            GenericService.sConfigFile = GenericService.sDirPath + "/finicity.properties";
-        }else
-            GenericService.sConfigFile = GenericService.sDirPath + "/ariel.properties";
-        }
+    public void setConfig() {
+        getToEmail();
+        getCcEmail();
+        GenericService.sToEmail = toEmail;
+        GenericService.sCcEmail = ccEmail;
+        GenericService.sConfigFile = GenericService.sDirPath + "/local.properties";
+        testData = System.getProperty("user.dir") + "\\" + GenericService.getConfigValue(GenericService.sConfigFile, "DATA_FILE");
+
+    }
+    private String toEmail = "";
+    private String ccEmail = "";
+    public String   getToEmail(){
+        setToEmail(System.getProperty("toEmail"));
+        return toEmail;
+    }
+    public void setToEmail(String tosEmail){
+        toEmail = tosEmail;
+        getLogger().info("Email that We will send report: " +tosEmail);
+    }
+    public String  getCcEmail(){
+        setCcEmail(System.getProperty("ccEmail"));
+        return ccEmail;
+    }
+    public void setCcEmail(String tocEmail){
+        ccEmail = tocEmail;
+        getLogger().info("cc Email that We will send report: " +tocEmail);
+    }
 
 	public Logger getLogger() {
         return logger;
