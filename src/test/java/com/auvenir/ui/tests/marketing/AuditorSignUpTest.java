@@ -340,9 +340,6 @@ public class AuditorSignUpTest extends AbstractTest {
     }
 
 
-
-
-
     @Test(priority = 8, enabled = true, description = "Verify Auditor invite client", dataProvider = "verifyAuditorInviteClient",
             dataProviderClass = AuditorSignUpDataProvider.class)
     public void verifyAuditorInviteClient(String leadClient, String leadAuditor, String leadAuditorPwd, String engagementName,
