@@ -59,11 +59,16 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='business-industry-container']//a")
     private List<WebElement> listOptionIndustry;
 
-    @FindBy(id = "accounting-framework")
+    //@FindBy(id = "accounting-framework")
+    @FindBy(xpath = "//div[@role='listbox']")
     private WebElement inputAccountingFramework;
 
-    @FindBy(xpath = "//div[@id='accounting-framework-container']//a")
+    //@FindBy(xpath = "//div[@id='accounting-framework-container']//a")
+    @FindBy(xpath = "//div[@role='option']")
     private List<WebElement> listOptionAccountingFramework;
+
+    @FindBy(name = "business_industry")
+    private WebElement inputBusinessIndustry;
 
     @FindBy(name = "business_fiscal_year")
     private WebElement inputFiscalEndYear;
@@ -161,8 +166,8 @@ public class ClientSignUpPage extends AbstractPage {
     public void fillUpPersonalFormOfAuditorPage(String phoneNumber) {
         try {
             waitSomeSeconds(5);
-//            waitForCssValueChanged(generalAuditorSignupPage,"General Auditor Sign Up page","display","inherit");
-//            waitForTextValueChanged(titlePersonalGeneralAuditor, "", "Please Provide your Information");
+            //            waitForCssValueChanged(generalAuditorSignupPage,"General Auditor Sign Up page","display","inherit");
+            //            waitForTextValueChanged(titlePersonalGeneralAuditor, "", "Please Provide your Information");
             scrollToFooter();
             sendKeyTextBox(inputPersonalPhoneNumber, phoneNumber, "Input Personal Phone Number");
             clickElement(hearAboutAuvenir);
@@ -193,14 +198,19 @@ public class ClientSignUpPage extends AbstractPage {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
 
-            //Vien commented codes
-            /*sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
+            sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
             scrollToFooter();
-            clickElement(inputFiscalEndYear, "Input Fiscal End Year");
-            DatePicker datePicker = new DatePicker(getDriver());
-            datePicker.pickADate("12", "31", "2017");*/
-
-
+            if (getText(inputBusinessIndustry).isEmpty()) {
+                sendKeyTextBox(inputBusinessIndustry, "Financial", "Input Business Industry");
+                clickElement(inputFiscalEndYear, "Input Fiscal End Year");
+                DatePicker datePicker = new DatePicker(getDriver());
+                datePicker.pickADate("12", "31", "2017");
+                clickElement(inputBusinessIndustry);
+                clickElement(inputAccountingFramework, "Input Accounting Framework");
+                chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
+            }
+            waitSomeSeconds(10);
+            //clickElement(titleParentStakeholders);
             //clickElement(inputIndustry, "Input Industry");
             //chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
             //sometime listoption not close after choose an option, so need to click somewhere to close, avoid it cover others element
@@ -208,7 +218,7 @@ public class ClientSignUpPage extends AbstractPage {
             //clickElement(inputAccountingFramework, "Input Accounting Framework");
             //chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
             //clickElement(titleParentStakeholders);
-            scrollToFooter();
+            //scrollToFooter();
             clickElement(buttonBusinessContinue, "Button Business Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -247,7 +257,7 @@ public class ClientSignUpPage extends AbstractPage {
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
             sendTabkey(inputConfirmPassword, "Input Confirm Password");
             Thread.sleep(1000);
-//            scrollToFooter();
+            //            scrollToFooter();
             clickElement(buttonSecurityContinue, "Button Security Continue");
             waitSomeSeconds(5);
         } catch (Exception ex) {

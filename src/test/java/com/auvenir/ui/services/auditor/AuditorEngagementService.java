@@ -122,12 +122,14 @@ public class AuditorEngagementService extends AbstractService {
             int index = auditorEngagementPage.findEngagementName(engagementName);
             if (index == -1) {
                 createAndSelectNewEnagement(engagementName, "", companyName);
-            } else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            } else
+                auditorEngagementPage.viewEngagementDetailsPage(engagementName);
             auditorEngagementPage.waitForProgressOverlayIsClosed();
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -138,12 +140,15 @@ public class AuditorEngagementService extends AbstractService {
             int index = auditorEngagementPage.findEngagementName(engagementName);
             if (index == -1) {
                 createAndSelectNewEnagement(engagementName, "", companyName, deadlineDate, endDate, startDate);
-            } else auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            } else {
+                auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            }
             auditorEngagementPage.waitForProgressOverlayIsClosed();
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -154,7 +159,8 @@ public class AuditorEngagementService extends AbstractService {
             NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -177,7 +183,7 @@ public class AuditorEngagementService extends AbstractService {
         auditorNewEngagementPage.verifyNewEngagementPage();
         auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company);
         // R2: Change bussiness rule, need to mark a commment this line.
-//        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
+        //        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
     }
 
     public void clickEngagementMenuLink() throws Exception {
@@ -185,13 +191,14 @@ public class AuditorEngagementService extends AbstractService {
         auditorNewEngagementPage.clickEngagementMenuLink();
     }
 
-    public void createAndSelectNewEnagement(String engagementName, String engagementType, String company, String deadlineDate, String endDate, String startDate) {
+    public void createAndSelectNewEnagement(String engagementName, String engagementType, String company, String deadlineDate, String endDate,
+            String startDate) {
         getLogger().info("Create And Select New Enagement.");
         auditorEngagementPage.clickNewEnagementButton();
         auditorNewEngagementPage.verifyNewEngagementPage();
         auditorNewEngagementPage.enterDataForNewEngagementPage(engagementName, engagementType, company, deadlineDate, endDate, startDate);
         // R2: Change bussiness rule, need to mark a commment this line.
-//        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
+        //        auditorEngagementTeamPage.clickEngagementByPosition(auditorEngagementTeamPage.findEngagementName(engagementName));
     }
 
 
@@ -417,208 +424,208 @@ public class AuditorEngagementService extends AbstractService {
         }
     }
 
-    public void searchEngagementListByName(String engagementName){
+    public void searchEngagementListByName(String engagementName) {
         auditorEngagementPage.searchEngagementListByName(engagementName);
     }
 
-    public void verifyDataSearchByEngagementName(String engagementName){
+    public void verifyDataSearchByEngagementName(String engagementName) {
         auditorEngagementPage.verifyDataSearchByEngagementName(engagementName);
     }
 
-    public void searchEngagementListByCompany(String engagementCompany){
+    public void searchEngagementListByCompany(String engagementCompany) {
         auditorEngagementPage.searchEngagementListByCompany(engagementCompany);
     }
 
-    public void verifyDataSearchByEngagementCompany(String engagementCompany){
+    public void verifyDataSearchByEngagementCompany(String engagementCompany) {
         auditorEngagementPage.verifyDataSearchByEngagementCompany(engagementCompany);
     }
 
-    public void clickOnEngagementFilter(){
-       auditorEngagementPage.clickOnEngagementFilter();
+    public void clickOnEngagementFilter() {
+        auditorEngagementPage.clickOnEngagementFilter();
     }
 
-    public void clickOnEngagementFilterAll(){
-       auditorEngagementPage.clickOnEngagementFilterAll();
+    public void clickOnEngagementFilterAll() {
+        auditorEngagementPage.clickOnEngagementFilterAll();
     }
 
-    public void clickOnTypeOfEngagement(){
-       auditorEngagementPage.clickOnTypeOfEngagement();
+    public void clickOnTypeOfEngagement() {
+        auditorEngagementPage.clickOnTypeOfEngagement();
     }
 
-    public void clickOnEngagementFinancialAudit(){
+    public void clickOnEngagementFinancialAudit() {
         auditorEngagementPage.clickOnEngagementFinancialAudit();
     }
 
-    public void clickOnEngagementReview(){
+    public void clickOnEngagementReview() {
         auditorEngagementPage.clickOnEngagementReview();
     }
 
-    public void clickOnEngagementNotice(){
-       auditorEngagementPage.clickOnEngagementNotice();
+    public void clickOnEngagementNotice() {
+        auditorEngagementPage.clickOnEngagementNotice();
     }
 
-    public void clickOnEngagementOther(){
+    public void clickOnEngagementOther() {
         auditorEngagementPage.clickOnEngagementOther();
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnCompanyIconSortDown(){
+    public void clickOnCompanyIconSortDown() {
         auditorEngagementPage.clickOnCompanyIconSortDown();
     }
 
-    public void clickOnCompanyIconSortUp(){
+    public void clickOnCompanyIconSortUp() {
         auditorEngagementPage.clickOnCompanyIconSortUp();
     }
 
-    public void verifyCompanyDataListSortAscending(){
+    public void verifyCompanyDataListSortAscending() {
         auditorEngagementPage.verifyCompanyDataListSortAscending();
     }
 
-    public void verifyCompanyDataListSortDescending(){
+    public void verifyCompanyDataListSortDescending() {
         auditorEngagementPage.verifyCompanyDataListSortDescending();
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementNameIconSortDown(){
+    public void clickOnEngagementNameIconSortDown() {
         auditorEngagementPage.clickOnEngagementNameIconSortDown();
     }
 
-    public void clickOnEngagementNameIconSortUp(){
+    public void clickOnEngagementNameIconSortUp() {
         auditorEngagementPage.clickOnEngagementNameIconSortUp();
     }
 
-    public void verifyEngagementNameDataListSortAscending(){
+    public void verifyEngagementNameDataListSortAscending() {
         auditorEngagementPage.verifyEngagementNameDataListSortAscending();
     }
 
-    public void verifyEngagementNameDataListSortDescending(){
+    public void verifyEngagementNameDataListSortDescending() {
         auditorEngagementPage.verifyEngagementNameDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementStatusIconSortDown(){
+    public void clickOnEngagementStatusIconSortDown() {
         auditorEngagementPage.clickOnEngagementStatusIconSortDown();
     }
 
-    public void clickOnEngagementStatusIconSortUp(){
+    public void clickOnEngagementStatusIconSortUp() {
         auditorEngagementPage.clickOnEngagementStatusIconSortUp();
     }
 
-    public void verifyEngagementStatusDataListSortAscending(){
+    public void verifyEngagementStatusDataListSortAscending() {
         auditorEngagementPage.verifyEngagementStatusDataListSortAscending();
     }
 
-    public void verifyEngagementStatusDataListSortDescending(){
+    public void verifyEngagementStatusDataListSortDescending() {
         auditorEngagementPage.verifyEngagementStatusDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementAuditIconSortDown(){
-       auditorEngagementPage.clickOnEngagementAuditIconSortDown();
+    public void clickOnEngagementAuditIconSortDown() {
+        auditorEngagementPage.clickOnEngagementAuditIconSortDown();
     }
 
-    public void clickOnEngagementAuditIconSortUp(){
+    public void clickOnEngagementAuditIconSortUp() {
         auditorEngagementPage.clickOnEngagementAuditIconSortUp();
     }
 
-    public void verifyEngagementAuditDataListSortAscending(){
+    public void verifyEngagementAuditDataListSortAscending() {
         auditorEngagementPage.verifyEngagementAuditDataListSortAscending();
     }
 
-    public void verifyEngagementAuditDataListSortDescending(){
+    public void verifyEngagementAuditDataListSortDescending() {
         auditorEngagementPage.verifyEngagementAuditDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementToDoIconSortDown(){
+    public void clickOnEngagementToDoIconSortDown() {
         auditorEngagementPage.clickOnEngagementToDoIconSortDown();
     }
 
-    public void clickOnEngagementToDoIconSortUp(){
+    public void clickOnEngagementToDoIconSortUp() {
         auditorEngagementPage.clickOnEngagementToDoIconSortUp();
     }
 
-    public void verifyEngagementToDoDataListSortAscending(){
+    public void verifyEngagementToDoDataListSortAscending() {
         auditorEngagementPage.verifyEngagementToDoDataListSortAscending();
     }
 
-    public void verifyEngagementToDoDataListSortDescending(){
+    public void verifyEngagementToDoDataListSortDescending() {
         auditorEngagementPage.verifyEngagementToDoDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementClientIconSortDown(){
+    public void clickOnEngagementClientIconSortDown() {
         auditorEngagementPage.clickOnEngagementClientIconSortDown();
     }
 
-    public void clickOnEngagementClientIconSortUp(){
+    public void clickOnEngagementClientIconSortUp() {
         auditorEngagementPage.clickOnEngagementClientIconSortUp();
     }
 
-    public void verifyEngagementClientDataListSortAscending(){
+    public void verifyEngagementClientDataListSortAscending() {
         auditorEngagementPage.verifyEngagementClientDataListSortAscending();
     }
 
-    public void verifyEngagementClientDataListSortDescending(){
+    public void verifyEngagementClientDataListSortDescending() {
         auditorEngagementPage.verifyEngagementClientDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementDocIconSortDown(){
+    public void clickOnEngagementDocIconSortDown() {
         auditorEngagementPage.clickOnEngagementDocIconSortDown();
     }
 
-    public void clickOnEngagementDocIconSortUp(){
+    public void clickOnEngagementDocIconSortUp() {
         auditorEngagementPage.clickOnEngagementDocIconSortUp();
     }
 
-    public void verifyEngagementDocDataListSortAscending(){
+    public void verifyEngagementDocDataListSortAscending() {
         auditorEngagementPage.verifyEngagementDocDataListSortAscending();
     }
 
-    public void verifyEngagementDocDataListSortDescending(){
+    public void verifyEngagementDocDataListSortDescending() {
         auditorEngagementPage.verifyEngagementDocDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementActivityIconSortDown(){
+    public void clickOnEngagementActivityIconSortDown() {
         auditorEngagementPage.clickOnEngagementActivityIconSortDown();
     }
 
-    public void clickOnEngagementActivityIconSortUp(){
+    public void clickOnEngagementActivityIconSortUp() {
         auditorEngagementPage.clickOnEngagementActivityIconSortUp();
     }
 
-    public void verifyEngagementActivityDataListSortAscending(){
+    public void verifyEngagementActivityDataListSortAscending() {
         auditorEngagementPage.verifyEngagementActivityDataListSortAscending();
     }
 
-    public void verifyEngagementActivityDataListSortDescending(){
-        auditorEngagementPage. verifyEngagementActivityDataListSortDescending();
+    public void verifyEngagementActivityDataListSortDescending() {
+        auditorEngagementPage.verifyEngagementActivityDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementDueDateIconSortDown(){
+    public void clickOnEngagementDueDateIconSortDown() {
         auditorEngagementPage.clickOnEngagementDueDateIconSortDown();
     }
 
-    public void clickOnEngagementDueDateIconSortUp(){
+    public void clickOnEngagementDueDateIconSortUp() {
         auditorEngagementPage.clickOnEngagementDueDateIconSortUp();
     }
 
-    public void verifyEngagementDueDateDataListSortAscending(){
+    public void verifyEngagementDueDateDataListSortAscending() {
         auditorEngagementPage.verifyEngagementDueDateDataListSortAscending();
     }
 
-    public void verifyEngagementDueDateDataListSortDescending(){
+    public void verifyEngagementDueDateDataListSortDescending() {
         auditorEngagementPage.verifyEngagementDueDateDataListSortDescending();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
