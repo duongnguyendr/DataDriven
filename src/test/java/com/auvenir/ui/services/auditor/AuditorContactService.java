@@ -42,11 +42,11 @@ public class AuditorContactService extends AbstractService{
             getLogger().info("verify footer page.");
             auditorContactsPage.verifyFooterOfHomepage();
             getLogger().info("verfify term of service link.");
-            auditorContactsPage.verifyTermsOfServiceLinkContactsPage();
+            auditorContactsPage.verifyTermsOfServiceLink();
             getLogger().info("verify privacy state link.");
-            auditorContactsPage.verifyPrivacyStateLinkContactsPage();
+            auditorContactsPage.verifyPrivacyStateLink();
             getLogger().info("verify cookies notice link.");
-            auditorContactsPage.verifyCookieNoticeContactsPage();
+            auditorContactsPage.verifyCookieNotice();
             auditorContactsPage.scrollPageUp();
             NXGReports.addStep("verify footer page", LogAs.PASSED, null);
         } catch (Exception e) {
