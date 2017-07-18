@@ -228,6 +228,8 @@ public class LoginMarketingTest extends AbstractTest {
     public void forgotPasswordWithInvalidValue(String emailId, String emailPassword,
             String ranPasswordHas7Character, String ranPasswordNotContainsUpperCase,
             String ranPasswordNotContainsLowerCase, String ranPasswordNotContainsDigit, String ranPasswordNotContainsSpecial,
+            String ranPasswordContainsUpperLowerCase, String ranPasswordContainsUpperCaseDigit, String ranPasswordContainsUpperCaseSpecial,
+            String ranPasswordContainsLowerCaseDigit, String ranPasswordContainsLowerCaseSpecial, String ranPasswordContainDigitSpecial,
             String ranPasswordOnlyUpperCase, String ranPasswordOnlyLowerCase, String ranPasswordOnlyDigit, String ranPasswordOnlySpecial) throws InterruptedException {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
@@ -247,21 +249,49 @@ public class LoginMarketingTest extends AbstractTest {
             marketingService.verifyNewPasswordErrorMessage();
             NXGReports.addStep("Enter new password: " + ranPasswordHas7Character, LogAs.PASSED, null);
 
+
             marketingService.verifyNewPassword(ranPasswordNotContainsUpperCase);
             marketingService.verifyNewPasswordErrorMessage();
             NXGReports.addStep("Enter new password: " + ranPasswordNotContainsUpperCase, LogAs.PASSED, null);
+
 
             marketingService.verifyNewPassword(ranPasswordNotContainsLowerCase);
             marketingService.verifyNewPasswordErrorMessage();
             NXGReports.addStep("Enter new password: " + ranPasswordNotContainsLowerCase, LogAs.PASSED, null);
 
+
             marketingService.verifyNewPassword(ranPasswordNotContainsDigit);
             marketingService.verifyNewPasswordErrorMessage();
             NXGReports.addStep("Enter new password: " + ranPasswordNotContainsDigit, LogAs.PASSED, null);
 
+
             marketingService.verifyNewPassword(ranPasswordNotContainsSpecial);
             marketingService.verifyNewPasswordErrorMessage();
             NXGReports.addStep("Enter new password: " + ranPasswordNotContainsSpecial, LogAs.PASSED, null);
+
+            marketingService.verifyNewPassword(ranPasswordContainsUpperLowerCase);
+            marketingService.verifyNewPasswordErrorMessage();
+            NXGReports.addStep("Enter new password: " + ranPasswordContainsUpperLowerCase, LogAs.PASSED, null);
+
+            marketingService.verifyNewPassword(ranPasswordContainsUpperCaseDigit);
+            marketingService.verifyNewPasswordErrorMessage();
+            NXGReports.addStep("Enter new password: " + ranPasswordContainsUpperCaseDigit, LogAs.PASSED, null);
+
+            marketingService.verifyNewPassword(ranPasswordContainsUpperCaseSpecial);
+            marketingService.verifyNewPasswordErrorMessage();
+            NXGReports.addStep("Enter new password: " + ranPasswordContainsUpperCaseSpecial, LogAs.PASSED, null);
+
+            marketingService.verifyNewPassword(ranPasswordContainsLowerCaseDigit);
+            marketingService.verifyNewPasswordErrorMessage();
+            NXGReports.addStep("Enter new password: " + ranPasswordContainsLowerCaseDigit, LogAs.PASSED, null);
+
+            marketingService.verifyNewPassword(ranPasswordContainsLowerCaseSpecial);
+            marketingService.verifyNewPasswordErrorMessage();
+            NXGReports.addStep("Enter new password: " + ranPasswordContainsLowerCaseSpecial, LogAs.PASSED, null);
+
+            marketingService.verifyNewPassword(ranPasswordContainDigitSpecial);
+            marketingService.verifyNewPasswordErrorMessage();
+            NXGReports.addStep("Enter new password: " + ranPasswordContainDigitSpecial, LogAs.PASSED, null);
 
             marketingService.verifyNewPassword(ranPasswordOnlyUpperCase);
             marketingService.verifyNewPasswordErrorMessage();

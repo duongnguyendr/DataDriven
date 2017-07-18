@@ -107,23 +107,94 @@ public class LoginMarketingDataProvider extends CommonDataProvider {
     @DataProvider(name="forgotPasswordWithInvalidValue")
     public static Object[][] getForgotPasswordWithInvalidValue(){
         emailPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("ForgotPassword","AUDITOR_EMAIL_PASSWORD","VALID VALUE");
-        String ranPasswordHas7Character = "Aa@1231";
-        String ranPasswordNotContainsUpperCase = "aa@1234a";
-        String ranPasswordNotContainsLowerCase = "AA@1234A";
-        String ranPasswordNotContainsDigit = "AA@!aabb";
-        String ranPasswordNotContainsSpecial = "AAbbcc11";
+        int maxLength = 7;
+        boolean isContainsUpperCase = true;
+        boolean isContainsLowerCase = true;
+        boolean isContainsDigit = true;
+        boolean isContainsLowerSpecialCharacter = true;
+        String ranPasswordHas7Character =  GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase, isContainsDigit,
+                                                                                isContainsLowerSpecialCharacter) ;//"Aa@1231";
+        maxLength = 8;
+        isContainsUpperCase = false;
+        String ranPasswordNotContainsUpperCase = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase, isContainsDigit,
+                                                                                isContainsLowerSpecialCharacter);//"aa@1234a";
+        isContainsUpperCase = true;
+        isContainsLowerCase = false;
+        String ranPasswordNotContainsLowerCase = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase, isContainsDigit,
+                                                                                isContainsLowerSpecialCharacter);//"AA@1234A";
+        isContainsUpperCase = true;
+        isContainsLowerCase = true;
+        isContainsDigit = false;
+        String ranPasswordNotContainsDigit = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase, isContainsDigit,
+                                                                                isContainsLowerSpecialCharacter);//"AA@!aabb";
+        isContainsUpperCase = true;
+        isContainsLowerCase = true;
+        isContainsDigit = true;
+        isContainsLowerSpecialCharacter = false;
+        String ranPasswordNotContainsSpecial = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase, isContainsDigit,
+                                                                               isContainsLowerSpecialCharacter);//"AAbbcc11";
 
-        String ranPasswordOnlyUpperCase = "AAAAAAAA";
-        String ranPasswordOnlyLowerCase = "aaaaaaaa";
-        String ranPasswordOnlyDigit = "12345678";
-        String ranPasswordOnlySpecial = "@@!!##$$";
+        isContainsDigit = false;
+        String ranPasswordContainsUpperLowerCase = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                                    isContainsDigit, isContainsLowerSpecialCharacter);//"AAbbccBB";
+
+        isContainsLowerCase = false;
+        isContainsDigit = true;
+        String ranPasswordContainsUpperCaseDigit = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                                    isContainsDigit, isContainsLowerSpecialCharacter);//"AABB11111";
+
+        isContainsDigit = false;
+        isContainsLowerSpecialCharacter = true;
+        String ranPasswordContainsUpperCaseSpecial = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                                     isContainsDigit, isContainsLowerSpecialCharacter);//"AABB@!@!";
+
+        isContainsUpperCase = false;
+        isContainsLowerCase = true;
+        isContainsDigit = true;
+        isContainsLowerSpecialCharacter = false;
+        String ranPasswordContainsLowerCaseDigit = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                                   isContainsDigit, isContainsLowerSpecialCharacter);//"aabb1111";
+
+        isContainsDigit = false;
+        isContainsLowerSpecialCharacter = true;
+        String ranPasswordContainsLowerCaseSpecial = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                                     isContainsDigit, isContainsLowerSpecialCharacter);//"aabb@@@@";
+
+        isContainsLowerCase = false;
+        isContainsDigit = true;
+        String ranPasswordContainDigitSpecial = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                                    isContainsDigit, isContainsLowerSpecialCharacter);//"2123@@@@";
+
+        isContainsUpperCase = true;
+        isContainsLowerCase = false;
+        isContainsDigit = false;
+        isContainsLowerSpecialCharacter = false;
+        String ranPasswordOnlyUpperCase = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                         isContainsDigit, isContainsLowerSpecialCharacter);//"AAAAAAAA";
+        isContainsUpperCase = false;
+        isContainsLowerCase = true;
+        String ranPasswordOnlyLowerCase = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                          isContainsDigit, isContainsLowerSpecialCharacter);//"aaaaaaaa";
+
+        isContainsLowerCase = false;
+        isContainsDigit = true;
+        String ranPasswordOnlyDigit = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                     isContainsDigit, isContainsLowerSpecialCharacter);//"12345678";
+        isContainsDigit = false;
+        isContainsLowerSpecialCharacter = true;
+        String ranPasswordOnlySpecial = GenericService.genResetPassword(maxLength,isContainsUpperCase, isContainsLowerCase,
+                                                                     isContainsDigit, isContainsLowerSpecialCharacter);//"@@!!##$$";
 
         Object[][] arrayData = new Object[][]{{emailId, emailPassword, ranPasswordHas7Character, ranPasswordNotContainsUpperCase,
                 ranPasswordNotContainsLowerCase, ranPasswordNotContainsDigit, ranPasswordNotContainsSpecial,
+                ranPasswordContainsUpperLowerCase, ranPasswordContainsUpperCaseDigit, ranPasswordContainsUpperCaseSpecial,
+                ranPasswordContainsLowerCaseDigit, ranPasswordContainsLowerCaseSpecial, ranPasswordContainDigitSpecial,
                 ranPasswordOnlyUpperCase, ranPasswordOnlyLowerCase, ranPasswordOnlyDigit, ranPasswordOnlySpecial}};
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
             arrayData = new Object[][]{{emailId, emailPassword, ranPasswordHas7Character, ranPasswordNotContainsUpperCase,
                     ranPasswordNotContainsLowerCase, ranPasswordNotContainsDigit, ranPasswordNotContainsSpecial,
+                    ranPasswordContainsUpperLowerCase, ranPasswordContainsUpperCaseDigit, ranPasswordContainsUpperCaseSpecial,
+                    ranPasswordContainsLowerCaseDigit, ranPasswordContainsLowerCaseSpecial, ranPasswordContainDigitSpecial,
                     ranPasswordOnlyUpperCase, ranPasswordOnlyLowerCase, ranPasswordOnlyDigit, ranPasswordOnlySpecial}};
         }
         return  arrayData;
