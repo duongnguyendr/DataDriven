@@ -99,8 +99,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement eleCategoryTitleLabel;
 
     // It never uses.
-//    @FindBy(xpath = "//th[@data-id='category']//i")
-//    private WebElement eleSortByCategory;
+    //    @FindBy(xpath = "//th[@data-id='category']//i")
+    //    private WebElement eleSortByCategory;
 
     @FindBy(xpath = "//th[@data-id='clientAssignee']")
     private WebElement eleClientAssigneeTitleLabel;
@@ -135,8 +135,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//tr[@id='empty-todo']//..//..//div")
     private WebElement eleNotesEmtyToDo;
 
-//    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
-//    private WebElement categoryDropdownEle;
+    //    @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl']")
+    //    private WebElement categoryDropdownEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']//div[@class='menu']//button")
     private List<WebElement> categoryOptionItemEle;
@@ -325,14 +325,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private WebElement typeCommentFieldEle;
 
     @FindBy(xpath = "//*[@id='comment-box']/p/span/span")
-//    @FindBy(xpath = "//*[@id='comment-box']/p")
+    //    @FindBy(xpath = "//*[@id='comment-box']/p")
     private WebElement commentboxTitleEle;
 
     @FindBy(xpath = "//*[@id='comment-box']/p//span[@class='details-comment-count commentNumber']")
     private WebElement commentboxCountNumberEle;
 
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//p")
-//    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
+    //    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
     private List<WebElement> listCommentItemEle;
 
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/img[contains(@class,'user-profile-pic')]")
@@ -345,7 +345,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     private List<WebElement> commentTimeEle;
 
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//p[@class='detComment']")
-//    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/div[@class='detComment']")
+    //    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']/div[@class='detComment']")
     private List<WebElement> descriptionCommentEle;
 
     @FindBy(xpath = "//*[@id='comment-button']")
@@ -600,8 +600,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("New To Do task is added successfully", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
-            NXGReports.addStep("New To Do task is added unsuccessfully", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("New To Do task is added unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -662,7 +661,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             sendKeyTextBox(categoryNameFieldOnFormEle, numberSequence, "send key to categoryNameFieldOnFormEle");
             String txtSearchText = getTextByJavaScripts(categoryNameFieldOnFormEle, "Category Name field");
             getLogger().info("The input category Name is: " + txtSearchText);
-//            cancelDeletedToDoButtonEle.click();
+            //            cancelDeletedToDoButtonEle.click();
             if (txtSearchText.equals(maxLengthCategoryName)) {
                 isCheckMaxLength = true;
                 cancelDeletedToDoButtonEle.click();
@@ -698,8 +697,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Create new category", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Create new category", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -846,7 +844,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("To Do Save Icon is not disabled");
-            NXGReports.addStep("TestScript Failed: Verify Disable ToDo Save Icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Disable ToDo Save Icon", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -863,7 +862,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("To Do Save Icon is not enabled");
-            NXGReports.addStep("TestScript Failed: Verify Enabled ToDo Save Icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Enabled ToDo Save Icon", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -871,7 +871,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int count = -1;
         if (toDoTaskRowEle.isEmpty())
             count = 0;
-        else count = toDoTaskRowEle.size();
+        else
+            count = toDoTaskRowEle.size();
         clickCreateToDoTask();
         waitForVisibleElement(eleToDoCloseIcon, "To Do Close Icon");
         eleToDoCloseIcon.click();
@@ -919,13 +920,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify Search box border is green: Pass", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify Search box border is green: Fail", LogAs.FAILED,
-                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports
+                        .addStep("Verify Search box border is green: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify Search box border is green: Fail", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Search box border is green: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -938,13 +938,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify Search box border is green: Pass", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify Search box border is green: Fail", LogAs.FAILED,
-                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports
+                        .addStep("Verify Search box border is green: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify Search box border is green: Fail", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Search box border is green: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -961,14 +960,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Ending Input Search.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Ending Input Search.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Ending Input Search.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
 
     public void verifySearchLimit255() throws Exception {
-//        waitForClickableOfElement(eleToDoSearchInput, "wait for click eleToDoSearchInput");
+        //        waitForClickableOfElement(eleToDoSearchInput, "wait for click eleToDoSearchInput");
         clickElement(eleToDoSearchInput, "click to eleToDoSearchInput");
         sendKeyTextBox(eleToDoSearchInput, maxLenghtString, "send key to maxLenghtString");
         validateMaxlenght(this.eleToDoSearchInput, "To Do Search Input", maxLenght);
@@ -1039,8 +1037,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify realtime search", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1071,7 +1068,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     strSearchValueAuditAssignee = DropdownAuditAssignee.get(i).getText();
                 } catch (Exception ex) {
                 }
-                if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee.equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
+                if (strSearchValueTodoName.equals(inputSearch) || strSearchValueCategoryName.equals(inputSearch) || strSearchValueAuditAssignee
+                        .equals(inputSearch) || strSearchValueClientAssignee.equals(inputSearch)) {
                     isCheckData = true;
                     break;
                 }
@@ -1086,8 +1084,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("verifyDataSearch() isCheckData = " + isCheckData);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify realtime search", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1098,8 +1095,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify realtime search", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify realtime search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify realtime search", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
@@ -1142,8 +1138,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getLogger().info("verifyContentTextSearch() isCheckContentText = " + isCheckData);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify content of text search", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify content of text search", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1154,7 +1149,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyCheckAllCheckboxToDoName() throws Exception {
         try {
-            if (!eleCheckBox.isSelected()) eleCheckBox.click();
+            if (!eleCheckBox.isSelected())
+                eleCheckBox.click();
             for (int i = 0; i < eleToDoCheckboxRow.size(); i++) {
                 if (!eleToDoCheckboxRow.get(i).isSelected()) {
                     AbstractService.sStatusCnt++;
@@ -1174,7 +1170,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyUnCheckAllCheckboxToDoName() throws Exception {
         try {
-            if (eleCheckBox.isSelected()) eleCheckBox.click();
+            if (eleCheckBox.isSelected())
+                eleCheckBox.click();
             for (int i = 0; i < eleToDoCheckboxRow.size(); i++) {
                 if (eleToDoCheckboxRow.get(i).isSelected()) {
                     AbstractService.sStatusCnt++;
@@ -1194,7 +1191,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyCheckMultipleCheckBoxToDoName() throws Exception {
         try {
-            if (eleCheckBox.isSelected()) eleCheckBox.click();
+            if (eleCheckBox.isSelected())
+                eleCheckBox.click();
             if (eleToDoCheckboxRow.size() > 3) {
                 eleToDoCheckboxRow.get(0).click();
                 if (!eleToDoCheckboxRow.get(0).isSelected()) {
@@ -1227,7 +1225,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         if (result) {
             NXGReports.addStep("Verify Default Value Of Category ComboBox successfully.", LogAs.PASSED, null);
         } else {
-            NXGReports.addStep("Failed: Verify Default Value Of Category ComboBox", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Failed: Verify Default Value Of Category ComboBox", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             AbstractService.sStatusCnt++;
         }
     }
@@ -1280,7 +1279,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify List Value of Category ComboxBox", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify List Value of Category ComboxBox", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify List Value of Category ComboxBox", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1290,15 +1290,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForVisibleElement(categoryTitleEle, "Category Title");
             result = validateElementText(categoryTitleEle, "Add New Category");
             Assert.assertTrue(result, "Add New Category popup is not displayed");
-//            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
-//            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
-//			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
-//			clickElement(editCategoryCancelBtnEle, "Cancel Add New Category Button");
-//			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
+            //            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
+            //            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Create Category Button");
+            //			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+            //			clickElement(editCategoryCancelBtnEle, "Cancel Add New Category Button");
+            //			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify New Category popup is displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify New Category popup is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify New Category popup is displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1308,15 +1309,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForVisibleElement(categoryTitleEle, "Category Title");
             result = validateElementText(categoryTitleEle, "Edit Categories");
             Assert.assertTrue(result, "Edit Categories popup is not displayed");
-//            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
-//            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Edit Category Button");
-//			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
-//			clickElement(editCategoryCancelBtnEle, "Cancel Add New Category Button");
-//			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
+            //            hoverElement(editCategoryCancelBtnEle,"Cancel Catergory button");
+            //            waitForClickableOfElement(editCategoryCancelBtnEle,"Cancel Edit Category Button");
+            //			WebElement popUpDiv = getDriver().findElement(By.xpath("//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]"));
+            //			clickElement(editCategoryCancelBtnEle, "Cancel Add New Category Button");
+            //			waitForCssValueChanged(popUpDiv,"PopUp Windows","display","none");
             NXGReports.addStep("Verify Edit Categories popup is displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify Edit Categories popup is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Edit Categories popup is displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1344,7 +1346,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info("Input 255 Characters into ToDo Name TextBox is unsuccessfully.");
-            NXGReports.addStep("TestScript Failed: Verify Input Max Length ToDo Name TextBox", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Input Max Length ToDo Name TextBox", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1408,7 +1411,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         if (result) {
             NXGReports.addStep("Verify Default value of Bulk Actions Dropdown successfully.", LogAs.PASSED, null);
         } else {
-            NXGReports.addStep("Failed: Verify Default value of Bulk Actions Dropdown.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Failed: Verify Default value of Bulk Actions Dropdown.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1435,7 +1439,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify List Value of Bulk Actions Dropdown", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify List Value of Bulk Actions Dropdown", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1449,9 +1454,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
         verifyDisplayImageInPopup();
         verifyMarkPopupColorCancelBtn();
         verifyMarkPopupColorArchiveBtn();
-//        clickArchiveTaskButton();
-//        verifyClickClosePopup();
-//        verifyMarkCompleteArchive();
+        //        clickArchiveTaskButton();
+        //        verifyClickClosePopup();
+        //        verifyMarkCompleteArchive();
     }
 
     public void clickToBulkCompleteButton() {
@@ -1504,7 +1509,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError ex) {
             AbstractService.sStatusCnt++;
             getLogger().info(ex.getMessage());
-            NXGReports.addStep("Verify the cancel button in Mark as complete popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the cancel button in Mark as complete popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1521,7 +1527,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError ex) {
             AbstractService.sStatusCnt++;
             getLogger().info(ex.getMessage());
-            NXGReports.addStep("Verify the archive button in Mark as complete popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the archive button in Mark as complete popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1534,7 +1541,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify mark ToDo page complete archive", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify mark ToDo page complete archive", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports
+                        .addStep("Verify mark ToDo page complete archive", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
@@ -1544,8 +1552,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void verifyGUIDeleteToDoPopUp() {
         try {
-            final String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? Once deleted, you " +
-                    "will not be able to retrieve any documents uploaded to the selected To-Dos.";
+            final String guideSentenceDes = "Are you sure you'd like to delete these To-Dos? Once deleted, you " + "will not be able to retrieve any documents uploaded to the selected To-Dos.";
             getLogger().info("Verify GUI Delete To-Dos popup.");
             boolean result;
             waitForVisibleElement(categoryTitleEle, "Delete To-Do Title");
@@ -1567,7 +1574,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify GUI Delete To-Dos popup is displayed successfully", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify GUI Delete To-Dos popup is displayed unsuccessfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify GUI Delete To-Dos popup is displayed unsuccessfully", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1602,11 +1610,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify to click to close complete mark popup", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to click to close complete mark popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify to click to close complete mark popup", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to click to close complete mark popup", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify to click to close complete mark popup", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1621,7 +1631,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify Bulk Actions Dropdown Is Closed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Bulk Actions Dropdown Is Closed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1684,7 +1695,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         int count;
         if (toDoTaskRowEle.isEmpty())
             count = 0;
-        else count = toDoTaskRowEle.size();
+        else
+            count = toDoTaskRowEle.size();
         return count;
     }
 
@@ -1702,7 +1714,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify Select date drop down is displayed", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify Select date drop down is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Select date drop down is displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1764,18 +1777,21 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 focusDay = Integer.parseInt(eleDataPickerToDay.getAttribute("text").trim());
                 focusMonth = Integer.parseInt(eleDataPickerToDate.getAttribute("data-month").trim());
                 focusYear = Integer.parseInt(eleDataPickerToDate.getAttribute("data-year").trim());
-                getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") + "Month :" + eleDataPickerToDate.getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
+                getLogger().info("Day : " + eleDataPickerToDay.getAttribute("text") + "Month :" + eleDataPickerToDate
+                        .getAttribute("data-month") + " Year :" + eleDataPickerToDate.getAttribute("data-year"));
 
             }
             // Compare focus day, month, year with current day, month, year
             if (focusDay != currentDay || focusMonth != currentMonth || focusYear != currentYear) {
-                NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 return false;
             }
             NXGReports.addStep("Verify data in date picker", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify data in date pickerd", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         return true;
     }
@@ -1799,7 +1815,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify hover select date in date picker", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify hover select date in date pickerd", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify hover select date in date pickerd", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1814,7 +1831,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void inputDueDate(String month, String date, String year) {
         Calendar date1 = Calendar.getInstance();
-//        DatePicker dp = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
+        //        DatePicker dp = new DatePicker(getDriver(), eleToDoNewRowDueDateText.get(0));
         DatePicker dp = new DatePicker(getDriver(), dateTable);
         try {
             if (date.equals("") && month.equals("") && year.equals("")) {
@@ -1827,7 +1844,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Choose date in date picker", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Choose date in date picker", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1901,14 +1919,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
             //If result = true : before and after value as same --> data picker not work
             if (result) {
-                NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 return false;
             }
 
             NXGReports.addStep("Date picker is change " + actionLink + " month", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Date picker is change " + actionLink + " month", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
         return true;
@@ -1938,13 +1958,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
             //If result = false : before and after value as not same --> can not input correct data into due date control
             if (!result) {
-                NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 return false;
             }
             NXGReports.addStep("Input correct date format in due date text box ", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Input correct date format in due date text box ", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
         return result;
@@ -1974,13 +1996,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
             //If result = true : before and after value as same --> can input wrong data into due date control
             if (result) {
-                NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 return false;
             }
             NXGReports.addStep("Input wrong date format in due date text box ", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Input wrong date format in due date text box ", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
         return true;
@@ -2035,7 +2059,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify default status trash ToDo icon", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify default status trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify default status trash ToDo icon", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2050,7 +2075,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Click on trash ToDo icon", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Can not click on trash ToDo icon", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Can not click on trash ToDo icon", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2085,18 +2111,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 return;
             }
             // Get id delete row
-            String idRow = getIdRowDelete(checkEmptyToDoListRow, checkEmptyToDoCompleteListRow,
-                    eleToDoCheckboxRow, eleToDoCompleteCheckboxRow,
+            String idRow = getIdRowDelete(checkEmptyToDoListRow, checkEmptyToDoCompleteListRow, eleToDoCheckboxRow, eleToDoCompleteCheckboxRow,
                     eleToDoRowList, eleToDoCompleteRowList);
             //verify delete confirm icon
             clickElement(trashToDoBtnEle, "Trash icon click");
             //verify popup
             PopUpPage popUpPage = new PopUpPage(getLogger(), getDriver());
-            result = popUpPage.verifyGUIPopUpDelete(categoryTitleEle, centerDeleteToDoDescriptionEle,
-                    cancelDeletedToDoButtonEle, deletedToDoButtonEle);
+            result = popUpPage
+                    .verifyGUIPopUpDelete(categoryTitleEle, centerDeleteToDoDescriptionEle, cancelDeletedToDoButtonEle, deletedToDoButtonEle);
             if (!result) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
             //verify close popup icon
             // Check row is delete out of list
@@ -2110,7 +2136,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Close popup icon working correct", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify gui of delete confirm popup in ToDo page", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2209,7 +2236,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("TestScript Failed: Can not check/uncheck 'CheckAll' check box in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Can not check/uncheck 'CheckAll' check box in ToDo page", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2240,9 +2268,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             if (isCheck) {
-                NXGReports.addStep("TestScript Failed: All check box are not check in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: All check box are not check in ToDo page", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             } else {
-                NXGReports.addStep("TestScript Failed: All check box are not uncheck in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: All check box are not uncheck in ToDo page", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         }
     }
@@ -2262,9 +2292,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             result = checkAllCheckBox(eleToDoCheckboxRow, isCheck);
             if (result == false) {
                 if (isCheck) {
-                    NXGReports.addStep("TestScript Failed: can not check on all check box has not complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("TestScript Failed: can not check on all check box has not complete status in ToDo page", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 } else {
-                    NXGReports.addStep("TestScript Failed: can not uncheck on all check box has not complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("TestScript Failed: can not uncheck on all check box has not complete status in ToDo page", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
                 return;
             }
@@ -2274,9 +2306,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
             result = checkAllCheckBox(eleToDoCompleteCheckboxRow, isCheck);
             if (result == false) {
                 if (isCheck) {
-                    NXGReports.addStep("TestScript Failed: can not check on all check box has complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("TestScript Failed: can not check on all check box has complete status in ToDo page", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 } else {
-                    NXGReports.addStep("TestScript Failed: can not uncheck on all check box has complete status in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("TestScript Failed: can not uncheck on all check box has complete status in ToDo page", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
                 return;
             }
@@ -2298,13 +2332,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
         if (isCheck) {
             if (!eleCheckAllCheckBox.isSelected()) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("TestScript Failed: CheckAll check box do not auto check in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: CheckAll check box do not auto check in ToDo page", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 return;
             }
         } else {
             if (eleCheckAllCheckBox.isSelected()) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("TestScript Failed: CheckAll check box do not auto uncheck in ToDo page", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("TestScript Failed: CheckAll check box do not auto uncheck in ToDo page", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 return;
             }
         }
@@ -2322,9 +2358,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param checkToDoCompleteList : todoComplete is empty or not empty
      * @return id delete row value
      */
-    public String getIdRowDelete(boolean checkToDoList, boolean checkToDoCompleteList,
-                                 List<WebElement> eleToDoCheckBoxList, List<WebElement> eleToDoCompleteCheckBoxList,
-                                 List<WebElement> eleToDoList, List<WebElement> eleToDoCompleteList) {
+    public String getIdRowDelete(boolean checkToDoList, boolean checkToDoCompleteList, List<WebElement> eleToDoCheckBoxList,
+            List<WebElement> eleToDoCompleteCheckBoxList, List<WebElement> eleToDoList, List<WebElement> eleToDoCompleteList) {
         String idRow = "";
         // Check have row has complete satatus
         if (!checkToDoList && "".equals(idRow)) {
@@ -2535,7 +2570,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Created a new To-Do with given name and dueDate.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2547,12 +2583,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void clickCheckBoxAtRowName(String toDoName) {
         try {
             getLogger().info("Chose a row with given name(which just created).");
-            getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//input[@type='checkbox']")).click();
+            getDriver().findElement(
+                    By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//input[@type='checkbox']"))
+                    .click();
             NXGReports.addStep("Chose a row with given name(which just created).", LogAs.PASSED, null);
         } catch (Exception ex) {
             getLogger().info(ex);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Chose a row with given name(which just created).", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Chose a row with given name(which just created).", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
@@ -2612,7 +2651,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Bulk Actions option Download Attachments disable.", LogAs.PASSED, null);
         } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Bulk Actions option Download Attachments disable.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Bulk Actions option Download Attachments disable.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2637,15 +2677,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
             if (result) {
                 NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
             } else {
-//            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
+                //            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
                 getLogger().info(String.format("Cannot choose assignee '%s' in Bulk Dropdown list", assigneeName));
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             getLogger().info(ex);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2661,14 +2703,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
             e.printStackTrace();
         }
         //TODO move xpath to properties file
-        WebElement toDoRow = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]"));
-        WebElement toDoCategory = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown category')]"));
-        WebElement toDoClient = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]"));
-        WebElement toDoAuditor = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown auditor')]"));
+        WebElement toDoRow = getDriver()
+                .findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]"));
+        WebElement toDoCategory = getDriver().findElement(By.xpath(
+                "//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown category')]"));
+        WebElement toDoClient = getDriver().findElement(By.xpath(
+                "//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown client')]"));
+        WebElement toDoAuditor = getDriver().findElement(By.xpath(
+                "//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[contains(@class,'newRow')]//div[contains(@class,'ui dropdown auditor')]"));
 
         if (status.equals("true")) {
             getLogger().info("Verify Completed To-Do front-end");
-            if ((toDoRow.getAttribute("class").endsWith("todoCompleted")) && (toDoCategory.getAttribute("class").endsWith("disabled")) && (toDoClient.getAttribute("class").endsWith("disabled")) && (toDoAuditor.getAttribute("class").endsWith("disabled"))) {
+            if ((toDoRow.getAttribute("class").endsWith("todoCompleted")) && (toDoCategory.getAttribute("class").endsWith("disabled")) && (toDoClient
+                    .getAttribute("class").endsWith("disabled")) && (toDoAuditor.getAttribute("class").endsWith("disabled"))) {
                 NXGReports.addStep("Verify Completed To-Do front-end", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -2676,7 +2723,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             }
         } else {
             getLogger().info("Verify not Completed To-Do front-end");
-            if ((!toDoRow.getAttribute("class").endsWith("todoCompleted")) && (!toDoCategory.getAttribute("class").endsWith("disabled")) && (!toDoClient.getAttribute("class").endsWith("disabled")) && (!toDoAuditor.getAttribute("class").endsWith("disabled"))) {
+            if ((!toDoRow.getAttribute("class").endsWith("todoCompleted")) && (!toDoCategory.getAttribute("class")
+                    .endsWith("disabled")) && (!toDoClient.getAttribute("class").endsWith("disabled")) && (!toDoAuditor.getAttribute("class")
+                    .endsWith("disabled"))) {
                 NXGReports.addStep("Verify not Completed To-Do front-end", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
@@ -2699,13 +2748,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        String assignee = getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']")).getText();
+        String assignee = getDriver().findElement(By.xpath(
+                "//input[@class='newTodoInput'][@value='" + toDoName + "']/ancestor::tr[@class='newRow']//div[contains(@class,'ui dropdown auditor')]/div[@class='text']"))
+                .getText();
         //System.out.println("++++++++++++++++++++++++++++++++++++++++assigneeName - text " + assignee + " - " + assigneeName);
         if (assigneeName.equals(assignee)) {
             NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + assigneeName, LogAs.PASSED, null);
         } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + assigneeName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify name of assignee on UI after assign. Expected: " + assigneeName, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -2722,7 +2774,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             getDriver().findElement(By.xpath("//input[@class='newTodoInput'][@value='" + toDoName + "']"));
             if (status.equals("INACTIVE")) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify a Todo not exist. Name: " + toDoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify a Todo not exist. Name: " + toDoName, LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             } else {
                 NXGReports.addStep("Verify a Todo exist. Name: " + toDoName, LogAs.PASSED, null);
             }
@@ -2733,7 +2786,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify a Todo not exist. Name: " + toDoName, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify a Todo exist. Name: " + toDoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports
+                        .addStep("Verify a Todo exist. Name: " + toDoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             getLogger().info(ex.getStackTrace());
@@ -2840,7 +2894,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2870,7 +2925,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify To-Do complete status on database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             NXGReports.addStep("Verify To-Do complete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2896,7 +2952,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify To-Do delete status on database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports
+                        .addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             NXGReports.addStep("Verify To-Do delete status on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -2936,19 +2993,22 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @param todoName        name of To-Do to check status
      * @param status          status update expected
      */
-    public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName, String status) throws SyncFactoryException {
+    public void verifyMarkAsCompleteBackend(String engagementField, String engagementValue, String todoName,
+            String status) throws SyncFactoryException {
         try {
             getLogger().info("Verify Completed field updated on database.");
-//        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
+            //        JSONObject jsonObject = MongoDB.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
             JSONObject jsonObject = MongoDBService.getToDoObject(getEngagementCollection(), engagementField, engagementValue, todoName);
             if (jsonObject.get("completed").toString().equals(status)) {
                 NXGReports.addStep("Verify Completed field updated on database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
-            NXGReports.addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("Verify Completed field updated on database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
         }
     }
@@ -3049,8 +3109,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("TestScript Failed: Verify Input a Comment", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify Input a Comment", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -3145,7 +3204,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError error) {
             AbstractService.sStatusCnt++;
             getLogger().info(error);
-            NXGReports.addStep("TestScript Failed: Input a comment with max length with " + maxLength + "character", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Input a comment with max length with " + maxLength + "character", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -3165,7 +3225,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError error) {
             AbstractService.sStatusCnt++;
             getLogger().info(error);
-            NXGReports.addStep("TestScript Failed: Verify input a comment with special characters.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("TestScript Failed: Verify input a comment with special characters.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             return false;
         }
     }
@@ -3244,11 +3305,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify the background and text color of the Add request button", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify the background and text color of the Add request button", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify the background and text color of the Add request button", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify the background and text color of the Add request button_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the background and text color of the Add request button_Exception", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3257,9 +3320,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * Vien.Pham modified for smoke test
      */
 
-//    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
-//    @FindBy(xpath = "//div[@id='todo-req-box-0']/span[1]")
-//    WebElement newRequestTxtboxSpan;
+    //    @FindBy(xpath = "//div[@id='todo-req-box-0']/input")
+    //    @FindBy(xpath = "//div[@id='todo-req-box-0']/span[1]")
+    //    WebElement newRequestTxtboxSpan;
     @FindBy(xpath = "//div[contains(@id,'todo-req-box-0')]/span[1]")
     WebElement newRequestTxtboxSpan_1;
     @FindBy(xpath = "//div[contains(@id,'todo-req-box-1')]/span[1]")
@@ -3313,11 +3376,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the default ToDo name on new request popup.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3346,11 +3411,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify to show all text in the new request on popup.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3406,7 +3473,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify the empty new request on popup.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify the empty new request on popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports
+                        .addStep("Verify the empty new request on popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
@@ -3437,11 +3505,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify to input number to new request in the add new request popup.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3545,7 +3615,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
             clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
             getLogger().info("Waiting for textbox border is Green while clicked..");
-            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border", "1px solid rgb(89, 155, 161)");
+            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border",
+                    "1px solid rgb(89, 155, 161)");
             getLogger().info("Sending new request..");
             clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
             sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), newRequest, "");
@@ -3554,7 +3625,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (Exception e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Create new request at position " + position + ": Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Create new request at position " + position + ": Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3621,12 +3693,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify to update these requests and these are stored in the database.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -3656,7 +3730,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify to delete a request on the popup.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify to delete a request on the popup.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify to delete a request on the popup.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
@@ -3819,7 +3894,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("border is Green after clicked add Todo", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("border is not Green after clicked add Todo", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("border is not Green after clicked add Todo", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
 
@@ -4019,11 +4095,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Default value of Assignee is Unassigned.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Default value of Assignee is Unassigned.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Default value of Assignee is Unassigned.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Default value of Assignee is Unassigned_Exception.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Default value of Assignee is Unassigned_Exception.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4036,7 +4114,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Border of ClientAssigneebox is Green when hovered.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Border of ClientAssigneebox is not Green when hovered.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border of ClientAssigneebox is not Green when hovered.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
@@ -4096,12 +4175,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Client assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Client assignee is not selected correctly.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             System.out.println("error is: " + e);
-            NXGReports.addStep("Client assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("Client assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
     }
@@ -4131,17 +4212,17 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
     public void verifyDuedateTable() {
-//        DatePicker tableDatePicker = new DatePicker();
+        //        DatePicker tableDatePicker = new DatePicker();
         try {
             DropdownDuedateBtn.click();
             waitForCssValueChanged(datePicker, "Date Picker Table", "display", "block");
             getLogger().info("Current Month is: " + Month.getText());
             Thread.sleep(largeTimeOut);
-//            tableDatePicker.pickADate("12","5","2017");
+            //            tableDatePicker.pickADate("12","5","2017");
 
 
-//            verifyPrevFunction();
-//            verifyNextFunction();
+            //            verifyPrevFunction();
+            //            verifyNextFunction();
 
         } catch (Exception e) {
 
@@ -4158,7 +4239,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (Exception e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Border of AuditAssignee is not Green when hovered: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Border of AuditAssignee is not Green when hovered: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4172,7 +4254,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             String value1 = listOfAuditAssigneeDropdown.get(0).getText();
             getLogger().info("Trying to select First one..");
             clickElement(listOfAuditAssigneeDropdown.get(0), "First Audit Assignee");
-//            waitForClickableOfLocator(By.xpath(""));
+            //            waitForClickableOfLocator(By.xpath(""));
             getLogger().info("Verifying selection is correctly..");
             Thread.sleep(smallerTimeOut);
             String value2 = DropdownAuditAssignee.get(0).getText();
@@ -4182,7 +4264,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Audit assignee is not selected correctly.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Audit assignee is not selected correctly.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4202,7 +4285,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Default value of Auditor Assignee: Pass", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Default value of Auditor Assignee: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports
+                        .addStep("Default value of Auditor Assignee: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4258,12 +4342,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify border of Filter Btn while hovered: Pass.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify border of Filter Btn while hovered: Fail.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
         }
     }
@@ -4313,7 +4399,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify unable to input Text into DueDate.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
 
         } catch (Exception e) {
@@ -4452,9 +4539,38 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     }
 
+    public void uploadNewFileByPosition(String concatUpload, int position) {
+        try {
+            clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]//label")));
+            Thread.sleep(largeTimeOut);
+            getLogger().info("Input path of file..");
+            //                upLoadRequestFile(concatUpload);
+            StringSelection ss = new StringSelection(concatUpload);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+            getLogger().info("Waiting for checkSign visible..");
+            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+            closeAddNewRequestWindow();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void upLoadRequestFile(String path) throws FindFailed {
         Screen screen = new Screen();
-//        screen.click("src/resources/ChromeIcon.PNG");
+        //        screen.click("src/resources/ChromeIcon.PNG");
         screen.click("src\\test\\resources\\imagesSikuli\\textbox.PNG");
         screen.type(path);
         screen.click("src\\test\\resources\\imagesSikuli\\openBtn.PNG");
@@ -4539,11 +4655,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports
+                    .addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                            e.getMessage());
             e.printStackTrace();
         }
     }
@@ -4661,7 +4780,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (InterruptedException itr) {
             AbstractService.sStatusCnt++;
             itr.printStackTrace();
-            NXGReports.addStep("Attach new file failed_InterruptedException", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("Attach new file failed_InterruptedException", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
@@ -4716,7 +4836,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             for (int cmt = 0; cmt < numberComment; cmt++) {
                 if (!textContainComment.contains(comment + cmt)) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("Verify comment: " + comment + cmt + " displayed in new feed.", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             }
         } catch (Exception e) {
@@ -4730,13 +4851,15 @@ public class AuditorCreateToDoPage extends AbstractPage {
             String assineeAuditorEle = ".//button[text()='%s']";
             int index = findToDoTaskName(toDoName);
             clickElement(listAuditorAssigneeDdl.get(index), "listAuditorAssigneeDdl");
-            WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeAuditorEle, auditorAssignee)));
+            WebElement auditorAssigneeSelected = listAuditorAssigneeDdl.get(index)
+                    .findElement(By.xpath(String.format(assineeAuditorEle, auditorAssignee)));
             Thread.sleep(smallTimeOut);
             clickElement(auditorAssigneeSelected, "auditorAssigneeSelected");
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Select auditor assignee with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Select auditor assignee with name: " + auditorAssignee, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4746,12 +4869,14 @@ public class AuditorCreateToDoPage extends AbstractPage {
             int index = findToDoTaskName(toDoName);
             clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
             waitSomeSeconds(2);
-            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
+            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index)
+                    .findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
             clickElement(clientAssigneeSelected, "clientAssigneeSelected");
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Select client assignee with name: " + clientAssignee, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4766,11 +4891,13 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("verify auditor assignee selected with name: " + auditorAssignee, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4784,17 +4911,19 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
         Thread.sleep(largeTimeOut);
-//        chooseOptionAssignToOnBulkActionsDropDown();
+        //        chooseOptionAssignToOnBulkActionsDropDown();
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
     }
 
@@ -4858,8 +4987,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4881,8 +5009,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4907,8 +5034,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4930,8 +5056,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4949,7 +5074,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify click on close icon in mark as complete popup successful ", LogAs.PASSED, null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify click on close icon in mark as complete popup fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify click on close icon in mark as complete popup fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4967,7 +5093,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify click on cancel button in mark as complete popup successful ", LogAs.PASSED, null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify click on cancel button in mark as complete popup fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify click on cancel button in mark as complete popup fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -4985,7 +5112,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Verify click on archive button in mark as complete popup successful ", LogAs.PASSED, null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify click on archive button in mark as complete popup fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify click on archive button in mark as complete popup fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -5021,7 +5149,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Verify mask as complete popup close successful", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify mask as complete popup close fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify mask as complete popup close fail", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
@@ -5095,8 +5224,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -5117,8 +5245,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
     /**
@@ -5153,12 +5280,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * TODO: need to find appropriate method to wait before click
      */
     public void clickConfirmDeleteButton() {
-//        GeneralUtilities.waitSomeSeconds(1);
-//        validateElementText(titleConfirmDeleteToDo, "Delete To-Do?");
-//        validateElementText(titleConfirmDeleteToDoDescription, "Are you sure you'd like to delete these To-Dos? Once deleted, you will not be able to retrieve any documents uploaded on the comments in the selected To-Dos.");
-//        waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "block");
-//
-//        hoverElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
+        //        GeneralUtilities.waitSomeSeconds(1);
+        //        validateElementText(titleConfirmDeleteToDo, "Delete To-Do?");
+        //        validateElementText(titleConfirmDeleteToDoDescription, "Are you sure you'd like to delete these To-Dos? Once deleted, you will not be able to retrieve any documents uploaded on the comments in the selected To-Dos.");
+        //        waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "block");
+        //
+        //        hoverElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
         waitForAnimation(divConfirmDeleteToDoAnimate, "Div Confirm Delete ToDo Animation");
         clickElement(buttonConfirmDeleteToDo, "Button Confirm Delete ToDo");
         waitForCssValueChanged(divConfirmDeleteToDo, "Div Confirm Delete ToDo", "display", "none");
@@ -5177,7 +5304,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             for (int i = 0; i < eleToDoNameRow.size(); i++) {
                 if (todoName.equals(getTextByAttributeValue(eleToDoNameRow.get(i), "Todo expected not Exist"))) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep("Fail: Todo still existed: " + todoName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("Fail: Todo still existed: " + todoName, LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     isExisted = true;
                 }
             }
@@ -5207,7 +5335,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         if (verifyEmptyToDoImage()) {
             NXGReports.addStep("All ToDo deleted, Image Empty exist", LogAs.PASSED, null);
         } else {
-            NXGReports.addStep("Fail: Delete all fail, Image Empty not exist", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Fail: Delete all fail, Image Empty not exist", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
     /*-----------end of huy.huynh on 21/06/2017.*/
@@ -5222,7 +5351,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
-            NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;

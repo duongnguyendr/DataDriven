@@ -295,8 +295,8 @@ public class AuditorTodoListService extends AbstractService {
         auditorTodoListPage.navigateToInviteClientPage();
     }
 
-    public void navigateToInviteGeneralAuditor(){
-        auditorTodoListPage.navigateToInviteGeneralAuditor();
+    public void navigateToInviteGeneralMember(){
+        auditorTodoListPage.navigateToInviteGeneralMember();
     }
 
     /*-----------end of huy.huynh on 02/06/2017.*/

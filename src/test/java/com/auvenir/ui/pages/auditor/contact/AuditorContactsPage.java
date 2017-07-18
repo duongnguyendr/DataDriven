@@ -5,16 +5,14 @@ import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+
+import java.util.List;
 
 //import org.testng.log4testng.Logger;
 
@@ -216,7 +214,7 @@ public class AuditorContactsPage extends AbstractPage {
 					new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 		}
 	}
-	public void verifyTermsOfServiceLinkContactsPage() {
+	/*public void verifyTermsOfServiceLinkContactsPage() {
 		try {
 			getLogger().info("Verify Terms of service link.");
 			boolean isCheckTermOfService = false;
@@ -237,9 +235,9 @@ public class AuditorContactsPage extends AbstractPage {
 			AbstractService.sStatusCnt++;
 			NXGReports.addStep("verify Terms Of Service Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
 		}
-	}
+	}*/
 
-	public void verifyPrivacyStateLinkContactsPage() {
+	/*public void verifyPrivacyStateLinkContactsPage() {
 		try {
 			boolean isPrivacyState = false;
 			getLogger().info("Verify Pricacy statement link.");
@@ -258,9 +256,9 @@ public class AuditorContactsPage extends AbstractPage {
 			AbstractService.sStatusCnt++;
 			NXGReports.addStep("verify Privacy State Link.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
 		}
-	}
+	}*/
 
-	public void verifyCookieNoticeContactsPage() {
+	/*public void verifyCookieNoticeContactsPage() {
 		try {
 			boolean isCheckCookieNotice = false;
 			getLogger().info("verify cookie notices page.");
@@ -276,6 +274,6 @@ public class AuditorContactsPage extends AbstractPage {
 			AbstractService.sStatusCnt++;
 			NXGReports.addStep("verify Cookie Notice.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
 		}
-	}
+	}*/
 
 }

@@ -411,11 +411,8 @@ public class ClientService extends AbstractService {
     }
 
     public void inviteNewClient(String fullName, String email, String role) {
-        createNewAuditPage.inviteNewClient(fullName, email, role);
-    }
-    public void inviteNewAuditor(String fullName,String email,String role){
-        createNewAuditPage.inviteNewAuditor(fullName,email,role);
-    }
+        createNewAuditPage.inviteNewClient(fullName, email, role);    }
+
 
     public void verifyInviteClientSuccess(String message) {
         createNewAuditPage.verifyInviteClientSuccess(message);
@@ -425,6 +422,10 @@ public class ClientService extends AbstractService {
         createNewAuditPage.verifyInviteClientFailure(message);
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
+
+    public void inviteNewMember(String fullName,String email,String role){
+        createNewAuditPage.inviteNewMember(fullName,email,role);
+    }
 
     public void verifyToDoTaskExist(String toDoName, boolean isClient) {
         clientToDoPage.verifyToDoTaskExist(toDoName, isClient);

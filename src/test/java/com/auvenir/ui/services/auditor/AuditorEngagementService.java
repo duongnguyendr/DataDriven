@@ -140,8 +140,9 @@ public class AuditorEngagementService extends AbstractService {
             int index = auditorEngagementPage.findEngagementName(engagementName);
             if (index == -1) {
                 createAndSelectNewEnagement(engagementName, "", companyName, deadlineDate, endDate, startDate);
-            } else
+            } else {
                 auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            }
             auditorEngagementPage.waitForProgressOverlayIsClosed();
             NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
         } catch (Exception e) {

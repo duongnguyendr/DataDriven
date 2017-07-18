@@ -23,6 +23,7 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='onboarding-personal-container']//h2")
     private WebElement titleComponentPersonal;
 
+
     @FindBy(xpath = "//div[@id='personal-role-container']//input")
     private WebElement inputPersonalRole;
 
@@ -58,11 +59,16 @@ public class ClientSignUpPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='business-industry-container']//a")
     private List<WebElement> listOptionIndustry;
 
-    @FindBy(id = "accounting-framework")
+    //@FindBy(id = "accounting-framework")
+    @FindBy(xpath = "//div[@role='listbox']")
     private WebElement inputAccountingFramework;
 
-    @FindBy(xpath = "//div[@id='accounting-framework-container']//a")
+    //@FindBy(xpath = "//div[@id='accounting-framework-container']//a")
+    @FindBy(xpath = "//div[@role='option']")
     private List<WebElement> listOptionAccountingFramework;
+
+    @FindBy(name = "business_industry")
+    private WebElement inputBusinessIndustry;
 
     @FindBy(name = "business_fiscal_year")
     private WebElement inputFiscalEndYear;
@@ -132,21 +138,78 @@ public class ClientSignUpPage extends AbstractPage {
             clickElement(checkboxConfirm, "Checkbox Confirm Chartered Professional Accountant");
             clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
             switchToOtherTab(1);
+            scrollToFooter();
             clickElement(buttonPersonalContinue, "Button Personal Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+
+    @FindBy(id = "personal-referral")
+    WebElement hearAboutAuvenir;
+    @FindBy(xpath = "//div[@id='personal-referral']//div[@role='option']")
+    WebElement selectFirstOptionOfHearAuvenir;
+    @FindBy(id = "agreement-personal-cpa")
+    WebElement herebyCheckbox;
+    @FindBy(id = "firm-affiliated")
+    WebElement affiliatedCheckbox;
+    @FindBy(id = "firm-affiliated-name")
+    WebElement affiliatedName;
+    @FindBy(id = "onboard-firm-continue")
+    WebElement onboardFirmContinueBtn;
+    @FindBy(xpath = "//div[@id='onboarding-personal-container']//h2[@class='ui center aligned header']")
+    WebElement titlePersonalGeneralAuditor;
+    @FindBy(xpath = "(//div[contains(@id,'module-')])[3]")
+    WebElement generalAuditorSignupPage;
+
+    public void fillUpPersonalFormOfAuditorPage(String phoneNumber) {
+        try {
+            waitSomeSeconds(5);
+            //            waitForCssValueChanged(generalAuditorSignupPage,"General Auditor Sign Up page","display","inherit");
+            //            waitForTextValueChanged(titlePersonalGeneralAuditor, "", "Please Provide your Information");
+            scrollToFooter();
+            sendKeyTextBox(inputPersonalPhoneNumber, phoneNumber, "Input Personal Phone Number");
+            clickElement(hearAboutAuvenir);
+            clickElement(selectFirstOptionOfHearAuvenir, "first Option of hear Auvenir");
+            clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
+            clickElement(herebyCheckbox, "Hereby checkbox");
+            clickElement(buttonPersonalContinue, "Button Personal Continue");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void fillUpFirmPage(String affiliatedTxt) {
+        try {
+            clickElement(affiliatedCheckbox, "affiliated checkbox");
+            clickElement(affiliatedName);
+            sendKeyTextBox(affiliatedName, affiliatedTxt, "");
+            clickElement(onboardFirmContinueBtn, "Continue Btn");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void fillUpBusinessForm(String parentStakeholders) {
         try {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
+
             sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
             scrollToFooter();
-            clickElement(inputFiscalEndYear, "Input Fiscal End Year");
-            DatePicker datePicker = new DatePicker(getDriver());
-            datePicker.pickADate("12", "31", "2017");
+            if (getText(inputBusinessIndustry).isEmpty()) {
+                sendKeyTextBox(inputBusinessIndustry, "Financial", "Input Business Industry");
+                clickElement(inputFiscalEndYear, "Input Fiscal End Year");
+                DatePicker datePicker = new DatePicker(getDriver());
+                datePicker.pickADate("12", "31", "2017");
+                clickElement(inputBusinessIndustry);
+                clickElement(inputAccountingFramework, "Input Accounting Framework");
+                chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
+            }
+            //clickElement(titleParentStakeholders);
             //clickElement(inputIndustry, "Input Industry");
             //chooseFirstOptionOfInputSelect(listOptionIndustry, "List Option Industry");
             //sometime listoption not close after choose an option, so need to click somewhere to close, avoid it cover others element
@@ -154,6 +217,7 @@ public class ClientSignUpPage extends AbstractPage {
             //clickElement(inputAccountingFramework, "Input Accounting Framework");
             //chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
             //clickElement(titleParentStakeholders);
+            //scrollToFooter();
             clickElement(buttonBusinessContinue, "Button Business Continue");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -190,9 +254,11 @@ public class ClientSignUpPage extends AbstractPage {
             validateElementText(titleComponentSecurity, "Create Your Password");
             sendKeyTextBox(inputCreatePassword, password, "Input Create Password");
             sendKeyTextBox(inputConfirmPassword, password, "Input Confirm Password");
-            //sendTabkey(inputConfirmPassword, "Input Confirm Password");
-            scrollToFooter();
+            sendTabkey(inputConfirmPassword, "Input Confirm Password");
+            Thread.sleep(1000);
+            //            scrollToFooter();
             clickElement(buttonSecurityContinue, "Button Security Continue");
+            waitSomeSeconds(5);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
