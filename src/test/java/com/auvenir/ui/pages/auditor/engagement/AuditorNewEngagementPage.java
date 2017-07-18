@@ -201,8 +201,8 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
     DatePicker datePicker;
 
-//    @FindBy(xpath = "//p[contains(text(),'need to add any team members to this engagement')]")
-//    private WebElement teamContainerDivEle;
+    //    @FindBy(xpath = "//p[contains(text(),'need to add any team members to this engagement')]")
+    //    private WebElement teamContainerDivEle;
 
     public void verifyNewEngagementPage() {
         getLogger().info("Verify New engagement Page.");
@@ -281,46 +281,47 @@ public class AuditorNewEngagementPage extends AbstractPage {
 
     public void clickEngagementMenuLink() throws Exception {
 
-//        getLogger().info("Enter engagement name.");
-//        enterEngagementName(name);
-//        NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
-//
-//        getLogger().info("Select engagement type.");
-//        selectEngagementType(engagementType);
-//        NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
-//
-//        getLogger().info("Enter company name.");
-//        enterCompanyName(company);
-//        NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
-//
-//        getLogger().info("Enter deadline date.");
-//        clickAndHold(eleReportDeadlineInput, "Deadline date Input");
-//        enterDeadLineDate(getDate(10));
-//        clickElement(eleEngagementNameInput, "engagement Name");
-//        NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
-//
-//        getLogger().info("Enter end date.");
-//        enterEndDate(getDate(10));
-//        clickElement(eleEngagementNameInput, "engagement Name");
-//        NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
-//
-//        getLogger().info("Enter start date.");
-//        clickAndHold(eleStartDateInput, "Start Date Input");
-//        enterStartDate(getDate(1));
-//        clickElement(eleEngagementNameInput, "engagement Name");
-//        NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
-//
-//        getLogger().info("Click Continue button.");
-//        clickContinueBtn();
-//        getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
-//        clickNoMemberBtn();
-//        clickCreateToDoBtn();
+        //        getLogger().info("Enter engagement name.");
+        //        enterEngagementName(name);
+        //        NXGReports.addStep("Enter engagement name.", LogAs.PASSED, null);
+        //
+        //        getLogger().info("Select engagement type.");
+        //        selectEngagementType(engagementType);
+        //        NXGReports.addStep("Select engagement type.", LogAs.PASSED, null);
+        //
+        //        getLogger().info("Enter company name.");
+        //        enterCompanyName(company);
+        //        NXGReports.addStep("Enter company name.", LogAs.PASSED, null);
+        //
+        //        getLogger().info("Enter deadline date.");
+        //        clickAndHold(eleReportDeadlineInput, "Deadline date Input");
+        //        enterDeadLineDate(getDate(10));
+        //        clickElement(eleEngagementNameInput, "engagement Name");
+        //        NXGReports.addStep("Enter deadline date.", LogAs.PASSED, null);
+        //
+        //        getLogger().info("Enter end date.");
+        //        enterEndDate(getDate(10));
+        //        clickElement(eleEngagementNameInput, "engagement Name");
+        //        NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
+        //
+        //        getLogger().info("Enter start date.");
+        //        clickAndHold(eleStartDateInput, "Start Date Input");
+        //        enterStartDate(getDate(1));
+        //        clickElement(eleEngagementNameInput, "engagement Name");
+        //        NXGReports.addStep("Enter star date.", LogAs.PASSED, null);
+        //
+        //        getLogger().info("Click Continue button.");
+        //        clickContinueBtn();
+        //        getLogger().info("Click continue button.(I don't need to add any team members to this engagement).");
+        //        clickNoMemberBtn();
+        //        clickCreateToDoBtn();
         Thread.sleep(smallTimeOut);
         clickElement(linkEngagement, "click to linkEngagement");
     }
 
     /**
      * Refactored by Minh Nguyen on June 29, 2017
+     *
      * @param name
      * @param engagementType
      * @param company
@@ -328,7 +329,8 @@ public class AuditorNewEngagementPage extends AbstractPage {
      * @param endDate
      * @param startDate
      */
-    public void enterDataForNewEngagementPage(String name, String engagementType, String company, String deadlineDate, String endDate, String startDate) {
+    public void enterDataForNewEngagementPage(String name, String engagementType, String company, String deadlineDate, String endDate,
+            String startDate) {
 
         try {
             getLogger().info("Enter engagement name.");
@@ -371,7 +373,6 @@ public class AuditorNewEngagementPage extends AbstractPage {
             NXGReports.addStep("Enter end date.", LogAs.PASSED, null);
 
 
-
             getLogger().info("Click Continue button.");
             clickContinueBtn();
             NXGReports.addStep("Click Continue button.", LogAs.PASSED, null);
@@ -382,26 +383,23 @@ public class AuditorNewEngagementPage extends AbstractPage {
             NXGReports.addStep("Click continue button.(I don't need to add any team members to this engagement).", LogAs.PASSED, null);
             waitForVisibleElement(createNewTodoListTextEle, "Create your To-Do list");
             //old version
-//        clickContinueBtn();
+            //        clickContinueBtn();
 
             clickCreateToDoBtn();
             boolean isCheckCreateEngagement = false;
             isCheckCreateEngagement = waitForCssValueChanged(createEngagementPopupEle, "Create Engagement Popup", "display", "none");
-            if(isCheckCreateEngagement)
-            {
+            if (isCheckCreateEngagement) {
                 NXGReports.addStep("Enter Data For New Engagement Page ", LogAs.PASSED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-            else
-            {
+            } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Error:  Enter Data For New Engagement Page ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Error:  Enter Data For New Engagement Page ", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Error:  Enter Data For New Engagement Page ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("Error:  Enter Data For New Engagement Page ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -422,12 +420,12 @@ public class AuditorNewEngagementPage extends AbstractPage {
         getLogger().info("Select engagement type.");
         String engagementTypeText = "";
         clickElement(eleEngagementTypeSelect, "Select Engagement Type");
-        if(engagementType.equals(""))
+        if (engagementType.equals(""))
             eleEngagementTypeList.get(0).click();
         else {
-            for (int i= 0; i< eleEngagementTypeList.size(); i++){
+            for (int i = 0; i < eleEngagementTypeList.size(); i++) {
                 engagementTypeText = eleEngagementTypeList.get(i).getText();
-                if(engagementTypeText.equals(engagementType)) {
+                if (engagementTypeText.equals(engagementType)) {
                     eleEngagementTypeList.get(i).click();
                     break;
                 }
@@ -444,7 +442,7 @@ public class AuditorNewEngagementPage extends AbstractPage {
     public void enterDeadLineDate(String dateLineDate) {
         getLogger().info("Enter deadline date.");
         sendKeyTextBox(eleReportDeadlineInput, dateLineDate, "DateLine");
-        sendTabkey(eleReportDeadlineInput,"DateLine");
+        sendTabkey(eleReportDeadlineInput, "DateLine");
     }
 
     public void enterStartDate(String startDate) {
@@ -473,7 +471,6 @@ public class AuditorNewEngagementPage extends AbstractPage {
         getLogger().info("Click Customize Create Button.");
         clickElement(eleCustomizeCreateBtn, "Customize Create Button");
     }
-
 
 
     /**
@@ -655,30 +652,29 @@ public class AuditorNewEngagementPage extends AbstractPage {
             enterEndDate(currentLastDate);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Insert data for new Engagement form", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), ex.getMessage());
+            NXGReports.addStep("Insert data for new Engagement form", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    ex.getMessage());
         }
     }
 
-    private String getLastDateFollowCurrentMonth(){
+    private String getLastDateFollowCurrentMonth() {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
-        calendar.set(Calendar.DAY_OF_MONTH,
-                calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         String sCurrentLastDay = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        int currentMonth = (calendar.get((Calendar.MONTH)) + 1) ;
+        int currentMonth = (calendar.get((Calendar.MONTH)) + 1);
         String sCurrentMonth = currentMonth < 10 ? "0" + String.valueOf(currentMonth) : String.valueOf(currentMonth);
         String sCurrentYear = String.valueOf(calendar.get(Calendar.YEAR));
 
         return sCurrentMonth + "/" + sCurrentLastDay + "/" + sCurrentYear;
     }
 
-    private String getFirstDateFollowCurrentMonth(){
+    private String getFirstDateFollowCurrentMonth() {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
-        calendar.set(Calendar.DAY_OF_MONTH,
-                calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
         String sCurrentFirstDay = "0" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        int currentMonth = (calendar.get((Calendar.MONTH)) + 1) ;
+        int currentMonth = (calendar.get((Calendar.MONTH)) + 1);
         String sCurrentMonth = currentMonth < 10 ? "0" + String.valueOf(currentMonth) : String.valueOf(currentMonth);
         String sCurrentYear = String.valueOf(calendar.get(Calendar.YEAR));
 
