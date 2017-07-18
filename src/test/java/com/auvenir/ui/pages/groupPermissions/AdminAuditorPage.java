@@ -25,18 +25,7 @@ public class AdminAuditorPage extends AbstractPage {
         super(logger, driver);
     }
 
-    /**
-     * Added by huy.huynh on 17/07/2017.
-     * R2.1 Group Permissions
-     */
-    public void verifyCanCreateAnEngagement(boolean exist) {
-        if (exist) {
-            clickElement(buttonNewEngagement, "Button New Engagement");
-        } else {
-            validateNotExistedElement(buttonNewEngagement, "Button New Engagement");
-        }
-    }
-    /*-----------end of huy.huynh on 17/07/2017.*/
+
 
     AuditorCreateToDoPage auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
 

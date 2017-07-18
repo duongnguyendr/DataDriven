@@ -1,5 +1,6 @@
 package com.auvenir.ui.services.groupPermissions;
 
+import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.engagement.AuditorNewEngagementPage;
 import com.auvenir.ui.pages.groupPermissions.AdminAuditorPage;
 import com.auvenir.ui.services.AbstractService;
@@ -14,6 +15,7 @@ import java.util.List;
 public class AdminAuditorService extends AbstractService {
     private AdminAuditorPage adminAuditorPage;
     private AuditorNewEngagementPage auditorNewEngagementPage;
+    private AuditorEngagementPage auditorEngagementPage;
 
     public AdminAuditorService(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -21,11 +23,9 @@ public class AdminAuditorService extends AbstractService {
         auditorNewEngagementPage = new AuditorNewEngagementPage(getLogger(), getDriver());
     }
 
-    public void verifyCanCreateAnEngagement(boolean exist) {
-        adminAuditorPage.verifyCanCreateAnEngagement(exist);
-        if (exist) {
-            auditorNewEngagementPage.verifyNewEngagementPage();
-        }
+    public void verifyCanCreateAnEngagement() {
+        auditorEngagementPage.verifyCanCreateAnEngagement(true);
+        auditorNewEngagementPage.verifyNewEngagementPage();
     }
 
     public void verifyAuditorAdminSeeListToDo(List<String> listToDoname) {
