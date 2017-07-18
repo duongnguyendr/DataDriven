@@ -45,11 +45,7 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     @FindBy(id = "newAuditBtn")
-    private WebElement eleCreateNewBtn;
-
-    public WebElement getEleCreateNewBtn() {
-        return eleCreateNewBtn;
-    }
+    private WebElement buttonNewEngagement;
 
     @FindBy(id = "tooltip-createEngagement-mainText")
     private WebElement eleClickhereTipTxt;
@@ -148,11 +144,8 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(id = "h-clientListLink")
     private WebElement contactsLinkEle;
 
-    @FindBy(id = "newAuditBtn")
-    private WebElement newEngagementButtonEle;
-
     // Old version
-//    @FindBy(xpath = "//div[@id='cpa-main']/div")
+    //    @FindBy(xpath = "//div[@id='cpa-main']/div")
     @FindBy(xpath = "//tbody[@id='engagement-tbody']//td/a")
     private List<WebElement> engagementListEle;
 
@@ -180,29 +173,44 @@ public class AuditorEngagementPage extends AbstractPage {
 
     @FindBy(id = "newEngagement")
     private WebElement eleNewEngagement;
-    public WebElement getEleNewEngagement() { return eleNewEngagement; }
+
+    public WebElement getEleNewEngagement() {
+        return eleNewEngagement;
+    }
 
     @FindBy(id = "filter")
     private WebElement eleFilter;
-    public WebElement getEleFilter() { return eleFilter; }
+
+    public WebElement getEleFilter() {
+        return eleFilter;
+    }
 
     @FindBy(id = "engagement-search")
     private WebElement eleSearch;
-    public WebElement getElSearch() { return eleSearch; }
+
+    public WebElement getElSearch() {
+        return eleSearch;
+    }
 
     @FindBy(xpath = "//*[@id=\"company-sort\"]/i")
     private WebElement eleCompany;
-    public WebElement getEleCompany() { return  eleCompany; }
+
+    public WebElement getEleCompany() {
+        return eleCompany;
+    }
 
     @FindBy(xpath = "//*[@id=\"engagement-sort\"]/i")
     private WebElement eleEngagementName;
-    public WebElement getEleEngagementName() { return eleEngagementName; }
 
-    @FindBy(xpath="//*[@id=\"engagement-tbody\"]/tr[1]/td[1]")
+    public WebElement getEleEngagementName() {
+        return eleEngagementName;
+    }
+
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr[1]/td[1]")
     private WebElement companyEle;
     private String companyEleStr = "//*[@id=\"engagement-tbody\"]/tr[1]/td[1]";
 
-    @FindBy(xpath="//*[@id=\"engagement-tbody\"]/tr/td[1]")
+    @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr/td[1]")
     private List<WebElement> listCompanyEle;
 
     @FindBy(xpath = "//*[@id=\"engagement-tbody\"]/tr[1]/td[1]/a[1]")
@@ -269,7 +277,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@id='preview-header-left']/span")
     private WebElement titlePreviewHeader;
-    //newAuditBtn
+
     @FindBy(xpath = "//div[@id='engagement-filters']/span")
     private WebElement selectEngagementFilters;
 
@@ -344,7 +352,6 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * verifyEngagementStatusWhenCheckCompleteToDo - TanPh - 2017/06/21 - Start
-     *
      **/
     private static String engagementStatusBefore = "planning";
     private static String engagementToDoBefore = "";
@@ -359,7 +366,7 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='engagement-filters']")
     private WebElement auditorEngagementFilter;
 
-    @FindBy(xpath="//span[contains(text(),'Type of Engagement')]")
+    @FindBy(xpath = "//span[contains(text(),'Type of Engagement')]")
     private WebElement filterTypeOfEngagement;
 
     @FindBy(xpath = "//div[contains(text(),'Financial Audit')]")
@@ -395,52 +402,60 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
-     *
      */
     private static final String ENGAGEMENT_STATUS_COMPLETE = "complete";
     private static final String ENGAGEMENT_TODO_COMPLETE = "100";
     /**
      * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
-     *
      */
 
 
     protected String dateFormat = "MM/dd/YY";
     protected SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 
-    public enum EngagementStatus{
-        ACTIVE (2), PLANING (5), COMPLETED (4), ARCHIVED (3), ABANDONED (1);
+    public enum EngagementStatus {
+        ACTIVE(2), PLANING(5), COMPLETED(4), ARCHIVED(3), ABANDONED(1);
 
         private final int levelStatus;
 
-        private EngagementStatus(int levelStatus){
+        private EngagementStatus(int levelStatus) {
             this.levelStatus = levelStatus;
         }
     }
 
-    public enum UserType{
-        AUDITOR (1), CLIENT (2);
+    public enum UserType {
+        AUDITOR(1), CLIENT(2);
 
         private final int levelType;
 
-        private UserType(int levelType){ this.levelType = levelType;}
+        private UserType(int levelType) {
+            this.levelType = levelType;
+        }
     }
 
-    public enum UserStatus{
-        ACTIVE (1), DEACTIVED (2), LOCKED (3), PENDING (4);
+    public enum UserStatus {
+        ACTIVE(1), DEACTIVED(2), LOCKED(3), PENDING(4);
 
         private final int levelUserStatus;
 
-        private UserStatus(int levelUserStatus){ this.levelUserStatus = levelUserStatus; }
+        private UserStatus(int levelUserStatus) {
+            this.levelUserStatus = levelUserStatus;
+        }
     }
 
     @FindBy(id = "")
     private WebElement eleTabEngagements;
-    public WebElement getEleTabEngagements() { return eleTabEngagements; }
+
+    public WebElement getEleTabEngagements() {
+        return eleTabEngagements;
+    }
 
     @FindBy(id = "")
     private WebElement eleTabContacts;
-    public WebElement getEleTabContacts() { return  eleTabContacts; }
+
+    public WebElement getEleTabContacts() {
+        return eleTabContacts;
+    }
 
 
     @FindBy(xpath = "//th[@id='company-sort']/i[@class='auvicon-sort-down']")
@@ -514,12 +529,9 @@ public class AuditorEngagementPage extends AbstractPage {
         boolean isCompareText = false;
         waitForVisibleElement(myEngagementTextEle, "myEngagementTextEle");
         isCompareText = validateElementText(myEngagementTextEle, "All Engagements");
-        if(isCompareText)
-        {
+        if (isCompareText) {
             NXGReports.addStep("Verify Auditor Engagement", LogAs.PASSED, null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Auditor Engagement", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -533,12 +545,9 @@ public class AuditorEngagementPage extends AbstractPage {
         isFilterEngaNoticeCompilation = validateDisPlayedElement(filterEngaNoticeCompilation, "display filterEngaNoticeCompilation");
         isFilterEngaReview = validateDisPlayedElement(filterEngaReview, "display filterEngaReview");
         isFilterEngaOther = validateDisPlayedElement(filterEngaOther, "display filterEngaOther");
-        if(isAuditorEngagementFilter && isFilterTypeOfEngagement && isFilterEngaFinancialAudit && isFilterEngaNoticeCompilation && isFilterEngaReview && isFilterEngaOther)
-        {
+        if (isAuditorEngagementFilter && isFilterTypeOfEngagement && isFilterEngaFinancialAudit && isFilterEngaNoticeCompilation && isFilterEngaReview && isFilterEngaOther) {
             NXGReports.addStep("Verify Auditor Engagement filter", LogAs.PASSED, null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Auditor Engagement filter", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -550,12 +559,9 @@ public class AuditorEngagementPage extends AbstractPage {
         isHoverCompleteToDosResult = validateDisPlayedElement(hoverCompleteToDosResult, "display hoverCompleteToDosResult");
         hoverElement(hoverCompleteDocs.get(0), "hover to hoverCompleteDocs");
         isHoverCompleteDocsResult = validateDisPlayedElement(hoverCompleteDocsResult, "display hoverCompleteDocsResult");
-        if(isHoverCompleteToDosResult && isHoverCompleteDocsResult)
-        {
+        if (isHoverCompleteToDosResult && isHoverCompleteDocsResult) {
             NXGReports.addStep("Verify Auditor Engagement hover", LogAs.PASSED, null);
-        }
-        else
-        {
+        } else {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify Auditor Engagement hover", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
@@ -567,9 +573,9 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void clickNewEnagementButton() {
-        waitForVisibleElement(newEngagementButtonEle, "New Engagement Button");
-        waitForClickableOfElement(newEngagementButtonEle, "New Engagement Button");
-        clickElement(newEngagementButtonEle, "click to newEngagementButtonEle");
+        waitForVisibleElement(buttonNewEngagement, "New Engagement Button");
+        waitForClickableOfElement(buttonNewEngagement, "New Engagement Button");
+        clickElement(buttonNewEngagement, "click to buttonNewEngagement");
     }
 
     /**
@@ -580,7 +586,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void viewEngagementDetailsPage(String engagementName) throws Exception {
         int index = findEngagementName(engagementName);
         System.out.println("Position: " + index);
-//        hoverElement(engagementListEle.get(index), engagementName);
+        //        hoverElement(engagementListEle.get(index), engagementName);
         waitForClickableOfElement(engagementListEle.get(index), engagementName);
 
         if (index == engagementListEle.size() - 1) {
@@ -592,7 +598,8 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
-        WebElement webElement = getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
+        WebElement webElement = getDriver()
+                .findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
         System.out.println("+++++++++++++++++++++++++++++  " + engagementTitle);
         //current we cannot view engagement by name we test with first engagment
         //TODO bug here, fix later
@@ -614,7 +621,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public int findEngagementName(String engagementName) {
         getLogger().info("Find Position of Engagement Name");
         String displayValue = noEngagementDivEle.getCssValue("display");
-        if(displayValue.equals("block"))
+        if (displayValue.equals("block"))
             return -1;
         return findElementByText(engagementListEle, engagementName);
     }
@@ -629,7 +636,7 @@ public class AuditorEngagementPage extends AbstractPage {
         if (!listIdOfEngagement.isEmpty()) {
             for (int i = 0; i < engagementTitleListEle.size(); i++) {
                 listIdOfEngagement.add(engagementTitleListEle.get(i).getText());
-//                listIdOfEngagement.add(engagementTitleListEle.get(i).getAttribute("id"));
+                //                listIdOfEngagement.add(engagementTitleListEle.get(i).getAttribute("id"));
             }
         }
         return listIdOfEngagement;
@@ -671,20 +678,16 @@ public class AuditorEngagementPage extends AbstractPage {
         System.out.println("Size: " + engagementListEle.size());
         System.out.println(engagementListEle.get(engagementPosition));
         System.out.println("Position: " + engagementPosition);
-//        hoverElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
-//        WebElement popUpCreateEngagement = getDriver().findElement(By.xpath("//*[@id='CreateEnagementParent']/../../../.."));
+        //        hoverElement(engagementListEle.get(engagementPosition), "Engagement View Ite");
+        //        WebElement popUpCreateEngagement = getDriver().findElement(By.xpath("//*[@id='CreateEnagementParent']/../../../.."));
         waitForCssValueChanged(popUpCreateEngagement, "PopUp Create", "display", "none");
-//        Thread.sleep(3000);
+        //        Thread.sleep(3000);
         waitForClickableOfElement(engagementListEle.get(engagementPosition), "Engagement View Item");
         clickElement(engagementListEle.get(engagementPosition), "Engagement View Item");
-//        clickElement(engagementListEle.get(engagementPosition));
-//        hoverElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
-//        waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
-//        clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
-    }
-
-    public void clickvisibilityOfElementWait() {
-        auditorEngagementPage.getEleCreateNewBtn();
+        //        clickElement(engagementListEle.get(engagementPosition));
+        //        hoverElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
+        //        waitForClickableOfElement(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
+        //        clickAndHold(engagementListEle.get(engagementPosition).findElement(By.xpath(viewButtonOnEngagement)), "Engagement View Item");
     }
 
     public void clickClientsLink() {
@@ -706,7 +709,6 @@ public class AuditorEngagementPage extends AbstractPage {
         waitForClickableOfElement(eleAuditorNameDrpDwn, "Auditor name drop down");
         clickElement(eleAuditorNameDrpDwn, "Auditor name drop down");
     }
-
 
 
     /**
@@ -733,7 +735,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyUIListEngagementBody() {
         try {
             validateElementText(titlePreviewHeader, "All Engagements");
-            validateElementText(newEngagementButtonEle, "New Engagement");
+            validateElementText(buttonNewEngagement, "New Engagement");
 
             validateElementText(selectEngagementFilters, "Filter");
             clickElement(selectEngagementFilters, "Select Engagement Filters");
@@ -797,8 +799,7 @@ public class AuditorEngagementPage extends AbstractPage {
         }
     }
 
-    public void verifyCompanyName(String companyName)
-    {
+    public void verifyCompanyName(String companyName) {
         try {
             getLogger().info("companyName = " + companyName);
             boolean isCheckCompany = false;
@@ -814,15 +815,15 @@ public class AuditorEngagementPage extends AbstractPage {
             }
             if (!isCheckCompany) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             } else {
                 NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.PASSED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Search engagement with company key: " + companyName, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -834,12 +835,12 @@ public class AuditorEngagementPage extends AbstractPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Send Key Engagement Name " + engagementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports
+                    .addStep("Send Key Engagement Name " + engagementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyEngagementName(String engagementName)
-    {
+    public void verifyEngagementName(String engagementName) {
         try {
             getLogger().info("engagementName = " + engagementName);
             boolean isCheckEngagement = false;
@@ -856,45 +857,46 @@ public class AuditorEngagementPage extends AbstractPage {
             }
             if (!isCheckEngagement) {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             } else {
                 NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.PASSED, null);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Search engagement with engagement name key: " + engagementName, LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Checking sort by ASC or DESC of User Status list
+     *
      * @param userStatuses
      * @param isAsc
      */
-    public void checkSortUserStatus(List<UserStatus> userStatuses, boolean isAsc){
+    public void checkSortUserStatus(List<UserStatus> userStatuses, boolean isAsc) {
         Collections.sort(userStatuses, new Comparator<UserStatus>() {
             @Override
             public int compare(UserStatus o1, UserStatus o2) {
-                if(isAsc && o1.levelUserStatus < o2.levelUserStatus){
+                if (isAsc && o1.levelUserStatus < o2.levelUserStatus) {
                     return 1;
-                }else if(!isAsc && o1.levelUserStatus > o2.levelUserStatus){
+                } else if (!isAsc && o1.levelUserStatus > o2.levelUserStatus) {
                     return 1;
                 }
                 return 0;
             }
         });
 
-        if(isAsc){
+        if (isAsc) {
             boolean isSort = Ordering.natural().isOrdered(userStatuses);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by asc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
-        }else{
+        } else {
             boolean isSort = Ordering.natural().reverse().isOrdered(userStatuses);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by desc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
@@ -903,31 +905,32 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Checking sort by ASC or DESC of User Type list
+     *
      * @param types
      * @param isAsc
      */
-    public void checkSortUserType(List<UserType> types, boolean isAsc){
+    public void checkSortUserType(List<UserType> types, boolean isAsc) {
         Collections.sort(types, new Comparator<UserType>() {
             @Override
             public int compare(UserType o1, UserType o2) {
-                if(isAsc && o1.levelType < o2.levelType){
+                if (isAsc && o1.levelType < o2.levelType) {
                     return 1;
-                }else if(!isAsc && o1.levelType > o2.levelType){
+                } else if (!isAsc && o1.levelType > o2.levelType) {
                     return 1;
                 }
                 return 0;
             }
         });
 
-        if(isAsc){
+        if (isAsc) {
             boolean isSort = Ordering.natural().isOrdered(types);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by asc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
-        }else{
+        } else {
             boolean isSort = Ordering.natural().reverse().isOrdered(types);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by desc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
@@ -936,31 +939,32 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Checking sort by ASC or DESC of Engagement Status list
+     *
      * @param statuses
      * @param isAsc
      */
-    public void checkSortEngagementStatusOfList(List<EngagementStatus> statuses, boolean isAsc){
+    public void checkSortEngagementStatusOfList(List<EngagementStatus> statuses, boolean isAsc) {
         Collections.sort(statuses, new Comparator<EngagementStatus>() {
             @Override
             public int compare(EngagementStatus o1, EngagementStatus o2) {
-                if(isAsc && o1.levelStatus < o2.levelStatus){
+                if (isAsc && o1.levelStatus < o2.levelStatus) {
                     return 1;
-                }else if(!isAsc && o1.levelStatus > o2.levelStatus){
+                } else if (!isAsc && o1.levelStatus > o2.levelStatus) {
                     return 1;
                 }
                 return 0;
             }
         });
 
-        if(isAsc){
+        if (isAsc) {
             boolean isSort = Ordering.natural().isOrdered(statuses);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by asc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
-        }else{
+        } else {
             boolean isSort = Ordering.natural().reverse().isOrdered(statuses);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by desc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
@@ -969,29 +973,30 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Checking sort by ASC or DESC of date list
+     *
      * @param dates
      * @param isAsc
      */
-    public void checkSortDateOfList(List<Date> dates, boolean isAsc){
+    public void checkSortDateOfList(List<Date> dates, boolean isAsc) {
         Collections.sort(dates, new Comparator<Date>() {
             @Override
             public int compare(Date o1, Date o2) {
-                if(isAsc && o1.before(o2))
-                    return  1;
-                else if(!isAsc && o1.after(o2))
-                    return  1;
+                if (isAsc && o1.before(o2))
+                    return 1;
+                else if (!isAsc && o1.after(o2))
+                    return 1;
                 return 0;
             }
         });
-        if(isAsc){
+        if (isAsc) {
             boolean isSort = Ordering.natural().isOrdered(dates);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by asc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
-        }else{
+        } else {
             boolean isSort = Ordering.natural().reverse().isOrdered(dates);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by desc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
@@ -1000,29 +1005,30 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * check sort of list number
+     *
      * @param lst
      * @param isAsc
      */
-    public void checkSortNumberOfList(List<Double> lst, boolean isAsc){
+    public void checkSortNumberOfList(List<Double> lst, boolean isAsc) {
         Collections.sort(lst, new Comparator<Double>() {
             @Override
             public int compare(Double o1, Double o2) {
-                if(isAsc && o1 > o2)
+                if (isAsc && o1 > o2)
                     return 1;
-                else if(!isAsc && o1 < o2)
+                else if (!isAsc && o1 < o2)
                     return 1;
                 return 0;
             }
         });
-        if(isAsc){
+        if (isAsc) {
             boolean isSort = Ordering.natural().isOrdered(lst);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by asc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
-        }else{
+        } else {
             boolean isSort = Ordering.natural().reverse().isOrdered(lst);
-            if(!isSort){
+            if (!isSort) {
                 NXGReports.addStep("Sorting by desc is failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 Assert.assertTrue(isSort);
             }
@@ -1031,17 +1037,18 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Check sort by alphabet asc or desc of list elements
+     *
      * @param elements
      * @param isAsc
      * @return
      */
-    public boolean sortAlphabetOfListElement(List<WebElement> elements, boolean isAsc){
+    public boolean sortAlphabetOfListElement(List<WebElement> elements, boolean isAsc) {
         boolean isSortAlphabet = false;
         getLogger().info("isAsc = " + isAsc);
-        try{
+        try {
 
             String[] expectedArray = new String[elements.size()];
-            for(int i = 0; i < elements.size(); i++){
+            for (int i = 0; i < elements.size(); i++) {
                 expectedArray[i] = elements.get(i).getText();
             }
 
@@ -1051,73 +1058,75 @@ public class AuditorEngagementPage extends AbstractPage {
             clickElement(eleCompany, "click2 to eleCompany");
 
             String[] actualArrays = new String[elements.size()];
-            for(int i = 0; i < elements.size(); i++){
+            for (int i = 0; i < elements.size(); i++) {
                 actualArrays[i] = elements.get(i).getText();
             }
 
-            if(isAsc){
+            if (isAsc) {
                 Arrays.sort(expectedArray);
-            }else{
+            } else {
                 Arrays.sort(expectedArray, Collections.reverseOrder());
             }
 
             for (int i = 0; i < expectedArray.length; i++) {
                 getLogger().info("expectedArray[i] = " + expectedArray[i]);
                 getLogger().info("actualArrays[i] = " + actualArrays[i]);
-                if(!expectedArray[i].equals(actualArrays[i])){
-                    NXGReports.addStep("Sort by " + (isAsc == true ? "ascending" : "descending") + " fails at row " + (i + 1), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                if (!expectedArray[i].equals(actualArrays[i])) {
+                    NXGReports.addStep("Sort by " + (isAsc == true ? "ascending" : "descending") + " fails at row " + (i + 1), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     throw new AssertionError("Sort by " + (isAsc == true ? "ascending" : "descending") + " fails at row " + (i + 1));
                 }
             }
             isSortAlphabet = true;
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         return isSortAlphabet;
     }
 
-    public boolean sortColumnListEngagement(List<WebElement> listElements, WebElement sortColumn, boolean isAsc){
+    public boolean sortColumnListEngagement(List<WebElement> listElements, WebElement sortColumn, boolean isAsc) {
         boolean isSortAlphabet = true;
         getLogger().info("isAsc = " + isAsc);
-        try{
+        try {
 
-            if(isAsc) {
+            if (isAsc) {
                 Thread.sleep(smallTimeOut);
                 clickElement(sortColumn, "click1 to sortColumn");
             }
-            if(!isAsc) {
+            if (!isAsc) {
                 Thread.sleep(smallTimeOut);
                 clickElement(sortColumn, "click2 to sortColumn");
             }
 
             String[] expectedArray = new String[listElements.size()];
-            for(int i = 0; i < listElements.size(); i++){
+            for (int i = 0; i < listElements.size(); i++) {
                 expectedArray[i] = listElements.get(i).getText();
             }
 
             String[] actualArrays = new String[listElements.size()];
-            for(int i = 0; i < listElements.size(); i++){
+            for (int i = 0; i < listElements.size(); i++) {
                 actualArrays[i] = listElements.get(i).getText();
             }
 
-            if(isAsc){
+            if (isAsc) {
                 Arrays.sort(expectedArray);
-            }else{
+            } else {
                 Arrays.sort(expectedArray, Collections.reverseOrder());
             }
 
             for (int i = 0; i < expectedArray.length; i++) {
                 getLogger().info("expectedArray[i] = " + expectedArray[i]);
                 getLogger().info("actualArrays[i] = " + actualArrays[i]);
-                if(!expectedArray[i].equals(actualArrays[i])){
-                    NXGReports.addStep("Sort by " + (isAsc == true ? "ascending" : "descending") + " fails at row " + (i + 1), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                if (!expectedArray[i].equals(actualArrays[i])) {
+                    NXGReports.addStep("Sort by " + (isAsc == true ? "ascending" : "descending") + " fails at row " + (i + 1), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     isSortAlphabet = false;
                     break;
                 }
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             isSortAlphabet = false;
             AbstractService.sStatusCnt++;
             NXGReports.addStep(e.getMessage(), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -1128,6 +1137,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Sort Company name by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortCompanyName(boolean isAsc) {
@@ -1138,19 +1148,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listCompanyEle, eleCompany, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort company name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort company name in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort company name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort company name in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Name by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementName(boolean isAsc) {
@@ -1161,19 +1170,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementNameEle, eleEngagementName, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort engagement name in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Status by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementStatus(boolean isAsc) {
@@ -1184,19 +1192,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementStatusEle, engagementStatusHeader, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort engagement status in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Assignee by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementAssignee(boolean isAsc) {
@@ -1207,19 +1214,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementAssigneeEle, engagementAssigneeHeader, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort engagement audit assignee in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Completed To Dos by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementCompleteToDos(boolean isAsc) {
@@ -1230,19 +1236,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementCompleteToDosEle, engagementCompleteToDosHeader, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort engagement completed to dos in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Client Assignee by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementClientAssignee(boolean isAsc) {
@@ -1253,19 +1258,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementClientAssigneeEle, engagementClientAssigneeHeader, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort Client Assignee to dos in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Completed Docs by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementCompletedDocs(boolean isAsc) {
@@ -1276,19 +1280,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementClientAssigneeEle, engagementClientAssigneeHeader, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort engagement completed docs in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Last Activity by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementLastActivity(boolean isAsc) {
@@ -1299,19 +1302,18 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementLastActivityEle, engagementLastActivityHeader, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort engagement last activity in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Sort Engagement Due Date by ASC or DESC
+     *
      * @param isAsc
      */
     public void sortEngagementDueDate(boolean isAsc) {
@@ -1322,14 +1324,12 @@ public class AuditorEngagementPage extends AbstractPage {
             e.printStackTrace();
         }
         boolean isSortAlphabet = sortColumnListEngagement(listEngagementDueDateEle, engagementDueDateHeader, isAsc);
-        if(isSortAlphabet)
-        {
-            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending": "descending"), LogAs.PASSED, null );
-        }
-        else
-        {
+        if (isSortAlphabet) {
+            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.PASSED, null);
+        } else {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending": "descending"), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE) );
+            NXGReports.addStep("Sort engagement due date in column by " + (isAsc == true ? "ascending" : "descending"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1337,7 +1337,7 @@ public class AuditorEngagementPage extends AbstractPage {
      * TODO
      * Filter engagement by 'Audit', 'Compilations', 'Reviews', 'Note To Reader'
      */
-    public void filter(){
+    public void filter() {
         clickElement(eleFilter, "click to eleFilter");
     }
 
@@ -1348,6 +1348,7 @@ public class AuditorEngagementPage extends AbstractPage {
 
     /**
      * Verify engagement overview ToDo does not change when click on close icon popup / cancel button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -1355,7 +1356,7 @@ public class AuditorEngagementPage extends AbstractPage {
         int index = findEngagementName(engagementName);
         String strStepSuccess = "Verify engagement status does not change when click on close icon popup";
         String strStepFail = "TestScript Failed: Verify engagement status change when click on close icon popup";
-        if(!isCloseIconClick){
+        if (!isCloseIconClick) {
             strStepSuccess = "Verify engagement status does not change when click on cancel button";
             strStepFail = "TestScript Failed: Verify engagement status change when click on cancel button";
         }
@@ -1366,13 +1367,13 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Verify engagement status does not change when click on close icon popup / cancel button
+     *
      * @author : TanPham
      * @date : 2017/06/20
      */
@@ -1380,7 +1381,7 @@ public class AuditorEngagementPage extends AbstractPage {
         int index = findEngagementName(engagementName);
         String strStepSuccess = "Verify engagement ToDo does not change when click on close icon popup";
         String strStepFail = "TestScript Failed: Verify engagement ToDo change when click on close icon popup";
-        if(!isCloseIconClick){
+        if (!isCloseIconClick) {
             strStepSuccess = "Verify engagement ToDo does not change when click on cancel button";
             strStepFail = "TestScript Failed: Verify engagement ToDo change when click on cancel button";
         }
@@ -1391,13 +1392,13 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Verify engagement status change when click on archive button
+     *
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -1412,13 +1413,13 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Verify engagement ToDo change when click on archive button
+     *
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -1433,19 +1434,19 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
     /**
      * Get engagement overview status and Todo follow engagement name
+     *
      * @param engagementName : engagement need search
      * @throws Exception
      */
-    public void getEngagementStatusAndToDoBefor(String engagementName){
+    public void getEngagementStatusAndToDoBefor(String engagementName) {
         int index = findEngagementName(engagementName);
-        if(index != -1){
+        if (index != -1) {
             engagementStatusBefore = eleEngagementStatusList.get(index).getText().trim();
             engagementToDoBefore = eleEngagementToDoList.get(index).getText().trim();
         }
@@ -1462,6 +1463,7 @@ public class AuditorEngagementPage extends AbstractPage {
      **/
     /**
      * Verify engagement status complete
+     *
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -1476,12 +1478,13 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     /**
      * Verify engagement ToDo complete
+     *
      * @author : TanPham
      * @date : 2017/06/21
      */
@@ -1492,25 +1495,24 @@ public class AuditorEngagementPage extends AbstractPage {
         String strStepFail = "TestScript Failed: Verify engagement ToDo is not complete";
         try {
             boolean result;
-            String strEngagementToDo =  eleEngagementToDoList.get(index).getText().trim().toLowerCase().split("%")[0];
+            String strEngagementToDo = eleEngagementToDoList.get(index).getText().trim().toLowerCase().split("%")[0];
             result = ENGAGEMENT_TODO_COMPLETE.equals(strEngagementToDo);
             org.testng.Assert.assertTrue(result, "Engagement ToDo is complete");
             NXGReports.addStep(strStepSuccess, LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(strStepFail, LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep(strStepFail, LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
     /**
      * verifyClientSeeMarkAsComplete - TanPh - 2017/06/21 - End
-     *
      **/
 
-    private boolean checkEngagementNameSearchIsExist(String engagementName){
+    private boolean checkEngagementNameSearchIsExist(String engagementName) {
         int total = eleEngagementNameList.size();
-        for(int i=0; i<total; i++){
-            if(eleEngagementNameList.get(i).getText().trim().equals((engagementName))){
+        for (int i = 0; i < total; i++) {
+            if (eleEngagementNameList.get(i).getText().trim().equals((engagementName))) {
                 return true;
             }
         }
@@ -1518,26 +1520,26 @@ public class AuditorEngagementPage extends AbstractPage {
         return false;
     }
 
-    private boolean checkEngagementCompanySearchIsExist(String engagementCompany){
+    private boolean checkEngagementCompanySearchIsExist(String engagementCompany) {
         int total = eleEngagementCompanyList.size();
-        for(int i=0; i<total; i++){
-            if(eleEngagementCompanyList.get(i).getText().trim().equals((engagementCompany))){
+        for (int i = 0; i < total; i++) {
+            if (eleEngagementCompanyList.get(i).getText().trim().equals((engagementCompany))) {
                 return true;
             }
         }
         return false;
     }
 
-    public void searchEngagementListByName(String engagementName){
+    public void searchEngagementListByName(String engagementName) {
         try {
             waitForVisibleElement(eleSearch, "search text box");
-            sendKeyTextBox(eleSearch,engagementName, "engagement name search");
+            sendKeyTextBox(eleSearch, engagementName, "engagement name search");
             waitSomeSeconds(5);
             NXGReports.addStep("Search engagement list by engagement name", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Search engagement list by engagement name", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Search engagement list by engagement name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
         }
     }
 
@@ -1549,21 +1551,22 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep("Verify data search by engagement name", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify data search by engagement name", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Verify data search by engagement name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
         }
     }
 
-    public void searchEngagementListByCompany(String engagementCompany){
+    public void searchEngagementListByCompany(String engagementCompany) {
         try {
             waitForVisibleElement(eleSearch, "search text box");
-            sendKeyTextBox(eleSearch,engagementCompany, "engagement company search");
+            sendKeyTextBox(eleSearch, engagementCompany, "engagement company search");
             NXGReports.addStep("Search engagement list by engagement company", LogAs.PASSED, null);
             waitSomeSeconds(5);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Search engagement list by engagement company", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports
+                    .addStep("Search engagement list by engagement company", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                            e.getMessage());
         }
     }
 
@@ -1575,24 +1578,24 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep("Verify data search by engagement company", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify data search by engagement company", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Verify data search by engagement company", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
         }
     }
 
-    public void clickOnEngagementFilter(){
+    public void clickOnEngagementFilter() {
         try {
             waitForVisibleElement(selectEngagementFilters, "engagement filter");
             clickElement(selectEngagementFilters, "Select Engagement Filters");
             NXGReports.addStep("Click on engagement filters", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on engagement filters", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports
+                    .addStep("Click on engagement filters", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
-    public void clickOnEngagementFilterAll(){
+    public void clickOnEngagementFilterAll() {
         try {
             waitForVisibleElement(optionFilterAll, "engagement filter all");
             clickElement(optionFilterAll, "Select engagement filter all");
@@ -1600,24 +1603,24 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep("Click on engagement filter all", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on engagement filter all", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Click on engagement filter all", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
         }
     }
 
-    public void clickOnTypeOfEngagement(){
+    public void clickOnTypeOfEngagement() {
         try {
             waitForVisibleElement(optionFilterTypeOfEngagement, "type of engagement");
             clickElement(optionFilterTypeOfEngagement, "Select type of engagement");
             NXGReports.addStep("Click on type of engagement", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on type of engagement", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports
+                    .addStep("Click on type of engagement", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
-    public void clickOnEngagementFinancialAudit(){
+    public void clickOnEngagementFinancialAudit() {
         try {
             waitForVisibleElement(optionTypeOfEngagementFinancialAudit, "engagement financial audit");
             clickElement(optionTypeOfEngagementFinancialAudit, "Select engagement financial audit");
@@ -1625,12 +1628,12 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep("Click on engagement financial audit", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on engagement financial audit", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Click on engagement financial audit", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
         }
     }
 
-    public void clickOnEngagementReview(){
+    public void clickOnEngagementReview() {
         try {
             waitForVisibleElement(optionTypeOfEngagementReview, "engagement review");
             clickElement(optionTypeOfEngagementReview, "Select engagement review");
@@ -1638,12 +1641,12 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep("Click on engagement review", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on engagement review", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports
+                    .addStep("Click on engagement review", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
-    public void clickOnEngagementNotice(){
+    public void clickOnEngagementNotice() {
         try {
             waitForVisibleElement(optionTypeOfEngagementNoticeToReaderCompilation, "engagement notice");
             clickElement(optionTypeOfEngagementNoticeToReaderCompilation, "Select engagement notice");
@@ -1651,12 +1654,12 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep("Click on engagement notice", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on engagement notice", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports
+                    .addStep("Click on engagement notice", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
-    public void clickOnEngagementOther(){
+    public void clickOnEngagementOther() {
         try {
             waitForVisibleElement(optionTypeOfEngagementOther, "engagement other");
             clickElement(optionTypeOfEngagementOther, "Select engagement other");
@@ -1664,51 +1667,50 @@ public class AuditorEngagementPage extends AbstractPage {
             NXGReports.addStep("Click on engagement other", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on engagement other", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Click on engagement other", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
-    public void clickOnIconSortDown(WebElement webElement, String columnName){
+    public void clickOnIconSortDown(WebElement webElement, String columnName) {
         try {
             waitForVisibleElement(webElement, columnName + " column ");
             clickElement(webElement, "Select " + columnName + " icon sort down");
             waitSomeSeconds(5);
-            NXGReports.addStep("Click on "+ columnName +" icon sort down", LogAs.PASSED, null);
+            NXGReports.addStep("Click on " + columnName + " icon sort down", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Click on "+ columnName +" icon sort down", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Click on " + columnName + " icon sort down", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
         }
     }
 
-    public void verifyDataListIsSortAscending(List<WebElement> webElementList, String columnName, boolean isCompleteData){
+    public void verifyDataListIsSortAscending(List<WebElement> webElementList, String columnName, boolean isCompleteData) {
         try {
             int count = webElementList.size();
             String[] expectedArray = new String[webElementList.size()];
-            for(int i = 0; i < count; i++){
-                if(!isCompleteData){
+            for (int i = 0; i < count; i++) {
+                if (!isCompleteData) {
                     expectedArray[i] = webElementList.get(i).getText().trim();
-                }else{
+                } else {
                     expectedArray[i] = webElementList.get(i).getText().trim().split("%")[0];
                 }
             }
 
 
             for (int i = 0; i < count - 1; i++) {
-                for(int j= i +1; j< count; j++){
+                for (int j = i + 1; j < count; j++) {
                     boolean isSortAscending = true;
-                    if(!isCompleteData) {
+                    if (!isCompleteData) {
                         if (expectedArray[i].compareTo(expectedArray[j]) > 0) {
                             isSortAscending = false;
                         }
-                    }else{
-                        if(Integer.parseInt(expectedArray[i]) > Integer.parseInt(expectedArray[j])){
+                    } else {
+                        if (Integer.parseInt(expectedArray[i]) > Integer.parseInt(expectedArray[j])) {
                             isSortAscending = false;
                         }
                     }
 
-                    if(!isSortAscending){
+                    if (!isSortAscending) {
                         AbstractService.sStatusCnt++;
                         NXGReports.addStep("Data list of " + columnName + " is sort ascending", LogAs.FAILED,
                                 new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), "Data list are not sort ascending");
@@ -1716,40 +1718,40 @@ public class AuditorEngagementPage extends AbstractPage {
                     }
                 }
             }
-            NXGReports.addStep("Data list of  "+ columnName +" is sort ascending", LogAs.PASSED, null);
+            NXGReports.addStep("Data list of  " + columnName + " is sort ascending", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Data list of "+ columnName +" is sort ascending", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Data list of " + columnName + " is sort ascending", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
-    public void verifyDataListIsSortDescending(List<WebElement> webElementList, String columnName, boolean isCompleteData){
+    public void verifyDataListIsSortDescending(List<WebElement> webElementList, String columnName, boolean isCompleteData) {
         try {
             int count = webElementList.size();
             String[] expectedArray = new String[webElementList.size()];
-            for(int i = 0; i < count; i++){
-                if(!isCompleteData){
+            for (int i = 0; i < count; i++) {
+                if (!isCompleteData) {
                     expectedArray[i] = webElementList.get(i).getText().trim();
-                }else{
+                } else {
                     expectedArray[i] = webElementList.get(i).getText().trim().split("%")[0];
                 }
             }
 
             for (int i = 0; i < count - 1; i++) {
-                for(int j= i +1; j< count; j++){
+                for (int j = i + 1; j < count; j++) {
                     boolean isSortDescending = true;
-                    if(!isCompleteData) {
+                    if (!isCompleteData) {
                         if (expectedArray[i].compareTo(expectedArray[j]) < 0) {
                             isSortDescending = false;
                         }
-                    }else{
-                        if(Integer.parseInt(expectedArray[i]) < Integer.parseInt(expectedArray[j])){
+                    } else {
+                        if (Integer.parseInt(expectedArray[i]) < Integer.parseInt(expectedArray[j])) {
                             isSortDescending = false;
                         }
                     }
 
-                    if(!isSortDescending){
+                    if (!isSortDescending) {
                         AbstractService.sStatusCnt++;
                         NXGReports.addStep("Data list of " + columnName + " is sort ascending", LogAs.FAILED,
                                 new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), "Data list are not sort ascending");
@@ -1757,173 +1759,173 @@ public class AuditorEngagementPage extends AbstractPage {
                     }
                 }
             }
-            NXGReports.addStep("Data list of  "+ columnName +" is sort descending", LogAs.PASSED, null);
+            NXGReports.addStep("Data list of  " + columnName + " is sort descending", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Data list of "+ columnName +" is sort descending", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e.getMessage());
+            NXGReports.addStep("Data list of " + columnName + " is sort descending", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    public void clickOnCompanyIconSortDown(){
+    public void clickOnCompanyIconSortDown() {
         this.clickOnIconSortDown(eleCompanyIconSortDown, "company");
     }
 
-    public void clickOnCompanyIconSortUp(){
+    public void clickOnCompanyIconSortUp() {
         this.clickOnIconSortDown(eleCompanyIconSortUp, "company");
     }
 
-    public void verifyCompanyDataListSortAscending(){
+    public void verifyCompanyDataListSortAscending() {
         this.verifyDataListIsSortAscending(listCompanyEle, "company", false);
     }
 
-    public void verifyCompanyDataListSortDescending(){
+    public void verifyCompanyDataListSortDescending() {
         this.verifyDataListIsSortDescending(listCompanyEle, "company", false);
     }
     ///////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementNameIconSortDown(){
+    public void clickOnEngagementNameIconSortDown() {
         this.clickOnIconSortDown(eleEngagementNameIconSortDown, "engagement name");
     }
 
-    public void clickOnEngagementNameIconSortUp(){
+    public void clickOnEngagementNameIconSortUp() {
         this.clickOnIconSortDown(eleEngagementNameIconSortUp, "engagement name");
     }
 
-    public void verifyEngagementNameDataListSortAscending(){
+    public void verifyEngagementNameDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementNameEle, "engagement name", false);
     }
 
-    public void verifyEngagementNameDataListSortDescending(){
-        this.verifyDataListIsSortDescending(listEngagementNameEle, "engagement name",false);
+    public void verifyEngagementNameDataListSortDescending() {
+        this.verifyDataListIsSortDescending(listEngagementNameEle, "engagement name", false);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementStatusIconSortDown(){
+    public void clickOnEngagementStatusIconSortDown() {
         this.clickOnIconSortDown(eleEngagementStatusIconSortDown, "engagement status");
     }
 
-    public void clickOnEngagementStatusIconSortUp(){
+    public void clickOnEngagementStatusIconSortUp() {
         this.clickOnIconSortDown(eleEngagementStatusIconSortUp, "engagement status");
     }
 
-    public void verifyEngagementStatusDataListSortAscending(){
+    public void verifyEngagementStatusDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementStatusEle, "engagement status", false);
     }
 
-    public void verifyEngagementStatusDataListSortDescending(){
-        this.verifyDataListIsSortDescending(listEngagementStatusEle, "engagement status",false);
+    public void verifyEngagementStatusDataListSortDescending() {
+        this.verifyDataListIsSortDescending(listEngagementStatusEle, "engagement status", false);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementAuditIconSortDown(){
+    public void clickOnEngagementAuditIconSortDown() {
         this.clickOnIconSortDown(eleEngagementAuditIconSortDown, "engagement audit");
     }
 
-    public void clickOnEngagementAuditIconSortUp(){
+    public void clickOnEngagementAuditIconSortUp() {
         this.clickOnIconSortDown(eleEngagementAuditIconSortUp, "engagement audit");
     }
 
-    public void verifyEngagementAuditDataListSortAscending(){
+    public void verifyEngagementAuditDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementAssigneeEle, "engagement audit", false);
     }
 
-    public void verifyEngagementAuditDataListSortDescending(){
-        this.verifyDataListIsSortDescending(listEngagementAssigneeEle, "engagement audit",false);
+    public void verifyEngagementAuditDataListSortDescending() {
+        this.verifyDataListIsSortDescending(listEngagementAssigneeEle, "engagement audit", false);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementToDoIconSortDown(){
+    public void clickOnEngagementToDoIconSortDown() {
         this.clickOnIconSortDown(eleEngagementToDoIconSortDown, "engagement todo");
     }
 
-    public void clickOnEngagementToDoIconSortUp(){
+    public void clickOnEngagementToDoIconSortUp() {
         this.clickOnIconSortDown(eleEngagementToDoIconSortUp, "engagement todo");
     }
 
-    public void verifyEngagementToDoDataListSortAscending(){
+    public void verifyEngagementToDoDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementCompleteToDosEle, "engagement todo", true);
     }
 
-    public void verifyEngagementToDoDataListSortDescending(){
+    public void verifyEngagementToDoDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementCompleteToDosEle, "engagement todo", true);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementClientIconSortDown(){
+    public void clickOnEngagementClientIconSortDown() {
         this.clickOnIconSortDown(eleEngagementClientIconSortDown, "engagement client");
     }
 
-    public void clickOnEngagementClientIconSortUp(){
+    public void clickOnEngagementClientIconSortUp() {
         this.clickOnIconSortDown(eleEngagementClientIconSortUp, "engagement client");
     }
 
-    public void verifyEngagementClientDataListSortAscending(){
+    public void verifyEngagementClientDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementClientAssigneeEle, "engagement client", false);
     }
 
-    public void verifyEngagementClientDataListSortDescending(){
+    public void verifyEngagementClientDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementClientAssigneeEle, "engagement client", false);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementDocIconSortDown(){
+    public void clickOnEngagementDocIconSortDown() {
         this.clickOnIconSortDown(eleEngagementDocIconSortDown, "engagement doc");
     }
 
-    public void clickOnEngagementDocIconSortUp(){
+    public void clickOnEngagementDocIconSortUp() {
         this.clickOnIconSortDown(eleEngagementDocIconSortUp, "engagement doc");
     }
 
-    public void verifyEngagementDocDataListSortAscending(){
+    public void verifyEngagementDocDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementCompleteDocsEle, "engagement doc", true);
     }
 
-    public void verifyEngagementDocDataListSortDescending(){
+    public void verifyEngagementDocDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementCompleteDocsEle, "engagement doc", true);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementActivityIconSortDown(){
+    public void clickOnEngagementActivityIconSortDown() {
         this.clickOnIconSortDown(eleEngagementActivityIconSortDown, "engagement activity");
     }
 
-    public void clickOnEngagementActivityIconSortUp(){
+    public void clickOnEngagementActivityIconSortUp() {
         this.clickOnIconSortDown(eleEngagementActivityIconSortUp, "engagement activity");
     }
 
-    public void verifyEngagementActivityDataListSortAscending(){
+    public void verifyEngagementActivityDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementLastActivityEle, "engagement activity", false);
     }
 
-    public void verifyEngagementActivityDataListSortDescending(){
+    public void verifyEngagementActivityDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementLastActivityEle, "engagement activity", false);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickOnEngagementDueDateIconSortDown(){
+    public void clickOnEngagementDueDateIconSortDown() {
         this.clickOnIconSortDown(eleEngagementDueDateIconSortDown, "engagement due date");
     }
 
-    public void clickOnEngagementDueDateIconSortUp(){
+    public void clickOnEngagementDueDateIconSortUp() {
         this.clickOnIconSortDown(eleEngagementDueDateIconSortUp, "engagement due date");
     }
 
-    public void verifyEngagementDueDateDataListSortAscending(){
+    public void verifyEngagementDueDateDataListSortAscending() {
         this.verifyDataListIsSortAscending(listEngagementDueDateEle, "engagement due date", false);
     }
 
-    public void verifyEngagementDueDateDataListSortDescending(){
+    public void verifyEngagementDueDateDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementDueDateEle, "engagement due date", false);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
