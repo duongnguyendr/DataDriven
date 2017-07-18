@@ -423,17 +423,20 @@ public class GenericService {
             boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
             for (int i = 0; i < password.length; i++) {
                 char ch = symbolsResetPassword.charAt(r.nextInt(symbolsResetPassword.length()));
-                if (isContainsUpperCase && Character.isUpperCase(ch))
+                if (Character.isUpperCase(ch))
                     hasUpper = true;
-                else if (isContainsLowerCase && Character.isLowerCase(ch))
+                else if (Character.isLowerCase(ch))
                     hasLower = true;
-                else if (isContainsDigit && Character.isDigit(ch))
+                else if (Character.isDigit(ch))
                     hasDigit = true;
-                else if(isContainsSpecialCharacter)
+                else
                     hasSpecial = true;
                 password[i] = ch;
             }
-            if (hasUpper && hasLower && hasDigit && hasSpecial) {
+            if ((hasUpper == isContainsUpperCase) &&
+                (hasLower == isContainsLowerCase) &&
+                (hasDigit == isContainsDigit) &&
+                (hasSpecial == isContainsSpecialCharacter)) {
                 return new String(password);
             }
         }
