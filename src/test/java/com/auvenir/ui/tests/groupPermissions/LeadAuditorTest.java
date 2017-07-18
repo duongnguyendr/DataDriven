@@ -47,8 +47,6 @@ public class LeadAuditorTest extends AbstractTest {
         String fileRequest3_Client = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "File Request 3 Client", "Valid " +
                 "Value");
         String fileRequest4 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "File Request 4", "Valid Value");
-        String totalFileRequest = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Total Request File In Auditor Lead", "Valid Value");
-        System.out.println("totalFileRequest: " + totalFileRequest);
         HashMap<String, String[]> todoData = new HashMap<String, String[]>();
         todoData.put(toDo1, new String[]{fileRequest1, fileRequest1_Client});
         todoData.put(toDo2, new String[]{fileRequest2, fileRequest2_Client});
@@ -60,7 +58,7 @@ public class LeadAuditorTest extends AbstractTest {
             for (Map.Entry<String, String[]> entry : todoData.entrySet()){
                 leadAuditorService.verifyFileRequestInTodo(entry.getKey(), entry.getValue());
             }
-            leadAuditorService.verifyLeadAuditorSeeAllFileRequest(Integer.parseInt(totalFileRequest));
+            leadAuditorService.verifyLeadAuditorSeeAllFileRequest(7);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify lead auditor can see all files within an engagement.", LogAs.PASSED, null);
         }catch (Exception e){
