@@ -1,6 +1,7 @@
 package com.auvenir.ui.services.groupPermissions;
 
 import com.auvenir.ui.pages.auditor.engagement.AuditorNewEngagementPage;
+import com.auvenir.ui.pages.auditor.todo.AuditorTodoListPage;
 import com.auvenir.ui.pages.groupPermissions.AdminAuditorPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import java.util.List;
 public class AdminAuditorService extends AbstractService {
     private AdminAuditorPage adminAuditorPage;
     private AuditorNewEngagementPage auditorNewEngagementPage;
+    private AuditorTodoListPage auditorTodoListPage = new AuditorTodoListPage(getLogger(),getDriver());
 
     public AdminAuditorService(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -30,5 +32,9 @@ public class AdminAuditorService extends AbstractService {
 
     public void verifyAuditorAdminSeeListToDo(List<String> listToDoname) {
         adminAuditorPage.verifyAuditorAdminSeeListToDo(listToDoname);
+    }
+
+    public void verifyAdminCanNotEditCategory(String todoName) {
+       auditorTodoListPage.verifyEditableCategoryByTodoName(todoName,false);
     }
 }

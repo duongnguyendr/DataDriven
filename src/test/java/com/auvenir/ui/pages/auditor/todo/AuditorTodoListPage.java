@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class AuditorTodoListPage extends AbstractPage {
     List<WebElement> tableTodoList;
 
     /////////////////////////////////////////////////
-    public void verifyTodoListPageColumnHeader(){
+    public void verifyTodoListPageColumnHeader() {
         getLogger().info("verify To Do List page.");
         verifyButtonCreateToDo();
         verifyFilterDropDownList();
@@ -130,7 +131,8 @@ public class AuditorTodoListPage extends AbstractPage {
         result = validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
         if (!result) {
             countFail++;
-            NXGReports.addStep("Fail: Verify background-color create to do button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Fail: Verify background-color create to do button.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         result = validateCssValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
         if (!result) {
@@ -232,9 +234,9 @@ public class AuditorTodoListPage extends AbstractPage {
             NXGReports.addStep("Verify uncheck on checkbox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
     }
 
-    public void clickCreateToDoBtn() throws Exception{
+    public void clickCreateToDoBtn() throws Exception {
         getLogger().info("Click Create ToDo Button");
-        waitForTextValueChanged(eleCreateToDoBtn,"Create Todo Butto","Create To-Do");
+        waitForTextValueChanged(eleCreateToDoBtn, "Create Todo Butto", "Create To-Do");
         clickElement(eleCreateToDoBtn, "Create Todo Button");
     }
 
@@ -296,10 +298,10 @@ public class AuditorTodoListPage extends AbstractPage {
             NXGReports.addStep("Verify filter button.", LogAs.PASSED, null);
         waitForVisibleElement(eleShowAllBTN, "eleShowAllBTN");
         // Busniess rule is changed, remove Due Date and FlagForRequest Option.
-//        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
-//        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
-//        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
-//        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+        //        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
+        //        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+        //        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
+        //        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
         waitForVisibleElement(eleAssignedBTN, "eleAssignedBTN");
         waitForVisibleElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForVisibleElement(eleCompleteBTN, "eleCompleteBTN");
@@ -440,11 +442,63 @@ public class AuditorTodoListPage extends AbstractPage {
     WebElement teamBtn;
     @FindBy(id = "team-inviteMember-btn")
     WebElement inviteAuditorBtn;
-    public void navigateToInviteGeneralAuditor(){
+
+    public void navigateToInviteGeneralAuditor() {
         clickElement(teamBtn);
-        waitForTextValueChanged(inviteAuditorBtn,"invite auditor Btn","Invite New Member");
+        waitForTextValueChanged(inviteAuditorBtn, "invite auditor Btn", "Invite New Member");
         clickElement(inviteAuditorBtn);
     }
 
 
+    /**
+     * Vien.Pham add methods for verifyEditableCategory:
+     *
+     * @param: todoName: input todoName for finding the corresponding Category
+     * @param: editable: true or false
+     */
+    @FindBy(xpath = "//tr[@class='newRow']//span[contains(@class,'todo-name')]")
+    List<WebElement> listTodoRowAdminAuditorPage;
+    @FindBy(xpath = "//span[@class='ui label todo-category-readonly']")
+    List<WebElement> listDisableCategory;
+
+
+    public void verifyEditableCategoryByTodoName(String todoName, boolean editable) {
+        try {
+
+            if (editable) {
+
+            } else {
+                int index = filterCategoryByTodoName(todoName);
+                boolean isCheck = validateDisPlayedElement(listDisableCategory.get(index), "Category of Admin Auditor Page");
+                if (isCheck) {
+                    NXGReports.addStep("Test Passed: Verify editable category.", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Test Failed: Verify editable category.", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify Admin Auditor can not edit category of Todo assigned.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+
+        }
+    }
+
+    public int filterCategoryByTodoName(String todoName) {
+        int index = -1;
+        for (int i = 0; i < listTodoRowAdminAuditorPage.size(); i++) {
+            if (listTodoRowAdminAuditorPage.get(i).getText().equals(todoName)) {
+                System.out.println("Position of Category need to be verified: " + i);
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            System.out.println("Can not filter any corresponding Category with todoName is: " + todoName);
+        }
+        return index;
+    }
 }
