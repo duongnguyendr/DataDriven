@@ -9,9 +9,12 @@
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            
             <class name="com.auvenir.utilities.initialize.InitData"/>
-            <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
+            <!--<methods>
+                <include priority="1" name="deleteAllOldRecord"></include>
+                <include priority="2" name="initUser"></include>
+            </methods>-->
+            <class name="com.auvenir.ui.tests.SmokeTest"/>
             <!--  <methods>
                  &lt;!&ndash;<include priority="1" name="verifyAdminLogin"></include>
                  <include priority="2" name="verifySignUpAuditorUser"></include>
