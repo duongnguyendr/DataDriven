@@ -795,4 +795,61 @@ public class MongoDBService {
         }
     }
 
+    /**
+     *
+     * @param firmName
+     */
+    public static void removeAllFirmByName(String firmName) {
+        int count = 0;
+        try {
+            DBCollection dBCollection = getCollection("firms");
+                BasicDBObject searchQuery = new BasicDBObject();
+                searchQuery.put("name", firmName);
+                DBCursor curs = dBCollection.find(searchQuery);
+                while (curs.hasNext()) {
+                    DBObject dBbject = curs.next();
+                    // shows the whole result document
+                    System.out.println("Firm name: " + dBbject.get("name"));
+                    dBCollection.remove(dBbject);
+                    count++;
+                }
+            if (count == 0) {
+                System.out.println(String.format("Firm name '%s' is not exist on database", firmName));
+            } else
+                System.out.println("Deleted Firm successfully.");
+        } catch (NoSuchElementException ex) {
+            System.out.println("This Firm not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * @param businessName
+     */
+    public static void removeAllBusinessByName(String businessName) {
+        int count = 0;
+        try {
+            DBCollection dBCollection = getCollection("businesses");
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("name", businessName);
+            DBCursor curs = dBCollection.find(searchQuery);
+            while (curs.hasNext()) {
+                DBObject dBbject = curs.next();
+                // shows the whole result document
+                System.out.println("Businesses name: " + dBbject.get("name"));
+                dBCollection.remove(dBbject);
+                count++;
+            }
+            if (count == 0) {
+                System.out.println(String.format("Businesses name '%s' is not exist on database", businessName));
+            } else
+                System.out.println("Deleted Businesses successfully.");
+        } catch (NoSuchElementException ex) {
+            System.out.println("This Businesses not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

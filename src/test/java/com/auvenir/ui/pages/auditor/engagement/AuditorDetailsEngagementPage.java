@@ -54,9 +54,9 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     public void verifyDetailsEngagementPage(String engagementName) {
         waitForVisibleElement(dashboardTextEle, "dashboard text");
         clickElement(dashboardTextEle);
-        sendTabkey(dashboardTextEle,"");
+        sendTabkey(dashboardTextEle, "");
         validateAttributeElement(dashboardTextEle, "placeholder", engagementName);
-//        validateElementText(dashboardTextEle,engagementName);
+        //        validateElementText(dashboardTextEle,engagementName);
     }
 
     public void verifyDetailsEngagementAtGeneralPage(String engagementName) {

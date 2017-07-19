@@ -59,10 +59,12 @@ public class AuditorEngagementTeamPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='m-inm-addBtn']")
     private WebElement inviteButtonEle;
 
-    @FindBy(xpath = "//*[@id='team-row-0']/td[2]")
+    @FindBy(xpath = "//*[contains (@id,'team-row')]/td[2]")
+//    @FindBy(xpath = "//*[@id='team-row-0']/td[2]")
     private List<WebElement> auditorTeamMemberNameEle;
 
-    @FindBy(xpath = "//*[@id='team-row-0']/td[3]")
+    @FindBy(xpath = "//*[contains (@id,'team-row')]/td[3]")
+//    @FindBy(xpath = "//*[@id='team-row-0']/td[3]")
     private List<WebElement> roleTeamMemberNameEle;
 
     @FindBy(xpath = "//*[@id='team-row-0']/td[1]/input")
@@ -126,7 +128,7 @@ public class AuditorEngagementTeamPage extends AbstractPage {
     WebElement engagementTeam;
     public void clickInviteMember() {
         getLogger().info("Click Invite Member Button.");
-        waitForCssValueChanged(engagementTeam,"engagementTeam","display","inherit");
+        waitForCssValueChanged(engagementTeam,"engagementTeam","display","block");
         clickElement(inviteMemberBtnEle, "Invite Member Button");
     }
 
@@ -162,8 +164,9 @@ public class AuditorEngagementTeamPage extends AbstractPage {
 
     public void verifyAddNewInvitedMember(String fullName, String roleMember) {
         getLogger().info("Verify new Auditor Member is added.");
-        validateElementText(auditorTeamMemberNameEle.get(0), fullName);
-        validateElementText(roleTeamMemberNameEle.get(0), roleMember);
+        int index = findTeamMemberByName(fullName);
+//        validateElementText(auditorTeamMemberNameEle.get(0), fullName);
+        validateElementText(roleTeamMemberNameEle.get(index), roleMember);
     }
 
     public void deleteMemberInEngagementByName(String fullNameMember) {
