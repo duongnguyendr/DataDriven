@@ -22,31 +22,31 @@ public class AdminAuditorPage extends AbstractPage{
     }
     AuditorCreateToDoPage auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(),getDriver());
 
-    public void verifyAuditorAdminSeeListToDo(List<String> listToDoname) {
-        getLogger().info("Verify Auditor Admin can see list To Do.");
-        boolean result;
-        try {
-            result = auditorCreateToDoPage.verifyListToDoIsDisplayed(listToDoname, true);
-            Assert.assertTrue(result, "Auditor Admin should see all To Dos within engagement.");
-            NXGReports.addStep("Verify Auditor Admin can see all To Dos within engagement.", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            getLogger().info(e);
-            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
-                    .BROWSER_PAGE));
-        } catch (Exception e) {
-            getLogger().info(e);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
+//    public void verifyAuditorAdminSeeListToDo(List<String> listToDoname) {
+//        getLogger().info("Verify Auditor Admin can see list To Do.");
+//        boolean result;
+//        try {
+//            result = auditorCreateToDoPage.verifyPermissionSeeListToDoTask(listToDoname, true);
+//            Assert.assertTrue(result, "Auditor Admin should see all To Dos within engagement.");
+//            NXGReports.addStep("Verify Auditor Admin can see all To Dos within engagement.", LogAs.PASSED, null);
+//        } catch (AssertionError e) {
+//            AbstractService.sStatusCnt++;
+//            getLogger().info(e);
+//            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+//                    .BROWSER_PAGE));
+//        } catch (Exception e) {
+//            getLogger().info(e);
+//            AbstractService.sStatusCnt++;
+//            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED,
+//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//        }
+//    }
 
     public void verifyAdminAuditorCannotCreateToDo() {
         getLogger().info("Verify Admin Auditor cannot create To Do.");
         boolean result;
         try {
-            auditorCreateToDoPage.verifyCanCreateToDo("", true);
+            auditorCreateToDoPage.verifyCanCreateToDo(true);
         } catch (AssertionError e) {
 
         }

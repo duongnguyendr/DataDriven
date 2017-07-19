@@ -591,9 +591,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     }
 
 
-    public void verifyAddNewToDoTask(String toDoName) {
+    public boolean verifyAddNewToDoTask(String toDoName) {
+        boolean result = false;
         try {
-            boolean result;
             validateDisPlayedElement(toDoNameTextColumnEle.get(0), "Todo New Row Name");
             result = validateAttributeElement(toDoNameTextColumnEle.get(0), "value", toDoName);
             Assert.assertTrue(result, String.format("New To Do task '%s' is NOT added successfully", toDoName));
@@ -603,6 +603,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("New To Do task is added unsuccessfully", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+        return result;
     }
 
     public boolean verifyInputValueToDoNameTextBox(String toDoNameValue) {
@@ -790,27 +791,32 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void createToDoTask() throws Exception {
         getLogger().info("Run createToDoTask()");
         todoNamePage = "To-do name " + randomNumber();
-        waitForClickableOfElement(createToDoBtnEle, "create todo button.");
-        clickElement(createToDoBtnEle, "click to createToDoBtnEle");
-        waitForClickableOfElement(createToDoNameTextBoxEle, "wait for eleIdToDoName");
-        clickElement(createToDoNameTextBoxEle, "click to eleIdToDoName");
-        createToDoNameTextBoxEle.sendKeys(todoNamePage);
-        createNewCategory("");
-        hoverElement(categoryDropdownEle, "eleDdlCategory");
-        waitForClickableOfElement(categoryDropdownEle, "eleDdlCategory");
-        Thread.sleep(smallTimeOut);
-        clickElement(categoryDropdownEle, "click to eleDdlCategory");
-        waitForClickableOfElement(categoryOptionItemEle.get(0), "eleXpathCategoryItem");
-        clickElement(categoryOptionItemEle.get(0), "click to eleXpathCategoryItem");
-        waitForClickableOfElement(dueDateFieldEle, "eleIdDueDate");
-        Thread.sleep(smallerTimeOut);
-        clickElement(dueDateFieldEle, "click to eleIdDueDate");
-        waitForClickableOfElement(dateItemonCalendarEle, "eleXpathChooseDate");
-        clickElement(dateItemonCalendarEle, "click to eleXpathChooseDate");
-        waitForClickableOfElement(eleBtnToDoAdd, "eleBtnToDoAdd");
-        clickElement(eleBtnToDoAdd, "click to eleBtnToDoAdd");
         //Wait for new task is displayed.
-        Thread.sleep(smallTimeOut);
+        try {
+            getLogger().info("Create To Do Task with random name.");
+            WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+            System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+            waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
+            String rowString = toDoTaskRowEle.get(0).getAttribute("class");
+            int size = 1;
+            int index = -1;
+            if (!rowString.equals("")) {
+                size = toDoTaskRowEle.size() + 1;
+                System.out.println("Index Create: " + index);
+            }
+            clickElement(createToDoBtnEle, "Create To Do button");
+            waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
+            sendKeyTextBox(toDoNameTextColumnEle.get(0), todoNamePage, "First To Do Name textbox");
+            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            // Create new category
+            createNewCategory("");
+            NXGReports.addStep("Create To Do Task with random name", LogAs.PASSED, null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            getLogger().info("Fail: Create To Do Task");
+            NXGReports.addStep("Failed: Create To Do Task with random name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        }
     }
 
 
@@ -5231,22 +5237,26 @@ public class AuditorCreateToDoPage extends AbstractPage {
         }
     }
 
-    public boolean verifyListToDoIsDisplayed(List<String> listToDoName, boolean isNotEditedToDo) {
+    public boolean verifyPermissionSeeListToDoTask(List<String> listToDoName, boolean isNotEditedToDo, boolean possibleSee) {
         boolean result = true;
-
         for(int i = 0 ; i < listToDoName.size(); i++){
-            if(!verifyToDoNameIsDisplayed(listToDoName.get(i), isNotEditedToDo))
+            if(!verifyPermissionSeeToDoTask(listToDoName.get(i), isNotEditedToDo, possibleSee))
                 result = false;
         }
         return result;
     }
 
-    public boolean verifyToDoNameIsDisplayed(String toDoName, boolean isNotEditedToDo) {
+    public boolean verifyPermissionSeeToDoTask(String toDoName, boolean isNotEditedToDo, boolean isDisplayed) {
         boolean result = false;
         try {
             int count = findToDoTaskName(toDoName, isNotEditedToDo);
-            if(count != -1 )
-                result = true;
+            if(isDisplayed) {
+                if (count != -1)
+                    result = true;
+            } else {
+                if (count == -1)
+                    result = true;
+            }
             Assert.assertTrue(result, "To Do Name is not displayed");
             NXGReports.addStep(String.format("Verify To Do '%s' is displayed", toDoName), LogAs.PASSED, null);
         } catch (AssertionError e) {
@@ -5263,16 +5273,20 @@ public class AuditorCreateToDoPage extends AbstractPage {
         return result;
     }
 
-    public boolean verifyCanCreateToDo(String toDoName, boolean possibleCreate) {
+    public boolean verifyCanCreateToDo(boolean possibleCreate) {
         boolean result = false;
+        todoNamePage = "To-do name " + randomNumber();
         try {
             if(possibleCreate) {
-
+                if(validateNotExistedElement(createToDoBtnEle, "Create To Do Button")) {
+                    createToDoTask(todoNamePage);
+                    result = verifyAddNewToDoTask(todoNamePage);
+                }
             } else {
                 result = validateNotExistedElement(createToDoBtnEle, "Create To Do Button");
             }
             Assert.assertTrue(result, "Verify Create To Do should be passed.");
-            NXGReports.addStep(String.format("Verify Can Create To Do", toDoName), LogAs.PASSED, null);
+            NXGReports.addStep("Verify Can Create To Do", LogAs.PASSED, null);
         } catch (AssertionError e) {
             AbstractService.sStatusCnt++;
             getLogger().info(e);
