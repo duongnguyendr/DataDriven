@@ -87,7 +87,7 @@ public class SmokeDataProvider extends CommonDataProvider{
     private static String pathOfAttachLocation = GenericService.sDirPath + GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Path of Upload Location");
     private static  String contactName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
     private static  String emailContact = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
-
+    private static String company = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Company");
     @DataProvider(name = "verifyAdminLogin")
     public static Object[][] getVerifyAdminLogin(){
 
@@ -148,9 +148,9 @@ public class SmokeDataProvider extends CommonDataProvider{
 
     @DataProvider(name = "verifyCreateSimpleEngagement")
     public static Object[][] getVerifyCreateSimpleEngagement(){
-        Object[][] arrayData = new Object[][] {{auditorId, auditorPassword, engagementName}};
+        Object[][] arrayData = new Object[][] {{auditorId, auditorPassword, engagementName, company}};
         if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][] {{auditorId, auditorPassword, engagementName}};
+            arrayData = new Object[][] {{auditorId, auditorPassword, engagementName,company}};
         }
         return arrayData;
     }
@@ -422,6 +422,7 @@ public class SmokeDataProvider extends CommonDataProvider{
         }
         return arrayData;
     }
+
 
 }
 

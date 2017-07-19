@@ -11,6 +11,7 @@ import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
@@ -84,6 +85,7 @@ public class SmokeTest extends AbstractTest {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
             // auditorSignUpService.deleteUserUsingApi(emailCreate);
+            MongoDBService.removeAllActivitiesCollectionOfAUser(emailCreate);
             auditorSignUpService.deleteUserUsingApi(emailCreate);
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
@@ -185,7 +187,7 @@ public class SmokeTest extends AbstractTest {
 
     @Test(priority = 6, enabled = true, description = "Auditor create new Engagement (simple engagement)",
             dataProvider = "verifyCreateSimpleEngagement", dataProviderClass = SmokeDataProvider.class)
-    public void verifyCreateSimpleEngagement(String auditorId, String auditorPassword, String engagementName) {
+    public void verifyCreateSimpleEngagement(String auditorId, String auditorPassword, String engagementName, String company) {
         getLogger().info("Auditor create new Engagement (simple engagement).");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
@@ -199,7 +201,7 @@ public class SmokeTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
-            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", "Smoke Company");
+            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", company);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -233,11 +235,12 @@ public class SmokeTest extends AbstractTest {
         //        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
         //        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
         //        MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
-        //MongoDBService.removeClientAndIndicatedValueByEmail(clientId);
+        MongoDBService.removeClientAndIndicatedValueByEmail(clientId);
         //need precondition for save engagement name, and delete this engagement or client on acl
 
         try {
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
+
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();

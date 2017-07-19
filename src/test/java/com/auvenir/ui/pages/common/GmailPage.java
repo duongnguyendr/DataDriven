@@ -480,6 +480,9 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Start Your Engagement']")
     private WebElement buttonStartEngagement;
 
+    @FindBy(xpath = "//a[text()='Get Started']")
+    private WebElement buttonGetStarted;
+
     @FindBy(id = "BltHke nH oy8Mbf aE3")
     private WebElement divSearchResultHidden;
 
@@ -592,6 +595,25 @@ public class GmailPage extends AbstractPage {
             ex.printStackTrace();
         }
     }
+
+    public void selectGetStartedButtonInActiveEmail(){
+        try {
+            clickElement(buttonGetStarted, "Button Start Engagement");
+            getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void selectStartYourEngagementButtonInActiveEmail(){
+        try {
+            clickElement(buttonStartEngagement, "Button Start Engagement");
+            getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     /**
      * Enter the email(after search) n click 'Start Engagement' button to go to Auvenir site

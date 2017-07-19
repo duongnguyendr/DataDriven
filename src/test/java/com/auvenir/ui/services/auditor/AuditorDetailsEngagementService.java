@@ -52,6 +52,16 @@ public class AuditorDetailsEngagementService extends AbstractService {
         }
     }
 
+    public void verifyDetailsEngagementAtGeneralPage(String engagementName) {
+        try {
+            getLogger().info("verify Detail Engagement page.(Implemented later)");
+            auditorDetailsEngagementPage.verifyDetailsEngagementAtGeneralPage(engagementName);
+            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
     public void navigateToTaskList() {
         try {
             getLogger().info("navigate to task list page.");

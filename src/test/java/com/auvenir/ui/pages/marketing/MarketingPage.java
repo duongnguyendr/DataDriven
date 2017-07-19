@@ -387,14 +387,17 @@ public class MarketingPage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"preview-header-left\"]/span")
     private WebElement allEngagementsEle;
 
-    @FindBy(xpath = "//*[@id='reset-password']//input[@name='password']")
+    //@FindBy(xpath = "//*[@id='reset-password']//input[@name='password']")
+    @FindBy(xpath = "//*[@id='create-password-form']//input[@name='password']")
     private WebElement eleNewPasword;
 
     public WebElement getEleNewPasword() {
         return eleNewPasword;
     }
 
-    @FindBy(xpath = "//*[@id='reset-password']//input[@name='retype_password']")
+
+    //@FindBy(xpath = "//*[@id='reset-password']//input[@name='retype_password']")
+    @FindBy(xpath = "//*[@id='create-password-form']//input[@name='retype_password']")
     private WebElement eleRetypeNewPassword;
 
     public WebElement getEleRetypeNewPassword() {
@@ -448,6 +451,26 @@ public class MarketingPage extends AbstractPage {
 
     public WebElement getEleCredentialsCloseIcn() {
         return eleCredentialsCloseIcn;
+    }
+
+    @FindBy(xpath = "//p[@id='security-body']/div/div[1]/p[@class ='auv-inputError']")
+    private WebElement eleNewPasswordErrorMessage;
+
+    @FindBy(xpath = "//p[@id='security-body']/div/div[2]/p[@class ='auv-inputError']")
+    private WebElement eleConfirmPasswordErrorMessage;
+
+    private static final String NEW_PASSWORD_ERROR_MESSAGE = "Please enter a password and least 8 characters, have a capital letter, lower case letter, a number and a special character (!@#$%^&*)";
+    private static final String CONFIRM_PASSWORD_ERROR_MESSAGE = "Your passwords don't match.";
+
+
+    public void verifyNewPasswordErrorMessage(){
+        waitForVisibleElement(eleNewPasswordErrorMessage, "new password error message");
+        validateElementText(eleNewPasswordErrorMessage,NEW_PASSWORD_ERROR_MESSAGE);
+    }
+
+    public void verifyConfirmPasswordErrorMessage(){
+        waitForVisibleElement(eleConfirmPasswordErrorMessage, "confirm password error message");
+        validateElementText(eleConfirmPasswordErrorMessage,CONFIRM_PASSWORD_ERROR_MESSAGE);
     }
 
     public void verifyAboutContentPage() {
@@ -683,9 +706,10 @@ public class MarketingPage extends AbstractPage {
     /*
     Vien.Pham edited clickOnRequestResetLinkBTN()
      */
+    private WebElement eleForgetPasswordErrorMessage;
     public void clickOnRequestResetLinkBTN() {
         clickElement(requestResetLinkBTN, "requestResetLinkBTN");
-        waitForCssValueChanged(resetPwdPopUp, "ResetPwd PopUp", "display", "none");
+        //waitForCssValueChanged(resetPwdPopUp, "ResetPwd PopUp", "display", "none");
     }
 
     public void verifyColorEmailForgotPasswordTextBox(String attributeName, String attributeValue) {
@@ -866,10 +890,10 @@ public class MarketingPage extends AbstractPage {
             getLogger().info("Verify to reset password");
             Thread.sleep(smallTimeOut);
             switchToOtherTab(1);
-            sendKeyTextBox(eleNewPasword, newPass, "send key to eleNewPasword");
+            sendKeyTextBox(inputFirstPassword, newPass, "send key to eleNewPasword");
             Thread.sleep(smallTimeOut);
-            sendKeyTextBox(eleRetypeNewPassword, retypeResetPass, "send key to eleRetypeNewPassword");
-            clickElement(btnReset, "click to btnReset");
+            sendKeyTextBox(inputSecondPassword, retypeResetPass, "send key to eleRetypeNewPassword");
+            clickElement(buttonSetPassword, "click to btnReset");
             NXGReports.addStep("Verify to reset password", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
@@ -882,11 +906,24 @@ public class MarketingPage extends AbstractPage {
 
             Thread.sleep(smallTimeOut);
             switchToOtherTab(1);
-            sendKeyTextBox(eleNewPasword, newPassword, "send key to eleNewPasword");
+            sendKeyTextBox(inputFirstPassword, newPassword, "send key to new password");
             NXGReports.addStep("Verify to set new password", LogAs.PASSED, (CaptureScreen) null);
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify to set new password", LogAs.FAILED, (CaptureScreen) null);
+        }
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        try {
+
+            Thread.sleep(smallTimeOut);
+            switchToOtherTab(1);
+            sendKeyTextBox(inputSecondPassword, confirmPassword, "send key to confirm password");
+            NXGReports.addStep("Verify to set confirm password", LogAs.PASSED, (CaptureScreen) null);
+        } catch (Exception ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify to set confirm password", LogAs.FAILED, (CaptureScreen) null);
         }
     }
 

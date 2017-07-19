@@ -122,9 +122,11 @@ public class AuditorEngagementTeamPage extends AbstractPage {
             NXGReports.addStep("Test Failed:  Delete All Member in Engagement.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
-
+    @FindBy(xpath = "//div[@id='engagement-team']")
+    WebElement engagementTeam;
     public void clickInviteMember() {
         getLogger().info("Click Invite Member Button.");
+        waitForCssValueChanged(engagementTeam,"engagementTeam","display","inherit");
         clickElement(inviteMemberBtnEle, "Invite Member Button");
     }
 
@@ -138,7 +140,7 @@ public class AuditorEngagementTeamPage extends AbstractPage {
 
             clickElement(roleCompanyDropdownEle, "Role in Company Dropdown");
             waitForAtrributeValueChanged(roleCompanyDdlPopupEle, "Role in Company Popup", "class", "ddlLink inputDdl inputDdl-after");
-            clickElement(roleCompanyListItemDdlEle.get(0), "First Item in Role Dropdown list");
+            clickElement(roleCompanyListItemDdlEle.get(0), "second Item in Role Dropdown list");
             waitForAtrributeValueChanged(roleCompanyDdlPopupEle, "Role in Company Popup", "class", "ddlLink inputDdl");
 //            sendKeyTextBox(roleCompanyDropdownEle, roleMember, "Role Member Textbox");
             clickElement(reEmailMemberTxtEle, "Email Textbox");
