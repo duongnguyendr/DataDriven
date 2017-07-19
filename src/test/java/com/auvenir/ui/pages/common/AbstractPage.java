@@ -71,11 +71,11 @@ public class AbstractPage {
     public static final String dropdownCategoryToDoBulkDllDivDiv = "//div[contains(@class, 'ui dropdown category todo-bulkDdl ')]/div/div";
     private String categoryCreateBtnXpath = "//*[@id='todo-table']/tbody/tr[1]/td[3]//div[@class='menu']/div[1]";
     //    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
-    public final String warningBorderCSSColor = "rgba(253, 109, 71, 0.43)";
+    //public final String warningBorderCSSColor = "rgba(253, 109, 71, 0.43)";
+    public final String warningBorderCSSColor = "rgb(253, 109, 71)";
     public final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
 
     /**
-     * Updated by Minh.Nguyen on June 19, 2017
      *
      * @param logger
      * @param driver
@@ -1188,8 +1188,6 @@ public class AbstractPage {
         }
     }
 
-    //Vien deleted aMinh method
-
 
     public void chooseCategoryColorInPopup() throws Exception {
         hoverElement(categoryColorFieldOnFromEle, "categoryColorFieldOnFromEle");
@@ -1214,9 +1212,7 @@ public class AbstractPage {
      * categoryMode = "": create new category in a ToDoPage
      */
 
-    /*
-    Vien Pham modified method  createNewCategory from a Minh.Nguyen
-     */
+
     public void createNewCategory(String categoryNameInput) throws Exception {
         Thread.sleep(smallerTimeOut);
         String categoryName = null;
@@ -1237,9 +1233,7 @@ public class AbstractPage {
     }
 
 
-    /*
-    Vien Pham edited
-     */
+
     public boolean chooseCategoryByNameFromDll(String categoryName) {
         boolean isCheckCategoryName = false;
         getLogger().info("Choose category by name from dropdownlist");
@@ -2821,20 +2815,22 @@ public class AbstractPage {
     public boolean validateNotExistedElement(WebElement element, String elementName) {
         try {
             getLogger().info("Try to validate Element is not existed.");
-            getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            //getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             element.click();
             return false;
         } catch (NoSuchElementException e) {
             getLogger().info("Element is not existed.");
-            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            //NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null, e.getMessage());
+            //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
         } catch (ElementNotVisibleException e) {
             getLogger().info("Element is visible.");
-            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            //NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null, e.getMessage());
+            //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
         } catch (Exception e) {
             getLogger().info("Element is still displayed.");
-            getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return false;
         }
     }

@@ -7,20 +7,38 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.testng.Assert;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 
 /**
  * Created by huy.huynh on 17/07/2017.
  */
-public class AdminAuditorPage extends AbstractPage{
+public class AdminAuditorPage extends AbstractPage {
+    @FindBy(id = "newAuditBtn")
+    private WebElement buttonNewEngagement;
 
     public AdminAuditorPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
-    AuditorCreateToDoPage auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(),getDriver());
+
+    /**
+     * Added by huy.huynh on 17/07/2017.
+     * R2.1 Group Permissions
+     */
+    public void verifyCanCreateAnEngagement(boolean exist) {
+        if (exist) {
+            clickElement(buttonNewEngagement, "Button New Engagement");
+        } else {
+            validateNotExistedElement(buttonNewEngagement, "Button New Engagement");
+        }
+    }
+    /*-----------end of huy.huynh on 17/07/2017.*/
+
+    AuditorCreateToDoPage auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
 
 //    public void verifyAuditorAdminSeeListToDo(List<String> listToDoname) {
 //        getLogger().info("Verify Auditor Admin can see list To Do.");
