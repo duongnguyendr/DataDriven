@@ -1,13 +1,12 @@
 package com.auvenir.utilities.initialize;
 
-import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.net.UnknownHostException;
@@ -19,7 +18,7 @@ import java.util.Set;
  * Run one time before Regression Testing with config on properties file ./resources/properties/MongoDB.properties
  * Execute this main() to run
  */
-public class InitData extends AbstractAPIService {
+public class InitData extends AbstractTest {
 
     /**
      * create some users for init regresstion test with multiple roles
@@ -29,7 +28,9 @@ public class InitData extends AbstractAPIService {
         try {
 
             MongoClient MongoClient = MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
-            DB db = MongoClient.getDB(dataBase);
+            //DB db = MongoClient.getDB(dataBase);
+            System.out.println("DB: .........."+dataBase);
+            com.mongodb.DB db = MongoClient.getDB(dataBase);
             DBCollection usersCollection = db.getCollection("users");
 
             //code to drop all records of collections on DB. TODO: be careful
@@ -63,7 +64,7 @@ public class InitData extends AbstractAPIService {
         }
     }
 
-    @Test(priority = 2, enabled = false, description = "Initialize data before testing.",dataProvider = "initUserAndMapping")
+    /*@Test(priority = 2, enabled = false, description = "Initialize data before testing.",dataProvider = "initUserAndMapping")
     public void initUserAndMappingRRRR(String userJsonStr,String iDStr,String lastLoginStr,
             String dateCreatedStr,String expiresStr,String AuthIDsStr) throws UnknownHostException {
         try {
@@ -92,7 +93,7 @@ public class InitData extends AbstractAPIService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void dropAllCollections(DB db) {
         Set<String> collectionsName = db.getCollectionNames();
@@ -117,7 +118,7 @@ public class InitData extends AbstractAPIService {
     private static String expiresStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "Expires");
     private static String AuthIDsStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "Auth Id");
 
-    private static String userJsonStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "User Json");
+    /*private static String userJsonStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "User Json");
     private static String iDStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "ID");
     private static String lastLoginStr2= GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "Last Login");
     private static String dateCreatedStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "Date Created");
@@ -132,7 +133,7 @@ public class InitData extends AbstractAPIService {
                 lastLoginStr2,dateCreatedStr2,expiresStr2,AuthIDsStr2}};
         return arrayData;
     }
-
+*/
 
     //    public void initUserAndMappingManual() throws UnknownHostException {
 //        try {

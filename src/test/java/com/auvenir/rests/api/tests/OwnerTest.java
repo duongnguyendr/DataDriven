@@ -1,12 +1,13 @@
 package com.auvenir.rests.api.tests;
 
-import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
-import com.jayway.restassured.path.json.JsonPath;
-import com.jayway.restassured.response.Response;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.response.Response;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -23,7 +24,7 @@ import static com.jayway.restassured.RestAssured.given;
  * Created by doai.tran on 4/20/2017.
  * Updated by Doai.Tran on 5/9/2017: Refactor parameter dataBaseServer on maven
  */
-public class OwnerTest extends AbstractAPIService {
+public class OwnerTest extends AbstractTest {
     //public static final String restBaseUrl="http://finicity-qa.com";
     //public static final String database ="serviceFinicity";
     static String[] sData = null;
@@ -33,7 +34,7 @@ public class OwnerTest extends AbstractAPIService {
     public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath=restBaseUrl;
         //MongoDBService.connectDBServer("34.205.90.145",27017,database);
-        //MongoDBService.connectDBServer(dataBaseServer,port,database,userName,password,ssl);
+        MongoDBService.connectDBServer(dataBaseServer,port,dataBase,userName,password,ssl);
 
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
@@ -50,7 +51,7 @@ public class OwnerTest extends AbstractAPIService {
     @BeforeMethod
     public void preCondition() {
         getBaseUrl();
-        AbstractAPIService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
     }
 
     /*
@@ -82,7 +83,7 @@ public class OwnerTest extends AbstractAPIService {
             //Verify Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[9]));
 
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with ownerID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -110,7 +111,7 @@ public class OwnerTest extends AbstractAPIService {
             assertionEquals(jp.get("code").toString(), "api-022");
             assertionEquals(jp.get("msg").toString(), "Error, missing or invalid ownerID.");
 
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -137,7 +138,7 @@ public class OwnerTest extends AbstractAPIService {
             }
 
             //
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with WronginstitutionID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
