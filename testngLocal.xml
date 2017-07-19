@@ -9,6 +9,7 @@
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
+            
             <class name="com.auvenir.utilities.initialize.InitData"/>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <!--  <methods>

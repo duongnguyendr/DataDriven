@@ -5189,7 +5189,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     }
                     if (actualAttributeValue.equals(toDoName)) {
                         getLogger().info("Element is found at " + i);
-                        NXGReports.addStep(String.format("The position of To Do task: '%s' at %d", toDoName, i), LogAs.PASSED, null);
                         return i;
                     }
                 }
@@ -5360,5 +5359,61 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Test Failed: Verify Last Comment Of User is Displayed", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public boolean verifyListToDoIsDisplayed(List<String> listToDoName, boolean isNotEditedToDo) {
+        boolean result = true;
+
+        for(int i = 0 ; i < listToDoName.size(); i++){
+            if(!verifyToDoNameIsDisplayed(listToDoName.get(i), isNotEditedToDo))
+                result = false;
+        }
+        return result;
+    }
+
+    public boolean verifyToDoNameIsDisplayed(String toDoName, boolean isNotEditedToDo) {
+        boolean result = false;
+        try {
+            int count = findToDoTaskName(toDoName, isNotEditedToDo);
+            if(count != -1 )
+                result = true;
+            Assert.assertTrue(result, "To Do Name is not displayed");
+            NXGReports.addStep(String.format("Verify To Do '%s' is displayed", toDoName), LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return result;
+    }
+
+    public boolean verifyCanCreateToDo(String toDoName, boolean possibleCreate) {
+        boolean result = false;
+        try {
+            if(possibleCreate) {
+
+            } else {
+                result = validateNotExistedElement(createToDoBtnEle, "Create To Do Button");
+            }
+            Assert.assertTrue(result, "Verify Create To Do should be passed.");
+            NXGReports.addStep(String.format("Verify Can Create To Do", toDoName), LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify Can Create To Do", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify Can Create To Do", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return result;
     }
 }
