@@ -538,7 +538,8 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void verifyAuditorEngagementFilter() {
-        boolean isAuditorEngagementFilter, isFilterTypeOfEngagement, isFilterEngaFinancialAudit, isFilterEngaNoticeCompilation, isFilterEngaReview, isFilterEngaOther = false;
+        boolean isAuditorEngagementFilter, isFilterTypeOfEngagement, isFilterEngaFinancialAudit, isFilterEngaNoticeCompilation, isFilterEngaReview,
+                isFilterEngaOther = false;
         isAuditorEngagementFilter = clickElement(auditorEngagementFilter, "click to auditorEngagementFilter");
         isFilterTypeOfEngagement = clickElement(filterTypeOfEngagement, "click to filterTypeOfEngagement");
         isFilterEngaFinancialAudit = validateDisPlayedElement(filterEngaFinancialAudit, "display filterEngaFinancialAudit");
@@ -598,8 +599,8 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
-        WebElement webElement = getDriver()
-                .findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
+        WebElement webElement =
+                getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
         System.out.println("+++++++++++++++++++++++++++++  " + engagementTitle);
         //current we cannot view engagement by name we test with first engagment
         //TODO bug here, fix later
@@ -1930,4 +1931,16 @@ public class AuditorEngagementPage extends AbstractPage {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Added by huy.huynh on 17/07/2017.
+     * R2.1 Group Permissions
+     */
+    public void verifyCanCreateAnEngagement(boolean exist) {
+        if (exist) {
+            clickElement(buttonNewEngagement, "Button New Engagement");
+        } else {
+            validateNotExistedElement(buttonNewEngagement, "Button New Engagement");
+        }
+    }
+    /*-----------end of huy.huynh on 17/07/2017.*/
 }

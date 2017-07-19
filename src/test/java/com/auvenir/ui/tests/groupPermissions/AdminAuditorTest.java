@@ -33,7 +33,7 @@ public class AdminAuditorTest extends AbstractTest {
 
     @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.",
             dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = AdminAuditorDataProvider.class)
-    public void verifyPermissionCreateAnEngagement(String userId, String userPassword, String possible) {
+    public void verifyPermissionCreateAnEngagement(String userId, String userPassword) {
         getLogger().info("Verify admin auditor can create an engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -45,11 +45,7 @@ public class AdminAuditorTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(userId, userPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
 
-            //            System.out.println("possible = " + possible);
-            //            System.out.println("Boolean.getBoolean(possible) = " + Boolean.getBoolean(possible));
-            //            System.out.println("Boolean.parseBoolean(possible) = " + Boolean.parseBoolean(possible));
-            //            System.out.println("Boolean.valueOf(possible) = " + Boolean.valueOf(possible));
-            adminAuditorService.verifyCanCreateAnEngagement(Boolean.parseBoolean(possible));
+            adminAuditorService.verifyCanCreateAnEngagement();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify admin auditor can create an engagement.", LogAs.PASSED, null);

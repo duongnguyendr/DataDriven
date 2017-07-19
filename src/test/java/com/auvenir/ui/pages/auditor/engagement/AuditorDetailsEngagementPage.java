@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.security.cert.X509Certificate;
+
 /**
  * Created by cuong.nguyen on 5/8/2017.
  */
@@ -25,8 +27,11 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     @FindBy(id = "engagementDashboardLink")
     private WebElement dashBoardLinkEle;
     //@FindBy(xpath = "//p[contains(text(),'Engagement Overview')]")
-    @FindBy(xpath = "//div[@class='pageHeader-leftContainer']//input[@id='a-header-title']")
+    @FindBy(xpath = "//input[@id='a-header-title']")
     private WebElement dashboardTextEle;
+
+    @FindBy(xpath = "//span[@id='a-header-title']")
+    private WebElement dashboardTextAtGeneralPage;
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
 
@@ -46,9 +51,17 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     /**
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
      */
-    public void verifyDetailsEngagementPage(String engagementName){
+    public void verifyDetailsEngagementPage(String engagementName) {
         waitForVisibleElement(dashboardTextEle, "dashboard text");
-        validateAttributeElement(dashboardTextEle, "value", engagementName);
+        clickElement(dashboardTextEle);
+        sendTabkey(dashboardTextEle,"");
+        validateAttributeElement(dashboardTextEle, "placeholder", engagementName);
+//        validateElementText(dashboardTextEle,engagementName);
+    }
+
+    public void verifyDetailsEngagementAtGeneralPage(String engagementName) {
+        waitForVisibleElement(dashboardTextAtGeneralPage, "dashboard text");
+        validateElementText(dashboardTextAtGeneralPage, engagementName);
     }
 
     public void navigateToTaskList() throws Exception {
@@ -72,7 +85,7 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     /**
      * Click on file manager link
      */
-    public void clickOnFileManagerLink(){
+    public void clickOnFileManagerLink() {
         waitForClickableOfElement(eleFileManagerLink, "file manager link");
         clickElement(eleFileManagerLink);
     }
@@ -80,7 +93,7 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     /**
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
      */
-    public void clickOnContactLink(){
+    public void clickOnContactLink() {
         waitForClickableOfElement(eleContactLink, "contact link");
         clickElement(eleContactLink);
     }
