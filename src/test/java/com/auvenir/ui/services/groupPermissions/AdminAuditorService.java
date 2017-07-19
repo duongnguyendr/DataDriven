@@ -21,6 +21,7 @@ public class AdminAuditorService extends AbstractService {
         super(logger, driver);
         adminAuditorPage = new AdminAuditorPage(getLogger(), getDriver());
         auditorNewEngagementPage = new AuditorNewEngagementPage(getLogger(), getDriver());
+        auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
     }
 
     public void verifyCanCreateAnEngagement() {
