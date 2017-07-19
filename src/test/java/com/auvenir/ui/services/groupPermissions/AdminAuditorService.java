@@ -38,7 +38,7 @@ public class AdminAuditorService extends AbstractService {
         auditorCreateToDoPage.verifyPermissionSeeListToDoTask(listToDoname, true, true);
     }
 
-    public void verifyAdminCanNotEditCategory(String todoName) {
-       auditorTodoListPage.verifyEditableCategoryByTodoName(todoName,false);
+    public void verifyAdminCanNotEditAnyCategory() {
+       auditorTodoListPage.verifyEditableCategoryOfAnyTodoName(false);
     }
 }

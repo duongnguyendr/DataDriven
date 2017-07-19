@@ -115,7 +115,7 @@ public class AdminAuditorTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            adminAuditorService.verifyAdminCanNotEditCategory(toDo3Name);
+            adminAuditorService.verifyAdminCanNotEditAnyCategory();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
         } catch (Exception e) {
