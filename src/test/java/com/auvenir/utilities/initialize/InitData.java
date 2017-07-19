@@ -61,6 +61,7 @@ public class InitData extends AbstractTest {
             adminDBObject.put("password_salt",getDataColumn("PasswordSalt"));
             usersCollection.insert(adminDBObject);*/
 
+            System.out.print("");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,7 +118,7 @@ public class InitData extends AbstractTest {
                 {userJsonStr2,iDStr2, lastLoginStr2,dateCreatedStr2,expiresStr2,authIDsStr2,passwordStr2,passwordSaltStr2},
                 {userJsonStr3,iDStr3, lastLoginStr3,dateCreatedStr3,expiresStr3,authIDsStr3,passwordStr3,passwordSaltStr3}};
     }
-    @Test(priority = 2, enabled = true, description = "Initialize data before testing.",dataProvider = "initUserAndMapping")
+    @Test(priority = 1, enabled = true, description = "Initialize data before testing.",dataProvider = "initUserAndMapping")
     public void initUser(String userJsonStr,String iDStr,String lastLoginStr,
             String dateCreatedStr,String expiresStr,String authIDsStr, String passwordStr, String passwordSaltStr) throws UnknownHostException {
         try {
