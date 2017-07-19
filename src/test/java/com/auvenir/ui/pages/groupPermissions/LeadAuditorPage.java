@@ -34,6 +34,9 @@ public class LeadAuditorPage extends AbstractPage {
 
     private String newRequestImgByTodoName = "//*[@id='todo-table']/tbody/tr/td/input[@data-dbname='%s']//../../td/img";
 
+    @FindBy(xpath = "//*[@id='add-request-btn']")
+    WebElement totoPageAddRequestBtn;
+
     public int getTotalNumberFileRequest(){
         int totalNumberFileRequest = 0;
         for (WebElement el : listNumberFileRequest){
@@ -81,6 +84,30 @@ public class LeadAuditorPage extends AbstractPage {
                     .BROWSER_PAGE));
         }finally {
             auditorCreateToDoPage.closeAddNewRequestWindow();
+        }
+    }
+
+    public void verifyLeadAuditorCanUploadFile(boolean possibleUpload, String pathOfUploadLocation, String fileName){
+        try {
+            if (possibleUpload) {
+                auditorCreateToDoPage.verifyPopupColorAddRequestBtn();
+                auditorCreateToDoPage.verifyClickAddRequestBtn();
+                auditorCreateToDoPage.createNewRequest("request 01", "1");
+                auditorCreateToDoPage.uploadeNewFileByRequestName(pathOfUploadLocation, fileName);
+                auditorCreateToDoPage.verifyUploadFileSuccessfully(fileName);
+            } else {
+                validateNotExistedElement(totoPageAddRequestBtn, "Add New Request button.");
+            }
+        }catch(AssertionError ex){
+            AbstractService.sStatusCnt++;
+            getLogger().info(ex);
+            NXGReports.addStep("Test Failed: Verify can upload file request.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        }catch (Exception e){
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify can upload file request.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 }
