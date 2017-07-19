@@ -21,6 +21,7 @@ public class AdminAuditorService extends AbstractService {
         super(logger, driver);
         adminAuditorPage = new AdminAuditorPage(getLogger(), getDriver());
         auditorNewEngagementPage = new AuditorNewEngagementPage(getLogger(), getDriver());
+        auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
     }
 
     public void verifyCanCreateAnEngagement(boolean exist) {
@@ -32,6 +33,5 @@ public class AdminAuditorService extends AbstractService {
 
     public void verifyAuditorAdminSeeListToDo(List<String> listToDoname) {
         auditorCreateToDoPage.verifyPermissionSeeListToDoTask(listToDoname, true, true);
-//        adminAuditorPage.verifyAuditorAdminSeeListToDo(listToDoname);
     }
 }
