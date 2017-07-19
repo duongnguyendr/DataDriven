@@ -29,7 +29,6 @@ public class InitData extends AbstractTest {
 
             MongoClient MongoClient = MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
             //DB db = MongoClient.getDB(dataBase);
-            System.out.println("DB: .........."+dataBase);
             com.mongodb.DB db = MongoClient.getDB(dataBase);
             DBCollection usersCollection = db.getCollection("users");
 
@@ -57,6 +56,8 @@ public class InitData extends AbstractTest {
             auth.put("id", getDataColumn("Auth Id"));
             auth.put("access", access);
             adminDBObject.put("auth", auth);
+            adminDBObject.put("password",getDataColumn("Password"));
+            adminDBObject.put("password_salt",getDataColumn("PasswordSalt"));
             usersCollection.insert(adminDBObject);
 
         } catch (Exception e) {
