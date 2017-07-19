@@ -7,4 +7,5 @@ import com.auvenir.ui.tests.AbstractTest;
  */
 public class GroupPermissionsInitialTest extends AbstractTest {
 
+
 }

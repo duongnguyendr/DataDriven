@@ -5369,9 +5369,23 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public boolean verifyPermissionSeeListToDoTask(List<String> listToDoName, boolean isNotEditedToDo, boolean possibleSee) {
         boolean result = true;
-        for(int i = 0 ; i < listToDoName.size(); i++){
-            if(!verifyPermissionSeeToDoTask(listToDoName.get(i), isNotEditedToDo, possibleSee))
-                result = false;
+        try {
+            for(int i = 0 ; i < listToDoName.size(); i++){
+                if(!verifyPermissionSeeToDoTask(listToDoName.get(i), isNotEditedToDo, possibleSee))
+                    result = false;
+            }
+            Assert.assertTrue(result, "User" + (possibleSee ? "should" : "should not" )+ "has permission to see list ToDo task");
+            NXGReports.addStep("User" + (possibleSee ? "should" : "should not" )+ "has permission to see list ToDo task", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify" + "User" + (possibleSee ? "should" : "should not" )+ "has permission to see list ToDo task",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify List ToDo Name is displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         return result;
     }

@@ -115,6 +115,23 @@ public class AuditorEngagementService extends AbstractService {
         }
     }*/
 
+    public void viewEngagementDetailsPage(String engagementName, String companyName) {
+        try {
+            getLogger().info("navigate to Engagement detail page.(Hard code)");
+            int index = auditorEngagementPage.findEngagementName(engagementName);
+            if (index == -1) {
+                createAndSelectNewEnagement(engagementName, "", companyName);
+            } else
+                auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+            auditorEngagementPage.waitForProgressOverlayIsClosed();
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.PASSED, null);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("navigate to Engagement detail page.(Hard code)", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
     public void viewEngagementDetailsPage(String engagementName) {
         try {
             getLogger().info("navigate to Engagement detail page.(Hard code)");
@@ -152,17 +169,17 @@ public class AuditorEngagementService extends AbstractService {
         }
     }
 
-    public void viewEngagementDetailsPage(String engagementTitle, String engagementName) {
-        try {
-            getLogger().info("navigate to Engagement detail page with name");
-            auditorEngagementPage.enterEngagementDetailWithName(engagementTitle, engagementName);
-            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports
-                    .addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
+//    public void viewEngagementDetailsPage(String engagementTitle, String engagementName) {
+//        try {
+//            getLogger().info("navigate to Engagement detail page with name");
+//            auditorEngagementPage.enterEngagementDetailWithName(engagementTitle, engagementName);
+//            NXGReports.addStep("navigate to Engagement detail pagewith name", LogAs.PASSED, null);
+//        } catch (Exception e) {
+//            AbstractService.sStatusCnt++;
+//            NXGReports
+//                    .addStep("navigate to Engagement detail pagewith name", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//        }
+//    }
 
     /**
      * Create New Engagement with the specific Name and Navigate to new engagement which is just created.
