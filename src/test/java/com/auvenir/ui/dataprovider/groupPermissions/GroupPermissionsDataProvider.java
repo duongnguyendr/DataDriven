@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
 /**
  * Created by huy.huynh on 17/07/2017.
  */
-public class AdminAuditorDataProvider extends CommonDataProvider{
+public class GroupPermissionsDataProvider extends CommonDataProvider{
 
     private static String adminID = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
     private static String adminAuvenirPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
