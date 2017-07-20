@@ -18,4 +18,12 @@ public class ClientDetailsEngagementService extends AbstractService {
     public void verifyDetailsEngagementPage(String engagementName) {
         clientDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
     }
+
+    public void navigateToTeamTab() {
+        clientDetailsEngagementPage.navigateToTeamTab();
+    }
+
+    public void inviteNewMemberToTeam(){
+        clientDetailsEngagementPage.clickInviteNewMember();
+    }
 }

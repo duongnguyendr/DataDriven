@@ -70,12 +70,12 @@ public class ClientTest extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, invalidClientId, "");
+            clientService.fillInfoToInviteNewClient(clientFullName, invalidClientId, "");
             clientService.verifyInviteClientFailure("Error on finding existing user");
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, "");
+            clientService.fillInfoToInviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);

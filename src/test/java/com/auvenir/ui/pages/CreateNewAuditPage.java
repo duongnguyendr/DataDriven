@@ -228,7 +228,7 @@ public class CreateNewAuditPage extends AbstractPage {
     @FindBy(id = "m-ac-addBtn")
     private WebElement buttonInviteNewClient;
 
-    @FindBy(id="m-inm-addBtn")
+    @FindBy(id = "m-inm-addBtn")
     private WebElement buttonInviteNewMember;
 
     @FindBy(xpath = "//input[@id='m-ac-role']/following-sibling::ul//a[1]")
@@ -236,6 +236,7 @@ public class CreateNewAuditPage extends AbstractPage {
 
     @FindBy(xpath = "(//input[@id='m-inm-jobTitle']/following-sibling::ul//a)[1]")
     private WebElement optionFirstOnMemberRoleList;
+
     /**
      * Choose 'Add New Client' option
      */
@@ -253,7 +254,7 @@ public class CreateNewAuditPage extends AbstractPage {
      * @param email    email
      * @param role     role on company
      */
-    public void inviteNewMember(String fullName, String email, String role) {
+    public void fillInfoToInviteNewMember(String fullName, String email, String role) {
         waitForTextValueChanged(titleInviteNewMember, "Invite New Member", "Invite New Member");
         sendKeyTextBox(inputFullNameMember, fullName, "Full Name Input");
         sendKeyTextBox(inputEmailMember, email, "Email Input");
@@ -263,7 +264,7 @@ public class CreateNewAuditPage extends AbstractPage {
         clickElement(buttonInviteNewMember, "Button Invite");
     }
 
-    public void inviteNewClient(String fullName, String email, String role){
+    public void fillInfoToInviteNewClient(String fullName, String email, String role) {
         waitForTextValueChanged(titleInviteNewClient, "Invite New Client", "Invite New Client");
         sendKeyTextBox(inputFullName, fullName, "Full Name Input");
         sendKeyTextBox(inputEmail, email, "Email Input");
@@ -274,9 +275,6 @@ public class CreateNewAuditPage extends AbstractPage {
         clickElement(optionFirstOnClientRoleList, "First Option Client Role");
 
         clickElement(buttonInviteNewClient, "Button Invite");
-
-
-
     }
 
     /**
