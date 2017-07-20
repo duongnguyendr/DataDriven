@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import org.bson.types.ObjectId;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.BeforeSuite;
 
+import javax.sql.rowset.spi.SyncFactoryException;
 import java.net.UnknownHostException;
 import java.util.Set;
 
@@ -22,35 +22,28 @@ import java.util.Set;
 public class InitData extends AbstractTest {
 
     /**
-     * create some users for init regresstion test with multiple roles
+     * create some users for init Regresstion test with multiple roles
      */
-    @Test(priority = 1, enabled = true, description = "Delete old data on DATABASE before testing.")
+    @BeforeSuite
     public void deleteAllOldRecord() throws UnknownHostException {
         try {
 
             MongoClient MongoClient = MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
-            //DB db = MongoClient.getDB(dataBase);
             com.mongodb.DB db = MongoClient.getDB(dataBase);
             DBCollection usersCollection = db.getCollection("users");
 
             //code to drop all records of collections on DB. TODO: be careful
             dropAllCollections(db);
+            initUser("User1");
+            initUser("User2");
+            initUser("User3");
 
             /*DBObject adminDBObject = (DBObject) JSON.parse(getDataColumn("User Json"));
             adminDBObject.put("_id", new ObjectId(getDataColumn("ID")));
             ISO8601DateFormat df = new ISO8601DateFormat();
-            adminDBObject.put("lastLogin", df.parse(getDataColumn("Last Login")));
-            adminDBObject.put("dateCreated", df.parse(getDataColumn("Date Created")));
-
-            BasicDBObject access = new BasicDBObject();
-            access.put("expires", df.parse(getDataColumn("Expires")));
-            BasicDBObject auth = new BasicDBObject();
-            auth.put("id", getDataColumn("Auth Id"));
-            auth.put("access", access);
-            adminDBObject.put("auth", auth);
-            usersCollection.insert(adminDBObject);
             adminDBObject.put("lastLogin", getDataColumn("Last Login"));
             adminDBObject.put("dateCreated", getDataColumn("Date Created"));
+
             BasicDBObject access = new BasicDBObject();
             access.put("expires",getDataColumn("Expires"));
             BasicDBObject auth = new BasicDBObject();
@@ -61,7 +54,6 @@ public class InitData extends AbstractTest {
             adminDBObject.put("password_salt",getDataColumn("PasswordSalt"));
             usersCollection.insert(adminDBObject);*/
 
-            System.out.print("");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,21 +72,42 @@ public class InitData extends AbstractTest {
     }
 
 
-    private String getDataColumn(String columnName) {
-        return GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", columnName);
+    private String getDataColumn(String user, String columnName) {
+        return GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", user, columnName);
     }
 
-    private static String userJsonStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "User Json");
+    public void initUser(String userAdd) throws UnknownHostException, SyncFactoryException {
+        MongoClient MongoClient = MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
+        com.mongodb.DB db = MongoClient.getDB(dataBase);
+        DBCollection usersCollection = db.getCollection("users");
+        DBObject adminDBObject = (DBObject) JSON.parse(getDataColumn(userAdd,"User Json"));
+        adminDBObject.put("_id", new ObjectId(getDataColumn(userAdd,"ID")));
+        ISO8601DateFormat df = new ISO8601DateFormat();
+        adminDBObject.put("lastLogin", getDataColumn(userAdd,"Last Login"));
+        adminDBObject.put("dateCreated", getDataColumn(userAdd,"Date Created"));
+
+        BasicDBObject access = new BasicDBObject();
+        access.put("expires",getDataColumn(userAdd,"Expires"));
+        BasicDBObject auth = new BasicDBObject();
+        auth.put("id", getDataColumn(userAdd,"Auth Id"));
+        auth.put("access", access);
+        adminDBObject.put("auth", auth);
+        adminDBObject.put("password",getDataColumn(userAdd,"Password"));
+        adminDBObject.put("password_salt",getDataColumn(userAdd,"PasswordSalt"));
+        usersCollection.insert(adminDBObject);
+    }
+
+    /*private static String userJsonStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "User Json");
     private static String iDStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "ID");
     private static String lastLoginStr= GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "Last Login");
     private static String dateCreatedStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "Date Created");
     private static String expiresStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "Expires");
     private static String authIDsStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "Auth Id");
     private static String passwordStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "Password");
-    private static String passwordSaltStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "PasswordSalt");
+    private static String passwordSaltStr = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User1", "PasswordSalt");*/
 
 
-    private static String userJsonStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "User Json");
+    /*private static String userJsonStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "User Json");
     private static String iDStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "ID");
     private static String lastLoginStr2= GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "Last Login");
     private static String dateCreatedStr2 = GenericService.getTestDataFromExcelNoBrowserPrefix("usersRegression", "User2", "Date Created");
@@ -149,6 +162,6 @@ public class InitData extends AbstractTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }
