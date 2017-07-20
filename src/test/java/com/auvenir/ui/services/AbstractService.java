@@ -73,7 +73,7 @@ public class AbstractService {
         return apiUrl;
     }
 
-    private String prefixProtocol = "";
+    public static String prefixProtocol = "";
 
     public String getPrefixProtocol() {
         return prefixProtocol;
