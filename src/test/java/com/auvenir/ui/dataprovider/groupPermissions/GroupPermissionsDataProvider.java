@@ -6,7 +6,7 @@ import org.testng.annotations.DataProvider;
 /**
  * Created by huy.huynh on 17/07/2017.
  */
-public class AdminAuditorDataProvider {
+public class GroupPermissionsDataProvider {
     private static String adminAuditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor", "Valid Value");
     private static String adminAuditorPassword =
             GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Auvenir Password", "Valid Value");
@@ -41,6 +41,15 @@ public class AdminAuditorDataProvider {
     @DataProvider(name = "verifyPermissionCreateAnEngagement")
     public static Object[][] getVerifyPermissionCreateAnEngagement() {
         Object[][] arrayData = new Object[][]{{adminAuditorId, adminAuditorPassword}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{adminAuditorId, adminAuditorPassword}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyPermissionAdminClientCanInviteClient")
+    public static Object[][] getVerifyPermissionAdminClientCanInviteClient() {
+        Object[][] arrayData = new Object[][]{{adminClientId, adminClientPassword}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{{adminAuditorId, adminAuditorPassword}};
         }

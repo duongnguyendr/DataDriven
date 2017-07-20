@@ -254,7 +254,7 @@ public class CreateNewAuditPage extends AbstractPage {
      * @param email    email
      * @param role     role on company
      */
-    public void inviteNewMember(String fullName, String email, String role) {
+    public void fillInfoToInviteNewMember(String fullName, String email, String role) {
         waitForTextValueChanged(titleInviteNewMember, "Invite New Member", "Invite New Member");
         sendKeyTextBox(inputFullNameMember, fullName, "Full Name Input");
         sendKeyTextBox(inputEmailMember, email, "Email Input");
@@ -264,7 +264,7 @@ public class CreateNewAuditPage extends AbstractPage {
         clickElement(buttonInviteNewMember, "Button Invite");
     }
 
-    public void inviteNewClient(String fullName, String email, String role) {
+    public void fillInfoToInviteNewClient(String fullName, String email, String role) {
         waitForTextValueChanged(titleInviteNewClient, "Invite New Client", "Invite New Client");
         sendKeyTextBox(inputFullName, fullName, "Full Name Input");
         sendKeyTextBox(inputEmail, email, "Email Input");

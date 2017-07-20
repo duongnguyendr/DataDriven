@@ -42,4 +42,8 @@ public class ClientEngagementService extends AbstractService {
         clientEngagementPage.verifyUIListEngagementFooter(companyInfoText, termsOfServiceText, termsOfServicePartialLink, privacyStatementText,
                 privacyStatementPartialLink, cookieNoticeText, cookieNoticePartialLink);
     }
+
+    public void viewEngagementDetailsPage(String engagementName) {
+        clientEngagementPage.viewEngagementDetailsPage(engagementName);
+    }
 }
