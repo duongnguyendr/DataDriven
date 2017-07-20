@@ -1,4 +1,4 @@
-package com.auvenir.ui.tests.auditor;
+package com.auvenir.ui.tests.auditor.contacts;
 
 import com.auvenir.ui.dataprovider.auditor.AuditorContactDataProvider;
 import com.auvenir.ui.services.AbstractService;

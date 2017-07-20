@@ -1,4 +1,4 @@
-package com.auvenir.ui.tests.auditor;
+package com.auvenir.ui.tests.auditor.todo;
 
 import com.auvenir.ui.dataprovider.SmokeDataProvider;
 import com.auvenir.ui.dataprovider.auditor.AuditorTodoPageDataProvider;
