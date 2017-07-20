@@ -198,16 +198,20 @@ public class ClientSignUpPage extends AbstractPage {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
 
-            sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
+            if (textAreaParentStakeholders.getTagName().equals("textarea")) {
+                sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
+            }
             scrollToFooter();
-            if (getText(inputBusinessIndustry).isEmpty()) {
-                sendKeyTextBox(inputBusinessIndustry, "Financial", "Input Business Industry");
-                clickElement(inputFiscalEndYear, "Input Fiscal End Year");
-                DatePicker datePicker = new DatePicker(getDriver());
-                datePicker.pickADate("12", "31", "2017");
-                clickElement(inputBusinessIndustry);
-                clickElement(inputAccountingFramework, "Input Accounting Framework");
-                chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
+            if (!validateNotExistedElement(inputBusinessIndustry, "Input Business Industry")) {
+                if (getText(inputBusinessIndustry).isEmpty()) {
+                    sendKeyTextBox(inputBusinessIndustry, "Financial", "Input Business Industry");
+                    clickElement(inputFiscalEndYear, "Input Fiscal End Year");
+                    DatePicker datePicker = new DatePicker(getDriver());
+                    datePicker.pickADate("12", "31", "2017");
+                    clickElement(inputBusinessIndustry);
+                    clickElement(inputAccountingFramework, "Input Accounting Framework");
+                    chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
+                }
             }
             //clickElement(titleParentStakeholders);
             //clickElement(inputIndustry, "Input Industry");

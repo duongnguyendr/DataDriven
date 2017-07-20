@@ -1,6 +1,6 @@
 package com.auvenir.ui.tests.groupPermissions;
 
-import com.auvenir.ui.dataprovider.groupPermissions.AdminAuditorDataProvider;
+import com.auvenir.ui.dataprovider.groupPermissions.GroupPermissionsDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.admin.AdminAccountSettingsService;
 import com.auvenir.ui.services.admin.AdminService;
@@ -32,7 +32,7 @@ public class AdminAuditorTest extends AbstractTest {
     private AuditorCreateToDoService auditorCreateToDoService;
 
     @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.",
-            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = AdminAuditorDataProvider.class)
+            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionCreateAnEngagement(String userId, String userPassword) {
         getLogger().info("Verify admin auditor can create an engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());

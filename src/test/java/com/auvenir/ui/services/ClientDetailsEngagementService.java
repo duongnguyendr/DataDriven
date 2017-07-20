@@ -18,4 +18,21 @@ public class ClientDetailsEngagementService extends AbstractService {
     public void verifyDetailsEngagementPage(String engagementName) {
         clientDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
     }
+
+    public void navigateToTeamTab() {
+        clientDetailsEngagementPage.navigateToTeamTab();
+    }
+
+    public void inviteNewMemberToTeam() {
+        clientDetailsEngagementPage.clickInviteNewMember();
+    }
+
+    public void chooseLeadClientWithTeamMemberName(String name) {
+        clientDetailsEngagementPage.chooseLeadWithTeamMemberName(name);
+        clientDetailsEngagementPage.confirmSetUserToLead();
+    }
+
+    public void verifyLeadSetByName(String name, String leadText) {
+        clientDetailsEngagementPage.verifyLeadSetByName(name, leadText);
+    }
 }
