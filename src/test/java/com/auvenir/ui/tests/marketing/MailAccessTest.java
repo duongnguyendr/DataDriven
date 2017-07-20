@@ -40,15 +40,16 @@ public class MailAccessTest extends AbstractTest {
 
     //MailAccessTest
     @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set status to On-boarding")
-    public void verifyAdminGiveAuditorAccess() throws Exception {
+    public void verifyAdminGiveAuditorAccess(String auditorID, String password,String strAdminEmail, String strAdminPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+        
+        /*String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
         String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
         String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Admin");
-        String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "PasswordAdmin");
+        String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "PasswordAdmin");*/
         try {
             gmailLoginService.deleteAllExistedEmail(auditorID, password);
             auditorSignUpService.deleteUserUsingApi(auditorID);
