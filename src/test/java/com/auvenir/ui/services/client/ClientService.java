@@ -427,6 +427,10 @@ public class ClientService extends AbstractService {
         createNewAuditPage.inviteNewMember(fullName,email,role);
     }
 
+    public void selectInviteNewMemberButton(){
+      createNewAuditPage.selectInviteNewMemberButton();
+    }
+
     public void verifyToDoTaskExist(String toDoName, boolean isClient) {
         clientToDoPage.verifyToDoTaskExist(toDoName, isClient);
     }
