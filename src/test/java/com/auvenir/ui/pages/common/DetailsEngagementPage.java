@@ -16,6 +16,9 @@ public abstract class DetailsEngagementPage extends AbstractPage {
     @FindBy(id = "team-inviteMember-btn")
     private WebElement buttonInviteNewMember;
 
+    @FindBy(xpath = "//img[contains(@id,'Set User To Lead')]/following-sibling::div//button[@class='auvbtn warning']")
+    private WebElement buttonConfirmSetUserToLead;
+
     public DetailsEngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
@@ -26,5 +29,19 @@ public abstract class DetailsEngagementPage extends AbstractPage {
 
     public void clickInviteNewMember() {
         clickElement(buttonInviteNewMember, "Button Invite New Member");
+    }
+
+    public void chooseLeadWithTeamMemberName(String name) {
+        String xpathRadioButtonLeadClient = "//td[text()='%s']/following-sibling::td/input";
+        clickElement(getElementByXpath(xpathRadioButtonLeadClient, name), "Radio Button Lead Client");
+    }
+
+    public void confirmSetUserToLead() {
+        clickElement(buttonConfirmSetUserToLead, "Button Confirm Set User To Lead");
+    }
+
+    public void verifyLeadSetByName(String name, String leadText) {
+        String xpathCellPermissionLevel = "//td[text()='%s']/following-sibling::td[2]";
+        validateElementText(getElementByXpath(xpathCellPermissionLevel, name), leadText);
     }
 }
