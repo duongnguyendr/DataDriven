@@ -300,4 +300,8 @@ Vien.Pham added login With New User Role
         marketingPage.verifyConfirmPasswordErrorMessage();
 
     }
+
+    public void verifyBambooContentPage(){
+        marketingPage.verifyBambooContentPage();
+    }
 }
