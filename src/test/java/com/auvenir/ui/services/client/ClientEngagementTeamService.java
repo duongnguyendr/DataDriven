@@ -24,17 +24,19 @@ public class ClientEngagementTeamService extends AbstractService {
     }
 
 
-    public void removeAdminClient(String adminFullName){
+    public void removeAdminClient(String adminFullName) {
         clientEngagementTeamPage.removeTeamMember(adminFullName);
     }
 
-    public void verifyMessageFromRemovingAdminClient(){
+    public void verifyMessageFromRemovingAdminClient() {
         clientEngagementTeamPage.verifyMessageFromRemovingTeamMember();
     }
 
-    public void verifyRemoveAdminClient(String adminFullName){
+    public void verifyRemoveAdminClient(String adminFullName) {
         clientEngagementTeamPage.verifyRemoveTeamMember(adminFullName);
     }
 
-
+    public void selectEngagementTeamMenu(){
+        clientEngagementTeamPage.selectEngagementTeamMenu();
+    }
 }

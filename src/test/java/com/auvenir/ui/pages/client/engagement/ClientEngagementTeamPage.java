@@ -30,6 +30,8 @@ public class ClientEngagementTeamPage extends AbstractPage {
     WebElement messageRemoveMemberDone;
     @FindBy(xpath = "//div[@class='fl-a-container fl-a-container-show']")
     WebElement popUpRemoveMemberDone;
+    @FindBy(id = "engagementTeamLink")
+    private WebElement teamMemberLinkEle;
 
 
     /**
@@ -79,6 +81,10 @@ public class ClientEngagementTeamPage extends AbstractPage {
         waitForVisibleElement(popUpRemoveMemberDone,"Popup alerts remove member done");
         validateElementText(messageRemoveMemberDone, "Your team member has been removed.");
 
+    }
+
+    public void selectEngagementTeamMenu(){
+        clickElement(teamMemberLinkEle, "Team Member Engagement Menu");
     }
 
 }
