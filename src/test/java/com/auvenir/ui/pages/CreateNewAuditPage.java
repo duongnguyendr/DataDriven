@@ -277,6 +277,17 @@ public class CreateNewAuditPage extends AbstractPage {
         clickElement(buttonInviteNewClient, "Button Invite");
     }
 
+
+    @FindBy(xpath = "//button[@id='team-inviteMember-btn']")
+    WebElement inviteMemberBtn;
+    @FindBy(xpath = "//div[@id='engagement-team']")
+    WebElement engagementTeam;
+
+    public void selectInviteNewMemberButton() {
+        waitForCssValueChanged(engagementTeam, "engagementTeam", "display", "block");
+        clickElement(inviteMemberBtn);
+    }
+
     /**
      * Verify if show success Toast message
      *
