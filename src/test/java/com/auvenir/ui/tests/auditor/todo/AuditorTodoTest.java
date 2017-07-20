@@ -2663,7 +2663,7 @@ public class AuditorTodoTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 99, enabled = true, description = "Verify dueDate on Todo Detail Popup is match with on Todo Row.", testName = "dp_")
+    @Test(priority = 26, enabled = true, description = "Verify dueDate on Todo Detail Popup is match with on Todo Row.", testName = "dp_")
     public void verifyDueDateOnToDoDetailsMatchWithOnToDoRow() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
