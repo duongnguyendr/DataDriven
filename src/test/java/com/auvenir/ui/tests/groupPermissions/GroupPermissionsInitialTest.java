@@ -38,6 +38,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private EmailTemplateService emailTemplateService;
     private AuditorTodoListService auditorTodoListService;
     private ClientService clientService;
+    private ClientEngagementTeamService clientEngagementTeamService;
 
 
     //    final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
@@ -523,7 +524,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
-//        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
+        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
@@ -548,11 +549,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
             auditorEngagementTeamService.clickEngagementTeamMenu();
-//            clientEngagementTeamService.removeAdminClient("Admin Client");
-//            clientEngagementTeamService.verifyMessageFromRemovingAdminClient();
-//            clientEngagementTeamService.verifyRemoveAdminClient("Admin Client");
+            clientEngagementTeamService.removeAdminClient("Admin Client");
+            clientEngagementTeamService.verifyMessageFromRemovingAdminClient();
+            clientEngagementTeamService.verifyRemoveAdminClient("Admin Client");
             clientService.selectInviteNewMemberButton();
-//            clientService.inviteNewMember("General Client", generalClient, "");
+            clientService.fillInfoToInviteNewMember("Titan corporation", generalClient, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
             gmailLoginService.gmailReLogin(generalClientEmailPassword);
             gmailLoginService.selectActiveEmaill();
