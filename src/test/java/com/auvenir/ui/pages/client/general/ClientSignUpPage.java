@@ -135,7 +135,8 @@ public class ClientSignUpPage extends AbstractPage {
             //scrollToFooter();
             //clickElement(optionFirstOnPersonalRoleList, "First Option Personal Role");
             sendKeyTextBox(inputPersonalPhoneNumber, phoneNumber, "Input Personal Phone Number");
-            clickElement(checkboxConfirm, "Checkbox Confirm Chartered Professional Accountant");
+            //clickElement(checkboxConfirm, "Checkbox Confirm Chartered Professional Accountant");
+            clickElement(titleComponentPersonal, "Title Component Personal");
             clickElement(checkboxAgreementPersonal, "Checkbox Agreement Personal");
             switchToOtherTab(1);
             scrollToFooter();

@@ -454,6 +454,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         String adminId = "chr.auveniradm@gmail.com";
         String adminPassword = "Changeit@123";
         String engagementName = "Engagement Huy 01";
+        String leadClientName = "Lead Client 01";
+        String successMessage = "Your engagement invitation has been sent.";
+        String onboardingStatus = "Onboarding";
 
         MongoDBService.removeClientAndIndicatedValueByEmail(invitedClient);
         try {
@@ -465,13 +468,13 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementService.viewEngagementDetailsPage(engagementName);
             clientDetailsEngagementService.navigateToTeamTab();
             clientDetailsEngagementService.inviteNewMemberToTeam();
-            clientService.fillInfoToInviteNewMember("Lead Client 01", invitedClient, "");
-            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+            clientService.fillInfoToInviteNewMember(leadClientName, invitedClient, "");
+            clientService.verifyInviteClientSuccess(successMessage);
 
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-            adminService.verifyUserStatusOnAdminUserTable(invitedClient, "Onboarding");
+            adminService.verifyUserStatusOnAdminUserTable(invitedClient, onboardingStatus);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.PASSED, null);
@@ -533,11 +536,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String adminClientId = GenericService.addBrowserPrefix("auvenirclient01@gmail.com");
         String adminClientPassword = "Changeit@123";
-        String invitedClient = "auvenirclient01@gmail.com";
-        String invitedClientEmailPassword = "TESTPASSWORD";
-        String adminId = "chr.auveniradm@gmail.com";
-        String adminPassword = "Changeit@123";
         String engagementName = "Engagement Huy 01";
+        String leadClientName = "Lead Client 01";
+        String leadText = "Lead";
+        String lead = "Lead";
 
         try {
             //gmailLoginService.deleteAllExistedEmail(invitedClient, invitedClientEmailPassword);
@@ -547,8 +549,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName);
             clientDetailsEngagementService.navigateToTeamTab();
-            clientDetailsEngagementService.chooseLeadClientWithTeamMemberName("abc xyzz");
-            clientDetailsEngagementService.verifyLeadSetByName("abc xyzz", "Lead");
+            clientDetailsEngagementService.chooseLeadClientWithTeamMemberName(leadClientName, lead);
+            clientDetailsEngagementService.verifyLeadSetByName(leadClientName, leadText);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.PASSED, null);
