@@ -52,6 +52,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientSignUpService clientSignUpService;
     private ClientDetailsEngagementService clientDetailsEngagementService;
     private ClientEngagementService clientEngagementService;
+    private  ClientTodoService clientTodoService;
 
 
 
