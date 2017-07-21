@@ -1,4 +1,4 @@
-package com.auvenir.ui.tests.client;
+package com.auvenir.ui.tests.client.general;
 
 import com.auvenir.ui.dataprovider.client.ClientDataProvider;
 import com.auvenir.ui.services.AbstractService;
