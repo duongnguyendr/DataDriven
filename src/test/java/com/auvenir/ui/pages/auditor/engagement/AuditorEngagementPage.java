@@ -1768,7 +1768,7 @@ public class AuditorEngagementPage extends AbstractPage {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+
     public void clickOnCompanyIconSortDown() {
         this.clickOnIconSortDown(eleCompanyIconSortDown, "company");
     }
@@ -1784,9 +1784,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyCompanyDataListSortDescending() {
         this.verifyDataListIsSortDescending(listCompanyEle, "company", false);
     }
-    ///////////////////////////////////////////////////////////////////////////////
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementNameIconSortDown() {
         this.clickOnIconSortDown(eleEngagementNameIconSortDown, "engagement name");
     }
@@ -1802,9 +1800,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementNameDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementNameEle, "engagement name", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementStatusIconSortDown() {
         this.clickOnIconSortDown(eleEngagementStatusIconSortDown, "engagement status");
     }
@@ -1820,9 +1816,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementStatusDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementStatusEle, "engagement status", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementAuditIconSortDown() {
         this.clickOnIconSortDown(eleEngagementAuditIconSortDown, "engagement audit");
     }
@@ -1838,10 +1832,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementAuditDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementAssigneeEle, "engagement audit", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementToDoIconSortDown() {
         this.clickOnIconSortDown(eleEngagementToDoIconSortDown, "engagement todo");
     }
@@ -1857,9 +1848,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementToDoDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementCompleteToDosEle, "engagement todo", true);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementClientIconSortDown() {
         this.clickOnIconSortDown(eleEngagementClientIconSortDown, "engagement client");
     }
@@ -1875,9 +1864,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementClientDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementClientAssigneeEle, "engagement client", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementDocIconSortDown() {
         this.clickOnIconSortDown(eleEngagementDocIconSortDown, "engagement doc");
     }
@@ -1893,9 +1880,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementDocDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementCompleteDocsEle, "engagement doc", true);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementActivityIconSortDown() {
         this.clickOnIconSortDown(eleEngagementActivityIconSortDown, "engagement activity");
     }
@@ -1911,9 +1896,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementActivityDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementLastActivityEle, "engagement activity", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementDueDateIconSortDown() {
         this.clickOnIconSortDown(eleEngagementDueDateIconSortDown, "engagement due date");
     }
@@ -1929,7 +1912,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementDueDateDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementDueDateEle, "engagement due date", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Added by huy.huynh on 17/07/2017.

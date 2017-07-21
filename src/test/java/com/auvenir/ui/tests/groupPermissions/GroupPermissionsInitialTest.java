@@ -49,109 +49,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientService clientService;
     private ClientEngagementTeamService clientEngagementTeamService;
     private AuditorCreateToDoService auditorCreateToDoService;
-    private ClientTodoService clientTodoService;
-
-
-    //    final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
-
-    private static String adminId1 = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
-    private static String adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
-
-    //    private static String emailCreate1 = "auvenirauditor@gmail.com";
-    private static String auditorAdminEmail = "auvenirauditor01@gmail.com";
-    //    private static String emailCreate1 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest",
-    //            "Admin Auditor", "Valid Value");
-
-    private static String strFullName = "Admin Auditor";
-
-    private static String strRoleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
-    private static String strPhone = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
-    private static String strReference =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Reference to Auvenir", "Valid Value");
-
-    // firm information
-    //    private static String strFirmName = "Test Audits LLC";
-    private static String strFirmName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Firm Name", "Valid Value");
-    private static String strPreName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Previous Name", "Valid Value");
-    private static String strWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Website", "Valid Value");
-    private static String strStreetAddress = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Street Address", "Valid Value");
-    private static String strOffNum = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
-    private static String strZipCode =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
-    private static String strCity = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
-    private static String strCountry = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Country", "Valid Value");
-    private static String strState = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
-    private static String strMemberID = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D", "Valid Value");
-    private static String strNumEmp = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
-    private static String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
-    private static String strAffName =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
-    private static String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
-
-    private static String gmailAuditorPassword = "TESTPASSWORD";
-    //    private static String gmailAuditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Email Password");
-    private static String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-
-    //    private static String engagementName1 = "";
-    private static String engagementName1 =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 1 Name", "Valid Value");
-
-    private static String companyName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Company Name", "Valid Value");
     private ClientSignUpService clientSignUpService;
     private ClientDetailsEngagementService clientDetailsEngagementService;
     private ClientEngagementService clientEngagementService;
 
-
-    //    final String adminAuditorFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
-
-    //    private static String adminId1 = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
-    //    private static String adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
-
-    //    private static String emailCreate1 = "auvenirauditor@gmail.com";
-    //    private static String adminAuditorEmail = "auvenirauditor01@gmail.com";
-    //    //    private static String emailCreate1 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest",
-    //    //            "Admin Auditor", "Valid Value");
-    //    private static String gmailAdminAuditorPwd = "TESTPASSWORD";
-    //    //    private static String gmailAdminAuditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Email Password");
-    //    private static String adminAuditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Auvenir Password");
-    //
-    //    private static String adminAuditorFullName = "Admin Auditor";
-    //
-    //    private static String roleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
-    //    private static String phoneNumber = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
-    //    private static String referenceToAuvenir =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Reference to Auvenir", "Valid Value");
-    //
-    //    // firm information
-    //    //    private static String firmName = "Test Audits LLC";
-    //    private static String firmName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Firm Name", "Valid Value");
-    //    private static String firmPreName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Previous Name", "Valid Value");
-    //    private static String firmWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Website", "Valid Value");
-    //    private static String streetAddress = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Street Address", "Valid Value");
-    //    private static String
-    //            officeNumber = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
-    //    private static String zipCode =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
-    //    private static String city = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
-    //    private static String country = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Country", "Valid Value");
-    //    private static String stateNumber = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
-    //    private static String memberID = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D", "Valid Value");
-    //    private static String numberEmployee = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
-    //    private static String phoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
-    //    private static String affiliateFirmName =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
-    //    private static String pathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
-    //
-    //
-    //
-    //    //    private static String engagementName1 = "";
-    //    private static String engagementName1 =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 1 Name", "Valid Value");
-    //
-    //    private static String engagementName2 =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 2 Name", "Valid Value");
-    //
-    //    private static String companyName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Company Name", "Valid Value");
 
 
     //    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin",
@@ -177,7 +78,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 2, enabled = true, description = "Verify Register and sign up successfully an Auditor User",
             dataProvider = "verifySignUpAuditorUser", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifySignUpAuditorUser(String adminAuditorId, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
+    public void verifySignUpAuditorUser(String adminAuditorID, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
             String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
             String country, String stateNumber, String memberID, String numberEmployee, String phoneFirm, String affiliateFirmName,
             String pathLogo) throws Exception {
@@ -187,19 +88,21 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        //        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
 
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
-            MongoDBService.removeAllActivitiesCollectionOfAUser(adminAuditorId);
+            MongoDBService.removeAllActivitiesCollectionOfAUser(adminAuditorID);
             MongoDBService.removeAllFirmByName(firmName);
-            auditorSignUpService.deleteUserUsingApi(adminAuditorId);
+            MongoDBService.removeEngagementCreatedByLeadAuditor(adminAuditorID);
+
+            auditorSignUpService.deleteUserUsingApi(adminAuditorID);
 
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
-            auditorSignUpService.registerAuditorPersonal(adminAuditorFullName, adminAuditorId, roleFirm, phoneNumber, referenceToAuvenir);
+            auditorSignUpService.registerAuditorPersonal(adminAuditorFullName, adminAuditorID, roleFirm, phoneNumber, referenceToAuvenir);
             auditorSignUpService
                     .registerFirmInfo(firmName, firmPreName, firmWebsite, streetAddress, officeNumber, zipCode, city, country, stateNumber, memberID,
                             numberEmployee, phoneFirm, affiliateFirmName, pathLogo);
@@ -226,7 +129,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 
-        //        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
         adminID = GenericService.addBrowserPrefix(adminID);
 
         try {
@@ -253,7 +156,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 
-        //        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
 
         try {
 
@@ -279,7 +182,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
 
-        //        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorID, adminAuditorPwd);
@@ -303,11 +206,12 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        //        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        MongoDBService.removeEngagementCreatedByLeadAuditor(adminAuditorID, engagementName1);
+        MongoDBService.removeAllBusinessByName(companyName);
 
         try {
-            MongoDBService.removeEngagementCreatedByLeadAuditor(adminAuditorID, engagementName1);
-            MongoDBService.removeAllBusinessByName(companyName);
+
             marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorID, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
@@ -337,12 +241,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
 
-        //        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
 
+        MongoDBService.removeAllActivitiesCollectionOfAUser(leadAuditorID);
+        MongoDBService.removeEngagementCreatedByLeadAuditor(leadAuditorID);
+        auditorSignUpService.deleteUserUsingApi(leadAuditorID);
+
         try {
-            MongoDBService.removeAllActivitiesCollectionOfAUser(leadAuditorID);
-            auditorSignUpService.deleteUserUsingApi(leadAuditorID);
 
             gmailLoginService.deleteAllExistedEmail(leadAuditorID, leadAuditorPwd);
 
@@ -394,7 +300,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
 
-        //        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
+        adminAuditorID = GenericService.addBrowserPrefix(adminAuditorID);
         adminID = GenericService.addBrowserPrefix(adminID);
         adminClientID = GenericService.addBrowserPrefix(adminClientID);
 
@@ -437,9 +343,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
 
-        //        adminId = GenericService.sBrowserData + adminId;
         adminClientID = GenericService.addBrowserPrefix(adminClientID);
-        //        String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
 
         try {
             gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
@@ -476,13 +380,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        //        adminId = GenericService.sBrowserData + adminId;
+
         adminClientID = GenericService.addBrowserPrefix(adminClientID);
         adminID = GenericService.addBrowserPrefix(adminID);
-        //        String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Client", "Valid Value");
-        //        clientId = GenericService.addBrowserPrefix(clientId);
-
-        //        String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
 
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(adminID, adminAuvenirPwd);
@@ -544,7 +444,6 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
 
-        //        auditorId = GenericService.sBrowserData + auditorId;
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
         auditorID = GenericService.addBrowserPrefix(auditorID);
 
@@ -603,8 +502,6 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
 
-        //        adminId = GenericService.addBrowserPrefix(adminId);
-        //        auditorId = GenericService.addBrowserPrefix(auditorId);
         adminID = GenericService.addBrowserPrefix(adminID);
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
         adminClientID = GenericService.addBrowserPrefix(adminClientID);

@@ -11,41 +11,52 @@
         <classes>
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
             <methods>
-                <include name="verifyGeneralAuditorCreateTodo"></include>
+            <include name="verifySignUpAuditorUser"></include>
+            <include name="verifyAdminChangeStatusUserToOnBoarding"></include>
+            <include name="verifyAuditorLoginGmailAndActiveUser"></include>
+            <include name="verifyLoginAuditorUser"></include>
+            <include name="verifyAdminAuditorCreateSimpleEngagement"></include>
+            <include name="verifyAdminAuditorInviteNewMemberAuditor"></include>
+            <include name="verifyAdminAuditorInvitingNewClient"></include>
+            <include name="verifyClientLogsInAndActive"></include>
+            <!--<include name="verifyClientActiveAfterSignUpSuccess"></include>-->
+            <!--<include name="verifyLeadAuditorCreateNewEngagement"></include>-->
+            <!--<include name="verifyLeadAuditorInviteNewAuditorMember"></include>-->
+            <!--<include name="verifyLeadAuditorInvitingAdminClient"></include>-->
             </methods>
         </classes>
     </test>
-     <!--<test name="Regression2" preserve-order="false">
-         <parameter name="browser" value="chrome"/>
-         <parameter name="version" value="59.0.3071.115"/>
-         <parameter name="os" value="WIN8"/>
-         <classes>
-             <class name="com.auvenir.ui.tests.SmokeTest"/>
-         </classes>
-     </test>
-    <test name="Regression2-1" preserve-order="false">
-        <parameter name="browser" value="internet explorer"/>
-        <parameter name="version" value="11"/>
-        <parameter name="os" value="WIN10"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
-        </classes>
-    </test>
-    <test name="Regression4" preserve-order="false">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="version" value="50.1.0"/>
-        <parameter name="os" value="WIN10"/>
+    <!--<test name="Regression2" preserve-order="false">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="version" value="59.0.3071.115"/>
+        <parameter name="os" value="WIN8"/>
         <classes>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
         </classes>
     </test>
-    <test name="Regression3" preserve-order="false">
-        <parameter name="browser" value="safari"/>
-        <parameter name="version" value="10.1.1"/>
-        <parameter name="os" value="MAC"/>
-        <classes>
-            <class name="com.auvenir.ui.tests.SmokeTest"/>
-        </classes>
-    </test>-->
+   <test name="Regression2-1" preserve-order="false">
+       <parameter name="browser" value="internet explorer"/>
+       <parameter name="version" value="11"/>
+       <parameter name="os" value="WIN10"/>
+       <classes>
+           <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
+       </classes>
+   </test>
+   <test name="Regression4" preserve-order="false">
+       <parameter name="browser" value="firefox"/>
+       <parameter name="version" value="50.1.0"/>
+       <parameter name="os" value="WIN10"/>
+       <classes>
+           <class name="com.auvenir.ui.tests.SmokeTest"/>
+       </classes>
+   </test>
+   <test name="Regression3" preserve-order="false">
+       <parameter name="browser" value="safari"/>
+       <parameter name="version" value="10.1.1"/>
+       <parameter name="os" value="MAC"/>
+       <classes>
+           <class name="com.auvenir.ui.tests.SmokeTest"/>
+       </classes>
+   </test>-->
 
 </suite>
