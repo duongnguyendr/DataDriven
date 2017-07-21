@@ -1,6 +1,7 @@
 package com.auvenir.rests.api.tests;
 
-import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.path.json.JsonPath;
@@ -23,7 +24,7 @@ import static com.jayway.restassured.RestAssured.given;
 /**
  * Created by doai.tran on 4/21/2017.
  */
-public class AccountTest extends AbstractAPIService {
+public class AccountTest extends AbstractTest {
     //public static final String restBaseUrl="http://finicity-qa-331.com";
     //public static final String database ="serviceFinicity";
     static String[] sData = null;
@@ -38,13 +39,13 @@ public class AccountTest extends AbstractAPIService {
     @BeforeMethod
     public void preCondition() {
         getBaseUrl();
-        AbstractAPIService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
     }
 
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer(dataBaseServer, port, dataBaseServer, userName, password, ssl);
+        MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
@@ -94,7 +95,7 @@ public class AccountTest extends AbstractAPIService {
             assertionEquals(result.get("order").toString(), sData[21]);
             //Verify Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[22]));
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -141,7 +142,7 @@ public class AccountTest extends AbstractAPIService {
             assertionEquals(result.get("order").toString(), sData[21]);
             //Verify Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[22]));
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -165,7 +166,7 @@ public class AccountTest extends AbstractAPIService {
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
             assertionEquals(response.then().extract().jsonPath().getString("code"), "api-024");
             assertionEquals(response.then().extract().jsonPath().getString("msg"), "Error, missing or invalid params.");
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account from out Customer ID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -189,7 +190,7 @@ public class AccountTest extends AbstractAPIService {
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
             assertionEquals(response.then().extract().jsonPath().getString("code"), "api-024");
             assertionEquals(response.then().extract().jsonPath().getString("msg"), "Error, missing or invalid params.");
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account from out Customer ID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);

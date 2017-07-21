@@ -399,6 +399,13 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.createToDoTaskWithCategoryName(toDoNameTask, categoryName);
     }
 
+    public void createListTodoTaskWithCategoryName(List<String> toDoTaskNames, String categoryName) throws Exception {
+        for (int i = 0; i < toDoTaskNames.size(); i++) {
+            createToDoPage.createToDoTaskWithCategoryName(toDoTaskNames.get(i), categoryName);
+        }
+
+    }
+
     public void clickCreateToDoTask() throws Exception {
         createToDoPage.clickCreateToDoTask();
     }
@@ -868,9 +875,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
     }*/
 
-    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, int mode) {
-        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName), fileName, mode);
-
+    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, boolean fileInComment) {
+        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName),fileName , fileInComment);
     }
 
     public void auditorAttachNewFile(String attachLocation, String fileName) {
@@ -1326,6 +1332,26 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifyLastCommentOfUserDisplayed(String commentContent, String fullNameUser) {
         createToDoPage.verifyLastCommentOfUserDisplayed(commentContent, fullNameUser);
+    }
+
+    public void verifyTodoMarkCompleted(String todoName){
+        createToDoPage.verifyTodoMarkCompleted(todoName);
+    }
+
+    public void clickToBulkDownloadAttachmentButton(){
+        createToDoPage.clickToBulkDownloadAttachmentButton();
+    }
+
+    public void clickDownloadAllTodo(){
+        createToDoPage.clickDownloadAllTodo();
+    }
+
+    public void checkFileDownloadExisted(String pathLocation){
+        createToDoPage.checkFileExists(pathLocation, true);
+    }
+
+    public void verifyDownloadFileAllTodoSuccess(String pathLocation){
+        createToDoPage.verifyDownloadFileAllTodoSuccess(pathLocation);
     }
 }
 

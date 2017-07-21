@@ -1,6 +1,7 @@
 package com.auvenir.rests.api.tests;
 
-import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.path.json.JsonPath;
@@ -22,7 +23,7 @@ import static com.jayway.restassured.RestAssured.given;
  * Created by doai.tran on 4/21/2017.
  * Updated by Doai.Tran on 5/9/2017: Refactor parameter dataBaseServer on maven
  */
-public class ConsumerTest extends AbstractAPIService {
+public class ConsumerTest extends AbstractTest {
     //public static final String restBaseUrl="http://finicity-qa.com";
     //public static final String database ="serviceFinicity";
     static String[] sData = null;
@@ -31,7 +32,7 @@ public class ConsumerTest extends AbstractAPIService {
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer(dataBaseServer, port, dataBaseServer, userName, password, ssl);
+        MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
 
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
@@ -48,7 +49,7 @@ public class ConsumerTest extends AbstractAPIService {
     @BeforeMethod
     public void preCondition() {
         getBaseUrl();
-        AbstractAPIService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
     }
 
     /*
@@ -81,7 +82,7 @@ public class ConsumerTest extends AbstractAPIService {
             //Verify Json Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[11]));
 
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with CustomerID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -108,7 +109,7 @@ public class ConsumerTest extends AbstractAPIService {
             JsonPath jp = new JsonPath(json);
             assertionEquals(jp.get("code").toString(), "api-023");
             assertionEquals(jp.get("msg").toString(), "Error, missing or invalid consumerID.");
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with CustomerID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -132,7 +133,7 @@ public class ConsumerTest extends AbstractAPIService {
             } else {
                 Assert.fail();
             }
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with WronginstitutionID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);

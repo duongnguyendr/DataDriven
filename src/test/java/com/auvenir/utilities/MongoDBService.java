@@ -1,6 +1,6 @@
 package com.auvenir.utilities;
 
-import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.tests.AbstractTest;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
@@ -33,8 +33,8 @@ public class MongoDBService {
     static String[] sData = null;
 
     private static void configurateDatabase() {
-        AbstractAPIService ab = new AbstractAPIService();
-
+        //AbstractAPIService ab = new AbstractAPIService();
+        AbstractTest ab = new AbstractTest();
         MongoDBService.dataBaseSer = ab.getDataBaseSer();
         MongoDBService.port = ab.getPort();
 
