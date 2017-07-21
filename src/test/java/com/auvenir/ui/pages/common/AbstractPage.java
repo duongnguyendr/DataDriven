@@ -1233,7 +1233,47 @@ public class AbstractPage {
         //        closeSuccessToastMes();
     }
 
+    public void selectCategory(String categoryName){
+        try {
+            int categoryExist = checkCategoryExist(categoryName);
+            System.out.println("Category existed: " + categoryExist);
+            if (categoryExist != -1){
+                clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
+//                List<WebElement> listCategory = dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']")).get(categoryExist);
+                clickElement(dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']")).get(categoryExist));
+//                for (int i = 0; i < listCategory.size(); i++){
+//                    if (listCategory.get(i).getAttribute("textContent").equals(categoryName)){
+//                        clickElement(listCategory.get(i));
+//                        break;
+//                    }
+//                }
+            }else{
+                createNewCategory(categoryName);
+            }
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Create category.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
 
+    }
+
+    public int checkCategoryExist(String categoryName){
+        int index = -1;
+        try{
+            List<WebElement> listCategory = dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']"));
+            for (int i = 0; i < listCategory.size(); i++){
+                if (listCategory.get(i).getAttribute("textContent").equals(categoryName)){
+                    index = i;
+                }
+            }
+            return  index;
+        }catch (Exception e){
+            NXGReports.addStep("Find category error.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+            return  index;
+        }
+    }
     public boolean chooseCategoryByNameFromDll(String categoryName) {
         boolean isCheckCategoryName = false;
         getLogger().info("Choose category by name from dropdownlist");
