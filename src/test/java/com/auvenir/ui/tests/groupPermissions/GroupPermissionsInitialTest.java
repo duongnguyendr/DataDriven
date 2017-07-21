@@ -792,9 +792,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementTeamService.verifyMessageFromRemovingAdminClient();
             clientEngagementTeamService.verifyRemoveAdminClient("Admin Client");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead client remove Admin client: Pass.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Lead client can remove Admin client: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Lead client remove Admin client: Fail", LogAs.FAILED,
+            NXGReports.addStep("Verify Lead client can remove Admin client: Fail", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
@@ -843,9 +843,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientSignUpService.fillUpSecurityForm(generalClientAuvenirPassword);
             clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead client invite a new general client: Pass.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Lead client can invite a new general client: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Lead client invite a new general client: Fail", LogAs.FAILED,
+            NXGReports.addStep("Verify Lead client can invite a new general client: Fail", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
@@ -876,9 +876,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientService.selectClientAssigneeByName("vienpham", "Titan corporation");
             clientService.verifyClientAssigneeSelected("vienpham", "Titan corporation");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead client assign task to general client: Pass.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Lead client can assign task to general client: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Lead client assign task to general client: Fail", LogAs.FAILED,
+            NXGReports.addStep("Verify Lead client can assign task to general client: Fail", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
@@ -911,7 +911,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 29, enabled = true, description = "To verify Lead Client can make a comment on todo assigned")
+    @Test(priority = 29, enabled = true, description = "Verify Lead Client can make a comment on todo assigned")
     public void verifyLeadClientMakeComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -939,15 +939,15 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorCreateToDoService.clickOnPostCommentButton();
             auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, "comment 01");//(numberOfListCommentlist, commentContent)
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead client assign task to general client: Pass.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Lead Client can make a comment on todo assigned: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Lead client assign task to general client: Fail", LogAs.FAILED,
+            NXGReports.addStep("Verify Lead Client can make a comment on todo assigned: Fail", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    /*@Test(priority = 30, enabled = true, description = "To verify general Client can view a comment made by lead client ")
+    @Test(priority = 30, enabled = true, description = "Verify general Client can view a comment made by lead client ")
     public void verifyGeneralClientCanViewComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -955,8 +955,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(),getDriver());
-        clientTodoService = new ClientTodoService(getLogger(),getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
         String generalClient = GenericService.getTestDataFromExcel("GroupPermissionTest", "Client", "Valid Value");
         String generalClientAuvenirPassword =
                 GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client Auvenir Password", "Valid Value");
@@ -968,20 +968,16 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
-            auditorCreateToDoService.clickCommentIconPerTaskName("vienpham", true);
-            auditorCreateToDoService.verifyLastCommentOfUserDisplayed("comment 01", "Lead Client");
-
-            clientTodoService.clickCommentIconPerTaskName("vienpham",true);
-            clientTodoService.verifyLastCommentOfUserDisplayed("comment 01","Lead Clien");
-
+            clientTodoService.clickCommentIconPerTaskName("vienpham", true);
+            clientTodoService.verifyLastCommentOfUserDisplayed("comment 01", "Lead Client");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead client assign task to general client: Pass.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify general Client can view a comment made by lead client: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Lead client assign task to general client: Fail", LogAs.FAILED,
+            NXGReports.addStep("Verify general Client can view a comment made by lead client: Fail", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
-    }*/
+    }
 
 
 }
