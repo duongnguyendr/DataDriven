@@ -208,7 +208,7 @@ public class ClientSignUpPage extends AbstractPage {
                     sendKeyTextBox(inputBusinessIndustry, "Financial", "Input Business Industry");
                     clickElement(inputFiscalEndYear, "Input Fiscal End Year");
                     DatePicker datePicker = new DatePicker(getDriver());
-                    datePicker.pickADate("12", "31", "2017");
+                    datePicker.pickADate("28");
                     clickElement(inputBusinessIndustry);
                     clickElement(inputAccountingFramework, "Input Accounting Framework");
                     chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");

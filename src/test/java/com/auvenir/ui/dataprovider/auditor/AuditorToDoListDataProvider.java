@@ -24,6 +24,11 @@ public class AuditorToDoListDataProvider extends CommonDataProvider{
     private static String feedBackContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "FeedBack Content", "Valid Value");
     private static String goodbyeContent = GenericService.getTestDataFromExcelNoBrowserPrefix("NotificationEmailTest", "Goodbye Content", "Valid Value");
 
+    private static String engagementName = "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
+    private static String engagementType = "type" + GeneralUtilities.getTimeStampForNameSuffix();
+    private static String companyName = "company" + GeneralUtilities.getTimeStampForNameSuffix();
+    private static String toDoName01 = "toDoName01" + GeneralUtilities.getTimeStampForNameSuffix();
+    private static String toDoName02 = "toDoName02" + GeneralUtilities.getTimeStampForNameSuffix();
 
     @DataProvider(name="verifyAuditorEmptyTodoListPage")
     public static Object[][] getVerifyAuditorEmptyTodoListPage(){
@@ -217,18 +222,6 @@ public class AuditorToDoListDataProvider extends CommonDataProvider{
         return  arrayData;
     }
 
-    @DataProvider(name = "verifyToDoDetailsCommenting")
-    public static Object[][] getVerifyToDoDetailsCommenting(){
-
-        String toDoName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "To Do Name", "Valid Data");
-        String inputComment = "commentTest";
-        Object[][] arrayData = new Object[][]{{auditorId,auditorPwd,engagementName, toDoName, inputComment}};
-        if(GenericService.sLanguage.equalsIgnoreCase("French")){
-            arrayData = new Object[][]{{auditorId,auditorPwd,engagementName, toDoName, inputComment}};
-        }
-        return  arrayData;
-    }
-
     @DataProvider(name="verifyMarkAsComplete")
     public static Object[][] getVerifyMarkAsComplete(){
 
@@ -270,13 +263,6 @@ public class AuditorToDoListDataProvider extends CommonDataProvider{
 
     @DataProvider(name ="verifyUndoActionWithCompleteCase")
     public static Object[][] getVerifyUndoActionWithCompleteCase(){
-
-        String engagementName = "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
-        String engagementType = "type" + GeneralUtilities.getTimeStampForNameSuffix();
-        String companyName = "company" + GeneralUtilities.getTimeStampForNameSuffix();
-        String toDoName01 = "toDoName01" + GeneralUtilities.getTimeStampForNameSuffix();
-        String toDoName02 = "toDoName02" + GeneralUtilities.getTimeStampForNameSuffix();
-
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, engagementType, companyName, toDoName01, toDoName02}};
         if(GenericService.sLanguage.equalsIgnoreCase("French")){
             arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, engagementType, companyName, toDoName01, toDoName02}};
@@ -286,13 +272,6 @@ public class AuditorToDoListDataProvider extends CommonDataProvider{
 
     @DataProvider(name ="verifyUndoActionWithAssignToCase")
     public static Object[][] getVerifyUndoActionWithAssignToCase(){
-
-        String engagementName = "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
-        String engagementType = "type" + GeneralUtilities.getTimeStampForNameSuffix();
-        String companyName = "company" + GeneralUtilities.getTimeStampForNameSuffix();
-        String toDoName01 = "toDoName01" + GeneralUtilities.getTimeStampForNameSuffix();
-        String toDoName02 = "toDoName02" + GeneralUtilities.getTimeStampForNameSuffix();
-
         Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, engagementType, companyName, toDoName01, toDoName02}};
         if(GenericService.sLanguage.equalsIgnoreCase("French")){
             arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, engagementType, companyName, toDoName01, toDoName02}};
@@ -316,20 +295,7 @@ public class AuditorToDoListDataProvider extends CommonDataProvider{
         return  arrayData;
     }
 
-    @DataProvider(name ="verifyDownloadAttachmentsDisable")
-    public static Object[][] getverifyDownloadAttachmentsDisable(){
 
-        String engagementName = "engagement" + GeneralUtilities.getTimeStampForNameSuffix();
-        String engagementType = "type" + GeneralUtilities.getTimeStampForNameSuffix();
-        String companyName = "company" + GeneralUtilities.getTimeStampForNameSuffix();
-        String toDoName01 = "toDoName01" + GeneralUtilities.getTimeStampForNameSuffix();
-
-        Object[][] arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, engagementType, companyName, toDoName01}};
-        if(GenericService.sLanguage.equalsIgnoreCase("French")){
-            arrayData = new Object[][]{{auditorId, auditorPwd, engagementName, engagementType, companyName, toDoName01}};
-        }
-        return  arrayData;
-    }
 
     @DataProvider(name ="verifyGUIDeleteIconInToDoListPage")
     public static Object[][] getVerifyGUIDeleteIconInToDoListPage(){

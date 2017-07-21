@@ -347,7 +347,14 @@ public class GenericService {
             // msg.setSubject("Auvenir_Execution_Report_"+GenericService.getCongigValue(GenericService.sConfigFile,"EXECUTION_REPORT_DATE"));
             /*msg.setSubject("Auvenir Execution Report on " + GenericService.getConfigValue(GenericService.sConfigFile, "SERVER")
                     + " " + sExecutionDate);*/
-            msg.setSubject("Auvenir Execution Report on " + AbstractService.baseUrl + " " + sExecutionDate);
+            String prefixProtocol = AbstractService.prefixProtocol;
+            if (prefixProtocol == "") {
+                prefixProtocol = "https://";
+            }
+
+            String baseUrlRun = prefixProtocol + System.getProperty("serverDomainName");
+
+            msg.setSubject("Auvenir Execution Report on " + baseUrlRun + " " + sExecutionDate);
                     msg.setSentDate(new Date());
             Multipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();

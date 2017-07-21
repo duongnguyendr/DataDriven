@@ -1,4 +1,4 @@
-package com.auvenir.ui.tests.auditor;
+package com.auvenir.ui.tests.auditor.engagement;
 
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.auditor.*;
