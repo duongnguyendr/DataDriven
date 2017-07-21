@@ -1,7 +1,7 @@
 package com.auvenir.ui.pages.auditor.engagement;
 
 import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.EngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
@@ -20,7 +20,7 @@ import java.util.*;
 
 //import com.auvenir.ui.pages.marketing.engagement.BaseEngagementPO;
 
-public class AuditorEngagementPage extends AbstractPage {
+public class AuditorEngagementPage extends EngagementPage {
 
 
     AuvenirPage auvenirPage = null;
@@ -144,11 +144,6 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(id = "h-clientListLink")
     private WebElement contactsLinkEle;
 
-    // Old version
-    //    @FindBy(xpath = "//div[@id='cpa-main']/div")
-    @FindBy(xpath = "//tbody[@id='engagement-tbody']//td/a")
-    private List<WebElement> engagementListEle;
-
     @FindBy(xpath = "//button[contains(text(),'Add New')]")
     private WebElement eleAddNewBtn;
 
@@ -161,9 +156,6 @@ public class AuditorEngagementPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='CreateEnagementParent']/../../../..")
     WebElement popUpCreateEngagement;
-
-    @FindBy(xpath = "//*[@id='auditPageNoEngagement']")
-    WebElement noEngagementDivEle;
 
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
@@ -579,25 +571,6 @@ public class AuditorEngagementPage extends AbstractPage {
         clickElement(buttonNewEngagement, "click to buttonNewEngagement");
     }
 
-    /**
-     * Click on the Engagement with the engagement Name.
-     *
-     * @param engagementName The Engagement Name which be found on Engagement page.
-     */
-    public void viewEngagementDetailsPage(String engagementName) throws Exception {
-        int index = findEngagementName(engagementName);
-        System.out.println("Position: " + index);
-        //        hoverElement(engagementListEle.get(index), engagementName);
-        waitForClickableOfElement(engagementListEle.get(index), engagementName);
-
-        if (index == engagementListEle.size() - 1) {
-            scrollToFooter();
-        } else
-            hoverElement(engagementListEle.get(index + 1), engagementName);
-        clickElement(engagementListEle.get(index), engagementName);
-
-    }
-
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
         WebElement webElement =
                 getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
@@ -612,20 +585,6 @@ public class AuditorEngagementPage extends AbstractPage {
     /*
     Vien.Pham moved createAndSelectNewEnagement Method
      */
-
-    /*
-     * Find the index(position) of Engagement in the list Engagement by Engagement Name
-     *
-     * @param engagementName String Engagement Name
-     * @return the number of the position if the WebElement is matched, otherwise return -1.
-     */
-    public int findEngagementName(String engagementName) {
-        getLogger().info("Find Position of Engagement Name");
-        String displayValue = noEngagementDivEle.getCssValue("display");
-        if (displayValue.equals("block"))
-            return -1;
-        return findElementByText(engagementListEle, engagementName);
-    }
 
     /**
      * Get the list ID of Engagement on Engagement Page.
