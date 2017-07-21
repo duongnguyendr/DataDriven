@@ -4702,7 +4702,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     Vien.Pham added new method
     @param : mode 1 for downloading request file, mode 2 for downloading attachfile.
      */
-    public void downloadNewRequestFile(String concatUpload, String concatDownload, String fileName, int mode) {
+    public void downloadNewRequestFile(String concatUpload, String concatDownload, String fileName, boolean fileInComment) {
         try {
             //Delete file before download
             Path path = Paths.get(concatDownload);
@@ -4710,11 +4710,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 Files.delete(path);
             }
             Thread.sleep(largeTimeOut);
-            if (mode == 1) {
+            if (fileInComment) {
+                clickElement(verifyAttachComplete, "download attachment from comment");
+            } else {
                 int isFind = findUploadFile(fileName);
                 clickElement(downloadRequestBtn.get(isFind), "download newRequest");
-            } else {
-                clickElement(verifyAttachComplete, "download attachment");
             }
             Thread.sleep(largeTimeOut);
             String checkMd5UploadFile = calculateMD5(concatUpload);
@@ -4796,7 +4796,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
         try {
             getLogger().info("client verifies attached file available..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), fileName, 2);
+            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), fileName, true);
             NXGReports.addStep("Download attached file Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -5444,5 +5444,109 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         return result;
+    }
+
+
+    @FindBy(xpath = "//div[@id='engagement-todo']//table[@id='todo-table']//td//div[@class='fileNumber']")
+    private List<WebElement> listNumberFileRequest;
+    private String newRequestImgByTodoName = "//*[@id='todo-table']/tbody/tr/td/input[@data-dbname='%s']//../../td/img";
+
+
+
+    public int getTotalNumberFileRequest(){
+        int totalNumberFileRequest = 0;
+        for (WebElement el : listNumberFileRequest){
+            totalNumberFileRequest += Integer.parseInt(el.getText());
+        }
+        return  totalNumberFileRequest;
+    }
+
+    public void verifyCanSeeAllFileRequest(int numberFileRequest){
+        int totalFileRequest = getTotalNumberFileRequest();
+        if (numberFileRequest == totalFileRequest){
+            NXGReports.addStep("verify lead auditor can see all file request within engagement.", LogAs.PASSED, null);
+        }else{
+            NXGReports.addStep("verify lead auditor can see all file request within engagement.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void clickOpenNewRequestByTodoName(String toDoName){
+        try{
+            WebElement addNewRequestImg = getDriver().findElement(By.xpath(String.format(newRequestImgByTodoName, toDoName)));
+            clickElement(addNewRequestImg, "Click open request windows.");
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click open request windows.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyFileRequestInTodo(String toDoName, String... fileNames){
+        try{
+            clickOpenNewRequestByTodoName(toDoName);
+            List<String> lstFileDisplayed = new ArrayList<String>();
+            for (WebElement el : uploadRequestList){
+                lstFileDisplayed.add(el.getText());
+            }
+            for (String fileName : fileNames){
+                if (!lstFileDisplayed.contains(fileName)){
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("verify file request displayed in todo.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                            .BROWSER_PAGE));
+                }
+            }
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("verify file request displayed in todo.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        }finally {
+            closeAddNewRequestWindow();
+        }
+    }
+
+    public void verifyPermissionCanUploadRequestFile(String pathOfUploadLocation, String fileName, boolean possibleUpload){
+        try {
+            if (possibleUpload) {
+                verifyPopupColorAddRequestBtn();
+                verifyClickAddRequestBtn();
+                createNewRequest("request 01", "1");
+                uploadeNewFileByRequestName(pathOfUploadLocation, fileName);
+                verifyUploadFileSuccessfully(fileName);
+            } else {
+                validateNotExistedElement(totoPageAddRequestBtn, "Add New Request button.");
+            }
+        }catch(AssertionError ex){
+            AbstractService.sStatusCnt++;
+            getLogger().info(ex);
+            NXGReports.addStep("Test Failed: Verify " + (possibleUpload ? "can" : "cannot") + " upload file request.", LogAs.FAILED, new
+                    CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        }catch (Exception e){
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify " + (possibleUpload ? "can" : "cannot") + " upload file request.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyPermissionCanDownloadRequestFile(String pathOfUploadLocation, String pathOfDownloadLocation, String fileName, boolean
+            fileInComment, boolean possibleDownload){
+        try{
+            if (possibleDownload){
+                verifyPopupColorAddRequestBtn();
+                downloadNewRequestFile(pathOfUploadLocation, pathOfDownloadLocation, fileName, fileInComment);
+            }else{
+
+            }
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify " + (possibleDownload ? "can" : "cannot") + " download file request.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }catch (AssertionError ex){
+            AbstractService.sStatusCnt++;
+            getLogger().info(ex);
+            NXGReports.addStep("Test Failed: Verify " + (possibleDownload ? "can" : "cannot") + " download file request.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        }
     }
 }

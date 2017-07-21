@@ -868,9 +868,8 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
     }*/
 
-    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, int mode) {
-        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName), fileName, mode);
-
+    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, boolean fileInComment) {
+        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName),fileName , fileInComment);
     }
 
     public void auditorAttachNewFile(String attachLocation, String fileName) {
