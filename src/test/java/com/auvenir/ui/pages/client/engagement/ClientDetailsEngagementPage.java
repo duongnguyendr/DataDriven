@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 /**
  * Created by huy.huynh on 21/06/2017.
  */
-public class ClientDetailsEngagementPage extends DetailsEngagementPage {
+public class  ClientDetailsEngagementPage extends DetailsEngagementPage {
     //@FindBy(xpath = "//div[@class='pageHeader-leftContainer']//input[@id='a-header-title']")
     @FindBy(xpath = "//div[@class='pageHeader-leftContainer']//span[@id='a-header-title']")
     private WebElement dashboardText;
