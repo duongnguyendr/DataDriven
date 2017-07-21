@@ -28,6 +28,7 @@ import javax.sql.rowset.spi.SyncFactoryException;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -397,6 +398,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='ui dropdown client todo-bulkDdl ']")
     private List<WebElement> listClientAssigneeDdl;
 
+    @FindBy(xpath = "//table[@id='todo-table']//td/div[@class='auvicon-circle-checkmark completeBtn priColor']/../../td/span")
+    List<WebElement> listTodoCompleted;
+
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
      **/
@@ -441,6 +445,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     @FindBy(xpath = "//div[starts-with(@id,'Mark As Complete') and contains(@class,'au-modal')]")
     private WebElement popUpMarkCompleteWindows;
+
+    @FindBy(xpath = "//div[starts-with(@id,'download-zip') and contains(@class,'au-modal')]")
+    private WebElement popUpDownloadAttachmentsWindows;
 
     @FindBy(xpath = "//div[contains(text(),'Assign to')]/div[@class='menu']/button")
     private List<WebElement> childItemAssigneeBulkDrpEle;
@@ -757,16 +764,16 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void createToDoTask(String toDoName) {
         try {
             getLogger().info("Create To Do Task with 'toDoName'");
-            WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
-            System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
+//            WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
+//            System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
             waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
             String rowString = toDoTaskRowEle.get(0).getAttribute("class");
             int size = 1;
             int index = -1;
             if (!rowString.equals("")) {
                 size = toDoTaskRowEle.size() + 1;
+                System.out.println("size:" + size);
                 index = findToDoTaskName(toDoName);
-                System.out.println("Index Create: " + index);
             }
             if (index == -1) {
                 getLogger().info("Create New To Do Task");
@@ -780,6 +787,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
                 NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
             }
         } catch (Exception ex) {
+            getLogger().info(ex);
             AbstractService.sStatusCnt++;
             getLogger().info("Fail: Create To Do Task with 'toDoName'");
             NXGReports.addStep("Failed: Create To Do Task with 'toDoName'", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -1263,7 +1271,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
             sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
             sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
             // Create new category
-            createNewCategory(categoryName);
+            selectCategory(categoryName);
+//            createNewCategory(categoryName);
             NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
         }
     }
@@ -1471,6 +1480,12 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForCssValueChanged(popUpMarkCompleteWindows, "PopUp Mark Complete", "display", "block");
     }
 
+    public void clickToBulkDownloadAttachmentButton() {
+        List<WebElement> menuBulkActionsDropdown = bulkActionsDropdownMenuEle.findElements(By.xpath("button[contains(@class,'item')]"));
+        clickElement(menuBulkActionsDropdown.get(0), "Bulk download attachments button");
+        waitForCssValueChanged(popUpDownloadAttachmentsWindows, "PopUp Download Attachments", "display", "block");
+    }
+
     public void verifyShowConfirmPopupAndMarkTitle() {
         getLogger().info("Verify complete mark popup");
         boolean result;
@@ -1648,13 +1663,18 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String classAttribute;
         for (int i = 0; i < toDoTaskRowEle.size(); i++) {
             classAttribute = toDoTaskRowEle.get(i).getAttribute("class");
+            System.out.println("i" + i);
             if (classAttribute.equals("newRow")) {
-                WebElement toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']"));
-                actualAttributeValue = toDoNameCell.getAttribute("value").trim();
-                if (actualAttributeValue.equals(toDoName)) {
-                    getLogger().info("Element is found at " + i);
-                    NXGReports.addStep(String.format("The position of To Do task: '%s' at %d", toDoName, i), LogAs.PASSED, null);
-                    return i;
+                boolean elementExisted = validateNotExistedElement(toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']")), "toDoTaskRowEle");
+                if (!elementExisted) {
+                    WebElement toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']"));
+                    actualAttributeValue = toDoNameCell.getAttribute("value").trim();
+
+                    if (actualAttributeValue.equals(toDoName)) {
+                        getLogger().info("Element is found at " + i);
+                        NXGReports.addStep(String.format("The position of To Do task: '%s' at %d", toDoName, i), LogAs.PASSED, null);
+                        return i;
+                    }
                 }
             }
         }
@@ -4492,6 +4512,22 @@ public class AuditorCreateToDoPage extends AbstractPage {
         waitForCssValueChanged(popUpMarkCompleteWindows, "Popup Mark Complete", "display", "none");
     }
 
+    @FindBy(id = "fm-downloadBtn")
+    WebElement downloadAllTodo;
+
+    public void clickDownloadAllTodo(){
+        try {
+            getLogger().info("Click Download Button.");
+            clickElement(downloadAllTodo, "click to downloadAllTodo");
+            waitForCssValueChanged(popUpDownloadAttachmentsWindows, "Popup Mark Complete", "display", "none");
+            NXGReports.addStep("Click Download Button.", LogAs.PASSED, null);
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            e.printStackTrace();
+            NXGReports.addStep("Click Download Button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
     @FindBy(xpath = "//label[@class='auvicon-line-circle-add todo-circle-add todo-icon-hover']")
     WebElement uploadCreateRequestBtn;
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span[1]")
@@ -4705,10 +4741,11 @@ public class AuditorCreateToDoPage extends AbstractPage {
     public void downloadNewRequestFile(String concatUpload, String concatDownload, String fileName, int mode) {
         try {
             //Delete file before download
-            Path path = Paths.get(concatDownload);
+            checkFileExists(concatDownload, true);
+/*            Path path = Paths.get(concatDownload);
             if (Files.exists(path)) {
                 Files.delete(path);
-            }
+            }*/
             Thread.sleep(largeTimeOut);
             if (mode == 1) {
                 int isFind = findUploadFile(fileName);
@@ -5443,5 +5480,59 @@ public class AuditorCreateToDoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         return result;
+    }
+
+    public void verifyTodoMarkCompleted(String todoName){
+        boolean result = false;
+        try{
+            for (WebElement todo: listTodoCompleted){
+                if (todoName.equals(todo.getText())){
+                    result = true;
+                }
+            }
+            if (result){
+                NXGReports.addStep("Todo " + todoName + " is mark completed.", LogAs.PASSED, null);
+            }else{
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Todo " + todoName + " is mark completed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Todo " + todoName + " is mark completed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
+        }
+    }
+
+    public boolean checkFileExists(String pathLocation, boolean deleteExisted){
+        Path path = Paths.get(pathLocation);
+        System.out.println("file: " + path);
+        boolean result = false;
+        try {
+            if (Files.exists(path)) {
+                System.out.println("file exists: " + path);
+                result = true;
+                if (deleteExisted) {
+                    System.out.println("tao delete file: " + path);
+                    Files.delete(path);
+                    if (Files.exists(path)) {
+                        AbstractService.sStatusCnt++;
+                        NXGReports.addStep("Delete file failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    }
+                }
+            }
+        }catch (IOException ex){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Delete file failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public void verifyDownloadFileAllTodoSuccess(String pathLocation){
+        if(!checkFileExists(pathLocation, false)){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("File not existed in download folder.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 }
