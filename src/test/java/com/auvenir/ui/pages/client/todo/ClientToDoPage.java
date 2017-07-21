@@ -49,7 +49,7 @@ public class ClientToDoPage extends AbstractPage{
     public void verifyToDoTaskExist(String toDoName, boolean isClient){
         try{
 
-            int index = auditorCreateToDoPage.findToDoTaskName(toDoName, isClient);
+            int index = findToDoTaskName(toDoName);
             if (index != -1) {
                 NXGReports.addStep("Verify ToDo task: " + toDoName + " exists.", LogAs.PASSED, null);
             } else {
@@ -65,4 +65,26 @@ public class ClientToDoPage extends AbstractPage{
         }
     }
 
+
+
+
+//    public void verifyClientAssigneeSelected(String todoName, String clientAssignee) {
+//        try {
+//            Thread.sleep(bigTimeOut);
+//            int index = findToDoTaskName(todoName);
+//            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index).findElement(By.xpath("./div[@class='text']"));
+//            waitForTextValueChanged(clientAssigneeSelected, "listClientAssigneeDdl", clientAssignee);
+//            if (clientAssigneeSelected.getText().equals(clientAssignee)) {
+//                NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.PASSED, null);
+//            } else {
+//                AbstractService.sStatusCnt++;
+//                NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED,
+//                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//            }
+//        } catch (Exception e) {
+//            AbstractService.sStatusCnt++;
+//            NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED,
+//                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+//        }
+//    }
 }
