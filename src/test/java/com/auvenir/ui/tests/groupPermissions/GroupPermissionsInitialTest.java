@@ -1,8 +1,5 @@
 package com.auvenir.ui.tests.groupPermissions;
 
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.auditor.*;
-import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.dataprovider.groupPermissions.GroupPermissionsDataProvider;
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.admin.AdminService;
@@ -13,6 +10,7 @@ import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
+import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
@@ -21,14 +19,6 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
-import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
-import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
-import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 /**
  * Created by huy.huynh on 19/07/2017.
@@ -52,8 +42,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientSignUpService clientSignUpService;
     private ClientDetailsEngagementService clientDetailsEngagementService;
     private ClientEngagementService clientEngagementService;
-    private  ClientTodoService clientTodoService;
-
+    private ClientTodoService clientTodoService;
 
 
     //    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin",
@@ -661,7 +650,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName);
             clientDetailsEngagementService.navigateToTeamTab();
-            clientDetailsEngagementService.chooseLeadClientWithTeamMemberName(leadClientName, lead);
+            clientDetailsEngagementService.chooseLeadClientWithTeamMemberName(leadClientName);
             clientDetailsEngagementService.verifyLeadSetByName(leadClientName, leadText);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

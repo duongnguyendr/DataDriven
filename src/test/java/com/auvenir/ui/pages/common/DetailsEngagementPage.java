@@ -35,12 +35,12 @@ public abstract class DetailsEngagementPage extends AbstractPage {
         clickElement(buttonInviteNewMember, "Button Invite New Member");
     }
 
-    public void chooseLeadWithTeamMemberName(String name, String lead) {
+    public void chooseLeadWithTeamMemberName(String name) {
 //        String xpathRadioButtonLeadClient = "//td[text()='%s']/following-sibling::td/input";
         String xpathSelectPermissionLevel = "//td[text()='%s']/following-sibling::td/div";
-        String xpathOptionLead ="//td[text()='%s']/following-sibling::td/div//div[@data-id='%s']";
+        String xpathOptionLead ="//td[text()='%s']/following-sibling::td/div//div[@data-id='Lead']";
         clickElement(getElementByXpath(xpathSelectPermissionLevel, name), "Select Permission Level");
-        clickElement(getElementByXpath(xpathOptionLead, name, lead), "Option Lead");
+        clickElement(getElementByXpath(xpathOptionLead, name), "Option Lead");
     }
 
     public void confirmSetUserToLead() {
