@@ -681,7 +681,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.downloadRequestFile(pathOfUploadLocation, pathOfDownloadLocation, fileName, 1);
+            auditorCreateToDoService.downloadRequestFile(pathOfUploadLocation, pathOfDownloadLocation, fileName, false);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
         } catch (Exception e) {
