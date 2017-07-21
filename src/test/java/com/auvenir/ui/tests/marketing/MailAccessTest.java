@@ -100,7 +100,7 @@ public class MailAccessTest extends AbstractTest {
     // MailAuditorInviteClientTest
     @Test(priority = 3, enabled = true, description = "Verify Auditor sign up and Active", dataProvider = "verifyAuditorSignUp",
                     dataProviderClass = MailAccessDataProvider.class)
-    public void verifyAuditorSignUp(String auditorID, String clientID, String password) throws Exception {
+    public void verifyAuditorSignUp(String auditorID, String clientID, String password, String auditorFullName) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         /*String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
@@ -115,7 +115,7 @@ public class MailAccessTest extends AbstractTest {
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorID);
             getLogger().info("Auditor sign up..");
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test",  auditorID, password);
+            auditorSignUpService.verifyRegisterNewAuditorUser(auditorFullName,  auditorID, password);
             auditorSignUpService.updateUserActiveUsingAPI( auditorID);
             auditorSignUpService.updateUserActiveUsingMongoDB( auditorID);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -127,7 +127,9 @@ public class MailAccessTest extends AbstractTest {
 
     @Test(priority = 4, enabled = true, description = "Verify Auditor login and invite client..", dataProvider = "verifyAuditorInviteClient",
             dataProviderClass = MailAccessDataProvider.class)
-    public void verifyAuditorInviteClient(String auditorID, String clientID, String password) throws Exception {
+    public void verifyAuditorInviteClient(String auditorID, String clientID, String password,
+                                          String engagementName, String engagementType, String companyName,
+                                          String fullNameClient, String roleName, String engagementMessage) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -143,13 +145,13 @@ public class MailAccessTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole( auditorID, password);
-            auditorEngagementService.createAndSelectNewEnagement("New World", "", "Company");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage("New World");
+            auditorEngagementService.createAndSelectNewEnagement(engagementName, engagementType, companyName);
+            auditorDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientID, "Leader");
-            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+            clientService.inviteNewClient(fullNameClient, clientID, roleName);
+            clientService.verifyInviteClientSuccess(engagementMessage);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor login and invite client.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -185,7 +187,7 @@ public class MailAccessTest extends AbstractTest {
      */
     @Test(priority = 6, description = "Open gmail to verify content mail", dataProvider = "openGMailForAuditorRegister", dataProviderClass =
             MailAccessDataProvider.class)
-    public void openGMailForAuditorRegister(String auditorId, String password){
+    public void openGMailForAuditorRegister(String auditorId, String password, String auditorFullName){
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try{
@@ -194,7 +196,7 @@ public class MailAccessTest extends AbstractTest {
             auditorSignUpService.deleteUserUsingApi(auditorId);
             auditorSignUpService.deleteUserUsingMongoDB(auditorId);
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorId, password);
+            auditorSignUpService.verifyRegisterNewAuditorUser(auditorFullName, auditorId, password);
             gmailLoginService.verifyOpenGmailIndexRegisterAccount(auditorId, password);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -206,7 +208,7 @@ public class MailAccessTest extends AbstractTest {
 
     @Test(priority = 7, description = "Verify template mail : Auditor joins and is on Waitlist", dataProvider = "verifyMailAuditorJoin",
             dataProviderClass = MailAccessDataProvider.class)
-    public void verifyMailAuditorJoin(String auditorId, String password){
+    public void verifyMailAuditorJoin(String auditorId, String password, String auditorFullName){
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
@@ -216,7 +218,7 @@ public class MailAccessTest extends AbstractTest {
             auditorSignUpService.deleteUserUsingApi(auditorId);
             auditorSignUpService.deleteUserUsingMongoDB(auditorId);
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorId, password);
+            auditorSignUpService.verifyRegisterNewAuditorUser(auditorFullName, auditorId, password);
             gmailLoginService.verifyOpenGmailIndexRegisterAccount(auditorId, password);
             emailTemplateService.verifyWaitListPageContent();
 
@@ -235,7 +237,8 @@ public class MailAccessTest extends AbstractTest {
 
     @Test(priority = 8, description = "Verify template of Notification Mail when SO is invited ", dataProvider =
             "verifyNotificationMailAuditorInvite", dataProviderClass = MailAccessDataProvider.class)
-    public void verifyNotificationMailAuditorInvite(String auditorId, String password, String clientId, String engagementName) {
+    public void verifyNotificationMailAuditorInvite(String auditorId, String password, String clientId, String engagementName,
+                                                    String fullNameClient, String roleName, String engagementMessage) {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -262,8 +265,8 @@ public class MailAccessTest extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientId, "Leader");
-            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+            clientService.inviteNewClient(fullNameClient, clientId, roleName);
+            clientService.verifyInviteClientSuccess(engagementMessage);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify DB update field completed is true when archive mart as completed.",

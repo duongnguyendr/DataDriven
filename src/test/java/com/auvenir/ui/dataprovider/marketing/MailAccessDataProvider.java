@@ -36,18 +36,28 @@ public class MailAccessDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "verifyAuditorSignUp")
     public static Object[][] getVerifyAuditorSignUp(){
-        Object[][] arrayData = new Object[][]{{auditorID, clientID, password}};
+        String auditorFullName = "Auditor Test";
+        Object[][] arrayData = new Object[][]{{auditorID, clientID, password, auditorFullName}};
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{auditorID, clientID, password}};
+            arrayData = new Object[][]{{auditorID, clientID, password, auditorFullName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyAuditorInviteClient")
     public static Object[][] getVerifyAuditorInviteClient(){
-        Object[][] arrayData = new Object[][]{{auditorID, clientID, password}};
+        String engagementName = "New World";
+        String engagementType = "";
+        String companyName = "Company";
+        String fullNameClient = "Titan client";
+        String roleName = "Leader";
+        String engagementMessage = "Your engagement invitation has been sent.";
+        Object[][] arrayData = new Object[][]{{auditorID, clientID, password,
+                                               engagementName, engagementType, companyName, fullNameClient, roleName, engagementMessage}};
+
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{auditorID, clientID, password}};
+            arrayData = new Object[][]{{auditorID, clientID, password,
+                    engagementName, engagementType, companyName, fullNameClient, roleName, engagementMessage}};
         }
         return arrayData;
     }
@@ -63,18 +73,20 @@ public class MailAccessDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "openGMailForAuditorRegister")
     public static Object[][] getOpenGMailForAuditorRegister(){
-        Object[][] arrayData = new Object[][]{{auditorID, password}};
+        String auditorFullName = "Auditor Test";
+        Object[][] arrayData = new Object[][]{{auditorID, password, auditorFullName}};
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{auditorID, password}};
+            arrayData = new Object[][]{{auditorID, password, auditorFullName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyMailAuditorJoin")
     public static Object[][] getVerifyMailAuditorJoin(){
-        Object[][] arrayData = new Object[][]{{auditorID, password}};
+        String auditorFullName = "Auditor Test";
+        Object[][] arrayData = new Object[][]{{auditorID, password, auditorFullName}};
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{auditorID, password}};
+            arrayData = new Object[][]{{auditorID, password, auditorFullName}};
         }
         return arrayData;
     }
@@ -82,9 +94,12 @@ public class MailAccessDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyNotificationMailAuditorInvite")
     public static Object[][] getVerifyNotificationMailAuditorInvite(){
         String engagementName = "Engagement-Test";
-        Object[][] arrayData = new Object[][]{{auditorID, password, clientID, engagementName}};
+        String fullNameClient = "Titan client";
+        String roleName = "Leader";
+        String engagementMessage = "Your engagement invitation has been sent.";
+        Object[][] arrayData = new Object[][]{{auditorID, password, clientID, engagementName, fullNameClient, roleName, engagementMessage}};
         if(GenericService.sLanguage.equals(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{auditorID, password, clientID, engagementName}};
+            arrayData = new Object[][]{{auditorID, password, clientID, engagementName, fullNameClient, roleName, engagementMessage}};
         }
         return arrayData;
     }
