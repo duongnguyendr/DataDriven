@@ -3,8 +3,8 @@ package com.auvenir.ui.tests.client.todo;
 import com.auvenir.ui.tests.AbstractTest;
 
 /**
- * Created by doai.tran on 7/21/2017.
+ * Created by tan.pham on 7/21/2017.
  */
-public class ClientToDoTest extends AbstractTest {
+public class ClientRequestTest extends AbstractTest {
 
 }
