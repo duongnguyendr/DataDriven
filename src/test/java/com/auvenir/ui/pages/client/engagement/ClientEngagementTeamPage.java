@@ -77,9 +77,9 @@ public class ClientEngagementTeamPage extends AbstractPage {
         }
     }
 
-    public void verifyMessageFromRemovingTeamMember(){
+    public void verifyMessageFromRemovingTeamMember(String message){
         waitForVisibleElement(popUpRemoveMemberDone,"Popup alerts remove member done");
-        validateElementText(messageRemoveMemberDone, "Your team member has been removed.");
+        validateElementText(messageRemoveMemberDone, message);
 
     }
 
