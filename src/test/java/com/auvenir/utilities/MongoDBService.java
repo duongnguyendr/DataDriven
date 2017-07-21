@@ -698,6 +698,8 @@ public class MongoDBService {
                     dBCollection.update(searchQuery, new BasicDBObject("$pull", aclObject));
                     BasicDBObject toDoObject = new BasicDBObject("todos", new BasicDBObject("clientAssignee", new ObjectId(objectId)));
                     dBCollection.update(searchQuery, new BasicDBObject("$pull", toDoObject));
+                    BasicDBObject businessObject = new BasicDBObject("business", new BasicDBObject("keyContact", new ObjectId(objectId)));
+                    dBCollection.update(searchQuery, new BasicDBObject("$pull", businessObject));
                     count++;
                 }
             }
@@ -848,6 +850,49 @@ public class MongoDBService {
                 System.out.println("Deleted Businesses successfully.");
         } catch (NoSuchElementException ex) {
             System.out.println("This Businesses not exist on database.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Remove engagement with the name(engagementName) and created by Auditor(email)
+     * @param email the String email which has object ID displayed in 'acl' array object.
+     */
+    public static void removeEngagementCreatedByLeadAuditor(String email, String engagementName) {
+        String objectId = null;
+        int count = 0;
+        try {
+            DBCollection dBCollection = getCollection("engagements");
+            objectId = getObjectIdOfEmailUser(email);
+            if(objectId != null) {
+                BasicDBObject searchQuery = new BasicDBObject();
+                searchQuery.put("acl.id", new ObjectId(objectId));
+//                BasicDBObject searchQuery1 = new BasicDBObject();
+//                searchQuery.put("name",engagementName);
+                DBCursor curs = dBCollection.find(searchQuery);
+                while (curs.hasNext()) {
+                    DBObject dBbject = curs.next();
+                    // shows the whole result document
+                    BasicDBList aclObjectID = (BasicDBList) dBbject.get("acl");
+                    BasicDBObject[] aclObjectArr = aclObjectID.toArray(new BasicDBObject[0]);
+                    for(BasicDBObject dbObj : aclObjectArr) {
+                        // shows each item from the lights array
+                        if(dbObj.get("id").toString().equals(objectId) && dbObj.get("lead").equals(true)) {
+                            System.out.println("Engagement ObjectID: " + dBbject.get("_id"));
+                            System.out.println("Acl ObjectID: " + dBbject.get("acl"));
+                            dBCollection.remove(dBbject);
+                        }
+                    }
+                    count++;
+                }
+            }
+            if (count == 0) {
+                System.out.println(String.format("Engagement name '%s' is created by email '%s' is not exist on database", engagementName, email));
+            } else
+                System.out.println("Deleted Engagement successfully.");
+        } catch (NoSuchElementException ex) {
+            System.out.println("This engagement not exist on database.");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

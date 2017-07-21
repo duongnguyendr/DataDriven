@@ -16,10 +16,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -112,7 +109,7 @@ public class AbstractTest {
 
 
     @Parameters({"browser", "version", "os"})
-    @BeforeMethod
+    @BeforeMethod()
     public void setUp(Method method, String browser, String version, String os) {
         getLogger().info("Before Method.");
         getRunMode();
