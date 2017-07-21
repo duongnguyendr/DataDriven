@@ -28,8 +28,8 @@ public class ClientEngagementTeamService extends AbstractService {
         clientEngagementTeamPage.removeTeamMember(adminFullName);
     }
 
-    public void verifyMessageFromRemovingAdminClient() {
-        clientEngagementTeamPage.verifyMessageFromRemovingTeamMember();
+    public void verifyMessageFromRemovingAdminClient(String successMessage) {
+        clientEngagementTeamPage.verifyMessageFromRemovingTeamMember(successMessage);
     }
 
     public void verifyRemoveAdminClient(String adminFullName) {
