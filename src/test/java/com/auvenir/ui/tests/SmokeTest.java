@@ -244,11 +244,11 @@ public class SmokeTest extends AbstractTest {
 
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName,"Auvenir01");
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, roleClient);
+            clientService.fillInfoToInviteNewClient(clientFullName, clientId, roleClient);
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);

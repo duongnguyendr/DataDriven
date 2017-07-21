@@ -1,6 +1,5 @@
 package com.auvenir.ui.tests.auditor;
 
-import com.auvenir.ui.dataprovider.SmokeDataProvider;
 import com.auvenir.ui.dataprovider.auditor.AuditorTodoPageDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.AuvenirService;
@@ -156,7 +155,7 @@ public class AuditorToDoPageTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, "");
+            clientService.fillInfoToInviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
             marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();

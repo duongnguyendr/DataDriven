@@ -1,6 +1,7 @@
 package com.auvenir.ui.pages.client.engagement;
 
-import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementPage;
+import com.auvenir.ui.pages.common.EngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -15,9 +16,10 @@ import java.util.List;
 /**
  * Created by huy.huynh on 15/06/2017.
  */
-public class ClientEngagementPage extends AbstractPage {
+public class ClientEngagementPage extends EngagementPage {
 
-    @FindBy(xpath = "//div[@id='allClientEngagement']//span[@id='c-header-title']")
+    //@FindBy(xpath = "//div[@id='allClientEngagement']//span[@id='c-header-title']")
+    @FindBy(xpath = "//div[@id='preview-header-left']/span[@id='c-header-title']")
     private WebElement titleAllEngagement;
 
     @FindBy(id = "header-blue-logo")
@@ -126,7 +128,7 @@ public class ClientEngagementPage extends AbstractPage {
      * verify UI of List Engagement page - Header
      */
     public void verifyUIListEngagementHeader(String logoHeaderBluePartialLink, String headerEngagementsText, String headerContactsText,
-                                             String dashboardUsernameText, String dashboardSettingsText, String dashboardSignOutText) {
+            String dashboardUsernameText, String dashboardSettingsText, String dashboardSignOutText) {
         try {
             closeWarningToastMessage();
             //waitSomeSeconds(2);
@@ -147,12 +149,10 @@ public class ClientEngagementPage extends AbstractPage {
      * verify UI of List Engagement page - Body
      */
     public void verifyUIListEngagementBody(String previewHeaderText, String engagementFiltersText, String filterAllText,
-                                           String filterTypeOfEngagementText, String typeOfEngagementFinancialAuditText,
-                                           String typeOfEngagementReviewText, String typeOfEngagementNoticeToReaderCompilationText,
-                                           String typeOfEngagementOtherText, String engagementSearchText, String engagementColumnText,
-                                           String auditFirmColumnText, String statusColumnText, String auditAssigneeColumnText,
-                                           String completedDocsColumnText, String clientColumnText, String activityColumnText,
-                                           String dueDateColumnText) {
+            String filterTypeOfEngagementText, String typeOfEngagementFinancialAuditText, String typeOfEngagementReviewText,
+            String typeOfEngagementNoticeToReaderCompilationText, String typeOfEngagementOtherText, String engagementSearchText,
+            String engagementColumnText, String auditFirmColumnText, String statusColumnText, String auditAssigneeColumnText,
+            String completedDocsColumnText, String clientColumnText, String activityColumnText, String dueDateColumnText) {
         try {
             validateElementText(titlePreviewHeader, previewHeaderText);
             //validateElementText(buttonNewEngagement, "New Engagement");
@@ -190,8 +190,7 @@ public class ClientEngagementPage extends AbstractPage {
      * verify UI of List Engagement page - Footer
      */
     public void verifyUIListEngagementFooter(String companyInfoText, String termsOfServiceText, String termsOfServicePartialLink,
-                                             String privacyStatementText, String privacyStatementPartialLink, String cookieNoticeText,
-                                             String cookieNoticePartialLink) {
+            String privacyStatementText, String privacyStatementPartialLink, String cookieNoticeText, String cookieNoticePartialLink) {
         try {
             validateElementText(titleCompanyInfo, companyInfoText);
             validateElementText(titleTermsOfService, termsOfServiceText);
@@ -203,6 +202,21 @@ public class ClientEngagementPage extends AbstractPage {
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Error:  List Engagement Footer", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+    }
+
+    private AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
+
+    /**
+     * Click on the Engagement with the engagement Name.
+     *
+     * @param engagementName The Engagement Name which be found on Engagement page.
+     */
+    public void viewEngagementDetailsPage(String engagementName) {
+        try {
+            auditorEngagementPage.viewEngagementDetailsPage(engagementName);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

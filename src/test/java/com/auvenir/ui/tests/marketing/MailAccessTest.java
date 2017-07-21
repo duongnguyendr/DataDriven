@@ -140,7 +140,7 @@ public class MailAccessTest extends AbstractTest {
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientID, "Leader");
+            clientService.fillInfoToInviteNewClient("Titan client", clientID, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor login and invite client.", LogAs.PASSED, null);
@@ -248,7 +248,7 @@ public class MailAccessTest extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientId, "Leader");
+            clientService.fillInfoToInviteNewClient("Titan client", clientId, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

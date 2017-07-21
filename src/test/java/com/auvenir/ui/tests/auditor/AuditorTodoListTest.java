@@ -1758,7 +1758,7 @@ public class AuditorTodoListTest extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(clientFullName, clientId, "");
+            clientService.fillInfoToInviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             gmailLoginService.gmailReLogin(clientEmailPassword);
