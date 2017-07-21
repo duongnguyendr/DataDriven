@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class ClientEngagementPage extends EngagementPage {
 
+    //@FindBy(xpath = "//div[@id='allClientEngagement']//span[@id='c-header-title']")
     @FindBy(xpath = "//div[@id='preview-header-left']/span[@id='c-header-title']")
-//    @FindBy(xpath = "//div[@id='allClientEngagement']//span[@id='c-header-title']")
     private WebElement titleAllEngagement;
 
     @FindBy(id = "header-blue-logo")

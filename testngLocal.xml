@@ -10,9 +10,20 @@
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
-            <!--<methods>-->
-            <!--<include name="verifyLeadAuditorSeeAllFileRequest"></include>-->
-            <!--</methods>-->
+            <methods>
+            <include name="verifySignUpAuditorUser"></include>
+            <include name="verifyAdminChangeStatusUserToOnBoarding"></include>
+            <include name="verifyAuditorLoginGmailAndActiveUser"></include>
+            <include name="verifyLoginAuditorUser"></include>
+            <include name="verifyAdminAuditorCreateSimpleEngagement"></include>
+            <include name="verifyAdminAuditorInviteNewMemberAuditor"></include>
+            <include name="verifyAdminAuditorInvitingNewClient"></include>
+            <include name="verifyClientLogsInAndActive"></include>
+            <!--<include name="verifyClientActiveAfterSignUpSuccess"></include>-->
+            <!--<include name="verifyLeadAuditorCreateNewEngagement"></include>-->
+            <!--<include name="verifyLeadAuditorInviteNewAuditorMember"></include>-->
+            <!--<include name="verifyLeadAuditorInvitingAdminClient"></include>-->
+            </methods>
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">

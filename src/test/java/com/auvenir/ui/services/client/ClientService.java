@@ -434,4 +434,15 @@ public class ClientService extends AbstractService {
     public void verifyToDoTaskExist(String toDoName, boolean isClient) {
         clientToDoPage.verifyToDoTaskExist(toDoName, isClient);
     }
+
+//    public void selectClientAssigneeByName(String todoName, String clientAssignee){
+//        clientToDoPage.selectClientAssigneeByName(todoName,clientAssignee);
+//    }
+//
+//    public void verifyClientAssigneeSelected(String todoName, String clientAssignee){
+//        clientToDoPage.verifyClientAssigneeSelected(todoName,clientAssignee);
+//    }
+
+
+
 }
