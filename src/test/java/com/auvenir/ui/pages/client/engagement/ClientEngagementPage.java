@@ -110,6 +110,9 @@ public class ClientEngagementPage extends EngagementPage {
     @FindBy(id = "newAuditBtn")
     private WebElement buttonNewEngagement;
 
+    @FindBy(xpath = "//span[@id='a-header-title']")
+    private WebElement dashboardTextAtPage;
+
     public ClientEngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
@@ -195,5 +198,10 @@ public class ClientEngagementPage extends EngagementPage {
             NXGReports.addStep("Error:  List Engagement Footer", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
         }
+    }
+
+    public void verifyDetailsEngagement(String engagementName) {
+        waitForVisibleElement(dashboardTextAtPage, "dashboard text");
+        validateElementText(dashboardTextAtPage, engagementName);
     }
 }

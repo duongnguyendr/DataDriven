@@ -47,26 +47,6 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientTodoService clientTodoService;
     private AdminAuditorService adminAuditorService;
 
-    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", testName = "if_1", dataProvider = "verifyAdminLogin",
-            dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyAdminLogin(String adminId, String adminPassword) {
-        getLogger().info("Verify admin is able to login.");
-        adminService = new AdminService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        adminId = GenericService.sBrowserData + adminId;
-
-        try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
-            adminService.verifyPageLoad();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-    }
-
     @Test(priority = 1, enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
             dataProvider = "verifySignUpAuditorUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySignUpAuditorUser(String adminAuditorID, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
@@ -1023,11 +1003,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(priority = 40, enabled = true, description = "Verify Lead Client can see all to-dos", testName = "if_40")
     public void verifyLeadClientSeeToDo() {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         String leadClientID = "chr.vienpham.client.lead@gmail.com";
         String leadClientPassword = "Changeit@123";
         String engagementName = "Vien_Engagement";
@@ -1036,11 +1013,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(leadClientID, leadClientPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
             clientTodoService.verifyClientSeeListTodos(Arrays.asList(toDoListNames));
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1055,13 +1031,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     public void verifyLeadClientRemoveAdminClient(String leadClientID, String leadClientPwd, String engagementName2, String adminClientFullName,
             String successMessageRemoveTeamMember) {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         leadClientID = GenericService.addBrowserPrefix(leadClientID);
         //        String leadClientPassword = "Changeit@123";
         //        String engagementName = "Engagement GP02";
@@ -1071,9 +1042,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(leadClientID, leadClientPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
             clientEngagementTeamService.selectEngagementTeamMenu();
             clientEngagementTeamService.removeAdminClient(adminClientFullName);
             clientEngagementTeamService.verifyMessageFromRemovingAdminClient(successMessageRemoveTeamMember);
@@ -1092,13 +1063,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     public void verifyLeadClientInviteClient(String leadClientID, String leadClientPwd, String clientID, String clientEmailPwd,
             String engagementName2, String clientFullName, String successMessageInvitation, String roleClient) {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
         leadClientID = GenericService.addBrowserPrefix(leadClientID);
         //        String leadClientPassword = "Changeit@123";
         clientID = GenericService.addBrowserPrefix(clientID);
@@ -1113,24 +1080,13 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(leadClientID, leadClientPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
             clientEngagementTeamService.selectEngagementTeamMenu();
             clientService.selectInviteNewMemberButton();
             clientService.fillInfoToInviteNewMember(clientFullName, clientID, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);
-            /*
-            gmailLoginService.gmailReLogin(generalClientEmailPassword);
-            gmailLoginService.selectActiveEmaill();
-            gmailLoginService.selectStartEngagementBtnToNavigateToAuvenirPage();
-            clientSignUpService.navigateToSignUpForm();
-            clientSignUpService.fillUpPersonalForm("0123456789");
-            clientSignUpService.fillUpBusinessForm("Titancorpvn");//updateStackerHolder
-            clientSignUpService.fillUpBankForm();
-            clientSignUpService.fillUpFileForm();
-            clientSignUpService.fillUpSecurityForm(generalClientAuvenirPassword);
-            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);*/
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Lead client can invite a new general client: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1144,12 +1100,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             dataProvider = "verifyGeneralClientActive", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralClientActive(String clientID, String clientEmailPwd, String clientPwd, String engagementName2, String phoneNumber,
             String parentStackHolder) {
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
         clientID = GenericService.addBrowserPrefix(clientID);
@@ -1182,14 +1133,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(priority = 44, enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44, if_48")
     public void verifyLeadClientAssignTodoTaskToClient() {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
         String leadClientPassword = "Changeit@123";
         String engagementName = "Vien_Engagement";
@@ -1199,9 +1144,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(leadClientID, leadClientPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
             clientService.selectClientAssigneeByName(todoName, clientAssignee);
             clientService.verifyClientAssigneeSelected(todoName, clientAssignee);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1216,17 +1161,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(priority = 47, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47")
     public void verifyLeadClientMakeComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
         String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
         String leadClientPassword = "Changeit@123";
-        String todoName = "vientodo";
+        String todoName = "vientodo4";
         String commentContent = "Comment 01";
         String engagementName = "Vien_Engagement";
 
@@ -1234,14 +1173,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(leadClientID, leadClientPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
-            auditorCreateToDoService.clickCommentIconPerTaskName(todoName, true);
-            auditorCreateToDoService.verifyInputAComment(commentContent);
-            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickOnPostCommentButton();
-            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
+            clientTodoService.clickCommentIconPerTaskName(todoName, true);
+            clientTodoService.verifyInputAComment(commentContent);
+            int numberOfListCommentList = clientTodoService.getNumberOfListComment();
+            clientTodoService.clickOnPostCommentButton();
+            clientTodoService.verifyNewCommentIsDisplayed(numberOfListCommentList, commentContent);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Lead Client can make a comment on todo assigned: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1254,16 +1193,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(priority = 48, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47")
     public void verifyGeneralClientCanViewComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
         String generalClientAuvenirPassword = "Changeit@123";
-        String todoName = "vientodo";
+        String todoName = "vientodo4";
         String commentContent = "Comment 01";
         String engagementName = "Vien_Engagement";
         String leadClientFullName = "Lead Client";
@@ -1271,9 +1205,12 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
+           /* auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);*/
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
             clientTodoService.clickCommentIconPerTaskName(todoName, true);
             clientTodoService.verifyLastCommentOfUserDisplayed(commentContent, leadClientFullName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -1288,9 +1225,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(priority = 50, enabled = true, description = "To verify general Client can view Todo task assigned ", testName = "if_50")
     public void verifyGeneralClientCanViewTodoTaskAssigned() {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
         String generalClientAuvenirPassword = "Changeit@123";
         String engagementName = "Vien_Engagement";
@@ -1299,9 +1235,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
             clientService.verifyToDoTaskExist(todoName, true);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify general Client can view Todo task assigned: Pass.", LogAs.PASSED, null);
@@ -1315,17 +1251,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(priority = 53, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53")
     public void verifyGeneralClientMakeComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
         String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
         String generalClientAuvenirPassword = "Changeit@123";
-        String todoName = "vientodo";
+        String todoName = "vientodo4";
         String commentContent = "Comment 02";
         String engagementName = "Vien_Engagement";
 
@@ -1333,14 +1263,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
-            auditorCreateToDoService.clickCommentIconPerTaskName(todoName, true);
-            auditorCreateToDoService.verifyInputAComment(commentContent);
-            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickOnPostCommentButton();
-            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
+            clientTodoService.clickCommentIconPerTaskName(todoName, true);
+            clientTodoService.verifyInputAComment(commentContent);
+            int numberOfListCommentList = clientTodoService.getNumberOfListComment();
+            clientTodoService.clickOnPostCommentButton();
+            clientTodoService.verifyNewCommentIsDisplayed(numberOfListCommentList, commentContent);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify general Client can make a comment on todo assigned: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -1353,16 +1283,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(priority = 54, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53")
     public void verifyLeadClientCanViewComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
         String leadClientPassword = "Changeit@123";
-        String todoName = "vientodo";
+        String todoName = "vientodo4";
         String commentContent = "Comment 02";
         String engagementName = "Vien_Engagement";
         String generalClientFullName = "General Client";
@@ -1370,9 +1295,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(leadClientID, leadClientPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
             clientTodoService.clickCommentIconPerTaskName(todoName, true);
             clientTodoService.verifyLastCommentOfUserDisplayed(commentContent, generalClientFullName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

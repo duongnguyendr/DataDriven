@@ -1,5 +1,9 @@
 package com.auvenir.ui.pages.common;
 
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,6 +27,11 @@ public class EngagementPage extends AbstractPage {
     //    @FindBy(xpath = "//div[@id='cpa-main']/div")
     @FindBy(xpath = "//tbody[@id='engagement-tbody']//td/a")
     protected List<WebElement> engagementListEle;
+
+    @FindBy(id = "c-header-title")
+    private WebElement myEngagementTextEle;
+
+
 
     public EngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -64,4 +73,19 @@ public class EngagementPage extends AbstractPage {
             hoverElement(engagementListEle.get(index + 1), engagementName);
         clickElement(engagementListEle.get(index), engagementName);
     }
+
+    public void verifyEngagementPage() {
+        boolean isCompareText = false;
+        waitForVisibleElement(myEngagementTextEle, "myEngagementTextEle");
+        isCompareText = validateElementText(myEngagementTextEle, "All Engagements");
+        if (isCompareText) {
+            NXGReports.addStep("Verify user Engagement", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify user Engagement", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
+
+
 }
