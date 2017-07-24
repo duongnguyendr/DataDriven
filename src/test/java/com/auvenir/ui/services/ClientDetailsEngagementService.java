@@ -27,8 +27,8 @@ public class ClientDetailsEngagementService extends AbstractService {
         clientDetailsEngagementPage.clickInviteNewMember();
     }
 
-    public void chooseLeadClientWithTeamMemberName(String name, String lead) {
-        clientDetailsEngagementPage.chooseLeadWithTeamMemberName(name, lead);
+    public void chooseLeadClientWithTeamMemberName(String name) {
+        clientDetailsEngagementPage.chooseLeadWithTeamMemberName(name);
         clientDetailsEngagementPage.confirmSetUserToLead();
     }
 

@@ -17,7 +17,7 @@ public class ClientEngagementService extends AbstractService {
     }
 
     public void verifyNavigatedToClientEngagementPage() {
-        clientEngagementPage.verifyNavigatedToClientEngagementPage();
+        clientEngagementPage.verifyNavigatedToEngagementPage();
     }
 
     public void verifyUIListEngagementHeader(String logoHeaderBluePartialLink, String headerEngagementsText, String headerContactsText,

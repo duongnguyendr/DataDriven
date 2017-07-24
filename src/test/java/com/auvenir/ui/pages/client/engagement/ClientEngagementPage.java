@@ -1,6 +1,5 @@
 package com.auvenir.ui.pages.client.engagement;
 
-import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementPage;
 import com.auvenir.ui.pages.common.EngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
@@ -17,10 +16,6 @@ import java.util.List;
  * Created by huy.huynh on 15/06/2017.
  */
 public class ClientEngagementPage extends EngagementPage {
-
-    //@FindBy(xpath = "//div[@id='allClientEngagement']//span[@id='c-header-title']")
-    @FindBy(xpath = "//div[@id='preview-header-left']/span[@id='c-header-title']")
-    private WebElement titleAllEngagement;
 
     @FindBy(id = "header-blue-logo")
     private WebElement imageLogoHeaderBlue;
@@ -119,10 +114,6 @@ public class ClientEngagementPage extends EngagementPage {
         super(logger, driver);
     }
 
-    public void verifyNavigatedToClientEngagementPage() {
-        waitForVisibleElement(titleAllEngagement, "Title All Engagement");
-        validateElementText(titleAllEngagement, "All Engagements");
-    }
 
     /**
      * verify UI of List Engagement page - Header
@@ -202,21 +193,6 @@ public class ClientEngagementPage extends EngagementPage {
         } catch (Exception ex) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Error:  List Engagement Footer", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            ex.printStackTrace();
-        }
-    }
-
-    private AuditorEngagementPage auditorEngagementPage = new AuditorEngagementPage(getLogger(), getDriver());
-
-    /**
-     * Click on the Engagement with the engagement Name.
-     *
-     * @param engagementName The Engagement Name which be found on Engagement page.
-     */
-    public void viewEngagementDetailsPage(String engagementName) {
-        try {
-            auditorEngagementPage.viewEngagementDetailsPage(engagementName);
-        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
