@@ -5,6 +5,7 @@ import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.*;
 import com.auvenir.ui.services.client.*;
+import com.auvenir.ui.services.groupPermissions.AdminAuditorService;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.MarketingService;
@@ -18,6 +19,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +45,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientDetailsEngagementService clientDetailsEngagementService;
     private ClientEngagementService clientEngagementService;
     private ClientTodoService clientTodoService;
-
+    private AdminAuditorService adminAuditorService;
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login", testName = "if_1", dataProvider = "verifyAdminLogin",
             dataProviderClass = GroupPermissionsDataProvider.class)
@@ -1017,6 +1019,36 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     /**
      * Vien.Pham added to verify Lead Client on Todo.
      */
+
+    @Test(priority = 40, enabled = true, description = "Verify Lead Client can see all to-dos")
+    public void verifyLeadClientSeeToDo() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(),getDriver());
+        String leadClientID = "chr.vienpham.client.lead@gmail.com";
+        String leadClientPassword = "Changeit@123";
+        String engagementName = "Vien_Engagement";
+        String toDoListNames[] = {"vientodo1", "vientodo2", "vientodo3", "vientodo4"};
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(leadClientID, leadClientPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            clientTodoService.verifyClientSeeListTodos(Arrays.asList(toDoListNames));
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Permission Admin Auditor See ToDos: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
     @Test(priority = 41, enabled = true, description = "To verify Lead Client can remove Admin client", testName = "if_41",
             dataProvider = "verifyLeadClientRemoveAdminClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientRemoveAdminClient(String leadClientID, String leadClientPwd, String engagementName2, String adminClientFullName,
