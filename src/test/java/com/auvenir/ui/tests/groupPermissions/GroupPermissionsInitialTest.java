@@ -1020,14 +1020,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
      * Vien.Pham added to verify Lead Client on Todo.
      */
 
-    @Test(priority = 40, enabled = true, description = "Verify Lead Client can see all to-dos")
+    @Test(priority = 40, enabled = true, description = "Verify Lead Client can see all to-dos", testName = "if_40")
     public void verifyLeadClientSeeToDo() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
-        clientTodoService = new ClientTodoService(getLogger(),getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
         String leadClientID = "chr.vienpham.client.lead@gmail.com";
         String leadClientPassword = "Changeit@123";
         String engagementName = "Vien_Engagement";
@@ -1049,6 +1049,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             throw e;
         }
     }
+
     @Test(priority = 41, enabled = true, description = "To verify Lead Client can remove Admin client", testName = "if_41",
             dataProvider = "verifyLeadClientRemoveAdminClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientRemoveAdminClient(String leadClientID, String leadClientPwd, String engagementName2, String adminClientFullName,
@@ -1178,7 +1179,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 44, enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44")
+    @Test(priority = 44, enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44, if_48")
     public void verifyLeadClientAssignTodoTaskToClient() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1212,34 +1213,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 45, enabled = true, description = "To verify general Client can view Todo task assigned ", testName = "if_45")
-    public void verifyGeneralClientCanViewTodoTaskAssigned() {
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
-        String generalClientAuvenirPassword = "Changeit@123";
-        String engagementName = "Vien_Engagement";
-        String todoName = "vientodo";
-        try {
-            marketingService.goToBaseURL();
-            marketingService.openLoginDialog();
-            marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
-            clientService.verifyToDoTaskExist(todoName, true);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify general Client can view Todo task assigned: Pass.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify general Client can view Todo task assigned: Fail", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 46, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_46")
+    @Test(priority = 47, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47")
     public void verifyLeadClientMakeComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1277,7 +1251,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 47, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47")
+    @Test(priority = 48, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47")
     public void verifyGeneralClientCanViewComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1311,7 +1285,34 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 48, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_48")
+    @Test(priority = 50, enabled = true, description = "To verify general Client can view Todo task assigned ", testName = "if_50")
+    public void verifyGeneralClientCanViewTodoTaskAssigned() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
+        String generalClientAuvenirPassword = "Changeit@123";
+        String engagementName = "Vien_Engagement";
+        String todoName = "vientodo";
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            clientService.verifyToDoTaskExist(todoName, true);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify general Client can view Todo task assigned: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify general Client can view Todo task assigned: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 53, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53")
     public void verifyGeneralClientMakeComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1349,7 +1350,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 49, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_49")
+    @Test(priority = 54, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53")
     public void verifyLeadClientCanViewComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
