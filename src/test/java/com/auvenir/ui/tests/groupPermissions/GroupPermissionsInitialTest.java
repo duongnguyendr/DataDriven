@@ -45,7 +45,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientTodoService clientTodoService;
 
 
-    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", testName = "if_", dataProvider = "verifyAdminLogin",
+    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", testName = "if_1", dataProvider = "verifyAdminLogin",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminLogin(String adminId, String adminPassword) {
         getLogger().info("Verify admin is able to login.");
@@ -506,10 +506,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         MongoDBService.removeClientAndIndicatedValueByEmail(clientID);
 
         try {
-
-
             gmailLoginService.deleteAllExistedEmail(adminClientID, adminClientEmailPwd);
-
 
             marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorID, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -542,7 +539,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
 
-    @Test(priority = 15, enabled = true, description = "Verify Admin Client have permission to invite client via email.",
+    @Test(priority = 15, enabled = true, description = "Verify Admin Client have permission to invite client via email.", testName = "if_15",
             dataProvider = "verifyPermissionAdminClientCanInviteClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionAdminClientCanInviteClient(String adminClientID, String adminClientPwd, String leadClientID,
             String leadClientEmailPwd, String adminID, String adminAuvenirPwd, String engagementName2, String leadClientFullName,
@@ -587,7 +584,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 16, enabled = true, description = "Verify Invited Client have permission to seft-active via email.",
+    @Test(priority = 16, enabled = true, description = "Verify Invited Client have permission to seft-active via email.", testName = "if_16",
             dataProvider = "verifyPermissionClientCanActiveViaEmail", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionClientCanActiveViaEmail(String leadClientID, String leadClientEmailPwd, String clientPhoneNumber,
             String parentStackHolder, String leadClientPwd, String engagementName2) throws Exception {
@@ -622,9 +619,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 17, enabled = true,
-            description = "Verify Lead Client have permission to tranfer their Lead Permission to other Client on " + "team",
-            dataProvider = "verifyPermissionLeadPermissionCanBeTranfered", dataProviderClass = GroupPermissionsDataProvider.class)
+    @Test(priority = 17, enabled = true, description = "Verify Lead Client have permission to tranfer their Lead Permission to other Client on team",
+            testName = "if_17", dataProvider = "verifyPermissionLeadPermissionCanBeTranfered", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionLeadPermissionCanBeTranfered(String adminClientID, String adminClientPwd, String engagementName2,
             String leadClientFullName, String leadText) throws Exception {
         getLogger().info("Verify Admin Client have permission to invite client via email.");
