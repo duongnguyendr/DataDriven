@@ -45,28 +45,27 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientTodoService clientTodoService;
 
 
-    //    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin",
-    //            dataProviderClass = SmokeDataProvider.class)
-    //    public void verifyAdminLogin(, String adminPassword) {
-    //        getLogger().info("Verify admin is able to login.");
-    //        adminService = new AdminService(getLogger(), getDriver());
-    //        auvenirService = new AuvenirService(getLogger(), getDriver());
-    //        marketingService = new MarketingService(getLogger(), getDriver());
-    //
-    //        adminId = GenericService.sBrowserData + adminId;
-    //
-    //        try {
-    //            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
-    //            adminService.verifyPageLoad();
-    //            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-    //            NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
-    //        } catch (Exception e) {
-    //            NXGReports.addStep("Verify admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    //            e.printStackTrace();
-    //        }
-    //    }
+    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", testName = "if_", dataProvider = "verifyAdminLogin",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminLogin(String adminId, String adminPassword) {
+        getLogger().info("Verify admin is able to login.");
+        adminService = new AdminService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
 
-    @Test(priority = 2, enabled = true, description = "Verify Register and sign up successfully an Auditor User",
+        adminId = GenericService.sBrowserData + adminId;
+
+        try {
+            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
+            adminService.verifyPageLoad();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 2, enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_2",
             dataProvider = "verifySignUpAuditorUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySignUpAuditorUser(String adminAuditorID, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
             String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
@@ -109,7 +108,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(priority = 3, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
-            dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = GroupPermissionsDataProvider.class)
+            testName = "if_3", dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminChangeStatusUserToOnBoarding(String adminAuditorID, String adminID, String adminAuditorGmailPwd,
             String adminAuvenirPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
@@ -136,7 +135,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.",
+    @Test(priority = 4, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_4",
             dataProvider = "verifyAuditorLoginGmailAndActiveUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAuditorLoginGmailAndActiveUser(String adminAuditorID, String adminAuditorGmailPwd, String adminAuditorPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
@@ -166,7 +165,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify Auditor User can log in with user and password. ",
+    @Test(priority = 5, enabled = true, description = "Verify Auditor User can log in with user and password. ", testName = "if_5",
             dataProvider = "verifyLoginAuditorUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLoginAuditorUser(String adminAuditorID, String adminAuditorPwd) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -187,7 +186,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Admin Auditor create new Engagement1",
+    @Test(priority = 6, enabled = true, description = "Admin Auditor create new Engagement1", testName = "if_6",
             dataProvider = "verifyAdminAuditorCreateSimpleEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorCreateSimpleEngagement(String adminAuditorID, String engagementName1, String companyName, String adminAuditorPwd) {
         getLogger().info("Admin Auditor create new Engagement1 (simple engagement).");
@@ -218,7 +217,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "Verify that Admin Auditor can invite new member.",
+    @Test(priority = 7, enabled = true, description = "Verify that Admin Auditor can invite new member.", testName = "if_7",
             dataProvider = "verifyAdminAuditorInviteNewMemberAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInviteNewMemberAuditor(String leadAuditorID, String leadAuditorPwd, String adminAuditorID, String adminAuditorPwd,
             String engagementName1, String leadAuditorFullName, String partnerRole, String leadAuditorGmailPwd) throws Exception {
@@ -275,8 +274,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     /////// Test case verifyAdminAuditorInvitingNewClient, verifyClientLogsInAndActive, verifyClientActiveAfterSignUpSuccess will be uncomment to
     // run after the issue ( the System cannot add client member ) is fixed.
 
-    @Test(priority = 8, enabled = true, description = "Verify that Auditor can invite a client", dataProvider = "verifyAdminAuditorInvitingNewClient",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+    @Test(priority = 8, enabled = true, description = "Verify that Auditor can invite a client", testName = "if_8",
+            dataProvider = "verifyAdminAuditorInvitingNewClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInvitingNewClient(String adminID, String adminAuvenirPwd, String adminClientID, String adminClientEmailPwd,
             String adminAuditorID, String adminAuditorPwd, String engagementName1, String adminClientFullName, String roleClient,
             String onboardingStatus) throws Exception {
@@ -323,7 +322,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed",
+    @Test(priority = 9, enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed", testName = "if_9",
             dataProvider = "verifyClientLogsInAndActive", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyClientLogsInAndActive(String adminClientID, String adminClientEmailPwd, String clientPhoneNumber, String parentStackHolder,
             String adminClientPwd, String engagementName1) throws Exception {
@@ -358,7 +357,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 10, enabled = true, description = "Verify that client user is active successful and client log in system",
+    @Test(priority = 10, enabled = true, description = "Verify that client user is active successful and client log in system", testName = "if_10",
             dataProvider = "verifyClientActiveAfterSignUpSuccess", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyClientActiveAfterSignUpSuccess(String adminID, String adminAuvenirPwd, String adminClientID, String activeStatus,
             String adminClientPwd) {
@@ -392,7 +391,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 11, enabled = true, description = "Verify that lead auditor user create a engagement 2",
+    @Test(priority = 11, enabled = true, description = "Verify that lead auditor user create a engagement 2", testName = "if_11",
             dataProvider = "verifyLeadAuditorCreateNewEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorCreateNewEngagement(String leadAuditorID, String leadAuditorPwd, String engagementName2, String companyName) {
         getLogger().info("Lead Auditor create new Engagement2.");
@@ -421,7 +420,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 12, enabled = true, description = "Verify that lead auditor user create a engagement 2",
+    @Test(priority = 12, enabled = true, description = "Verify that lead auditor user create a engagement 2", testName = "if_12",
             dataProvider = "verifyLeadAuditorInviteNewAuditorMember", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorInviteNewAuditorMember(String leadAuditorID, String leadAuditorPwd, String auditorID, String auditorGmailPwd,
             String auditorPwd, String engagementName2, String auditorFullName, String partnerRole) throws Exception {
@@ -473,7 +472,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 13, enabled = true, description = "Verify that Lead Auditor can invite a admin client",
+    @Test(priority = 13, enabled = true, description = "Verify that Lead Auditor can invite a admin client", testName = "if_13",
             dataProvider = "verifyLeadAuditorInvitingAdminClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorInvitingAdminClient(String adminID, String leadAuditorID, String adminClientID, String adminClientEmailPwd,
             String leadAuditorPwd, String engagementName2, String adminClientFullName, String roleClient, String clientPhoneNumber,
