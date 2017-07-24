@@ -825,7 +825,7 @@ public class AbstractPage {
     public boolean clickElement(WebElement element, String elementName) {
         getLogger().info("Try to ClickElement: " + elementName);
         try {
-            waitForClickableOfElement(element, "click to " + elementName);
+//            waitForClickableOfElement(element, "click to " + elementName);
             element.click();
             NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
             return true;
@@ -1237,13 +1237,9 @@ public class AbstractPage {
         try {
             int categoryExist = checkCategoryExist(categoryName);
             if (categoryExist != -1){
-                // Need sleep after click category drop down list
-//                Thread.sleep(2000);
-//                waitForVisibleElement(dropdownCategoryEle.get(0), "dropdownCategoryEle");
-//                clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
                 clickElement(dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']")).get(categoryExist));
             }else{
-            	clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
+                sendTabkey(dropdownCategoryEle.get(0), "dropdownCategoryEle");
                 createNewCategory(categoryName);
             }
         }catch (Exception e){
@@ -1257,7 +1253,7 @@ public class AbstractPage {
     public int checkCategoryExist(String categoryName){
         int index = -1;
         try{
-        	Thread.sleep(2000);
+        	Thread.sleep(3000);
         	clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
             List<WebElement> listCategory = dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']"));
             for (int i = 0; i < listCategory.size(); i++){

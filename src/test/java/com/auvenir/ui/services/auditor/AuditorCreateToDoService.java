@@ -746,6 +746,10 @@ public class AuditorCreateToDoService extends AbstractService {
         }
     }
 
+    public void verifyLeadAuditorSeeListToDoTask(boolean isExists, List<String> toDoNames) {
+        createToDoPage.verifyPermissionSeeListToDoTask(toDoNames, false, isExists);
+    }
+
     /**
      * Check all ToDo item is delete
      */

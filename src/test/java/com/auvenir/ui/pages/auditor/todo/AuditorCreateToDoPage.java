@@ -1271,6 +1271,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
             
             // Create new category
             selectCategory(categoryName);
+            waitSomeSeconds(1);
 //            createNewCategory(categoryName);
             NXGReports.addStep("Create To Do Task", LogAs.PASSED, null);
         }
@@ -5210,7 +5211,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
      * @return
      */
     public int findToDoTaskName(String toDoName, boolean isClient) {
-        getLogger().info("Find Position of To Do Task Name");
+        getLogger().info(String.format("Find Position of To Do '%s'", toDoName));
         String actualAttributeValue;
         String classAttribute;
         WebElement toDoNameCell = null;
