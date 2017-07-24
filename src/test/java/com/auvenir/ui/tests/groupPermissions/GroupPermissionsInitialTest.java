@@ -900,7 +900,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         String auditorId = "duongauvenir01@gmail.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String todo1 = "Todo 1";
         String todo2 = "Todo 2";
         String todo3 = "Todo 3";
@@ -913,7 +913,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, password);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagement);
-            auditorCreateToDoService.createListToDoTask(listTodo);
+//            auditorCreateToDoService.createListToDoTask(listTodo);
+            auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, "Category 1");
             auditorCreateToDoService.checkToDoListIsExists(true, listTodo);
             for (String todo : listTodo) {
                 auditorCreateToDoService.selectClientAssigneeByName(todo, clientAssign);
@@ -937,7 +938,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         String auditorId = "duongauvenir01@gmail.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String auditorAssign = "Auditor 007";
         String toDoName = "Todo 1";
         try {
@@ -968,7 +969,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "duongauvenir01@gmail.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String toDoName = "Todo 1";
         String commentContent = "Comment on Todo 1";
         try {
@@ -1003,7 +1004,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "duongauvenir01@gmail.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String toDoName = "Todo 2";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, password);
@@ -1041,7 +1042,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "duongauvenir01@gmail.com";
         String auditorPwd = "Changeit@123";
-        String engagementName = "Engagement Dr";
+        String engagementName = "Firm Auvenir Duong";
         String toDoName = "Todo 3";
         String fullNameInvitedMember = "Auditor 007";
         String fullNameInvitedClient = "Duong Client";
@@ -1079,7 +1080,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "duongauvenir01@gmail.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String toDoName = "Todo 3";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, password);
@@ -1112,7 +1113,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "duongauvenir01@gmail.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
         try {
             auditorCreateToDoService.checkFileDownloadExisted(fileDownload);
@@ -1144,7 +1145,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         String auditorId = "auditor007@mailinator.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String todo4 = "Todo 4";
         String todo5 = "Todo 5";
         String todo6 = "Todo 6";
@@ -1157,7 +1158,6 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, password);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagement);
-            //            auditorCreateToDoService.createListToDoTask(listTodo);
             auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, "Category 1");
             auditorCreateToDoService.checkToDoListIsExists(true, listTodo);
 
@@ -1183,7 +1183,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "auditor007@mailinator.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String toDoName = "Todo 4";
         String commentContent = "Comment on Todo 4";
         try {
@@ -1209,7 +1209,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(priority = 37, enabled = true, description = "Verify group permission General auditor mark completed todo.")
-    public void verifyGeneralAuditorMarkCompleted() {
+    public void verifyGeneralAuditorMarkCompleted() throws Exception{
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -1218,7 +1218,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "auditor007@mailinator.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String toDoName = "Todo 5";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, password);
@@ -1256,7 +1256,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "auditor007@mailinator.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String toDoName = "Todo 6";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, password);
@@ -1289,7 +1289,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         String auditorId = "auditor007@mailinator.com";
         String password = "Changeit@123";
-        String engagement = "Engagement Dr";
+        String engagement = "Firm Auvenir Duong";
         String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
         try {
             auditorCreateToDoService.checkFileDownloadExisted(fileDownload);
