@@ -1252,8 +1252,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
 
     public void createToDoTaskWithCategoryName(String toDoName, String categoryName) throws Exception {
         getLogger().info("Create To Do Task with 'toDoName' and 'categoryName'");
-        WebElement engagmentTitle = getDriver().findElement(By.xpath("//*[@id='a-header-title']"));
-        System.out.println("engagmentTitle Value: " + engagmentTitle.getAttribute("value"));
         waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
         String rowString = toDoTaskRowEle.get(0).getAttribute("class");
         int size = 1;
@@ -1261,7 +1259,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         if (!rowString.equals("")) {
             size = toDoTaskRowEle.size() + 1;
             index = findToDoTaskName(toDoName);
-            System.out.println("Index Create: " + index);
         }
         if (index == -1) {
             getLogger().info("Create New To Do Task");
@@ -1269,7 +1266,9 @@ public class AuditorCreateToDoPage extends AbstractPage {
             clickElement(createToDoBtnEle, "Create To Do button");
             waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
             sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
-            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+//            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
+            sendTabkey(eleToDoSearchInput, "First To Do Name textbox");
+            
             // Create new category
             selectCategory(categoryName);
 //            createNewCategory(categoryName);
@@ -1663,7 +1662,6 @@ public class AuditorCreateToDoPage extends AbstractPage {
         String classAttribute;
         for (int i = 0; i < toDoTaskRowEle.size(); i++) {
             classAttribute = toDoTaskRowEle.get(i).getAttribute("class");
-            System.out.println("i" + i);
             if (classAttribute.equals("newRow")) {
                 boolean elementExisted = validateNotExistedElement(toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']")), "toDoTaskRowEle");
                 if (!elementExisted) {

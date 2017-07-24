@@ -433,7 +433,7 @@ public class AbstractTest {
 
     public DesiredCapabilities setDownloadLocationChrome() {
         //Vien.pham added some new rows to set Download dir of Chrome.
-        String downloadFilepath = GenericService.sDirPath + "/src/test/resources/download/";
+        String downloadFilepath = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
         chromePrefs.put("download.default_directory", downloadFilepath);

@@ -1236,18 +1236,14 @@ public class AbstractPage {
     public void selectCategory(String categoryName){
         try {
             int categoryExist = checkCategoryExist(categoryName);
-            System.out.println("Category existed: " + categoryExist);
             if (categoryExist != -1){
-                clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
-//                List<WebElement> listCategory = dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']")).get(categoryExist);
+                // Need sleep after click category drop down list
+//                Thread.sleep(2000);
+//                waitForVisibleElement(dropdownCategoryEle.get(0), "dropdownCategoryEle");
+//                clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
                 clickElement(dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']")).get(categoryExist));
-//                for (int i = 0; i < listCategory.size(); i++){
-//                    if (listCategory.get(i).getAttribute("textContent").equals(categoryName)){
-//                        clickElement(listCategory.get(i));
-//                        break;
-//                    }
-//                }
             }else{
+            	clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
                 createNewCategory(categoryName);
             }
         }catch (Exception e){
@@ -1261,16 +1257,17 @@ public class AbstractPage {
     public int checkCategoryExist(String categoryName){
         int index = -1;
         try{
+        	Thread.sleep(2000);
+        	clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
             List<WebElement> listCategory = dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']"));
             for (int i = 0; i < listCategory.size(); i++){
                 if (listCategory.get(i).getAttribute("textContent").equals(categoryName)){
                     index = i;
+                    break;
                 }
             }
             return  index;
         }catch (Exception e){
-            NXGReports.addStep("Find category error.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
             return  index;
         }
     }
