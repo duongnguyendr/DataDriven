@@ -6,6 +6,8 @@ import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 /**
  * Created by vien.pham on 7/21/2017.
  */
@@ -18,17 +20,40 @@ public class ClientTodoService extends AbstractService {
      */
 
     TodoPage todoPage;
+    ClientToDoPage clientToDoPage;
+
     public ClientTodoService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        todoPage = new ClientToDoPage(getLogger(),getDriver());
+        //        todoPage = new ClientToDoPage(getLogger(), getDriver());
+        clientToDoPage = new ClientToDoPage(getLogger(), getDriver());
     }
 
 
     public void clickCommentIconPerTaskName(String todoTaskName, boolean isClient) {
-        todoPage.clickCommentIconPerTaskName(todoTaskName,isClient);
+        clientToDoPage.clickCommentIconPerTaskName(todoTaskName, isClient);
     }
 
     public void verifyLastCommentOfUserDisplayed(String commentContent, String userFullName) {
-        todoPage.verifyLastCommentOfUserDisplayed(commentContent, userFullName);
+        clientToDoPage.verifyLastCommentOfUserDisplayed(commentContent, userFullName);
+    }
+
+    public void verifyClientSeeListTodos(List<String> listTodoNames) {
+        clientToDoPage.verifyPermissionSeeListToDoTask(listTodoNames, true, true);
+    }
+
+    public void verifyInputAComment(String commentContent) {
+        clientToDoPage.verifyInputAComment(commentContent);
+    }
+
+    public int getNumberOfListComment() {
+        return clientToDoPage.getNumberOfListComment();
+    }
+
+    public void clickOnPostCommentButton() {
+        clientToDoPage.clickOnPostCommentButton();
+    }
+
+    public void verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
+        clientToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
     }
 }

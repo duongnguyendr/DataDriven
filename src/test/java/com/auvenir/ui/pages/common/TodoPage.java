@@ -31,7 +31,16 @@ public class TodoPage extends AbstractPage {
     private List<WebElement> userNameCommenterEle;
     @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//p[@class='detComment']")
     private List<WebElement> descriptionCommentEle;
-
+    @FindBy(xpath = "//div[@id='comment-form']/input[@placeholder='Type a comment']")
+    private WebElement typeCommentFieldEle;
+    @FindBy(xpath = "//*[@id='comment-box']/p/span/span")
+    //    @FindBy(xpath = "//*[@id='comment-box']/p")
+    private WebElement commentboxTitleEle;
+    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='todo-comment-container']//p")
+    //    @FindBy(xpath = "//*[@id='todoDetailsCommentList']/div[@class='comment-item']")
+    private List<WebElement> listCommentItemEle;
+    @FindBy(xpath = "//*[@id='comment-button']")
+    private WebElement postCommentButton;
 
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
@@ -101,5 +110,111 @@ public class TodoPage extends AbstractPage {
             getLogger().info(e);
             return false;
         }
+    }
+
+    public boolean verifyPermissionSeeListToDoTask(List<String> listToDoName, boolean isNotEditedToDo, boolean possibleSee) {
+        boolean result = true;
+        try {
+            for (int i = 0; i < listToDoName.size(); i++) {
+                if (!verifyPermissionSeeToDoTask(listToDoName.get(i), isNotEditedToDo, possibleSee))
+                    result = false;
+            }
+            Assert.assertTrue(result, "User " + (possibleSee ? "should" : "should not") + " has permission to see list ToDo task");
+            NXGReports.addStep("Verify User " + (possibleSee ? "has" : "does not have") + " permission to see list ToDo task", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify User " + (possibleSee ? "has" : "does not have") + " permission to see list ToDo task",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify User " + (possibleSee ? "has" : "does not have") + " permission to see list ToDo task",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return result;
+    }
+
+    public boolean verifyPermissionSeeToDoTask(String toDoName, boolean isNotEditedToDo, boolean isDisplayed) {
+        boolean result = false;
+        try {
+            int count = findToDoTaskName(toDoName, isNotEditedToDo);
+            if (isDisplayed) {
+                if (count != -1)
+                    result = true;
+            } else {
+                if (count == -1)
+                    result = true;
+            }
+            Assert.assertTrue(result, "To Do Name is not displayed");
+            NXGReports.addStep(String.format("Verify To Do '%s' is displayed", toDoName), LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports
+                    .addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports
+                    .addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return result;
+    }
+
+    public boolean verifyInputAComment(String commentContent) {
+        try {
+            boolean result;
+            getLogger().info("Verify Input a Comment");
+            waitForVisibleElement(typeCommentFieldEle, "Input Comment field");
+            sendKeyTextBox(typeCommentFieldEle, commentContent, "Input Comment field");
+            result = validateAttributeElement(typeCommentFieldEle, "value", commentContent);
+            Assert.assertTrue(result, "Input a Comment is unsuccessfully");
+            NXGReports.addStep("Verify Input Comment", LogAs.PASSED, null);
+            return true;
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("TestScript Failed: Verify Input a Comment", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+    }
+
+    public int getNumberOfListComment() {
+        getLogger().info("Get Number of List Comment.");
+        if (commentboxTitleEle.getText().trim().equals("0")) {
+            return 0;
+        } else {
+            return listCommentItemEle.size();
+        }
+    }
+
+    public void clickOnPostCommentButton() {
+        getLogger().info("Click Post Comment Button");
+        int size = getNumberOfListComment();
+        waitForVisibleElement(postCommentButton, "Comment Input field");
+        clickElement(postCommentButton, "Comment Input field");
+        waitForSizeListElementChanged(listCommentItemEle, "List Comment", size + 1);
+    }
+
+    public boolean verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
+        try {
+            boolean result;
+            getLogger().info("Verify New Comment is displayed");
+            int count = numberListCommentBeforeAdding + 1;
+            result = waitForSizeListElementChanged(listCommentItemEle, "List Comment", count);
+            Assert.assertTrue(result, "No New Comment is displayed.");
+            result = verifyCommentContentIsDisplayed(commentContent);
+            Assert.assertTrue(result, "Content of comment is NOT displayed.");
+            NXGReports.addStep("Verify New Comment Is Displayed", LogAs.PASSED, null);
+            return true;
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("TestScript Failed: Verify New Comment Is Displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            return false;
+        }
+
     }
 }
