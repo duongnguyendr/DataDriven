@@ -63,7 +63,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider{
     private static String adminClientID = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Client", "Valid Value");
     private static String adminClientPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
     private static String adminClientEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-    private static String adminClientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
+    private static String adminClientFullName = "Admin Client";
     private static String roleClient = "";
 
     private static String clientPhoneNumber = "0123456789";
@@ -82,6 +82,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider{
     private static String leadClientFullName = "Lead Client";
 
     private static String successMessageInvitation = "Your engagement invitation has been sent.";
+    private static String successMessageRemoveTeamMember = "Your team member has been removed.";
 
     private static String clientID = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client", "Valid Value");
     private static String clientEmailPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client Email Password", "Valid Value");
@@ -292,7 +293,40 @@ public class GroupPermissionsDataProvider extends CommonDataProvider{
                 {adminClientID, adminClientPwd, engagementName2, leadClientFullName, leadText}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {leadClientID, leadClientEmailPwd, clientPhoneNumber, parentStackHolder, leadClientPwd, engagementName2}};
+                    {adminClientID, adminClientPwd, engagementName2, leadClientFullName, leadText}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyLeadClientRemoveAdminClient")
+    public static Object[][] getVerifyLeadClientRemoveAdminClient() {
+        Object[][] arrayData = new Object[][]{
+                {leadClientID, leadClientPwd, engagementName2, adminClientFullName, successMessageRemoveTeamMember}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {leadClientID, leadClientPwd, engagementName2, adminClientFullName, successMessageRemoveTeamMember}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyLeadClientInviteClient")
+    public static Object[][] getVerifyLeadClientInviteClient() {
+        Object[][] arrayData = new Object[][]{
+                {leadClientID, leadClientPwd, clientID, clientEmailPwd, engagementName2, clientFullName, successMessageInvitation, roleClient}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {leadClientID, leadClientPwd, clientID, clientEmailPwd, engagementName2, clientFullName, successMessageInvitation, roleClient}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyGeneralClientActive")
+    public static Object[][] getVerifyGeneralClientActive() {
+        Object[][] arrayData = new Object[][]{
+                {clientID, clientEmailPwd, clientPwd, engagementName2, phoneNumber, parentStackHolder}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {clientID, clientEmailPwd, clientPwd, engagementName2, phoneNumber, parentStackHolder}};
         }
         return arrayData;
     }
