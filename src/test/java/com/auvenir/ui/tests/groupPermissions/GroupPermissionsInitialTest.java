@@ -652,10 +652,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     /**
      * Vien.Pham added to verify Lead Client on Todo.
      */
-    @Test(priority = 41, enabled = true, description = "To verify Lead Client can remove Admin client",
+    @Test(priority = 41, enabled = true, description = "To verify Lead Client can remove Admin client", testName = "if_41",
             dataProvider = "verifyLeadClientRemoveAdminClient", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadClientRemoveAdminClient(String leadClientID, String leadClientPwd, String engagementName2, String
-            adminClientFullName, String successMessageRemoveTeamMember) {
+    public void verifyLeadClientRemoveAdminClient(String leadClientID, String leadClientPwd, String engagementName2, String adminClientFullName,
+            String successMessageRemoveTeamMember) {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
@@ -665,10 +665,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
         leadClientID = GenericService.addBrowserPrefix(leadClientID);
-//        String leadClientPassword = "Changeit@123";
-//        String engagementName = "Engagement GP02";
-//        String adminClientFullName = "Admin Client";
-//        String successMessageRemoveTeamMember = "Your team member has been removed.";
+        //        String leadClientPassword = "Changeit@123";
+        //        String engagementName = "Engagement GP02";
+        //        String adminClientFullName = "Admin Client";
+        //        String successMessageRemoveTeamMember = "Your team member has been removed.";
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -689,10 +689,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 42, enabled = true, description = "To verify Lead Client can invite a general client",
+    @Test(priority = 42, enabled = true, description = "To verify Lead Client can invite a general client", testName = "if_42",
             dataProvider = "verifyLeadClientInviteClient", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadClientInviteClient(String leadClientID, String leadClientPwd, String clientID, String
-            clientEmailPwd, String engagementName2, String clientFullName, String successMessageInvitation, String roleClient) {
+    public void verifyLeadClientInviteClient(String leadClientID, String leadClientPwd, String clientID, String clientEmailPwd,
+            String engagementName2, String clientFullName, String successMessageInvitation, String roleClient) {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
@@ -702,12 +702,12 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
         leadClientID = GenericService.addBrowserPrefix(leadClientID);
-//        String leadClientPassword = "Changeit@123";
+        //        String leadClientPassword = "Changeit@123";
         clientID = GenericService.addBrowserPrefix(clientID);
-//        String generalClientEmailPassword = "Changeit@123";
-//        String engagementName = "Engagement GP02";
-//        String generalClientFullName = "General Client";
-//        String successMessage = "Your engagement invitation has been sent.";
+        //        String generalClientEmailPassword = "Changeit@123";
+        //        String engagementName = "Engagement GP02";
+        //        String generalClientFullName = "General Client";
+        //        String successMessage = "Your engagement invitation has been sent.";
 
         MongoDBService.removeClientAndIndicatedValueByEmail(clientID);
         try {
@@ -742,7 +742,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 43, enabled = true, description = "Verify general Client can active from invited",
+    @Test(priority = 43, enabled = true, description = "Verify general Client can active from invited", testName = "if_43",
             dataProvider = "verifyGeneralClientActive", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralClientActive(String clientID, String clientEmailPwd, String clientPwd, String engagementName2, String phoneNumber,
             String parentStackHolder) {
@@ -755,11 +755,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
         clientID = GenericService.addBrowserPrefix(clientID);
-//        String generalClientEmailPassword = "Changeit@123";
-//        String generalClientAuvenirPassword = "Changeit@123";
-//        String engagementName = "Vien_Engagement";
-//        String phoneNumber = "1234567890";
-//        String stackerHolder = "Titancorpvn";
+        //        String generalClientEmailPassword = "Changeit@123";
+        //        String generalClientAuvenirPassword = "Changeit@123";
+        //        String engagementName = "Vien_Engagement";
+        //        String phoneNumber = "1234567890";
+        //        String stackerHolder = "Titancorpvn";
 
         try {
             gmailLoginService.gmailLogin(clientID, clientEmailPwd);
@@ -781,7 +781,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 44, enabled = true, description = "To verify Lead Client can assign todo task to general client")
+    @Test(priority = 44, enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44")
     public void verifyLeadClientAssignTodoTaskToClient() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -815,7 +815,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 45, enabled = true, description = "To verify general Client can view Todo task assigned ")
+    @Test(priority = 45, enabled = true, description = "To verify general Client can view Todo task assigned ", testName = "if_45")
     public void verifyGeneralClientCanViewTodoTaskAssigned() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -842,7 +842,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 46, enabled = true, description = "Verify Lead Client can make a comment on todo assigned")
+    @Test(priority = 46, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_46")
     public void verifyLeadClientMakeComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -880,7 +880,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 47, enabled = true, description = "Verify general Client can view a comment made by lead client ")
+    @Test(priority = 47, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47")
     public void verifyGeneralClientCanViewComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -914,7 +914,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 48, enabled = true, description = "Verify general Client can make a comment on todo assigned")
+    @Test(priority = 48, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_48")
     public void verifyGeneralClientMakeComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -952,7 +952,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 49, enabled = true, description = "Verify Lead Client can view a comment made by general client ")
+    @Test(priority = 49, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_49")
     public void verifyLeadClientCanViewComment() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -991,7 +991,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
      * End of Vien Pham
      */
 
-    @Test(priority = 19, enabled = true, description = "Verify group permission Lead auditor create todo.")
+    @Test(priority = 18, enabled = true, description = "Verify group permission Lead auditor create todo.", testName = "if_18, if_19, if_20")
     public void verifyLeadAuditorCreateTodoAndAssignClient() throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1028,7 +1028,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 21, enabled = true, description = "Verify group permission Lead auditor assign todo to general auditor.")
+    @Test(priority = 21, enabled = true, description = "Verify group permission Lead auditor assign todo to general auditor.", testName = "if_21")
     public void verifyLeadAuditorAssignToGeneralAuditor() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1057,7 +1057,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 25, enabled = true, description = "Verify group permission Lead auditor commenting.")
+    @Test(priority = 25, enabled = true, description = "Verify group permission Lead auditor commenting.", testName = "if_25")
     public void verifyLeadAuditorCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1092,7 +1092,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 26, enabled = true, description = "Verify group permission Lead auditor mark completed todo.")
+    @Test(priority = 26, enabled = true, description = "Verify group permission Lead auditor mark completed todo.", testName = "if_26")
     public void verifyLeadAuditorMarkCompleted() {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1131,7 +1131,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 27, enabled = true, description = "Verify Lead auditor Assign ToDo Bulk Action.")
+    @Test(priority = 27, enabled = true, description = "Verify Lead auditor Assign ToDo Bulk Action.", testName = "if_27")
     public void verifyLeadAuditorAssignToDoBulkAction() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1169,7 +1169,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 28, enabled = true, description = "Verify group permission Lead auditor delete todo.")
+    @Test(priority = 28, enabled = true, description = "Verify group permission Lead auditor delete todo.", testName = "if_28")
     public void verifyLeadAuditorDeleteTodo() {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1202,7 +1202,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 29, enabled = true, description = "Verify group permission Lead auditor download from all todo.")
+    @Test(priority = 29, enabled = true, description = "Verify group permission Lead auditor download from all todo.", testName = "if_29")
     public void verifyLeadAuditorDownloadFromAllTodo() {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1236,7 +1236,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 30, enabled = true, description = "Verify group permission General auditor create todo.")
+    @Test(priority = 30, enabled = true, description = "Verify group permission General auditor create todo.", testName = "if_30, if_31, if_33")
     public void verifyGeneralAuditorCreateTodo() throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1271,7 +1271,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 36, enabled = true, description = "Verify group permission General auditor commenting.")
+    @Test(priority = 36, enabled = true, description = "Verify group permission General auditor commenting.", testName = "if_36")
     public void verifyGeneralAuditorCommenting() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1306,8 +1306,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 37, enabled = true, description = "Verify group permission General auditor mark completed todo.")
-    public void verifyGeneralAuditorMarkCompleted() throws Exception{
+    @Test(priority = 37, enabled = true, description = "Verify group permission General auditor mark completed todo.", testName = "if_37")
+    public void verifyGeneralAuditorMarkCompleted() {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -1345,7 +1345,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 38, enabled = true, description = "Verify group permission General auditor delete todo.")
+    @Test(priority = 38, enabled = true, description = "Verify group permission General auditor delete todo.", testName = "if_38")
     public void verifyGeneralAuditorDeleteTodo() {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1378,7 +1378,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 39, enabled = true, description = "Verify group permission General auditor download from all todo.")
+    @Test(priority = 39, enabled = true, description = "Verify group permission General auditor download from all todo.", testName = "if_39")
     public void verifyGeneralAuditorDownloadFromAllTodo() {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
