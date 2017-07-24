@@ -37,7 +37,9 @@ public class InitData extends AbstractTest {
             initUser("User1");
             initUser("User2");
             initUser("User3");
-
+            initUser("User4");
+            initUser("User5");
+            initUser("User6");
             /*DBObject adminDBObject = (DBObject) JSON.parse(getDataColumn("User Json"));
             adminDBObject.put("_id", new ObjectId(getDataColumn("ID")));
             ISO8601DateFormat df = new ISO8601DateFormat();
