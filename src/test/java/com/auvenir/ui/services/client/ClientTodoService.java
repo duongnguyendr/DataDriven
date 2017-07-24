@@ -6,6 +6,8 @@ import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 /**
  * Created by vien.pham on 7/21/2017.
  */
@@ -18,17 +20,22 @@ public class ClientTodoService extends AbstractService {
      */
 
     TodoPage todoPage;
+
     public ClientTodoService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        todoPage = new ClientToDoPage(getLogger(),getDriver());
+        todoPage = new ClientToDoPage(getLogger(), getDriver());
     }
 
 
     public void clickCommentIconPerTaskName(String todoTaskName, boolean isClient) {
-        todoPage.clickCommentIconPerTaskName(todoTaskName,isClient);
+        todoPage.clickCommentIconPerTaskName(todoTaskName, isClient);
     }
 
     public void verifyLastCommentOfUserDisplayed(String commentContent, String userFullName) {
         todoPage.verifyLastCommentOfUserDisplayed(commentContent, userFullName);
+    }
+
+    public void verifyClientSeeListTodos(List<String> listTodoNames) {
+        todoPage.verifyPermissionSeeListToDoTask(listTodoNames, true, true);
     }
 }

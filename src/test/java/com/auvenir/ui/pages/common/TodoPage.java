@@ -102,4 +102,55 @@ public class TodoPage extends AbstractPage {
             return false;
         }
     }
+
+    public boolean verifyPermissionSeeListToDoTask(List<String> listToDoName, boolean isNotEditedToDo, boolean possibleSee) {
+        boolean result = true;
+        try {
+            for(int i = 0 ; i < listToDoName.size(); i++){
+                if(!verifyPermissionSeeToDoTask(listToDoName.get(i), isNotEditedToDo, possibleSee))
+                    result = false;
+            }
+            Assert.assertTrue(result, "User " + (possibleSee ? "should" : "should not" ) + " has permission to see list ToDo task");
+            NXGReports.addStep("Verify User " + (possibleSee ? "has" : "does not have" ) + " permission to see list ToDo task", LogAs.PASSED,
+                    null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify User " + (possibleSee ? "has" : "does not have" ) + " permission to see list ToDo task",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify User " + (possibleSee ? "has" : "does not have" ) + " permission to see list ToDo task",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return result;
+    }
+
+    public boolean verifyPermissionSeeToDoTask(String toDoName, boolean isNotEditedToDo, boolean isDisplayed) {
+        boolean result = false;
+        try {
+            int count = findToDoTaskName(toDoName, isNotEditedToDo);
+            if(isDisplayed) {
+                if (count != -1)
+                    result = true;
+            } else {
+                if (count == -1)
+                    result = true;
+            }
+            Assert.assertTrue(result, "To Do Name is not displayed");
+            NXGReports.addStep(String.format("Verify To Do '%s' is displayed", toDoName), LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            AbstractService.sStatusCnt++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
+        } catch (Exception e) {
+            getLogger().info(e);
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify ToDo Name is displayed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return result;
+    }
 }
