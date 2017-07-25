@@ -8,131 +8,133 @@ import org.testng.annotations.DataProvider;
  * Created by huy.huynh on 17/07/2017.
  */
 public class GroupPermissionsDataProvider extends CommonDataProvider {
+    private final static String SHEET_NAME = "GroupPermissionTest";
+    private final static String VALID_VALUE_COLUMN = "Valid Value";
 
-    private static String adminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
-    private static String adminAuvenirPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
+    private static String adminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin", VALID_VALUE_COLUMN);
+    private static String adminAuvenirPwd =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auvenir Password", VALID_VALUE_COLUMN);
 
-    private static String adminAuditorEmail =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor", "Valid Value");
+    private static String adminAuditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", VALID_VALUE_COLUMN);
     private static String adminAuditorEmailPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Email Password", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Email Password", VALID_VALUE_COLUMN);
     private static String adminAuditorAuvenirPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Auvenir Password", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Auvenir Password", VALID_VALUE_COLUMN);
     private static String adminAuditorFullName =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Full Name", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Full Name", VALID_VALUE_COLUMN);
 
-    private static String roleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
-    private static String phoneNumber =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
+    private static String roleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Role in Firm", VALID_VALUE_COLUMN);
+    private static String phoneNumber = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Phone Number Auditor", VALID_VALUE_COLUMN);
     private static String referenceToAuvenir =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Reference to Auvenir", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Reference to Auvenir", VALID_VALUE_COLUMN);
     // firm information
     //    private static String firmName = "Test Audits LLC";
-    private static String firmName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Firm Name", "Valid Value");
-    private static String firmPreName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Previous Name", "Valid Value");
-    private static String firmWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Website", "Valid Value");
-    private static String streetAddress = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Street Address", "Valid Value");
-    private static String officeNumber =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Suite / Office Number", "Valid Value");
-    private static String zipCode = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Postal Code/ Zip Code", "Valid Value");
-    private static String city = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "City", "Valid Value");
-    private static String country = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Country", "Valid Value");
-    private static String stateNumber = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Province / State", "Valid Value");
-    private static String memberID = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Member I.D", "Valid Value");
-    private static String numberEmployee =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Number of Employee", "Valid Value");
-    private static String phoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
+    private static String firmName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Firm Name", VALID_VALUE_COLUMN);
+    private static String firmPreName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Firm Previous Name", VALID_VALUE_COLUMN);
+    private static String firmWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Firm Website", VALID_VALUE_COLUMN);
+    private static String streetAddress = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Street Address", VALID_VALUE_COLUMN);
+    private static String officeNumber = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Suite / Office Number", VALID_VALUE_COLUMN);
+    private static String zipCode = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Postal Code/ Zip Code", VALID_VALUE_COLUMN);
+    private static String city = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "City", VALID_VALUE_COLUMN);
+    private static String country = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Country", VALID_VALUE_COLUMN);
+    private static String stateNumber = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Province / State", VALID_VALUE_COLUMN);
+    private static String memberID = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Member I.D", VALID_VALUE_COLUMN);
+    private static String numberEmployee = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Number of Employee", VALID_VALUE_COLUMN);
+    private static String phoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Phone Number Firm", VALID_VALUE_COLUMN);
     private static String affiliateFirmName =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
-    private static String pathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Affiliated Firm's Name", VALID_VALUE_COLUMN);
+    private static String pathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Path Logo", VALID_VALUE_COLUMN);
 
-    private static String engagementName1 =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 1 Name", "Valid Value");
+    private static String engagementName1 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Engagement 1 Name", VALID_VALUE_COLUMN);
 
-    private static String engagementName2 =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 2 Name", "Valid Value");
+    private static String engagementName2 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Engagement 2 Name", VALID_VALUE_COLUMN);
 
-    private static String companyName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Company Name", "Valid Value");
+    private static String companyName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Company Name", VALID_VALUE_COLUMN);
 
-
-    private static String leadAuditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Auditor", "Valid Value");
-    private static String leadAuditorFullName = "Lead Auditor";
+    private static String leadAuditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor", VALID_VALUE_COLUMN);
+    private static String leadAuditorFullName =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Full Name", VALID_VALUE_COLUMN);
     private static String leadAuditorAuvenirPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Auvenir Password", VALID_VALUE_COLUMN);
     private static String leadAuditorEmailPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Invited Auditor Password");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Email Password", VALID_VALUE_COLUMN);
 
-    private static String adminClientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Client", "Valid Value");
+    private static String adminClientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client", VALID_VALUE_COLUMN);
     private static String adminClientAuvenirPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client Auvenir Password", VALID_VALUE_COLUMN);
     private static String adminClientEmailPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Email Password");
-    private static String adminClientFullName = "Admin Client";
-    private static String roleClient = "";
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client Email Password", VALID_VALUE_COLUMN);
+    private static String adminClientFullName =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client Full Name", VALID_VALUE_COLUMN);
+    private static String roleClient = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Role Client", VALID_VALUE_COLUMN);
 
-    private static String clientPhoneNumber = "0123456789";
-    private static String parentStackHolder = "Titancorpvn";
+    private static String clientPhoneNumber =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client Phone Number", VALID_VALUE_COLUMN);
+    private static String parentStackHolder =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Parent Stack Holder", VALID_VALUE_COLUMN);
 
-    private static String auditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Auditor", "Valid Value");
-    private static String auditorFullName = "Auvenir Auditor";
+    private static String auditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor", VALID_VALUE_COLUMN);
+    private static String auditorFullName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor Full Name", VALID_VALUE_COLUMN);
     private static String auditorAuvenirPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Auditor Auvenir Password", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor Auvenir Password", VALID_VALUE_COLUMN);
     private static String auditorEmailPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Auditor Auvenir Password", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor Auvenir Password", VALID_VALUE_COLUMN);
 
-    private static String leadClientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Client", "Valid Value");
+    private static String leadClientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client", VALID_VALUE_COLUMN);
     private static String leadClientEmailPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Client Email Password", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client Email Password", VALID_VALUE_COLUMN);
     private static String leadClientAuvenirPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Client Auvenir Password", "Valid Value");
-    private static String leadClientFullName = "Lead Client";
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client Auvenir Password", VALID_VALUE_COLUMN);
+    private static String leadClientFullName =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client Full Name", VALID_VALUE_COLUMN);
 
-    private static String successMessageInvitation = "Your engagement invitation has been sent.";
-    private static String successMessageRemoveTeamMember = "Your team member has been removed.";
+    private static String successMessageInvitation =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Success Message Invitation", VALID_VALUE_COLUMN);
+    private static String successMessageRemoveTeamMember =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Success Message Remove Team Member", VALID_VALUE_COLUMN);
 
-    private static String clientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client", "Valid Value");
+    private static String clientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client", VALID_VALUE_COLUMN);
     private static String clientEmailPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client Email Password", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client Email Password", VALID_VALUE_COLUMN);
     private static String clientAuvenirPwd =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client Auvenir Password", "Valid Value");
-    private static String clientFullName = "Auvenir Client";
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client Auvenir Password", VALID_VALUE_COLUMN);
+    private static String clientFullName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client Full Name", VALID_VALUE_COLUMN);
 
-    private static String leadText = "Lead";
+    private static String leadText = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Text", VALID_VALUE_COLUMN);
 
-    private static String todo1 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 1 name", "Valid Value");
-    private static String todo2 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 2 name", "Valid Value");
-    private static String todo3 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 3 name", "Valid Value");
-    private static String todo4 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 4 name", "Valid Value");
-    private static String todo5 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 5 name", "Valid Value");
-    private static String todo6 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 6 name", "Valid Value");
+    private static String todo1 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 1 name", VALID_VALUE_COLUMN);
+    private static String todo2 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 2 name", VALID_VALUE_COLUMN);
+    private static String todo3 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 3 name", VALID_VALUE_COLUMN);
+    private static String todo4 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 4 name", VALID_VALUE_COLUMN);
+    private static String todo5 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 5 name", VALID_VALUE_COLUMN);
+    private static String todo6 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 6 name", VALID_VALUE_COLUMN);
 
-    private static String categoryName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Category Name", "Valid Value");
+    private static String categoryName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Category Name", VALID_VALUE_COLUMN);
 
     private static String leadAuditorCmt =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Auditor Comment  1", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Comment  1", VALID_VALUE_COLUMN);
 
     private static String pathDownload =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Path of Download Location", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Path of Download Location", VALID_VALUE_COLUMN);
 
     private static String generalAuditorCmt =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "General Auditor Comment  4", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "General Auditor Comment  4", VALID_VALUE_COLUMN);
 
-    private static String leadClientCmt = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Comment  1", "Valid Value");
+    private static String leadClientCmt = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Comment  1", VALID_VALUE_COLUMN);
 
     private static String generalClientCmt =
-            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "General Client Comment  2", "Valid Value");
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "General Client Comment  2", VALID_VALUE_COLUMN);
 
     //    private static String isAdminAuditorCanCreateAnEngagement =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor", "Can Create An Engagement");
+    //            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", "Can Create An Engagement");
     //    private static String isAuditorCanCreateAnEngagement =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Auditor", "Can Create An Engagement");
+    //            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor", "Can Create An Engagement");
     //    private static String isAdminClientCanCreateAnEngagement =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Client", "Can Create An Engagement");
+    //            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client", "Can Create An Engagement");
     //    private static String isLeadClientCanCreateAnEngagement =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Client", "Can Create An Engagement");
+    //            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client", "Can Create An Engagement");
     //    private static String isClientCanCreateAnEngagement =
-    //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client", "Can Create An Engagement");
-
+    //            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client", "Can Create An Engagement");
 
     @DataProvider(name = "verifyPermissionCreateAnEngagement")
     public static Object[][] getVerifyPermissionCreateAnEngagement() {
