@@ -453,28 +453,4 @@ public class AuditorTodoListPage extends AbstractPage {
         clickElement(inviteMemberBtn);
     }
 
-
-    /**
-     * Vien.Pham add methods for verifyEditableCategory:
-     *
-     * @param: todoName: input todoName for finding the corresponding Category
-     * @param: if todoName = 'anyTodoName' : verify all of category in Todo list.
-     * @param: editable: true: can edit category--- false: can not edit category
-     */
-    @FindBy(xpath = "//tr[@class='newRow']//span[contains(@class,'todo-name')]")
-    List<WebElement> listTodoRowAdminAuditorPage;
-    @FindBy(xpath = "//span[@class='ui label todo-category-readonly']")
-    List<WebElement> listDisableCategory;
-
-
-    public void verifyEditableCategoryOfAnyTodoName(boolean editable) {
-        if (editable) {
-
-        } else {
-
-        }
-
-    }
-
-
 }

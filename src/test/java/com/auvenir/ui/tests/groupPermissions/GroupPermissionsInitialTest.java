@@ -73,6 +73,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
+            System.out.println("phoneNumber = " + phoneNumber);
             auditorSignUpService.registerAuditorPersonal(adminAuditorFullName, adminAuditorEmail, roleFirm, phoneNumber, referenceToAuvenir);
             auditorSignUpService
                     .registerFirmInfo(firmName, firmPreName, firmWebsite, streetAddress, officeNumber, zipCode, city, country, stateNumber,
@@ -566,6 +567,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
             clientDetailsEngagementService.navigateToTeamTab();
             clientDetailsEngagementService.chooseLeadClientWithTeamMemberName(leadClientFullName);
             clientDetailsEngagementService.verifyLeadSetByName(leadClientFullName, leadText);
@@ -897,7 +899,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
 
             auditorCreateToDoService.selectToDoTaskName(todo4);
             auditorCreateToDoService.clickCommentIconPerTaskName(todo4);
@@ -933,7 +935,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
 
             auditorCreateToDoService.selectToDoTaskName(todo5);
             // Click on Bulk Action drop down
@@ -972,7 +974,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
 
             auditorCreateToDoService.selectToDoTaskName(todo5);
             auditorCreateToDoService.scrollUp(getDriver());
@@ -1009,7 +1011,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
 
             auditorCreateToDoService.checkAllCheckBox();
             auditorCreateToDoService.clickBulkActionsDropdown();

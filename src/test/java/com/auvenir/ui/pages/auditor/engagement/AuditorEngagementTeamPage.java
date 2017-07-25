@@ -164,9 +164,16 @@ public class AuditorEngagementTeamPage extends AbstractPage {
 
     public void verifyAddNewInvitedMember(String fullName, String roleMember) {
         getLogger().info("Verify new Auditor Member is added.");
-        int index = findTeamMemberByName(fullName);
-//        validateElementText(auditorTeamMemberNameEle.get(0), fullName);
-        validateElementText(roleTeamMemberNameEle.get(index), roleMember);
+        try {
+            int index = findTeamMemberByName(fullName);
+            //        validateElementText(auditorTeamMemberNameEle.get(0), fullName);
+            if (index != -1)
+                validateElementText(roleTeamMemberNameEle.get(index), roleMember);
+        } catch (Exception e) {
+            AbstractService.sStatusCnt ++;
+            getLogger().info(e);
+            NXGReports.addStep("Test Failed:  verify invite new member.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     public void deleteMemberInEngagementByName(String fullNameMember) {
@@ -197,11 +204,11 @@ public class AuditorEngagementTeamPage extends AbstractPage {
         getLogger().info(String.format("Find position of Team Member '%s'", fullNameMember));
         try {
             // Need to sleep because the teamEmptyDiv is always displayed first.
-            Thread.sleep(3000);
-            String displayedValue = teamEmptyDivEle.getCssValue("display");
-            if(displayedValue.equals("none")){
+            waitSomeSeconds(2);
+//            String displayedValue = teamEmptyDivEle.getCssValue("display");
+            boolean result = validateNotExistedElement(auditorTeamMemberNameEle.get(0), "Team Member Row Name");
+            if(!result){
                 String actualAttributeValue;
-                String classAttribute;
                 for (int i = 0; i < auditorTeamMemberNameEle.size(); i++) {
 //                        WebElement toDoNameCell = auditorTeamMemberNameEle.get(i).findElement(By.xpath("td/input[@type='text']"));
                     actualAttributeValue = auditorTeamMemberNameEle.get(i).getText().trim();
