@@ -198,7 +198,9 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
-
+            clickElement(inputFiscalEndYear, "Input Fiscal End Year");
+            DatePicker datePicker = new DatePicker(getDriver());
+            datePicker.pickADate("28");
             if (textAreaParentStakeholders.getTagName().equals("textarea")) {
                 sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
             }
@@ -206,13 +208,8 @@ public class ClientSignUpPage extends AbstractPage {
             if (!validateNotExistedElement(inputBusinessIndustry, "Input Business Industry")) {
                 if (getText(inputBusinessIndustry).isEmpty()) {
                     sendKeyTextBox(inputBusinessIndustry, "Financial", "Input Business Industry");
-                    clickElement(inputFiscalEndYear, "Input Fiscal End Year");
-                    DatePicker datePicker = new DatePicker(getDriver());
-                    datePicker.pickADate("28");
-                    clickElement(inputBusinessIndustry);
                     clickElement(inputAccountingFramework, "Input Accounting Framework");
                     chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
-                    clickElement(inputBusinessIndustry);
                 }
             }
             //clickElement(titleParentStakeholders);
