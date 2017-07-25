@@ -50,36 +50,41 @@
             <!--</methods>-->
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
             <methods>
-                <!--<include name="verifySignUpAuditorUser"></include>-->
-                <!--<include name="verifyAdminChangeStatusUserToOnBoarding"></include>-->
-                <!--<include name="verifyAuditorLoginGmailAndActiveUser"></include>-->
-                <!--<include name="verifyLoginAuditorUser"></include>-->
-                <!--<include name="verifyAdminAuditorCreateSimpleEngagement"></include>-->
-                <!--<include name="verifyAdminAuditorInviteNewMemberAuditor"></include>-->
-                <!--<include name="verifyAdminAuditorInvitingNewClient"></include>-->
-                <!--<include name="verifyClientLogsInAndActive"></include>-->
-                <!--<include name="verifyClientActiveAfterSignUpSuccess"></include>-->
-                <!--<include name="verifyLeadAuditorCreateNewEngagement"></include>-->
-                <!--<include name="verifyLeadAuditorInviteNewAuditorMember"></include>-->
-                <!--<include name="verifyLeadAuditorInvitingAdminClient"></include>-->
-                <!--<include name="verifyPermissionAdminClientCanInviteClient"></include>-->
-                <!--<include name="verifyPermissionClientCanActiveViaEmail"></include>-->
-                <!--<include name="verifyPermissionLeadPermissionCanBeTranfered"></include>-->
-                <include name="verifyLeadAuditorCreateTodoAndAssignClient"></include>
-                <include name="verifyLeadAuditorAssignToGeneralAuditor"></include>
-                <include name="verifyLeadAuditorCommenting"></include>
-                <include name="verifyLeadAuditorMarkCompleted"></include>
-                <include name="verifyLeadAuditorAssignToDoBulkAction"></include>
-                <include name="verifyLeadAuditorDeleteTodo"></include>
-                <include name="verifyLeadAuditorDownloadFromAllTodo"></include>
-                <include name="verifyGeneralAuditorCreateTodo"></include>
-                <include name="verifyGeneralAuditorCommenting"></include>
-                <include name="verifyGeneralAuditorMarkCompleted"></include>
-                <include name="verifyGeneralAuditorDeleteTodo"></include>
-                <include name="verifyGeneralAuditorDownloadFromAllTodo"></include>
-                <include name="verifyLeadClientRemoveAdminClient"></include>
-                <include name="verifyLeadClientInviteClient"></include>
-                <include name="verifyGeneralClientActive"></include>
+                <include priority="1" name="verifySignUpAuditorUser"></include>
+                <include priority="2" name="verifyAdminChangeStatusUserToOnBoarding"></include>
+                <include priority="3" name="verifyAuditorLoginGmailAndActiveUser"></include>
+                <include priority="4" name="verifyAdminAuditorCreateSimpleEngagement"></include>
+                <include priority="6" name="verifyAdminAuditorInviteNewMemberAuditor"></include>
+                <include priority="8" name="verifyAdminAuditorInvitingNewClient"></include>
+                <include priority="9" name="verifyClientLogsInAndActive"></include>
+                <include priority="10" name="verifyLeadAuditorCreateNewEngagement"></include>
+                <include priority="11" name="verifyLeadAuditorInvitingAdminClient"></include>
+                <include priority="12" name="verifyLeadAuditorInviteNewAuditorMember"></include>
+                <include priority="15" name="verifyPermissionAdminClientCanInviteClient"></include>
+                <include priority="16" name="verifyPermissionClientCanActiveViaEmail"></include>
+                <include priority="17" name="verifyPermissionLeadPermissionCanBeTranfered"></include>
+                <!--<include priority="18" name="verifyLeadAuditorCreateTodoAndAssignClient"></include>-->
+                <!--<include priority="21" name="verifyLeadAuditorAssignToGeneralAuditor"></include>-->
+                <!--<include priority="25" name="verifyLeadAuditorCommenting"></include>-->
+                <!--<include priority="26" name="verifyLeadAuditorMarkCompleted"></include>-->
+                <!--<include priority="27" name="verifyLeadAuditorAssignToDoBulkAction"></include>-->
+                <!--<include priority="28" name="verifyLeadAuditorDeleteTodo"></include>-->
+                <!--<include priority="29" name="verifyLeadAuditorDownloadFromAllTodo"></include>-->
+                <!--<include priority="30" name="verifyGeneralAuditorCreateTodo"></include>-->
+                <!--<include priority="36" name="verifyGeneralAuditorCommenting"></include>-->
+                <!--<include priority="37" name="verifyGeneralAuditorMarkCompleted"></include>-->
+                <!--<include priority="38" name="verifyGeneralAuditorDeleteTodo"></include>-->
+                <!--<include priority="39" name="verifyGeneralAuditorDownloadFromAllTodo"></include>-->
+                <!--<include priority="40" name="verifyLeadClientSeeToDo"></include>-->
+                <!--<include priority="41" name="verifyLeadClientRemoveAdminClient"></include>-->
+                <!--<include priority="42" name="verifyLeadClientInviteClient"></include>-->
+                <!--<include priority="43" name="verifyGeneralClientActive"></include>-->
+                <!--<include priority="44" name="verifyLeadClientAssignTodoTaskToClient"></include>-->
+                <!--<include priority="47" name="verifyLeadClientMakeComment"></include>-->
+                <!--<include priority="48" name="verifyGeneralClientCanViewComment"></include>-->
+                <!--<include priority="50" name="verifyGeneralClientCanViewTodoTaskAssigned"></include>-->
+                <!--<include priority="53" name="verifyGeneralClientMakeComment"></include>-->
+                <!--<include priority="54" name="verifyLeadClientCanViewComment"></include>-->
             </methods>
         </classes>
     </test>
