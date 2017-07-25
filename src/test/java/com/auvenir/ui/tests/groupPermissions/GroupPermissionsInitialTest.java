@@ -577,15 +577,15 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 18, enabled = true, description = "Verify group permission Lead auditor create todo.", testName = "if_18, if_19, if_20",
             dataProvider = "verifyLeadAuditorCreateTodoAndAssignClient", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorCreateTodoAndAssignClient(String leadAuditorID, String leadAuditorPwd,
-            String engagementName2, String todo1, String todo2, String todo3, String leadClientFullName, String categoryName) throws Exception {
+    public void verifyLeadAuditorCreateTodoAndAssignClient(String leadAuditorID, String leadAuditorPwd, String engagementName2, String todo1,
+            String todo2, String todo3, String leadClientFullName, String categoryName) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
-//        leadAuditorID = "duongauvenir01@gmail.com";
-//        engagementName2 = "Engagement HD";
-//        leadClientFullName = "Client ABC";
+        //        leadAuditorID = "duongauvenir01@gmail.com";
+        //        engagementName2 = "Engagement HD";
+        //        leadClientFullName = "Client ABC";
         List<String> listTodo = new ArrayList<>();
         listTodo.add(todo1);
         listTodo.add(todo2);
@@ -612,18 +612,18 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 21, enabled = true, description = "Verify group permission Lead auditor assign todo to general auditor.", testName = "if_21",
             dataProvider = "verifyLeadAuditorAssignToGeneralAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorAssignToGeneralAuditor(String leadAuditorID, String leadAuditorPwd, String engagementName2,
-            String todo1, String auditorFullName) throws Exception {
+    public void verifyLeadAuditorAssignToGeneralAuditor(String leadAuditorID, String leadAuditorPwd, String engagementName2, String todo1,
+            String auditorFullName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
-//        String auditorId = "duongauvenir01@gmail.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String auditorAssign = "Auditor 007";
-//        String toDoName = "Todo 1";
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String auditorAssign = "Auditor 007";
+        //        String toDoName = "Todo 1";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorID, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -653,11 +653,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
 
-//        String auditorId = "duongauvenir01@gmail.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String toDoName = "Todo 1";
-//        String commentContent = "Comment on Todo 1";
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "Todo 1";
+        //        String commentContent = "Comment on Todo 1";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorID, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -690,10 +690,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
 
-//        String auditorId = "duongauvenir01@gmail.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String toDoName = "Todo 2";
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "Todo 2";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorID, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -723,20 +723,20 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 27, enabled = true, description = "Verify Lead auditor Assign ToDo Bulk Action.", testName = "if_27",
             dataProvider = "verifyLeadAuditorAssignToDoBulkAction", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorAssignToDoBulkAction(String leadAuditorID, String leadAuditorPwd, String engagementName2,
-            String todo3, String auditorFullName, String leadClientFullName) throws Exception {
+    public void verifyLeadAuditorAssignToDoBulkAction(String leadAuditorID, String leadAuditorPwd, String engagementName2, String todo3,
+            String auditorFullName, String leadClientFullName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
 
-//        String auditorId = "duongauvenir01@gmail.com";
-//        String auditorPwd = "Changeit@123";
-//        String engagementName = "Firm Auvenir Duong";
-//        String toDoName = "Todo 3";
-//        String fullNameInvitedMember = "Auditor 007";
-//        String fullNameInvitedClient = "Duong Client";
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String auditorPwd = "Changeit@123";
+        //        String engagementName = "Firm Auvenir Duong";
+        //        String toDoName = "Todo 3";
+        //        String fullNameInvitedMember = "Auditor 007";
+        //        String fullNameInvitedClient = "Duong Client";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorID, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -764,17 +764,17 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 28, enabled = true, description = "Verify group permission Lead auditor delete todo.", testName = "if_28",
             dataProvider = "verifyLeadAuditorDeleteTodo", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorDeleteTodo(String leadAuditorID, String leadAuditorPwd, String engagementName2, String todo3) throws Exception{
+    public void verifyLeadAuditorDeleteTodo(String leadAuditorID, String leadAuditorPwd, String engagementName2, String todo3) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
 
-//        String auditorId = "duongauvenir01@gmail.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String toDoName = "Todo 3";
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "Todo 3";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorID, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -799,17 +799,18 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 29, enabled = true, description = "Verify group permission Lead auditor download from all todo.", testName = "if_29",
             dataProvider = "verifyLeadAuditorDownloadFromAllTodo", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorDownloadFromAllTodo(String leadAuditorID, String leadAuditorPwd, String engagementName2, String pathDownload) throws Exception{
+    public void verifyLeadAuditorDownloadFromAllTodo(String leadAuditorID, String leadAuditorPwd, String engagementName2,
+            String pathDownload) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         leadAuditorID = GenericService.addBrowserPrefix(leadAuditorID);
         String fileName = pathDownload + engagementName2 + ".zip";
-//        String auditorId = "duongauvenir01@gmail.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
         try {
             auditorCreateToDoService.checkFileDownloadExisted(fileName);
             marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorID, leadAuditorPwd);
@@ -835,19 +836,19 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 30, enabled = true, description = "Verify group permission General auditor create todo.", testName = "if_30, if_31, if_33",
             dataProvider = "verifyGeneralAuditorCreateTodo", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralAuditorCreateTodo(String auditorID, String auditorPwd, String engagementName2,
-            String todo4, String todo5, String todo6, String leadClientFullName, String categoryName) throws Exception {
+    public void verifyGeneralAuditorCreateTodo(String auditorID, String auditorPwd, String engagementName2, String todo4, String todo5, String todo6,
+            String leadClientFullName, String categoryName) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorID = GenericService.addBrowserPrefix(auditorID);
-//        String auditorId = "auditor007@mailinator.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String todo4 = "Todo 4";
-//        String todo5 = "Todo 5";
-//        String todo6 = "Todo 6";
-//        String clientAssign = "Duong Client";
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String todo4 = "Todo 4";
+        //        String todo5 = "Todo 5";
+        //        String todo6 = "Todo 6";
+        //        String clientAssign = "Duong Client";
         List<String> listTodo = new ArrayList<>();
         listTodo.add(todo4);
         listTodo.add(todo5);
@@ -873,8 +874,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 36, enabled = true, description = "Verify group permission General auditor commenting.", testName = "if_36",
             dataProvider = "verifyGeneralAuditorCommenting", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralAuditorCommenting(String auditorID, String auditorPwd, String engagementName2,
-            String todo4, String generalAuditorCmt) throws Exception {
+    public void verifyGeneralAuditorCommenting(String auditorID, String auditorPwd, String engagementName2, String todo4,
+            String generalAuditorCmt) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -882,11 +883,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorID = GenericService.addBrowserPrefix(auditorID);
 
-//        String auditorId = "auditor007@mailinator.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String toDoName = "Todo 4";
-//        String commentContent = "Comment on Todo 4";
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "Todo 4";
+        //        String commentContent = "Comment on Todo 4";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorID, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -918,10 +919,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorID = GenericService.addBrowserPrefix(auditorID);
-//        String auditorId = "auditor007@mailinator.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String toDoName = "Todo 5";
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "Todo 5";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorID, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -957,10 +958,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorID = GenericService.addBrowserPrefix(auditorID);
-//        String auditorId = "auditor007@mailinator.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String toDoName = "Todo 6";
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "Todo 6";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(auditorID, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -985,16 +986,17 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 39, enabled = true, description = "Verify group permission General auditor download from all todo.", testName = "if_39",
             dataProvider = "verifyGeneralAuditorDownloadFromAllTodo", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralAuditorDownloadFromAllTodo(String auditorID, String auditorPwd, String engagementName2, String pathDownload) throws Exception{
+    public void verifyGeneralAuditorDownloadFromAllTodo(String auditorID, String auditorPwd, String engagementName2,
+            String pathDownload) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorID = GenericService.addBrowserPrefix(auditorID);
-//        String auditorId = "auditor007@mailinator.com";
-//        String password = "Changeit@123";
-//        String engagement = "Firm Auvenir Duong";
-//        String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
         String fileName = pathDownload + engagementName2 + ".zip";
         try {
             auditorCreateToDoService.checkFileDownloadExisted(fileName);
@@ -1132,7 +1134,6 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String engagementName = "Vien_Engagement";
         //        String phoneNumber = "1234567890";
         //        String stackerHolder = "Titancorpvn";
-
         try {
             gmailLoginService.gmailLogin(clientID, clientEmailPwd);
             gmailLoginService.selectActiveEmaill();
@@ -1181,17 +1182,19 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 47, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47")
-    public void verifyLeadClientMakeComment() {
+    @Test(priority = 47, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47",
+            dataProvider = "verifyLeadClientPostComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyLeadClientMakeComment(String leadClientID, String leadClientPassword, String engagementName, String todoName,
+            String commentContent) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
-        String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
+       /* String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
         String leadClientPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 01";
-        String engagementName = "Vien_Engagement";
-
+        String engagementName = "Vien_Engagement";*/
+        leadClientID = GenericService.addBrowserPrefix(leadClientID);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -1213,24 +1216,24 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 48, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47")
-    public void verifyGeneralClientCanViewComment() {
+    @Test(priority = 48, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47",
+            dataProvider = "verifyGeneralClientViewComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyGeneralClientCanViewComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
+            String commentContent, String leadClientFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
-        String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
+       /* String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
         String generalClientAuvenirPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 01";
         String engagementName = "Vien_Engagement";
-        String leadClientFullName = "Lead Client";
+        String leadClientFullName = "Lead Client";*/
+        generalClient = GenericService.addBrowserPrefix(generalClient);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
-           /* auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);*/
             clientEngagementService.verifyEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName);
             clientEngagementService.verifyDetailsEngagement(engagementName);
@@ -1271,17 +1274,19 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 53, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53")
-    public void verifyGeneralClientMakeComment() {
+    @Test(priority = 53, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53",
+            dataProvider = "verifyGeneralClientPostComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyGeneralClientMakeComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
+            String commentContent) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
-        String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
+        /*String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
         String generalClientAuvenirPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 02";
-        String engagementName = "Vien_Engagement";
-
+        String engagementName = "Vien_Engagement";*/
+        generalClient = GenericService.addBrowserPrefix(generalClient);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -1303,17 +1308,20 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 54, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53")
-    public void verifyLeadClientCanViewComment() {
+    @Test(priority = 54, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53",
+            dataProvider = "verifyLeadClientViewComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyLeadClientCanViewComment(String leadClientID,String leadClientPassword,String engagementName,String todoName,String
+            commentContent,String generalClientFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
-        String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
+       /* String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
         String leadClientPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 02";
         String engagementName = "Vien_Engagement";
-        String generalClientFullName = "General Client";
+        String generalClientFullName = "General Client";*/
+        leadClientID = GenericService.addBrowserPrefix(leadClientID);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
