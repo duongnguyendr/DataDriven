@@ -116,6 +116,11 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String generalAuditorCmt =
             GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "General Auditor Comment  4", "Valid Value");
 
+    private static String leadClientCmt = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Comment  1", "Valid Value");
+
+    private static String generalClientCmt =
+            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "General Client Comment  2", "Valid Value");
+
     //    private static String adminAuditorPwd =
     //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Auvenir Password", "Valid Value");
     //    private static String leadAuditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Lead Auditor", "Valid Value");
@@ -446,6 +451,45 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     public static Object[][] verifyGeneralAuditorDownloadFromAllTodo() {
         Object[][] arrayData = new Object[][]{{auditorID, auditorPwd, engagementName2, pathDownload}};
         if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{auditorID, auditorPwd, engagementName2, pathDownload}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyLeadClientPostComment")
+    public static Object[][] verifyLeadClientPostComment() {
+        Object[][] arrayData = new Object[][]{{leadClientID, leadClientPwd, engagementName2, todo1, leadClientCmt}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{leadClientID, leadClientPwd, engagementName2, todo1, leadClientCmt}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyGeneralClientViewComment")
+    public static Object[][] verifyGeneralClientViewComment() {
+        Object[][] arrayData = new Object[][]{{clientID, clientPwd, engagementName2, todo1, leadClientCmt, leadClientFullName}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{clientID, clientPwd, engagementName2, todo1, leadClientCmt, leadClientFullName}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyGeneralClientPostComment")
+    public static Object[][] verifyGeneralClientPostComment() {
+        Object[][] arrayData = new Object[][]{{clientID, clientPwd, engagementName2, todo1, generalClientCmt}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{clientID, clientPwd, engagementName2, todo1, generalClientCmt}};
+        }
+        return arrayData;
+    }
+
+
+
+    @DataProvider(name = "verifyLeadClientViewComment")
+    public static Object[][] verifyLeadClientViewComment() {
+        Object[][] arrayData = new Object[][]{{leadClientID, leadClientPwd, engagementName2, todo1, generalClientCmt, clientFullName}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{leadClientID, leadClientPwd, engagementName2, todo1, generalClientCmt, clientFullName}};
             arrayData = new Object[][]{{auditorID, auditorPwd, engagementName2, pathDownload}};
         }
         return arrayData;

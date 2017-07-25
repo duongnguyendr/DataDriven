@@ -1133,7 +1133,6 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String engagementName = "Vien_Engagement";
         //        String phoneNumber = "1234567890";
         //        String stackerHolder = "Titancorpvn";
-
         try {
             gmailLoginService.gmailLogin(clientID, clientEmailPwd);
             gmailLoginService.selectActiveEmaill();
@@ -1179,17 +1178,19 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 47, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47")
-    public void verifyLeadClientMakeComment() {
+    @Test(priority = 47, enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47",
+            dataProvider = "verifyLeadClientPostComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyLeadClientMakeComment(String leadClientID, String leadClientPassword, String engagementName, String todoName,
+            String commentContent) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
-        String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
+       /* String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
         String leadClientPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 01";
-        String engagementName = "Vien_Engagement";
-
+        String engagementName = "Vien_Engagement";*/
+        leadClientID = GenericService.addBrowserPrefix(leadClientID);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -1211,24 +1212,24 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 48, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47")
-    public void verifyGeneralClientCanViewComment() {
+    @Test(priority = 48, enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47",
+            dataProvider = "verifyGeneralClientViewComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyGeneralClientCanViewComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
+            String commentContent, String leadClientFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
-        String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
+       /* String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
         String generalClientAuvenirPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 01";
         String engagementName = "Vien_Engagement";
-        String leadClientFullName = "Lead Client";
+        String leadClientFullName = "Lead Client";*/
+        generalClient = GenericService.addBrowserPrefix(generalClient);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
-           /* auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);*/
             clientEngagementService.verifyEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName);
             clientEngagementService.verifyDetailsEngagement(engagementName);
@@ -1266,17 +1267,19 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 53, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53")
-    public void verifyGeneralClientMakeComment() {
+    @Test(priority = 53, enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53",
+            dataProvider = "verifyGeneralClientPostComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyGeneralClientMakeComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
+            String commentContent) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
-        String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
+        /*String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
         String generalClientAuvenirPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 02";
-        String engagementName = "Vien_Engagement";
-
+        String engagementName = "Vien_Engagement";*/
+        generalClient = GenericService.addBrowserPrefix(generalClient);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
@@ -1298,17 +1301,20 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 54, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53")
-    public void verifyLeadClientCanViewComment() {
+    @Test(priority = 54, enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53",
+            dataProvider = "verifyLeadClientViewComment", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyLeadClientCanViewComment(String leadClientID,String leadClientPassword,String engagementName,String todoName,String
+            commentContent,String generalClientFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
-        String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
+       /* String leadClientID = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
         String leadClientPassword = "Changeit@123";
         String todoName = "vientodo4";
         String commentContent = "Comment 02";
         String engagementName = "Vien_Engagement";
-        String generalClientFullName = "General Client";
+        String generalClientFullName = "General Client";*/
+        leadClientID = GenericService.addBrowserPrefix(leadClientID);
         try {
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
