@@ -65,21 +65,21 @@
                 <!--<include name="verifyPermissionAdminClientCanInviteClient"></include>-->
                 <!--<include name="verifyPermissionClientCanActiveViaEmail"></include>-->
                 <!--<include name="verifyPermissionLeadPermissionCanBeTranfered"></include>-->
-                <!--<include name="verifyLeadClientRemoveAdminClient"></include>-->
-                <!--<include name="verifyLeadClientInviteClient"></include>-->
-                <!--<include name="verifyGeneralClientActive"></include>-->
-                <!--<include name="verifyLeadAuditorCreateTodoAndAssignClient"></include>
+                <include name="verifyLeadAuditorCreateTodoAndAssignClient"></include>
                 <include name="verifyLeadAuditorAssignToGeneralAuditor"></include>
                 <include name="verifyLeadAuditorCommenting"></include>
                 <include name="verifyLeadAuditorMarkCompleted"></include>
                 <include name="verifyLeadAuditorAssignToDoBulkAction"></include>
                 <include name="verifyLeadAuditorDeleteTodo"></include>
-                <include name="verifyLeadAuditorDownloadFromAllTodo"></include>-->
+                <include name="verifyLeadAuditorDownloadFromAllTodo"></include>
                 <include name="verifyGeneralAuditorCreateTodo"></include>
                 <include name="verifyGeneralAuditorCommenting"></include>
                 <include name="verifyGeneralAuditorMarkCompleted"></include>
                 <include name="verifyGeneralAuditorDeleteTodo"></include>
                 <include name="verifyGeneralAuditorDownloadFromAllTodo"></include>
+                <include name="verifyLeadClientRemoveAdminClient"></include>
+                <include name="verifyLeadClientInviteClient"></include>
+                <include name="verifyGeneralClientActive"></include>
             </methods>
         </classes>
     </test>

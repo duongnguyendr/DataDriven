@@ -115,7 +115,8 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Comment  1", VALID_VALUE_COLUMN);
 
     private static String pathDownload =
-            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Path of Download Location", VALID_VALUE_COLUMN);
+            GenericService.sDirPath + GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest",
+                    "Path of Download Location", "Valid Value");
 
     private static String generalAuditorCmt =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "General Auditor Comment  4", VALID_VALUE_COLUMN);
