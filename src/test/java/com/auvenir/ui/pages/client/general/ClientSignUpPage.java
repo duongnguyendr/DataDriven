@@ -212,6 +212,7 @@ public class ClientSignUpPage extends AbstractPage {
                     clickElement(inputBusinessIndustry);
                     clickElement(inputAccountingFramework, "Input Accounting Framework");
                     chooseFirstOptionOfInputSelect(listOptionAccountingFramework, "List Option Accounting Framework");
+                    clickElement(inputBusinessIndustry);
                 }
             }
             //clickElement(titleParentStakeholders);
