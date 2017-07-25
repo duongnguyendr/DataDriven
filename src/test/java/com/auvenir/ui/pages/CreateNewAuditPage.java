@@ -261,6 +261,7 @@ public class CreateNewAuditPage extends AbstractPage {
         sendKeyTextBox(inputVerifyEmailMember, email, "Verify Email Input");
         clickElement(inputRoleEmailMember, "Input Member Role In Their Company");
         clickElement(optionFirstOnMemberRoleList, "First Option member Role");
+        waitSomeSeconds(3);
         clickElement(buttonInviteNewMember, "Button Invite");
     }
 
