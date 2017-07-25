@@ -14,7 +14,7 @@
                 <include priority="1" name="deleteAllOldRecord"></include>
                 <include priority="2" name="initUser"></include>
             </methods>-->
-            <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
             <!--<methods>-->
             <!--<include priority="1" name="verifyAdminLogin"></include>-->
             <!--<include priority="2" name="verifySignUpAuditorUser"></include>-->
