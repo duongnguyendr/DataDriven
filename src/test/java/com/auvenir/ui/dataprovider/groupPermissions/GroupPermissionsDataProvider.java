@@ -10,6 +10,7 @@ import org.testng.annotations.DataProvider;
 public class GroupPermissionsDataProvider extends CommonDataProvider {
     private final static String SHEET_NAME = "GroupPermissionTest";
     private final static String VALID_VALUE_COLUMN = "Valid Value";
+    public static final String FRENCH_LANGUAGE = "French";
 
     private static String adminUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin", VALID_VALUE_COLUMN);
     private static String adminAuvenirPwd =
@@ -135,6 +136,23 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     //            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client", "Can Create An Engagement");
     //    private static String isClientCanCreateAnEngagement =
     //            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client", "Can Create An Engagement");
+    @DataProvider(name = "verifySuperAdminLogin")
+    public static Object[][] getVerifySuperAdminLogin() {
+        Object[][] arrayData = new Object[][]{{superAdminUser, superAdminPwd}};
+        if (GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)) {
+            arrayData = new Object[][]{{superAdminUser, superAdminPwd}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyAdminLogin")
+    public static Object[][] getVerifyAdminLogin() {
+        Object[][] arrayData = new Object[][]{{adminId, adminPwd}};
+        if (GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)) {
+            arrayData = new Object[][]{{adminId, adminPwd}};
+        }
+        return arrayData;
+    }
 
     @DataProvider(name = "verifyPermissionCreateAnEngagement")
     public static Object[][] getVerifyPermissionCreateAnEngagement() {

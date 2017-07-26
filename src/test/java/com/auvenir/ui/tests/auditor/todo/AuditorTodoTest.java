@@ -1,7 +1,6 @@
 package com.auvenir.ui.tests.auditor.todo;
 
 import com.auvenir.ui.dataprovider.auditor.AuditorToDoListDataProvider;
-import com.auvenir.ui.dataprovider.auditor.AuditorTodoPageDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ClientDetailsEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
@@ -69,7 +68,7 @@ public class AuditorTodoTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
 
             auditorEngagementService.clickNewEnagementButton();
@@ -101,7 +100,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -131,7 +130,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -161,7 +160,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -188,7 +187,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -213,7 +212,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -239,7 +238,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.inputSearchText("Search Todo");
@@ -263,7 +262,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -295,7 +294,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -331,7 +330,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -352,7 +351,7 @@ public class AuditorTodoTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -378,7 +377,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -404,7 +403,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -437,7 +436,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -465,7 +464,7 @@ public class AuditorTodoTest extends AbstractTest {
 
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -492,7 +491,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
@@ -520,7 +519,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -556,7 +555,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -593,7 +592,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -622,7 +621,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -665,7 +664,7 @@ public class AuditorTodoTest extends AbstractTest {
 
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -705,7 +704,7 @@ public class AuditorTodoTest extends AbstractTest {
 
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -750,7 +749,7 @@ public class AuditorTodoTest extends AbstractTest {
 
         try {
             timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -797,7 +796,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -844,7 +843,7 @@ public class AuditorTodoTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -887,7 +886,7 @@ public class AuditorTodoTest extends AbstractTest {
 
         try {
             //Login
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -912,7 +911,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -938,7 +937,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -974,7 +973,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1014,7 +1013,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1052,7 +1051,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1091,7 +1090,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorCreateToDoService.navigateToDoListPage();
             auditorCreateToDoService.navigatetoCreateToDoTab();
             auditorCreateToDoService.createMultiCategory(categoryName01, categoryName02, categoryName03);
@@ -1121,7 +1120,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -1160,7 +1159,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -1195,7 +1194,7 @@ public class AuditorTodoTest extends AbstractTest {
         /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1234,7 +1233,7 @@ public class AuditorTodoTest extends AbstractTest {
         /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1273,7 +1272,7 @@ public class AuditorTodoTest extends AbstractTest {
         /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1312,7 +1311,7 @@ public class AuditorTodoTest extends AbstractTest {
         /*auditorId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Auditor");
         String auditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Auditor");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             // Move to engagement page
             auditorEngagementService.verifyAuditorEngagementPage();
             // Move to engagement detail page
@@ -1365,7 +1364,7 @@ public class AuditorTodoTest extends AbstractTest {
         String engagementName = "Engagement-PLAT-2350" + random.nextInt(1000);
         String taskName = "Task-2305" + random.nextInt(1000);*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -1409,7 +1408,7 @@ public class AuditorTodoTest extends AbstractTest {
         String engagementName = "Engagement-PLAT-2350" + random.nextInt(1000);
         String taskName = "Task-2305" + random.nextInt(1000);*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -1464,7 +1463,7 @@ public class AuditorTodoTest extends AbstractTest {
         try {
             MongoDBService.removeClientAndIndicatedValueByEmail(clientId);
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -1623,7 +1622,7 @@ public class AuditorTodoTest extends AbstractTest {
             clientService.selectAddNewClient();
             clientService.fillInfoToInviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess(engagementMessage);
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
+            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, clientStatus);
@@ -1951,7 +1950,7 @@ public class AuditorTodoTest extends AbstractTest {
         auditorToDoService = new AuditorToDoService(getLogger(), getDriver());
         auditorId = GenericService.addBrowserPrefix(auditorId);
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -1988,7 +1987,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
         String dueDate = "";*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2025,7 +2024,7 @@ public class AuditorTodoTest extends AbstractTest {
         engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2064,7 +2063,7 @@ public class AuditorTodoTest extends AbstractTest {
         engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2104,7 +2103,7 @@ public class AuditorTodoTest extends AbstractTest {
         engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2145,7 +2144,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         /*String engagementDueDate = "";*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2187,7 +2186,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");
         int date;*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2230,7 +2229,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         String monthYear = "";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2274,7 +2273,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         String monthYear = "";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2316,7 +2315,7 @@ public class AuditorTodoTest extends AbstractTest {
         engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2355,7 +2354,7 @@ public class AuditorTodoTest extends AbstractTest {
         engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2393,7 +2392,7 @@ public class AuditorTodoTest extends AbstractTest {
         engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Engagement Name");
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2432,7 +2431,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         String dueDate = "";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2474,7 +2473,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         String dueDate = "";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -2513,7 +2512,7 @@ public class AuditorTodoTest extends AbstractTest {
         todoName = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "ToDo Name");*/
         String dueDate = "";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
