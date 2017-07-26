@@ -1165,7 +1165,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(priority = 44, enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44, if_48",
-            dataProvider = "verifyGeneralClientActive", dataProviderClass = GroupPermissionsDataProvider.class)
+            dataProvider = "verifyLeadClientAssignTodoTaskToClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientAssignTodoTaskToClient(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2, String todo1,
             String clientFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
