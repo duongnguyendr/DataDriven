@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
  * Created by huy.huynh on 17/07/2017.
  */
 public class GroupPermissionsDataProvider extends CommonDataProvider{
-
+    public static final String FRENCH_LANGUAGE = "French";
     private static String adminID = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
     private static String adminAuvenirPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
 
@@ -154,6 +154,23 @@ public class GroupPermissionsDataProvider extends CommonDataProvider{
 //    private static String isClientCanCreateAnEngagement =
 //            GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Client", "Can Create An Engagement");
 
+    @DataProvider(name = "verifySuperAdminLogin")
+    public static Object[][] getVerifySuperAdminLogin() {
+        Object[][] arrayData = new Object[][]{{superAdminUser, superAdminPwd}};
+        if (GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)) {
+            arrayData = new Object[][]{{superAdminUser, superAdminPwd}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyAdminLogin")
+    public static Object[][] getVerifyAdminLogin() {
+        Object[][] arrayData = new Object[][]{{adminId, adminPwd}};
+        if (GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)) {
+            arrayData = new Object[][]{{adminId, adminPwd}};
+        }
+        return arrayData;
+    }
 
     @DataProvider(name = "verifyPermissionCreateAnEngagement")
     public static Object[][] getVerifyPermissionCreateAnEngagement() {
