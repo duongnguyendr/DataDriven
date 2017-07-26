@@ -11,11 +11,11 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private final static String SHEET_NAME = "GroupPermissionTest";
     private final static String VALID_VALUE_COLUMN = "Valid Value";
 
-    private static String adminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin", VALID_VALUE_COLUMN);
+    private static String adminUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin", VALID_VALUE_COLUMN);
     private static String adminAuvenirPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auvenir Password", VALID_VALUE_COLUMN);
 
-    private static String adminAuditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", VALID_VALUE_COLUMN);
+    private static String adminAuditorUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", VALID_VALUE_COLUMN);
     private static String adminAuditorEmailPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Email Password", VALID_VALUE_COLUMN);
     private static String adminAuditorAuvenirPwd =
@@ -51,7 +51,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     private static String companyName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Company Name", VALID_VALUE_COLUMN);
 
-    private static String leadAuditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor", VALID_VALUE_COLUMN);
+    private static String leadAuditorUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor", VALID_VALUE_COLUMN);
     private static String leadAuditorFullName =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Full Name", VALID_VALUE_COLUMN);
     private static String leadAuditorAuvenirPwd =
@@ -59,7 +59,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String leadAuditorEmailPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Email Password", VALID_VALUE_COLUMN);
 
-    private static String adminClientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client", VALID_VALUE_COLUMN);
+    private static String adminClientUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client", VALID_VALUE_COLUMN);
     private static String adminClientAuvenirPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Client Auvenir Password", VALID_VALUE_COLUMN);
     private static String adminClientEmailPwd =
@@ -73,14 +73,14 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String parentStackHolder =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Parent Stack Holder", VALID_VALUE_COLUMN);
 
-    private static String auditorEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor", VALID_VALUE_COLUMN);
+    private static String auditorUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor", VALID_VALUE_COLUMN);
     private static String auditorFullName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor Full Name", VALID_VALUE_COLUMN);
     private static String auditorAuvenirPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor Auvenir Password", VALID_VALUE_COLUMN);
     private static String auditorEmailPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Auditor Auvenir Password", VALID_VALUE_COLUMN);
 
-    private static String leadClientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client", VALID_VALUE_COLUMN);
+    private static String leadClientUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client", VALID_VALUE_COLUMN);
     private static String leadClientEmailPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client Email Password", VALID_VALUE_COLUMN);
     private static String leadClientAuvenirPwd =
@@ -93,7 +93,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String successMessageRemoveTeamMember =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Success Message Remove Team Member", VALID_VALUE_COLUMN);
 
-    private static String clientEmail = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client", VALID_VALUE_COLUMN);
+    private static String clientUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client", VALID_VALUE_COLUMN);
     private static String clientEmailPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Client Email Password", VALID_VALUE_COLUMN);
     private static String clientAuvenirPwd =
@@ -114,9 +114,8 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String leadAuditorCmt =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Auditor Comment  1", VALID_VALUE_COLUMN);
 
-    private static String pathDownload =
-            GenericService.sDirPath + GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest",
-                    "Path of Download Location", "Valid Value");
+    private static String pathDownload = GenericService.sDirPath + GenericService
+            .getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Path of Download Location", "Valid Value");
 
     private static String generalAuditorCmt =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "General Auditor Comment  4", VALID_VALUE_COLUMN);
@@ -139,9 +138,9 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "verifyPermissionCreateAnEngagement")
     public static Object[][] getVerifyPermissionCreateAnEngagement() {
-        Object[][] arrayData = new Object[][]{{adminAuditorEmail, adminAuditorAuvenirPwd}};
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{adminAuditorEmail, adminAuditorAuvenirPwd}};
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd}};
         }
         return arrayData;
     }
@@ -149,12 +148,11 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifySignUpAuditorUser")
     public static Object[][] getVerifySignUpAuditorUser() {
         Object[][] arrayData = new Object[][]{
-                {adminAuditorEmail, adminAuditorFullName, firmName, roleFirm, phoneNumber, referenceToAuvenir, firmPreName, firmWebsite,
-                        streetAddress, officeNumber, zipCode, city, country, stateNumber, memberID, numberEmployee, phoneFirm, affiliateFirmName,
-                        pathLogo}};
+                {adminAuditorUser, adminAuditorFullName, firmName, roleFirm, phoneNumber, referenceToAuvenir, firmPreName, firmWebsite, streetAddress,
+                        officeNumber, zipCode, city, country, stateNumber, memberID, numberEmployee, phoneFirm, affiliateFirmName, pathLogo}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {adminAuditorEmail, adminAuditorFullName, firmName, roleFirm, phoneNumber, referenceToAuvenir, firmPreName, firmWebsite,
+                    {adminAuditorUser, adminAuditorFullName, firmName, roleFirm, phoneNumber, referenceToAuvenir, firmPreName, firmWebsite,
                             streetAddress, officeNumber, zipCode, city, country, stateNumber, memberID, numberEmployee, phoneFirm, affiliateFirmName,
                             pathLogo}};
         }
@@ -163,36 +161,36 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "verifyAdminChangeStatusUserToOnBoarding")
     public static Object[][] getVerifyAdminChangeStatusUserToOnBoarding() {
-        Object[][] arrayData = new Object[][]{{adminAuditorEmail, adminEmail, adminAuditorEmailPwd, adminAuvenirPwd}};
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminUser, adminAuditorEmailPwd, adminAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{adminAuditorEmail, adminEmail, adminAuditorEmailPwd, adminAuvenirPwd}};
+            arrayData = new Object[][]{{adminAuditorUser, adminUser, adminAuditorEmailPwd, adminAuvenirPwd}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyAuditorLoginGmailAndActiveUser")
     public static Object[][] getVerifyAuditorLoginGmailAndActiveUser() {
-        Object[][] arrayData = new Object[][]{{adminAuditorEmail, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{adminAuditorEmail, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLoginAuditorUser")
     public static Object[][] getVerifyLoginAuditorUser() {
-        Object[][] arrayData = new Object[][]{{adminAuditorEmail, adminAuditorAuvenirPwd}};
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{adminAuditorEmail, adminAuditorAuvenirPwd}};
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyAdminAuditorCreateSimpleEngagement")
     public static Object[][] getVerifyAdminAuditorCreateSimpleEngagement() {
-        Object[][] arrayData = new Object[][]{{adminAuditorEmail, engagementName1, companyName, adminAuditorAuvenirPwd}};
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, engagementName1, companyName, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{adminAuditorEmail, engagementName1, companyName, adminAuditorAuvenirPwd}};
+            arrayData = new Object[][]{{adminAuditorUser, engagementName1, companyName, adminAuditorAuvenirPwd}};
         }
         return arrayData;
     }
@@ -200,11 +198,11 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyAdminAuditorInviteNewMemberAuditor")
     public static Object[][] getVerifyAdminAuditorInviteNewMemberAuditor() {
         Object[][] arrayData = new Object[][]{
-                {leadAuditorEmail, leadAuditorAuvenirPwd, adminAuditorEmail, adminAuditorAuvenirPwd, engagementName1, leadAuditorFullName,
-                        partnerRole, leadAuditorEmailPwd}};
+                {leadAuditorUser, leadAuditorAuvenirPwd, adminAuditorUser, adminAuditorAuvenirPwd, engagementName1, leadAuditorFullName, partnerRole,
+                        leadAuditorEmailPwd}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {leadAuditorEmail, leadAuditorAuvenirPwd, adminAuditorEmail, adminAuditorAuvenirPwd, engagementName1, leadAuditorFullName,
+                    {leadAuditorUser, leadAuditorAuvenirPwd, adminAuditorUser, adminAuditorAuvenirPwd, engagementName1, leadAuditorFullName,
                             partnerRole, leadAuditorEmailPwd}};
         }
         return arrayData;
@@ -213,12 +211,12 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyAdminAuditorInvitingNewClient")
     public static Object[][] getVerifyAdminAuditorInvitingNewClient() {
         Object[][] arrayData = new Object[][]{
-                {adminEmail, adminAuvenirPwd, adminClientEmail, adminClientEmailPwd, adminAuditorEmail, adminAuditorAuvenirPwd, engagementName1,
-                        adminClientFullName, roleClient, onboardingStatus, leadClientEmail, clientEmail}};
+                {adminUser, adminAuvenirPwd, adminClientUser, adminClientEmailPwd, adminAuditorUser, adminAuditorAuvenirPwd, engagementName1,
+                        adminClientFullName, roleClient, onboardingStatus, leadClientUser, clientUser}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {adminEmail, adminAuvenirPwd, adminClientEmail, adminClientEmailPwd, adminAuditorEmail, adminAuditorAuvenirPwd, engagementName1,
-                            adminClientFullName, roleClient, onboardingStatus, leadClientEmail, clientEmail}};
+                    {adminUser, adminAuvenirPwd, adminClientUser, adminClientEmailPwd, adminAuditorUser, adminAuditorAuvenirPwd, engagementName1,
+                            adminClientFullName, roleClient, onboardingStatus, leadClientUser, clientUser}};
         }
         return arrayData;
     }
@@ -226,28 +224,28 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyClientLogsInAndActive")
     public static Object[][] getVerifyClientLogsInAndActive() {
         Object[][] arrayData =
-                new Object[][]{{adminClientEmail, adminClientEmailPwd, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, engagementName1}};
+                new Object[][]{{adminClientUser, adminClientEmailPwd, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, engagementName1}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {adminClientEmail, adminClientEmailPwd, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, engagementName1}};
+                    {adminClientUser, adminClientEmailPwd, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, engagementName1}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyClientActiveAfterSignUpSuccess")
     public static Object[][] getVerifyClientActiveAfterSignUpSuccess() {
-        Object[][] arrayData = new Object[][]{{adminEmail, adminAuvenirPwd, adminClientEmail, activeStatus, adminClientAuvenirPwd}};
+        Object[][] arrayData = new Object[][]{{adminUser, adminAuvenirPwd, adminClientUser, activeStatus, adminClientAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{adminEmail, adminAuvenirPwd, adminClientEmail, activeStatus, adminClientAuvenirPwd}};
+            arrayData = new Object[][]{{adminUser, adminAuvenirPwd, adminClientUser, activeStatus, adminClientAuvenirPwd}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadAuditorCreateNewEngagement")
     public static Object[][] getVerifyLeadAuditorCreateNewEngagement() {
-        Object[][] arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, companyName}};
+        Object[][] arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, companyName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, companyName}};
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, companyName}};
         }
         return arrayData;
     }
@@ -255,11 +253,11 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyLeadAuditorInviteNewAuditorMember")
     public static Object[][] getVerifyLeadAuditorInviteNewAuditorMember() {
         Object[][] arrayData = new Object[][]{
-                {leadAuditorEmail, leadAuditorAuvenirPwd, auditorEmail, auditorEmailPwd, auditorAuvenirPwd, engagementName2, auditorFullName,
+                {leadAuditorUser, leadAuditorAuvenirPwd, auditorUser, auditorEmailPwd, auditorAuvenirPwd, engagementName2, auditorFullName,
                         partnerRole}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {leadAuditorEmail, leadAuditorAuvenirPwd, auditorEmail, auditorEmailPwd, auditorAuvenirPwd, engagementName2, auditorFullName,
+                    {leadAuditorUser, leadAuditorAuvenirPwd, auditorUser, auditorEmailPwd, auditorAuvenirPwd, engagementName2, auditorFullName,
                             partnerRole}};
         }
         return arrayData;
@@ -268,12 +266,12 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyLeadAuditorInvitingAdminClient")
     public static Object[][] getVerifyLeadAuditorInvitingAdminClient() {
         Object[][] arrayData = new Object[][]{
-                {adminEmail, leadAuditorEmail, adminClientEmail, adminClientEmailPwd, leadAuditorAuvenirPwd, engagementName2, adminClientFullName,
-                        roleClient, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, leadClientEmail, clientEmail}};
+                {adminUser, leadAuditorUser, adminClientUser, adminClientEmailPwd, leadAuditorAuvenirPwd, engagementName2, adminClientFullName,
+                        roleClient, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, leadClientUser, clientUser}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {adminEmail, leadAuditorEmail, adminClientEmail, adminClientEmailPwd, leadAuditorAuvenirPwd, engagementName2, adminClientFullName,
-                            roleClient, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, leadClientEmail, clientEmail}};
+                    {adminUser, leadAuditorUser, adminClientUser, adminClientEmailPwd, leadAuditorAuvenirPwd, engagementName2, adminClientFullName,
+                            roleClient, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, leadClientUser, clientUser}};
         }
         return arrayData;
     }
@@ -281,32 +279,32 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyPermissionAdminClientCanInviteClient")
     public static Object[][] getVerifyPermissionAdminClientCanInviteClient() {
         Object[][] arrayData = new Object[][]{
-                {adminClientEmail, adminClientAuvenirPwd, leadClientEmail, leadClientEmailPwd, adminEmail, adminAuvenirPwd, engagementName2,
+                {adminClientUser, adminClientAuvenirPwd, leadClientUser, leadClientEmailPwd, adminUser, adminAuvenirPwd, engagementName2,
                         leadClientFullName, successMessageInvitation, onboardingStatus, roleClient}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {adminClientEmail, adminClientAuvenirPwd, leadClientEmail, leadClientEmailPwd, adminEmail, adminAuvenirPwd, engagementName2,
+                    {adminClientUser, adminClientAuvenirPwd, leadClientUser, leadClientEmailPwd, adminUser, adminAuvenirPwd, engagementName2,
                             leadClientFullName, successMessageInvitation, onboardingStatus, roleClient}};
         }
         return arrayData;
     }
 
-    @DataProvider(name = "verifyPermissionClientCanActiveViaEmail")
-    public static Object[][] getVerifyPermissionClientCanActiveViaEmail() {
+    @DataProvider(name = "verifyPermissionClientCanActiveViaUser")
+    public static Object[][] getVerifyPermissionClientCanActiveViaUser() {
         Object[][] arrayData =
-                new Object[][]{{leadClientEmail, leadClientEmailPwd, clientPhoneNumber, parentStackHolder, leadClientAuvenirPwd, engagementName2}};
+                new Object[][]{{leadClientUser, leadClientEmailPwd, clientPhoneNumber, parentStackHolder, leadClientAuvenirPwd, engagementName2}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{
-                    {leadClientEmail, leadClientEmailPwd, clientPhoneNumber, parentStackHolder, leadClientAuvenirPwd, engagementName2}};
+            arrayData =
+                    new Object[][]{{leadClientUser, leadClientEmailPwd, clientPhoneNumber, parentStackHolder, leadClientAuvenirPwd, engagementName2}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyPermissionLeadPermissionCanBeTranfered")
     public static Object[][] getVerifyPermissionLeadPermissionCanBeTranfered() {
-        Object[][] arrayData = new Object[][]{{adminClientEmail, adminClientAuvenirPwd, engagementName2, leadClientFullName, leadText}};
+        Object[][] arrayData = new Object[][]{{adminClientUser, adminClientAuvenirPwd, engagementName2, leadClientFullName, leadText}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{adminClientEmail, adminClientAuvenirPwd, engagementName2, leadClientFullName, leadText}};
+            arrayData = new Object[][]{{adminClientUser, adminClientAuvenirPwd, engagementName2, leadClientFullName, leadText}};
         }
         return arrayData;
     }
@@ -314,9 +312,9 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyLeadClientRemoveAdminClient")
     public static Object[][] getVerifyLeadClientRemoveAdminClient() {
         Object[][] arrayData =
-                new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, adminClientFullName, successMessageRemoveTeamMember}};
+                new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, adminClientFullName, successMessageRemoveTeamMember}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, adminClientFullName, successMessageRemoveTeamMember}};
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, adminClientFullName, successMessageRemoveTeamMember}};
         }
         return arrayData;
     }
@@ -324,11 +322,11 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyLeadClientInviteClient")
     public static Object[][] getVerifyLeadClientInviteClient() {
         Object[][] arrayData = new Object[][]{
-                {leadClientEmail, leadClientAuvenirPwd, clientEmail, clientEmailPwd, engagementName2, clientFullName, successMessageInvitation,
+                {leadClientUser, leadClientAuvenirPwd, clientUser, clientEmailPwd, engagementName2, clientFullName, successMessageInvitation,
                         roleClient}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {leadClientEmail, leadClientAuvenirPwd, clientEmail, clientEmailPwd, engagementName2, clientFullName, successMessageInvitation,
+                    {leadClientUser, leadClientAuvenirPwd, clientUser, clientEmailPwd, engagementName2, clientFullName, successMessageInvitation,
                             roleClient}};
         }
         return arrayData;
@@ -336,9 +334,9 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "verifyGeneralClientActive")
     public static Object[][] getVerifyGeneralClientActive() {
-        Object[][] arrayData = new Object[][]{{clientEmail, clientEmailPwd, clientAuvenirPwd, engagementName2, phoneNumber, parentStackHolder}};
+        Object[][] arrayData = new Object[][]{{clientUser, clientEmailPwd, clientAuvenirPwd, engagementName2, phoneNumber, parentStackHolder}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{clientEmail, clientEmailPwd, clientAuvenirPwd, engagementName2, phoneNumber, parentStackHolder}};
+            arrayData = new Object[][]{{clientUser, clientEmailPwd, clientAuvenirPwd, engagementName2, phoneNumber, parentStackHolder}};
         }
         return arrayData;
     }
@@ -346,64 +344,64 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyLeadAuditorCreateTodoAndAssignClient")
     public static Object[][] getVerifyLeadAuditorCreateTodoAndAssignClient() {
         Object[][] arrayData =
-                new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo1, todo2, todo3, leadClientFullName, categoryName}};
+                new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, todo2, todo3, leadClientFullName, categoryName}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData =
-                    new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo1, todo2, todo3, leadClientFullName, categoryName}};
+                    new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, todo2, todo3, leadClientFullName, categoryName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadAuditorAssignToGeneralAuditor")
     public static Object[][] verifyLeadAuditorAssignToGeneralAuditor() {
-        Object[][] arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo1, auditorFullName}};
+        Object[][] arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, auditorFullName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo1, auditorFullName}};
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, auditorFullName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadAuditorCommenting")
     public static Object[][] verifyLeadAuditorCommenting() {
-        Object[][] arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo1, leadAuditorCmt}};
+        Object[][] arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, leadAuditorCmt}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo1, leadAuditorCmt}};
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, leadAuditorCmt}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadAuditorMarkCompleted")
     public static Object[][] verifyLeadAuditorMarkCompleted() {
-        Object[][] arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo2}};
+        Object[][] arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo2}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo2}};
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo2}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadAuditorAssignToDoBulkAction")
     public static Object[][] verifyLeadAuditorAssignToDoBulkAction() {
-        Object[][] arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo3, auditorFullName, leadClientFullName}};
+        Object[][] arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo3, auditorFullName, leadClientFullName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo3, auditorFullName, leadClientFullName}};
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo3, auditorFullName, leadClientFullName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadAuditorDeleteTodo")
     public static Object[][] verifyLeadAuditorDeleteTodo() {
-        Object[][] arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo3}};
+        Object[][] arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo3}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, todo3}};
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo3}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadAuditorDownloadFromAllTodo")
     public static Object[][] verifyLeadAuditorDownloadFromAllTodo() {
-        Object[][] arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, pathDownload}};
+        Object[][] arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, pathDownload}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadAuditorEmail, leadAuditorAuvenirPwd, engagementName2, pathDownload}};
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, pathDownload}};
         }
         return arrayData;
     }
@@ -411,72 +409,72 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyGeneralAuditorCreateTodo")
     public static Object[][] verifyGeneralAuditorCreateTodo() {
         Object[][] arrayData =
-                new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, leadClientFullName, categoryName}};
+                new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, leadClientFullName, categoryName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, leadClientFullName, categoryName}};
+            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, leadClientFullName, categoryName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralAuditorCommenting")
     public static Object[][] verifyGeneralAuditorCommenting() {
-        Object[][] arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo4, generalAuditorCmt}};
+        Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, generalAuditorCmt}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo4, generalAuditorCmt}};
+            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, generalAuditorCmt}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralAuditorMarkCompleted")
     public static Object[][] verifyGeneralAuditorMarkCompleted() {
-        Object[][] arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo5}};
+        Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo5}};
+            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralAuditorDeleteTodo")
     public static Object[][] verifyGeneralAuditorDeleteTodo() {
-        Object[][] arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo5}};
+        Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, todo5}};
+            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralAuditorDownloadFromAllTodo")
     public static Object[][] verifyGeneralAuditorDownloadFromAllTodo() {
-        Object[][] arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, pathDownload}};
+        Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, pathDownload}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, pathDownload}};
+            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, pathDownload}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadClientPostComment")
     public static Object[][] verifyLeadClientPostComment() {
-        Object[][] arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, leadClientCmt}};
+        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, leadClientCmt}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, leadClientCmt}};
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, leadClientCmt}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralClientViewComment")
     public static Object[][] verifyGeneralClientViewComment() {
-        Object[][] arrayData = new Object[][]{{clientEmail, clientAuvenirPwd, engagementName2, todo1, leadClientCmt, leadClientFullName}};
+        Object[][] arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1, leadClientCmt, leadClientFullName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{clientEmail, clientAuvenirPwd, engagementName2, todo1, leadClientCmt, leadClientFullName}};
+            arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1, leadClientCmt, leadClientFullName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralClientPostComment")
     public static Object[][] verifyGeneralClientPostComment() {
-        Object[][] arrayData = new Object[][]{{clientEmail, clientAuvenirPwd, engagementName2, todo1, generalClientCmt}};
+        Object[][] arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1, generalClientCmt}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{clientEmail, clientAuvenirPwd, engagementName2, todo1, generalClientCmt}};
+            arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1, generalClientCmt}};
         }
         return arrayData;
     }
@@ -484,37 +482,37 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "verifyLeadClientViewComment")
     public static Object[][] verifyLeadClientViewComment() {
-        Object[][] arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, generalClientCmt, clientFullName}};
+        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, generalClientCmt, clientFullName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, generalClientCmt, clientFullName}};
-            arrayData = new Object[][]{{auditorEmail, auditorAuvenirPwd, engagementName2, pathDownload}};
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, generalClientCmt, clientFullName}};
+            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, pathDownload}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadClientSeeToDo")
     public static Object[][] getVerifyLeadClientSeeToDo() {
-        Object[][] arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4}};
+        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4}};
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadClientAssignTodoTaskToClient")
     public static Object[][] getVerifyLeadClientAssignTodoTaskToClient() {
-        Object[][] arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, clientFullName}};
+        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, clientFullName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadClientEmail, leadClientAuvenirPwd, engagementName2, todo1, clientFullName}};
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, clientFullName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralClientCanViewTodoTaskAssigned")
     public static Object[][] getVerifyGeneralClientCanViewTodoTaskAssigned() {
-        Object[][] arrayData = new Object[][]{{clientEmail, clientAuvenirPwd, engagementName2, todo1}};
+        Object[][] arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{clientEmail, clientAuvenirPwd, engagementName2, todo1}};
+            arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1}};
         }
         return arrayData;
     }
