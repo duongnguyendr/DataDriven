@@ -58,7 +58,7 @@ public class SmokeTest extends AbstractTest {
         adminId = GenericService.sBrowserData + adminId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
+            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
@@ -123,7 +123,7 @@ public class SmokeTest extends AbstractTest {
         try {
             gmailLoginService.deleteAllExistedEmail(emailCreate, gmailAuditorPassword);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminEmail, strAdminPwd);
+            marketingService.loginUsingUsernamePassword(adminEmail, strAdminPwd);
             adminService.changeTheStatusUser(emailCreate, "Onboarding");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
@@ -173,7 +173,7 @@ public class SmokeTest extends AbstractTest {
         emailCreate = GenericService.sBrowserData + emailCreate;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(emailCreate, auditorPwd);
+            marketingService.loginUsingUsernamePassword(emailCreate, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             marketingService.logout();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -197,7 +197,7 @@ public class SmokeTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -242,7 +242,7 @@ public class SmokeTest extends AbstractTest {
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
 
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName,"Auvenir01");
 
@@ -251,7 +251,7 @@ public class SmokeTest extends AbstractTest {
             clientService.fillInfoToInviteNewClient(clientFullName, clientId, roleClient);
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
+            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, userOnBoardingStatus);
@@ -276,7 +276,7 @@ public class SmokeTest extends AbstractTest {
         clientId = GenericService.sBrowserData + clientId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
+            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.changeTheStatusUser(clientId, chooseOptionValue);
@@ -343,12 +343,12 @@ public class SmokeTest extends AbstractTest {
         clientId = GenericService.sBrowserData + clientId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
+            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, userActiveStatus);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
+            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
             clientEngagementService.verifyNavigatedToClientEngagementPage();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -368,7 +368,7 @@ public class SmokeTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagement);
             auditorCreateToDoService.navigatetoCreateToDoTab();
@@ -393,7 +393,7 @@ public class SmokeTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagement);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
@@ -418,7 +418,7 @@ public class SmokeTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorId = GenericService.sBrowserData + auditorId;
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagement);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
@@ -443,7 +443,7 @@ public class SmokeTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         clientId = GenericService.sBrowserData + clientId;
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
+            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
             clientService.verifyClientHomePage();
             auditorEngagementService.verifyEngagementExisted(engagement);
             auditorEngagementService.viewEngagementDetailsPage(engagement);
@@ -471,7 +471,7 @@ public class SmokeTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -508,7 +508,7 @@ public class SmokeTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
+            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
             clientService.verifyClientHomePage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -538,7 +538,7 @@ public class SmokeTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
+            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
             clientService.verifyClientHomePage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -572,7 +572,7 @@ public class SmokeTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -647,7 +647,7 @@ public class SmokeTest extends AbstractTest {
         clientId = GenericService.sBrowserData + clientId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
+            marketingService.loginUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, fileName, "request 02");
@@ -678,7 +678,7 @@ public class SmokeTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.downloadRequestFile(pathOfUploadLocation, pathOfDownloadLocation, fileName, false);
@@ -708,7 +708,7 @@ public class SmokeTest extends AbstractTest {
         auditorInvitedUserEmail = GenericService.sBrowserData + auditorInvitedUserEmail;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -719,7 +719,7 @@ public class SmokeTest extends AbstractTest {
             // auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
             gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -766,7 +766,7 @@ public class SmokeTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -786,7 +786,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.logout();
 
             //Client verify To Do Assigned.
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientInvitedId, clientInvitedUserPwd);
+            marketingService.loginUsingUsernamePassword(clientInvitedId, clientInvitedUserPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -795,7 +795,7 @@ public class SmokeTest extends AbstractTest {
             marketingService.logout();
 
             //Auditor Member verify To Do Assigned.
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorInvitedId, auditorInvitedUserPwd);
+            marketingService.loginUsingUsernamePassword(auditorInvitedId, auditorInvitedUserPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -823,7 +823,7 @@ public class SmokeTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementNameT);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementNameT);
@@ -953,7 +953,7 @@ public class SmokeTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorService.clickClientsLink();
             contactsService.verifyAuditorContactsPage();
@@ -982,7 +982,7 @@ public class SmokeTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
@@ -1009,7 +1009,7 @@ public class SmokeTest extends AbstractTest {
         clientId = GenericService.sBrowserData + clientId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPwd);
+            marketingService.loginUsingUsernamePassword(clientId, clientPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.verifyColorAddRequestBtn();
             auditorCreateToDoService.clientDownloadAttachFile(pathOfUploadLocation, pathOfDownloadLocation, fileName);
