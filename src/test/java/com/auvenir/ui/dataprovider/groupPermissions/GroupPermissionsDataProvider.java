@@ -289,8 +289,8 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         return arrayData;
     }
 
-    @DataProvider(name = "verifyPermissionClientCanActiveViaUser")
-    public static Object[][] getVerifyPermissionClientCanActiveViaUser() {
+    @DataProvider(name = "verifyPermissionClientCanActiveViaEmail")
+    public static Object[][] getVerifyPermissionClientCanActiveViaEmail() {
         Object[][] arrayData =
                 new Object[][]{{leadClientUser, leadClientEmailPwd, clientPhoneNumber, parentStackHolder, leadClientAuvenirPwd, engagementName2}};
         if (GenericService.sLanguage.equals("French")) {

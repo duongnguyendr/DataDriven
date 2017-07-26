@@ -198,10 +198,10 @@ public class ClientSignUpPage extends AbstractPage {
         try {
             getLogger().info("Fill Up Business Form");
             validateElementText(titleComponentBusiness, "Please Confirm your Business Information");
-            clickElement(inputFiscalEndYear, "Input Fiscal End Year");
-            DatePicker datePicker = new DatePicker(getDriver());
-            datePicker.pickADate("28");
             if (textAreaParentStakeholders.getTagName().equals("textarea")) {
+                clickElement(inputFiscalEndYear, "Input Fiscal End Year");
+                DatePicker datePicker = new DatePicker(getDriver());
+                datePicker.pickADate("28");
                 sendKeyTextBox(textAreaParentStakeholders, parentStakeholders, "Text Area Parent Stakeholders");
             }
             scrollToFooter();
