@@ -496,6 +496,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
             clientDetailsEngagementService.navigateToTeamTab();
             clientDetailsEngagementService.inviteNewMemberToTeam();
             clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientEmail, roleClient);

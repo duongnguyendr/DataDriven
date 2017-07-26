@@ -49,20 +49,20 @@
             <include priority="31" name="verifyClientSeeMarkAsComplete"></include>-->
             <!--</methods>-->
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
-            <methods>
-                <include priority="1" name="verifySignUpAuditorUser"></include>
-                <include priority="2" name="verifyAdminChangeStatusUserToOnBoarding"></include>
-                <include priority="3" name="verifyAuditorLoginGmailAndActiveUser"></include>
-                <include priority="4" name="verifyAdminAuditorCreateSimpleEngagement"></include>
-                <include priority="6" name="verifyAdminAuditorInviteNewMemberAuditor"></include>
-                <include priority="8" name="verifyAdminAuditorInvitingNewClient"></include>
-                <include priority="9" name="verifyClientLogsInAndActive"></include>
-                <include priority="10" name="verifyLeadAuditorCreateNewEngagement"></include>
-                <include priority="11" name="verifyLeadAuditorInvitingAdminClient"></include>
-                <include priority="12" name="verifyLeadAuditorInviteNewAuditorMember"></include>
-                <include priority="15" name="verifyPermissionAdminClientCanInviteClient"></include>
-                <include priority="16" name="verifyPermissionClientCanActiveViaEmail"></include>
-                <include priority="17" name="verifyPermissionLeadPermissionCanBeTranfered"></include>
+            <!--<methods>-->
+                <!--<include priority="1" name="verifySignUpAuditorUser"></include>-->
+                <!--<include priority="2" name="verifyAdminChangeStatusUserToOnBoarding"></include>-->
+                <!--<include priority="3" name="verifyAuditorLoginGmailAndActiveUser"></include>-->
+                <!--<include priority="4" name="verifyAdminAuditorCreateSimpleEngagement"></include>-->
+                <!--<include priority="6" name="verifyAdminAuditorInviteNewMemberAuditor"></include>-->
+                <!--<include priority="8" name="verifyAdminAuditorInvitingNewClient"></include>-->
+                <!--<include priority="9" name="verifyClientLogsInAndActive"></include>-->
+                <!--<include priority="10" name="verifyLeadAuditorCreateNewEngagement"></include>-->
+                <!--<include priority="11" name="verifyLeadAuditorInvitingAdminClient"></include>-->
+                <!--<include priority="12" name="verifyLeadAuditorInviteNewAuditorMember"></include>-->
+                <!--<include priority="15" name="verifyPermissionAdminClientCanInviteClient"></include>-->
+                <!--<include priority="16" name="verifyPermissionClientCanActiveViaEmail"></include>-->
+                <!--<include priority="17" name="verifyPermissionLeadPermissionCanBeTranfered"></include>-->
                 <!--<include priority="18" name="verifyLeadAuditorCreateTodoAndAssignClient"></include>-->
                 <!--<include priority="21" name="verifyLeadAuditorAssignToGeneralAuditor"></include>-->
                 <!--<include priority="25" name="verifyLeadAuditorCommenting"></include>-->
@@ -85,7 +85,7 @@
                 <!--<include priority="50" name="verifyGeneralClientCanViewTodoTaskAssigned"></include>-->
                 <!--<include priority="53" name="verifyGeneralClientMakeComment"></include>-->
                 <!--<include priority="54" name="verifyLeadClientCanViewComment"></include>-->
-            </methods>
+            <!--</methods>-->
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">
