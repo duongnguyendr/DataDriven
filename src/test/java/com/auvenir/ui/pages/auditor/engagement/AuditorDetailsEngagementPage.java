@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.auditor.engagement;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 
+import com.auvenir.ui.pages.common.EngagementPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,7 +15,7 @@ import java.security.cert.X509Certificate;
  */
 
 
-public class AuditorDetailsEngagementPage extends AbstractPage {
+public class AuditorDetailsEngagementPage extends EngagementPage {
 
 
     public AuditorDetailsEngagementPage(Logger logger, WebDriver driver) {

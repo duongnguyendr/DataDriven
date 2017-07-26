@@ -95,11 +95,10 @@ public class AdminAuditorTest extends AbstractTest {
     public void verifyAdminAuditorCanNotEditCategory() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
 
-        String adminAuditorId = GenericService
+        /*String adminAuditorId = GenericService
                 .addBrowserPrefix(GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor", "Valid Value"));
         String adminAuditorPwd =
                 GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Auvenir Password", "Valid Value");
@@ -109,19 +108,29 @@ public class AdminAuditorTest extends AbstractTest {
         String toDo4Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 4 name", "Valid Value");
         String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 2 Name", "Valid Value");
 
-        String toDoListNames[] = {toDo1Name, toDo2Name, toDo3Name, toDo4Name};
+        String toDoListNames[] = {toDo1Name, toDo2Name, toDo3Name, toDo4Name};*/
 
+        String adminAuditorId = "chr.vienpham.admin.auditor@gmail.com";
+        String adminAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement_Vien 02";
+        String todoName = "lead vien1";
+        String allTodo = "All";
+        String allRequest = "All";
         try {
             marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            adminAuditorService.verifyAdminAuditorCanNotEditCategory();
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName, false);
+            adminAuditorService.verifyAdminAuditorCanNotEditCategory(allTodo, false);
+            adminAuditorService.verifyAdminAuditorCanNotChangeDueDate(allTodo, false);
+            adminAuditorService.clickCommentIconByTodoName(todoName, false);
+            adminAuditorService.verifyAdminAuditorCanNotDeleteRequest(allRequest, false);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Admin Auditor can not edit all categories: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Permission Admin Auditor See ToDos: FAILED", LogAs.FAILED,
+            NXGReports.addStep("Verify Admin Auditor can not edit all categories: Fail.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
+
         }
     }
 }

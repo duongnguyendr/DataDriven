@@ -38,8 +38,19 @@ public class AdminAuditorService extends AbstractService {
         auditorCreateToDoPage.verifyPermissionSeeListToDoTask(listToDoname, true, true);
     }
 
-    public void verifyAdminAuditorCanNotEditCategory() {
-        adminAuditorPage.verifyCategoryEditableCapability("Any",false);
+    public void verifyAdminAuditorCanNotEditCategory(String todoName,Boolean editable) {
+        adminAuditorPage.verifyCategoryEditableCapability(todoName,editable);
     }
 
+    public void verifyAdminAuditorCanNotChangeDueDate(String todoName,Boolean editable) {
+        adminAuditorPage.verifyDueDateEditableCapability(todoName,editable);
+    }
+
+    public void verifyAdminAuditorCanNotDeleteRequest(String requestName, boolean deleteCapability) {
+        adminAuditorPage.verifyRequestDeletionCapability(requestName,deleteCapability);
+    }
+
+    public void clickCommentIconByTodoName(String todoName, boolean editablePage) {
+        adminAuditorPage.clickCommentIconByTodoName(todoName,editablePage);
+    }
 }

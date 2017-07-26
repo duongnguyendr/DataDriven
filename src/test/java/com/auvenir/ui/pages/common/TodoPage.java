@@ -41,6 +41,24 @@ public class TodoPage extends AbstractPage {
     private List<WebElement> listCommentItemEle;
     @FindBy(xpath = "//*[@id='comment-button']")
     private WebElement postCommentButton;
+    @FindBy(xpath = "//tr[@class='newRow']")
+    private List<WebElement> listRow;
+    @FindBy(xpath = "//span[@class='todo-name-readonly']")
+    private List<WebElement> listDisableTodoTextbox;
+    @FindBy(xpath = "//tr[@class='newRow']//input[@type='text']")
+    private List<WebElement> listEnableTodoTextbox;
+    @FindBy(xpath = "//tr[@class='newRow']//span[@class='ui label todo-category-readonly']")
+    private List<WebElement> listDisableCategoryBtn;
+    @FindBy(xpath = "//div[contains(@class,'ui dropdown todoCategory')]")
+    private List<WebElement> listEnableCategoryBtn;
+    @FindBy(xpath = "//input[contains(@class,'input-due-date ')]")
+    private List<WebElement> listDisableDatePickerBtn;
+    @FindBy(xpath = "//input[contains(@class,'datepicker')]")
+    private List<WebElement> listEnableDatePickerBtn;
+    @FindBy(xpath = "//div[@id='todoDetailsReqCont']/div")
+    private List<WebElement> listNewRequest;
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']")
+    private WebElement newRequestTable;
 
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
@@ -216,5 +234,141 @@ public class TodoPage extends AbstractPage {
             return false;
         }
 
+    }
+
+    /**
+     * Vien.Pham own this function
+     *
+     * @param todoName: to find row correspoding with todoName inputed. if "All": verify all rows.
+     * @param editable: true: editable or False:  not editable
+     */
+    public void verifyCategoryEditableCapability(String todoName, boolean editable) {
+        try {
+            if (editable) {
+
+            }
+
+            if (todoName.equals("All") && editable) {
+                if (listRow.size() == listEnableCategoryBtn.size()) {
+                    System.out.println("All of Categories is Enable.");
+                    NXGReports.addStep("Verify all categories is " + (editable ? "editable" : "not editable") + " :Pass.", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify all categories is " + (editable ? "editable" : "not editable" + " :Fail"), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+            if (todoName.equals("All") && editable == false) {
+                if (listRow.size() == listDisableCategoryBtn.size()) {
+                    System.out.println("All of Categories is Disable.");
+                    NXGReports.addStep("Verify all categories is " + (editable ? "editable" : "not editable") + " :Pass.", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify all categories is " + (editable ? "editable" : "not editable" + " :Fail"), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify all categories is " + (editable ? "editable" : "not editable" + " :Fail"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /**
+     * Vien.Pham own this function
+     *
+     * @param todoName: to find row correspoding with todoName inputed. if "All": verify all rows.
+     * @param editable: true: can be changed or False: can not be changed.
+     */
+    public void verifyDueDateEditableCapability(String todoName, boolean editable) {
+
+        try {
+            if (editable) {
+                int index = findRowByTodoName(todoName, editable);
+            }
+
+            if (todoName.equals("All") && editable) {
+                if (listRow.size() == listEnableDatePickerBtn.size()) {
+                    System.out.println("All of DueDate can be changed");
+                    NXGReports.addStep("Verify all DueDate can be " + (editable ? "changed" : "not changed") + " :Pass.", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify all DueDate can " + (editable ? "changed" : "not changed" + " :Fail"), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+            if (todoName.equals("All") && editable == false) {
+                if (listRow.size() == listDisableDatePickerBtn.size()) {
+                    System.out.println("All of DueDate can not be changed");
+                    NXGReports.addStep("Verify all DueDate can " + (editable ? "changed" : "not changed") + " :Pass.", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify all DueDate can " + (editable ? "changed" : "not changed" + " :Fail"), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify all DueDate can " + (editable ? "changed" : "not changed" + " :Fail"), LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    private int findRowByTodoName(String todoName, boolean editablePage) {
+        int index = 0;
+        for (int i = 0; i < listRow.size(); i++) {
+            if (editablePage) {
+                String actualName = listEnableTodoTextbox.get(i).getAttribute("value").trim();
+                System.out.println("actualName is: " + actualName);
+                if (actualName.equals(todoName)) {
+                    index = i;
+                    break;
+                }
+            } else {
+                String actualName = listDisableTodoTextbox.get(i).getText().trim();
+                System.out.println("actualName is: " + actualName);
+                if (actualName.equals(todoName)) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
+    @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]")
+    private WebElement requestOptionBtn;
+
+    private  String activeName = "ui dropdown auvicon-line-circle-more todo-circle-more todo-icon-hover active";
+    public void verifyRequestDeletionCapability(String requestName, boolean deleteCapability) {
+        if (deleteCapability) {
+
+        } else {
+            clickElement(requestOptionBtn);
+            waitForAtrributeValueChanged(requestOptionBtn,"","class",activeName);
+        }
+    }
+
+
+    private int findRequestByName(String requestName) {
+        int isFind = -1;
+        for (int i = 1; i < (listNewRequest.size() + 1); i++) {
+            if (newRequestTable.findElement(By.xpath("./div[" + i + "]/span")).getText().equals(requestName)) {
+                isFind = i;
+                break;
+            }
+        }
+        return isFind;
+    }
+
+    public void clickCommentIconByTodoName(String todoName, boolean editablePage) {
+        getLogger().info("Select To Do Comment Icon by Todo Name");
+        int index = findRowByTodoName(todoName, editablePage);
+        clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", todoName));
     }
 }
