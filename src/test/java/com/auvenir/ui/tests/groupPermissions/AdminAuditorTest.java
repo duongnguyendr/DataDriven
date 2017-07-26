@@ -42,7 +42,7 @@ public class AdminAuditorTest extends AbstractTest {
         userId = GenericService.sBrowserData + userId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(userId, userPassword);
+            marketingService.loginUsingUsernamePassword(userId, userPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
 
             adminAuditorService.verifyCanCreateAnEngagement();
@@ -76,7 +76,7 @@ public class AdminAuditorTest extends AbstractTest {
         String toDoListNames[] = {toDo1Name, toDo2Name, toDo3Name, toDo4Name};
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             adminAuditorService.verifyAuditorAdminSeeListToDo(Arrays.asList(toDoListNames));
@@ -112,10 +112,10 @@ public class AdminAuditorTest extends AbstractTest {
         String toDoListNames[] = {toDo1Name, toDo2Name, toDo3Name, toDo4Name};
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            adminAuditorService.verifyAdminCanNotEditAnyCategory();
+            adminAuditorService.verifyAdminAuditorCanNotEditCategory();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
         } catch (Exception e) {
