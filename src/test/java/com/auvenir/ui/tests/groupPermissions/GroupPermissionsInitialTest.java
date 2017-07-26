@@ -67,7 +67,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 1, enabled = true, description = "Verify Normal Admin is able to login", dataProvider = "verifyAdminLogin",
+    @Test(priority = 2, enabled = true, description = "Verify Normal Admin is able to login", dataProvider = "verifyAdminLogin",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminLogin(String adminId, String adminPwd) {
         getLogger().info("Verify admin is able to login.");
@@ -87,7 +87,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 1, enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
+    @Test(priority = 3, enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
             dataProvider = "verifySignUpAuditorUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySignUpAuditorUser(String adminAuditorEmail, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
             String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
@@ -130,7 +130,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
+    @Test(priority = 4, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
             testName = "if_2", dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminChangeStatusUserToOnBoarding(String adminAuditorEmail, String adminEmail, String adminAuditorEmailPwd,
             String adminAuvenirPwd) throws Exception {
@@ -157,7 +157,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_3",
+    @Test(priority = 5, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_3",
             dataProvider = "verifyAuditorLoginGMailAndActiveUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAuditorLoginGMailAndActiveUser(String adminAuditorEmail, String adminAuditorEmailPwd,
             String adminAuditorAuvenirPwd) throws Exception {
@@ -187,7 +187,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Admin Auditor create new Engagement1", testName = "if_4",
+    @Test(priority = 6, enabled = true, description = "Admin Auditor create new Engagement1", testName = "if_4",
             dataProvider = "verifyAdminAuditorCreateSimpleEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorCreateSimpleEngagement(String adminAuditorEmail, String engagementName1, String companyName,
             String adminAuditorAuvenirPwd) {
@@ -219,7 +219,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify that Admin Auditor can invite new member.", testName = "if_6, if_9",
+    @Test(priority = 7, enabled = true, description = "Verify that Admin Auditor can invite new member.", testName = "if_6, if_9",
             dataProvider = "verifyAdminAuditorInviteNewMemberAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInviteNewMemberAuditor(String leadAuditorEmail, String leadAuditorAuvenirPwd, String adminAuditorEmail,
             String adminAuditorAuvenirPwd, String engagementName1, String leadAuditorFullName, String partnerRole,

@@ -192,7 +192,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         return arrayData;
     }
 
-    @DataProvider(name = "verifyAuditorLoginGmailAndActiveUser")
+    @DataProvider(name = "verifyAuditorLoginGMailAndActiveUser")
     public static Object[][] getVerifyAuditorLoginGmailAndActiveUser() {
         Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
