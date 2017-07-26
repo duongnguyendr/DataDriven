@@ -30,7 +30,7 @@ public class AccountSettingsTest extends AbstractTest {
         clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
         clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientAuvenirPassword);
+            marketingService.loginUsingUsernamePassword(clientId, clientAuvenirPassword);
 
             clientService.verifyClientHomePage();
             clientService.navigateToClientSettingsPage();

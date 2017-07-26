@@ -35,7 +35,7 @@ public class SuperAdminTest extends AbstractTest {
         auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
+            marketingService.loginUsingUsernamePassword(superAdminId, superAdminPwd);
             adminService.verifyHeaderAdminPage();
             adminService.verifyAdminSeeAllUser();
             adminService.verifyOnlyOneSuperAdmin();
@@ -82,7 +82,7 @@ public class SuperAdminTest extends AbstractTest {
         auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPwd);
+            marketingService.loginUsingUsernamePassword(adminId, adminPwd);
             adminService.verifyHeaderAdminPage();
             adminService.verifyAdminSeeAllUser();
             adminService.verifyOnlyOneSuperAdmin();
@@ -119,7 +119,7 @@ public class SuperAdminTest extends AbstractTest {
         superAdminId = GenericService.addBrowserPrefix(superAdminId);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
+            marketingService.loginUsingUsernamePassword(superAdminId, superAdminPwd);
             adminService.verifyHeaderAdminPage();
 
             adminService.navigateToSettingPage();
@@ -151,7 +151,7 @@ public class SuperAdminTest extends AbstractTest {
         adminId = GenericService.addBrowserPrefix(adminId);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPwd);
+            marketingService.loginUsingUsernamePassword(adminId, adminPwd);
             adminService.verifyHeaderAdminPage();
 
             adminService.navigateToSettingPage();
@@ -184,7 +184,7 @@ public class SuperAdminTest extends AbstractTest {
         adminId = GenericService.addBrowserPrefix(adminId);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPwd);
+            marketingService.loginUsingUsernamePassword(superAdminId, superAdminPwd);
             adminService.verifyHeaderAdminPage();
             adminService.demoteSuperAdminRole(superAdminId, adminFullName, false);
             adminService.demoteSuperAdminRole(superAdminId, adminFullName, true);
@@ -229,7 +229,7 @@ public class SuperAdminTest extends AbstractTest {
         adminId = GenericService.addBrowserPrefix(adminId);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPassword);
+            marketingService.loginUsingUsernamePassword(superAdminId, superAdminPassword);
             adminService.scrollToUser(adminId);
 
             adminService.changeTheStatusUser(adminId, inactiveStatus);
@@ -265,7 +265,7 @@ public class SuperAdminTest extends AbstractTest {
         auditorId = GenericService.addBrowserPrefix(auditorId);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPassword);
+            marketingService.loginUsingUsernamePassword(superAdminId, superAdminPassword);
             adminService.scrollToUser(auditorId);
 
             adminService.changeTheStatusUser(auditorId, inactiveStatus);
@@ -316,7 +316,7 @@ public class SuperAdminTest extends AbstractTest {
         clientId = GenericService.addBrowserPrefix(clientId);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(superAdminId, superAdminPassword);
+            marketingService.loginUsingUsernamePassword(superAdminId, superAdminPassword);
             adminService.scrollToUser(clientId);
 
             adminService.changeTheStatusUser(clientId, inactiveStatus);

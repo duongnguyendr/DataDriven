@@ -1,7 +1,5 @@
 package com.auvenir.ui.tests.auditor.todo;
 
-import com.auvenir.ui.dataprovider.SmokeDataProvider;
-import com.auvenir.ui.dataprovider.auditor.AuditorToDoListDataProvider;
 import com.auvenir.ui.dataprovider.auditor.todo.AuditorFileDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.auditor.*;
@@ -38,7 +36,7 @@ public class AuditorFilesTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();

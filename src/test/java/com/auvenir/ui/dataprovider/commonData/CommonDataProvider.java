@@ -22,6 +22,10 @@ public class CommonDataProvider {
     protected static String adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Admin");
     protected static String adminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Admin");
 
+    //Data login of Super Admin User. Not use for modified testing user.
+    protected static String superAdminUser = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Super Admin");
+    protected static String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "USER_PWD", "Super Admin");
+
     //Data Provider of Auditor To Do Page.
     protected static String engagementType = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "Engagement Type", "Valid Data");
     protected static String companyName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorTodoListTest", "Company Name", "Valid Data");

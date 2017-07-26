@@ -47,7 +47,47 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientTodoService clientTodoService;
     private AdminAuditorService adminAuditorService;
 
-    @Test(priority = 1, enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
+    @Test(priority = 1, enabled = true, description = "Verify Normal Admin is able to login", dataProvider = "verifySuperAdminLogin",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifySuperAdminLogin(String superAdminUser, String superAdminPwd) {
+        getLogger().info("Verify admin is able to login.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        superAdminUser = GenericService.sBrowserData + superAdminUser;
+
+        try {
+            marketingService.loginUsingUsernamePassword(superAdminUser, superAdminPwd);
+            adminService.verifyPageLoad();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Super Admin is able to login.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Super Admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 2, enabled = true, description = "Verify Normal Admin is able to login", dataProvider = "verifyAdminLogin",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminLogin(String adminId, String adminPwd) {
+        getLogger().info("Verify admin is able to login.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        adminId = GenericService.sBrowserData + adminId;
+
+        try {
+            marketingService.loginUsingUsernamePassword(adminId, adminPwd);
+            adminService.verifyPageLoad();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Normal Admin is able to login.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Normal Admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 3, enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
             dataProvider = "verifySignUpAuditorUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySignUpAuditorUser(String adminAuditorEmail, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
             String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
@@ -73,6 +113,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
+            System.out.println("phoneNumber = " + phoneNumber);
             auditorSignUpService.registerAuditorPersonal(adminAuditorFullName, adminAuditorEmail, roleFirm, phoneNumber, referenceToAuvenir);
             auditorSignUpService
                     .registerFirmInfo(firmName, firmPreName, firmWebsite, streetAddress, officeNumber, zipCode, city, country, stateNumber,
@@ -81,15 +122,15 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorSignUpService.acceptCreateAccountAuditor();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
+            NXGReports.addStep("Admin auditor sign up from marketing page: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
-            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Admin auditor sign up from marketing page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
+    @Test(priority = 4, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
             testName = "if_2", dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminChangeStatusUserToOnBoarding(String adminAuditorEmail, String adminEmail, String adminAuditorEmailPwd,
             String adminAuvenirPwd) throws Exception {
@@ -105,21 +146,20 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         try {
             gmailLoginService.deleteAllExistedEmail(adminAuditorEmail, adminAuditorEmailPwd);
-
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
             adminService.changeTheStatusUser(adminAuditorEmail, "Onboarding");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
+            NXGReports.addStep("Admin change status of admin Auditor to On-Boarding: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
-            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Admin change status of admin Auditor to On-Boarding: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_3",
-            dataProvider = "verifyAuditorLoginGmailAndActiveUser", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyAuditorLoginGmailAndActiveUser(String adminAuditorEmail, String adminAuditorEmailPwd,
+    @Test(priority = 5, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_3",
+            dataProvider = "verifyAuditorLoginGMailAndActiveUser", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAuditorLoginGMailAndActiveUser(String adminAuditorEmail, String adminAuditorEmailPwd,
             String adminAuditorAuvenirPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -131,24 +171,23 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         adminAuditorEmail = GenericService.addBrowserPrefix(adminAuditorEmail);
 
         try {
-
             gmailLoginService.gmailLogin(adminAuditorEmail, adminAuditorEmailPwd);
             gmailLoginService.selectActiveEmaill();
-
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
             auditorSignUpService.createPassword(adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
+            NXGReports.addStep("Admin Auditor be active via Mail link: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
-            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Admin Auditor be active via Mail link: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                    .BROWSER_PAGE));
             throw e;
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Admin Auditor create new Engagement1", testName = "if_4",
+    @Test(priority = 6, enabled = true, description = "Admin Auditor create new Engagement1", testName = "if_4",
             dataProvider = "verifyAdminAuditorCreateSimpleEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorCreateSimpleEngagement(String adminAuditorEmail, String engagementName1, String companyName,
             String adminAuditorAuvenirPwd) {
@@ -164,7 +203,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         try {
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -180,7 +219,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify that Admin Auditor can invite new member.", testName = "if_6, if_9",
+    @Test(priority = 7, enabled = true, description = "Verify that Admin Auditor can invite new member.", testName = "if_6, if_9",
             dataProvider = "verifyAdminAuditorInviteNewMemberAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInviteNewMemberAuditor(String leadAuditorEmail, String leadAuditorAuvenirPwd, String adminAuditorEmail,
             String adminAuditorAuvenirPwd, String engagementName1, String leadAuditorFullName, String partnerRole,
@@ -204,7 +243,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         try {
             gmailLoginService.deleteAllExistedEmail(leadAuditorEmail, leadAuditorAuvenirPwd);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName1);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName1);
@@ -265,7 +304,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
 
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName1);
 
@@ -274,7 +313,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientService.fillInfoToInviteNewClient(adminClientFullName, adminClientEmail, roleClient);
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(adminClientEmail, onboardingStatus);
@@ -336,7 +375,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
         try {
             MongoDBService.removeEngagementCreatedByLeadAuditor(leadAuditorEmail, engagementName2);
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
@@ -386,7 +425,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         try {
             gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
 
@@ -438,7 +477,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
             gmailLoginService.deleteAllExistedEmail(auditorEmail, auditorEmailPwd);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
@@ -491,16 +530,17 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         try {
             gmailLoginService.deleteAllExistedEmail(leadClientEmail, leadClientEmailPwd);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminClientEmail, adminClientAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminClientEmail, adminClientAuvenirPwd);
 
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
             clientDetailsEngagementService.navigateToTeamTab();
             clientDetailsEngagementService.inviteNewMemberToTeam();
             clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientEmail, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(leadClientEmail, onboardingStatus);
@@ -562,7 +602,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminClientEmail, adminClientAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminClientEmail, adminClientAuvenirPwd);
 
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
@@ -596,7 +636,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         listTodo.add(todo2);
         listTodo.add(todo3);
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, categoryName);
@@ -630,7 +670,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String auditorAssign = "Auditor 007";
         //        String toDoName = "Todo 1";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
@@ -664,7 +704,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String toDoName = "Todo 1";
         //        String commentContent = "Comment on Todo 1";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
@@ -700,7 +740,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String engagement = "Firm Auvenir Duong";
         //        String toDoName = "Todo 2";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
@@ -743,7 +783,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String fullNameInvitedMember = "Auditor 007";
         //        String fullNameInvitedClient = "Duong Client";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
@@ -782,7 +822,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String engagement = "Firm Auvenir Duong";
         //        String toDoName = "Todo 3";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
@@ -819,7 +859,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
         try {
             auditorCreateToDoService.checkFileDownloadExisted(fileName);
-            marketingService.loginWithUserRolesUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
@@ -860,7 +900,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         listTodo.add(todo5);
         listTodo.add(todo6);
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, categoryName);
@@ -895,7 +935,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String toDoName = "Todo 4";
         //        String commentContent = "Comment on Todo 4";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
@@ -931,7 +971,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String engagement = "Firm Auvenir Duong";
         //        String toDoName = "Todo 5";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
@@ -970,7 +1010,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         //        String engagement = "Firm Auvenir Duong";
         //        String toDoName = "Todo 6";
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
@@ -1007,7 +1047,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         String fileName = pathDownload + engagementName2 + ".zip";
         try {
             auditorCreateToDoService.checkFileDownloadExisted(fileName);
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
@@ -1163,7 +1203,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(priority = 44, enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44, if_48",
-            dataProvider = "verifyGeneralClientActive", dataProviderClass = GroupPermissionsDataProvider.class)
+            dataProvider = "verifyLeadClientAssignTodoTaskToClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientAssignTodoTaskToClient(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2, String todo1,
             String clientFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
