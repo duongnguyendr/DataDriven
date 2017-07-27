@@ -1,7 +1,5 @@
 package com.auvenir.ui.tests.auditor.todo;
 
-import com.auvenir.ui.dataprovider.SmokeDataProvider;
-import com.auvenir.ui.dataprovider.auditor.AuditorToDoListDataProvider;
 import com.auvenir.ui.dataprovider.auditor.todo.AuditorCommentDataProvider;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.auditor.AuditorCreateToDoService;
@@ -42,7 +40,7 @@ public class AuditorCommentTest extends AbstractTest {
         auditorId = GenericService.sBrowserData + auditorId;
 
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             //            auditorDetailsEngagementService.verifyDetailsEngagementPage("engagement2299");

@@ -64,7 +64,7 @@ public class ClientTest extends AbstractTest {
         try {
             gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
 
@@ -78,7 +78,7 @@ public class ClientTest extends AbstractTest {
             clientService.fillInfoToInviteNewClient(clientFullName, clientId, "");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminId, adminPassword);
+            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
             adminService.verifyUserStatusOnAdminUserTable(clientId, "Onboarding");
@@ -175,7 +175,7 @@ public class ClientTest extends AbstractTest {
         String clientId = GenericService.getTestDataFromExcel("LoginData", "Valid User", "Client");
         String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("LoginData", "Valid User", "Client Auvenir Password");
         try {
-            marketingService.loginWithUserRolesUsingUsernamePassword(clientId, clientPassword);
+            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
 
             clientEngagementService
                     .verifyUIListEngagementHeader(logoHeaderBluePartialLink, headerEngagementsText, headerContactsText, dashboardUsernameText,

@@ -27,11 +27,12 @@ public class EngagementPage extends AbstractPage {
     //    @FindBy(xpath = "//div[@id='cpa-main']/div")
     @FindBy(xpath = "//tbody[@id='engagement-tbody']//td/a")
     protected List<WebElement> engagementListEle;
-
     @FindBy(id = "c-header-title")
     private WebElement myEngagementTextEle;
-
-
+    @FindBy(xpath = "//span[@id='a-header-title']")
+    private WebElement dashboardTextAtPage;
+    @FindBy(xpath = "//input[@id='a-header-title']")
+    private WebElement dashboardTextEle;
 
     public EngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -87,5 +88,21 @@ public class EngagementPage extends AbstractPage {
 
     }
 
+    /**
+     *
+     * @param engagementName : to verify engagement name displayed correctly
+     * @param editablePage: true: elements of Page can be edited or false: elements of Page can not be edited
+     */
+    public void verifyDetailsEngagementPage(String engagementName, boolean editablePage) {
+        if (editablePage) {
+            waitForVisibleElement(dashboardTextEle, "dashboard text");
+            clickElement(dashboardTextEle);
+            sendTabkey(dashboardTextEle, "");
+            validateAttributeElement(dashboardTextEle, "placeholder", engagementName);
+        } else {
+            waitForVisibleElement(dashboardTextAtPage, "dashboard text");
+            validateElementText(dashboardTextAtPage, engagementName);
+        }
+    }
 
 }

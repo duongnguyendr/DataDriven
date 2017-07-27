@@ -13,7 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,7 +52,7 @@ public class LeadAuditorTest extends AbstractTest {
         todoData.put(toDo3, new String[]{fileRequest3, fileRequest3_Client});
         todoData.put(toDo4, new String[]{fileRequest4});
         try{
-            marketingService.loginWithUserRolesUsingUsernamePassword(auditorLeadId, auditorLeadPwd);
+            marketingService.loginUsingUsernamePassword(auditorLeadId, auditorLeadPwd);
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             for (Map.Entry<String, String[]> entry : todoData.entrySet()){
                 leadAuditorService.verifyFileRequestInTodo(entry.getKey(), entry.getValue());

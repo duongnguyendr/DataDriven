@@ -249,7 +249,7 @@ Vien.Pham added login With New User Role
         loginWithUserNamePassword(username, pwd);
     }
 
-    public void loginWithUserRolesUsingUsernamePassword(String username, String password) {
+    public void loginUsingUsernamePassword(String username, String password) {
         goToBaseURL();
         openLoginDialog();
         loginWithUserNamePassword(username, password);
