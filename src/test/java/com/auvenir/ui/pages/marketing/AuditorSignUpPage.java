@@ -508,7 +508,8 @@ public class AuditorSignUpPage extends AbstractPage {
         getLogger().info("Verify Content of Register Success Page");
         waitForVisibleElement(successPageHeaderEle, "Success Page Header");
         validateDisPlayedElement(successPageHeaderEle, "Success Page Header");
-        validateElementText(successPageHeaderEle, "Your Account is on the Waitlist!");
+//        validateElementText(successPageHeaderEle, "Your Account is on the Waitlist!");
+        validateElementText(successPageHeaderEle, "Thank you for your interest in Auvenir!");
         // Checking Image Letter element is displayed
         waitForVisibleElement(eleImageLetter, "Image Letter");
         validateDisPlayedElement(eleImageLetter, "Element of Image Letter");
