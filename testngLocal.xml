@@ -49,7 +49,10 @@
             <include priority="31" name="verifyClientSeeMarkAsComplete"></include>-->
             <!--</methods>-->
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
-            <!--<methods>-->
+            <methods>
+                <!--<include name="verifyAdminAuditorCanNotCreateTodo"></include>-->
+                <!--<include name="verifyAdminAuditorCanNotMarkTodoCompleted"></include>-->
+                <!--<include name="verifyAdminAuditorCanNotAssignAuditor"></include>-->
                 <!--<include priority="1" name="verifySignUpAuditorUser"></include>-->
                 <!--<include priority="2" name="verifyAdminChangeStatusUserToOnBoarding"></include>-->
                 <!--<include priority="3" name="verifyAuditorLoginGmailAndActiveUser"></include>-->
@@ -85,7 +88,7 @@
                 <!--<include priority="50" name="verifyGeneralClientCanViewTodoTaskAssigned"></include>-->
                 <!--<include priority="53" name="verifyGeneralClientMakeComment"></include>-->
                 <!--<include priority="54" name="verifyLeadClientCanViewComment"></include>-->
-            <!--</methods>-->
+            </methods>
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">

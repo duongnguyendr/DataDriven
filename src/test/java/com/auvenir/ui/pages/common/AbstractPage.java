@@ -2861,6 +2861,9 @@ public class AbstractPage {
             //NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null, e.getMessage());
             //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
+        }catch (IndexOutOfBoundsException outEx){
+        	getLogger().info("List element is empty.");
+        	return true;
         } catch (Exception e) {
             getLogger().info("Element is still displayed.");
             //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);

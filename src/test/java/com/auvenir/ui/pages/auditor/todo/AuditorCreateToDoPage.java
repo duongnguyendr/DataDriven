@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.auditor.todo;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.PopUpPage;
+import com.auvenir.ui.pages.common.TodoPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
@@ -46,7 +47,7 @@ import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 //import library
 
 
-public class AuditorCreateToDoPage extends AbstractPage {
+public class AuditorCreateToDoPage extends TodoPage {
 
     public AuditorCreateToDoPage(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -419,6 +420,8 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='engOverview-todo']")
     private WebElement eleEngagementOverViewToDoText;
 
+    String auditAssignPath = "//td/span[text()='%s']/../../td[6]/p";
+
 
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
@@ -452,6 +455,7 @@ public class AuditorCreateToDoPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(text(),'Assign to')]/div[@class='menu']/button")
     private List<WebElement> childItemAssigneeBulkDrpEle;
 
+    String checkboxTodoByName = "";
 
     public void verifyButtonCreateToDo() throws Exception {
         validateCssValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
@@ -5638,5 +5642,79 @@ public class AuditorCreateToDoPage extends AbstractPage {
             NXGReports.addStep("Test Failed: Verify " + (possibleDownload ? "can" : "cannot") + " download file request.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
                     .BROWSER_PAGE));
         }
+    }
+
+    public void verifyGroupPermissionCanMarkCompleted(List<String> listTodo, boolean possibleCompleted){
+        try{
+            for(int i = 0; i < listTodo.size(); i++){
+                if(possibleCompleted){
+                    selectToDoCheckboxByName(listTodo.get(i));
+                    clickBulkActionsDropdown();
+                    clickOnArchiveButtonInMarkAsCompletePopup();
+                    verifyTodoMarkCompleted(listTodo.get(i));
+                }else{
+                    int todoIndexCanChecked = selectToDoCheckboxByName(listTodo.get(i));
+                    if (todoIndexCanChecked == -1) {
+                        NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.", LogAs.PASSED,
+                                null);
+                    }else{
+                            AbstractService.sStatusCnt++;
+                            NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo :" + listTodo.get(i),
+                                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                	}
+                }
+            }
+		}catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+        }
+    }
+
+    public void verifyGroupPermissionCanAssignTodoToAuditor(List<String> listTodo , boolean possibleAssign){
+        try{
+            for(int i = 0; i < listTodo.size(); i++){
+                if (possibleAssign){
+
+                }else{
+                    boolean result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(auditAssignPath, listTodo.get(i)))), listTodo.get(i));
+                    Assert.assertTrue(result, "verify auditor assign element.");
+                    NXGReports.addStep(String.format("verify auditor assign element.", listTodo.get(i)), LogAs.PASSED, null);
+                    if (!result){
+                        AbstractService.sStatusCnt++;
+                        NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor :" + listTodo.get(i),
+                                LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    }
+                }
+            }
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyGroupPermissionCanCreateTodo(String todoName, boolean possibleCreate){
+        try{
+            if (possibleCreate){
+                boolean result = validateDisPlayedElement(createToDoBtnEle, "createToDoBtnEle");
+                Assert.assertFalse(result, "Verify create todo button displayed.");
+                NXGReports.addStep("Verify create todo button displayed.", LogAs.PASSED, null);
+                if (result){
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :",
+                            LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }else{
+
+            }
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :",
+                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+
     }
 }

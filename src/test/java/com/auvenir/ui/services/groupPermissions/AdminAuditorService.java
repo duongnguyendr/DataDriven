@@ -42,4 +42,15 @@ public class AdminAuditorService extends AbstractService {
         adminAuditorPage.verifyCategoryEditableCapability("Any",false);
     }
 
+    public void verifyAdminAuditorCannotMarkCompleteTodo(List<String> listTodo){
+        auditorCreateToDoPage.verifyGroupPermissionCanMarkCompleted(listTodo, false);
+    }
+
+    public void verifyAdminAuditorCannotAssignAuditor(List<String> listTodo){
+        auditorCreateToDoPage.verifyGroupPermissionCanAssignTodoToAuditor(listTodo, false);
+    }
+
+    public void verifyAdminAuditorCannotCreateTodo(String todoName){
+        auditorCreateToDoPage.verifyGroupPermissionCanCreateTodo(todoName, false);
+    }
 }
