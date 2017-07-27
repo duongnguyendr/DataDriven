@@ -92,50 +92,6 @@ public class AdminAuditorTest extends AbstractTest {
             throw e;
         }
     }
-
-    @Test(priority = 10, enabled = true, description = "To Verify Admin Auditor can not edit Category")
-    public void verifyAdminAuditorCanNotEditCategory() {
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-
-        /*String adminAuditorId = GenericService
-                .addBrowserPrefix(GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor", "Valid Value"));
-        String adminAuditorPwd =
-                GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Auvenir Password", "Valid Value");
-        String toDo1Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 1 name", "Valid Value");
-        String toDo2Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 2 name", "Valid Value");
-        String toDo3Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 3 name", "Valid Value");
-        String toDo4Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 4 name", "Valid Value");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 2 Name", "Valid Value");
-
-        String toDoListNames[] = {toDo1Name, toDo2Name, toDo3Name, toDo4Name};*/
-
-        String adminAuditorId = "chr.vienpham.admin.auditor@gmail.com";
-        String adminAuditorPwd = "Changeit@123";
-        String engagementName = "Engagement_Vien 02";
-        String todoName = "lead vien1";
-        String allTodo = "All";
-        String allRequest = "All";
-        try {
-            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName, false);
-            adminAuditorService.verifyAdminAuditorCanNotEditCategory(allTodo, false);
-            adminAuditorService.verifyAdminAuditorCanNotChangeDueDate(allTodo, false);
-            adminAuditorService.clickCommentIconByTodoName(todoName, false);
-            adminAuditorService.verifyAdminAuditorCanNotDeleteRequest(allRequest, false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Admin Auditor can not edit all categories: Pass.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Admin Auditor can not edit all categories: Fail.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-
-        }
-    }
-
     @Test(priority = 16, enabled = true, description = "Verify Admin Auditor can not mark todo completed.")
 //    public void verifyAdminAuditorCanNotMarkTodoCompleted (String adminUser, String adminPassword, String engagementName2,
 //            String todo1, String todo2, String todo3, String todo4, String todo5, String todo6) throws Exception {
