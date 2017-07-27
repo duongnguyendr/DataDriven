@@ -21,7 +21,6 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Super Admin Auvenir Password", VALID_VALUE_COLUMN);
 
 
-
     private static String adminAuditorUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", VALID_VALUE_COLUMN);
     private static String adminAuditorEmailPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Email Password", VALID_VALUE_COLUMN);
@@ -192,7 +191,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         return arrayData;
     }
 
-    @DataProvider(name = "verifyAuditorLoginGMailAndActiveUser")
+    @DataProvider(name = "verifyAuditorLoginGmailAndActiveUser")
     public static Object[][] getVerifyAuditorLoginGmailAndActiveUser() {
         Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {

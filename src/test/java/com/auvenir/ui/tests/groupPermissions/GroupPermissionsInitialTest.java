@@ -47,8 +47,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientTodoService clientTodoService;
     private AdminAuditorService adminAuditorService;
 
-    @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", dataProvider = "verifySuperAdminLogin",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+    @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", alwaysRun = true,
+            dataProvider = "verifySuperAdminLogin", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySuperAdminLogin(String superAdminUser, String superAdminPwd) {
         getLogger().info("Verify admin is able to login.");
         adminService = new AdminService(getLogger(), getDriver());
@@ -67,8 +67,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", dependsOnMethods = {"verifySuperAdminLogin"},
-            dataProvider = "verifyAdminLogin", dataProviderClass = GroupPermissionsDataProvider.class)
+    @Test(/*priority = 1, */enabled = true, description = "Verify Normal Admin is able to login", dependsOnMethods = {"verifySuperAdminLogin"},
+            alwaysRun = true, dataProvider = "verifyAdminLogin", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminLogin(String adminId, String adminPwd) {
         getLogger().info("Verify admin is able to login.");
         adminService = new AdminService(getLogger(), getDriver());
@@ -87,8 +87,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(/*priority = 1, */enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
-            /*dependsOnMethods = {"verifyAdminLogin"},*/ dataProvider = "verifySignUpAuditorUser",
+    @Test(/*priority = 1, */enabled = true, description = "Verify Register and sign up successfully an Auditor User",
+            dependsOnMethods = {"verifyAdminLogin"}, alwaysRun = true, dataProvider = "verifySignUpAuditorUser",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySignUpAuditorUser(String adminAuditorEmail, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
             String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
@@ -133,8 +133,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 2, */enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
-            testName = "if_2", dependsOnMethods = {"verifySignUpAuditorUser"}, dataProvider = "verifyAdminChangeStatusUserToOnBoarding",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+            testName = "if_2", dependsOnMethods = {"verifySignUpAuditorUser"}, alwaysRun = true,
+            dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminChangeStatusUserToOnBoarding(String adminAuditorEmail, String adminEmail, String adminAuditorEmailPwd,
             String adminAuvenirPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
@@ -162,7 +162,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 3, */enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_3",
-            dependsOnMethods = {"verifyAdminChangeStatusUserToOnBoarding"}, dataProvider = "verifyAuditorLoginGmailAndActiveUser",
+            dependsOnMethods = {"verifyAdminChangeStatusUserToOnBoarding"}, alwaysRun = true, dataProvider = "verifyAuditorLoginGmailAndActiveUser",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAuditorLoginGmailAndActiveUser(String adminAuditorEmail, String adminAuditorEmailPwd,
             String adminAuditorAuvenirPwd) throws Exception {
@@ -193,7 +193,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 4, */enabled = true, description = "Admin Auditor create new Engagement1", testName = "if_4",
-            dependsOnMethods = {"verifyAuditorLoginGmailAndActiveUser"}, dataProvider = "verifyAdminAuditorCreateSimpleEngagement",
+            dependsOnMethods = {"verifyAuditorLoginGmailAndActiveUser"}, alwaysRun = true, dataProvider = "verifyAdminAuditorCreateSimpleEngagement",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorCreateSimpleEngagement(String adminAuditorEmail, String engagementName1, String companyName,
             String adminAuditorAuvenirPwd) {
@@ -219,15 +219,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Auditor create new Engagement: Passed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Auditor create new Engagement: Failed.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Auditor create new Engagement: Failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
     @Test(/*priority = 6,*/ enabled = true, description = "Verify that Admin Auditor can invite new member.", testName = "if_6, if_9",
-            dependsOnMethods = {"verifyAdminAuditorCreateSimpleEngagement"}, dataProvider = "verifyAdminAuditorInviteNewMemberAuditor",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+            dependsOnMethods = {"verifyAdminAuditorCreateSimpleEngagement"}, alwaysRun = true,
+            dataProvider = "verifyAdminAuditorInviteNewMemberAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInviteNewMemberAuditor(String leadAuditorEmail, String leadAuditorAuvenirPwd, String adminAuditorEmail,
             String adminAuditorAuvenirPwd, String engagementName1, String leadAuditorFullName, String partnerRole,
             String leadAuditorEmailPwd) throws Exception {
@@ -284,7 +283,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     // run after the issue ( the System cannot add client member ) is fixed.
 
     @Test(/*priority = 8,*/ enabled = true, description = "Verify that Auditor can invite a client", testName = "if_8",
-            dependsOnMethods = {"verifyAdminAuditorInviteNewMemberAuditor"}, dataProvider = "verifyAdminAuditorInvitingNewClient",
+            dependsOnMethods = {"verifyAdminAuditorInviteNewMemberAuditor"}, alwaysRun = true, dataProvider = "verifyAdminAuditorInvitingNewClient",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInvitingNewClient(String adminEmail, String adminAuvenirPwd, String adminClientEmail, String adminClientEmailPwd,
             String adminAuditorEmail, String adminAuditorAuvenirPwd, String engagementName1, String adminClientFullName, String roleClient,
@@ -335,7 +334,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 9,*/ enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed", testName = "if_8",
-            dependsOnMethods = {"verifyAdminAuditorInvitingNewClient"}, dataProvider = "verifyClientLogsInAndActive",
+            dependsOnMethods = {"verifyAdminAuditorInvitingNewClient"}, alwaysRun = true, dataProvider = "verifyClientLogsInAndActive",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyClientLogsInAndActive(String adminClientEmail, String adminClientEmailPwd, String clientPhoneNumber, String parentStackHolder,
             String adminClientAuvenirPwd, String engagementName1) throws Exception {
@@ -371,7 +370,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 10,*/ enabled = true, description = "Verify that lead auditor user create a engagement 2", testName = "if_10",
-            dependsOnMethods = {"verifyClientLogsInAndActive"}, dataProvider = "verifyLeadAuditorCreateNewEngagement",
+            dependsOnMethods = {"verifyClientLogsInAndActive"}, alwaysRun = true, dataProvider = "verifyLeadAuditorCreateNewEngagement",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorCreateNewEngagement(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
             String companyName) {
@@ -402,7 +401,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 11,*/ enabled = true, description = "Verify that Lead Auditor can invite a admin client", testName = "if_11",
-            dependsOnMethods = {"verifyLeadAuditorCreateNewEngagement"}, dataProvider = "verifyLeadAuditorInvitingAdminClient",
+            dependsOnMethods = {"verifyLeadAuditorCreateNewEngagement"}, alwaysRun = true, dataProvider = "verifyLeadAuditorInvitingAdminClient",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorInvitingAdminClient(String adminEmail, String leadAuditorEmail, String adminClientEmail, String adminClientEmailPwd,
             String leadAuditorAuvenirPwd, String engagementName2, String adminClientFullName, String roleClient, String clientPhoneNumber,
@@ -467,7 +466,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 12,*/ enabled = true, description = "Verify that lead auditor user create a engagement 2", testName = "if_12, if_13",
-            dependsOnMethods = {"verifyLeadAuditorInvitingAdminClient"}, dataProvider = "verifyLeadAuditorInviteNewAuditorMember",
+            dependsOnMethods = {"verifyLeadAuditorInvitingAdminClient"}, alwaysRun = true, dataProvider = "verifyLeadAuditorInviteNewAuditorMember",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorInviteNewAuditorMember(String leadAuditorEmail, String leadAuditorAuvenirPwd, String auditorEmail,
             String auditorEmailPwd, String auditorAuvenirPwd, String engagementName2, String auditorFullName, String partnerRole) throws Exception {
@@ -521,8 +520,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
 
     @Test(/*priority = 15,*/ enabled = true, description = "Verify Admin Client have permission to invite client via email.", testName = "if_15",
-            dependsOnMethods = {"verifyLeadAuditorInviteNewAuditorMember"}, dataProvider = "verifyPermissionAdminClientCanInviteClient",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+            dependsOnMethods = {"verifyLeadAuditorInviteNewAuditorMember"}, alwaysRun = true,
+            dataProvider = "verifyPermissionAdminClientCanInviteClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionAdminClientCanInviteClient(String adminClientEmail, String adminClientAuvenirPwd, String leadClientEmail,
             String leadClientEmailPwd, String adminEmail, String adminAuvenirPwd, String engagementName2, String leadClientFullName,
             String successMessageInvitation, String onboardingStatus, String roleClient) throws Exception {
@@ -568,8 +567,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 16,*/ enabled = true, description = "Verify Invited Client have permission to seft-active via email.", testName = "if_16",
-            dependsOnMethods = {"verifyPermissionAdminClientCanInviteClient"}, dataProvider = "verifyPermissionClientCanActiveViaEmail",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+            dependsOnMethods = {"verifyPermissionAdminClientCanInviteClient"}, alwaysRun = true,
+            dataProvider = "verifyPermissionClientCanActiveViaEmail", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionClientCanActiveViaEmail(String leadClientEmail, String leadClientEmailPwd, String clientPhoneNumber,
             String parentStackHolder, String leadClientAuvenirPwd, String engagementName2) throws Exception {
         getLogger().info("Verify Invited Client have permission to seft-active via email.");
@@ -605,8 +604,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(/*priority = 17,*/ enabled = true,
             description = "Verify Lead Client have permission to tranfer their Lead Permission to other Client on team", testName = "if_17",
-            dependsOnMethods = {"verifyPermissionClientCanActiveViaEmail"}, dataProvider = "verifyPermissionLeadPermissionCanBeTranfered",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+            dependsOnMethods = {"verifyPermissionClientCanActiveViaEmail"}, alwaysRun = true,
+            dataProvider = "verifyPermissionLeadPermissionCanBeTranfered", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionLeadPermissionCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2,
             String leadClientFullName, String leadText) throws Exception {
         getLogger().info("Verify Admin Client have permission to invite client via email.");
@@ -637,8 +636,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 18,*/ enabled = true, description = "Verify group permission Lead auditor create todo.", testName = "if_18, if_19, if_20",
-            dependsOnMethods = {"verifyPermissionLeadPermissionCanBeTranfered"}, dataProvider = "verifyLeadAuditorCreateTodoAndAssignClient",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+            dependsOnMethods = {"verifyPermissionLeadPermissionCanBeTranfered"}, alwaysRun = true,
+            dataProvider = "verifyLeadAuditorCreateTodoAndAssignClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorCreateTodoAndAssignClient(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
             String todo1, String todo2, String todo3, String leadClientFullName, String categoryName) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -673,8 +672,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 21,*/ enabled = true, description = "Verify group permission Lead auditor assign todo to general auditor.", testName = "if_21",
-            dependsOnMethods = {"verifyLeadAuditorCreateTodoAndAssignClient"}, dataProvider = "verifyLeadAuditorAssignToGeneralAuditor",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+            dependsOnMethods = {"verifyLeadAuditorCreateTodoAndAssignClient"}, alwaysRun = true,
+            dataProvider = "verifyLeadAuditorAssignToGeneralAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorAssignToGeneralAuditor(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
             String auditorFullName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -706,7 +705,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 25,*/ enabled = true, description = "Verify group permission Lead auditor commenting.", testName = "if_25",
-            dependsOnMethods = {"verifyLeadAuditorAssignToGeneralAuditor"}, dataProvider = "verifyLeadAuditorCommenting",
+            dependsOnMethods = {"verifyLeadAuditorAssignToGeneralAuditor"}, alwaysRun = true, dataProvider = "verifyLeadAuditorCommenting",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorCommenting(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
             String leadClientFullName) throws Exception {
@@ -745,7 +744,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 26,*/ enabled = true, description = "Verify group permission Lead auditor mark completed todo.", testName = "if_26",
-            dependsOnMethods = {"verifyLeadAuditorCommenting"}, dataProvider = "verifyLeadAuditorMarkCompleted",
+            dependsOnMethods = {"verifyLeadAuditorCommenting"}, alwaysRun = true, dataProvider = "verifyLeadAuditorMarkCompleted",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorMarkCompleted(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo2) {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -787,7 +786,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 27,*/ enabled = true, description = "Verify Lead auditor Assign ToDo Bulk Action.", testName = "if_27",
-            dependsOnMethods = {"verifyLeadAuditorMarkCompleted"}, dataProvider = "verifyLeadAuditorAssignToDoBulkAction",
+            dependsOnMethods = {"verifyLeadAuditorMarkCompleted"}, alwaysRun = true, dataProvider = "verifyLeadAuditorAssignToDoBulkAction",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorAssignToDoBulkAction(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo3,
             String auditorFullName, String leadClientFullName) throws Exception {
@@ -829,7 +828,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 28,*/ enabled = true, description = "Verify group permission Lead auditor delete todo.", testName = "if_28",
-            dependsOnMethods = {"verifyLeadAuditorAssignToDoBulkAction"}, dataProvider = "verifyLeadAuditorDeleteTodo",
+            dependsOnMethods = {"verifyLeadAuditorAssignToDoBulkAction"}, alwaysRun = true, dataProvider = "verifyLeadAuditorDeleteTodo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorDeleteTodo(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
             String todo3) throws Exception {
@@ -866,7 +865,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 29,*/ enabled = true, description = "Verify group permission Lead auditor download from all todo.", testName = "if_29",
-            dependsOnMethods = {"verifyLeadAuditorDeleteTodo"}, dataProvider = "verifyLeadAuditorDownloadFromAllTodo",
+            dependsOnMethods = {"verifyLeadAuditorDeleteTodo"}, alwaysRun = true, dataProvider = "verifyLeadAuditorDownloadFromAllTodo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorDownloadFromAllTodo(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
             String pathDownload) throws Exception {
@@ -904,7 +903,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 30,*/ enabled = true, description = "Verify group permission General auditor create todo.", testName = "if_30, if_31, if_33",
-            dependsOnMethods = {"verifyLeadAuditorDownloadFromAllTodo"}, dataProvider = "verifyGeneralAuditorCreateTodo",
+            dependsOnMethods = {"verifyLeadAuditorDownloadFromAllTodo"}, alwaysRun = true, dataProvider = "verifyGeneralAuditorCreateTodo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorCreateTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo4, String todo5,
             String todo6, String leadClientFullName, String categoryName) throws Exception {
@@ -943,7 +942,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 36,*/ enabled = true, description = "Verify group permission General auditor commenting.", testName = "if_36",
-            dependsOnMethods = {"verifyGeneralAuditorCreateTodo"}, dataProvider = "verifyGeneralAuditorCommenting",
+            dependsOnMethods = {"verifyGeneralAuditorCreateTodo"}, alwaysRun = true, dataProvider = "verifyGeneralAuditorCommenting",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorCommenting(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo4,
             String generalAuditorCmt) throws Exception {
@@ -982,7 +981,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 37,*/ enabled = true, description = "Verify group permission General auditor mark completed todo.", testName = "if_37",
-            dependsOnMethods = {"verifyGeneralAuditorCommenting"}, dataProvider = "verifyGeneralAuditorMarkCompleted",
+            dependsOnMethods = {"verifyGeneralAuditorCommenting"}, alwaysRun = true, dataProvider = "verifyGeneralAuditorMarkCompleted",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorMarkCompleted(String auditorEmail, String auditorAuvenirPwd, String engagementName2,
             String todo5) throws Exception {
@@ -1024,7 +1023,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 38,*/ enabled = true, description = "Verify group permission General auditor delete todo.", testName = "if_38",
-            dependsOnMethods = {"verifyGeneralAuditorCommenting"}, dataProvider = "verifyGeneralAuditorDeleteTodo",
+            dependsOnMethods = {"verifyGeneralAuditorMarkCompleted"}, alwaysRun = true, dataProvider = "verifyGeneralAuditorDeleteTodo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorDeleteTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo5) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
@@ -1059,7 +1058,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 39,*/ enabled = true, description = "Verify group permission General auditor download from all todo.", testName = "if_39",
-            dependsOnMethods = {"verifyGeneralAuditorDeleteTodo"}, dataProvider = "verifyGeneralAuditorDownloadFromAllTodo",
+            dependsOnMethods = {"verifyGeneralAuditorDeleteTodo"}, alwaysRun = true, dataProvider = "verifyGeneralAuditorDownloadFromAllTodo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorDownloadFromAllTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2,
             String pathDownload) throws Exception {
@@ -1101,7 +1100,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
      */
 
     @Test(/*priority = 40,*/ enabled = true, description = "Verify Lead Client can see all to-dos", testName = "if_40",
-            dependsOnMethods = {"verifyGeneralAuditorDownloadFromAllTodo"}, dataProvider = "verifyLeadClientSeeToDo",
+            dependsOnMethods = {"verifyGeneralAuditorDownloadFromAllTodo"}, alwaysRun = true, dataProvider = "verifyLeadClientSeeToDo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientSeeToDo(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2, String todo1, String todo2,
             String todo3, String todo4) {
@@ -1129,7 +1128,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 41,*/ enabled = true, description = "To verify Lead Client can remove Admin client", testName = "if_41",
-            dependsOnMethods = {"verifyLeadClientSeeToDo"}, dataProvider = "verifyLeadClientRemoveAdminClient",
+            dependsOnMethods = {"verifyLeadClientSeeToDo"}, alwaysRun = true, dataProvider = "verifyLeadClientRemoveAdminClient",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientRemoveAdminClient(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2,
             String adminClientFullName, String successMessageRemoveTeamMember) {
@@ -1162,7 +1161,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 42,*/ enabled = true, description = "To verify Lead Client can invite a general client", testName = "if_42",
-            dependsOnMethods = {"verifyLeadClientRemoveAdminClient"}, dataProvider = "verifyLeadClientInviteClient",
+            dependsOnMethods = {"verifyLeadClientRemoveAdminClient"}, alwaysRun = true, dataProvider = "verifyLeadClientInviteClient",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientInviteClient(String leadClientEmail, String leadClientAuvenirPwd, String clientEmail, String clientEmailPwd,
             String engagementName2, String clientFullName, String successMessageInvitation, String roleClient) {
@@ -1201,7 +1200,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 43,*/ enabled = true, description = "Verify general Client can active from invited", testName = "if_43",
-            dependsOnMethods = {"verifyLeadClientInviteClient"}, dataProvider = "verifyGeneralClientActive",
+            dependsOnMethods = {"verifyLeadClientInviteClient"}, alwaysRun = true, dataProvider = "verifyGeneralClientActive",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralClientActive(String clientEmail, String clientEmailPwd, String clientAuvenirPwd, String engagementName2,
             String phoneNumber, String parentStackHolder) {
@@ -1235,7 +1234,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 44,*/ enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44, if_48",
-            dependsOnMethods = {"verifyGeneralClientActive"}, dataProvider = "verifyLeadClientAssignTodoTaskToClient",
+            dependsOnMethods = {"verifyGeneralClientActive"}, alwaysRun = true, dataProvider = "verifyLeadClientAssignTodoTaskToClient",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientAssignTodoTaskToClient(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2, String todo1,
             String clientFullName) {
@@ -1263,7 +1262,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 47,*/ enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47",
-            dependsOnMethods = {"verifyLeadClientAssignTodoTaskToClient"}, dataProvider = "verifyLeadClientPostComment",
+            dependsOnMethods = {"verifyLeadClientAssignTodoTaskToClient"}, alwaysRun = true, dataProvider = "verifyLeadClientPostComment",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientMakeComment(String leadClientEmail, String leadClientPassword, String engagementName, String todoName,
             String commentContent) {
@@ -1298,7 +1297,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 48,*/ enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47",
-            dependsOnMethods = {"verifyLeadClientMakeComment"}, dataProvider = "verifyGeneralClientViewComment",
+            dependsOnMethods = {"verifyLeadClientMakeComment"}, alwaysRun = true, dataProvider = "verifyGeneralClientViewComment",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralClientCanViewComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
             String commentContent, String leadClientFullName) {
@@ -1331,7 +1330,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 50,*/ enabled = true, description = "To verify general Client can view Todo task assigned ", testName = "if_50",
-            dependsOnMethods = {"verifyGeneralClientCanViewComment"}, dataProvider = "verifyGeneralClientCanViewTodoTaskAssigned",
+            dependsOnMethods = {"verifyGeneralClientCanViewComment"}, alwaysRun = true, dataProvider = "verifyGeneralClientCanViewTodoTaskAssigned",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralClientCanViewTodoTaskAssigned(String clientEmail, String clientAuvenirPwd, String engagementName2, String todo1) {
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -1357,7 +1356,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 53,*/ enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53",
-            dependsOnMethods = {"verifyGeneralClientCanViewTodoTaskAssigned"}, dataProvider = "verifyGeneralClientPostComment",
+            dependsOnMethods = {"verifyGeneralClientCanViewTodoTaskAssigned"}, alwaysRun = true, dataProvider = "verifyGeneralClientPostComment",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralClientMakeComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
             String commentContent) {
@@ -1392,7 +1391,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 54,*/ enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53",
-            dependsOnMethods = {"verifyGeneralClientMakeComment"}, dataProvider = "verifyLeadClientViewComment",
+            dependsOnMethods = {"verifyGeneralClientMakeComment"}, alwaysRun = true, dataProvider = "verifyLeadClientViewComment",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientCanViewComment(String leadClientEmail, String leadClientPassword, String engagementName, String todoName,
             String commentContent, String generalClientFullName) {
