@@ -2019,6 +2019,29 @@ public class AbstractPage {
         }
     }
 
+    /*public boolean waitForClassNameChanged(WebElement element, String elementName, String expectedValue) {
+        getLogger().info("Try to waitForCLassNameChanged: " + elementName);
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    String actualClassName = element.getClass().getName();
+                    System.out.println("Actual Displayed Name: " + actualClassName);
+                    if (actualClassName.equals(expectedValue))
+                        return true;
+                    else
+                        return false;
+                }
+            });
+            return true;
+        } catch (Exception e) {
+            getLogger().info("Class name is not changed");
+            return false;
+        }
+    }*/
+
+
+
     /**
      * @param webElement  WebElement
      * @param elementText Text of Element not be presented.
@@ -2861,6 +2884,9 @@ public class AbstractPage {
             //NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null, e.getMessage());
             //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
+        }catch (IndexOutOfBoundsException outEx){
+        	getLogger().info("List element is empty.");
+        	return true;
         } catch (Exception e) {
             getLogger().info("Element is still displayed.");
             //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);

@@ -2,6 +2,7 @@ package com.auvenir.ui.pages.groupPermissions;
 
 import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
 import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.TodoPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -18,18 +19,13 @@ import java.util.List;
 /**
  * Created by huy.huynh on 17/07/2017.
  */
-public class AdminAuditorPage extends AbstractPage {
+public class AdminAuditorPage extends TodoPage {
     @FindBy(id = "newAuditBtn")
     private WebElement buttonNewEngagement;
-    @FindBy(xpath = "//tr[@class='newRow']")
-    List<WebElement> listTodoRow;
-    @FindBy(xpath = "//tr[@class='newRow']//span[@class='ui label todo-category-readonly']")
-    List<WebElement> listDisableCategoryRow;
 
     public AdminAuditorPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
-
 
     AuditorCreateToDoPage auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
 
@@ -62,17 +58,6 @@ public class AdminAuditorPage extends AbstractPage {
 
         }
 
-    }
-
-    public void verifyCategoryEditableCapability(String todoName, boolean editable) {
-
-
-        if (todoName.equals("Any") && editable == false) {
-            if (listTodoRow.size()==listDisableCategoryRow.size()){
-                 }else {
-
-            }
-        }
     }
 
 
