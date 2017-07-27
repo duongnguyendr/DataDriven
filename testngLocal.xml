@@ -12,46 +12,8 @@
             <class name="com.auvenir.utilities.initialize.InitData"/>
             <class name="com.auvenir.ui.tests.SmokeTest"/>
             <!--<class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>-->
-            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
-            <!--<methods>
-                <include priority="1" name="verifySuperAdminLogin"></include>
-                <include priority="2" name="verifyAdminLogin"></include>
-                <include priority="3" name="verifySignUpAuditorUser"></include>
-                <include priority="4" name="verifyAdminChangeStatusUserToOnBoarding"></include>
-                <include priority="5" name="verifyAuditorLoginGMailAndActiveUser"></include>
-                <include priority="6" name="verifyAdminAuditorCreateSimpleEngagement"></include>
-                <include priority="7" name="verifyAdminAuditorInviteNewMemberAuditor"></include>
-                <include priority="8" name="verifyAdminAuditorInvitingNewClient"></include>
-                <include priority="9" name="verifyClientLogsInAndActive"></include>
-                <include priority="10" name="verifyLeadAuditorCreateNewEngagement"></include>
-                &lt;!&ndash;<include priority="11" name="verifyLeadAuditorInvitingAdminClient"></include>
-                <include priority="12" name="verifyLeadAuditorInviteNewAuditorMember"></include>
-                <include priority="15" name="verifyPermissionAdminClientCanInviteClient"></include>
-                <include priority="16" name="verifyPermissionClientCanActiveViaEmail"></include>
-                <include priority="17" name="verifyPermissionLeadPermissionCanBeTranfered"></include>
-                <include priority="18" name="verifyLeadAuditorCreateTodoAndAssignClient"></include>
-                <include priority="21" name="verifyLeadAuditorAssignToGeneralAuditor"></include>
-                <include priority="25" name="verifyLeadAuditorCommenting"></include>
-                <include priority="26" name="verifyLeadAuditorMarkCompleted"></include>
-                <include priority="27" name="verifyLeadAuditorAssignToDoBulkAction"></include>
-                <include priority="28" name="verifyLeadAuditorDeleteTodo"></include>
-                <include priority="29" name="verifyLeadAuditorDownloadFromAllTodo"></include>
-                <include priority="30" name="verifyGeneralAuditorCreateTodo"></include>
-                <include priority="36" name="verifyGeneralAuditorCommenting"></include>
-                <include priority="37" name="verifyGeneralAuditorMarkCompleted"></include>
-                <include priority="38" name="verifyGeneralAuditorDeleteTodo"></include>
-                <include priority="39" name="verifyGeneralAuditorDownloadFromAllTodo"></include>
-                <include priority="40" name="verifyLeadClientSeeToDo"></include>
-                <include priority="41" name="verifyLeadClientRemoveAdminClient"></include>
-                <include priority="42" name="verifyLeadClientInviteClient"></include>
-                <include priority="43" name="verifyGeneralClientActive"></include>
-                <include priority="44" name="verifyLeadClientAssignTodoTaskToClient"></include>
-                <include priority="47" name="verifyLeadClientMakeComment"></include>
-                <include priority="48" name="verifyGeneralClientCanViewComment"></include>
-                <include priority="50" name="verifyGeneralClientCanViewTodoTaskAssigned"></include>
-                <include priority="53" name="verifyGeneralClientMakeComment"></include>
-                <include priority="54" name="verifyLeadClientCanViewComment"></include>&ndash;&gt;
-            </methods>-->
+            <!--<class name="com.auvenir.ui.tests.marketing.MarketingTest"/>-->
+
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">
