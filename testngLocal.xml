@@ -11,8 +11,9 @@
         <classes>
             <class name="com.auvenir.utilities.initialize.InitData"/>
             <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
-            <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
-            <methods>
+            <!--<class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>-->
+            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
+            <!--<methods>
                 <include priority="1" name="verifySuperAdminLogin"></include>
                 <include priority="2" name="verifyAdminLogin"></include>
                 <include priority="3" name="verifySignUpAuditorUser"></include>
@@ -23,7 +24,7 @@
                 <include priority="8" name="verifyAdminAuditorInvitingNewClient"></include>
                 <include priority="9" name="verifyClientLogsInAndActive"></include>
                 <include priority="10" name="verifyLeadAuditorCreateNewEngagement"></include>
-                <!--<include priority="11" name="verifyLeadAuditorInvitingAdminClient"></include>
+                &lt;!&ndash;<include priority="11" name="verifyLeadAuditorInvitingAdminClient"></include>
                 <include priority="12" name="verifyLeadAuditorInviteNewAuditorMember"></include>
                 <include priority="15" name="verifyPermissionAdminClientCanInviteClient"></include>
                 <include priority="16" name="verifyPermissionClientCanActiveViaEmail"></include>
@@ -49,8 +50,8 @@
                 <include priority="48" name="verifyGeneralClientCanViewComment"></include>
                 <include priority="50" name="verifyGeneralClientCanViewTodoTaskAssigned"></include>
                 <include priority="53" name="verifyGeneralClientMakeComment"></include>
-                <include priority="54" name="verifyLeadClientCanViewComment"></include>-->
-            </methods>
+                <include priority="54" name="verifyLeadClientCanViewComment"></include>&ndash;&gt;
+            </methods>-->
         </classes>
     </test>
     <!--<test name="Regression2" preserve-order="false">
@@ -76,14 +77,14 @@
        <classes>
            <class name="com.auvenir.ui.tests.SmokeTest"/>
        </classes>
-   </test>
+   </test>-->
    <test name="Regression3" preserve-order="false">
        <parameter name="browser" value="safari"/>
        <parameter name="version" value="10.1.1"/>
        <parameter name="os" value="MAC"/>
        <classes>
-           <class name="com.auvenir.ui.tests.SmokeTest"/>
+           <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
        </classes>
-   </test>-->
+   </test>
 
 </suite>
