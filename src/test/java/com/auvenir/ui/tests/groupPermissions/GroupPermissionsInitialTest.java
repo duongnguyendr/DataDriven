@@ -211,9 +211,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName1);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
+            NXGReports.addStep("Auditor create new Engagement: Passed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.FAILED,
+            NXGReports.addStep("Auditor create new Engagement: Failed.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
@@ -319,9 +319,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             adminService.verifyUserStatusOnAdminUserTable(adminClientEmail, onboardingStatus);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Admin Auditor inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Admin Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
@@ -353,9 +353,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName1);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Admin client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED,
+            NXGReports.addStep("Verify Admin client logs in and OnBoarding page is displayed.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
