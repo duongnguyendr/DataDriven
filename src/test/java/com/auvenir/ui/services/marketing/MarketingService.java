@@ -304,4 +304,7 @@ Vien.Pham added login With New User Role
     public void verifyBambooContentPage(){
         marketingPage.verifyBambooContentPage();
     }
+
+    public void loginWithUsernamePassword(String adminUser, String adminPassword) {
+    }
 }

@@ -159,7 +159,7 @@ public class AdminAuditorTest extends AbstractTest {
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement_Vien 02";
         try{
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminUser, adminPassword);
+            marketingService.loginWithUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
@@ -194,7 +194,7 @@ public class AdminAuditorTest extends AbstractTest {
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement_Vien 02";
         try{
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminUser, adminPassword);
+            marketingService.loginWithUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
@@ -221,7 +221,7 @@ public class AdminAuditorTest extends AbstractTest {
         String engagementName2 = "Engagement_Vien 02";
         String todoName = "Todo123";
         try{
-            marketingService.loginWithUserRolesUsingUsernamePassword(adminUser, adminPassword);
+            marketingService.loginWithUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
