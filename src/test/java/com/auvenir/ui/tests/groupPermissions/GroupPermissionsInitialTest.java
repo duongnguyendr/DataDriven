@@ -47,7 +47,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientTodoService clientTodoService;
     private AdminAuditorService adminAuditorService;
 
-    @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", dataProvider = "verifySuperAdminLogin",
+    @Test(/*priority = 1,*/ enabled = true, description = "Verify Super Admin is able to login", dataProvider = "verifySuperAdminLogin",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySuperAdminLogin(String superAdminUser, String superAdminPwd) {
         getLogger().info("Verify admin is able to login.");

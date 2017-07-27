@@ -44,8 +44,26 @@ public class SmokeTest extends AbstractTest {
     MarketingService maketingService;
     private ContactsService contactsService;
 
-    final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
-    private String timeStamp;
+    //final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
+
+    @Test(priority = 1, enabled = true, description = "Verify Super Admin is able to login", dataProvider = "verifySuperAdminLogin",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifySuperAdminLogin(String superAdminUser, String superAdminPwd) {
+        getLogger().info("Verify Super admin is able to login.");
+        adminService = new AdminService(getLogger(), getDriver());
+        auvenirService = new AuvenirService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        superAdminUser = GenericService.sBrowserData + superAdminUser;
+        try {
+            marketingService.loginUsingUsernamePassword(superAdminUser, superAdminPwd);
+            adminService.verifyPageLoad();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Super Admin is able to login.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Super Admin is not able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
 
     @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin",
             dataProviderClass = SmokeDataProvider.class)
@@ -497,7 +515,7 @@ public class SmokeTest extends AbstractTest {
     @Test(priority = 16, enabled = true, description = "Verify Client can see Auditor's post comment.",
             dataProvider = "verifyClientViewAuditorComment", dataProviderClass = SmokeDataProvider.class)
     public void verifyClientViewAuditorComment(String clientId, String clientPassword, String engagementName, String toDoName, String commentContent,
-            boolean isClient) throws Exception {
+            boolean isClient,String strFullName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
