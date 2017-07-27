@@ -67,7 +67,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", dependsOnMethods = {"verifySuperAdminLogin"},
+    @Test(/*priority = 1, */enabled = true, description = "Verify Normal Admin is able to login", dependsOnMethods = {"verifySuperAdminLogin"},
             dataProvider = "verifyAdminLogin", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminLogin(String adminId, String adminPwd) {
         getLogger().info("Verify admin is able to login.");
@@ -87,9 +87,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(/*priority = 1, */enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
-            /*dependsOnMethods = {"verifyAdminLogin"},*/ dataProvider = "verifySignUpAuditorUser",
-            dataProviderClass = GroupPermissionsDataProvider.class)
+    @Test(/*priority = 1, */enabled = true, description = "Verify Register and sign up successfully an Auditor User",
+            dependsOnMethods = {"verifyAdminLogin"}, dataProvider = "verifySignUpAuditorUser", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifySignUpAuditorUser(String adminAuditorEmail, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
             String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
             String country, String stateNumber, String memberEmail, String numberEmployee, String phoneFirm, String affiliateFirmName,
@@ -219,8 +218,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Auditor create new Engagement: Passed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Auditor create new Engagement: Failed.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Auditor create new Engagement: Failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
@@ -1024,7 +1022,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 38,*/ enabled = true, description = "Verify group permission General auditor delete todo.", testName = "if_38",
-            dependsOnMethods = {"verifyGeneralAuditorCommenting"}, dataProvider = "verifyGeneralAuditorDeleteTodo",
+            dependsOnMethods = {"verifyGeneralAuditorMarkCompleted"}, dataProvider = "verifyGeneralAuditorDeleteTodo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorDeleteTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo5) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
