@@ -166,8 +166,8 @@ public class AdminAuditorTest extends AbstractTest {
         String adminUser = "chr.vienpham.admin.auditor@gmail.com";
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement_Vien 02";
-        try {
-            marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
+        try{
+            marketingService.loginWithUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
