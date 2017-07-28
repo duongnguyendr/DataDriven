@@ -37,6 +37,6 @@ public class ClientEngagementTeamService extends AbstractService {
     }
 
     public void selectEngagementTeamMenu(){
-        clientEngagementTeamPage.selectEngagementTeamMenu();
+        clientEngagementTeamPage.navigateToTeamTab();
     }
 }

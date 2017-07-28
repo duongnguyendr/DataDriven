@@ -98,5 +98,6 @@ public class AuditorDetailsEngagementPage extends EngagementPage {
         waitForClickableOfElement(eleContactLink, "contact link");
         clickElement(eleContactLink);
     }
+
 }
 

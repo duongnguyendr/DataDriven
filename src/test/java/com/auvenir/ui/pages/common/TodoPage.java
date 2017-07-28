@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by vien.pham on 7/21/2017.
  */
-public class TodoPage extends AbstractPage {
+public abstract class TodoPage extends AbstractPage {
     public TodoPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
