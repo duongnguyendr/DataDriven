@@ -2,11 +2,14 @@ package com.auvenir.ui.tests.groupPermissions;
 
 import com.auvenir.ui.dataprovider.groupPermissions.GroupPermissionsDataProvider;
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.ClientDetailsEngagementService;
+import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.admin.AdminAccountSettingsService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorCreateToDoService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
+import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.services.groupPermissions.AdminAuditorService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
@@ -32,8 +35,11 @@ public class AdminAuditorTest extends AbstractTest {
     private AdminAccountSettingsService adminAccountSettingsService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
     private AuditorCreateToDoService auditorCreateToDoService;
+    private GmailLoginService gmailLoginService;
+    private ClientDetailsEngagementService clientDetailsEngagementService;
+    private ClientService clientService;
 
-    @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.",
+    @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.", testName = "AA_1",
             dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyPermissionCreateAnEngagement(String userId, String userPassword) {
         getLogger().info("Verify admin auditor can create an engagement.");
@@ -53,6 +59,116 @@ public class AdminAuditorTest extends AbstractTest {
             NXGReports.addStep("Finish: Verify admin auditor can create an engagement.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Error: Verify admin auditor can create an engagement.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 3, enabled = true, description = "Verify admin auditor can see all engagements within firm.", testName = "AA_1"/*,
+            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class*/)
+    public void verifyPermissionSeeAllEngagementsWithinFirm(/*String userId, String userPassword*/) {
+        getLogger().info("Verify admin auditor can see all engagements within firm.");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+
+        String userId = "chr.auvenirauditor@gmail.com";
+        String userPassword = "Changeit@123";
+        String engagement1 = "Engagement Huy 01";
+        String engagement2 = "Engagement Huy 02";
+
+        String engagementListNames[] = {engagement1, engagement2};
+        try {
+            marketingService.loginUsingUsernamePassword(userId, userPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+
+            adminAuditorService.verifyCanSeeAllEngagementsWithinFirm(Arrays.asList(engagementListNames));
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify admin auditor can see all engagements within firm.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Error: Verify admin auditor can see all engagements within firm.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 5, enabled = true, description = "Verify admin auditor cant invite client into engagement.", testName = "AA_1"/*,
+            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class*/)
+    public void verifyPermissionInviteClientIntoEngagement(/*String userId, String userPassword*/) {
+        getLogger().info("Verify admin auditor can invite client into engagement.");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+
+        String userId = "chr.auvenirauditor@gmail.com";
+        String userPassword = "Changeit@123";
+        String engagement1 = "Engagement Huy 01";
+        String engagement2 = "Engagement Huy 02";
+
+        String engagementListNames[] = {engagement1, engagement2};
+        try {
+            //gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
+
+            marketingService.loginUsingUsernamePassword(userId, userPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagement1);
+
+            adminAuditorService.verifyCantInviteClientIntoEngagement();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify admin auditor can invite client into engagement.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Error: Verify admin auditor can invite client into engagement.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(priority = 6, enabled = true, description = "Verify admin auditor cant invite general client into engagement.", testName = "AA_1"/*,
+            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class*/)
+    public void verifyPermissionInviteGeneralClientIntoEngagement(/*String userId, String userPassword*/) {
+        getLogger().info("Verify admin auditor cant invite general client into engagement.");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+
+        String userId = "chr.auvenirauditor@gmail.com";
+        String userPassword = "Changeit@123";
+        String engagement1 = "Engagement Huy 01";
+        String engagement2 = "Engagement Huy 02";
+        String leadClientFullName = "General client";
+        String leadClientEmail = "auvenirclient02@gmail.com";
+        String roleClient = "";
+        String successMessageInvitation = "Your engagement invitation has been sent.";
+        String adminEmail = "chr.adm.auvenir@gmail.com";
+        String adminAuvenirPwd = "Changeit@123";
+        //String onboardingStatus="";
+
+        String engagementListNames[] = {engagement1, engagement2};
+        try {
+            //gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
+
+            marketingService.loginUsingUsernamePassword(userId, userPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagement1);
+
+            clientDetailsEngagementService.navigateToTeamTab();
+            clientDetailsEngagementService.inviteNewMemberToTeam();
+            clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientEmail, roleClient);
+            clientService.verifyInviteClientSuccess(successMessageInvitation);
+            //            adminAuditorService.verifyCantInviteClientIntoEngagement();
+
+            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            adminService.verifyPageLoad();
+            adminService.scrollToFooter(getDriver());
+            //adminService.verifyUserStatusOnAdminUserTable(leadClientEmail, onboardingStatus);
+            //adminService.verifyUserTypeOnAdminUserTable();
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Finish: Verify admin auditor cant invite general client into engagement.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Error: Verify admin auditor cant invite general client into engagement.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
