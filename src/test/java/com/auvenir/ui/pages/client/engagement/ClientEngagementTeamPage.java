@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by vien.pham on 7/19/2017.
  */
-public class ClientEngagementTeamPage extends TeamPage {
+public class ClientEngagementTeamPage extends ClientDetailsEngagementPage {
     public ClientEngagementTeamPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
@@ -30,8 +30,7 @@ public class ClientEngagementTeamPage extends TeamPage {
     WebElement messageRemoveMemberDone;
     @FindBy(xpath = "//div[@class='fl-a-container fl-a-container-show']")
     WebElement popUpRemoveMemberDone;
-    @FindBy(id = "engagementTeamLink")
-    private WebElement teamMemberLinkEle;
+
 
 
     /**
@@ -71,10 +70,6 @@ public class ClientEngagementTeamPage extends TeamPage {
         waitForVisibleElement(popUpRemoveMemberDone,"Popup alerts remove member done");
         validateElementText(messageRemoveMemberDone, message);
 
-    }
-
-    public void selectEngagementTeamMenu(){
-        clickElement(teamMemberLinkEle, "Team Member Engagement Menu");
     }
 
 }

@@ -57,6 +57,57 @@ public class AdminAuditorTest extends AbstractTest {
             e.printStackTrace();
         }
     }
+    @Test(priority = 7, enabled = true, description = "To Verify Admin Auditor can not remove Auditor")
+    public void verifyAdminAuditorCanNotRemoveAuditor() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String adminAuditorId = "chr.vienpham.admin.auditor@gmail.com";
+        String adminAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement_LeadAuditor";
+        String auditorFullName = "Lead Auditor";
+        try {
+            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            adminAuditorService.navigateToTeamTab();
+            adminAuditorService.verifyAdminAuditorCanNotRemoveAuditor(auditorFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Admin Auditor can not remove client from Engagement: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Admin Auditor can not remove client from Engagement: Fail.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+    @Test(priority = 8, enabled = true, description = "To Verify Admin Auditor can not remove client from Engagement")
+    public void verifyAdminAuditorCanNotRemoveClients() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String adminAuditorId = "chr.vienpham.admin.auditor@gmail.com";
+        String adminAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement_LeadAuditor";
+        String clientFullName = "Lead Client";
+
+        try {
+            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            adminAuditorService.navigateToTeamTab();
+            adminAuditorService.verifyAdminAuditorCanNotRemoveClient(clientFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Admin Auditor can not remove client from Engagement: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Admin Auditor can not remove client from Engagement: Fail.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
     @Test(priority = 9, enabled = true, description = "To Verify Permission Admin Auditor see all to-dos")
     public void verifyPermissionAdminAuditorSeeToDo() {
@@ -92,21 +143,22 @@ public class AdminAuditorTest extends AbstractTest {
             throw e;
         }
     }
+
     @Test(priority = 16, enabled = true, description = "Verify Admin Auditor can not mark todo completed.")
-//    public void verifyAdminAuditorCanNotMarkTodoCompleted (String adminUser, String adminPassword, String engagementName2,
-//            String todo1, String todo2, String todo3, String todo4, String todo5, String todo6) throws Exception {
-    public void verifyAdminAuditorCanNotMarkTodoCompleted (){
+    //    public void verifyAdminAuditorCanNotMarkTodoCompleted (String adminUser, String adminPassword, String engagementName2,
+    //            String todo1, String todo2, String todo3, String todo4, String todo5, String todo6) throws Exception {
+    public void verifyAdminAuditorCanNotMarkTodoCompleted() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
         List<String> listTodo = new ArrayList<>();
-//        listTodo.add(todo1);
-//        listTodo.add(todo2);
-//        listTodo.add(todo3);
-//        listTodo.add(todo4);
-//        listTodo.add(todo5);
-//        listTodo.add(todo6);
+        //        listTodo.add(todo1);
+        //        listTodo.add(todo2);
+        //        listTodo.add(todo3);
+        //        listTodo.add(todo4);
+        //        listTodo.add(todo5);
+        //        listTodo.add(todo6);
         listTodo.add("lead vien1");
         listTodo.add("lead vien2");
         listTodo.add("lead vien3");
@@ -181,9 +233,7 @@ public class AdminAuditorTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
-
             adminAuditorService.verifyAdminAuditorCannotCreateTodo(todoName);
-
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor cannot create todo.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -208,9 +258,9 @@ public class AdminAuditorTest extends AbstractTest {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName, false);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
             adminAuditorService.clickCommentIconByTodoName(todoName, false);
-            adminAuditorService.verifyAdminAuditorCanNotChangeRequestName(requequestName, false);
+            adminAuditorService.verifyAdminAuditorCanNotChangeRequestName(requequestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not change request Name created by Lead auditor: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -235,9 +285,9 @@ public class AdminAuditorTest extends AbstractTest {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName, false);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
             adminAuditorService.clickCommentIconByTodoName(todoName, false);
-            adminAuditorService.verifyAdminAuditorCanNotDeleteRequest(anyRequest, false);
+            adminAuditorService.verifyAdminAuditorCanNotDeleteRequest(anyRequest);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not delete request created by Lead auditor: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -260,8 +310,8 @@ public class AdminAuditorTest extends AbstractTest {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName, false);
-            adminAuditorService.verifyAdminAuditorCanNotChangeDueDate(allTodo, false);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            adminAuditorService.verifyAdminAuditorCanNotChangeDueDate(allTodo);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not change duedate created by Lead auditor: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -280,13 +330,12 @@ public class AdminAuditorTest extends AbstractTest {
         String adminAuditorPwd = "Changeit@123";
         String engagementName = "Engagement_LeadAuditor";
         String allTodo = "All";
-
         try {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName, false);
-            adminAuditorService.verifyAdminAuditorCanNotEditCategory(allTodo, false);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            adminAuditorService.verifyAdminAuditorCanNotEditCategory(allTodo);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not edit any Category created by Lead auditor: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
