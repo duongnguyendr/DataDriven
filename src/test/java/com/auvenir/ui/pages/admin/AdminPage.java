@@ -1237,5 +1237,9 @@ public class AdminPage extends AbstractPage {
         hoverElement(getElementByXpath(xpathDueDateByName, email), "Cell " + email);
         ((JavascriptExecutor) getDriver()).executeScript("javascript:window.scrollBy(250,450)");
     }
+
+    public void verifyUserTypeOnAdminUserTable(String email, String userType) {
+
+    }
     /*-----------end of huy.huynh on 06/07/2017.*/
 }
