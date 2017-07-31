@@ -68,7 +68,7 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(/*priority = 2, */enabled = true, description = "Verify Normal Admin is able to login", dependsOnMethods = {"verifySuperAdminLogin"},
+    @Test(/*priority = 2, */enabled = true, description = "Verify Normal Admin is able to login", /*dependsOnMethods = {"verifySuperAdminLogin"},*/
             alwaysRun = true, dataProvider = "verifyAdminLogin", dataProviderClass = SmokeDataProvider.class)
     public void verifyAdminLogin(String adminId, String adminPwd) {
         getLogger().info("Verify admin is able to login.");
@@ -90,7 +90,7 @@ public class SmokeTest extends AbstractTest {
     }
 
     @Test(/*priority = 3, */enabled = true, description = "Verify Register and sign up successfully an Auditor User",
-            dependsOnMethods = {"verifyAdminLogin"}, alwaysRun = true, dataProvider = "verifySignUpAuditorUser",
+            /*dependsOnMethods = {"verifyAdminLogin"},*/ alwaysRun = true, dataProvider = "verifySignUpAuditorUser",
             dataProviderClass = SmokeDataProvider.class)
     public void verifySignUpAuditorUser(String adminAuditorEmail, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
             String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
@@ -327,9 +327,11 @@ public class SmokeTest extends AbstractTest {
             adminService.verifyUserStatusOnAdminUserTable(adminClientEmail, onboardingStatus);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("SmokeTest: Verify Admin Auditor inviting a client.", LogAs.PASSED, null);
+            NXGReports.addStep("SmokeTest: Verify Admin Auditor inviting a client [Admin Client].", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("SmokeTest: Verify Admin Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("SmokeTest: Verify Admin Auditor inviting a client [Admin Client].", LogAs.FAILED, new CaptureScreen(CaptureScreen
+                    .ScreenshotOf
+                    .BROWSER_PAGE));
             e.printStackTrace();
         }
     }
@@ -393,9 +395,9 @@ public class SmokeTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("SmokeTest: Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
+            NXGReports.addStep("SmokeTest: Lead Auditor create new Engagament (Engagement GP02).", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("SmokeTest: Auditor create new Engagament (simple engagement).", LogAs.FAILED,
+            NXGReports.addStep("SmokeTest: Lead Auditor create new Engagament (Engagement GP02).", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
