@@ -9,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 /**
  * Created by huy.huynh on 20/07/2017.
  */
@@ -88,4 +90,23 @@ public abstract class DetailsEngagementPage extends AbstractPage {
                     .addStep("Fail: Verify Invite Client Into Engagement.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    @FindBy(xpath = "//tbody[@id='w-team-tableBody']/tr/td[2]")
+    protected List<WebElement> listTeamMember;
+    @FindBy(id = "engagementTeamLink")
+    protected WebElement teamMemberLinkEle;
+
+
+    public int findMemberByName(String memberName) {
+        int index = -1;
+        for (int i = 0; i < listTeamMember.size(); i++) {
+            if (listTeamMember.get(i).getText().equals(memberName)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+
 }

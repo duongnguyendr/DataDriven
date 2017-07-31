@@ -1121,15 +1121,17 @@ public class AbstractPage {
         getLogger().info("Verify element is not displayed of: " + elementName);
         try {
             if (!element.isDisplayed()) {
-                NXGReports.addStep(elementName + " is displayed", LogAs.PASSED, null);
+                NXGReports.addStep(elementName + " is NOt displayed", LogAs.PASSED, null);
                 return true;
             } else {
-                NXGReports.addStep(elementName + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                throw new Exception();
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep(elementName + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                return  false;
+
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementName + " is not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+            NXGReports.addStep(elementName + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
                     e.getMessage());
             return false;
         }

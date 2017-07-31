@@ -3,6 +3,7 @@ package com.auvenir.ui.services.groupPermissions;
 import com.auvenir.ui.pages.auditor.engagement.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementPage;
 import com.auvenir.ui.pages.auditor.engagement.AuditorNewEngagementPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorTeamPage;
 import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
 import com.auvenir.ui.pages.auditor.todo.AuditorTodoListPage;
 import com.auvenir.ui.pages.groupPermissions.AdminAuditorPage;
@@ -22,6 +23,7 @@ public class AdminAuditorService extends AbstractService {
     private AuditorCreateToDoPage auditorCreateToDoPage;
     private AuditorTodoListPage auditorTodoListPage = new AuditorTodoListPage(getLogger(), getDriver());
     private AuditorDetailsEngagementPage auditorDetailsEngagementPage;
+    private AuditorTeamPage auditorTeamPage;
 
     public AdminAuditorService(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -31,6 +33,7 @@ public class AdminAuditorService extends AbstractService {
         auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
         auditorTodoListPage = new AuditorTodoListPage(getLogger(), getDriver());
         auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
+        auditorTeamPage = new AuditorTeamPage(getLogger(),getDriver());
     }
 
     public void verifyCanCreateAnEngagement() {
@@ -42,32 +45,31 @@ public class AdminAuditorService extends AbstractService {
         auditorCreateToDoPage.verifyPermissionSeeListToDoTask(listToDoname, true, true);
     }
 
-    public void verifyAdminAuditorCanNotEditCategory(String todoName, Boolean editable) {
-        adminAuditorPage.verifyCategoryEditableCapability(todoName, editable);
+    public void verifyAdminAuditorCanNotEditCategory(String todoName) {
+        adminAuditorPage.verifyCategoryEditableCapability(todoName,false);
     }
 
-    public void verifyAdminAuditorCannotMarkCompleteTodo(List<String> listTodo) {
+    public void verifyAdminAuditorCannotMarkCompleteTodo(List<String> listTodo){
         auditorCreateToDoPage.verifyGroupPermissionCanMarkCompleted(listTodo, false);
     }
 
-    public void verifyAdminAuditorCannotAssignAuditor(List<String> listTodo) {
+    public void verifyAdminAuditorCannotAssignAuditor(List<String> listTodo){
         auditorCreateToDoPage.verifyGroupPermissionCanAssignTodoToAuditor(listTodo, false);
     }
 
     public void verifyAdminAuditorCannotCreateTodo(String todoName) {
         auditorCreateToDoPage.verifyGroupPermissionCanCreateTodo(todoName, false);
     }
-
-    public void verifyAdminAuditorCanNotChangeDueDate(String todoName, Boolean editable) {
-        adminAuditorPage.verifyDueDateEditableCapability(todoName, editable);
+    public void verifyAdminAuditorCanNotChangeDueDate(String todoName) {
+        adminAuditorPage.verifyDueDateEditableCapability(todoName,false);
     }
 
-    public void verifyAdminAuditorCanNotDeleteRequest(String requestName, boolean deleteCapability) {
-        adminAuditorPage.verifyRequestDeletionCapability(requestName, deleteCapability);
+    public void verifyAdminAuditorCanNotDeleteRequest(String requestName) {
+        adminAuditorPage.verifyRequestDeletionCapability(requestName,false);
     }
 
-    public void clickCommentIconByTodoName(String todoName, boolean editablePage) {
-        adminAuditorPage.clickCommentIconByTodoName(todoName, editablePage);
+    public void clickCommentIconByTodoName(String todoName,boolean editablePage) {
+        adminAuditorPage.clickCommentIconByTodoName(todoName,editablePage);
     }
 
     public void verifyCanSeeAllEngagementsWithinFirm(List<String> engagementListNames) {
@@ -76,5 +78,21 @@ public class AdminAuditorService extends AbstractService {
 
     public void verifyCantInviteClientIntoEngagement() {
         auditorDetailsEngagementPage.verifyCantInviteClientIntoEngagement(false);
+    }
+
+    public void verifyAdminAuditorCanNotChangeRequestName(String requequestName) {
+        adminAuditorPage.verifyRequestNameChangeCapability(requequestName,false);
+    }
+
+    public void navigateToTeamTab() {
+       auditorTeamPage.navigateToTeamTab();
+    }
+
+    public void verifyAdminAuditorCanNotRemoveClient(String clientFullName) {
+        auditorTeamPage.verifyPermisionToSeeMemberList(clientFullName,false);
+    }
+
+    public void verifyAdminAuditorCanNotRemoveAuditor(String auditorFullName) {
+        auditorTeamPage.verifyPermisionToSeclectMemberCheckbox(auditorFullName,false);
     }
 }

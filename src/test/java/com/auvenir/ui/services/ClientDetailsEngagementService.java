@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 public class ClientDetailsEngagementService extends AbstractService {
     ClientDetailsEngagementPage clientDetailsEngagementPage;
 
+
     public ClientDetailsEngagementService(Logger logger, WebDriver driver) {
         super(logger, driver);
         clientDetailsEngagementPage = new ClientDetailsEngagementPage(logger, driver);
