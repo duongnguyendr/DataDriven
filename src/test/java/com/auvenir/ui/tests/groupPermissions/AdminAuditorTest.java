@@ -43,16 +43,16 @@ public class AdminAuditorTest extends AbstractTest {
 
     @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.", testName = "AA_1",
             dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionCreateAnEngagement(String userId, String userPassword) {
+    public void verifyPermissionCreateAnEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd) {
         getLogger().info("Verify admin auditor can create an engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
 
-        userId = GenericService.sBrowserData + userId;
+        adminAuditorUser = GenericService.addBrowserPrefix(adminAuditorUser);
 
         try {
-            marketingService.loginUsingUsernamePassword(userId, userPassword);
+            marketingService.loginUsingUsernamePassword(adminAuditorUser, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
 
             adminAuditorService.verifyCanCreateAnEngagement();
@@ -66,22 +66,20 @@ public class AdminAuditorTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 3, enabled = true, description = "Verify admin auditor can see all engagements within firm.", testName = "AA_1"/*,
-            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class*/)
-    public void verifyPermissionSeeAllEngagementsWithinFirm(/*String userId, String userPassword*/) {
+    @Test(priority = 3, enabled = true, description = "Verify admin auditor can see all engagements within firm.", testName = "AA_3",
+            dataProvider = "verifyPermissionSeeAllEngagementsWithinFirm", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyPermissionSeeAllEngagementsWithinFirm(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
+            String engagementName2) {
         getLogger().info("Verify admin auditor can see all engagements within firm.");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
 
-        String userId = "chr.auvenirauditor@gmail.com";
-        String userPassword = "Changeit@123";
-        String engagement1 = "Engagement Huy 01";
-        String engagement2 = "Engagement Huy 02";
+        String engagementListNames[] = {engagementName1, engagementName2};
+        adminAuditorUser = GenericService.addBrowserPrefix(adminAuditorUser);
 
-        String engagementListNames[] = {engagement1, engagement2};
         try {
-            marketingService.loginUsingUsernamePassword(userId, userPassword);
+            marketingService.loginUsingUsernamePassword(adminAuditorUser, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
 
             adminAuditorService.verifyCanSeeAllEngagementsWithinFirm(Arrays.asList(engagementListNames));
@@ -95,26 +93,19 @@ public class AdminAuditorTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify admin auditor cant invite client into engagement.", testName = "AA_1"/*,
-            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class*/)
-    public void verifyPermissionInviteClientIntoEngagement(/*String userId, String userPassword*/) {
+    @Test(priority = 5, enabled = true, description = "Verify admin auditor cant invite client into engagement.", testName = "AA_5",
+            dataProvider = "verifyPermissionInviteClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyPermissionInviteClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1) {
         getLogger().info("Verify admin auditor can invite client into engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
 
-        String userId = "chr.auvenirauditor@gmail.com";
-        String userPassword = "Changeit@123";
-        String engagement1 = "Engagement Huy 01";
-        String engagement2 = "Engagement Huy 02";
-
-        String engagementListNames[] = {engagement1, engagement2};
+        adminAuditorUser = GenericService.addBrowserPrefix(adminAuditorUser);
         try {
-            //gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
-
-            marketingService.loginUsingUsernamePassword(userId, userPassword);
+            marketingService.loginUsingUsernamePassword(adminAuditorUser, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagement1);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName1);
 
             adminAuditorService.verifyCantInviteClientIntoEngagement();
 
@@ -127,9 +118,11 @@ public class AdminAuditorTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Verify admin auditor can't invite general client into engagement.", testName = "AA_1"/*,
-            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class*/)
-    public void verifyPermissionInviteGeneralClientIntoEngagement(/*String userId, String userPassword*/) {
+    @Test(priority = 6, enabled = true, description = "Verify admin auditor can't invite general client into engagement.", testName = "AA_6",
+            dataProvider = "verifyPermissionInviteGeneralClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyPermissionInviteGeneralClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
+            String leadClientFullName, String leadClientUser, String roleClient, String successMessageInvitation, String adminUser, String adminPwd,
+            String userType) {
         getLogger().info("Verify admin auditor can't invite general client into engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -139,35 +132,26 @@ public class AdminAuditorTest extends AbstractTest {
         adminService = new AdminService(getLogger(), getDriver());
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
 
-        String userId = "chr.auvenirauditor@gmail.com";
-        String userPassword = "Changeit@123";
-        String engagement1 = "Engagement Huy 01";
-        String leadClientFullName = "General client 02";
-        String leadClientEmail = "auvenirclient02@gmail.com";
-        String roleClient = "";
-        String successMessageInvitation = "Your engagement invitation has been sent.";
-        String adminEmail = "chr.adm.auvenir@gmail.com";
-        String adminAuvenirPwd = "Changeit@123";
-        String userType = "CLIENT";
+        adminAuditorUser = GenericService.addBrowserPrefix(adminAuditorUser);
+        leadClientUser = GenericService.addBrowserPrefix(leadClientUser);
+        adminUser = GenericService.addBrowserPrefix(adminUser);
 
-        //MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
         try {
-            //gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
-            auditorSignUpService.deleteUserUsingApi(leadClientEmail);
+            auditorSignUpService.deleteUserUsingApi(leadClientUser);
 
-            marketingService.loginUsingUsernamePassword(userId, userPassword);
+            marketingService.loginUsingUsernamePassword(adminAuditorUser, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagement1);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName1);
 
             auditorDetailsEngagementService.navigateToTeamTab();
             auditorDetailsEngagementService.inviteNewMemberToTeam();
-            clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientEmail, roleClient);
+            clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientUser, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);
 
-            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(adminUser, adminPwd);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-            adminService.verifyUserTypeOnAdminUserTable(leadClientEmail, userType);
+            adminService.verifyUserTypeOnAdminUserTable(leadClientUser, userType);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Finish: Verify admin auditor can't invite general client into engagement.", LogAs.PASSED, null);
