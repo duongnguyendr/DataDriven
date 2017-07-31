@@ -11,10 +11,10 @@ import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.client.ClientService;
 import com.auvenir.ui.services.groupPermissions.AdminAuditorService;
+import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
-import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
@@ -39,6 +39,7 @@ public class AdminAuditorTest extends AbstractTest {
     private GmailLoginService gmailLoginService;
     private ClientDetailsEngagementService clientDetailsEngagementService;
     private ClientService clientService;
+    private AuditorSignUpService auditorSignUpService;
 
     @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.", testName = "AA_1",
             dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
@@ -136,6 +137,7 @@ public class AdminAuditorTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
 
         String userId = "chr.auvenirauditor@gmail.com";
         String userPassword = "Changeit@123";
@@ -148,9 +150,10 @@ public class AdminAuditorTest extends AbstractTest {
         String adminAuvenirPwd = "Changeit@123";
         String userType = "CLIENT";
 
-        MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
+        //MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
         try {
             //gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
+            auditorSignUpService.deleteUserUsingApi(leadClientEmail);
 
             marketingService.loginUsingUsernamePassword(userId, userPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -164,7 +167,6 @@ public class AdminAuditorTest extends AbstractTest {
             marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
             adminService.verifyPageLoad();
             adminService.scrollToFooter(getDriver());
-            //adminService.verifyUserStatusOnAdminUserTable(leadClientEmail, onboardingStatus);
             adminService.verifyUserTypeOnAdminUserTable(leadClientEmail, userType);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

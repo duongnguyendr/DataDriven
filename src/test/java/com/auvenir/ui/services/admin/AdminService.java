@@ -193,7 +193,7 @@ public class AdminService extends AbstractService {
     }
 
     public void verifyUserTypeOnAdminUserTable(String email, String userType) {
-        adminPage.verifyUserTypeOnAdminUserTable(email, userType);
+        adminPage.verifyUserTypeOnAdminUserTable(email, userType, false);
     }
 }
 
