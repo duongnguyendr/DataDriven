@@ -362,9 +362,9 @@ public class SmokeTest extends AbstractTest {
             clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName1);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Admin client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+            NXGReports.addStep("SmokeTest: Verify Admin client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Admin client logs in and OnBoarding page is displayed.", LogAs.FAILED,
+            NXGReports.addStep("SmokeTest: Verify Admin client logs in and OnBoarding page is displayed.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
@@ -393,9 +393,9 @@ public class SmokeTest extends AbstractTest {
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
+            NXGReports.addStep("SmokeTest: Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.FAILED,
+            NXGReports.addStep("SmokeTest: Auditor create new Engagament (simple engagement).", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
@@ -458,9 +458,9 @@ public class SmokeTest extends AbstractTest {
             clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+            NXGReports.addStep("SmokeTest: Verify Auditor inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("SmokeTest: Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
             throw e;
         }
