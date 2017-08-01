@@ -48,7 +48,6 @@ public class AdminAuditorTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
-
         adminAuditorUser = GenericService.addBrowserPrefix(adminAuditorUser);
 
         try {

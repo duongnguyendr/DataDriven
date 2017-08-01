@@ -355,11 +355,11 @@ public abstract class TodoPage extends AbstractPage {
      */
     public void verifyRequestDeletionCapability(String requestName, boolean deleteRequestCapability) {
         int index = findRequestByName(requestName);
-        clickElement(listRequestOptionBtn.get(index-1));
+        clickElement(listRequestOptionBtn.get(index - 1));
         int numberBefore = listNewRequest.size();
         try {
             if (deleteRequestCapability) {
-                waitForClickableOfElement(deleteRequestSelection,"delete request");
+                waitForClickableOfElement(deleteRequestSelection, "delete request");
                 clickElement(deleteRequestSelection, "delete request");
                 if (numberBefore > 1) {
                     int numberAfter = listNewRequest.size();
@@ -377,7 +377,7 @@ public abstract class TodoPage extends AbstractPage {
 
                 }
             } else {
-                boolean isVerify = validateNotExistedElement(deleteRequestSelection, "request options");
+                boolean isVerify = validateNotExistedElement(deleteRequestSelection, "delete selection");
                 if (isVerify) {
                     NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED,
                             null);
