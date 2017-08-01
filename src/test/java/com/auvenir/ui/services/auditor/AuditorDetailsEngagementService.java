@@ -1,14 +1,13 @@
 package com.auvenir.ui.services.auditor;
 
+import com.auvenir.ui.pages.auditor.engagement.AuditorDetailsEngagementPage;
 import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementFilePage;
 import com.auvenir.ui.services.AbstractService;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-
-import com.auvenir.ui.pages.auditor.engagement.AuditorDetailsEngagementPage;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
@@ -18,6 +17,7 @@ public class AuditorDetailsEngagementService extends AbstractService {
 
     AuditorDetailsEngagementPage auditorDetailsEngagementPage;
     AuditorEngagementFilePage auditorEngagementFilePage;
+
     /*
      * contructor
      */
@@ -48,17 +48,19 @@ public class AuditorDetailsEngagementService extends AbstractService {
             auditorDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
             NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-    public void verifyDetailsEngagementPage(String engagementName,Boolean editablePage) {
+    public void verifyDetailsEngagementPage(String engagementName, Boolean editablePage) {
         try {
             getLogger().info("verify Detail Engagement page.(Implemented later)");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage(engagementName,editablePage);
+            auditorDetailsEngagementPage.verifyDetailsEngagementPage(engagementName, editablePage);
             NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -68,7 +70,8 @@ public class AuditorDetailsEngagementService extends AbstractService {
             auditorDetailsEngagementPage.verifyDetailsEngagementAtGeneralPage(engagementName);
             NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("verify Detail Engagement page.(Implemented later)", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -99,43 +102,44 @@ public class AuditorDetailsEngagementService extends AbstractService {
     /**
      * Click on file manager link
      */
-    public void clickOnFileManagerLink(){
+    public void clickOnFileManagerLink() {
         auditorDetailsEngagementPage.clickOnFileManagerLink();
     }
 
     /**
      * Verify file manager page follow engagement name
+     *
      * @param engagementName
      */
-    public void verifyEngagementManagePage(String engagementName){
+    public void verifyEngagementManagePage(String engagementName) {
         auditorEngagementFilePage.verifyDetailsEngagementPage(engagementName);
     }
 
     /**
      * Click on all file check box
      */
-    public void clickOnAllFileCheckBox(){
+    public void clickOnAllFileCheckBox() {
         auditorEngagementFilePage.clickOnAllFileCheckBox();
     }
 
     /**
      * Click on down load icon
      */
-    public void clickOnDownLoadIcon(){
+    public void clickOnDownLoadIcon() {
         auditorEngagementFilePage.clickOnDownLoadIcon();
     }
 
     /**
      * Verify down load popup
      */
-    public void verifyDownLoadPopup(){
+    public void verifyDownLoadPopup() {
         auditorEngagementFilePage.verifyDownLoadPopup();
     }
 
     /**
      * Click on down load button in popup
      */
-    public void clickOnDownLoadButtonInPopup(){
+    public void clickOnDownLoadButtonInPopup() {
         auditorEngagementFilePage.clickOnDownloadButtonInPopup();
     }
 
@@ -143,12 +147,20 @@ public class AuditorDetailsEngagementService extends AbstractService {
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - End
      */
 
-    public void clickOnContactLink(){
+    public void clickOnContactLink() {
         auditorDetailsEngagementPage.clickOnContactLink();
     }
 
-    public void closeBrowserAfterDownLoad() throws InterruptedException{
+    public void closeBrowserAfterDownLoad() throws InterruptedException {
         auditorEngagementFilePage.closeBrowserAfterDownLoad();
+    }
+
+    public void navigateToTeamTab() {
+        auditorDetailsEngagementPage.navigateToTeamTab();
+    }
+
+    public void inviteNewMemberToTeam() {
+        auditorDetailsEngagementPage.clickInviteNewMember();
     }
 }
 
