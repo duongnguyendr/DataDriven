@@ -19,7 +19,7 @@ public class AdminAuditorService extends AbstractService {
     private AuditorNewEngagementPage auditorNewEngagementPage;
     private AuditorEngagementPage auditorEngagementPage;
     private AuditorToDoPage auditorToDoPage;
-    private AuditorTodoListPage auditorTodoListPage = new AuditorTodoListPage(getLogger(), getDriver());
+    private AuditorTodoListPage auditorTodoListPage;
     private AuditorDetailsEngagementPage auditorDetailsEngagementPage;
     private AuditorTeamPage auditorTeamPage;
 
@@ -106,6 +106,7 @@ public class AdminAuditorService extends AbstractService {
         auditorTeamPage.verifyPermisionToSeclectMemberCheckbox(auditorFullName, false);
     }
 
-    public void verifyCanSeeAllToDosWithinEngagement(List<String> strings) {
+    public void verifyCanSeeAllToDosWithinEngagement(List<String> todoListNames, List<Boolean> todoListSeeable) {
+        auditorToDoPage.verifyCanSeeAllToDosWithinEngagement(todoListNames, todoListSeeable, "Admin Auditor");
     }
 }
