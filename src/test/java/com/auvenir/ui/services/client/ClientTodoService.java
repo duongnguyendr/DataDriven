@@ -30,7 +30,7 @@ public class ClientTodoService extends AbstractService {
 
 
     public void clickCommentIconPerTaskName(String todoTaskName, boolean isClient) {
-        clientToDoPage.clickCommentIconPerTaskName(todoTaskName, isClient);
+        clientToDoPage.clickCommentIconByTodoName(todoTaskName, isClient);
     }
 
     public void verifyLastCommentOfUserDisplayed(String commentContent, String userFullName) {

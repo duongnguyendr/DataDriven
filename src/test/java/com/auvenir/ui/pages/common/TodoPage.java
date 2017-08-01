@@ -22,6 +22,8 @@ public abstract class TodoPage extends AbstractPage {
         super(logger, driver);
     }
 
+    //==============================**************===================================================
+
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
     protected List<WebElement> toDoTaskRowEle;
     @FindBy(xpath = "//div[@class='ui dropdown client todo-bulkDdl ']")
@@ -59,12 +61,20 @@ public abstract class TodoPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']")
     private WebElement newRequestTable;
     @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]")
-    private WebElement requestOptionBtn;
+    private List<WebElement> listRequestOptionBtn;
     @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]/div[@class='menu']/a")
     private List<WebElement> listRequestSelection;
     @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]/div[@class='menu']/a[text()='Delete request']")
     private WebElement deleteRequestSelection;
+    @FindBy(xpath = "//div[@class='auvicon-ex']")
+    WebElement requestCloseBtn;
+    @FindBy(xpath = "//div[@id='auv-todo-details']")
+    WebElement addNewRequestWindow;
 
+    private String activeStatus = "ui dropdown auvicon-line-circle-more todo-circle-more todo-icon-hover active";
+
+
+    //===================***********==================================================================================
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
         String actualAttributeValue;
@@ -92,12 +102,6 @@ public abstract class TodoPage extends AbstractPage {
             }
         }
         return -1;
-    }
-
-    public void clickCommentIconPerTaskName(String toDoTaskName, boolean isClient) {
-        getLogger().info("Select To Do Comment Icon by Name");
-        int index = findToDoTaskName(toDoTaskName, isClient);
-        clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", toDoTaskName));
     }
 
     public void verifyLastCommentOfUserDisplayed(String commentContent, String userFullName) {
@@ -345,26 +349,45 @@ public abstract class TodoPage extends AbstractPage {
 
     /**
      * Vien.Pham own this function
-     * @param requestName: find corresponding requestName
+     *
+     * @param requestName:find         corresponding requestName
      * @param deleteRequestCapability: true: can delete request or False: can not delete request.
      */
     public void verifyRequestDeletionCapability(String requestName, boolean deleteRequestCapability) {
-        try{
+        int index = findRequestByName(requestName);
+        clickElement(listRequestOptionBtn.get(index-1));
+        int numberBefore = listNewRequest.size();
+        try {
             if (deleteRequestCapability) {
-                int index = findRequestByName(requestName);
+                waitForClickableOfElement(deleteRequestSelection,"delete request");
+                clickElement(deleteRequestSelection, "delete request");
+                if (numberBefore > 1) {
+                    int numberAfter = listNewRequest.size();
+                    if (numberAfter == numberBefore - 1) {
+                        NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.",
+                                LogAs.PASSED, null);
+                    } else {
+                        AbstractService.sStatusCnt++;
+                        NXGReports
+                                .addStep("Verify request can " + (deleteRequestCapability ? "be deleted" : "not be deleted" + " :Fail"), LogAs.FAILED,
+                                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    }
+                } else {
 
+
+                }
             } else {
-                clickElement(requestOptionBtn);
                 boolean isVerify = validateNotExistedElement(deleteRequestSelection, "request options");
                 if (isVerify) {
-                    NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED, null);
+                    NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED,
+                            null);
                 } else {
                     AbstractService.sStatusCnt++;
                     NXGReports.addStep("Verify request can " + (deleteRequestCapability ? "be deleted" : "not be deleted" + " :Fail"), LogAs.FAILED,
                             new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify request can " + (deleteRequestCapability ? "be deleted" : "not be deleted" + " :Fail"), LogAs.FAILED,
@@ -393,14 +416,18 @@ public abstract class TodoPage extends AbstractPage {
 
     /**
      * Vien.Pham own this function
-     * @param requequestName: to find corresponding requestName.
-     * @param changeRequestNameCapability: true: can change requestName or False: can not change
+     *
+     * @param requequestName:            to find corresponding requestName.
+     * @param editRequestNameCapability: true: can change requestName or False: can not change
      */
-    public void verifyRequestNameChangeCapability(String requequestName, boolean changeRequestNameCapability) {
+    public void verifyEditRequestNameCapability(String requequestName, String newRequestName, boolean editRequestNameCapability) {
         try {
             int index = findRequestByName(requequestName);
-            if (changeRequestNameCapability) {
-
+            if (editRequestNameCapability) {
+                inputRequestName(index, newRequestName);
+                closeAddNewRequestWindow();
+                NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
+                        LogAs.PASSED, null);
             } else {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "");
                 Thread.sleep(500);
@@ -408,25 +435,54 @@ public abstract class TodoPage extends AbstractPage {
                         validateCssValueElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "display", "inline-block");
 
                 if (isCheck) {
-                    NXGReports.addStep("Verify request Name can  " + (changeRequestNameCapability ? "be changed" : "not be changed") + " :Pass.", LogAs.PASSED,
-                            null);
+                    NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
+                            LogAs.PASSED, null);
 
                 } else {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep("Verify request Name can " + (changeRequestNameCapability ? "be changed" : "not be changed" + " :Fail"), LogAs.FAILED,
-                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("Verify request Name can " + (editRequestNameCapability ? "be changed" : "not be changed" + " :Fail"),
+                            LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
-
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify request Name can " + (changeRequestNameCapability ? "be changed" : "not be changed" + " :Fail"), LogAs.FAILED,
+            NXGReports.addStep("Verify request Name can " + (editRequestNameCapability ? "be changed" : "not be changed" + " :Fail"), LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }
 
+    public void inputRequestName(int position, String requestName) {
+        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
+        clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
+        //        getLogger().info("Waiting for textbox border is Green while clicked..");
+        //        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border", "1px solid rgb(89, 155, 161)");
+        clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
+        sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), requestName, "");
+    }
 
+    public void closeAddNewRequestWindow() {
+        clickElement(requestCloseBtn);
+        waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
+    }
+
+
+    public void verifyNewRequestSaved(String newRequestName) {
+        try {
+            int index = findRequestByName(newRequestName);
+            if (index != -1) {
+                NXGReports.addStep("Verify request saved: Pass", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify request saved: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify request saved: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
+    }
 }

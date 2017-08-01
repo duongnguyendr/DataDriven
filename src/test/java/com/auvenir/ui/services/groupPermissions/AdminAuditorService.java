@@ -67,8 +67,8 @@ public class AdminAuditorService extends AbstractService {
         adminAuditorPage.clickCommentIconByTodoName(todoName,editablePage);
     }
 
-    public void verifyAdminAuditorCanNotChangeRequestName(String requequestName) {
-        adminAuditorPage.verifyRequestNameChangeCapability(requequestName,false);
+    public void verifyAdminAuditorCanNotChangeRequestName(String requequestName,String newRequestName) {
+        adminAuditorPage.verifyEditRequestNameCapability(requequestName,newRequestName,false);
     }
 
     public void navigateToTeamTab() {

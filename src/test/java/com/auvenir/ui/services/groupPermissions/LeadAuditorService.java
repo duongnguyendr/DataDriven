@@ -1,5 +1,6 @@
 package com.auvenir.ui.services.groupPermissions;
 
+import com.auvenir.ui.pages.auditor.todo.AuditorToDoPage;
 import com.auvenir.ui.pages.groupPermissions.LeadAuditorPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
@@ -13,9 +14,11 @@ import org.openqa.selenium.WebDriver;
  */
 public class LeadAuditorService extends AbstractService {
     LeadAuditorPage leadAuditorPage;
+    AuditorToDoPage auditorToDoPage;
     public LeadAuditorService(Logger logger, WebDriver driver) {
         super(logger, driver);
         leadAuditorPage = new LeadAuditorPage(getLogger(), getDriver());
+        auditorToDoPage =  new AuditorToDoPage(getLogger(),getDriver());
     }
 
     public void verifyLeadAuditorSeeAllFileRequest(int numberFileRequest){
@@ -28,5 +31,18 @@ public class LeadAuditorService extends AbstractService {
 
     public void verifyFileRequestInTodo(String toDoName, String... fileRequest){
         leadAuditorPage.verifyFileRequestInTodo(toDoName, fileRequest);
+    }
+
+
+    public void verifyLeadAuditorCanChangeRequestName(String requestName, String newRequestName) {
+        auditorToDoPage.verifyEditRequestNameCapability(requestName,newRequestName,true);
+    }
+
+    public void verifyNewRequestChangedSuccessfully(String newRequestName) {
+        auditorToDoPage.verifyNewRequestSaved(newRequestName);
+    }
+
+    public void verifyLeadAuditorCanDeleteRequest(String requestName) {
+        auditorToDoPage.verifyRequestDeletionCapability(requestName,true);
     }
 }

@@ -3671,7 +3671,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             getLogger().info("Return to Todo list page again..");
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+//            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             NXGReports.addStep("Return to Todo ListPage successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;

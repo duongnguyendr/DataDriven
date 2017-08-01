@@ -254,13 +254,14 @@ public class AdminAuditorTest extends AbstractTest {
         String engagementName = "Engagement_LeadAuditor";
         String todoName = "lead vien1";
         String requequestName = "lead request1";
+        String newRequestName = "lead request modify1";
         try {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
             adminAuditorService.clickCommentIconByTodoName(todoName, false);
-            adminAuditorService.verifyAdminAuditorCanNotChangeRequestName(requequestName);
+            adminAuditorService.verifyAdminAuditorCanNotChangeRequestName(requequestName,newRequestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not change request Name created by Lead auditor: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
