@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.groupPermissions;
 
 import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.services.auditor.AuditorCreateToDoService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.groupPermissions.AdminAuditorService;
@@ -27,6 +28,61 @@ public class LeadAuditorTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
     private AdminAuditorService adminAuditorService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
+    AuditorCreateToDoService auditorCreateToDoService;
+
+    @Test(priority = 22, enabled = true, description = "To Verify lead auditor can change request name.")
+    public void verifyLeadAuditorCanChangeRequestName() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        leadAuditorService = new LeadAuditorService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(),getDriver());
+        String leadAuditorId = "chr.vienpham.lead.auditor@gmail.com";
+        String leadAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement_LeadAuditor";
+        String todoName = "lead vien1";
+        String oldRequestName = "lead request1";
+        String newRequestName = "lead request modify1";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorId, leadAuditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorCreateToDoService.clickCommentIconPerTaskName(todoName, false);
+            leadAuditorService.verifyLeadAuditorCanChangeRequestName(oldRequestName,newRequestName);
+            auditorCreateToDoService.reselectEngagementName(engagementName);
+            auditorCreateToDoService.clickCommentIconPerTaskName(todoName, false);
+            leadAuditorService.verifyNewRequestChangedSuccessfully(newRequestName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead auditor change request name: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead auditor change request name: Fail.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    @Test(priority = 23, enabled = true, description = "To Verify lead Auditor can delete request")
+    public void verifyAdminAuditorCanNotDeleteRequest() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        leadAuditorService = new LeadAuditorService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(),getDriver());
+        String leadAuditorId = "chr.vienpham.lead.auditor@gmail.com";
+        String leadAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement_LeadAuditor";
+        String todoName = "lead vien1";
+        String requestName = "lead request1";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorId, leadAuditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorCreateToDoService.clickCommentIconPerTaskName(todoName, false);
+            leadAuditorService.verifyLeadAuditorCanDeleteRequest(requestName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead Auditor can delete request created by Lead auditor: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead Auditor can delete request created by Lead auditor: Fail.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 
     @Test(priority = 27, enabled = true, description = "Verify lead auditor can see all files within an engagement.")
     public void verifyLeadAuditorSeeAllFileRequest() throws Exception {

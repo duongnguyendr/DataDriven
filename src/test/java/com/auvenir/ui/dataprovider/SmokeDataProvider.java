@@ -8,16 +8,29 @@ import org.testng.annotations.DataProvider;
  * Created by doai.tran on 7/10/2017.
  */
 public class SmokeDataProvider extends CommonDataProvider{
+    private final static String SHEET_NAME = "SmokeTest-R";
     public static final String FRENCH_LANGUAGE = "French";
+    private final static String VALID_VALUE_COLUMN = "Valid Value";
+
+    /*private static String superAdminUser = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Super Admin");
+    private static String superAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Super Admin Auvernir Password");
 
     private static String adminId = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
     private static String adminPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
-    private static String emailCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
+*/
+    private static String adminUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin", VALID_VALUE_COLUMN);
+    private static String adminAuvenirPwd =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auvenir Password", VALID_VALUE_COLUMN);
+
+    private static String superAdminUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Super Admin", VALID_VALUE_COLUMN);
+    private static String superAdminPwd =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Super Admin Auvenir Password", VALID_VALUE_COLUMN);
+
+    /*private static String emailCreate = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor");
     private static String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
     private static String strRoleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Role in Firm", "Valid Value");
     private static String strPhone = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Auditor", "Valid Value");
     private static String strReference = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Reference to Auvenir", "Valid Value");
-    // firm information
     private static String strName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Name", "Valid Value");
     private static String strPreName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Previous Name", "Valid Value");
     private static String strWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Firm Website", "Valid Value");
@@ -32,6 +45,38 @@ public class SmokeDataProvider extends CommonDataProvider{
     private static String strPhoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Phone Number Firm", "Valid Value");
     private static String strAffName = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Affiliated Firm's Name", "Valid Value");
     private static String strPathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix("AuditorSignUpTest", "Path Logo", "Valid Value");
+*/
+    private static String adminAuditorUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", VALID_VALUE_COLUMN);
+    private static String adminAuditorEmailPwd =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Email Password", VALID_VALUE_COLUMN);
+    private static String adminAuditorAuvenirPwd =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Auvenir Password", VALID_VALUE_COLUMN);
+    private static String adminAuditorFullName =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor Full Name", VALID_VALUE_COLUMN);
+
+    private static String roleFirm = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Role in Firm", VALID_VALUE_COLUMN);
+    private static String phoneNumber = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Phone Number Auditor", VALID_VALUE_COLUMN);
+    private static String referenceToAuvenir =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Reference to Auvenir", VALID_VALUE_COLUMN);
+    // firm information
+    //    private static String firmName = "Test Audits LLC";
+    private static String firmName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Firm Name", VALID_VALUE_COLUMN);
+    private static String firmPreName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Firm Previous Name", VALID_VALUE_COLUMN);
+    private static String firmWebsite = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Firm Website", VALID_VALUE_COLUMN);
+    private static String streetAddress = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Street Address", VALID_VALUE_COLUMN);
+    private static String officeNumber = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Suite / Office Number", VALID_VALUE_COLUMN);
+    private static String zipCode = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Postal Code/ Zip Code", VALID_VALUE_COLUMN);
+    private static String city = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "City", VALID_VALUE_COLUMN);
+    private static String country = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Country", VALID_VALUE_COLUMN);
+    private static String stateNumber = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Province / State", VALID_VALUE_COLUMN);
+    private static String memberID = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Member I.D", VALID_VALUE_COLUMN);
+    private static String numberEmployee = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Number of Employee", VALID_VALUE_COLUMN);
+    private static String phoneFirm = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Phone Number Firm", VALID_VALUE_COLUMN);
+    private static String affiliateFirmName =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Affiliated Firm's Name", VALID_VALUE_COLUMN);
+    private static String pathLogo = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Path Logo", VALID_VALUE_COLUMN);
+
+
     private static String adminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin");
     private static String gmailAuditorPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Email Password");
     private static String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Admin Auvenir Password");
@@ -46,7 +91,7 @@ public class SmokeDataProvider extends CommonDataProvider{
     private static String roleClient = "";
 //    private static String chooseOptionValue = "Onboarding";
     private static String clientAuvenirPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
-    private static String phoneNumber = "0123456789";
+    //private static String phoneNumber = "0123456789";
     private static String parentStackHolder = "Titancorpvn";
     private static String clientPassword = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Auvenir Password");
 //    private static String userActiveStatus = "Active";
@@ -88,60 +133,67 @@ public class SmokeDataProvider extends CommonDataProvider{
     private static  String contactName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client Assignee");
     private static  String emailContact = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Client");
     private static String company = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Company");
+
+    private static String leadClientFullName =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Lead Client Full Name", VALID_VALUE_COLUMN);
+
+    @DataProvider(name = "verifySuperAdminLogin")
+    public static Object[][] getVerifySuperAdminLogin() {
+        Object[][] arrayData = new Object[][]{{superAdminUser, superAdminPwd}};
+        if (GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)) {
+            arrayData = new Object[][]{{superAdminUser, superAdminPwd}};
+        }
+        return arrayData;
+    }
+
     @DataProvider(name = "verifyAdminLogin")
     public static Object[][] getVerifyAdminLogin(){
 
 
-        Object[][] arrayData = new Object[][]{{adminId,adminPassword}};
+        Object[][] arrayData = new Object[][]{{adminUser,adminAuvenirPwd}};
         if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{adminId,adminPassword}};
+            arrayData = new Object[][]{{adminUser,adminAuvenirPwd}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifySignUpAuditorUser")
-    public static Object[][] getVerifySignUpAuditorUser(){
-
-
-        Object[][] arrayData = new Object[][]{{emailCreate,strFullName, strRoleFirm, strPhone, strReference,
-                                               strName, strPreName, strWebsite, strStreetAddress, strOffNum,
-                                               strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp,
-                                               strPhoneFirm, strAffName, strPathLogo}};
-        if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{emailCreate,strFullName, strRoleFirm, strPhone, strReference,
-                                        strName, strPreName, strWebsite, strStreetAddress, strOffNum,
-                                        strZipCode, strCity, strCountry, strState, strMemberID, strNumEmp,
-                                        strPhoneFirm, strAffName, strPathLogo}};
+    public static Object[][] getVerifySignUpAuditorUser() {
+        Object[][] arrayData = new Object[][]{
+                {adminAuditorUser, adminAuditorFullName, firmName, roleFirm, phoneNumber, referenceToAuvenir, firmPreName, firmWebsite, streetAddress,
+                        officeNumber, zipCode, city, country, stateNumber, memberID, numberEmployee, phoneFirm, affiliateFirmName, pathLogo}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {adminAuditorUser, adminAuditorFullName, firmName, roleFirm, phoneNumber, referenceToAuvenir, firmPreName, firmWebsite,
+                            streetAddress, officeNumber, zipCode, city, country, stateNumber, memberID, numberEmployee, phoneFirm, affiliateFirmName,
+                            pathLogo}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyAdminChangeStatusUserToOnBoarding")
-    public static Object[][] getVerifyAdminChangeStatusUserToOnBoarding(){
-
-        Object[][] arrayData = new Object[][] {{emailCreate,adminEmail,gmailAuditorPassword,strAdminPwd}};
-        if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][] {{emailCreate,adminEmail,gmailAuditorPassword,strAdminPwd}};
+    public static Object[][] getVerifyAdminChangeStatusUserToOnBoarding() {
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminUser, adminAuditorEmailPwd, adminAuvenirPwd}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{adminAuditorUser, adminUser, adminAuditorEmailPwd, adminAuvenirPwd}};
         }
         return arrayData;
     }
 
-    @DataProvider(name = "verifyAuditorLoginGmailAndActiveUser")
-    public static Object[][] getVerifyAuditorLoginGmailAndActiveUser(){
-
-        Object[][] arrayData = new Object[][] {{gmailAuditorPassword,emailCreate, auditorPwd}};
-        if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][] {{gmailAuditorPassword,emailCreate, auditorPwd}};
+    @DataProvider(name = "verifyAuditorLoginGMailAndActiveUser")
+    public static Object[][] getVerifyAuditorLoginGmailAndActiveUser() {
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLoginAuditorUser")
-    public static Object[][] getVerifyLoginAuditorUser(){
-
-        Object[][] arrayData = new Object[][] {{emailCreate, auditorPwd}};
-        if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][] {{emailCreate, auditorPwd}};
+    public static Object[][] getVerifyLoginAuditorUser() {
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd}};
         }
         return arrayData;
     }
@@ -158,9 +210,9 @@ public class SmokeDataProvider extends CommonDataProvider{
     @DataProvider(name = "verifyAuditorInvitingTheClient")
     public static Object[][] getVerifyAuditorInvitingTheClient(){
 
-        Object[][] arrayData = new Object[][] {{clientId, adminId, auditorId, adminPassword, auditorPassword, engagementName, clientEmailPassword, clientFullName, onboardingStatus, roleClient}};
+        Object[][] arrayData = new Object[][] {{clientId, adminId, auditorId, adminAuvenirPwd, auditorPassword, engagementName, clientEmailPassword, clientFullName, onboardingStatus, roleClient}};
         if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][] {{clientId, adminId, auditorId, adminPassword, auditorPassword, engagementName, clientEmailPassword, clientFullName, onboardingStatus, roleClient}};
+            arrayData = new Object[][] {{clientId, adminId, auditorId, adminAuvenirPwd, auditorPassword, engagementName, clientEmailPassword, clientFullName, onboardingStatus, roleClient}};
         }
         return arrayData;
     }
@@ -168,9 +220,9 @@ public class SmokeDataProvider extends CommonDataProvider{
 
     @DataProvider(name = "verifyChangeTheStatusClientToOnBoarding")
     public static Object[][] getVerifyChangeTheStatusClientToOnBoarding(){
-        Object[][] arrayData = new Object[][]{{adminId, clientId, adminPassword, onboardingStatus}};
+        Object[][] arrayData = new Object[][]{{adminId, clientId, adminAuvenirPwd, onboardingStatus}};
         if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{adminId, clientId, adminPassword, onboardingStatus}};
+            arrayData = new Object[][]{{adminId, clientId, adminAuvenirPwd, onboardingStatus}};
         }
         return arrayData;
     }
@@ -190,9 +242,9 @@ public class SmokeDataProvider extends CommonDataProvider{
     public static Object[][] getVerifyClientActiveAfterSignUpSuccess(){
 
 
-        Object[][] arrayData = new Object[][]{{adminId, clientId, adminPassword, clientPassword, activeStatus}};
+        Object[][] arrayData = new Object[][]{{adminId, clientId, adminAuvenirPwd, clientPassword, activeStatus}};
         if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{adminId, clientId, adminPassword, clientPassword, activeStatus}};
+            arrayData = new Object[][]{{adminId, clientId, adminAuvenirPwd, clientPassword, activeStatus}};
         }
         return arrayData;
     }
@@ -252,9 +304,9 @@ public class SmokeDataProvider extends CommonDataProvider{
     public static Object[][] getVerifyClientViewAuditorComment(){
 
 
-        Object[][] arrayData = new Object[][]{{clientId, clientPassword, engagementName, toDoName, commentContent, isClient}};
+        Object[][] arrayData = new Object[][]{{clientId, clientPassword, engagementName, toDoName, commentContent, isClient,leadClientFullName}};
         if(GenericService.sLanguage.equalsIgnoreCase(FRENCH_LANGUAGE)){
-            arrayData = new Object[][]{{clientId, clientPassword, engagementName, toDoName, commentContent, isClient}};
+            arrayData = new Object[][]{{clientId, clientPassword, engagementName, toDoName, commentContent, isClient,leadClientFullName}};
         }
         return arrayData;
     }

@@ -1,20 +1,11 @@
 package com.auvenir.ui.pages.groupPermissions;
 
 import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
-import com.auvenir.ui.pages.common.AbstractPage;
 import com.auvenir.ui.pages.common.TodoPage;
-import com.auvenir.ui.services.AbstractService;
-import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
-import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
-import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
-
-import java.util.List;
 
 /**
  * Created by huy.huynh on 17/07/2017.
@@ -59,6 +50,4 @@ public class AdminAuditorPage extends TodoPage {
         }
 
     }
-
-
 }

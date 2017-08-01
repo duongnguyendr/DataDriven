@@ -55,8 +55,8 @@ public class AuditorSignUpPage extends AbstractPage {
     private WebElement eleFirmNameError;
 
     // Element of checkbox rule changed Name
-//    @FindBy(xpath = "//*[@id='img-upload-label']/ancestor::form//div[contains(@class,'ui checked')]/label")
-//    private WebElement chkChangedName;
+    //    @FindBy(xpath = "//*[@id='img-upload-label']/ancestor::form//div[contains(@class,'ui checked')]/label")
+    //    private WebElement chkChangedName;
 
     // Element of Firm previous Name
     @FindBy(xpath = "//input[@name='firm_previous_name']")
@@ -187,7 +187,7 @@ public class AuditorSignUpPage extends AbstractPage {
     private List<WebElement> numberEmployeeDdlListItemEle;
 
     //    final String warningBorderCSSColor = "rgb(253, 109, 71)";
-//    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
+    //    final String warningBackgroundCSSColor = "rgba(241, 103, 57, 0.2)";
     // This constant is used with color - CSS name;
     final String warningTextCSSColor = "rgba(235, 80, 44, 1)";
     final String successTextCSSColor = "rgba(73, 138, 144, 1)";
@@ -269,12 +269,12 @@ public class AuditorSignUpPage extends AbstractPage {
 
     // ======================================  Element of Create Password ===================================================
     @FindBy(xpath = "//input[@name='password']")
-//    @FindBy(xpath = "//input[@id='first-password']")
+    //    @FindBy(xpath = "//input[@id='first-password']")
     private WebElement elePassword;
 
     // Element of Confirm Password
     @FindBy(xpath = "//input[@name='retype_password']")
-//    @FindBy(xpath = "//input[@id='second-password']")
+    //    @FindBy(xpath = "//input[@id='second-password']")
     private WebElement eleConfirmPass;
 
     // Element of checkbox Captcha
@@ -483,7 +483,7 @@ public class AuditorSignUpPage extends AbstractPage {
             validateElementText(personalInfoCompleteIconEle, "PERSONNEL");
 
         validateDisPlayedElement(eleFirmName, "ELement of Firm Name");
-//        validateDisPlayedElement(chkChangedName, "Element of Checkbox Changed Name");
+        //        validateDisPlayedElement(chkChangedName, "Element of Checkbox Changed Name");
         validateDisPlayedElement(eleFirmWebsite, "Element of Firm Website");
         validateDisPlayedElement(eleZipCode, "Element of Zip Code");
         validateDisPlayedElement(eleCity, "Element of City");
@@ -508,7 +508,8 @@ public class AuditorSignUpPage extends AbstractPage {
         getLogger().info("Verify Content of Register Success Page");
         waitForVisibleElement(successPageHeaderEle, "Success Page Header");
         validateDisPlayedElement(successPageHeaderEle, "Success Page Header");
-        validateElementText(successPageHeaderEle, "Your Account is on the Waitlist!");
+        //        validateElementText(successPageHeaderEle, "Your Account is on the Waitlist!");
+        validateElementText(successPageHeaderEle, "Thank you for your interest in Auvenir!");
         // Checking Image Letter element is displayed
         waitForVisibleElement(eleImageLetter, "Image Letter");
         validateDisPlayedElement(eleImageLetter, "Element of Image Letter");
@@ -572,7 +573,9 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strAffName    Affiliated Firm's Name
      * @param strPathLogo   Path Logo
      */
-    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity,String strCountry, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) throws InterruptedException {
+    public void registerFirmInfo(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode,
+            String strCity, String strCountry, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName,
+            String strPathLogo) throws InterruptedException {
         getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
         boolean result;
         try {
@@ -620,15 +623,15 @@ public class AuditorSignUpPage extends AbstractPage {
             sendKeyTextBox(eleAffFirm, strAffName, "Affiliated Firm's Name Input");
 
             scrollToFooter();
-//            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
-//            System.out.println("iframes: " + iframes.size());
-//            getDriver().switchTo().frame(0);
+            //            final List<WebElement> iframes = getDriver().findElements(By.xpath("//iframe"));
+            //            System.out.println("iframes: " + iframes.size());
+            //            getDriver().switchTo().frame(0);
 
-//            clickElement(capcharCheckBoxEle, "Capchar Text Box");
-//            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
-//            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
+            //            clickElement(capcharCheckBoxEle, "Capchar Text Box");
+            //            waitForAtrributeValueChanged(spanCapCharCheckBoxEle, "Span CapChar", "aria-checked", "true");
+            //            System.out.println("aria-checked" + spanCapCharCheckBoxEle.getAttribute("aria-checked"));
 
-//            getDriver().switchTo().defaultContent();
+            //            getDriver().switchTo().defaultContent();
             waitForVisibleElement(btnContinue, "Continue Button");
             clickElement(btnContinue, "Continue Button");
             Thread.sleep(10000);
@@ -699,14 +702,15 @@ public class AuditorSignUpPage extends AbstractPage {
         } catch (AssertionError e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Page Provide Your Firm Infomation is not loaded.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Page Provide Your Firm Infomation is not loaded.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
-//    public void clickOnChangedNameCheckBox() {
-//        hoverElement(this.chkChangedName, " change name check box");
-//        clickElement(this.chkChangedName, " change name check box");
-//    }
+    //    public void clickOnChangedNameCheckBox() {
+    //        hoverElement(this.chkChangedName, " change name check box");
+    //        clickElement(this.chkChangedName, " change name check box");
+    //    }
 
     public void clickOnAllFirmCheckBox() {
         hoverElement(this.chkAffFirm, " all firm check box");
@@ -891,7 +895,7 @@ public class AuditorSignUpPage extends AbstractPage {
 
             waitForVisibleElement(eleConfirmPass, "Confirm Password Input");
             sendKeyTextBox(eleConfirmPass, strPass, "Confirm Password Input");
-            sendTabkey(eleConfirmPass,"Confirm Password Input");
+            sendTabkey(eleConfirmPass, "Confirm Password Input");
             scrollToFooter();
             /*scrollPageDown();
             waitForJSandJQueryToLoad();*/
@@ -899,9 +903,9 @@ public class AuditorSignUpPage extends AbstractPage {
             clickElementActions(createAccountBtnEle, "Create Account button");
             waitSomeSeconds(5);
             // Verify Register Auditor Security Page is passed
-//            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
-//            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
-//            Assert.assertTrue(result, "Success Page should be displayed.");
+            //            waitForVisibleElement(successPageHeaderEle, "Success Page Header");
+            //            result = validateElementText(successPageHeaderEle, "Your Account Is on the Waitlist!");
+            //            Assert.assertTrue(result, "Success Page should be displayed.");
 
         } catch (AssertionError e) {
             getLogger().info(e);
@@ -1025,16 +1029,15 @@ public class AuditorSignUpPage extends AbstractPage {
         marketingPage = new MarketingPage(getLogger(), getDriver());
         marketingPage.clickOnSignupButton();
         verifyPersonalInfoPageContent();
-//        if(GenericService.sBrowserData.equals("")){
-//            switchToOtherTab(1);
-//            getDriver().close();
-//            switchToOtherTab(0);
-//        }
+        //        if(GenericService.sBrowserData.equals("")){
+        //            switchToOtherTab(1);
+        //            getDriver().close();
+        //            switchToOtherTab(0);
+        //        }
         registerAuditorPersonal(fullName, strEmail, "IT", "4167877865", "Online");
 
-        registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
-                "12", "K8M9J0", "Toroton", "Canada","Quebec", "165782", "4-10",
-                "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
+        registerFirmInfo("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road", "12", "K8M9J0", "Toroton", "Canada", "Quebec",
+                "165782", "4-10", "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
         verifySuccessPageContent();
         acceptCreateAccountAuditor();
     }
@@ -1046,9 +1049,8 @@ public class AuditorSignUpPage extends AbstractPage {
         getDriver().close();
         switchToOtherTab(0);
         //
-        confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road",
-                "12", "K8M9J0", "Toroton", "Quebec", "165782", "4-10",
-                "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
+        confirmFirmInformation("Test Audits LLC", "Audits NLD", "www.auditissszzz.com", "123 Audit Road", "12", "K8M9J0", "Toroton", "Quebec",
+                "165782", "4-10", "1234567890", "KMPD", "C:\\Users\\Chrysanthemum.jpg");
         createPassword(strPassword);
         waitForJSandJQueryToLoad();
         try {
@@ -1057,9 +1059,9 @@ public class AuditorSignUpPage extends AbstractPage {
             e.printStackTrace();
         }
         //Change business rule, don't need to input below field.
-//        clickCreateAccountBtn();
-//        verifyConfirmSuccessPageContent();
-//        clickCloseSuccessMessageBtn();
+        //        clickCreateAccountBtn();
+        //        verifyConfirmSuccessPageContent();
+        //        clickCloseSuccessMessageBtn();
     }
 
     /**
@@ -1070,8 +1072,6 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strRoleFirm  String Role Firm
      * @param strPhone     String Phone Number Auditor
      * @param strReference String Reference to Auvenir
-     *
-     *
      */
 
     @FindBy(xpath = "//div[@id='personal-referral']//div[@class='text']")
@@ -1092,6 +1092,7 @@ public class AuditorSignUpPage extends AbstractPage {
     WebElement generalAuditorSignupPage;
     @FindBy(xpath = "//div[@id='icheckbox']")
     WebElement agreementCheckbox;
+
     public void confirmAuditorPersonalInfo(String strName, String strEmail, String strRoleFirm, String strPhone, String strReference) {
         getLogger().info("Input all field in Register Personal Information Page and click Continue Button");
         boolean result;
@@ -1100,40 +1101,40 @@ public class AuditorSignUpPage extends AbstractPage {
             waitForVisibleElement(fullNameConfirmTxtEle, "Full name");
             sendKeyTextBox(fullNameConfirmTxtEle, strName, "Full Name TextBox");
 
-//            waitForVisibleElement(emailConfirmTxtEle, "Email");
-//            sendKeyTextBox(emailConfirmTxtEle, strEmail, "Email Name TextBox");
+            //            waitForVisibleElement(emailConfirmTxtEle, "Email");
+            //            sendKeyTextBox(emailConfirmTxtEle, strEmail, "Email Name TextBox");
 
-//            waitForVisibleElement(emailReEnterConfirmTxtEle, "Email");
-//            sendKeyTextBox(emailReEnterConfirmTxtEle, strEmail, "Confirm Email TextBox");
+            //            waitForVisibleElement(emailReEnterConfirmTxtEle, "Email");
+            //            sendKeyTextBox(emailReEnterConfirmTxtEle, strEmail, "Confirm Email TextBox");
 
-//            waitForVisibleElement(roleConfirmTxtEle, "Role Firm Textbox");
-//            sendKeyTextBox(roleConfirmTxtEle, strRoleFirm,"Role Firm Textbox");
+            //            waitForVisibleElement(roleConfirmTxtEle, "Role Firm Textbox");
+            //            sendKeyTextBox(roleConfirmTxtEle, strRoleFirm,"Role Firm Textbox");
 
             waitForVisibleElement(phoneConfirmTxtEle, "Phone number");
             sendKeyTextBox(phoneConfirmTxtEle, strPhone, "Phone number TextBox");
-//            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox", "value", strPhone);
+            //            waitForAtrributeValueChanged(phoneConfirmTxtEle, "Phone number TextBox", "value", strPhone);
 
-//            waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
+            //            waitForClickableOfElement(referalConfirmDrdEle, "Referal Dropdown List");
             clickElement(referalConfirmDrdEle, "Referal Dropdown List");
 
-//            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+            //            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl inputDdl-after");
             waitForAtrributeValueChanged(referalConfirmDrdEle, "Role in Firm Dropdown", "aria-expanded", "true");
-//            String firstItemText = listItemreferalConfirmDrdEle.get(0).getText();
-//            clickElement(listItemreferalConfirmDrdEle.get(0), "First Item on Role Dropdown");
+            //            String firstItemText = listItemreferalConfirmDrdEle.get(0).getText();
+            //            clickElement(listItemreferalConfirmDrdEle.get(0), "First Item on Role Dropdown");
             String firstItemText = selectFirstOptionOfHearAuvenir.get(0).getText();
             clickElement(selectFirstOptionOfHearAuvenir.get(0), "First Item on Role Dropdown");
 
             System.out.print("firstItemText: " + firstItemText);
-//            waitForAtrributeValueChanged(referalConfirmDrdEle, "Referal Dropdown List", "value", firstItemText);
-            waitForTextValueChanged(valueOfHearAuvenir,"",firstItemText);
+            //            waitForAtrributeValueChanged(referalConfirmDrdEle, "Referal Dropdown List", "value", firstItemText);
+            waitForTextValueChanged(valueOfHearAuvenir, "", firstItemText);
             if (GenericService.sBrowserData.equals("ff."))
                 clickElement(referalConfirmDrdEle, "Referal Dropdown List");
-//            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
+            //            waitForAtrributeValueChanged(referalDropdownPopupEle, "Role in Firm Dropdown", "class", "ddlLink inputDdl");
             waitForAtrributeValueChanged(referalConfirmDrdEle, "Role in Firm Dropdown", "class", "ui selection dropdown");
 
             scrollToFooter();
-//            waitForVisibleElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
-//            clickElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
+            //            waitForVisibleElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
+            //            clickElement(agreePrivacyConfirmCheckboxEle, "Agree Check Box");
 
             waitForVisibleElement(agreementCheckbox, "Agree Check Box");
             clickElement(agreementCheckbox, "Agree Check Box");
@@ -1174,34 +1175,36 @@ public class AuditorSignUpPage extends AbstractPage {
      * @param strAffName    Affiliated Firm's Name
      * @param strPathLogo   Path Logo
      */
-    public void confirmFirmInformation(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum, String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName, String strPathLogo) {
+    public void confirmFirmInformation(String firmName, String firmPreName, String firmWebsite, String strStreetAddr, String strOffNum,
+            String strZipCode, String strCity, String strState, String strMemberID, String strNumEmp, String strPhone, String strAffName,
+            String strPathLogo) {
         getLogger().info("Input all field in Register Firm Information Page and click Continue Button");
         boolean result;
         try {
 
             //Change business rule, don't need to input below field.
-//            waitForVisibleElement(firmWebsiteConfirmTxtEle, "Firm Website Input");
-//            sendKeyTextBox(firmWebsiteConfirmTxtEle, firmWebsite, "Firm Website Input");
-//
-//
-//            waitForVisibleElement(firmSuiteNumConfirmTxtEle, "Office Number Input");
-//            sendKeyTextBox(firmSuiteNumConfirmTxtEle, strOffNum, "Office Number Input");
-//
-//
-//            waitForVisibleElement(firmCountryConfirmTxtEle, "City Input");
-//            sendKeyTextBox(firmCountryConfirmTxtEle, strState, "City Input");
-//
-//            waitForVisibleElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-//            clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-//            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl inputDdl-after");
-//
-//            String firstItemText = firmListItemEmployeeConfirmDrdEle.get(0).getText();
-//            clickElement(firmListItemEmployeeConfirmDrdEle.get(0), "First Item on Number of Employee Dropdown");
-//            System.out.print("firstItemText: " + firstItemText);
-//            waitForAtrributeValueChanged(firmNumEmployeeConfirmTxtEle, "Referal Dropdown List", "value", firstItemText);
-//            if (GenericService.sBrowserData.equals("ff."))
-//                clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
-//            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl");
+            //            waitForVisibleElement(firmWebsiteConfirmTxtEle, "Firm Website Input");
+            //            sendKeyTextBox(firmWebsiteConfirmTxtEle, firmWebsite, "Firm Website Input");
+            //
+            //
+            //            waitForVisibleElement(firmSuiteNumConfirmTxtEle, "Office Number Input");
+            //            sendKeyTextBox(firmSuiteNumConfirmTxtEle, strOffNum, "Office Number Input");
+            //
+            //
+            //            waitForVisibleElement(firmCountryConfirmTxtEle, "City Input");
+            //            sendKeyTextBox(firmCountryConfirmTxtEle, strState, "City Input");
+            //
+            //            waitForVisibleElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+            //            clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+            //            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl inputDdl-after");
+            //
+            //            String firstItemText = firmListItemEmployeeConfirmDrdEle.get(0).getText();
+            //            clickElement(firmListItemEmployeeConfirmDrdEle.get(0), "First Item on Number of Employee Dropdown");
+            //            System.out.print("firstItemText: " + firstItemText);
+            //            waitForAtrributeValueChanged(firmNumEmployeeConfirmTxtEle, "Referal Dropdown List", "value", firstItemText);
+            //            if (GenericService.sBrowserData.equals("ff."))
+            //                clickElement(firmNumEmployeeConfirmTxtEle, "Number Of Employee Dropdown");
+            //            waitForAtrributeValueChanged(firmDropdownPopup, "Number Of Employee Dropdown", "class", "ddlLink inputDdl");
 
             scrollToFooter();
 
@@ -1285,7 +1288,8 @@ public class AuditorSignUpPage extends AbstractPage {
                     NXGReports.addStep("Verify list of State :" + nameOfCountry + " passed", LogAs.PASSED, null);
                 } else {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " failed", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             }
             if (nameOfCountry.equals("United States")) {
@@ -1293,7 +1297,8 @@ public class AuditorSignUpPage extends AbstractPage {
                     NXGReports.addStep("Verify list of State :" + nameOfCountry + " passed", LogAs.PASSED, null);
                 } else {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("Verify list of State :" + nameOfCountry + " failed", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
 
             }
@@ -1347,18 +1352,20 @@ public class AuditorSignUpPage extends AbstractPage {
         try {
             getLogger().info("Verifying the country is selected correctly..");
             WebElement countrySelected = countryDropdownEle.findElement(By.xpath("div[@class='text']"));
-//            System.out.println("Country is selected is: " + countrySelectedEle.getText());
+            //            System.out.println("Country is selected is: " + countrySelectedEle.getText());
             System.out.println("Country is selected is: " + countrySelected.getText());
             if (countrySelected.getText().equals(nameOfCountry)) {
                 NXGReports.addStep("Verify the country is selected correctly: passed", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the country is selected correctly: failed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1369,18 +1376,20 @@ public class AuditorSignUpPage extends AbstractPage {
         try {
             getLogger().info("Verifying the state is selected correctly..");
             WebElement stateSelected = stateDropdownEle.findElement(By.xpath("div[@class='text']"));
-//            System.out.println("Country is selected is: " + countrySelectedEle.getText());
+            //            System.out.println("Country is selected is: " + countrySelectedEle.getText());
             System.out.println("Country is selected is: " + stateSelected.getText());
             if (stateSelected.getText().equals(nameOfState)) {
                 NXGReports.addStep("Verify the state is selected correctly: passed", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify the state is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify the state is selected correctly: failed.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify the state is selected correctly: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify the state is selected correctly: failed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1407,7 +1416,8 @@ public class AuditorSignUpPage extends AbstractPage {
                 NXGReports.addStep("Verify default memberID is Null: passed", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify default memberID is Null: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify default memberID is Null: failed.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             getLogger().info(e);
@@ -1429,12 +1439,14 @@ public class AuditorSignUpPage extends AbstractPage {
                 NXGReports.addStep("Verify border color of MemberID while actived: passed", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify border color of MemberID while actived: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify border color of MemberID while actived: failed.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify border color of MemberID while actived: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify border color of MemberID while actived: failed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1461,12 +1473,14 @@ public class AuditorSignUpPage extends AbstractPage {
                 NXGReports.addStep("Verify enter valid memberID into Member ID: passed", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify enter valid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify enter valid memberID into Member ID: failed.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify enter valid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify enter valid memberID into Member ID: failed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 
@@ -1480,12 +1494,14 @@ public class AuditorSignUpPage extends AbstractPage {
                 NXGReports.addStep("Verify enter invalid memberID into Member ID: passed", LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify enter invalid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Verify enter invalid memberID into Member ID: failed.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             getLogger().info(e);
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify enter invalid memberID into Member ID: failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify enter invalid memberID into Member ID: failed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
     }

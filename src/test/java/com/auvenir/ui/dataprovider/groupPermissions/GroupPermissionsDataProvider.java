@@ -1,6 +1,7 @@
 package com.auvenir.ui.dataprovider.groupPermissions;
 
 import com.auvenir.ui.dataprovider.commonData.CommonDataProvider;
+import com.auvenir.utilities.GenericData;
 import com.auvenir.utilities.GenericService;
 import org.testng.annotations.DataProvider;
 
@@ -19,7 +20,6 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String superAdminUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Super Admin", VALID_VALUE_COLUMN);
     private static String superAdminPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Super Admin Auvenir Password", VALID_VALUE_COLUMN);
-
 
 
     private static String adminAuditorUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", VALID_VALUE_COLUMN);
@@ -192,7 +192,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         return arrayData;
     }
 
-    @DataProvider(name = "verifyAuditorLoginGMailAndActiveUser")
+    @DataProvider(name = "verifyAuditorLoginGmailAndActiveUser")
     public static Object[][] getVerifyAuditorLoginGmailAndActiveUser() {
         Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
@@ -537,6 +537,36 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         Object[][] arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyPermissionSeeAllEngagementsWithinFirm")
+    public static Object[][] getVerifyPermissionSeeAllEngagementsWithinFirm() {
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd, engagementName1, engagementName2}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd, engagementName1, engagementName2}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyPermissionInviteClientIntoEngagement")
+    public static Object[][] getVerifyPermissionInviteClientIntoEngagement() {
+        Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd, engagementName1}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd, engagementName1}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyPermissionInviteGeneralClientIntoEngagement")
+    public static Object[][] getVerifyPermissionInviteGeneralClientIntoEngagement() {
+        Object[][] arrayData = new Object[][]{
+                {adminAuditorUser, adminAuditorAuvenirPwd, engagementName1, leadClientFullName, leadClientUser, roleClient, successMessageInvitation,
+                        adminUser, adminPwd, GenericData.UserRole.Client.value}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{adminAuditorUser, adminAuditorAuvenirPwd, engagementName1, leadClientFullName, leadClientUser, roleClient,
+                    successMessageInvitation, adminUser, adminPwd, GenericData.UserRole.Client.value}};
         }
         return arrayData;
     }
