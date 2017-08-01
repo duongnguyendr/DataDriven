@@ -59,6 +59,8 @@ public abstract class TodoPage extends AbstractPage {
     private List<WebElement> listEnableDatePickerBtn;
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']/div")
     private List<WebElement> listNewRequest;
+    @FindBy(xpath = "(//div[@id='todoDetailsReqCont']/div)[1]")
+    private WebElement firstRequest;
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']")
     private WebElement newRequestTable;
     @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]")
@@ -74,7 +76,7 @@ public abstract class TodoPage extends AbstractPage {
 
     private String activeStatus = "ui dropdown auvicon-line-circle-more todo-circle-more todo-icon-hover active";
     @FindBy(id = "auv-todo-createToDo")
-    protected  WebElement createToDoBtnEle;
+    protected WebElement createToDoBtnEle;
 
     @FindBy(id = "engOverview-status")
     protected WebElement engOveviewStatus;
@@ -310,6 +312,7 @@ public abstract class TodoPage extends AbstractPage {
         try {
             if (editable) {
                 int index = findRowByTodoName(todoName, editable);
+
             }
 
             if (todoName.equals("All") && editable) {
@@ -368,30 +371,21 @@ public abstract class TodoPage extends AbstractPage {
      * @param deleteRequestCapability: true: can delete request or False: can not delete request.
      */
     public void verifyRequestDeletionCapability(String requestName, boolean deleteRequestCapability) {
-        int index = findRequestByName(requestName);
-        clickElement(listRequestOptionBtn.get(index-1));
-        int numberBefore = listNewRequest.size();
         try {
             if (deleteRequestCapability) {
-                waitForClickableOfElement(deleteRequestSelection,"delete request");
-                clickElement(deleteRequestSelection, "delete request");
-                if (numberBefore > 1) {
-                    int numberAfter = listNewRequest.size();
-                    if (numberAfter == numberBefore - 1) {
-                        NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.",
-                                LogAs.PASSED, null);
-                    } else {
-                        AbstractService.sStatusCnt++;
-                        NXGReports
-                                .addStep("Verify request can " + (deleteRequestCapability ? "be deleted" : "not be deleted" + " :Fail"), LogAs.FAILED,
-                                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    }
+                int numberRequestBefore = listNewRequest.size();
+                deleteRequestByName(requestName);
+                boolean isVerify = verifyDeleteRequest(numberRequestBefore);
+                if (isVerify) {
+                    NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED,
+                            null);
                 } else {
-
-
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify request can " + (deleteRequestCapability ? "be deleted" : "not be deleted" + " :Fail"), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             } else {
-                boolean isVerify = validateNotExistedElement(deleteRequestSelection, "request options");
+                boolean isVerify = validateNotExistedElement(deleteRequestSelection, "delete selection");
                 if (isVerify) {
                     NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED,
                             null);
@@ -408,6 +402,31 @@ public abstract class TodoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
+    }
+
+    public void deleteRequestByName(String requestName) {
+        int index = findRequestByName(requestName);
+        clickElement(listRequestOptionBtn.get(index - 1));
+        clickElement(deleteRequestSelection, "delete request");
+    }
+
+    public boolean verifyDeleteRequest(int numberRequestBefore) {
+        boolean isVerify = false;
+        System.out.println("Number of requests before deleted: "+numberRequestBefore);
+        if (numberRequestBefore > 1) {
+            int numberRequestAfter = listNewRequest.size();
+            System.out.println("Number of requests after deleted: "+numberRequestAfter);
+            if (numberRequestAfter == numberRequestBefore - 1) {
+                isVerify = true;
+            }
+        } else {
+            boolean isNotDisplayed = validateNotExistedElement(firstRequest, "");
+            if (isNotDisplayed) {
+                isVerify = true;
+                System.out.println("List of request is empty after deleted");
+            }
+        }
+        return isVerify;
     }
 
 
@@ -428,58 +447,71 @@ public abstract class TodoPage extends AbstractPage {
         clickElement(commentIconToDoListEle.get(index), String.format("Comment Icon on Task Name: %s", todoName));
     }
 
-    public void verifyGroupPermissionCanMarkCompleted(List<String> listTodo, boolean possibleCompleted){
-        try{
-            for(int i = 0; i < listTodo.size(); i++){
-                if(possibleCompleted){
+    public void verifyGroupPermissionCanMarkCompleted(List<String> listTodo, boolean possibleCompleted) {
+        try {
+            for (int i = 0; i < listTodo.size(); i++) {
+                if (possibleCompleted) {
                     selectToDoCheckboxByName(listTodo.get(i));
                     clickBulkActionsDropdown();
                     verifyCompleteMarkPopup();
                     clickOnArchiveButtonInMarkAsCompletePopup();
                     verifyTodoMarkCompleted(listTodo.get(i));
-                }else{
+                } else {
                     int todoIndexCanChecked = selectToDoCheckboxByName(listTodo.get(i));
                     if (todoIndexCanChecked == -1) {
                         NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.", LogAs.PASSED,
                                 null);
-                    }else{
+                    } else {
                         AbstractService.sStatusCnt++;
-                        NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo :" + listTodo.get(i),
-                                LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                        NXGReports
+                                .addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo :" + listTodo.get(i),
+                                        LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
         }
     }
 
-    public int selectToDoCheckboxByName(String todoName){return -1;}
-    public void clickBulkActionsDropdown(){}
-    public void clickOnArchiveButtonInMarkAsCompletePopup(){}
-    public void verifyTodoMarkCompleted(String todoName){}
-    public void verifyCompleteMarkPopup(){}
+    public int selectToDoCheckboxByName(String todoName) {
+        return -1;
+    }
 
-    public void verifyGroupPermissionCanAssignTodoToAuditor(List<String> listTodo , boolean possibleAssign){
-        try{
-            for(int i = 0; i < listTodo.size(); i++){
-                if (possibleAssign){
+    public void clickBulkActionsDropdown() {
+    }
 
-                }else{
-                    boolean result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(auditAssignPath, listTodo.get(i)))), listTodo.get(i));
+    public void clickOnArchiveButtonInMarkAsCompletePopup() {
+    }
+
+    public void verifyTodoMarkCompleted(String todoName) {
+    }
+
+    public void verifyCompleteMarkPopup() {
+    }
+
+    public void verifyGroupPermissionCanAssignTodoToAuditor(List<String> listTodo, boolean possibleAssign) {
+        try {
+            for (int i = 0; i < listTodo.size(); i++) {
+                if (possibleAssign) {
+
+                } else {
+                    boolean result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(auditAssignPath, listTodo.get(i)))),
+                            listTodo.get(i));
                     Assert.assertTrue(result, "verify auditor assign element.");
                     NXGReports.addStep(String.format("verify auditor assign element.", listTodo.get(i)), LogAs.PASSED, null);
-                    if (!result){
+                    if (!result) {
                         AbstractService.sStatusCnt++;
-                        NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor :" + listTodo.get(i),
-                                LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                        NXGReports
+                                .addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor :" + listTodo.get(i),
+                                        LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -487,39 +519,40 @@ public abstract class TodoPage extends AbstractPage {
     }
 
     /**
-     *
      * @param listTodo
      * @param clientFullName
-     * @param possibleAssign: User can/cannot assign to client
+     * @param possibleAssign:   User can/cannot assign to client
      * @param possibleEditTodo: Todo can/cannot edit
      */
-    public void verifyGroupPermissionCanAssignTodoToClient(List<String> listTodo, String clientFullName, boolean possibleAssign, boolean
-            possibleEditTodo){
-        try{
-            for(int i = 0; i < listTodo.size(); i++){
-                if (possibleAssign){
-                }else{
-                    if (possibleEditTodo){
+    public void verifyGroupPermissionCanAssignTodoToClient(List<String> listTodo, String clientFullName, boolean possibleAssign,
+            boolean possibleEditTodo) {
+        try {
+            for (int i = 0; i < listTodo.size(); i++) {
+                if (possibleAssign) {
+                } else {
+                    if (possibleEditTodo) {
                         boolean clientAssignExist = verifyClientAssignExist(listTodo.get(i), clientFullName);
                         Assert.assertFalse(clientAssignExist, "verify client assign exists.");
-                        if(clientAssignExist){
+                        if (clientAssignExist) {
                             AbstractService.sStatusCnt++;
-                            NXGReports.addStep("Client assign: " + clientFullName + " shouldn't display.", LogAs.FAILED, new CaptureScreen
-                                    (CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                            NXGReports.addStep("Client assign: " + clientFullName + " shouldn't display.", LogAs.FAILED,
+                                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                         }
-                    }else{
-                        boolean result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(clientAssignPath, listTodo.get(i)))), listTodo.get(i));
+                    } else {
+                        boolean result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(clientAssignPath, listTodo.get(i)))),
+                                listTodo.get(i));
                         Assert.assertTrue(result, "verify client assign element.");
                         NXGReports.addStep(String.format("verify client assign element.", listTodo.get(i)), LogAs.PASSED, null);
-                        if (!result){
+                        if (!result) {
                             AbstractService.sStatusCnt++;
-                            NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor :" + listTodo.get(i),
+                            NXGReports.addStep(
+                                    "Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor :" + listTodo.get(i),
                                     LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                         }
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -527,81 +560,82 @@ public abstract class TodoPage extends AbstractPage {
     }
 
     /**
-     *
      * @param listTodo
      * @param possibleCreate: User can/cannot create todo
      */
-    public void verifyGroupPermissionCanCreateTodo(List<String> listTodo, boolean possibleCreate){
-        try{
-            if (possibleCreate){
-                for(String todoName : listTodo){
+    public void verifyGroupPermissionCanCreateTodo(List<String> listTodo, boolean possibleCreate) {
+        try {
+            if (possibleCreate) {
+                for (String todoName : listTodo) {
                     createToDoTaskWithCategoryName(todoName, "Category 22");
                     verifyPermissionSeeToDoTask(todoName, false, true);
                 }
-            }else{
+            } else {
                 boolean result = validateDisPlayedElement(createToDoBtnEle, "createToDoBtnEle");
                 Assert.assertFalse(result, "Verify create todo button displayed.");
                 NXGReports.addStep("Verify create todo button displayed.", LogAs.PASSED, null);
-                if (result){
+                if (result) {
                     AbstractService.sStatusCnt++;
-                    NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :",
-                            LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
     /**
-     *
      * @param listTodo
      * @param possibleRemove: User can/cannot create todo
      */
-    public void verifyGroupPermissionCanRemoveTodo(List<String> listTodo, boolean possibleRemove){
-        try{
-            for(int i = 0; i < listTodo.size(); i++){
-                if(possibleRemove){
+    public void verifyGroupPermissionCanRemoveTodo(List<String> listTodo, boolean possibleRemove) {
+        try {
+            for (int i = 0; i < listTodo.size(); i++) {
+                if (possibleRemove) {
                     selectToDoCheckboxByName(listTodo.get(i));
                     clickBulkActionsDropdown();
                     chooseOptionDeleteOnBulkActionsDropDown();
                     clickConfirmDeleteButton();
                     verifyToDoNotExist(listTodo.get(i));
-                }else{
+                } else {
                     int todoIndexCanChecked = selectToDoCheckboxByName(listTodo.get(i));
                     if (todoIndexCanChecked == -1) {
-                        NXGReports.addStep("Test Failed: Verify " + (possibleRemove ? "can" : "cannot") + " remove todo.", LogAs.PASSED,
-                                null);
-                    }else{
+                        NXGReports.addStep("Test Failed: Verify " + (possibleRemove ? "can" : "cannot") + " remove todo.", LogAs.PASSED, null);
+                    } else {
                         AbstractService.sStatusCnt++;
                         NXGReports.addStep("Test Failed: Verify " + (possibleRemove ? "can" : "cannot") + " remove todo :" + listTodo.get(i),
                                 LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify " + (possibleRemove ? "can" : "cannot") + " remove todo.",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Test Failed: Verify " + (possibleRemove ? "can" : "cannot") + " remove todo.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
         }
     }
 
-    public void chooseOptionDeleteOnBulkActionsDropDown(){}
-    public void clickConfirmDeleteButton(){}
-    public void verifyToDoNotExist(String todoName){}
+    public void chooseOptionDeleteOnBulkActionsDropDown() {
+    }
+
+    public void clickConfirmDeleteButton() {
+    }
+
+    public void verifyToDoNotExist(String todoName) {
+    }
 
     /**
-     *
      * @param todoName
      * @param possibleComment: user can/cannot add comment
      */
-    public void verifyGroupPermissionCanAddComment(String todoName, String comment, boolean possibleComment){
-        try{
-            if (possibleComment){
+    public void verifyGroupPermissionCanAddComment(String todoName, String comment, boolean possibleComment) {
+        try {
+            if (possibleComment) {
                 clickOpenNewRequestByTodoName(todoName);
                 boolean commentExists = validateDisPlayedElement(typeCommentFieldEle, "Comment input");
                 NXGReports.addStep("verify can input comment.", LogAs.PASSED, null);
@@ -610,23 +644,23 @@ public abstract class TodoPage extends AbstractPage {
                 int numCommentBefore = getNumberOfListComment();
                 clickOnPostCommentButton();
                 verifyNewCommentIsDisplayed(numCommentBefore, comment);
-                if (!commentExists){
+                if (!commentExists) {
                     AbstractService.sStatusCnt++;
                     NXGReports.addStep("Test Failed: Verify " + (possibleComment ? "can" : "cannot") + " comment.", LogAs.FAILED,
                             new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
-            }else{
+            } else {
                 clickOpenNewRequestByTodoNameAtAdminPage(todoName);
                 boolean commentExists = validateNotExistedElement(typeCommentFieldEle, "Comment input");
                 NXGReports.addStep("verify can input comment.", LogAs.PASSED, null);
                 Assert.assertTrue(commentExists, "User can comment.");
-                if (!commentExists){
+                if (!commentExists) {
                     AbstractService.sStatusCnt++;
                     NXGReports.addStep("Test Failed: Verify " + (possibleComment ? "can" : "cannot") + " comment.", LogAs.FAILED,
                             new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Test Failed: Verify " + (possibleComment ? "can" : "cannot") + " comment.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -634,13 +668,22 @@ public abstract class TodoPage extends AbstractPage {
         }
     }
 
-    public void clickOpenNewRequestByTodoNameAtAdminPage(String todoName){}
-    public void clickOpenNewRequestByTodoName(String todoName){}
-    public void createToDoTaskWithCategoryName(String todoName, String categoryName){}
-    public int findToDoTaskName(String todoName){return -1;}
+    public void clickOpenNewRequestByTodoNameAtAdminPage(String todoName) {
+    }
+
+    public void clickOpenNewRequestByTodoName(String todoName) {
+    }
+
+    public void createToDoTaskWithCategoryName(String todoName, String categoryName) {
+    }
+
+    public int findToDoTaskName(String todoName) {
+        return -1;
+    }
 
     /**
-     *  Verify client assign exist in list client assign dropdown
+     * Verify client assign exist in list client assign dropdown
+     *
      * @param toDoName
      * @param clientFullName
      * @return
@@ -664,6 +707,7 @@ public abstract class TodoPage extends AbstractPage {
         }
         return result;
     }
+
     /**
      * Vien.Pham own this function
      *
@@ -674,10 +718,18 @@ public abstract class TodoPage extends AbstractPage {
         try {
             int index = findRequestByName(requequestName);
             if (editRequestNameCapability) {
+                System.out.println("Name of old request: " + requequestName);
                 inputRequestName(index, newRequestName);
-                closeAddNewRequestWindow();
-                NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
-                        LogAs.PASSED, null);
+                boolean isVerify = verifyNewRequestSaved(newRequestName);
+                if (isVerify) {
+                    NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
+                            LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify request Name can " + (editRequestNameCapability ? "be changed" : "not be changed" + " :Fail"),
+                            LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+
             } else {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "");
                 Thread.sleep(500);
@@ -704,6 +756,10 @@ public abstract class TodoPage extends AbstractPage {
 
     }
 
+    /**
+     * @param position:   the position of request Name: 1st =1, 2nd = 2..etc
+     * @param requestName
+     */
     public void inputRequestName(int position, String requestName) {
         waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
         clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
@@ -711,19 +767,23 @@ public abstract class TodoPage extends AbstractPage {
         //        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border", "1px solid rgb(89, 155, 161)");
         clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
         sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), requestName, "");
+        sendTabkey(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
     }
 
-    public void closeAddNewRequestWindow() {
+    private void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
     }
 
 
-    public void verifyNewRequestSaved(String newRequestName) {
+    public boolean verifyNewRequestSaved(String newRequestName) {
+        boolean isVerify = false;
         try {
             int index = findRequestByName(newRequestName);
             if (index != -1) {
+                System.out.println("Name of new request: " + newRequestName);
                 NXGReports.addStep("Verify request saved: Pass", LogAs.PASSED, null);
+                isVerify = true;
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify request saved: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -733,6 +793,7 @@ public abstract class TodoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify request saved: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+        return isVerify;
     }
     
     public void verifyRequestCreated(List<String> listRequest){

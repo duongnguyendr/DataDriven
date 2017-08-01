@@ -44,11 +44,11 @@ public class LeadAuditorService extends AbstractService {
         auditorToDoPage.verifyEditRequestNameCapability(requestName,newRequestName,true);
     }
 
-    public void verifyNewRequestChangedSuccessfully(String newRequestName) {
-        auditorToDoPage.verifyNewRequestSaved(newRequestName);
-    }
-
     public void verifyLeadAuditorCanDeleteRequest(String requestName) {
         auditorToDoPage.verifyRequestDeletionCapability(requestName,true);
+    }
+
+    public void verifyLeadAuditorCanChangeDueDate(String todoName) {
+        auditorToDoPage.verifyDueDateEditableCapability(todoName,true);
     }
 }
