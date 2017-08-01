@@ -9,11 +9,21 @@
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.utilities.initialize.InitData"/>
+            <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
             <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
-            <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
+            <class name="com.auvenir.ui.tests.groupPermissions.LeadAuditorTest"/>
             <methods>
-                <include priority="1" name="verifySuperAdminLogin"></include>
+                <!--<include name="verifyLeadAuditorCanCreateTodo"></include>-->
+                <!--<include name="verifyLeadAuditorCanRemoveTodo"></include>-->
+                <!--<include name="verifyLeadAuditorCanMarkTodoCompleted"></include>-->
+                <include name="verifyLeadAuditorCannotAssignToGeneralClient"></include>
+                <!--<include name="verifyLeadAuditorCanCommentingWithOutAssign"></include>-->
+                <!--<include name="verifyAdminAuditorCanNotAssignAuditor"></include>-->
+                <!--<include name="verifyAdminAuditorCanNotCreateTodo"></include>-->
+                <!--<include name="verifyAdminAuditorCannotRemoveTodo"></include>-->
+                <!--<include name="verifyAdminAuditorCanNotAssignClient"></include>-->
+                <!--<include name="verifyAdminAuditorCanNotComment"></include>-->
+                <!-- <include priority="1" name="verifySuperAdminLogin"></include>
                 <include priority="2" name="verifyAdminLogin"></include>
                 <include priority="3" name="verifySignUpAuditorUser"></include>
                 <include priority="4" name="verifyAdminChangeStatusUserToOnBoarding"></include>
@@ -22,7 +32,7 @@
                 <include priority="7" name="verifyAdminAuditorInviteNewMemberAuditor"></include>
                 <include priority="8" name="verifyAdminAuditorInvitingNewClient"></include>
                 <include priority="9" name="verifyClientLogsInAndActive"></include>
-                <include priority="10" name="verifyLeadAuditorCreateNewEngagement"></include>
+                <include priority="10" name="verifyLeadAuditorCreateNewEngagement"></include> -->
                 <!--<include priority="11" name="verifyLeadAuditorInvitingAdminClient"></include>
                 <include priority="12" name="verifyLeadAuditorInviteNewAuditorMember"></include>
                 <include priority="15" name="verifyPermissionAdminClientCanInviteClient"></include>
