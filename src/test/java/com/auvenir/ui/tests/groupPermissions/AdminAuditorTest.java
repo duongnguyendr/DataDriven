@@ -214,7 +214,7 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 9, enabled = true, description = "To Verify Permission Admin Auditor see all to-dos")
-    public void verifyPermissionAdminAuditorSeeToDo() {
+    public void verifyPermissionCanSeeAllToDosWithinEngagement() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -228,16 +228,16 @@ public class AdminAuditorTest extends AbstractTest {
         String toDo2Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 2 name", "Valid Value");
         String toDo3Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 3 name", "Valid Value");
         String toDo4Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 4 name", "Valid Value");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 2 Name", "Valid Value");
+        String engagementName2 = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 2 Name", "Valid Value");
 
         String toDoListNames[] = {toDo1Name, toDo2Name, toDo3Name, toDo4Name};
-
         try {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            adminAuditorService.verifyAuditorAdminSeeListToDo(Arrays.asList(toDoListNames));
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
 
+            //adminAuditorService.verifyAuditorAdminSeeListToDo(Arrays.asList(toDoListNames));
+            adminAuditorService.verifyCanSeeAllToDosWithinEngagement(Arrays.asList(toDoListNames));
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
