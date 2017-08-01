@@ -1423,4 +1423,81 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     /**
      * End of Vien Pham
      */
+
+//    @Test(/*priority = 22,*/ enabled = true, description = "Verify group permission Lead auditor add new request.", testName = "if_22",
+//            dependsOnMethods = {"verifyLeadAuditorCreateTodoAndAssignClient"}, alwaysRun = true,
+//            dataProvider = "verifyLeadAuditorAssignToGeneralAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
+    @Test(priority = 22, description = "Verify group permission Lead auditor add new request.")
+    public void verifyLeadAuditorAddNewRequest(/*String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
+            String auditorFullName*/) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+//        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+        String leadAuditorEmail = "duong.lead.auditor@mailinator.com";
+        String leadAuditorAuvenirPwd = "Changeit@123";
+        String engagementName2 = "Engagement Dr02";
+        String todo1 = "Todo 1";
+        String [] listRequest = {"Request 1", "Request 2", "Request 3", "Request 4", "Request 5", "Request 6"};
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo1);
+            for (int i = 1; i <= listRequest.length; i ++){
+                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+                auditorCreateToDoService.verifyClickAddRequestBtn();
+                auditorCreateToDoService.createNewRequest(listRequest[i-1], String.valueOf(i));
+            }
+            auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+            auditorCreateToDoService.verifyRequestCreated(Arrays.asList(listRequest));
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission Lead auditor assign todo to general auditor.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission Lead auditor assign todo to general auditor.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+    
+    @Test(priority = 22, description = "Verify group permission Lead auditor add file to new request.")
+    public void verifyLeadAuditorAddFileToNewRequest() throws Exception {
+    	auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        String leadAuditorEmail = "duong.lead.auditor@mailinator.com";
+        String leadAuditorAuvenirPwd = "Changeit@123";
+        String engagementName2 = "Engagement Dr02";
+        String todo1 = "Todo 1";
+        String [] listRequest = {"Request 1", "Request 2", "Request 3", "Request 4", "Request 5", "Request 6"};
+        String [] listFile = {"TXT_helloAuvenir.txt", "TXT_helloAuvenir.png", "TXT_helloAuvenir.docx", "TXT_Auvenir.jpg", "TXT_Auvenir.pdf", "TXT_Auvenir.xlsx"};
+        String pathOfUploadLocation = "";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo1);
+            auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+            for (int i = 0; i < listRequest.length; i ++){
+            	auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, listFile[i], listRequest[i]);
+                auditorCreateToDoService.verifyColorAddRequestBtn();
+                auditorCreateToDoService.verifyUploadFileSuccessfully(listFile[i]);
+            }
+            
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission Lead auditor assign todo to general auditor.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission Lead auditor assign todo to general auditor.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
 }

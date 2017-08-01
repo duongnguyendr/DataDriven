@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,6 +85,9 @@ public abstract class TodoPage extends AbstractPage {
     protected List<WebElement> toDoNameTextColumnEle;
 
     protected String assineeClientEle = ".//button[text()='%s']";
+    
+    @FindBy(xpath="//div[@id='auv-todo-detailsReqBox']//div[@id='todoDetailsReqCont']/div[contains(@id, 'todo-req-box')]/span[1]")
+    protected List<WebElement> listRequestEle;
 
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
@@ -729,5 +733,25 @@ public abstract class TodoPage extends AbstractPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify request saved: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+    
+    public void verifyRequestCreated(List<String> listRequest){
+    	try{
+    		List<String> lstRequestDisplayed = new ArrayList<>();
+    		for (WebElement requestEle : listRequestEle){
+    			lstRequestDisplayed.add(requestEle.getText());
+    		}
+    		for(int i = 0; i < listRequest.size(); i++){
+    			if (!lstRequestDisplayed.contains(listRequest.get(i))){
+    				AbstractService.sStatusCnt++;
+    	            NXGReports.addStep("Verify request: " + listRequest.get(i) + " created: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    			}
+    		}
+    		
+    	}catch (Exception e){
+    		e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify request created: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+    	}
     }
 }

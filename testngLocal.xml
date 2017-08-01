@@ -11,12 +11,12 @@
         <classes>
             <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
             <!--<class name="com.auvenir.ui.tests.SmokeTest"/>-->
-            <class name="com.auvenir.ui.tests.groupPermissions.LeadAuditorTest"/>
+            <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
             <methods>
                 <!--<include name="verifyLeadAuditorCanCreateTodo"></include>-->
                 <!--<include name="verifyLeadAuditorCanRemoveTodo"></include>-->
                 <!--<include name="verifyLeadAuditorCanMarkTodoCompleted"></include>-->
-                <include name="verifyLeadAuditorCannotAssignToGeneralClient"></include>
+                <include name="verifyLeadAuditorAddNewRequest"></include>
                 <!--<include name="verifyLeadAuditorCanCommentingWithOutAssign"></include>-->
                 <!--<include name="verifyAdminAuditorCanNotAssignAuditor"></include>-->
                 <!--<include name="verifyAdminAuditorCanNotCreateTodo"></include>-->

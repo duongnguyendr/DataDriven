@@ -2,7 +2,6 @@ package com.auvenir.ui.services.groupPermissions;
 
 import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
 import com.auvenir.ui.pages.auditor.todo.AuditorToDoPage;
-import com.auvenir.ui.pages.groupPermissions.LeadAuditorPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -13,27 +12,14 @@ import java.util.List;
  * Created by duong.nguyen on 7/17/2017.
  */
 public class LeadAuditorService extends AbstractService {
-    LeadAuditorPage leadAuditorPage;
     AuditorToDoPage auditorToDoPage;
     AuditorCreateToDoPage auditorCreateToDoPage;
     public LeadAuditorService(Logger logger, WebDriver driver) {
         super(logger, driver);
         auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
-        leadAuditorPage = new LeadAuditorPage(getLogger(), getDriver());
         auditorToDoPage =  new AuditorToDoPage(getLogger(),getDriver());
     }
 
-    public void verifyLeadAuditorSeeAllFileRequest(int numberFileRequest){
-        leadAuditorPage.verifyLeadAuditorSeeAllFileRequest(numberFileRequest);
-    }
-
-    public void openNewRequestByTodoName(String todoName){
-        leadAuditorPage.clickOpenNewRequestByTodoName(todoName);
-    }
-
-    public void verifyFileRequestInTodo(String toDoName, String... fileRequest){
-        leadAuditorPage.verifyFileRequestInTodo(toDoName, fileRequest);
-    }
     public void verifyLeadAuditorCanCreateTodo(List<String> listTodoName){
         auditorCreateToDoPage.verifyGroupPermissionCanCreateTodo(listTodoName, true);
     }
