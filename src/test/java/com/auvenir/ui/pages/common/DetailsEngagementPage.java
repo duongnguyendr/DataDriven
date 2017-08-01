@@ -1,5 +1,9 @@
 package com.auvenir.ui.pages.common;
 
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
+import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
+import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,6 +16,8 @@ import java.util.List;
  */
 public abstract class DetailsEngagementPage extends AbstractPage {
 
+    @FindBy(id = "engagementTeamLink")
+    private WebElement tabTeam;
 
     @FindBy(id = "team-inviteMember-btn")
     private WebElement buttonInviteNewMember;
@@ -19,9 +25,14 @@ public abstract class DetailsEngagementPage extends AbstractPage {
     @FindBy(xpath = "//img[contains(@id,'Set User To Lead')]/following-sibling::div//button[@class='auvbtn warning']")
     private WebElement buttonConfirmSetUserToLead;
 
-    @FindBy(id = "engagementTeamLink")
-    private WebElement tabTeam;
+    @FindBy(xpath = "//span[@id='a-header-title']")
+    private WebElement dashboardTextAtPage;
 
+    @FindBy(xpath = "//input[@id='a-header-title']")
+    private WebElement dashboardTextEle;
+
+    @FindBy(id = "engagementUserBtn")
+    private WebElement buttonInviteClient;
 
     public DetailsEngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -30,7 +41,6 @@ public abstract class DetailsEngagementPage extends AbstractPage {
     public void navigateToTeamTab() {
         clickElement(tabTeam, "Tab Team");
     }
-
 
     public void clickInviteNewMember() {
         clickElement(buttonInviteNewMember, "Button Invite New Member");
@@ -53,6 +63,32 @@ public abstract class DetailsEngagementPage extends AbstractPage {
         waitSomeSeconds(1);
         String xpathCellPermissionLevel = "//td[text()='%s']/following-sibling::td[2]";
         validateElementText(getElementByXpath(xpathCellPermissionLevel, name), leadText);
+    }
+
+    /**
+     * @param engagementName : to verify engagement name displayed correctly
+     * @param editablePage:  true: elements of Page can be edited or false: elements of Page can not be edited
+     */
+    public void verifyDetailsEngagementPage(String engagementName, boolean editablePage) {
+        if (editablePage) {
+            waitForVisibleElement(dashboardTextEle, "dashboard text");
+            clickElement(dashboardTextEle);
+            sendTabkey(dashboardTextEle, "");
+            validateAttributeElement(dashboardTextEle, "placeholder", engagementName);
+        } else {
+            waitForVisibleElement(dashboardTextAtPage, "dashboard text");
+            validateElementText(dashboardTextAtPage, engagementName);
+        }
+    }
+
+    public void verifyCantInviteClientIntoEngagement(boolean possible) {
+        if (validateExistedElement(buttonInviteClient, "Button Invite Client") == possible) {
+            NXGReports.addStep("Verify Invite Client Into Engagement.", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports
+                    .addStep("Fail: Verify Invite Client Into Engagement.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
     }
 
     @FindBy(xpath = "//tbody[@id='w-team-tableBody']/tr/td[2]")
