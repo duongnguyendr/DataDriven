@@ -57,8 +57,8 @@ public class AdminAuditorService extends AbstractService {
         auditorCreateToDoPage.verifyGroupPermissionCanAssignTodoToAuditor(listTodo, false);
     }
 
-    public void verifyAdminAuditorCannotCreateTodo(String todoName) {
-        auditorCreateToDoPage.verifyGroupPermissionCanCreateTodo(todoName, false);
+    public void verifyAdminAuditorCannotCreateTodo(List<String> listTodoName) {
+        auditorCreateToDoPage.verifyGroupPermissionCanCreateTodo(listTodoName, false);
     }
     public void verifyAdminAuditorCanNotChangeDueDate(String todoName) {
         adminAuditorPage.verifyDueDateEditableCapability(todoName,false);
@@ -72,6 +72,17 @@ public class AdminAuditorService extends AbstractService {
         adminAuditorPage.clickCommentIconByTodoName(todoName,editablePage);
     }
 
+    public void verifyAdminAuditorCannotRemoveTodo(List<String> listTodo){
+        auditorCreateToDoPage.verifyGroupPermissionCanRemoveTodo(listTodo, false);
+    }
+
+    public void verifyAdminAuditorCannotAssignClient(List<String> listTodo, String clientFullName){
+        auditorCreateToDoPage.verifyGroupPermissionCanAssignTodoToClient(listTodo, clientFullName, false, false);
+    }
+
+    public void verifyAdminAuditorCanNotCommentOnTodoNotAssign(String todoName, String comment) {
+        auditorCreateToDoPage.verifyGroupPermissionCanAddComment(todoName, comment, false);
+    }
     public void verifyCanSeeAllEngagementsWithinFirm(List<String> engagementListNames) {
         auditorEngagementPage.verifyCanSeeAllEngagementsWithinFirm(engagementListNames, "Admin Auditor");
     }
