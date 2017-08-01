@@ -65,4 +65,8 @@ public class LeadAuditorService extends AbstractService {
     public void verifyLeadAuditorCanChangeDueDate(String todoName) {
         auditorToDoPage.verifyDueDateEditableCapability(todoName,true);
     }
+
+    public void verifyLeadAuditorCanEditCategory(String todoName) {
+        auditorToDoPage.verifyCategoryEditableCapability(todoName,true);
+    }
 }

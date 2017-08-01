@@ -87,6 +87,9 @@ public abstract class TodoPage extends AbstractPage {
 
     protected String assineeClientEle = ".//button[text()='%s']";
 
+    @FindBy(xpath = "//div[contains(@class,'ui dropdown todoCategory')]")
+    private List<WebElement> categoryButton;
+
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
         String actualAttributeValue;
@@ -265,6 +268,10 @@ public abstract class TodoPage extends AbstractPage {
     public void verifyCategoryEditableCapability(String todoName, boolean editable) {
         try {
             if (editable) {
+             int index = findRowByTodoName(todoName,true);
+             clickElement(categoryButton.get(index));
+             //Select Edit Categoru
+             clickElement(categoryButton.get(index).findElement(By.xpath("//div[contains(text(),'Edit Categories')]")));
 
             }
 

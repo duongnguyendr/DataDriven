@@ -106,6 +106,32 @@ public class LeadAuditorTest extends AbstractTest {
     }
 
 
+    @Test(priority = 25, enabled = true, description = "To Verify lead Auditor can edit Category")
+    public void verifyAdminAuditorCanEditCategory() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        leadAuditorService = new LeadAuditorService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(),getDriver());
+        String leadAuditorId = "chr.vienpham.lead.auditor@gmail.com";
+        String leadAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement_LeadAuditor";
+        String todoName = "lead vien1";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorId, leadAuditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            leadAuditorService.verifyLeadAuditorCanEditCategory(todoName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead Auditor can delete request: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead Auditor can delete request: Fail.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
+
+
 
     @Test(priority = 27, enabled = true, description = "Verify lead auditor can see all files within an engagement.")
     public void verifyLeadAuditorSeeAllFileRequest() throws Exception {

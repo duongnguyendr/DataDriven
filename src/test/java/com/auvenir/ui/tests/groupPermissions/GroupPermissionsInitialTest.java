@@ -1105,7 +1105,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
-        String toDoListNames[] = {todo1, todo2, todo3, todo4};
+        String toDoListNames[] = {todo1, todo2, todo4};
 
         leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
         try {
