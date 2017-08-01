@@ -56,4 +56,12 @@ public class ClientTodoService extends AbstractService {
     public void verifyNewCommentIsDisplayed(int numberListCommentBeforeAdding, String commentContent) {
         clientToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
     }
+
+    public void selectCheckboxByTodoName(String todo4) {
+        clientToDoPage.selectToDoCheckboxByName(todo4);
+    }
+
+    public void clickBulkActionsDropdown() {
+        clientToDoPage.clickBulkActionsDropdown();
+    }
 }

@@ -94,6 +94,9 @@ public abstract class TodoPage extends AbstractPage {
     @FindBy(xpath = "//div[contains(@class,'ui dropdown todoCategory')]")
     private List<WebElement> categoryButton;
 
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
+    protected List<WebElement> eleToDoCheckboxRow;
+
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
         String actualAttributeValue;
@@ -487,6 +490,7 @@ public abstract class TodoPage extends AbstractPage {
     public int selectToDoCheckboxByName(String todoName) {
         return -1;
     }
+
 
     public void clickBulkActionsDropdown() {
     }
