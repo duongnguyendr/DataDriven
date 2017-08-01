@@ -1357,5 +1357,9 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyDownloadFileAllTodoSuccess(String pathLocation){
         createToDoPage.verifyDownloadFileAllTodoSuccess(pathLocation);
     }
+    
+    public void verifyRequestCreated(List<String> listRequest){
+    	createToDoPage.verifyRequestCreated(listRequest);
+    }
 }
 

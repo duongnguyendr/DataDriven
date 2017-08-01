@@ -3643,8 +3643,8 @@ public class AuditorCreateToDoPage extends TodoPage {
             waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
             clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
             getLogger().info("Waiting for textbox border is Green while clicked..");
-            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border",
-                    "1px solid rgb(89, 155, 161)");
+//            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border",
+//                    "1px solid rgb(89, 155, 161)");
             getLogger().info("Sending new request..");
             clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
             sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), newRequest, "");
