@@ -48,9 +48,6 @@ public class LeadAuditorTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorCreateToDoService.clickCommentIconPerTaskName(todoName, false);
             leadAuditorService.verifyLeadAuditorCanChangeRequestName(oldRequestName,newRequestName);
-            auditorCreateToDoService.reselectEngagementName(engagementName);
-            auditorCreateToDoService.clickCommentIconPerTaskName(todoName, false);
-            leadAuditorService.verifyNewRequestChangedSuccessfully(newRequestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Lead auditor change request name: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -69,7 +66,7 @@ public class LeadAuditorTest extends AbstractTest {
         String leadAuditorPwd = "Changeit@123";
         String engagementName = "Engagement_LeadAuditor";
         String todoName = "lead vien1";
-        String requestName = "lead request1";
+        String requestName = "lead request modify1";
         try {
             marketingService.loginUsingUsernamePassword(leadAuditorId, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -77,12 +74,38 @@ public class LeadAuditorTest extends AbstractTest {
             auditorCreateToDoService.clickCommentIconPerTaskName(todoName, false);
             leadAuditorService.verifyLeadAuditorCanDeleteRequest(requestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead Auditor can delete request created by Lead auditor: Pass.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Lead Auditor can delete request: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Lead Auditor can delete request created by Lead auditor: Fail.", LogAs.FAILED,
+            NXGReports.addStep("Verify Lead Auditor can delete request: Fail.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+
+    @Test(priority = 24, enabled = true, description = "To Verify lead Auditor can change Duedate")
+    public void verifyAdminAuditorCanChangeDueDate() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        leadAuditorService = new LeadAuditorService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(),getDriver());
+        String leadAuditorId = "chr.vienpham.lead.auditor@gmail.com";
+        String leadAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement_LeadAuditor";
+        String todoName = "lead vien1";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorId, leadAuditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            leadAuditorService.verifyLeadAuditorCanChangeDueDate(todoName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead Auditor can delete request: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead Auditor can delete request: Fail.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+
 
     @Test(priority = 27, enabled = true, description = "Verify lead auditor can see all files within an engagement.")
     public void verifyLeadAuditorSeeAllFileRequest() throws Exception {
