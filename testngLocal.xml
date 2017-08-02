@@ -11,7 +11,7 @@
         <classes>
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
             <methods>
-                <include name="verifyLeadAuditorAddNewRequest"></include>
+                <include name="verifyLeadAuditorAddFileToNewRequest"></include>
             </methods>
         </classes>
     </test>
