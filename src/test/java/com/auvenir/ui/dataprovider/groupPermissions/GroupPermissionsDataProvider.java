@@ -570,4 +570,21 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         }
         return arrayData;
     }
+
+    @DataProvider(name = "verifyAdminAuditorCanSeeAllToDosWithinEngagement")
+    public static Object[][] getVerifyAdminAuditorCanSeeAllToDosWithinEngagement() {
+        boolean toDo1Seeable = true;
+        boolean toDo2Seeable = true;
+        boolean toDo3Seeable = true;
+        boolean toDo4Seeable = true;
+        Object[][] arrayData = new Object[][]{
+                {adminAuditorUser, adminAuditorAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4, toDo1Seeable, toDo2Seeable, toDo3Seeable,
+                        toDo4Seeable}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {adminAuditorUser, adminAuditorAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4, toDo1Seeable, toDo2Seeable, toDo3Seeable,
+                            toDo4Seeable}};
+        }
+        return arrayData;
+    }
 }

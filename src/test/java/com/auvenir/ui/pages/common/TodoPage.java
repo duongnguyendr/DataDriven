@@ -756,16 +756,19 @@ public abstract class TodoPage extends AbstractPage {
     }
 
     public void verifyCanSeeAllToDosWithinEngagement(List<String> todoListNames, List<Boolean> todoListSeeable, String role) {
-        String xpathEngagementName = "//input[@class='newTodoInput'][@value='%s']";
+        //        String xpathEngagementName = "//input[@class='newTodoInput'][@value='%s']";
+        String xpathToDosName = "//tr[contains(@class,'newRow')]/td[2]/*";
         boolean exist = true;
+        List<WebElement> webElements = getListElementsByXpath(xpathToDosName);
         for (int i = 0; i < todoListNames.size(); i++) {
+            String xpathToDoName = getFullXpath(webElements, xpathToDosName, todoListNames.get(i));
             if (todoListSeeable.get(i)) {
-                if (getElementByXpath(xpathEngagementName, todoListNames.get(i)) == null) {
+                if (getElementByXpath(xpathToDoName) == null) {
                     System.out.println("name= " + todoListNames.get(i));
                     exist = false;
                 }
             } else {
-                if (getElementByXpath(xpathEngagementName, todoListNames.get(i)) != null) {
+                if (getElementByXpath(xpathToDoName) != null) {
                     System.out.println("name= " + todoListNames.get(i));
                     exist = false;
                 }
@@ -778,5 +781,22 @@ public abstract class TodoPage extends AbstractPage {
             NXGReports.addStep("Fail: Verify " + role + " can see all engagements within firm", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public String getFullXpath(List<WebElement> webElements, String xpath, String todoName) {
+        for (int i = 0; i < webElements.size(); i++) {
+            if (webElements.get(i).getTagName().equals("span")) {
+                if (webElements.get(i).getText().equals(todoName)) {
+                    //System.out.println("webElements i = " + webElements.get(i).getText());
+                    return xpath + "[text()='" + todoName + "']";
+                }
+            } else if (webElements.get(i).getTagName().equals("input")) {
+                if (webElements.get(i).getAttribute("value").equals(todoName)) {
+                    //System.out.println("webElements i = " + webElements.get(i).getAttribute("value"));
+                    return xpath + "[@value='" + todoName + "']";
+                }
+            }
+        }
+        return "";
     }
 }
