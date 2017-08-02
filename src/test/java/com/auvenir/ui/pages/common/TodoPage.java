@@ -819,6 +819,7 @@ public abstract class TodoPage extends AbstractPage {
     	            NXGReports.addStep("Verify request: " + listRequest.get(i) + " created: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
     			}
     		}
+            closeAddNewRequestWindow();
     		
     	}catch (Exception e){
     		e.printStackTrace();

@@ -3648,7 +3648,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             getLogger().info("Sending new request..");
             clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
             sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), newRequest, "");
-            closeAddNewRequestWindow();
+//            closeAddNewRequestWindow();
             NXGReports.addStep("Create new request at position " + position + ": Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();

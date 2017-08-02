@@ -115,6 +115,28 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String todo4 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 4 name", VALID_VALUE_COLUMN);
     private static String todo5 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 5 name", VALID_VALUE_COLUMN);
     private static String todo6 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 6 name", VALID_VALUE_COLUMN);
+    private static String todo7 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 7 name", VALID_VALUE_COLUMN);
+    private static String todo8 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 8 name", VALID_VALUE_COLUMN);
+
+    private static String requestName1 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Request Name 1", VALID_VALUE_COLUMN);
+    private static String requestName2 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Request Name 2", VALID_VALUE_COLUMN);
+    private static String requestName3 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Request Name 3", VALID_VALUE_COLUMN);
+    private static String requestName4 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Request Name 4", VALID_VALUE_COLUMN);
+    private static String requestName5 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Request Name 5", VALID_VALUE_COLUMN);
+    private static String requestName6 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Request Name 6", VALID_VALUE_COLUMN);
+
+    private static String fileRequestName1 =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "File Request Name 1", VALID_VALUE_COLUMN);
+    private static String fileRequestName2 =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "File Request Name 2", VALID_VALUE_COLUMN);
+    private static String fileRequestName3 =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "File Request Name 3", VALID_VALUE_COLUMN);
+    private static String fileRequestName4 =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "File Request Name 4", VALID_VALUE_COLUMN);
+    private static String fileRequestName5 =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "File Request Name 5", VALID_VALUE_COLUMN);
+    private static String fileRequestName6 =
+            GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "File Request Name 6", VALID_VALUE_COLUMN);
 
     private static String categoryName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Category Name", VALID_VALUE_COLUMN);
 
@@ -123,6 +145,9 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     private static String pathDownload = GenericService.sDirPath + GenericService
             .getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Path of Download Location", "Valid Value");
+
+    private static String pathUpload = GenericService.sDirPath + GenericService
+            .getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Path of Upload Location", "Valid Value");
 
     private static String generalAuditorCmt =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "General Auditor Comment  4", VALID_VALUE_COLUMN);
@@ -431,17 +456,18 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     }
 
     @DataProvider(name = "verifyGeneralAuditorCreateTodo")
-    public static Object[][] verifyGeneralAuditorCreateTodo() {
+    public static Object[][] getVerifyGeneralAuditorCreateTodo() {
         Object[][] arrayData =
-                new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, leadClientFullName, categoryName}};
+                new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, todo7, todo8, leadClientFullName,
+                        categoryName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, leadClientFullName, categoryName}};
+            arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo5, todo6, todo7, todo8, leadClientFullName, categoryName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralAuditorCommenting")
-    public static Object[][] verifyGeneralAuditorCommenting() {
+    public static Object[][] getVerifyGeneralAuditorCommenting() {
         Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, generalAuditorCmt}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo4, generalAuditorCmt}};
@@ -450,7 +476,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     }
 
     @DataProvider(name = "verifyGeneralAuditorMarkCompleted")
-    public static Object[][] verifyGeneralAuditorMarkCompleted() {
+    public static Object[][] getVerifyGeneralAuditorMarkCompleted() {
         Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
@@ -459,7 +485,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     }
 
     @DataProvider(name = "verifyGeneralAuditorDeleteTodo")
-    public static Object[][] verifyGeneralAuditorDeleteTodo() {
+    public static Object[][] getVerifyGeneralAuditorDeleteTodo() {
         Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, todo5}};
@@ -468,7 +494,7 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     }
 
     @DataProvider(name = "verifyGeneralAuditorDownloadFromAllTodo")
-    public static Object[][] verifyGeneralAuditorDownloadFromAllTodo() {
+    public static Object[][] getVerifyGeneralAuditorDownloadFromAllTodo() {
         Object[][] arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, pathDownload}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{{auditorUser, auditorAuvenirPwd, engagementName2, pathDownload}};
@@ -570,4 +596,43 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         }
         return arrayData;
     }
+
+    @DataProvider(name = "verifyLeadAuditorAddNewRequest")
+    public  static Object[][] getVerifyLeadAuditorAddNewRequest(){
+        Object[][] arrayData = new Object[][]{
+                {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, requestName1, requestName2, requestName3,
+                        requestName4, requestName5, requestName6}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, requestName1, requestName2,
+                    requestName3, requestName4, requestName5, requestName6}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyLeadAuditorAddFileToNewRequest")
+    public  static Object[][] getVerifyLeadAuditorAddFileToNewRequest(){
+        Object[][] arrayData = new Object[][]{
+                {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, requestName1, requestName2,
+                 requestName3, requestName4, requestName5, requestName6, fileRequestName1, fileRequestName2, fileRequestName3,
+                        fileRequestName4, fileRequestName5, fileRequestName6, pathUpload}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, requestName1, requestName2,
+                    requestName3, requestName4, requestName5, requestName6, fileRequestName1, fileRequestName2, fileRequestName3,
+                    fileRequestName4, fileRequestName5, fileRequestName6, pathUpload}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyGeneralAuditorAddNewRequest")
+    public  static Object[][] getVerifyGeneralAuditorAddNewRequest(){
+        Object[][] arrayData = new Object[][]{
+                {auditorUser, auditorPwd, engagementName2, todo4, todo7, todo8, requestName1, requestName2,
+                        requestName3, requestName4, requestName5, requestName6}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{auditorUser, auditorPwd, engagementName2, todo4, todo7, todo8, requestName1, requestName2,
+                    requestName3, requestName4, requestName5, requestName6}};
+        }
+        return arrayData;
+    }
+
 }
