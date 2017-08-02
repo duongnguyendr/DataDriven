@@ -4537,7 +4537,7 @@ public class AuditorCreateToDoPage extends TodoPage {
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span/label")
     WebElement uploadClientCreateRequestBtn;
     @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
-    WebElement checkUploadRequest;
+    List<WebElement> checkUploadRequest;
 
     private String requestNameText = "client request";
 
@@ -4556,8 +4556,8 @@ public class AuditorCreateToDoPage extends TodoPage {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
                 Thread.sleep(largeTimeOut);
                 getLogger().info("Input path of file..");
-                upLoadRequestFile(concatUpload);
-                /*StringSelection ss = new StringSelection(concatUpload);
+//                upLoadRequestFile(concatUpload);
+                StringSelection ss = new StringSelection(concatUpload);
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
                 Robot robot = new Robot();
                 robot.keyPress(KeyEvent.VK_ENTER);
@@ -4567,18 +4567,19 @@ public class AuditorCreateToDoPage extends TodoPage {
                 robot.keyRelease(KeyEvent.VK_V);
                 robot.keyRelease(KeyEvent.VK_CONTROL);
                 robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);*/
-                getLogger().info("Waiting for checkSign visible..");
-                waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-                closeAddNewRequestWindow();
+                robot.keyRelease(KeyEvent.VK_ENTER);
+//                getLogger().info("Waiting for checkSign visible..");
+//                waitForCssValueChanged(checkUploadRequest.get(isFind), "checkSuccessful", "display", "inline-block");
+//                closeAddNewRequestWindow();
+                waitSomeSeconds(2);
                 NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
             }
         } catch (InterruptedException itr) {
             AbstractService.sStatusCnt++;
             itr.printStackTrace();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
+        } catch (AWTException e) {
+            e.printStackTrace();
         }
 
     }
@@ -4601,7 +4602,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
             getLogger().info("Waiting for checkSign visible..");
-            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+//            waitForCssValueChanged(checkUploadRequest.get(), "checkSuccessful", "display", "inline-block");
             closeAddNewRequestWindow();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
         } catch (InterruptedException e) {
@@ -4695,6 +4696,7 @@ public class AuditorCreateToDoPage extends TodoPage {
     public void verifyUploadFileSuccessfully(String fileName) {
         try {
             int isFind = findUploadFile(fileName);
+            System.out.println("value is: "+isFind);
             if (isFind != -1) {
                 NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
             } else {
@@ -4965,7 +4967,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
+    public void  selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
         Thread.sleep(largeTimeOut);
         //        chooseOptionAssignToOnBulkActionsDropDown();
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);

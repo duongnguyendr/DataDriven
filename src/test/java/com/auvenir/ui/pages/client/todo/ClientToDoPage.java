@@ -32,6 +32,10 @@ public class ClientToDoPage extends TodoPage {
 
     @FindBy(xpath = "//div[contains(@id,'todo-bulk-dropdown')]")
     private  WebElement bulkActionsDropdownEle;
+    @FindBy(xpath = "//div[contains(text(),'Assign to')]")
+    WebElement optionAssignTo;
+    @FindBy(xpath = "//div[contains(text(),'Assign to')]/div[@class='menu']/button")
+    private List<WebElement> childItemAssigneeBulkDrpEle;
 
     public int findToDoTaskName(String toDoName) {
         getLogger().info("Find Position of To Do Task Name");
@@ -89,7 +93,6 @@ public class ClientToDoPage extends TodoPage {
 
     }
 
-
     public void verifyClientAssigneeSelected(String todoName, String clientAssignee) {
         try {
             Thread.sleep(bigTimeOut);
@@ -121,8 +124,40 @@ public class ClientToDoPage extends TodoPage {
         return index;
     }
 
-    public void clickBulkActionsDropdown() {
-//        waitForAtrributeValueChanged(bulkActionsDropdownEle,"","class","ui dropdown");
+    public void clickBulkActionsDropdown() throws InterruptedException {
         clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown List");
+        Thread.sleep(2000);
+    }
+
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName){
+        getLogger().info(String.format("Choose Assignee '%s' in Bulk Dropdown list", assigneeName));
+        try {
+            String listUser = "";
+            boolean result = false;
+            clickElement(optionAssignTo, "Assign To Option");
+            for (int i = 0; i < childItemAssigneeBulkDrpEle.size(); i++) {
+                listUser = childItemAssigneeBulkDrpEle.get(i).getText();
+                if (listUser.contains(assigneeName)) {
+                    result = clickElement(childItemAssigneeBulkDrpEle.get(i), "Child Item Assignee");
+                    NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+                    break;
+                }
+            }
+            if (result) {
+                NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+            } else {
+                //            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
+                getLogger().info(String.format("Cannot choose assignee '%s' in Bulk Dropdown list", assigneeName));
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports
+                    .addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 }
