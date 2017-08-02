@@ -492,7 +492,7 @@ public abstract class TodoPage extends AbstractPage {
     }
 
 
-    public void clickBulkActionsDropdown() {
+    public void clickBulkActionsDropdown() throws InterruptedException {
     }
 
     public void clickOnArchiveButtonInMarkAsCompletePopup() {
@@ -691,6 +691,14 @@ public abstract class TodoPage extends AbstractPage {
     public int findToDoTaskName(String todoName) {
         return -1;
     }
+
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName){
+    }
+
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
+
+    }
+
 
     /**
      * Verify client assign exist in list client assign dropdown

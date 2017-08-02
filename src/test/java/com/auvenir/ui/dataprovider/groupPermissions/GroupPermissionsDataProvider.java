@@ -115,6 +115,8 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     private static String todo4 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 4 name", VALID_VALUE_COLUMN);
     private static String todo5 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 5 name", VALID_VALUE_COLUMN);
     private static String todo6 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 6 name", VALID_VALUE_COLUMN);
+    private static String todo7 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 7 name", VALID_VALUE_COLUMN);
+    private static String todo8 = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "To Do 8 name", VALID_VALUE_COLUMN);
 
     private static String categoryName = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Category Name", VALID_VALUE_COLUMN);
 
@@ -516,27 +518,27 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "verifyLeadClientSeeToDo")
     public static Object[][] getVerifyLeadClientSeeToDo() {
-        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4}};
+        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4, todo7, todo8}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4}};
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo2, todo3, todo4, todo7, todo8}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyLeadClientAssignTodoTaskToClient")
     public static Object[][] getVerifyLeadClientAssignTodoTaskToClient() {
-        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, clientFullName}};
+        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo7, todo8, clientFullName}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, clientFullName}};
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, todo7, todo8, clientFullName}};
         }
         return arrayData;
     }
 
     @DataProvider(name = "verifyGeneralClientCanViewTodoTaskAssigned")
     public static Object[][] getVerifyGeneralClientCanViewTodoTaskAssigned() {
-        Object[][] arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1}};
+        Object[][] arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1, todo4,todo7,todo8}};
         if (GenericService.sLanguage.equals("French")) {
-            arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1}};
+            arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo1, todo4,todo7,todo8}};
         }
         return arrayData;
     }

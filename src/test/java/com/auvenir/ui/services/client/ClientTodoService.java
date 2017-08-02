@@ -29,8 +29,8 @@ public class ClientTodoService extends AbstractService {
     }
 
 
-    public void clickCommentIconPerTaskName(String todoTaskName, boolean isClient) {
-        clientToDoPage.clickCommentIconByTodoName(todoTaskName, isClient);
+    public void clickCommentIconPerTaskName(String todoTaskName, boolean editablePage) {
+        clientToDoPage.clickCommentIconByTodoName(todoTaskName, editablePage);
     }
 
     public void verifyLastCommentOfUserDisplayed(String commentContent, String userFullName) {
@@ -57,11 +57,19 @@ public class ClientTodoService extends AbstractService {
         clientToDoPage.verifyNewCommentIsDisplayed(numberListCommentBeforeAdding, commentContent);
     }
 
-    public void selectCheckboxByTodoName(String todo4) {
-        clientToDoPage.selectToDoCheckboxByName(todo4);
+    public void selectCheckboxByTodoName(String todoName) {
+        clientToDoPage.selectToDoCheckboxByName(todoName);
     }
 
-    public void clickBulkActionsDropdown() {
+    public void clickBulkActionsDropdown() throws InterruptedException {
         clientToDoPage.clickBulkActionsDropdown();
+    }
+
+    public void selectAssigneeToDoUsingBulkAction(String clientFullName) {
+        clientToDoPage.chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(clientFullName);
+    }
+
+    public void verifyClientAssigneeSelected(String todo4, String clientFullName) {
+        clientToDoPage.verifyClientAssigneeSelected(todo4,clientFullName);
     }
 }
