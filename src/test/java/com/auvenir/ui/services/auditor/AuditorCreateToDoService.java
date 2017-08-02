@@ -1361,5 +1361,9 @@ public class AuditorCreateToDoService extends AbstractService {
     public void verifyRequestCreated(List<String> listRequest){
     	createToDoPage.verifyRequestCreated(listRequest);
     }
+    
+    public void closeAddNewRequestWindow(){
+    	createToDoPage.closeAddNewRequestWindow();
+    }
 }
 

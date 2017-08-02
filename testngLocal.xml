@@ -11,8 +11,7 @@
         <classes>
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
             <methods>
-                <!--<include name="verifyLeadClientUseBulkActionToAssignTodoTask"></include>-->
-                <include name="verifyLeadClientAddFileToNewRequest"></include>
+                <include name="verifyLeadAuditorAddFileToNewRequest"></include>
             </methods>
         </classes>
     </test>
