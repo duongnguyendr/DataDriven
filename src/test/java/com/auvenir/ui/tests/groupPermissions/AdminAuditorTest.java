@@ -40,7 +40,7 @@ public class AdminAuditorTest extends AbstractTest {
     private AdminService adminService;
 
     @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.", testName = "AA_1",
-            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+            dataProvider = "verifyAdminAuditorCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorCreateAnEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd) {
         getLogger().info("Verify admin auditor can create an engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -64,7 +64,7 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 3, enabled = true, description = "Verify admin auditor can see all engagements within firm.", testName = "AA_3",
-            dataProvider = "verifyPermissionSeeAllEngagementsWithinFirm", dataProviderClass = GroupPermissionsDataProvider.class)
+            dataProvider = "verifyAdminAuditorSeeAllEngagementsWithinFirm", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorSeeAllEngagementsWithinFirm(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
             String engagementName2) {
         getLogger().info("Verify admin auditor can see all engagements within firm.");
@@ -92,7 +92,7 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 5, enabled = true, description = "Verify admin auditor cant invite client into engagement.", testName = "AA_5",
-            dataProvider = "verifyPermissionInviteClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+            dataProvider = "verifyAdminAuditorInviteClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInviteClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1) {
         getLogger().info("Verify admin auditor can invite client into engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -117,7 +117,7 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 6, enabled = true, description = "Verify admin auditor can't invite general client into engagement.", testName = "AA_6",
-            dataProvider = "verifyPermissionInviteGeneralClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+            dataProvider = "verifyAdminAuditorInviteGeneralClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyAdminAuditorInviteGeneralClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
             String leadClientFullName, String leadClientUser, String roleClient, String successMessageInvitation, String adminUser, String adminPwd,
             String userType) {

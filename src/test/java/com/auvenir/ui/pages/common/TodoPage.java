@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,6 +58,8 @@ public abstract class TodoPage extends AbstractPage {
     private List<WebElement> listEnableDatePickerBtn;
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']/div")
     private List<WebElement> listNewRequest;
+    @FindBy(xpath = "(//div[@id='todoDetailsReqCont']/div)[1]")
+    private WebElement firstRequest;
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']")
     private WebElement newRequestTable;
     @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]")
@@ -83,6 +86,15 @@ public abstract class TodoPage extends AbstractPage {
     protected List<WebElement> toDoNameTextColumnEle;
 
     protected String assineeClientEle = ".//button[text()='%s']";
+
+    @FindBy(xpath = "//div[@id='auv-todo-detailsReqBox']//div[@id='todoDetailsReqCont']/div[contains(@id, 'todo-req-box')]/span[1]")
+    protected List<WebElement> listRequestEle;
+
+    @FindBy(xpath = "//div[contains(@class,'ui dropdown todoCategory')]")
+    private List<WebElement> categoryButton;
+
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
+    protected List<WebElement> eleToDoCheckboxRow;
 
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
@@ -262,6 +274,10 @@ public abstract class TodoPage extends AbstractPage {
     public void verifyCategoryEditableCapability(String todoName, boolean editable) {
         try {
             if (editable) {
+                int index = findRowByTodoName(todoName, true);
+                clickElement(categoryButton.get(index));
+                //Select Edit Categoru
+                clickElement(categoryButton.get(index).findElement(By.xpath("//div[contains(text(),'Edit Categories')]")));
 
             }
 
@@ -305,6 +321,7 @@ public abstract class TodoPage extends AbstractPage {
         try {
             if (editable) {
                 int index = findRowByTodoName(todoName, editable);
+
             }
 
             if (todoName.equals("All") && editable) {
@@ -363,27 +380,18 @@ public abstract class TodoPage extends AbstractPage {
      * @param deleteRequestCapability: true: can delete request or False: can not delete request.
      */
     public void verifyRequestDeletionCapability(String requestName, boolean deleteRequestCapability) {
-        int index = findRequestByName(requestName);
-        clickElement(listRequestOptionBtn.get(index - 1));
-        int numberBefore = listNewRequest.size();
         try {
             if (deleteRequestCapability) {
-                waitForClickableOfElement(deleteRequestSelection, "delete request");
-                clickElement(deleteRequestSelection, "delete request");
-                if (numberBefore > 1) {
-                    int numberAfter = listNewRequest.size();
-                    if (numberAfter == numberBefore - 1) {
-                        NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.",
-                                LogAs.PASSED, null);
-                    } else {
-                        AbstractService.sStatusCnt++;
-                        NXGReports
-                                .addStep("Verify request can " + (deleteRequestCapability ? "be deleted" : "not be deleted" + " :Fail"), LogAs.FAILED,
-                                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    }
+                int numberRequestBefore = listNewRequest.size();
+                deleteRequestByName(requestName);
+                boolean isVerify = verifyDeleteRequest(numberRequestBefore);
+                if (isVerify) {
+                    NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED,
+                            null);
                 } else {
-
-
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify request can " + (deleteRequestCapability ? "be deleted" : "not be deleted" + " :Fail"), LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             } else {
                 boolean isVerify = validateNotExistedElement(deleteRequestSelection, "delete selection");
@@ -403,6 +411,31 @@ public abstract class TodoPage extends AbstractPage {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
+    }
+
+    public void deleteRequestByName(String requestName) {
+        int index = findRequestByName(requestName);
+        clickElement(listRequestOptionBtn.get(index - 1));
+        clickElement(deleteRequestSelection, "delete request");
+    }
+
+    public boolean verifyDeleteRequest(int numberRequestBefore) {
+        boolean isVerify = false;
+        System.out.println("Number of requests before deleted: " + numberRequestBefore);
+        if (numberRequestBefore > 1) {
+            int numberRequestAfter = listNewRequest.size();
+            System.out.println("Number of requests after deleted: " + numberRequestAfter);
+            if (numberRequestAfter == numberRequestBefore - 1) {
+                isVerify = true;
+            }
+        } else {
+            boolean isNotDisplayed = validateNotExistedElement(firstRequest, "");
+            if (isNotDisplayed) {
+                isVerify = true;
+                System.out.println("List of request is empty after deleted");
+            }
+        }
+        return isVerify;
     }
 
 
@@ -457,7 +490,8 @@ public abstract class TodoPage extends AbstractPage {
         return -1;
     }
 
-    public void clickBulkActionsDropdown() {
+
+    public void clickBulkActionsDropdown() throws InterruptedException {
     }
 
     public void clickOnArchiveButtonInMarkAsCompletePopup() {
@@ -657,6 +691,14 @@ public abstract class TodoPage extends AbstractPage {
         return -1;
     }
 
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
+    }
+
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
+
+    }
+
+
     /**
      * Verify client assign exist in list client assign dropdown
      *
@@ -694,10 +736,18 @@ public abstract class TodoPage extends AbstractPage {
         try {
             int index = findRequestByName(requequestName);
             if (editRequestNameCapability) {
+                System.out.println("Name of old request: " + requequestName);
                 inputRequestName(index, newRequestName);
-                closeAddNewRequestWindow();
-                NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
-                        LogAs.PASSED, null);
+                boolean isVerify = verifyNewRequestSaved(newRequestName);
+                if (isVerify) {
+                    NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
+                            LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify request Name can " + (editRequestNameCapability ? "be changed" : "not be changed" + " :Fail"),
+                            LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+
             } else {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "");
                 Thread.sleep(500);
@@ -724,6 +774,10 @@ public abstract class TodoPage extends AbstractPage {
 
     }
 
+    /**
+     * @param position:   the position of request Name: 1st =1, 2nd = 2..etc
+     * @param requestName
+     */
     public void inputRequestName(int position, String requestName) {
         waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
         clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
@@ -731,19 +785,23 @@ public abstract class TodoPage extends AbstractPage {
         //        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border", "1px solid rgb(89, 155, 161)");
         clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
         sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), requestName, "");
+        sendTabkey(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
     }
 
-    public void closeAddNewRequestWindow() {
+    private void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
     }
 
 
-    public void verifyNewRequestSaved(String newRequestName) {
+    public boolean verifyNewRequestSaved(String newRequestName) {
+        boolean isVerify = false;
         try {
             int index = findRequestByName(newRequestName);
             if (index != -1) {
+                System.out.println("Name of new request: " + newRequestName);
                 NXGReports.addStep("Verify request saved: Pass", LogAs.PASSED, null);
+                isVerify = true;
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep("Verify request saved: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -752,6 +810,29 @@ public abstract class TodoPage extends AbstractPage {
             e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify request saved: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+        return isVerify;
+    }
+
+    public void verifyRequestCreated(List<String> listRequest) {
+        try {
+            List<String> lstRequestDisplayed = new ArrayList<>();
+            for (WebElement requestEle : listRequestEle) {
+                lstRequestDisplayed.add(requestEle.getText());
+            }
+            for (int i = 0; i < listRequest.size(); i++) {
+                if (!lstRequestDisplayed.contains(listRequest.get(i))) {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify request: " + listRequest.get(i) + " created: Fail", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
+            closeAddNewRequestWindow();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Verify request created: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
 

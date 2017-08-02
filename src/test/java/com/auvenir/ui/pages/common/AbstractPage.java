@@ -825,7 +825,7 @@ public class AbstractPage {
     public boolean clickElement(WebElement element, String elementName) {
         getLogger().info("Try to ClickElement: " + elementName);
         try {
-            //            waitForClickableOfElement(element, "click to " + elementName);
+            waitForClickableOfElement(element, "click to " + elementName);
             element.click();
             NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
             return true;
@@ -1126,13 +1126,13 @@ public class AbstractPage {
             } else {
                 AbstractService.sStatusCnt++;
                 NXGReports.addStep(elementName + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                return  false;
+                return false;
 
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementName + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
-                    e.getMessage());
+            NXGReports
+                    .addStep(elementName + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE), e.getMessage());
             return false;
         }
 
