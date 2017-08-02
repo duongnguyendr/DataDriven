@@ -91,6 +91,12 @@ public abstract class TodoPage extends AbstractPage {
     @FindBy(xpath="//div[@id='auv-todo-detailsReqBox']//div[@id='todoDetailsReqCont']/div[contains(@id, 'todo-req-box')]/span[1]")
     protected List<WebElement> listRequestEle;
 
+    @FindBy(xpath = "//div[contains(@class,'ui dropdown todoCategory')]")
+    private List<WebElement> categoryButton;
+
+    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
+    protected List<WebElement> eleToDoCheckboxRow;
+
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
         String actualAttributeValue;
@@ -269,6 +275,10 @@ public abstract class TodoPage extends AbstractPage {
     public void verifyCategoryEditableCapability(String todoName, boolean editable) {
         try {
             if (editable) {
+             int index = findRowByTodoName(todoName,true);
+             clickElement(categoryButton.get(index));
+             //Select Edit Categoru
+             clickElement(categoryButton.get(index).findElement(By.xpath("//div[contains(text(),'Edit Categories')]")));
 
             }
 
@@ -480,6 +490,7 @@ public abstract class TodoPage extends AbstractPage {
     public int selectToDoCheckboxByName(String todoName) {
         return -1;
     }
+
 
     public void clickBulkActionsDropdown() {
     }
