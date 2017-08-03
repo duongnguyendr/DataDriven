@@ -1395,6 +1395,7 @@ public class AuditorCreateToDoService extends AbstractService {
         for (int i = 0; i < listRequest.size(); i ++){
             clickCommentIconPerTaskName(todoName);
             uploadeNewFileByRequestName(pathUploadFile, listFile.get(i), listRequest.get(i));
+            closeAddNewRequestWindow();
             clickCommentIconPerTaskName(todoName);
             verifyUploadFileSuccessfully(listFile.get(i));
             closeAddNewRequestWindow();

@@ -3315,10 +3315,10 @@ public class AuditorCreateToDoPage extends TodoPage {
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
     }
 
-    public void closeAddNewRequestWindow() {
+   /* public void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
-    }
+    }*/
 
     /**
      * Author minh.nguyen
@@ -4571,7 +4571,7 @@ public class AuditorCreateToDoPage extends TodoPage {
 //                getLogger().info("Waiting for checkSign visible..");
 //                waitForCssValueChanged(checkUploadRequest.get(isFind), "checkSuccessful", "display", "inline-block");
 //                closeAddNewRequestWindow();
-                waitSomeSeconds(2);
+//                waitSomeSeconds(2);
                 NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
             }
         } catch (InterruptedException itr) {
@@ -4635,18 +4635,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         return isFind;
     }
 
-    public int findUploadFile(String fileName) {
-        getLogger().info("Verifying this file existed in the list..");
-        int isFind = -1;
-        for (int i = 0; i < uploadRequestList.size(); i++) {
-            System.out.println("UploadName at position: " + i + " is " + uploadRequestList.get(i).getText());
-            if (uploadRequestList.get(i).getText().equals(fileName)) {
-                isFind = i;
-                break;
-            }
-        }
-        return isFind;
-    }
+
 
 /*
     public void uploadFileNewRequestByClient(String concatUpload) throws AWTException, InterruptedException, IOException {
@@ -4687,32 +4676,9 @@ public class AuditorCreateToDoPage extends TodoPage {
     @FindBy(xpath = "//*[@id=\"todo-req-box-1\"]/div[2]")
     WebElement fileNameAfterUploadedClient;
 
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div/div[2]")
-    List<WebElement> uploadRequestList;
 
-    /*
-    Vien.Pham added new method
-     */
-    public void verifyUploadFileSuccessfully(String fileName) {
-        try {
-            int isFind = findUploadFile(fileName);
-            System.out.println("value is: "+isFind);
-            if (isFind != -1) {
-                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED,
-                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports
-                    .addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
-                            e.getMessage());
-            e.printStackTrace();
-        }
-    }
-/*
+
+
     public void verifyUploadFileSuccessfullyByClient(String fileName) {
         try {
             waitForCssValueChanged(fileNameAfterUploadedClient, "fileName After uploaded", "display", "inline-block");
@@ -4731,7 +4697,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             e.printStackTrace();
         }
 
-    }*/
+    }
 
 
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div//span[contains(@class,'auvicon-line-download')]")
@@ -5564,7 +5530,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public void verifyFileRequestInTodo(String toDoName, String... fileNames){
+    /*public void verifyFileRequestInTodo(String toDoName, String... fileNames){
         try{
             clickOpenNewRequestByTodoName(toDoName);
             List<String> lstFileDisplayed = new ArrayList<String>();
@@ -5585,7 +5551,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }finally {
             closeAddNewRequestWindow();
         }
-    }
+    }*/
 
     public void verifyPermissionCanUploadRequestFile(String pathOfUploadLocation, String fileName, boolean possibleUpload){
         try {
