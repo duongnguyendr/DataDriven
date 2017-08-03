@@ -655,10 +655,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, categoryName);
             auditorCreateToDoService.verifyLeadAuditorSeeListToDoTask(true, listTodo);
-            for (String todo : listTodo) {
-                auditorCreateToDoService.selectClientAssigneeByName(todo, leadClientFullName);
-                auditorCreateToDoService.verifyClientAssigneeSelected(todo, leadClientFullName);
-            }
+            auditorCreateToDoService.verifyAssignTodotoClient(listTodo, leadClientFullName);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission Lead auditor create todo.", LogAs.PASSED, null);
@@ -923,18 +920,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         listTodo.add(todo6);
         listTodo.add(todo7);
         listTodo.add(todo8);
-        String [] todoAssigneToClient = {todo4, todo7, todo8};
+        String [] listTodoAssigneToClient = {todo4, todo7, todo8};
         try {
             marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, categoryName);
             auditorCreateToDoService.checkToDoListIsExists(true, listTodo);
-
-            for (String todo : todoAssigneToClient){
-                auditorCreateToDoService.selectClientAssigneeByName(todo, leadClientFullName);
-                auditorCreateToDoService.verifyClientAssigneeSelected(todo, leadClientFullName);
-            }
+            auditorCreateToDoService.verifyAssignTodotoClient(Arrays.asList(listTodoAssigneToClient), leadClientFullName);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission General auditor create todo.", LogAs.PASSED, null);
@@ -1534,13 +1527,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
-            for (int i = 1; i <= listRequest.length; i++) {
-                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-                auditorCreateToDoService.verifyClickAddRequestBtn();
-                auditorCreateToDoService.createNewRequest(listRequest[i - 1], String.valueOf(i));
-            }
-            auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-            auditorCreateToDoService.verifyRequestCreated(Arrays.asList(listRequest));
+            auditorCreateToDoService.verifyCreateNewRequest(Arrays.asList(todo1), Arrays.asList(listRequest));
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission Lead auditor add new request.", LogAs.PASSED, null);
@@ -1577,13 +1564,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
 
-            for (int i = 0; i < listRequest.length; i ++){
-                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-            	auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, listFile[i], listRequest[i]);
-            	auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-                auditorCreateToDoService.verifyUploadFileSuccessfully(listFile[i]);
-                auditorCreateToDoService.closeAddNewRequestWindow();
-            }
+            auditorCreateToDoService.verifyAddFileToNewRequest(todo1, pathOfUploadLocation, Arrays.asList(listRequest), Arrays.asList(listFile));
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission Lead auditor add file to new request.", LogAs.PASSED, null);
@@ -1656,7 +1637,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 //        leadAuditorAuvenirPwd = "Changeit@123";
 //        engagementName2 = "Engagement Dr03";
         //        String todo1 = "Todo 1";
-        String[] listRequest = {requestName1, requestName2, requestName3, requestName4, requestName5, requestName6};
+        String [] listRequest = {requestName1, requestName2, requestName3, requestName4, requestName5, requestName6};
         String [] listTodo = {todo4, todo7, todo8};
 
         try {
@@ -1665,16 +1646,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
 
-            for (String todo : listTodo){
-                auditorCreateToDoService.clickCommentIconPerTaskName(todo);
-                for (int i = 1; i <= listRequest.length; i++) {
-                    auditorCreateToDoService.verifyClickAddRequestBtn();
-                    auditorCreateToDoService.createNewRequest(listRequest[i - 1], String.valueOf(i));
-                }
-                auditorCreateToDoService.closeAddNewRequestWindow();
-                auditorCreateToDoService.clickCommentIconPerTaskName(todo);
-                auditorCreateToDoService.verifyRequestCreated(Arrays.asList(listRequest));
-            }
+            auditorCreateToDoService.verifyCreateNewRequest(Arrays.asList(listTodo), Arrays.asList(listRequest));
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission general auditor add new request.", LogAs.PASSED, null);
