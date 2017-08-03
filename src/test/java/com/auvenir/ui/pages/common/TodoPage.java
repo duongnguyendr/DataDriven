@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import java.io.IOException;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
@@ -963,8 +964,44 @@ public abstract class TodoPage extends AbstractPage {
         }
         return isFind;
     }
+
+    public void downloadRequestFile(String downloadLocation, String fileName) {
+        downloadNewRequestFile(downloadLocation, fileName , false);
+    }
+
+    public void downloadFileFromComment(String downloadLocation, String fileName){
+        downloadNewRequestFile(downloadLocation.concat(fileName), fileName , true);
+    }
+
+    public void downloadNewRequestFile(String downloadLocation, String fileName, boolean fileInComment){}
+
+    public void verifyDownloadFileRequestSuccess(String pathUpload, String pathDownload, String fileName){
+        try{
+            String concatUpload = pathUpload.concat(fileName);
+            String concatDownload = pathDownload.concat(fileName);
+            boolean fileExisted = checkFileExists(concatDownload, false);
+            if(fileExisted){
+                String checkMd5UploadFile = calculateMD5(concatUpload);
+                getLogger().info("md5 upload is: " + checkMd5UploadFile);
+                String checkMd5DownloadFile = calculateMD5(concatDownload);
+                getLogger().info("md5 download is: " + checkMd5DownloadFile);
+                if (checkMd5UploadFile.equals(checkMd5DownloadFile)) {
+                    NXGReports.addStep("Check sum done", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Check sum failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }else{
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Download file failed, file: " + fileName + "not in " + pathDownload, LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Check sum failed_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public String calculateMD5(String path)throws IOException {return "";}
+    public boolean checkFileExists(String downloadFile, boolean isDeletedFile){return false;}
 }
-
-
-
-

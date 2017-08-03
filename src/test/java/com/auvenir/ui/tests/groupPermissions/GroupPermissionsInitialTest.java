@@ -1627,42 +1627,39 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    /**
-     * Pending: bugs
-     *
-     * @param leadAuditorEmail
-     * @param leadAuditorAuvenirPwd
-     * @param engagementName2
-     * @param todo1
-     * @throws Exception
-     */
-    @Test(priority = 24, enabled = false, description = "Verify group permission Lead auditor download file from request.")
-    public void verifyLeadAuditorDownloadRequestFile(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
-            String todo1) throws Exception {
+    @Test(priority = 24, enabled = true, description = "Verify group permission Lead auditor download file from request.")
+    public void verifyLeadAuditorDownloadRequestFile() throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-        //        String leadAuditorEmail = "duong.lead.auditor@mailinator.com";
-        //        String leadAuditorAuvenirPwd = "Changeit@123";
-        //        String engagementName2 = "Engagement Dr02";
-        //        String todo1 = "Todo 1";
-        //        String requestName = "Request 1";
-        //        String fileName = "TXT_helloAuvenir.txt";
-        //        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
+
+        String leadAuditorEmail = "duong.lead.auditor@mailinator.com";
+        String leadAuditorAuvenirPwd = "Changeit@123";
+        String engagementName2 = "Engagement Dr02";
+        String todo1 = "Todo 1";
+//        String requestName = "Request 1";
+        String fileName = "TXT_Auvenir.xlsx";
+        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
+        String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
         try {
             marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
             auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-            //            for (int i = 0; i < listRequest.length; i ++){
-            //                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-            //                auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, listFile[i], listRequest[i]);
-            //                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-            //                auditorCreateToDoService.verifyUploadFileSuccessfully(listFile[i]);
-            //                auditorCreateToDoService.closeAddNewRequestWindow();
-            //            }
+            auditorCreateToDoService.downloadFileFromRequest(pathOfDownloadLocation, fileName);
+            auditorCreateToDoService.verifyDownloadFileFromRequestSuccessful(pathOfUploadLocation, pathOfDownloadLocation, fileName);
+
+//            auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+//            for (int i = 0; i < listRequest.length; i ++){
+//                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+//                auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, listFile[i], listRequest[i]);
+//                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+//                auditorCreateToDoService.verifyUploadFileSuccessfully(listFile[i]);
+//                auditorCreateToDoService.closeAddNewRequestWindow();
+//            }
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission Lead auditor download file from request.", LogAs.PASSED, null);

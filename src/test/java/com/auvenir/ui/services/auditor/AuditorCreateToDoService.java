@@ -880,16 +880,12 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
     }*/
 
-    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, boolean fileInComment) {
-        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName),fileName , fileInComment);
-    }
-
     public void auditorAttachNewFile(String attachLocation, String fileName) {
         createToDoPage.attachFile(attachLocation, fileName);
     }
 
-    public void clientDownloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
-        createToDoPage.downloadAttachFile(pathOfUpload, pathOfDownload, fileName);
+    public void clientDownloadAttachFile(String pathOfDownload, String fileName) {
+        createToDoPage.downloadAttachFile(pathOfDownload, fileName);
     }
 
    /* public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
@@ -1404,6 +1400,14 @@ public class AuditorCreateToDoService extends AbstractService {
             verifyUploadFileSuccessfully(listFile.get(i));
             closeAddNewRequestWindow();
         }
+    }
+
+    public void downloadFileFromRequest(String downloadLocation, String fileName){
+        createToDoPage.downloadRequestFile(downloadLocation, fileName);
+    }
+
+    public void verifyDownloadFileFromRequestSuccessful(String pathUpload, String pathDownload, String fileName){
+        createToDoPage.verifyDownloadFileRequestSuccess(pathUpload, pathDownload, fileName);
     }
 }
 
