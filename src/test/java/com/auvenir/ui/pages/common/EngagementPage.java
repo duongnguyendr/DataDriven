@@ -29,9 +29,10 @@ public class EngagementPage extends AbstractPage {
     protected List<WebElement> engagementListEle;
     @FindBy(id = "c-header-title")
     private WebElement myEngagementTextEle;
-
-    @FindBy(id = "newAuditBtn")
-    protected WebElement buttonNewEngagement;
+    @FindBy(xpath = "//span[@id='a-header-title']")
+    private WebElement dashboardTextAtPage;
+    @FindBy(xpath = "//input[@id='a-header-title']")
+    private WebElement dashboardTextEle;
 
     public EngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -88,35 +89,20 @@ public class EngagementPage extends AbstractPage {
     }
 
     /**
-     * Added by huy.huynh on 17/07/2017.
-     * R2.1 Group Permissions
+     *
+     * @param engagementName : to verify engagement name displayed correctly
+     * @param editablePage: true: elements of Page can be edited or false: elements of Page can not be edited
      */
-    public void verifyCanCreateAnEngagement(boolean exist) {
-        if (exist) {
-            clickElement(buttonNewEngagement, "Button New Engagement");
+    public void verifyDetailsEngagementPage(String engagementName, boolean editablePage) {
+        if (editablePage) {
+            waitForVisibleElement(dashboardTextEle, "dashboard text");
+            clickElement(dashboardTextEle);
+            sendTabkey(dashboardTextEle, "");
+            validateAttributeElement(dashboardTextEle, "placeholder", engagementName);
         } else {
-            validateNotExistedElement(buttonNewEngagement, "Button New Engagement");
+            waitForVisibleElement(dashboardTextAtPage, "dashboard text");
+            validateElementText(dashboardTextAtPage, engagementName);
         }
     }
 
-    public void verifyCanSeeAllEngagementsWithinFirm(List<String> engagementListNames, String role) {
-        String xpathEngagementName = "//td[@class='engagement-name']/a[text()='%s']";
-        boolean exist = true;
-        for (String name : engagementListNames) {
-            if (getElementByXpath(xpathEngagementName, name) == null) {
-                System.out.println("name = " + name);
-                exist = false;
-            }
-        }
-        if (exist) {
-            NXGReports.addStep("Verify " + role + " can see all engagements within firm", LogAs.PASSED, null);
-        } else {
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Fail: Verify " + role + " can see all engagements within firm", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-
-    /*-----------end of huy.huynh on 17/07/2017.*/
 }

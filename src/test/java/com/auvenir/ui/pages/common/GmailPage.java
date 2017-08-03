@@ -32,7 +32,7 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//span[contains(@class,'gbii')]")
+    @FindBy(xpath = "//span[@class='gb_8a gbii']")
     private WebElement eleProfileIcn;
 
     public WebElement getEleProfileIcn() {
@@ -357,8 +357,8 @@ public class GmailPage extends AbstractPage {
         return eleSignIn;
     }
 
-    //	@FindBy(xpath = "//div[contains(@class, 'y6')]/span[contains(text(), 'Auvenir')]")
-    //	private WebElement eleEmailAuvenir;
+//	@FindBy(xpath = "//div[contains(@class, 'y6')]/span[contains(text(), 'Auvenir')]")
+//	private WebElement eleEmailAuvenir;
 
     public WebElement getEleEmailAuvenir() {
         return eleEmailAuvenir;
@@ -366,7 +366,7 @@ public class GmailPage extends AbstractPage {
 
     public void goGMail() {
         try {
-            //            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
+//            getDriver().get("https://mail.google.com/mail/u/0/?tab=wm#inbox");
             getDriver().get(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
             getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             getDriver().manage().window().maximize();
@@ -596,7 +596,7 @@ public class GmailPage extends AbstractPage {
         }
     }
 
-    public void selectGetStartedButtonInActiveEmail() {
+    public void selectGetStartedButtonInActiveEmail(){
         try {
             clickElement(buttonGetStarted, "Button Start Engagement");
             getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
@@ -605,7 +605,7 @@ public class GmailPage extends AbstractPage {
         }
     }
 
-    public void selectStartYourEngagementButtonInActiveEmail() {
+    public void selectStartYourEngagementButtonInActiveEmail(){
         try {
             clickElement(buttonStartEngagement, "Button Start Engagement");
             getLogger().info("Redirecting from Gmail to Auvenir Welcome Page");
@@ -776,10 +776,8 @@ public class GmailPage extends AbstractPage {
     @FindBy(xpath = "//a[text()='Reset Password']")
     private WebElement buttonResetPassword;
 
-    String cssGreeting =
-            "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.75px; line-height: 0; margin-top: 15px; color: #363a3c";
-    String cssBody =
-            "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-weight: normal; font-size: 14px; line-height: 1.6; color: #707070; padding: 0px; margin: 0px";
+    String cssGreeting = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.75px; line-height: 0; margin-top: 15px; color: #363a3c";
+    String cssBody = "font-family: Lato, \"Helvetica Neue\", Helvetica, Arial, sans-serif; font-weight: normal; font-size: 14px; line-height: 1.6; color: #707070; padding: 0px; margin: 0px";
 
     public void verifyHeaderImage(String partialSrc) {
         validateAttributeContain(imgAuvenirHeader, "src", partialSrc, "Auvenir Image Header");

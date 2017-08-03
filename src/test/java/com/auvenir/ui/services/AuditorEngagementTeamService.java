@@ -1,6 +1,6 @@
 package com.auvenir.ui.services;
 
-import com.auvenir.ui.pages.auditor.engagement.AuditorTeamPage;
+import com.auvenir.ui.pages.auditor.engagement.AuditorEngagementTeamPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -9,14 +9,14 @@ import org.openqa.selenium.WebDriver;
  */
 public class AuditorEngagementTeamService extends AbstractService {
 
-    AuditorTeamPage auditorEngagementTeamPage;
+    AuditorEngagementTeamPage auditorEngagementTeamPage;
 
     /*
      * contructor
      */
     public AuditorEngagementTeamService(Logger logger, WebDriver driver) {
         super(logger, driver);
-        auditorEngagementTeamPage = new AuditorTeamPage(getLogger(), getDriver());
+        auditorEngagementTeamPage = new AuditorEngagementTeamPage(getLogger(), getDriver());
     }
 
     public void clickEngagementTeamMenu() {

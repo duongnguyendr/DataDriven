@@ -17,7 +17,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -246,6 +245,8 @@ public class AbstractTest {
                     getLogger().info("Firefox is set");
                     System.setProperty("webdriver.gecko.driver", GenericService.sDirPath + "/src/test/resources/geckodriver.exe");
                     FirefoxProfile profile = setDownloadLocationFirefox();
+                    profile.setAcceptUntrustedCertificates(true);
+                    profile.setAssumeUntrustedCertificateIssuer(false);
                     driver = new FirefoxDriver(profile);
                     GenericService.sBrowserData = "ff.";
                 } else if (browser.equalsIgnoreCase("internet explorer")) {

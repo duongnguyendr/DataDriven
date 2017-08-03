@@ -1,7 +1,6 @@
 package com.auvenir.ui.pages.client.engagement;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.common.TeamPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -16,12 +15,13 @@ import java.util.List;
 /**
  * Created by vien.pham on 7/19/2017.
  */
-public class ClientEngagementTeamPage extends ClientDetailsEngagementPage {
+public class ClientEngagementTeamPage extends AbstractPage {
     public ClientEngagementTeamPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
 
-
+    @FindBy(xpath = "//tbody[@id='w-team-tableBody']/tr/td[2]")
+    List<WebElement> listTeamMember;
     @FindBy(xpath = "//tbody[@id='w-team-tableBody']//input[@type='checkbox']")
     List<WebElement> listCheckboxTeamMember;
     @FindBy(xpath = "//tbody[@id='w-team-tableBody']//span[contains(@id,'team-trash')]")
@@ -30,7 +30,8 @@ public class ClientEngagementTeamPage extends ClientDetailsEngagementPage {
     WebElement messageRemoveMemberDone;
     @FindBy(xpath = "//div[@class='fl-a-container fl-a-container-show']")
     WebElement popUpRemoveMemberDone;
-
+    @FindBy(id = "engagementTeamLink")
+    private WebElement teamMemberLinkEle;
 
 
     /**
@@ -54,6 +55,16 @@ public class ClientEngagementTeamPage extends ClientDetailsEngagementPage {
         }
     }
 
+    public int findMemberByName(String memberName) {
+        int index = -1;
+        for (int i = 0; i < listTeamMember.size(); i++) {
+            if (listTeamMember.get(i).getText().equals(memberName)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 
     public void verifyRemoveTeamMember(String memberName) {
         System.out.println("The number of Team member after removing is: " + listTeamMember.size());
@@ -70,6 +81,10 @@ public class ClientEngagementTeamPage extends ClientDetailsEngagementPage {
         waitForVisibleElement(popUpRemoveMemberDone,"Popup alerts remove member done");
         validateElementText(messageRemoveMemberDone, message);
 
+    }
+
+    public void selectEngagementTeamMenu(){
+        clickElement(teamMemberLinkEle, "Team Member Engagement Menu");
     }
 
 }

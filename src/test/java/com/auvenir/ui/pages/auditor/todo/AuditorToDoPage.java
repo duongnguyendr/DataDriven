@@ -1,7 +1,6 @@
 package com.auvenir.ui.pages.auditor.todo;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.common.TodoPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.DatePicker;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * Created by huy.huynh on 04/07/2017.
  */
-public class AuditorToDoPage extends TodoPage {
+public class AuditorToDoPage extends AbstractPage {
     public AuditorToDoPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }

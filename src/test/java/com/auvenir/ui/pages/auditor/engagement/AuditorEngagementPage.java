@@ -44,6 +44,9 @@ public class AuditorEngagementPage extends EngagementPage {
         return eleMyEngmntTxt;
     }
 
+    @FindBy(id = "newAuditBtn")
+    private WebElement buttonNewEngagement;
+
     @FindBy(id = "tooltip-createEngagement-mainText")
     private WebElement eleClickhereTipTxt;
 
@@ -1868,4 +1871,18 @@ public class AuditorEngagementPage extends EngagementPage {
     public void verifyEngagementDueDateDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementDueDateEle, "engagement due date", false);
     }
+
+
+    /**
+     * Added by huy.huynh on 17/07/2017.
+     * R2.1 Group Permissions
+     */
+    public void verifyCanCreateAnEngagement(boolean exist) {
+        if (exist) {
+            clickElement(buttonNewEngagement, "Button New Engagement");
+        } else {
+            validateNotExistedElement(buttonNewEngagement, "Button New Engagement");
+        }
+    }
+    /*-----------end of huy.huynh on 17/07/2017.*/
 }

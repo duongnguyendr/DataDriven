@@ -1,17 +1,21 @@
 package com.auvenir.ui.pages.auditor.engagement;
 
-import com.auvenir.ui.pages.common.DetailsEngagementPage;
+import com.auvenir.ui.pages.common.AbstractPage;
+
+import com.auvenir.ui.pages.common.EngagementPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.security.cert.X509Certificate;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
  */
 
 
-public class AuditorDetailsEngagementPage extends DetailsEngagementPage {
+public class AuditorDetailsEngagementPage extends EngagementPage {
 
 
     public AuditorDetailsEngagementPage(Logger logger, WebDriver driver) {
@@ -94,6 +98,5 @@ public class AuditorDetailsEngagementPage extends DetailsEngagementPage {
         waitForClickableOfElement(eleContactLink, "contact link");
         clickElement(eleContactLink);
     }
-
 }
 

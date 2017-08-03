@@ -1,7 +1,6 @@
 package com.auvenir.ui.pages.auditor.engagement;
 
 import com.auvenir.ui.pages.common.AbstractPage;
-import com.auvenir.ui.pages.common.TeamPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -18,9 +17,9 @@ import java.util.List;
 /**
  * Created by thuan.duong on 6/16/2017.
  */
-public class AuditorTeamPage extends TeamPage {
+public class AuditorEngagementTeamPage extends AbstractPage {
 
-    public AuditorTeamPage(Logger logger, WebDriver driver) {
+    public AuditorEngagementTeamPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
 

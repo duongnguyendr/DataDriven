@@ -825,7 +825,7 @@ public class AbstractPage {
     public boolean clickElement(WebElement element, String elementName) {
         getLogger().info("Try to ClickElement: " + elementName);
         try {
-            //            waitForClickableOfElement(element, "click to " + elementName);
+//            waitForClickableOfElement(element, "click to " + elementName);
             element.click();
             NXGReports.addStep("Clicked on element: " + elementName, LogAs.PASSED, null);
             return true;
@@ -1121,17 +1121,15 @@ public class AbstractPage {
         getLogger().info("Verify element is not displayed of: " + elementName);
         try {
             if (!element.isDisplayed()) {
-                NXGReports.addStep(elementName + " is NOt displayed", LogAs.PASSED, null);
+                NXGReports.addStep(elementName + " is displayed", LogAs.PASSED, null);
                 return true;
             } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep(elementName + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                return  false;
-
+                NXGReports.addStep(elementName + " is NOT displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                throw new Exception();
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
-            NXGReports.addStep(elementName + " is displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+            NXGReports.addStep(elementName + " is not displayed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
                     e.getMessage());
             return false;
         }
@@ -1235,16 +1233,16 @@ public class AbstractPage {
         //        closeSuccessToastMes();
     }
 
-    public void selectCategory(String categoryName) {
+    public void selectCategory(String categoryName){
         try {
             int categoryExist = checkCategoryExist(categoryName);
-            if (categoryExist != -1) {
+            if (categoryExist != -1){
                 clickElement(dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']")).get(categoryExist));
-            } else {
+            }else{
                 sendTabkey(dropdownCategoryEle.get(0), "dropdownCategoryEle");
                 createNewCategory(categoryName);
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Create category.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
@@ -1252,24 +1250,23 @@ public class AbstractPage {
 
     }
 
-    public int checkCategoryExist(String categoryName) {
+    public int checkCategoryExist(String categoryName){
         int index = -1;
-        try {
-            Thread.sleep(3000);
-            clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
+        try{
+        	Thread.sleep(3000);
+        	clickElement(dropdownCategoryEle.get(0), "click to dropdownCategoryEle");
             List<WebElement> listCategory = dropdownCategoryEle.get(0).findElements(By.xpath(".//div[@class='item']"));
-            for (int i = 0; i < listCategory.size(); i++) {
-                if (listCategory.get(i).getAttribute("textContent").equals(categoryName)) {
+            for (int i = 0; i < listCategory.size(); i++){
+                if (listCategory.get(i).getAttribute("textContent").equals(categoryName)){
                     index = i;
                     break;
                 }
             }
-            return index;
-        } catch (Exception e) {
-            return index;
+            return  index;
+        }catch (Exception e){
+            return  index;
         }
     }
-
     public boolean chooseCategoryByNameFromDll(String categoryName) {
         boolean isCheckCategoryName = false;
         getLogger().info("Choose category by name from dropdownlist");
@@ -2042,6 +2039,7 @@ public class AbstractPage {
             return false;
         }
     }*/
+
 
 
     /**
@@ -2874,8 +2872,7 @@ public class AbstractPage {
         try {
             getLogger().info("Try to validate Element is not existed.");
             //getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-            //            element.click();
-            element.getText();
+            element.click();
             return false;
         } catch (NoSuchElementException e) {
             getLogger().info("Element is not existed.");
@@ -2887,32 +2884,11 @@ public class AbstractPage {
             //NXGReports.addStep(elementName + " is not exist.", LogAs.PASSED, null, e.getMessage());
             //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return true;
-        } catch (IndexOutOfBoundsException outEx) {
-            getLogger().info("List element is empty.");
-            return true;
+        }catch (IndexOutOfBoundsException outEx){
+        	getLogger().info("List element is empty.");
+        	return true;
         } catch (Exception e) {
             getLogger().info("Element is still displayed.");
-            //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-            return false;
-        }
-    }
-
-    public boolean validateExistedElement(WebElement element, String elementName) {
-        try {
-            getLogger().info("Validating " + elementName + " is existed.");
-            element.getText();
-            return true;
-        } catch (NoSuchElementException e) {
-            getLogger().info(elementName + " is not existed.");
-            return false;
-        } catch (ElementNotVisibleException e) {
-            getLogger().info(elementName + " is visible.");
-            return false;
-        } catch (IndexOutOfBoundsException outEx) {
-            getLogger().info("List " + elementName + " is empty.");
-            return false;
-        } catch (Exception e) {
-            getLogger().info("Error: Finding " + elementName + " error.");
             //getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
             return false;
         }
