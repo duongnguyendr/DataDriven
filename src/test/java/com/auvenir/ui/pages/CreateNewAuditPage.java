@@ -241,11 +241,21 @@ public class CreateNewAuditPage extends AbstractPage {
     /**
      * Choose 'Add New Client' option
      */
-    public void selectAddNewClient() throws InterruptedException {
-        Thread.sleep(smallerTimeOut);
+    public void selectAddNewClient() {
+        prepareSelectClientToInvite();
+        //clickElement(optionAddNewClient, "Option Add New Client");
+    }
+
+    public void prepareSelectClientToInvite() {
+        waitSomeSeconds(1);
         validateElementText(titleInviteClient, "Invite Your Client");
         clickElement(eleSelectYourClientDrpDwn, "Select Client");
-        clickElement(optionAddNewClient, "Option Add New Client");
+    }
+
+    public void selectClientWithFullName(String fullName) {
+        prepareSelectClientToInvite();
+        String xpathOptionAdminClientName = "//ul[@class='ddlLink inputDdl inputDdl-after']//a[text()='%s']";
+        clickElement(getElementByXpath(xpathOptionAdminClientName, fullName), "Option Admin Client Name");
     }
 
     /**
@@ -280,7 +290,6 @@ public class CreateNewAuditPage extends AbstractPage {
         clickElement(buttonInviteNewClient, "Button Invite");
     }
 
-
     @FindBy(xpath = "//button[@id='team-inviteMember-btn']")
     WebElement inviteMemberBtn;
     @FindBy(xpath = "//div[@id='engagement-team']")
@@ -310,4 +319,17 @@ public class CreateNewAuditPage extends AbstractPage {
         closeWarningToastMessage();
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+
+     @FindBy(id = "m-ic-continueBtn")
+     WebElement buttonInviteClient;
+
+    public void clickButtonInvite(){
+        clickElement(buttonInviteClient, "Button Invite Client");
+    }
+    /*-----------end of huy.huynh on 03/08/2017.*/
 }
