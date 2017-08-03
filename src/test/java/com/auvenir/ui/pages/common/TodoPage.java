@@ -1,6 +1,5 @@
 package com.auvenir.ui.pages.common;
 
-import com.auvenir.ui.pages.auditor.todo.AuditorCreateToDoPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -87,8 +86,8 @@ public abstract class TodoPage extends AbstractPage {
     protected List<WebElement> toDoNameTextColumnEle;
 
     protected String assineeClientEle = ".//button[text()='%s']";
-    
-    @FindBy(xpath="//div[@id='auv-todo-detailsReqBox']//div[@id='todoDetailsReqCont']/div[contains(@id, 'todo-req-box')]/span[1]")
+
+    @FindBy(xpath = "//div[@id='auv-todo-detailsReqBox']//div[@id='todoDetailsReqCont']/div[contains(@id, 'todo-req-box')]/span[1]")
     protected List<WebElement> listRequestEle;
 
     @FindBy(xpath = "//div[contains(@class,'ui dropdown todoCategory')]")
@@ -275,10 +274,10 @@ public abstract class TodoPage extends AbstractPage {
     public void verifyCategoryEditableCapability(String todoName, boolean editable) {
         try {
             if (editable) {
-             int index = findRowByTodoName(todoName,true);
-             clickElement(categoryButton.get(index));
-             //Select Edit Categoru
-             clickElement(categoryButton.get(index).findElement(By.xpath("//div[contains(text(),'Edit Categories')]")));
+                int index = findRowByTodoName(todoName, true);
+                clickElement(categoryButton.get(index));
+                //Select Edit Categoru
+                clickElement(categoryButton.get(index).findElement(By.xpath("//div[contains(text(),'Edit Categories')]")));
 
             }
 
@@ -422,10 +421,10 @@ public abstract class TodoPage extends AbstractPage {
 
     public boolean verifyDeleteRequest(int numberRequestBefore) {
         boolean isVerify = false;
-        System.out.println("Number of requests before deleted: "+numberRequestBefore);
+        System.out.println("Number of requests before deleted: " + numberRequestBefore);
         if (numberRequestBefore > 1) {
             int numberRequestAfter = listNewRequest.size();
-            System.out.println("Number of requests after deleted: "+numberRequestAfter);
+            System.out.println("Number of requests after deleted: " + numberRequestAfter);
             if (numberRequestAfter == numberRequestBefore - 1) {
                 isVerify = true;
             }
@@ -692,10 +691,10 @@ public abstract class TodoPage extends AbstractPage {
         return -1;
     }
 
-    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName){
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
     }
 
-    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee){
+    public void verifyClientAssigneeSelected(String toDoName, String clientAssignee) {
 
     }
 
@@ -814,25 +813,71 @@ public abstract class TodoPage extends AbstractPage {
         }
         return isVerify;
     }
-    
-    public void verifyRequestCreated(List<String> listRequest){
-    	try{
-    		List<String> lstRequestDisplayed = new ArrayList<>();
-    		for (WebElement requestEle : listRequestEle){
-    			lstRequestDisplayed.add(requestEle.getText());
-    		}
-    		for(int i = 0; i < listRequest.size(); i++){
-    			if (!lstRequestDisplayed.contains(listRequest.get(i))){
-    				AbstractService.sStatusCnt++;
-    	            NXGReports.addStep("Verify request: " + listRequest.get(i) + " created: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    			}
-    		}
+
+    public void verifyRequestCreated(List<String> listRequest) {
+        try {
+            List<String> lstRequestDisplayed = new ArrayList<>();
+            for (WebElement requestEle : listRequestEle) {
+                lstRequestDisplayed.add(requestEle.getText());
+            }
+            for (int i = 0; i < listRequest.size(); i++) {
+                if (!lstRequestDisplayed.contains(listRequest.get(i))) {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Verify request: " + listRequest.get(i) + " created: Fail", LogAs.FAILED,
+                            new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            }
             closeAddNewRequestWindow();
-    		
-    	}catch (Exception e){
-    		e.printStackTrace();
+
+        } catch (Exception e) {
+            e.printStackTrace();
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Verify request created: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-    	}
+        }
+    }
+
+    public void verifyCanSeeAllToDosWithinEngagement(List<String> todoListNames, List<Boolean> todoListSeeable, String role) {
+        //        String xpathEngagementName = "//input[@class='newTodoInput'][@value='%s']";
+        String xpathToDosName = "//tr[contains(@class,'newRow')]/td[2]/*";
+        boolean exist = true;
+        List<WebElement> webElements = getListElementsByXpath(xpathToDosName);
+        for (int i = 0; i < todoListNames.size(); i++) {
+            String xpathToDoName = getFullXpath(webElements, xpathToDosName, todoListNames.get(i));
+            if (todoListSeeable.get(i)) {
+                if (getElementByXpath(xpathToDoName) == null) {
+                    System.out.println("name= " + todoListNames.get(i));
+                    exist = false;
+                }
+            } else {
+                if (getElementByXpath(xpathToDoName) != null) {
+                    System.out.println("name= " + todoListNames.get(i));
+                    exist = false;
+                }
+            }
+        }
+        if (exist) {
+            NXGReports.addStep("Verify " + role + " can see all engagements within firm", LogAs.PASSED, null);
+        } else {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Fail: Verify " + role + " can see all engagements within firm", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public String getFullXpath(List<WebElement> webElements, String xpath, String todoName) {
+        for (int i = 0; i < webElements.size(); i++) {
+            if (webElements.get(i).getTagName().equals("span")) {
+                if (webElements.get(i).getText().equals(todoName)) {
+                    //System.out.println("webElements i = " + webElements.get(i).getText());
+                    return xpath + "[text()='" + todoName + "']";
+                }
+            } else if (webElements.get(i).getTagName().equals("input")) {
+                if (webElements.get(i).getAttribute("value").equals(todoName)) {
+                    //System.out.println("webElements i = " + webElements.get(i).getAttribute("value"));
+                    return xpath + "[@value='" + todoName + "']";
+                }
+            }
+        }
+        return "";
     }
 }

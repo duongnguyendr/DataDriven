@@ -4,7 +4,6 @@ import com.auvenir.ui.dataprovider.groupPermissions.GroupPermissionsDataProvider
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.ClientDetailsEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
-import com.auvenir.ui.services.admin.AdminAccountSettingsService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorCreateToDoService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
@@ -41,8 +40,8 @@ public class AdminAuditorTest extends AbstractTest {
     private AdminService adminService;
 
     @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.", testName = "AA_1",
-            dataProvider = "verifyPermissionCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionCreateAnEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd) {
+            dataProvider = "verifyAdminAuditorCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminAuditorCreateAnEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd) {
         getLogger().info("Verify admin auditor can create an engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -65,8 +64,8 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 3, enabled = true, description = "Verify admin auditor can see all engagements within firm.", testName = "AA_3",
-            dataProvider = "verifyPermissionSeeAllEngagementsWithinFirm", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionSeeAllEngagementsWithinFirm(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
+            dataProvider = "verifyAdminAuditorSeeAllEngagementsWithinFirm", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminAuditorSeeAllEngagementsWithinFirm(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
             String engagementName2) {
         getLogger().info("Verify admin auditor can see all engagements within firm.");
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -93,8 +92,8 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 5, enabled = true, description = "Verify admin auditor cant invite client into engagement.", testName = "AA_5",
-            dataProvider = "verifyPermissionInviteClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionInviteClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1) {
+            dataProvider = "verifyAdminAuditorInviteClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminAuditorInviteClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1) {
         getLogger().info("Verify admin auditor can invite client into engagement.");
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -118,8 +117,8 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 6, enabled = true, description = "Verify admin auditor can't invite general client into engagement.", testName = "AA_6",
-            dataProvider = "verifyPermissionInviteGeneralClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionInviteGeneralClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
+            dataProvider = "verifyAdminAuditorInviteGeneralClientIntoEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminAuditorInviteGeneralClientIntoEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName1,
             String leadClientFullName, String leadClientUser, String roleClient, String successMessageInvitation, String adminUser, String adminPwd,
             String userType) {
         getLogger().info("Verify admin auditor can't invite general client into engagement.");
@@ -213,31 +212,66 @@ public class AdminAuditorTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 9, enabled = true, description = "To Verify Permission Admin Auditor see all to-dos")
-    public void verifyPermissionAdminAuditorSeeToDo() {
+    @Test(priority = 9, enabled = true, description = "To Verify Permission Admin Auditor see all to-dos", testName = "AA_9",
+            dataProvider = "verifyAdminAuditorCanSeeAllToDosWithinEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminAuditorCanSeeAllToDosWithinEngagement(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName2,
+            String todo1, String todo2, String todo3, String todo4, boolean toDo1Seeable, boolean toDo2Seeable, boolean toDo3Seeable,
+            boolean toDo4Seeable) {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
 
-        String adminAuditorId = GenericService
-                .addBrowserPrefix(GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor", "Valid Value"));
-        String adminAuditorPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Admin Auditor Password", "Valid Value");
+        String toDoListNames[] = {todo1, todo2, todo3, todo4};
+        Boolean todoSeeable[] = {toDo1Seeable, toDo2Seeable, toDo3Seeable, toDo4Seeable};
+
+        adminAuditorUser = GenericService.addBrowserPrefix(adminAuditorUser);
+        try {
+            marketingService.loginUsingUsernamePassword(adminAuditorUser, adminAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+
+            adminAuditorService.verifyCanSeeAllToDosWithinEngagement(Arrays.asList(toDoListNames), Arrays.asList(todoSeeable));
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Permission Admin Auditor See ToDos: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 10, enabled = true, description = "To Verify Permission Admin Auditor see all to-dos assigned to them")
+    public void verifyAdminAuditorCanSeeAllToDosAssignedToThem() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+
+        String adminAuditorId = "chr.auvenirauditor@gmail.com";
+        String adminAuditorPwd = "Changeit@123";
         String toDo1Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 1 name", "Valid Value");
         String toDo2Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 2 name", "Valid Value");
         String toDo3Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 3 name", "Valid Value");
         String toDo4Name = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "To Do 4 name", "Valid Value");
-        String engagementName = GenericService.getTestDataFromExcelNoBrowserPrefix("GroupPermissionTest", "Engagement 2 Name", "Valid Value");
+        String engagementName2 = "Engagement Huy 02";
+
+        boolean toDo1Seeable = true;
+        boolean toDo2Seeable = true;
+        boolean toDo3Seeable = true;
+        boolean toDo4Seeable = true;
 
         String toDoListNames[] = {toDo1Name, toDo2Name, toDo3Name, toDo4Name};
-
+        Boolean todoSeeable[] = {toDo1Seeable, toDo2Seeable, toDo3Seeable, toDo4Seeable};
         try {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            adminAuditorService.verifyAuditorAdminSeeListToDo(Arrays.asList(toDoListNames));
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
 
+            adminAuditorService.verifyCanSeeAllToDosWithinEngagement(Arrays.asList(toDoListNames), Arrays.asList(todoSeeable));
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
@@ -249,46 +283,9 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 16, enabled = true, description = "Verify Admin Auditor can not mark todo completed.", testName = "AA-16")
-//    public void verifyAdminAuditorCanNotMarkTodoCompleted (String adminUser, String adminPassword, String engagementName2,
-//            String todo1, String todo2, String todo3, String todo4, String todo5, String todo6) throws Exception {
-    public void verifyAdminAuditorCanNotMarkTodoCompleted (){
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
-        List<String> listTodo = new ArrayList<>();
-//        listTodo.add(todo1);
-//        listTodo.add(todo2);
-//        listTodo.add(todo3);
-//        listTodo.add(todo4);
-//        listTodo.add(todo5);
-//        listTodo.add(todo6);
-        listTodo.add("Todo 1");
-        listTodo.add("Todo 2");
-        listTodo.add("Todo 4");
-        listTodo.add("Todo 5");
-        String adminUser = "duong.auditor.adm@mailinator.com";
-        String adminPassword = "Changeit@123";
-        String engagementName2 = "Engagement Dr02";
-        try{
-            marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
-
-            adminAuditorService.verifyAdminAuditorCannotMarkCompleteTodo(listTodo);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Admin Auditor can not mark todo completed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Admin Auditor can not mark todo completed: FAILED", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 17, enabled = true, description = "Verify Admin Auditor cannot assign auditor.", testName = "AA-17")
-    public void verifyAdminAuditorCanNotAssignAuditor () throws Exception{
+    //    public void verifyAdminAuditorCanNotMarkTodoCompleted (String adminUser, String adminPassword, String engagementName2,
+    //            String todo1, String todo2, String todo3, String todo4, String todo5, String todo6) throws Exception {
+    public void verifyAdminAuditorCanNotMarkTodoCompleted() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -307,7 +304,44 @@ public class AdminAuditorTest extends AbstractTest {
         String adminUser = "duong.auditor.adm@mailinator.com";
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement Dr02";
-        try{
+        try {
+            marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
+            adminAuditorService.verifyAdminAuditorCannotMarkCompleteTodo(listTodo);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Admin Auditor can not mark todo completed.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Admin Auditor can not mark todo completed: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(priority = 17, enabled = true, description = "Verify Admin Auditor cannot assign auditor.", testName = "AA-17")
+    public void verifyAdminAuditorCanNotAssignAuditor() throws Exception {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+        List<String> listTodo = new ArrayList<>();
+        //        listTodo.add(todo1);
+        //        listTodo.add(todo2);
+        //        listTodo.add(todo3);
+        //        listTodo.add(todo4);
+        //        listTodo.add(todo5);
+        //        listTodo.add(todo6);
+        listTodo.add("Todo 1");
+        listTodo.add("Todo 2");
+        listTodo.add("Todo 4");
+        listTodo.add("Todo 5");
+        String adminUser = "duong.auditor.adm@mailinator.com";
+        String adminPassword = "Changeit@123";
+        String engagementName2 = "Engagement Dr02";
+        try {
             marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
@@ -324,8 +358,8 @@ public class AdminAuditorTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 13, enabled = true, description = "Verify Admin Auditor cannot create todo.",testName = "AA-13")
-    public void verifyAdminAuditorCanNotCreateTodo () throws Exception{
+    @Test(priority = 13, enabled = true, description = "Verify Admin Auditor cannot create todo.", testName = "AA-13")
+    public void verifyAdminAuditorCanNotCreateTodo() throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -333,8 +367,8 @@ public class AdminAuditorTest extends AbstractTest {
         String adminUser = "duong.auditor.adm@mailinator.com";
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement Dr02";
-        String [] listTodoName = {"Todo123"};
-        try{
+        String[] listTodoName = {"Todo123"};
+        try {
             marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
@@ -351,7 +385,7 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 14, enabled = true, description = "Verify Admin Auditor cannot remove todo.", testName = "AA-14+15")
-    public void verifyAdminAuditorCannotRemoveTodo(){
+    public void verifyAdminAuditorCannotRemoveTodo() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -359,8 +393,8 @@ public class AdminAuditorTest extends AbstractTest {
         String adminUser = "duong.auditor.adm@mailinator.com";
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement Dr02";
-        String [] todoName = {"Todo 1"};
-        try{
+        String[] todoName = {"Todo 1"};
+        try {
             marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
@@ -370,7 +404,7 @@ public class AdminAuditorTest extends AbstractTest {
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor cannot create todo.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Verify Admin Auditor cannot create todo: FAILED", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -378,7 +412,7 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 18, enabled = true, description = "Verify Admin Auditor cannot assign auditor.", testName = "AA-18+19")
-    public void verifyAdminAuditorCanNotAssignClient() throws Exception{
+    public void verifyAdminAuditorCanNotAssignClient() throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -398,7 +432,7 @@ public class AdminAuditorTest extends AbstractTest {
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement Dr02";
         String clientFullName = "";
-        try{
+        try {
             marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
@@ -408,7 +442,7 @@ public class AdminAuditorTest extends AbstractTest {
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor cannot assign todo to auditor.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Verify Admin Auditor cannot assign todo to auditor: FAILED", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
@@ -416,7 +450,7 @@ public class AdminAuditorTest extends AbstractTest {
     }
 
     @Test(priority = 20, enabled = true, description = "Verify Admin Auditor cannot assign auditor.", testName = "AA-20")
-    public void verifyAdminAuditorCanNotComment() throws Exception{
+    public void verifyAdminAuditorCanNotComment() throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -432,7 +466,7 @@ public class AdminAuditorTest extends AbstractTest {
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement Dr02";
         String comment = "";
-        try{
+        try {
             marketingService.loginUsingUsernamePassword(adminUser, adminPassword);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
@@ -442,12 +476,13 @@ public class AdminAuditorTest extends AbstractTest {
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor cannot assign todo to auditor.", LogAs.PASSED, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             NXGReports.addStep("Verify Admin Auditor cannot assign todo to auditor: FAILED", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
+
     @Test(priority = 22, enabled = true, description = "To Verify Admin Auditor can not change request name created by Lead auditor")
     public void verifyAdminAuditorCanNotChangeRequestName() {
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -466,7 +501,7 @@ public class AdminAuditorTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
             adminAuditorService.clickCommentIconByTodoName(todoName, false);
-            adminAuditorService.verifyAdminAuditorCanNotChangeRequestName(requequestName,newRequestName);
+            adminAuditorService.verifyAdminAuditorCanNotChangeRequestName(requequestName, newRequestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not change request Name created by Lead auditor: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
