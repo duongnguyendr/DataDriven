@@ -11,6 +11,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +98,10 @@ public abstract class TodoPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
     protected List<WebElement> eleToDoCheckboxRow;
+
+
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div/div[2]")
+    List<WebElement> uploadRequestList;
 
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
@@ -788,7 +795,7 @@ public abstract class TodoPage extends AbstractPage {
         sendTabkey(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
     }
 
-    private void closeAddNewRequestWindow() {
+    public void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
     }
@@ -880,4 +887,84 @@ public abstract class TodoPage extends AbstractPage {
         }
         return "";
     }
+
+    public void uploadeNewFileByRequestName(String concatUpload, String requestName) {
+        try {
+            int isFind = findRequestByName(requestName);
+            if (isFind == -1) {
+                getLogger().info("Can not find any request has name is: " + requestName);
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            } else {
+                clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
+                Thread.sleep(largeTimeOut);
+                getLogger().info("Input path of file..");
+                //                upLoadRequestFile(concatUpload);
+                StringSelection ss = new StringSelection(concatUpload);
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                //                getLogger().info("Waiting for checkSign visible..");
+                //                waitForCssValueChanged(checkUploadRequest.get(isFind), "checkSuccessful", "display", "inline-block");
+                //                                closeAddNewRequestWindow();
+                waitSomeSeconds(1);
+                NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+            }
+        } catch (InterruptedException itr) {
+            AbstractService.sStatusCnt++;
+            itr.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /*
+   Vien.Pham added new method
+    */
+    public void verifyUploadFileSuccessfully(String fileName) {
+        try {
+            int isFind = findUploadFile(fileName);
+            System.out.println("value is: " + isFind);
+            if (isFind != -1) {
+                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports
+                    .addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                            e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public int findUploadFile(String fileName) {
+        getLogger().info("Verifying this file existed in the list..");
+        int isFind = -1;
+        for (int i = 0; i < uploadRequestList.size(); i++) {
+            System.out.println("UploadName at position: " + i + " is " + uploadRequestList.get(i).getText());
+            if (uploadRequestList.get(i).getText().equals(fileName)) {
+                isFind = i;
+                break;
+            }
+        }
+        return isFind;
+    }
 }
+
+
+
+
