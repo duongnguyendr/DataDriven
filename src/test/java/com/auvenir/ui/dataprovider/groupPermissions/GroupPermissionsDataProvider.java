@@ -655,4 +655,45 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         return arrayData;
     }
 
+
+    @DataProvider(name = "verifyLeadClientUseBulkActionToAssignTodoTask")
+    public static Object[][] getVerifyLeadClientUseBulkActionToAssignTodoTask() {
+        Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo4, clientFullName}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo4, clientFullName}};
+        }
+        return arrayData;
+    }
+
+
+    @DataProvider(name = "verifyLeadClientAddFileToNewRequest")
+    public static Object[][] getVerifyLeadClientAddFileToNewRequest() {
+        Object[][] arrayData = new Object[][]{
+                {leadClientUser, leadClientAuvenirPwd, engagementName2, todo7, requestName1, requestName2, requestName3, requestName4, requestName5,
+                        requestName6, fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5, fileRequestName6,
+                        pathUpload}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {leadClientUser, leadClientAuvenirPwd, engagementName2, todo7, requestName1, requestName2, requestName3, requestName4,
+                            requestName5, requestName6, fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5,
+                            fileRequestName6, pathUpload}};
+        }
+        return arrayData;
+    }
+
+
+    @DataProvider(name = "verifyGeneralClientAddFileToNewRequest")
+    public static Object[][] getVerifyGeneralClientAddFileToNewRequest() {
+        Object[][] arrayData = new Object[][]{
+                {clientUser, clientAuvenirPwd, engagementName2, todo8, requestName1, requestName2, requestName3, requestName4, requestName5,
+                        requestName6, fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5, fileRequestName6,
+                        pathUpload}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {clientUser, clientAuvenirPwd, engagementName2, todo8, requestName1, requestName2, requestName3, requestName4, requestName5,
+                            requestName6, fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5, fileRequestName6,
+                            pathUpload}};
+        }
+        return arrayData;
+    }
 }
