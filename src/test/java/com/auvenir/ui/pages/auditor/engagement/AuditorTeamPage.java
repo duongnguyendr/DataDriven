@@ -61,11 +61,11 @@ public class AuditorTeamPage extends TeamPage {
     private WebElement inviteButtonEle;
 
     @FindBy(xpath = "//*[contains (@id,'team-row')]/td[2]")
-    //    @FindBy(xpath = "//*[@id='team-row-0']/td[2]")
+//    @FindBy(xpath = "//*[@id='team-row-0']/td[2]")
     private List<WebElement> auditorTeamMemberNameEle;
 
     @FindBy(xpath = "//*[contains (@id,'team-row')]/td[3]")
-    //    @FindBy(xpath = "//*[@id='team-row-0']/td[3]")
+//    @FindBy(xpath = "//*[@id='team-row-0']/td[3]")
     private List<WebElement> roleTeamMemberNameEle;
 
     @FindBy(xpath = "//*[@id='team-row-0']/td[1]/input")
@@ -145,7 +145,7 @@ public class AuditorTeamPage extends TeamPage {
             waitForAtrributeValueChanged(roleCompanyDdlPopupEle, "Role in Company Popup", "class", "ddlLink inputDdl inputDdl-after");
             clickElement(roleCompanyListItemDdlEle.get(0), "second Item in Role Dropdown list");
             waitForAtrributeValueChanged(roleCompanyDdlPopupEle, "Role in Company Popup", "class", "ddlLink inputDdl");
-            //            sendKeyTextBox(roleCompanyDropdownEle, roleMember, "Role Member Textbox");
+//            sendKeyTextBox(roleCompanyDropdownEle, roleMember, "Role Member Textbox");
             clickElement(reEmailMemberTxtEle, "Email Textbox");
             clickElement(inviteButtonEle, "Invite Button");
             waitForProgressOverlayIsClosed();
@@ -188,8 +188,8 @@ public class AuditorTeamPage extends TeamPage {
                     clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown");
                     clickElement(deleteOptionActionsEle, "Delete Option Dropdown");
                     waitForProgressOverlayIsClosed();
-                    //                    boolean result = verifyContentOfSuccessToastMessage("Your team member has been removed.");
-                    //                    if (!result) throw new Exception();
+//                    boolean result = verifyContentOfSuccessToastMessage("Your team member has been removed.");
+//                    if (!result) throw new Exception();
                 }
             }
             NXGReports.addStep("Delete All Member in Engagement.", LogAs.PASSED, null);
@@ -206,12 +206,12 @@ public class AuditorTeamPage extends TeamPage {
         try {
             // Need to sleep because the teamEmptyDiv is always displayed first.
             waitSomeSeconds(2);
-            //            String displayedValue = teamEmptyDivEle.getCssValue("display");
+//            String displayedValue = teamEmptyDivEle.getCssValue("display");
             boolean result = validateNotExistedElement(auditorTeamMemberNameEle.get(0), "Team Member Row Name");
             if(!result){
                 String actualAttributeValue;
                 for (int i = 0; i < auditorTeamMemberNameEle.size(); i++) {
-                    //                        WebElement toDoNameCell = auditorTeamMemberNameEle.get(i).findElement(By.xpath("td/input[@type='text']"));
+//                        WebElement toDoNameCell = auditorTeamMemberNameEle.get(i).findElement(By.xpath("td/input[@type='text']"));
                     actualAttributeValue = auditorTeamMemberNameEle.get(i).getText().trim();
                     if (actualAttributeValue.equals(fullNameMember)) {
                         getLogger().info("Team Member Name is found at " + i);

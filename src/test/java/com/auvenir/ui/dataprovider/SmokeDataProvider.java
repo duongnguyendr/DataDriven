@@ -5,9 +5,9 @@ import com.auvenir.utilities.GenericService;
 import org.testng.annotations.DataProvider;
 
 /**
- * Created by huy.huynh on 17/07/2017.
+ * Created by doai.tran on 7/10/2017.
  */
-public class SmokeDataProvider extends CommonDataProvider {
+public class SmokeDataProvider extends CommonDataProvider{
     private final static String SHEET_NAME = "SmokeTest-R";
     private final static String VALID_VALUE_COLUMN = "Valid Value";
     public static final String FRENCH_LANGUAGE = "French";
@@ -19,7 +19,6 @@ public class SmokeDataProvider extends CommonDataProvider {
     private static String superAdminUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Super Admin", VALID_VALUE_COLUMN);
     private static String superAdminPwd =
             GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Super Admin Auvenir Password", VALID_VALUE_COLUMN);
-
 
 
     private static String adminAuditorUser = GenericService.getTestDataFromExcelNoBrowserPrefix(SHEET_NAME, "Admin Auditor", VALID_VALUE_COLUMN);
@@ -192,7 +191,7 @@ public class SmokeDataProvider extends CommonDataProvider {
         return arrayData;
     }
 
-    @DataProvider(name = "verifyAuditorLoginGMailAndActiveUser")
+    @DataProvider(name = "verifyAuditorLoginGmailAndActiveUser")
     public static Object[][] getVerifyAuditorLoginGmailAndActiveUser() {
         Object[][] arrayData = new Object[][]{{adminAuditorUser, adminAuditorEmailPwd, adminAuditorAuvenirPwd}};
         if (GenericService.sLanguage.equals("French")) {
@@ -540,4 +539,8 @@ public class SmokeDataProvider extends CommonDataProvider {
         }
         return arrayData;
     }
+
+
 }
+
+

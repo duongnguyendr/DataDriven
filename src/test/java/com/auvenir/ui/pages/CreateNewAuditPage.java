@@ -222,8 +222,9 @@ public class CreateNewAuditPage extends AbstractPage {
 
     @FindBy(id = "m-ac-role")
     private WebElement inputRoleEmail;
+
     @FindBy(id = "m-inm-jobTitle")
-    private WebElement inputRoleEmailMember;
+    private WebElement inputRoleMember;
 
     @FindBy(id = "m-ac-addBtn")
     private WebElement buttonInviteNewClient;
@@ -269,9 +270,10 @@ public class CreateNewAuditPage extends AbstractPage {
         sendKeyTextBox(inputFullNameMember, fullName, "Full Name Input");
         sendKeyTextBox(inputEmailMember, email, "Email Input");
         sendKeyTextBox(inputVerifyEmailMember, email, "Verify Email Input");
-        clickElement(inputRoleEmailMember, "Input Member Role In Their Company");
-        clickElement(optionFirstOnMemberRoleList, "First Option member Role");
-        waitSomeSeconds(3);
+        sendKeyTextBox(inputRoleMember, role, "Input Role Member");
+        //        clickElement(inputRoleEmailMember, "Input Member Role In Their Company");
+        //        clickElement(optionFirstOnMemberRoleList, "First Option member Role");
+        //        waitSomeSeconds(3);
         clickElement(buttonInviteNewMember, "Button Invite");
     }
 

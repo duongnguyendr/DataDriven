@@ -18,7 +18,7 @@
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
+            <class name="com.auvenir.ui.tests.SmokeTest"/>
         </classes>
     </test>
     <!--
