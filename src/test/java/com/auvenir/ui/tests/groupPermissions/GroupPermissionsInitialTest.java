@@ -1094,7 +1094,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     /**
-     * Vien.Pham added to verify Lead Client on To-do.
+     * Vien.Pham added to verify Lead Client and General Client on To-do page.
      */
 
     @Test(/*priority = 40,*/ enabled = true, description = "Verify Lead Client can see all to-dos", testName = "if_40",
@@ -1324,7 +1324,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 46, description = "Verify Lead client add file to new request.",
+    @Test(/*priority = 46,*/ description = "Verify Lead client add file to new request.",
             dependsOnMethods = {"verifyGeneralClientCanViewTodoTaskAssigned"}, alwaysRun = true, dataProvider = "verifyLeadClientAddFileToNewRequest",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientAddFileToNewRequest(String leadClientID, String leadClientAuvenirPwd, String engagementName2, String todo7,
@@ -1369,8 +1369,44 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
+
+    @Test(/*priority = 24,*/ enabled = true, description = "Verify group permission Lead client download file from request.",
+            dependsOnMethods = {"verifyLeadClientAddFileToNewRequest"}, alwaysRun = true, dataProvider = "verifyLeadClientDownloadFileToNewRequest",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyLeadClientDownloadRequestFile(String leadClientID, String leadClientAuvenirPwd, String engagementName2, String todo7,
+            String fileName, String pathUploadLocation, String pathDownloadLocation) throws Exception {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
+      /*  String leadClientID = "chr.vienpham.lead.client@gmail.com";
+        String leadClientAuvenirPwd = "Changeit@123";
+        String engagementName2 = "EngagementLeadAuditor";
+        String todo7 = "vien lead7";
+        String fileName = "TXT_Auvenir.xlsx";
+        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
+        String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";*/
+        try {
+            marketingService.loginUsingUsernamePassword(leadClientID, leadClientAuvenirPwd);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientTodoService.selectCheckboxByTodoName(todo7);
+            clientTodoService.clickCommentIconPerTaskName(todo7, false);
+            clientTodoService.downloadFileFromRequestFile(pathDownloadLocation, fileName);
+            clientTodoService.verifyDownloadFileFromRequestSuccessfully(pathUploadLocation, pathDownloadLocation, fileName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission Lead client download file from request.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission Lead client download file from request.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+
     @Test(/*priority = 47,*/ enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47",
-            dependsOnMethods = {"verifyLeadClientAddFileToNewRequest"}, alwaysRun = true, dataProvider = "verifyLeadClientPostComment",
+            dependsOnMethods = {"verifyLeadClientDownloadRequestFile"}, alwaysRun = true, dataProvider = "verifyLeadClientPostComment",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientMakeComment(String leadClientEmail, String leadClientPassword, String engagementName, String todoName,
             String commentContent) {
@@ -1508,10 +1544,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(/*priority = 51, */description = "Verify general client adds file to new request.", dependsOnMethods = {"verifyLeadClientCanViewComment"},
             alwaysRun = true, dataProvider = "verifyGeneralClientAddFileToNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralClientAddFileToNewRequest(String generalClientID,String generalClientAuvenirPwd,String engagementName2,String todo8,String request1, String request2, String request3, String request4, String request5, String request6, String file1, String file2,
-            String file3, String file4, String file5, String file6, String PathUpLoad)
-            throws
-            Exception {
+    public void verifyGeneralClientAddFileToNewRequest(String generalClientID, String generalClientAuvenirPwd, String engagementName2, String todo8,
+            String request1, String request2, String request3, String request4, String request5, String request6, String file1, String file2,
+            String file3, String file4, String file5, String file6, String PathUpLoad) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -1519,8 +1554,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         clientTodoService = new ClientTodoService(getLogger(), getDriver());
         generalClientID = GenericService.addBrowserPrefix(generalClientID);
-        String[]listFile={file1,file2,file3,file4,file5,file6};
-        String[]listRequest={request1,request2,request3,request4,request5,request6};
+        String[] listFile = {file1, file2, file3, file4, file5, file6};
+        String[] listRequest = {request1, request2, request3, request4, request5, request6};
         /*String generalClientID = "chr.vienpham.client@gmail.com";
         String generalClientAuvenirPwd = "Changeit@123";
         String engagementName2 = "EngagementLeadAuditor";
@@ -1545,6 +1580,41 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             NXGReports.addStep("Verify genral client adds file to new request: Pass", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify general client adds file to new request: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+
+    @Test(/*priority = 24,*/ enabled = true, description = "Verify group permission general client download file from request.",
+            dependsOnMethods = {"verifyGeneralClientAddFileToNewRequest"}, alwaysRun = true,
+            dataProvider = "verifyGeneralClientDownloadFileToNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyGeneralClientDownloadRequestFile(String generalClientID, String generalClientAuvenirPwd, String engagementName2, String todo7,
+            String fileName, String pathUploadLocation, String pathDownloadLocation) throws Exception {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
+      /*  String leadClientID = "chr.vienpham.lead.client@gmail.com";
+        String leadClientAuvenirPwd = "Changeit@123";
+        String engagementName2 = "EngagementLeadAuditor";
+        String todo7 = "vien lead7";
+        String fileName = "TXT_Auvenir.xlsx";
+        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
+        String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";*/
+        try {
+            marketingService.loginUsingUsernamePassword(generalClientID, generalClientAuvenirPwd);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientTodoService.selectCheckboxByTodoName(todo7);
+            clientTodoService.clickCommentIconPerTaskName(todo7, false);
+            clientTodoService.downloadFileFromRequestFile(pathDownloadLocation, fileName);
+            clientTodoService.verifyDownloadFileFromRequestSuccessfully(pathUploadLocation, pathDownloadLocation, fileName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission general client download file from request.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission general client download file from request.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
@@ -1638,7 +1708,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         String leadAuditorAuvenirPwd = "Changeit@123";
         String engagementName2 = "Engagement Dr02";
         String todo1 = "Todo 1";
-//        String requestName = "Request 1";
+        //        String requestName = "Request 1";
         String fileName = "TXT_Auvenir.xlsx";
         String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
         String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
@@ -1652,14 +1722,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorCreateToDoService.downloadFileFromRequest(pathOfDownloadLocation, fileName);
             auditorCreateToDoService.verifyDownloadFileFromRequestSuccessful(pathOfUploadLocation, pathOfDownloadLocation, fileName);
 
-//            auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-//            for (int i = 0; i < listRequest.length; i ++){
-//                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-//                auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, listFile[i], listRequest[i]);
-//                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
-//                auditorCreateToDoService.verifyUploadFileSuccessfully(listFile[i]);
-//                auditorCreateToDoService.closeAddNewRequestWindow();
-//            }
+            //            auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+            //            for (int i = 0; i < listRequest.length; i ++){
+            //                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+            //                auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, listFile[i], listRequest[i]);
+            //                auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+            //                auditorCreateToDoService.verifyUploadFileSuccessfully(listFile[i]);
+            //                auditorCreateToDoService.closeAddNewRequestWindow();
+            //            }
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission Lead auditor download file from request.", LogAs.PASSED, null);

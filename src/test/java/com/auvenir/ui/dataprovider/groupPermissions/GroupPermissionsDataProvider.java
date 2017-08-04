@@ -696,4 +696,25 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         }
         return arrayData;
     }
+
+
+    @DataProvider(name = "verifyLeadClientDownloadFileToNewRequest")
+    public static Object[][] getVerifyLeadClientDownloadFileToNewRequest() {
+        Object[][] arrayData =
+                new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo7, fileRequestName1, pathUpload, pathDownload}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo7, fileRequestName1, pathUpload, pathDownload}};
+        }
+        return arrayData;
+    }
+
+
+    @DataProvider(name = "verifyGeneralClientDownloadFileToNewRequest")
+    public static Object[][] getVerifyGeneralClientDownloadFileToNewRequest() {
+        Object[][] arrayData = new Object[][]{{clientUser, clientAuvenirPwd, engagementName2, todo8, fileRequestName2, pathUpload, pathDownload}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo8, fileRequestName2, pathUpload, pathDownload}};
+        }
+        return arrayData;
+    }
 }
