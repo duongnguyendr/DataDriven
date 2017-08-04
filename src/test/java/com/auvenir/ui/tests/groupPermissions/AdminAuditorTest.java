@@ -160,23 +160,24 @@ public class AdminAuditorTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "To Verify Admin Auditor can not remove Auditor")
-    public void verifyAdminAuditorCanNotRemoveAuditor() {
+    @Test(priority = 7, enabled = true, description = "To Verify Admin Auditor can not remove Auditor", testName = "AA_7",
+            dataProvider = "verifyAdminAuditorCanNotRemoveAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminAuditorCanNotRemoveAuditor(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName2,
+            String leadAuditorFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String adminAuditorId = "chr.vienpham.admin.auditor@gmail.com";
-        String adminAuditorPwd = "Changeit@123";
-        String engagementName = "Engagement_LeadAuditor";
-        String auditorFullName = "Lead Auditor";
+
         try {
-            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorUser, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
             adminAuditorService.navigateToTeamTab();
-            adminAuditorService.verifyAdminAuditorCanNotRemoveAuditor(auditorFullName);
+            adminAuditorService.verifyAdminAuditorCanNotRemoveAuditor(leadAuditorFullName);
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not remove client from Engagement: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
@@ -185,25 +186,24 @@ public class AdminAuditorTest extends AbstractTest {
         }
     }
 
-
-    @Test(priority = 8, enabled = true, description = "To Verify Admin Auditor can not remove client from Engagement")
-    public void verifyAdminAuditorCanNotRemoveClients() {
+    @Test(priority = 8, enabled = true, description = "To Verify Admin Auditor can not remove client from Engagement", testName = "AA_8",
+            dataProvider = "verifyAdminAuditorCanNotRemoveClients", dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminAuditorCanNotRemoveClients(String adminAuditorUser, String adminAuditorAuvenirPwd, String engagementName2,
+            String leadClientFullName) {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        String adminAuditorId = "chr.vienpham.admin.auditor@gmail.com";
-        String adminAuditorPwd = "Changeit@123";
-        String engagementName = "Engagement_LeadAuditor";
-        String clientFullName = "Lead Client";
 
         try {
-            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorUser, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
             adminAuditorService.navigateToTeamTab();
-            adminAuditorService.verifyAdminAuditorCanNotRemoveClient(clientFullName);
+            adminAuditorService.verifyAdminAuditorCanNotRemoveClient(leadClientFullName);
+
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not remove client from Engagement: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {

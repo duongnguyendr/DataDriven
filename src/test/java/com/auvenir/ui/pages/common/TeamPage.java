@@ -54,13 +54,12 @@ public abstract class TeamPage extends AbstractPage {
         } else {
             if (index == -1) {
                 getLogger().info("Can not see member: " + memberFullName + " in list");
-                NXGReports.addStep("Verify can " + (permissionToSee ? "see member: " : "not see member: " + memberFullName + " in list :Pass"),
-                        LogAs.PASSED, null);
+                NXGReports.addStep("Can not see member: " + memberFullName + " in list", LogAs.PASSED, null);
             } else {
                 getLogger().info("Can see member: " + memberFullName + " in list");
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify can " + (permissionToSee ? "see member: " : "not see member: " + memberFullName + " in list :Fail"),
-                        LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Fail: Can see member: " + memberFullName + " in list", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         }
     }
@@ -72,14 +71,13 @@ public abstract class TeamPage extends AbstractPage {
         if (permissionToSelect) {
 
         } else {
-            Boolean isDisplayed = validateDisPlayedElement(listDisableCheckboxTeamMember.get(index),"disable checkbox");
-                    if(isDisplayed){
-            NXGReports.addStep("Verify can " + (permissionToSelect ? "select member Checkbox " : "not select member Checkbox "), LogAs.PASSED, null);
-        } else{
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify can " + (permissionToSelect ? "select member Checkbox " : "not select member Checkbox "), LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            Boolean isDisplayed = validateDisPlayedElement(listDisableCheckboxTeamMember.get(index), "disable checkbox");
+            if (isDisplayed) {
+                NXGReports.addStep("Cannot select member Checkbox ", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: Can select member Checkbox ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
         }
     }
-}
 }

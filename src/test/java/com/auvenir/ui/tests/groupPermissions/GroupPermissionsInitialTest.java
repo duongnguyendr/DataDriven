@@ -15,7 +15,6 @@ import com.auvenir.utilities.MongoDBService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
-import com.gargoylesoftware.htmlunit.javascript.host.media.StereoPannerNode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -514,9 +513,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
 
     @Test(/*priority = 15,*/ enabled = true, description = "Verify Admin Client have permission to invite client via email.", testName = "if_15",
-            dependsOnMethods = {"verifyLeadAuditorInviteNewAuditorMember"}, alwaysRun = true,
-            dataProvider = "verifyPermissionAdminClientCanInviteClient", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionAdminClientCanInviteClient(String adminClientEmail, String adminClientAuvenirPwd, String leadClientEmail,
+            dependsOnMethods = {"verifyLeadAuditorInviteNewAuditorMember"}, alwaysRun = true, dataProvider = "verifyAdminClientCanInviteClient",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyAdminClientCanInviteClient(String adminClientEmail, String adminClientAuvenirPwd, String leadClientEmail,
             String leadClientEmailPwd, String adminEmail, String adminAuvenirPwd, String engagementName2, String leadClientFullName,
             String successMessageInvitation, String onboardingStatus, String roleClient) throws Exception {
 
@@ -561,10 +560,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 16,*/ enabled = true, description = "Verify Invited Client have permission to seft-active via email.", testName = "if_16",
-            dependsOnMethods = {"verifyPermissionAdminClientCanInviteClient"}, alwaysRun = true,
-            dataProvider = "verifyPermissionClientCanActiveViaEmail", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionClientCanActiveViaEmail(String leadClientEmail, String leadClientEmailPwd, String clientPhoneNumber,
-            String parentStackHolder, String leadClientAuvenirPwd, String engagementName2) throws Exception {
+            dependsOnMethods = {"verifyAdminClientCanInviteClient"}, alwaysRun = true, dataProvider = "verifyClientCanActiveViaEmail",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyClientCanActiveViaEmail(String leadClientEmail, String leadClientEmailPwd, String clientPhoneNumber, String parentStackHolder,
+            String leadClientAuvenirPwd, String engagementName2) throws Exception {
         getLogger().info("Verify Invited Client have permission to seft-active via email.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
@@ -598,10 +597,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(/*priority = 17,*/ enabled = true,
             description = "Verify Lead Client have permission to tranfer their Lead Permission to other Client on team", testName = "if_17",
-            dependsOnMethods = {"verifyPermissionClientCanActiveViaEmail"}, alwaysRun = true,
-            dataProvider = "verifyPermissionLeadPermissionCanBeTranfered", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyPermissionLeadPermissionCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2,
-            String leadClientFullName, String leadText) throws Exception {
+            dependsOnMethods = {"verifyClientCanActiveViaEmail"}, alwaysRun = true, dataProvider = "verifyPermissionLeadPermissionCanBeTranfered",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyLeadCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2, String leadClientFullName,
+            String leadText) throws Exception {
         getLogger().info("Verify Admin Client have permission to invite client via email.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
@@ -1623,12 +1622,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     //    @Test(/*priority = 22,*/ enabled = true, description = "Verify group permission Lead auditor add new request.", testName = "if_22",
     //            dependsOnMethods = {"verifyLeadAuditorCreateTodoAndAssignClient"}, alwaysRun = true,
     //            dataProvider = "verifyLeadAuditorAssignToGeneralAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
-
     @Test(priority = 22, enabled = true, description = "Verify group permission Lead auditor add new request.",
             dataProvider = "verifyLeadAuditorAddNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorAddNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
-            String todo1, String requestName1, String requestName2, String requestName3,
-            String requestName4, String requestName5, String requestName6) throws Exception {
+    public void verifyLeadAuditorAddNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
+            String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
+            String requestName6) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -1659,10 +1657,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 23, description = "Verify group permission Lead auditor add file to new request.",
             dataProvider = "verifyLeadAuditorAddFileToNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorAddFileToNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
-            String todo1, String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
-            String requestName6, String fileRequestName1, String fileRequestName2, String fileRequestName3,
-            String fileRequestName4, String fileRequestName5, String fileRequestName6, String pathOfUploadLocation) throws Exception {
+    public void verifyLeadAuditorAddFileToNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
+            String requestName1, String requestName2, String requestName3, String requestName4, String requestName5, String requestName6,
+            String fileRequestName1, String fileRequestName2, String fileRequestName3, String fileRequestName4, String fileRequestName5,
+            String fileRequestName6, String pathOfUploadLocation) throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1685,7 +1683,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
             auditorCreateToDoService.verifyAddFileToNewRequest(todo1, pathOfUploadLocation, Arrays.asList(listRequest), Arrays.asList(listFile));
 
-            Assert.assertTrue(AbstractService.sStatusCnt == 0,"Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission Lead auditor add file to new request.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify group permission Lead auditor add file to new request.", LogAs.FAILED,
@@ -1697,21 +1695,21 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 24, enabled = true, description = "Verify group permission Lead auditor download file from request.",
             dataProvider = "verifyLeadAuditorDownloadRequestFile", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorDownloadRequestFile(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
-                String todo1, String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
+    public void verifyLeadAuditorDownloadRequestFile(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
+            String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
 
-//        String leadAuditorEmail = "duong.lead.auditor@mailinator.com";
-//        String leadAuditorAuvenirPwd = "Changeit@123";
-//        String engagementName2 = "Engagement Dr02";
-//        String todo1 = "Todo 1";
-//        String fileName = "TXT_Auvenir.xlsx";
-//        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
-//        String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
+        //        String leadAuditorEmail = "duong.lead.auditor@mailinator.com";
+        //        String leadAuditorAuvenirPwd = "Changeit@123";
+        //        String engagementName2 = "Engagement Dr02";
+        //        String todo1 = "Todo 1";
+        //        String fileName = "TXT_Auvenir.xlsx";
+        //        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
+        //        String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
         try {
             marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
@@ -1734,8 +1732,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 33, enabled = true, description = "Verify group permission general auditor add new request.",
             dataProvider = "verifyGeneralAuditorAddNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralAuditorAddNewRequest(String auditorUser, String auditorPwd, String engagementName2, String todo4,
-            String todo7, String todo8, String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
+    public void verifyGeneralAuditorAddNewRequest(String auditorUser, String auditorPwd, String engagementName2, String todo4, String todo7,
+            String todo8, String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
             String requestName6) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1743,12 +1741,12 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorUser = GenericService.addBrowserPrefix(auditorUser);
 
-//        auditorUser = "duong.auditor@mailinator.com";
-//        auditorPwd = "Changeit@123";
-//        engagementName2 = "Engagement Dr02";
+        //        auditorUser = "duong.auditor@mailinator.com";
+        //        auditorPwd = "Changeit@123";
+        //        engagementName2 = "Engagement Dr02";
 
         String[] listRequest = {requestName1, requestName2, requestName3, requestName4, requestName5, requestName6};
-        String [] listTodo = {todo4, todo7, todo8};
+        String[] listTodo = {todo4, todo7, todo8};
 
         try {
             marketingService.loginUsingUsernamePassword(auditorUser, auditorPwd);
@@ -1781,11 +1779,11 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorUser = GenericService.addBrowserPrefix(auditorUser);
 
-//                auditorUser = "duong.auditor@mailinator.com";
-//                auditorPwd = "Changeit@123";
-//                engagementName2 = "Engagement Dr02";
-//                todo4 = "Todo 4";
-//                String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
+        //                auditorUser = "duong.auditor@mailinator.com";
+        //                auditorPwd = "Changeit@123";
+        //                engagementName2 = "Engagement Dr02";
+        //                todo4 = "Todo 4";
+        //                String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
 
         String[] listRequest = {requestName1, requestName2, requestName3, requestName4, requestName5, requestName6};
         String[] listFile = {fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5, fileRequestName6};
@@ -1798,7 +1796,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
             auditorCreateToDoService.verifyAddFileToNewRequest(todo4, pathOfUploadLocation, Arrays.asList(listRequest), Arrays.asList(listFile));
 
-            Assert.assertTrue(AbstractService.sStatusCnt == 0,"Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission General auditor add file to new request.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify group permission General auditor add file to new request.", LogAs.FAILED,
@@ -1810,21 +1808,21 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 35, enabled = true, description = "Verify group permission General auditor download file from request.",
             dataProvider = "verifyGeneralAuditorDownloadRequestFile", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralAuditorDownloadRequestFile(String auditorUser, String auditorPwd, String engagementName2,
-                String todo4, String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
+    public void verifyGeneralAuditorDownloadRequestFile(String auditorUser, String auditorPwd, String engagementName2, String todo4,
+            String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorUser = GenericService.addBrowserPrefix(auditorUser);
 
-//        auditorUser = "duong.auditor@mailinator.com";
-//        auditorPwd = "Changeit@123";
-//        engagementName2 = "Engagement Dr02";
-//        todo4 = "Todo 1";
-//        fileName = "TXT_Auvenir.xlsx";
-//        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
-//        String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
+        //        auditorUser = "duong.auditor@mailinator.com";
+        //        auditorPwd = "Changeit@123";
+        //        engagementName2 = "Engagement Dr02";
+        //        todo4 = "Todo 1";
+        //        fileName = "TXT_Auvenir.xlsx";
+        //        String pathOfUploadLocation = GenericService.sDirPath + "\\src\\test\\resources\\upload\\";
+        //        String pathOfDownloadLocation = GenericService.sDirPath + "\\src\\test\\resources\\download\\";
         try {
             marketingService.loginUsingUsernamePassword(auditorUser, auditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
