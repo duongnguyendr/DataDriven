@@ -390,8 +390,8 @@ public class AbstractPage {
     public boolean validateElementText(WebElement webElement, String elementText) {
         try {
             getLogger().info("Check rendered of text: " + elementText.trim());
-            getLogger().info("Actual Text is displayed: " + webElement.getText().trim());
-            Assert.assertEquals(webElement.getText().trim(), elementText.trim());
+            getLogger().info("Actual Text is displayed: " + getText(webElement).trim());
+            Assert.assertEquals(getText(webElement).trim(), elementText.trim());
             NXGReports.addStep(elementText + " rendered", LogAs.PASSED, null);
             return true;
         } catch (AssertionError error) {
