@@ -11,8 +11,24 @@
         <classes>
             <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
             <methods>
-                <!--<include name="verifyGeneralAuditorAddNewRequest"></include>-->
+                <include name="verifyLeadAuditorAddNewRequest"></include>
+                <include name="verifyLeadAuditorAddFileToNewRequest"></include>
+                <include name="verifyLeadAuditorDownloadRequestFile"></include>
+                <include name="verifyGeneralAuditorCreateTodo"></include>
+                <include name="verifyGeneralAuditorAddNewRequest"></include>
+                <include name="verifyGeneralAuditorAddFileToNewRequest"></include>
                 <include name="verifyGeneralAuditorDownloadRequestFile"></include>
+                <include name="verifyLeadClientAssignTodoTaskToClient"></include>
+                <include name="verifyLeadClientUseBulkActionToAssignTodoTask"></include>
+                <include name="verifyGeneralClientCanViewTodoTaskAssigned"></include>
+                <include name="verifyLeadClientAddFileToNewRequest"></include>
+                <include name="verifyLeadClientDownloadRequestFile"></include>
+                <include name="verifyLeadClientMakeComment"></include>
+                <include name="verifyGeneralClientCanViewComment"></include>
+                <include name="verifyGeneralClientMakeComment"></include>
+                <include name="verifyLeadClientCanViewComment"></include>
+                <include name="verifyGeneralClientAddFileToNewRequest"></include>
+                <include name="verifyGeneralClientDownloadRequestFile"></include>
             </methods>
         </classes>
     </test>

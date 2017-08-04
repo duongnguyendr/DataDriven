@@ -630,14 +630,28 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyLeadAuditorAddFileToNewRequest")
     public static Object[][] getVerifyLeadAuditorAddFileToNewRequest() {
         Object[][] arrayData = new Object[][]{
-                {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo4, requestName1, requestName2, requestName3, requestName4, requestName5,
+                {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, requestName1, requestName2, requestName3, requestName4, requestName5,
                         requestName6, fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5, fileRequestName6,
                         pathUpload}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo4, requestName1, requestName2, requestName3, requestName4,
+                    {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, requestName1, requestName2, requestName3, requestName4,
                             requestName5, requestName6, fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5,
                             fileRequestName6, pathUpload}};
+        }
+        return arrayData;
+    }
+
+    @DataProvider(name = "verifyGeneralAuditorAddFileToNewRequest")
+    public static Object[][] getVerifyGeneralAuditorAddFileToNewRequest() {
+        Object[][] arrayData = new Object[][]{
+                {auditorUser, auditorAuvenirPwd, engagementName2, todo4, requestName1, requestName2, requestName3, requestName4, requestName5, requestName6,
+                        fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5, fileRequestName6, pathUpload}};
+        if (GenericService.sLanguage.equals("French")) {
+            arrayData = new Object[][]{
+                    {auditorUser, auditorAuvenirPwd, engagementName2, todo4, requestName1, requestName2, requestName3, requestName4, requestName5,
+                            requestName6, fileRequestName1, fileRequestName2, fileRequestName3, fileRequestName4, fileRequestName5, fileRequestName6,
+                            pathUpload}};
         }
         return arrayData;
     }
@@ -645,11 +659,11 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyGeneralAuditorAddNewRequest")
     public static Object[][] getVerifyGeneralAuditorAddNewRequest() {
         Object[][] arrayData = new Object[][]{
-                {auditorUser, auditorPwd, engagementName2, todo4, todo7, todo8, requestName1, requestName2, requestName3, requestName4, requestName5,
+                {auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo7, todo8, requestName1, requestName2, requestName3, requestName4, requestName5,
                         requestName6}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {auditorUser, auditorPwd, engagementName2, todo4, todo7, todo8, requestName1, requestName2, requestName3, requestName4,
+                    {auditorUser, auditorAuvenirPwd, engagementName2, todo4, todo7, todo8, requestName1, requestName2, requestName3, requestName4,
                             requestName5, requestName6}};
         }
         return arrayData;
@@ -658,10 +672,10 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name = "verifyLeadAuditorDownloadRequestFile")
     public static Object[][] getVerifyLeadAuditorDownloadRequestFile(){
         Object[][] arrayData = new Object[][]{
-                {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, pathUpload, pathDownload, requestName1}};
+                {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, pathUpload, pathDownload, fileRequestName1}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, pathUpload, pathDownload, requestName1}};
+                    {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo1, pathUpload, pathDownload, fileRequestName1}};
         }
         return arrayData;
     }
@@ -669,10 +683,10 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
     @DataProvider(name="verifyGeneralAuditorDownloadRequestFile")
     public static Object[][] getVerifyGeneralAuditorDownloadRequestFile(){
         Object[][] arrayData = new Object[][]{
-                {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo4, pathUpload, pathDownload, requestName1}};
+                {auditorUser, auditorAuvenirPwd, engagementName2, todo4, pathUpload, pathDownload, fileRequestName1}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {leadAuditorUser, leadAuditorAuvenirPwd, engagementName2, todo4, pathUpload, pathDownload, requestName1}};
+                    {auditorUser, auditorAuvenirPwd, engagementName2, todo4, pathUpload, pathDownload, fileRequestName1}};
         }
         return arrayData;
     }
