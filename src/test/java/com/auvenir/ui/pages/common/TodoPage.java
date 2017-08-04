@@ -11,8 +11,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 /**
  * Created by vien.pham on 7/21/2017.
@@ -95,6 +105,10 @@ public abstract class TodoPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr//input[@type='checkbox']")
     protected List<WebElement> eleToDoCheckboxRow;
+
+
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div/div[2]")
+    List<WebElement> uploadRequestList;
 
     public int findToDoTaskName(String toDoName, boolean isClient) {
         getLogger().info("Find Position of To Do Task Name");
@@ -788,7 +802,7 @@ public abstract class TodoPage extends AbstractPage {
         sendTabkey(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
     }
 
-    private void closeAddNewRequestWindow() {
+    public void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
     }
@@ -879,5 +893,184 @@ public abstract class TodoPage extends AbstractPage {
             }
         }
         return "";
+    }
+
+    public void uploadeNewFileByRequestName(String concatUpload, String requestName) {
+        try {
+            int isFind = findRequestByName(requestName);
+            if (isFind == -1) {
+                getLogger().info("Can not find any request has name is: " + requestName);
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            } else {
+                clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
+                Thread.sleep(largeTimeOut);
+                getLogger().info("Input path of file..");
+                //                upLoadRequestFile(concatUpload);
+                StringSelection ss = new StringSelection(concatUpload);
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+                //                getLogger().info("Waiting for checkSign visible..");
+                //                waitForCssValueChanged(checkUploadRequest.get(isFind), "checkSuccessful", "display", "inline-block");
+                //                                closeAddNewRequestWindow();
+                waitSomeSeconds(1);
+                NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
+            }
+        } catch (InterruptedException itr) {
+            AbstractService.sStatusCnt++;
+            itr.printStackTrace();
+            NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /*
+   Vien.Pham added new method
+    */
+    public void verifyUploadFileSuccessfully(String fileName) {
+        try {
+            int isFind = findUploadFile(fileName);
+            System.out.println("value is: " + isFind);
+            if (isFind != -1) {
+                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports
+                    .addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                            e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public int findUploadFile(String fileName) {
+        getLogger().info("Verifying this file existed in the list..");
+        int isFind = -1;
+        for (int i = 0; i < uploadRequestList.size(); i++) {
+            System.out.println("UploadName at position: " + i + " is " + uploadRequestList.get(i).getText());
+            if (uploadRequestList.get(i).getText().equals(fileName)) {
+                isFind = i;
+                break;
+            }
+        }
+        return isFind;
+    }
+
+    public void downloadRequestFile(String downloadLocation, String fileName) {
+        downloadNewRequestFile(downloadLocation, fileName, false);
+    }
+
+    public void downloadFileFromComment(String downloadLocation, String fileName) {
+        downloadNewRequestFile(downloadLocation.concat(fileName), fileName, true);
+    }
+
+    //    public void downloadNewRequestFile(String downloadLocation, String fileName, boolean fileInComment){}
+
+    @FindBy(xpath = "//div[@class='todo-comment-container']//p[contains(@class,'comment-fileName')]")
+    WebElement verifyAttachComplete;
+    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div//span[contains(@class,'auvicon-line-download')]")
+    List<WebElement> downloadRequestBtn;
+
+    public void downloadNewRequestFile(String pathDownloadFolder, String fileName, boolean fileInComment) {
+        try {
+            //Delete file before download
+            String concatDownload = pathDownloadFolder.concat(fileName);
+            checkFileExists(concatDownload, true);
+            Thread.sleep(largeTimeOut);
+            if (fileInComment) {
+                clickElement(verifyAttachComplete, "download attachment from comment");
+                waitSomeSeconds(3);
+            } else {
+                int isFind = findUploadFile(fileName);
+                clickElement(downloadRequestBtn.get(isFind), "download newRequest");
+                waitSomeSeconds(3);
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Check sum failed_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public void verifyDownloadFileRequestSuccess(String pathUpload, String pathDownload, String fileName) {
+        try {
+            String concatUpload = pathUpload.concat(fileName);
+            String concatDownload = pathDownload.concat(fileName);
+            boolean fileExisted = checkFileExists(concatDownload, false);
+            if (fileExisted) {
+                String checkMd5UploadFile = calculateMD5(concatUpload);
+                getLogger().info("md5 upload is: " + checkMd5UploadFile);
+                String checkMd5DownloadFile = calculateMD5(concatDownload);
+                getLogger().info("md5 download is: " + checkMd5DownloadFile);
+                if (checkMd5UploadFile.equals(checkMd5DownloadFile)) {
+                    NXGReports.addStep("Check sum done", LogAs.PASSED, null);
+                } else {
+                    AbstractService.sStatusCnt++;
+                    NXGReports.addStep("Check sum failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                }
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Download file failed, file: " + fileName + "not in " + pathDownload, LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Check sum failed_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    public String calculateMD5(String fileMD5) {
+        String md5 = null;
+        try {
+            FileInputStream fis = new FileInputStream(fileMD5);
+            System.out.println("fileMD5 = " + fileMD5);
+            md5 = md5Hex(fis);
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            getLogger().info("Unable to calculate MD5 file.");
+        }
+
+        return md5;
+
+    }
+
+    //    public boolean checkFileExists(String downloadFile, boolean isDeletedFile){return false;}
+    public boolean checkFileExists(String pathLocation, boolean deleteExisted) {
+//        waitSomeSeconds(3);
+        Path path = Paths.get(pathLocation);
+        System.out.println("file: " + path);
+        boolean result = false;
+        try {
+            if (Files.exists(path)) {
+                result = true;
+                if (deleteExisted) {
+                    Files.delete(path);
+                    if (Files.exists(path)) {
+                        AbstractService.sStatusCnt++;
+                        NXGReports.addStep("Delete file failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Delete file failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            ex.printStackTrace();
+        }
+        return result;
     }
 }

@@ -3315,10 +3315,10 @@ public class AuditorCreateToDoPage extends TodoPage {
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
     }
 
-    public void closeAddNewRequestWindow() {
+   /* public void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
-    }
+    }*/
 
     /**
      * Author minh.nguyen
@@ -4571,7 +4571,7 @@ public class AuditorCreateToDoPage extends TodoPage {
 //                getLogger().info("Waiting for checkSign visible..");
 //                waitForCssValueChanged(checkUploadRequest.get(isFind), "checkSuccessful", "display", "inline-block");
 //                closeAddNewRequestWindow();
-                waitSomeSeconds(2);
+//                waitSomeSeconds(2);
                 NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
             }
         } catch (InterruptedException itr) {
@@ -4635,18 +4635,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         return isFind;
     }
 
-    public int findUploadFile(String fileName) {
-        getLogger().info("Verifying this file existed in the list..");
-        int isFind = -1;
-        for (int i = 0; i < uploadRequestList.size(); i++) {
-            System.out.println("UploadName at position: " + i + " is " + uploadRequestList.get(i).getText());
-            if (uploadRequestList.get(i).getText().equals(fileName)) {
-                isFind = i;
-                break;
-            }
-        }
-        return isFind;
-    }
+
 
 /*
     public void uploadFileNewRequestByClient(String concatUpload) throws AWTException, InterruptedException, IOException {
@@ -4687,32 +4676,9 @@ public class AuditorCreateToDoPage extends TodoPage {
     @FindBy(xpath = "//*[@id=\"todo-req-box-1\"]/div[2]")
     WebElement fileNameAfterUploadedClient;
 
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div/div[2]")
-    List<WebElement> uploadRequestList;
 
-    /*
-    Vien.Pham added new method
-     */
-    public void verifyUploadFileSuccessfully(String fileName) {
-        try {
-            int isFind = findUploadFile(fileName);
-            System.out.println("value is: "+isFind);
-            if (isFind != -1) {
-                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED,
-                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports
-                    .addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
-                            e.getMessage());
-            e.printStackTrace();
-        }
-    }
-/*
+
+
     public void verifyUploadFileSuccessfullyByClient(String fileName) {
         try {
             waitForCssValueChanged(fileNameAfterUploadedClient, "fileName After uploaded", "display", "inline-block");
@@ -4731,7 +4697,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             e.printStackTrace();
         }
 
-    }*/
+    }
 
 
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div//span[contains(@class,'auvicon-line-download')]")
@@ -4742,31 +4708,17 @@ public class AuditorCreateToDoPage extends TodoPage {
     Vien.Pham added new method
     @param : mode 1 for downloading request file, mode 2 for downloading attachfile.
      */
-    public void downloadNewRequestFile(String concatUpload, String concatDownload, String fileName, boolean fileInComment) {
+    public void downloadNewRequestFile(String pathDownloadFolder, String fileName, boolean fileInComment) {
         try {
             //Delete file before download
+            String concatDownload = pathDownloadFolder.concat(fileName);
             checkFileExists(concatDownload, true);
-/*            Path path = Paths.get(concatDownload);
-            if (Files.exists(path)) {
-                Files.delete(path);
-            }*/
             Thread.sleep(largeTimeOut);
             if (fileInComment) {
                 clickElement(verifyAttachComplete, "download attachment from comment");
             } else {
                 int isFind = findUploadFile(fileName);
                 clickElement(downloadRequestBtn.get(isFind), "download newRequest");
-            }
-            Thread.sleep(largeTimeOut);
-            String checkMd5UploadFile = calculateMD5(concatUpload);
-            getLogger().info("md5 upload is: " + checkMd5UploadFile);
-            String checkMd5DownloadFile = calculateMD5(concatDownload);
-            getLogger().info("md5 download is: " + checkMd5DownloadFile);
-            if (checkMd5UploadFile.equals(checkMd5DownloadFile)) {
-                NXGReports.addStep("Check sum done", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Check sum failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4833,11 +4785,11 @@ public class AuditorCreateToDoPage extends TodoPage {
 
     }
 
-    public void downloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
+    public void downloadAttachFile(String pathOfDownload, String fileName) {
         try {
             getLogger().info("client verifies attached file available..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), fileName, true);
+            downloadNewRequestFile(pathOfDownload.concat(fileName), fileName, true);
             NXGReports.addStep("Download attached file Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -4846,18 +4798,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public String calculateMD5(String fileMD5) throws IOException {
-        String md5 = null;
-        try {
-            FileInputStream fis = new FileInputStream(fileMD5);
-            md5 = md5Hex(fis);
-            fis.close();
-        } catch (Exception e) {
-            getLogger().info("Unable to calculate MD5 file.");
-        }
-        return md5;
 
-    }
 
 
     /*
@@ -5488,16 +5429,15 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public boolean checkFileExists(String pathLocation, boolean deleteExisted){
+   /* public boolean checkFileExists(String pathLocation, boolean deleteExisted){
+        waitSomeSeconds(3);
         Path path = Paths.get(pathLocation);
         System.out.println("file: " + path);
         boolean result = false;
         try {
             if (Files.exists(path)) {
-                System.out.println("file exists: " + path);
                 result = true;
                 if (deleteExisted) {
-                    System.out.println("tao delete file: " + path);
                     Files.delete(path);
                     if (Files.exists(path)) {
                         AbstractService.sStatusCnt++;
@@ -5511,7 +5451,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             ex.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     public void verifyDownloadFileAllTodoSuccess(String pathLocation){
         if(!checkFileExists(pathLocation, false)){
@@ -5565,7 +5505,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public void verifyFileRequestInTodo(String toDoName, String... fileNames){
+    /*public void verifyFileRequestInTodo(String toDoName, String... fileNames){
         try{
             clickOpenNewRequestByTodoName(toDoName);
             List<String> lstFileDisplayed = new ArrayList<String>();
@@ -5586,7 +5526,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }finally {
             closeAddNewRequestWindow();
         }
-    }
+    }*/
 
     public void verifyPermissionCanUploadRequestFile(String pathOfUploadLocation, String fileName, boolean possibleUpload){
         try {
@@ -5613,12 +5553,12 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public void verifyPermissionCanDownloadRequestFile(String pathOfUploadLocation, String pathOfDownloadLocation, String fileName, boolean
+    public void verifyPermissionCanDownloadRequestFile(String pathOfDownloadLocation, String fileName, boolean
             fileInComment, boolean possibleDownload){
         try{
             if (possibleDownload){
                 verifyPopupColorAddRequestBtn();
-                downloadNewRequestFile(pathOfUploadLocation, pathOfDownloadLocation, fileName, fileInComment);
+                downloadNewRequestFile(pathOfDownloadLocation, fileName, fileInComment);
             }else{
 
             }

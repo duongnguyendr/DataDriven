@@ -450,5 +450,4 @@ public class ClientService extends AbstractService {
     public void inviteExistedClient() {
         createNewAuditPage.clickButtonInvite();
     }
-
 }

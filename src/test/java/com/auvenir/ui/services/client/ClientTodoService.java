@@ -70,6 +70,32 @@ public class ClientTodoService extends AbstractService {
     }
 
     public void verifyClientAssigneeSelected(String todo4, String clientFullName) {
-        clientToDoPage.verifyClientAssigneeSelected(todo4,clientFullName);
+        clientToDoPage.verifyClientAssigneeSelected(todo4, clientFullName);
+    }
+
+    public void uploadFileByRequestName(String pathUploadFile, List<String> listFile, List<String> listRequest) {
+        for (int i = 0; i < listRequest.size(); i++) {
+            clientToDoPage.uploadeNewFileByRequestName(pathUploadFile.concat(listFile.get(i)), listRequest.get(i));
+
+        }
+    }
+
+
+    public void verifyUploadFileSuccessfully(List<String> listFile, List<String> listRequest) {
+        for (int i = 0; i < listRequest.size(); i++) {
+            clientToDoPage.verifyUploadFileSuccessfully(listFile.get(i));
+        }
+    }
+
+    public void closeAddNewRequestWindow() {
+        clientToDoPage.closeAddNewRequestWindow();
+    }
+
+    public void downloadFileFromRequestFile(String pathOfDownloadLocation, String fileName) {
+        clientToDoPage.downloadRequestFile(pathOfDownloadLocation,fileName);
+    }
+
+    public void verifyDownloadFileFromRequestSuccessfully(String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) {
+        clientToDoPage.verifyDownloadFileRequestSuccess(pathOfUploadLocation,pathOfDownloadLocation,fileName);
     }
 }
