@@ -39,6 +39,9 @@ public class AuditorDetailsEngagementPage extends DetailsEngagementPage {
     @FindBy(id = "h-clientListLink")
     private WebElement eleContactLink;
 
+    @FindBy (id = "engagementOverview")
+    private WebElement engagementOverviewEle;
+
     /**
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - Start
      */
@@ -52,9 +55,8 @@ public class AuditorDetailsEngagementPage extends DetailsEngagementPage {
     public void verifyDetailsEngagementPage(String engagementName) {
         waitForVisibleElement(dashboardTextEle, "dashboard text");
         clickElement(dashboardTextEle);
-        sendTabkey(dashboardTextEle, "");
+        clickElement(engagementOverviewEle);
         validateAttributeElement(dashboardTextEle, "placeholder", engagementName);
-        //        validateElementText(dashboardTextEle,engagementName);
     }
 
     public void verifyDetailsEngagementAtGeneralPage(String engagementName) {
