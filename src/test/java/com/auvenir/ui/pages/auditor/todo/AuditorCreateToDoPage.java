@@ -4720,17 +4720,6 @@ public class AuditorCreateToDoPage extends TodoPage {
                 int isFind = findUploadFile(fileName);
                 clickElement(downloadRequestBtn.get(isFind), "download newRequest");
             }
-//            Thread.sleep(largeTimeOut);
-//            String checkMd5UploadFile = calculateMD5(concatUpload);
-//            getLogger().info("md5 upload is: " + checkMd5UploadFile);
-//            String checkMd5DownloadFile = calculateMD5(concatDownload);
-//            getLogger().info("md5 download is: " + checkMd5DownloadFile);
-//            if (checkMd5UploadFile.equals(checkMd5DownloadFile)) {
-//                NXGReports.addStep("Check sum done", LogAs.PASSED, null);
-//            } else {
-//                AbstractService.sStatusCnt++;
-//                NXGReports.addStep("Check sum failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-//            }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Check sum failed_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
@@ -4809,21 +4798,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public String calculateMD5(String fileMD5) {
-        String md5 = null;
-        try {
-            FileInputStream fis = new FileInputStream(fileMD5);
-            System.out.println("fileMD5 = " + fileMD5);
-            md5 = md5Hex(fis);
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            getLogger().info("Unable to calculate MD5 file.");
-        }
 
-        return md5;
-
-    }
 
 
     /*
@@ -5454,7 +5429,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public boolean checkFileExists(String pathLocation, boolean deleteExisted){
+   /* public boolean checkFileExists(String pathLocation, boolean deleteExisted){
         waitSomeSeconds(3);
         Path path = Paths.get(pathLocation);
         System.out.println("file: " + path);
@@ -5476,7 +5451,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             ex.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     public void verifyDownloadFileAllTodoSuccess(String pathLocation){
         if(!checkFileExists(pathLocation, false)){

@@ -90,4 +90,12 @@ public class ClientTodoService extends AbstractService {
     public void closeAddNewRequestWindow() {
         clientToDoPage.closeAddNewRequestWindow();
     }
+
+    public void downloadFileFromRequestFile(String pathOfDownloadLocation, String fileName) {
+        clientToDoPage.downloadRequestFile(pathOfDownloadLocation,fileName);
+    }
+
+    public void verifyDownloadFileFromRequestSuccessfully(String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) {
+        clientToDoPage.verifyDownloadFileRequestSuccess(pathOfUploadLocation,pathOfDownloadLocation,fileName);
+    }
 }
