@@ -314,13 +314,15 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
 
     @DataProvider(name = "verifyLeadAuditorInvitingAdminClient")
     public static Object[][] getVerifyLeadAuditorInvitingAdminClient() {
+        String adminClientFullNameAndCompany = adminClientFullName + " (" + companyName + ")";
+
         Object[][] arrayData = new Object[][]{
-                {adminUser, leadAuditorUser, adminClientUser, adminClientEmailPwd, leadAuditorAuvenirPwd, engagementName2, adminClientFullName,
-                        roleClient, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, leadClientUser, clientUser}};
+                {leadAuditorUser, leadAuditorAuvenirPwd, adminClientUser, adminClientEmailPwd, adminClientAuvenirPwd, engagementName2,
+                        adminClientFullNameAndCompany, clientPhoneNumber, parentStackHolder}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{
-                    {adminUser, leadAuditorUser, adminClientUser, adminClientEmailPwd, leadAuditorAuvenirPwd, engagementName2, adminClientFullName,
-                            roleClient, clientPhoneNumber, parentStackHolder, adminClientAuvenirPwd, leadClientUser, clientUser}};
+                    {leadAuditorUser, leadAuditorAuvenirPwd, adminClientUser, adminClientEmailPwd, adminClientAuvenirPwd, engagementName2,
+                            adminClientFullNameAndCompany, clientPhoneNumber, parentStackHolder}};
         }
         return arrayData;
     }

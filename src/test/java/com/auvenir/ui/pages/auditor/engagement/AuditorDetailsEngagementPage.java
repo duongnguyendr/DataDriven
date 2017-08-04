@@ -31,8 +31,9 @@ public class AuditorDetailsEngagementPage extends EngagementPage {
     @FindBy(xpath = "//input[@id='a-header-title']")
     private WebElement dashboardTextEle;
 
-    @FindBy(xpath = "//span[@id='a-header-title']")
+    @FindBy(id = "a-header-title")
     private WebElement dashboardTextAtGeneralPage;
+
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
 

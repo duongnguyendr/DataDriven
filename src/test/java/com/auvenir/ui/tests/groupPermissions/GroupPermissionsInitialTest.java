@@ -402,45 +402,40 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(/*priority = 11,*/ enabled = true, description = "Verify that Lead Auditor can invite a admin client", testName = "if_11",
             dependsOnMethods = {"verifyLeadAuditorCreateNewEngagement"}, alwaysRun = true, dataProvider = "verifyLeadAuditorInvitingAdminClient",
             dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorInvitingAdminClient(String adminEmail, String leadAuditorEmail, String adminClientEmail, String adminClientEmailPwd,
-            String leadAuditorAuvenirPwd, String engagementName2, String adminClientFullName, String roleClient, String clientPhoneNumber,
-            String parentStackHolder, String adminClientAuvenirPwd, String leadClientEmail, String clientEmail) throws Exception {
+    public void verifyLeadAuditorInvitingAdminClient(String leadAuditorUser, String leadAuditorAuvenirPwd, String adminClientUser,
+            String adminClientEmailPwd, String adminClientAuvenirPwd, String engagementName2, String adminClientFullNameAndCompany,
+            String clientPhoneNumber, String parentStackHolder) throws Exception {
         getLogger().info("Verify Lead Auditor inviting a admin client.");
         // This test case should invite a admin client by add member client (a client is existed in the system)
-        // But due to the issue that system cannot add a client member, this test case will invite new Admin client.
+        // But due to the issue that system cannot add a client member, this test case will invite new Admin client.\
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        adminService = new AdminService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
 
-        adminEmail = GenericService.addBrowserPrefix(adminEmail);
-        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
-        adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
-        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
-        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        leadAuditorUser = GenericService.addBrowserPrefix(leadAuditorUser);
+        adminClientUser = GenericService.addBrowserPrefix(adminClientUser);
 
         //need precondition for save engagement name, and delete this engagement or client on acl
+        //to init: delete client on acl and keycontact on business
 
-        MongoDBService.removeClientAndIndicatedValueByEmail(adminClientEmail);
-        MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
-        MongoDBService.removeClientAndIndicatedValueByEmail(clientEmail);
+        //        MongoDBService.removeClientAndIndicatedValueByEmail(adminClientEmail);
+        //        MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
+        //        MongoDBService.removeClientAndIndicatedValueByEmail(clientEmail);
 
         try {
-            gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
+            gmailLoginService.deleteAllExistedEmail(adminClientUser, adminClientEmailPwd);
 
-            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            marketingService.loginUsingUsernamePassword(leadAuditorUser, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
 
             auditorTodoListService.navigateToInviteClientPage();
-            clientService.selectAddNewClient();
-            clientService.fillInfoToInviteNewClient(adminClientFullName, adminClientEmail, roleClient);
+            clientService.selectClientWithFullName(adminClientFullNameAndCompany);
+            clientService.inviteExistedClient();
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             gmailLoginService.gmailReLogin(adminClientEmailPwd);
@@ -1628,11 +1623,12 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     //    @Test(/*priority = 22,*/ enabled = true, description = "Verify group permission Lead auditor add new request.", testName = "if_22",
     //            dependsOnMethods = {"verifyLeadAuditorCreateTodoAndAssignClient"}, alwaysRun = true,
     //            dataProvider = "verifyLeadAuditorAssignToGeneralAuditor", dataProviderClass = GroupPermissionsDataProvider.class)
+
     @Test(priority = 22, enabled = true, description = "Verify group permission Lead auditor add new request.",
             dataProvider = "verifyLeadAuditorAddNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorAddNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
-            String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
-            String requestName6) throws Exception {
+    public void verifyLeadAuditorAddNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
+            String todo1, String requestName1, String requestName2, String requestName3,
+            String requestName4, String requestName5, String requestName6) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -1663,10 +1659,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(priority = 23, description = "Verify group permission Lead auditor add file to new request.",
             dataProvider = "verifyLeadAuditorAddFileToNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorAddFileToNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
-            String requestName1, String requestName2, String requestName3, String requestName4, String requestName5, String requestName6,
-            String fileRequestName1, String fileRequestName2, String fileRequestName3, String fileRequestName4, String fileRequestName5,
-            String fileRequestName6, String pathOfUploadLocation) throws Exception {
+    public void verifyLeadAuditorAddFileToNewRequest(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
+            String todo1, String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
+            String requestName6, String fileRequestName1, String fileRequestName2, String fileRequestName3,
+            String fileRequestName4, String fileRequestName5, String fileRequestName6, String pathOfUploadLocation) throws Exception {
 
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1752,7 +1748,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 //        engagementName2 = "Engagement Dr02";
 
         String[] listRequest = {requestName1, requestName2, requestName3, requestName4, requestName5, requestName6};
-        String[] listTodo = {todo4, todo7, todo8};
+        String [] listTodo = {todo4, todo7, todo8};
 
         try {
             marketingService.loginUsingUsernamePassword(auditorUser, auditorPwd);
@@ -1811,7 +1807,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             throw e;
         }
     }
-    
+
     @Test(priority = 35, enabled = true, description = "Verify group permission General auditor download file from request.",
             dataProvider = "verifyGeneralAuditorDownloadRequestFile", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorDownloadRequestFile(String auditorUser, String auditorPwd, String engagementName2,

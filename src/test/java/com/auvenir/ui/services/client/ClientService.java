@@ -405,8 +405,12 @@ public class ClientService extends AbstractService {
      * Refactored by huy.huynh on 02/06/2017.
      * New for smoke test
      */
-    public void selectAddNewClient() throws InterruptedException {
+    public void selectAddNewClient() {
         createNewAuditPage.selectAddNewClient();
+    }
+
+    public void selectClientWithFullName(String fullName) {
+        createNewAuditPage.selectClientWithFullName(fullName);
     }
 
     public void fillInfoToInviteNewClient(String fullName, String email, String role) {
@@ -443,5 +447,7 @@ public class ClientService extends AbstractService {
         clientToDoPage.verifyClientAssigneeSelected(todoName, clientAssignee);
     }
 
-
+    public void inviteExistedClient() {
+        createNewAuditPage.clickButtonInvite();
+    }
 }
