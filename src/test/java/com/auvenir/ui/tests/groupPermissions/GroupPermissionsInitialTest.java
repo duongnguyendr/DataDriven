@@ -599,9 +599,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
     @Test(/*priority = 17,*/ enabled = true,
             description = "Verify Lead Client have permission to tranfer their Lead Permission to other Client on team", testName = "if_17",
-            dependsOnMethods = {"verifyClientCanActiveViaEmail"}, alwaysRun = true, dataProvider = "verifyPermissionLeadPermissionCanBeTranfered",
+            dependsOnMethods = {"verifyClientCanActiveViaEmail"}, alwaysRun = true, dataProvider = "verifyLeadPermissionCanBeTranfered",
             dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2, String leadClientFullName,
+    public void verifyLeadPermissionCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2, String leadClientFullName,
             String leadText) throws Exception {
         getLogger().info("Verify Admin Client have permission to invite client via email.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
@@ -632,7 +632,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 18,*/ enabled = true, description = "Verify group permission Lead auditor create todo.", testName = "if_18, if_19, if_20",
-            dependsOnMethods = {"verifyPermissionLeadPermissionCanBeTranfered"}, alwaysRun = true,
+            dependsOnMethods = {"verifyLeadPermissionCanBeTranfered"}, alwaysRun = true,
             dataProvider = "verifyLeadAuditorCreateTodoAndAssignClient", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorCreateTodoAndAssignClient(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
             String todo1, String todo2, String todo3, String leadClientFullName, String categoryName) throws Exception {
@@ -896,7 +896,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 30,*/ enabled = true, description = "Verify group permission General auditor create todo.", testName = "if_30, if_31, if_33",
-            /*dependsOnMethods = {"verifyLeadAuditorDownloadFromAllTodo"}, */alwaysRun = true, dataProvider = "verifyGeneralAuditorCreateTodo",
+            dependsOnMethods = {"verifyLeadAuditorDownloadFromAllTodo"}, alwaysRun = true, dataProvider = "verifyGeneralAuditorCreateTodo",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorCreateTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo4, String todo5,
             String todo6, String todo7, String todo8, String leadClientFullName, String categoryName) throws Exception {
