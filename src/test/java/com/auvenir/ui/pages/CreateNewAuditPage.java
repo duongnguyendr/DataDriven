@@ -243,7 +243,7 @@ public class CreateNewAuditPage extends AbstractPage {
      */
     public void selectAddNewClient() {
         prepareSelectClientToInvite();
-        //clickElement(optionAddNewClient, "Option Add New Client");
+        clickElement(optionAddNewClient, "Option Add New Client");
     }
 
     public void prepareSelectClientToInvite() {
