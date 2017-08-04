@@ -46,6 +46,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     private ClientEngagementService clientEngagementService;
     private ClientTodoService clientTodoService;
     private AdminAuditorService adminAuditorService;
+    private ClientTeamService clientTeamService;
 
     @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", alwaysRun = true,
             dataProvider = "verifySuperAdminLogin", dataProviderClass = GroupPermissionsDataProvider.class)
@@ -526,6 +527,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
+        clientTeamService = new ClientTeamService(getLogger(), getDriver());
 
         leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
         adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
@@ -540,8 +542,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
-            clientDetailsEngagementService.navigateToTeamTab();
-            clientDetailsEngagementService.inviteNewMemberToTeam();
+            clientTeamService.navigateToTeamTab();
+            clientTeamService.inviteNewMemberToTeam();
             clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientEmail, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);
 
@@ -606,6 +608,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+        clientTeamService = new ClientTeamService(getLogger(), getDriver());
 
         adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
 
@@ -615,9 +618,9 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientEngagementService.verifyDetailsEngagement(engagementName2);
-            clientDetailsEngagementService.navigateToTeamTab();
-            clientDetailsEngagementService.chooseLeadClientWithTeamMemberName(leadClientFullName);
-            clientDetailsEngagementService.verifyLeadSetByName(leadClientFullName, leadText);
+            clientTeamService.navigateToTeamTab();
+            clientTeamService.chooseLeadClientWithTeamMemberName(leadClientFullName);
+            clientTeamService.verifyLeadSetByName(leadClientFullName, leadText);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.PASSED, null);
@@ -1138,7 +1141,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementService.verifyEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientEngagementService.verifyDetailsEngagement(engagementName2);
-            clientEngagementTeamService.selectEngagementTeamMenu();
+            clientTeamService.navigateToTeamTab();
             clientEngagementTeamService.removeAdminClient(adminClientFullName);
             clientEngagementTeamService.verifyMessageFromRemovingAdminClient(successMessageRemoveTeamMember);
             clientEngagementTeamService.verifyRemoveAdminClient(adminClientFullName);
@@ -1177,7 +1180,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             clientEngagementService.verifyEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientEngagementService.verifyDetailsEngagement(engagementName2);
-            clientEngagementTeamService.selectEngagementTeamMenu();
+            clientTeamService.navigateToTeamTab();
             clientService.selectInviteNewMemberButton();
             clientService.fillInfoToInviteNewMember(clientFullName, clientEmail, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);

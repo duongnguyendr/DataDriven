@@ -154,14 +154,6 @@ public class AuditorDetailsEngagementService extends AbstractService {
     public void closeBrowserAfterDownLoad() throws InterruptedException {
         auditorEngagementFilePage.closeBrowserAfterDownLoad();
     }
-
-    public void navigateToTeamTab() {
-        auditorDetailsEngagementPage.navigateToTeamTab();
-    }
-
-    public void inviteNewMemberToTeam() {
-        auditorDetailsEngagementPage.clickInviteNewMember();
-    }
 }
 
 

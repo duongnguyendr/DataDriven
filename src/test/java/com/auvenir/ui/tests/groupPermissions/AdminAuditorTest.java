@@ -9,6 +9,7 @@ import com.auvenir.ui.services.auditor.AuditorCreateToDoService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
 import com.auvenir.ui.services.client.ClientService;
+import com.auvenir.ui.services.client.ClientTeamService;
 import com.auvenir.ui.services.groupPermissions.AdminAuditorService;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.MarketingService;
@@ -38,6 +39,7 @@ public class AdminAuditorTest extends AbstractTest {
     private ClientService clientService;
     private AuditorSignUpService auditorSignUpService;
     private AdminService adminService;
+    private ClientTeamService clientTeamService;
 
     @Test(priority = 1, enabled = true, description = "Verify admin auditor can create an engagement.", testName = "AA_1",
             dataProvider = "verifyAdminAuditorCreateAnEngagement", dataProviderClass = GroupPermissionsDataProvider.class)
@@ -129,6 +131,7 @@ public class AdminAuditorTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        clientTeamService = new ClientTeamService(getLogger(), getDriver());
 
         adminAuditorUser = GenericService.addBrowserPrefix(adminAuditorUser);
         leadClientUser = GenericService.addBrowserPrefix(leadClientUser);
@@ -141,8 +144,8 @@ public class AdminAuditorTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName1);
 
-            auditorDetailsEngagementService.navigateToTeamTab();
-            auditorDetailsEngagementService.inviteNewMemberToTeam();
+            clientTeamService.navigateToTeamTab();
+            clientTeamService.inviteNewMemberToTeam();
             clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientUser, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);
 

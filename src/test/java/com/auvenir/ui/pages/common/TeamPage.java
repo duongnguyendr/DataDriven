@@ -64,7 +64,7 @@ public abstract class TeamPage extends AbstractPage {
         }
     }
 
-    public void verifyPermisionToSeclectMemberCheckbox(String memberFullName, boolean permissionToSelect) {
+    public void verifyPermisionToSelectMemberCheckbox(String memberFullName, boolean permissionToSelect) {
         getLogger().info("Finding member in list...");
         int index = findMemberByName(memberFullName);
         getLogger().info("Verifying checkbox is disabled..");
@@ -79,5 +79,34 @@ public abstract class TeamPage extends AbstractPage {
                 NXGReports.addStep("Fail: Can select member Checkbox ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         }
+    }
+
+    @FindBy(id = "team-inviteMember-btn")
+    private WebElement buttonInviteNewMember;
+
+    @FindBy(xpath = "//img[contains(@id,'Set User To Lead')]/following-sibling::div//button[@class='auvbtn warning']")
+    private WebElement buttonConfirmSetUserToLead;
+
+    public void clickInviteNewMember() {
+        clickElement(buttonInviteNewMember, "Button Invite New Member");
+    }
+
+    public void chooseLeadWithTeamMemberName(String name) {
+        //        String xpathRadioButtonLeadClient = "//td[text()='%s']/following-sibling::td/input";
+        String xpathSelectPermissionLevel = "//td[text()='%s']/following-sibling::td/div";
+        String xpathOptionLead = "//td[text()='%s']/following-sibling::td/div//div[@data-id='Lead']";
+        clickElement(getElementByXpath(xpathSelectPermissionLevel, name), "Select Permission Level");
+        clickElement(getElementByXpath(xpathOptionLead, name), "Option Lead");
+    }
+
+    public void confirmSetUserToLead() {
+        waitSomeSeconds(1);
+        clickElement(buttonConfirmSetUserToLead, "Button Confirm Set User To Lead");
+    }
+
+    public void verifyLeadSetByName(String name, String leadText) {
+        waitSomeSeconds(1);
+        String xpathCellPermissionLevel = "//td[text()='%s']/following-sibling::td[2]";
+        validateElementText(getElementByXpath(xpathCellPermissionLevel, name), leadText);
     }
 }
