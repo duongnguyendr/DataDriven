@@ -5,7 +5,6 @@
         <listener class-name="com.auvenir.utilities.htmlreport.com.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
     <!--Initialize data before run test-->
-    <!--
     <test name="InitData">
         <parameter name="browser" value="chrome"/>
         <parameter name="version" value="59.0.3071.115"/>
@@ -14,13 +13,12 @@
             <class name="com.auvenir.utilities.initialize.InitData"/>
         </classes>
     </test>
-    -->
     <test name="SmokeTest - Chrome">
         <parameter name="browser" value="chrome"/>
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.SmokeTest"/>
+            <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
         </classes>
     </test>
     <!--
