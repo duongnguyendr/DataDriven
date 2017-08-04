@@ -77,9 +77,6 @@ public class AuditorCreateToDoPage extends TodoPage {
     private static final String GreenColor = "rgb(92, 155, 160)";
     private static final String defaultValueComboBox = "Select Category";
 
-    @FindBy(id = "auv-todo-createToDo")
-    private WebElement createToDoBtnEle;
-
     @FindBy(id = "auv-todo-filter")
     private WebElement eleFilterBtn;
 
@@ -181,9 +178,6 @@ public class AuditorCreateToDoPage extends TodoPage {
     private WebElement createToDoNameTextBoxEle;
     @FindBy(id = "todo-add-btn")
     private WebElement eleBtnToDoAdd;
-
-    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[contains(@class,'newTodoInput')]")
-    private List<WebElement> toDoNameTextColumnEle;
 
     @FindBy(xpath = "//*[@class='ui dropdown category todo-bulkDdl ']/div[@class='text']")
     private List<WebElement> categoryComboBoxTextEle;
@@ -420,9 +414,6 @@ public class AuditorCreateToDoPage extends TodoPage {
     @FindBy(xpath = "//*[@id='engOverview-todo']")
     private WebElement eleEngagementOverViewToDoText;
 
-    String auditAssignPath = "//td/span[text()='%s']/../../td[6]/p";
-
-
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - End
      *
@@ -456,6 +447,9 @@ public class AuditorCreateToDoPage extends TodoPage {
     private List<WebElement> childItemAssigneeBulkDrpEle;
 
     String checkboxTodoByName = "";
+    
+    @FindBy(xpath="//div[@id='engagement-todo']/section[@id='engagementOverview']/div/p")
+    private WebElement engOveviewStatus;
 
     public void verifyButtonCreateToDo() throws Exception {
         validateCssValueElement(createToDoBtnEle, "background-color", "rgba(89, 155, 161, 1)");
@@ -1254,7 +1248,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         verifyHoverElement(categoryComboBoxEle.get(0), "border", "1px solid rgb(92, 155, 160)");
     }
 
-    public void createToDoTaskWithCategoryName(String toDoName, String categoryName) throws Exception {
+    public void createToDoTaskWithCategoryName(String toDoName, String categoryName){
         getLogger().info("Create To Do Task with 'toDoName' and 'categoryName'");
         waitForVisibleElement(createToDoBtnEle, "Create To Do Button");
         String rowString = toDoTaskRowEle.get(0).getAttribute("class");
@@ -1270,9 +1264,10 @@ public class AuditorCreateToDoPage extends TodoPage {
             clickElement(createToDoBtnEle, "Create To Do button");
             waitForSizeListElementChanged(toDoTaskRowEle, "To Do task row", size);
             sendKeyTextBox(toDoNameTextColumnEle.get(0), toDoName, "First To Do Name textbox");
+            clickElement(engOveviewStatus);
 //            sendTabkey(toDoNameTextColumnEle.get(0), "First To Do Name textbox");
-            sendTabkey(eleToDoSearchInput, "First To Do Name textbox");
-            
+//            sendTabkey(eleToDoSearchInput, "First To Do Name textbox");
+
             // Create new category
             selectCategory(categoryName);
             waitSomeSeconds(1);
@@ -1663,6 +1658,7 @@ public class AuditorCreateToDoPage extends TodoPage {
 
     public int findToDoTaskName(String toDoName) {
         getLogger().info("Find Position of To Do Task Name");
+        try{
         String actualAttributeValue;
         String classAttribute;
         for (int i = 0; i < toDoTaskRowEle.size(); i++) {
@@ -1681,7 +1677,10 @@ public class AuditorCreateToDoPage extends TodoPage {
                 }
             }
         }
-        return -1;
+        	return -1;
+	    }catch (NoSuchElementException e) {
+	    	return -1;
+		}
     }
 
     public int findCategoryName(String categoryName) {
@@ -3316,10 +3315,10 @@ public class AuditorCreateToDoPage extends TodoPage {
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "block");
     }
 
-    public void closeAddNewRequestWindow() {
+   /* public void closeAddNewRequestWindow() {
         clickElement(requestCloseBtn);
         waitForCssValueChanged(addNewRequestWindow, "Add new Request Window", "display", "none");
-    }
+    }*/
 
     /**
      * Author minh.nguyen
@@ -3644,12 +3643,12 @@ public class AuditorCreateToDoPage extends TodoPage {
             waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
             clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
             getLogger().info("Waiting for textbox border is Green while clicked..");
-            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border",
-                    "1px solid rgb(89, 155, 161)");
+//            waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border",
+//                    "1px solid rgb(89, 155, 161)");
             getLogger().info("Sending new request..");
             clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
             sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), newRequest, "");
-            closeAddNewRequestWindow();
+//            closeAddNewRequestWindow();
             NXGReports.addStep("Create new request at position " + position + ": Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -3671,7 +3670,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             getLogger().info("Return to Todo list page again..");
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+//            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
             NXGReports.addStep("Return to Todo ListPage successfully.", LogAs.PASSED, null);
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4538,7 +4537,7 @@ public class AuditorCreateToDoPage extends TodoPage {
     @FindBy(xpath = "//div[@id='todoDetailsReqCont']//div/span/label")
     WebElement uploadClientCreateRequestBtn;
     @FindBy(xpath = "//span[@class='auvicon-checkmark icon-button']")
-    WebElement checkUploadRequest;
+    List<WebElement> checkUploadRequest;
 
     private String requestNameText = "client request";
 
@@ -4557,8 +4556,8 @@ public class AuditorCreateToDoPage extends TodoPage {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + isFind + "]//label")));
                 Thread.sleep(largeTimeOut);
                 getLogger().info("Input path of file..");
-                upLoadRequestFile(concatUpload);
-                /*StringSelection ss = new StringSelection(concatUpload);
+//                upLoadRequestFile(concatUpload);
+                StringSelection ss = new StringSelection(concatUpload);
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
                 Robot robot = new Robot();
                 robot.keyPress(KeyEvent.VK_ENTER);
@@ -4568,18 +4567,19 @@ public class AuditorCreateToDoPage extends TodoPage {
                 robot.keyRelease(KeyEvent.VK_V);
                 robot.keyRelease(KeyEvent.VK_CONTROL);
                 robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);*/
-                getLogger().info("Waiting for checkSign visible..");
-                waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
-                closeAddNewRequestWindow();
+                robot.keyRelease(KeyEvent.VK_ENTER);
+//                getLogger().info("Waiting for checkSign visible..");
+//                waitForCssValueChanged(checkUploadRequest.get(isFind), "checkSuccessful", "display", "inline-block");
+//                closeAddNewRequestWindow();
+//                waitSomeSeconds(2);
                 NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
             }
         } catch (InterruptedException itr) {
             AbstractService.sStatusCnt++;
             itr.printStackTrace();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
+        } catch (AWTException e) {
+            e.printStackTrace();
         }
 
     }
@@ -4602,7 +4602,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
             getLogger().info("Waiting for checkSign visible..");
-            waitForCssValueChanged(checkUploadRequest, "checkSuccessful", "display", "inline-block");
+//            waitForCssValueChanged(checkUploadRequest.get(), "checkSuccessful", "display", "inline-block");
             closeAddNewRequestWindow();
             NXGReports.addStep("End of Upload createNewRequest File", LogAs.PASSED, null);
         } catch (InterruptedException e) {
@@ -4635,18 +4635,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         return isFind;
     }
 
-    public int findUploadFile(String fileName) {
-        getLogger().info("Verifying this file existed in the list..");
-        int isFind = -1;
-        for (int i = 0; i < uploadRequestList.size(); i++) {
-            System.out.println("UploadName at position: " + i + " is " + uploadRequestList.get(i).getText());
-            if (uploadRequestList.get(i).getText().equals(fileName)) {
-                isFind = i;
-                break;
-            }
-        }
-        return isFind;
-    }
+
 
 /*
     public void uploadFileNewRequestByClient(String concatUpload) throws AWTException, InterruptedException, IOException {
@@ -4687,31 +4676,9 @@ public class AuditorCreateToDoPage extends TodoPage {
     @FindBy(xpath = "//*[@id=\"todo-req-box-1\"]/div[2]")
     WebElement fileNameAfterUploadedClient;
 
-    @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div/div[2]")
-    List<WebElement> uploadRequestList;
 
-    /*
-    Vien.Pham added new method
-     */
-    public void verifyUploadFileSuccessfully(String fileName) {
-        try {
-            int isFind = findUploadFile(fileName);
-            if (isFind != -1) {
-                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED,
-                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            }
-        } catch (Exception e) {
-            AbstractService.sStatusCnt++;
-            NXGReports
-                    .addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
-                            e.getMessage());
-            e.printStackTrace();
-        }
-    }
-/*
+
+
     public void verifyUploadFileSuccessfullyByClient(String fileName) {
         try {
             waitForCssValueChanged(fileNameAfterUploadedClient, "fileName After uploaded", "display", "inline-block");
@@ -4730,7 +4697,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             e.printStackTrace();
         }
 
-    }*/
+    }
 
 
     @FindBy(xpath = "//*[@id='todoDetailsReqCont']/div//span[contains(@class,'auvicon-line-download')]")
@@ -4741,31 +4708,17 @@ public class AuditorCreateToDoPage extends TodoPage {
     Vien.Pham added new method
     @param : mode 1 for downloading request file, mode 2 for downloading attachfile.
      */
-    public void downloadNewRequestFile(String concatUpload, String concatDownload, String fileName, boolean fileInComment) {
+    public void downloadNewRequestFile(String pathDownloadFolder, String fileName, boolean fileInComment) {
         try {
             //Delete file before download
+            String concatDownload = pathDownloadFolder.concat(fileName);
             checkFileExists(concatDownload, true);
-/*            Path path = Paths.get(concatDownload);
-            if (Files.exists(path)) {
-                Files.delete(path);
-            }*/
             Thread.sleep(largeTimeOut);
             if (fileInComment) {
                 clickElement(verifyAttachComplete, "download attachment from comment");
             } else {
                 int isFind = findUploadFile(fileName);
                 clickElement(downloadRequestBtn.get(isFind), "download newRequest");
-            }
-            Thread.sleep(largeTimeOut);
-            String checkMd5UploadFile = calculateMD5(concatUpload);
-            getLogger().info("md5 upload is: " + checkMd5UploadFile);
-            String checkMd5DownloadFile = calculateMD5(concatDownload);
-            getLogger().info("md5 download is: " + checkMd5DownloadFile);
-            if (checkMd5UploadFile.equals(checkMd5DownloadFile)) {
-                NXGReports.addStep("Check sum done", LogAs.PASSED, null);
-            } else {
-                AbstractService.sStatusCnt++;
-                NXGReports.addStep("Check sum failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
@@ -4832,11 +4785,11 @@ public class AuditorCreateToDoPage extends TodoPage {
 
     }
 
-    public void downloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
+    public void downloadAttachFile(String pathOfDownload, String fileName) {
         try {
             getLogger().info("client verifies attached file available..");
             waitForTextValueChanged(verifyAttachComplete, "verify Attach complete", fileName);
-            downloadNewRequestFile(pathOfUpload.concat(fileName), pathOfDownload.concat(fileName), fileName, true);
+            downloadNewRequestFile(pathOfDownload.concat(fileName), fileName, true);
             NXGReports.addStep("Download attached file Done", LogAs.PASSED, null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -4845,18 +4798,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public String calculateMD5(String fileMD5) throws IOException {
-        String md5 = null;
-        try {
-            FileInputStream fis = new FileInputStream(fileMD5);
-            md5 = md5Hex(fis);
-            fis.close();
-        } catch (Exception e) {
-            getLogger().info("Unable to calculate MD5 file.");
-        }
-        return md5;
 
-    }
 
 
     /*
@@ -4911,7 +4853,6 @@ public class AuditorCreateToDoPage extends TodoPage {
 
     public void selectClientAssigneeByName(String toDoName, String clientAssignee) {
         try {
-            String assineeClientEle = ".//button[text()='%s']";
             int index = findToDoTaskName(toDoName);
             clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
             waitSomeSeconds(2);
@@ -4967,7 +4908,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public void selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
+    public void  selectAssigneeToDoUsingBulkAction(String userName) throws InterruptedException {
         Thread.sleep(largeTimeOut);
         //        chooseOptionAssignToOnBulkActionsDropDown();
         chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(userName);
@@ -5407,30 +5348,6 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public boolean verifyPermissionSeeListToDoTask(List<String> listToDoName, boolean isNotEditedToDo, boolean possibleSee) {
-        boolean result = true;
-        try {
-            for(int i = 0 ; i < listToDoName.size(); i++){
-                if(!verifyPermissionSeeToDoTask(listToDoName.get(i), isNotEditedToDo, possibleSee))
-                    result = false;
-            }
-            Assert.assertTrue(result, "User " + (possibleSee ? "should" : "should not" ) + " has permission to see list ToDo task");
-            NXGReports.addStep("Verify User " + (possibleSee ? "has" : "does not have" ) + " permission to see list ToDo task", LogAs.PASSED,
-                    null);
-        } catch (AssertionError e) {
-            AbstractService.sStatusCnt++;
-            getLogger().info(e);
-            NXGReports.addStep("Test Failed: Verify User " + (possibleSee ? "has" : "does not have" ) + " permission to see list ToDo task",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        } catch (Exception e) {
-            getLogger().info(e);
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify User " + (possibleSee ? "has" : "does not have" ) + " permission to see list ToDo task",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-        return result;
-    }
-
     public boolean verifyPermissionSeeToDoTask(String toDoName, boolean isNotEditedToDo, boolean isDisplayed) {
         boolean result = false;
         try {
@@ -5489,11 +5406,15 @@ public class AuditorCreateToDoPage extends TodoPage {
     public void verifyTodoMarkCompleted(String todoName){
         boolean result = false;
         try{
+        	waitSomeSeconds(2);
             for (WebElement todo: listTodoCompleted){
+            	System.out.println("Todo Copleted text: " + todo.getText());
                 if (todoName.equals(todo.getText())){
                     result = true;
                 }
             }
+            
+            System.out.println("This is resule: " + result);
             if (result){
                 NXGReports.addStep("Todo " + todoName + " is mark completed.", LogAs.PASSED, null);
             }else{
@@ -5508,16 +5429,15 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public boolean checkFileExists(String pathLocation, boolean deleteExisted){
+   /* public boolean checkFileExists(String pathLocation, boolean deleteExisted){
+        waitSomeSeconds(3);
         Path path = Paths.get(pathLocation);
         System.out.println("file: " + path);
         boolean result = false;
         try {
             if (Files.exists(path)) {
-                System.out.println("file exists: " + path);
                 result = true;
                 if (deleteExisted) {
-                    System.out.println("tao delete file: " + path);
                     Files.delete(path);
                     if (Files.exists(path)) {
                         AbstractService.sStatusCnt++;
@@ -5531,7 +5451,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             ex.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     public void verifyDownloadFileAllTodoSuccess(String pathLocation){
         if(!checkFileExists(pathLocation, false)){
@@ -5544,6 +5464,7 @@ public class AuditorCreateToDoPage extends TodoPage {
     @FindBy(xpath = "//div[@id='engagement-todo']//table[@id='todo-table']//td//div[@class='fileNumber']")
     private List<WebElement> listNumberFileRequest;
     private String newRequestImgByTodoName = "//*[@id='todo-table']/tbody/tr/td/input[@data-dbname='%s']//../../td/img";
+    private String newRequestImgByTodoNameAtAdminPage = "//*[@id='todo-table']/tbody/tr/td/span[text()='%s']//../../td/img";
 
 
 
@@ -5574,7 +5495,17 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public void verifyFileRequestInTodo(String toDoName, String... fileNames){
+    public void clickOpenNewRequestByTodoNameAtAdminPage(String toDoName){
+        try{
+            WebElement addNewRequestImg = getDriver().findElement(By.xpath(String.format(newRequestImgByTodoNameAtAdminPage, toDoName)));
+            clickElement(addNewRequestImg, "Click open request windows.");
+        }catch (Exception e){
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("Click open request windows.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
+
+    /*public void verifyFileRequestInTodo(String toDoName, String... fileNames){
         try{
             clickOpenNewRequestByTodoName(toDoName);
             List<String> lstFileDisplayed = new ArrayList<String>();
@@ -5595,7 +5526,7 @@ public class AuditorCreateToDoPage extends TodoPage {
         }finally {
             closeAddNewRequestWindow();
         }
-    }
+    }*/
 
     public void verifyPermissionCanUploadRequestFile(String pathOfUploadLocation, String fileName, boolean possibleUpload){
         try {
@@ -5622,12 +5553,12 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public void verifyPermissionCanDownloadRequestFile(String pathOfUploadLocation, String pathOfDownloadLocation, String fileName, boolean
+    public void verifyPermissionCanDownloadRequestFile(String pathOfDownloadLocation, String fileName, boolean
             fileInComment, boolean possibleDownload){
         try{
             if (possibleDownload){
                 verifyPopupColorAddRequestBtn();
-                downloadNewRequestFile(pathOfUploadLocation, pathOfDownloadLocation, fileName, fileInComment);
+                downloadNewRequestFile(pathOfDownloadLocation, fileName, fileInComment);
             }else{
 
             }
@@ -5642,79 +5573,5 @@ public class AuditorCreateToDoPage extends TodoPage {
             NXGReports.addStep("Test Failed: Verify " + (possibleDownload ? "can" : "cannot") + " download file request.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
                     .BROWSER_PAGE));
         }
-    }
-
-    public void verifyGroupPermissionCanMarkCompleted(List<String> listTodo, boolean possibleCompleted){
-        try{
-            for(int i = 0; i < listTodo.size(); i++){
-                if(possibleCompleted){
-                    selectToDoCheckboxByName(listTodo.get(i));
-                    clickBulkActionsDropdown();
-                    clickOnArchiveButtonInMarkAsCompletePopup();
-                    verifyTodoMarkCompleted(listTodo.get(i));
-                }else{
-                    int todoIndexCanChecked = selectToDoCheckboxByName(listTodo.get(i));
-                    if (todoIndexCanChecked == -1) {
-                        NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.", LogAs.PASSED,
-                                null);
-                    }else{
-                            AbstractService.sStatusCnt++;
-                            NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo :" + listTodo.get(i),
-                                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                	}
-                }
-            }
-		}catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-        }
-    }
-
-    public void verifyGroupPermissionCanAssignTodoToAuditor(List<String> listTodo , boolean possibleAssign){
-        try{
-            for(int i = 0; i < listTodo.size(); i++){
-                if (possibleAssign){
-
-                }else{
-                    boolean result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(auditAssignPath, listTodo.get(i)))), listTodo.get(i));
-                    Assert.assertTrue(result, "verify auditor assign element.");
-                    NXGReports.addStep(String.format("verify auditor assign element.", listTodo.get(i)), LogAs.PASSED, null);
-                    if (!result){
-                        AbstractService.sStatusCnt++;
-                        NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor :" + listTodo.get(i),
-                                LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                    }
-                }
-            }
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify " + (possibleAssign ? "can" : "cannot") + " assign todo to auditor.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    public void verifyGroupPermissionCanCreateTodo(String todoName, boolean possibleCreate){
-        try{
-            if (possibleCreate){
-                boolean result = validateDisPlayedElement(createToDoBtnEle, "createToDoBtnEle");
-                Assert.assertFalse(result, "Verify create todo button displayed.");
-                NXGReports.addStep("Verify create todo button displayed.", LogAs.PASSED, null);
-                if (result){
-                    AbstractService.sStatusCnt++;
-                    NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :",
-                            LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-                }
-            }else{
-
-            }
-        }catch (Exception e){
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Test Failed: Verify " + (possibleCreate ? "can" : "cannot") + " create todo :",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-
     }
 }
