@@ -4,9 +4,8 @@ import com.auvenir.ui.dataprovider.SmokeDataProvider;
 import com.auvenir.ui.services.*;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.*;
-import com.auvenir.ui.services.client.ClientEngagementService;
-import com.auvenir.ui.services.client.ClientService;
-import com.auvenir.ui.services.client.ClientSignUpService;
+import com.auvenir.ui.services.client.*;
+import com.auvenir.ui.services.groupPermissions.AdminAuditorService;
 import com.auvenir.ui.services.marketing.AuditorSignUpService;
 import com.auvenir.ui.services.marketing.EmailTemplateService;
 import com.auvenir.ui.services.marketing.MarketingService;
@@ -18,9 +17,12 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureSc
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * Created by huy.huynh on 13/06/2017.
- * SmokeTest for R2
+ * Created by huy.huynh on 19/07/2017.
  */
 public class SmokeTest extends AbstractTest {
     private AdminService adminService;
@@ -29,690 +31,205 @@ public class SmokeTest extends AbstractTest {
     private AuditorEngagementService auditorEngagementService;
     private AuditorNewEngagementService auditorNewEngagementService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
-    private AuditorTodoListService auditorTodoListService;
-    private ClientService clientService;
-    AuditorCreateToDoService auditorCreateToDoService;
-    AuditorEditCategoryService auditorEditCategoryService;
+    private AuditorEngagementTeamService auditorEngagementTeamService;
     private GmailLoginService gmailLoginService;
     private AuditorSignUpService auditorSignUpService;
     private MarketingService marketingService;
     private EmailTemplateService emailTemplateService;
+    private AuditorTodoListService auditorTodoListService;
+    private ClientService clientService;
+    private ClientEngagementTeamService clientEngagementTeamService;
+    private AuditorCreateToDoService auditorCreateToDoService;
     private ClientSignUpService clientSignUpService;
-    private ClientEngagementService clientEngagementService;
-    private AuditorEngagementTeamService auditorEngagementTeamService;
     private ClientDetailsEngagementService clientDetailsEngagementService;
-    MarketingService maketingService;
-    private ContactsService contactsService;
+    private ClientEngagementService clientEngagementService;
+    private ClientTodoService clientTodoService;
+    private AdminAuditorService adminAuditorService;
 
-    //final String strFullName = GenericService.getTestDataFromExcelNoBrowserPrefix("SmokeTest", "Valid User", "Auditor Lead Name");
-
-    @Test(priority = 1, enabled = true, description = "Verify Super Admin is able to login", dataProvider = "verifySuperAdminLogin",
+    @Test(/*priority = 1,*/ enabled = true, description = "Verify Super Admin is able to login", dataProvider = "verifySuperAdminLogin",
             dataProviderClass = SmokeDataProvider.class)
     public void verifySuperAdminLogin(String superAdminUser, String superAdminPwd) {
-        getLogger().info("Verify Super admin is able to login.");
+        getLogger().info("Verify admin is able to login.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         superAdminUser = GenericService.sBrowserData + superAdminUser;
+
         try {
             marketingService.loginUsingUsernamePassword(superAdminUser, superAdminPwd);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Super Admin is able to login.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Super Admin is not able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Super Admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 1, enabled = true, description = "To verify admin is able to login", dataProvider = "verifyAdminLogin",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAdminLogin(String adminId, String adminPassword) {
+    @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", dependsOnMethods = {"verifySuperAdminLogin"},
+            dataProvider = "verifyAdminLogin", dataProviderClass = SmokeDataProvider.class)
+    public void verifyAdminLogin(String adminId, String adminPwd) {
         getLogger().info("Verify admin is able to login.");
         adminService = new AdminService(getLogger(), getDriver());
         auvenirService = new AuvenirService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
-
         adminId = GenericService.sBrowserData + adminId;
 
         try {
-            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
+            marketingService.loginUsingUsernamePassword(adminId, adminPwd);
             adminService.verifyPageLoad();
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify admin is able to login.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Normal Admin is able to login.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Normal Admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify Register and sign up successfully an Auditor User",
-            dataProvider = "verifySignUpAuditorUser", dataProviderClass = SmokeDataProvider.class)
-    public void verifySignUpAuditorUser(String emailCreate, String strFullName, String strRoleFirm, String strPhone, String strReference,
-            String strName, String strPreName, String strWebsite, String strStreetAddress, String strOffNum, String strZipCode, String strCity,
-            String strCountry, String strState, String strMemberID, String strNumEmp, String strPhoneFirm, String strAffName,
-            String strPathLogo) throws Exception {
+    @Test(/*priority = 1, */enabled = true, description = "Verify Register and sign up successfully an Auditor User", testName = "if_1",
+            /*dependsOnMethods = {"verifyAdminLogin"},*/ dataProvider = "verifySignUpAuditorUser",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifySignUpAuditorUser(String adminAuditorEmail, String adminAuditorFullName, String firmName, String roleFirm, String phoneNumber,
+            String referenceToAuvenir, String firmPreName, String firmWebsite, String streetAddress, String officeNumber, String zipCode, String city,
+            String country, String stateNumber, String memberEmail, String numberEmployee, String phoneFirm, String affiliateFirmName,
+            String pathLogo) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        emailCreate = GenericService.sBrowserData + emailCreate;
+        adminAuditorEmail = GenericService.addBrowserPrefix(adminAuditorEmail);
+
         try {
             // This test cases is verified creating new user.
             // It must be deleted old user in database before create new one.
-            // auditorSignUpService.deleteUserUsingApi(emailCreate);
-            MongoDBService.removeAllActivitiesCollectionOfAUser(emailCreate);
-            auditorSignUpService.deleteUserUsingApi(emailCreate);
+            MongoDBService.removeAllActivitiesCollectionOfAUser(adminAuditorEmail);
+            MongoDBService.removeAllFirmByName(firmName);
+            MongoDBService.removeEngagementCreatedByLeadAuditor(adminAuditorEmail);
+
+            auditorSignUpService.deleteUserUsingApi(adminAuditorEmail);
+
             auditorSignUpService.goToBaseURL();
             auditorSignUpService.navigateToSignUpPage();
             auditorSignUpService.verifyPersonalSignUpPage();
-            auditorSignUpService.registerAuditorPersonal(strFullName, emailCreate, strRoleFirm, strPhone, strReference);
+            System.out.println("phoneNumber = " + phoneNumber);
+            auditorSignUpService.registerAuditorPersonal(adminAuditorFullName, adminAuditorEmail, roleFirm, phoneNumber, referenceToAuvenir);
             auditorSignUpService
-                    .registerFirmInfo(strName, strPreName, strWebsite, strStreetAddress, strOffNum, strZipCode, strCity, strCountry, strState,
-                            strMemberID, strNumEmp, strPhoneFirm, strAffName, strPathLogo);
+                    .registerFirmInfo(firmName, firmPreName, firmWebsite, streetAddress, officeNumber, zipCode, city, country, stateNumber,
+                            memberEmail, numberEmployee, phoneFirm, affiliateFirmName, pathLogo);
             auditorSignUpService.verifySuccessSignUpPage();
             auditorSignUpService.acceptCreateAccountAuditor();
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
+            NXGReports.addStep("Admin auditor sign up from marketing page: PASSED", LogAs.PASSED, null);
         } catch (AssertionError e) {
             getLogger().info(e);
-            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 3, enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
-            dataProvider = "verifyAdminChangeStatusUserToOnBoarding", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAdminChangeStatusUserToOnBoarding(String emailCreate, String adminEmail, String gmailAuditorPassword,
-            String strAdminPwd) throws Exception {
-        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        adminService = new AdminService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-
-        emailCreate = GenericService.sBrowserData + emailCreate;
-        adminEmail = GenericService.sBrowserData + adminEmail;
-
-        try {
-            gmailLoginService.deleteAllExistedEmail(emailCreate, gmailAuditorPassword);
-
-            marketingService.loginUsingUsernamePassword(adminEmail, strAdminPwd);
-            adminService.changeTheStatusUser(emailCreate, "Onboarding");
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            getLogger().info(e);
-            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 4, enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.",
-            dataProvider = "verifyAuditorLoginGmailAndActiveUser", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorLoginGmailAndActiveUser(String gmailAuditorPassword, String emailCreate, String auditorPwd) throws Exception {
-        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        adminService = new AdminService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-
-        emailCreate = GenericService.sBrowserData + emailCreate;
-
-        try {
-
-            gmailLoginService.gmailLogin(emailCreate, gmailAuditorPassword);
-            gmailLoginService.selectActiveEmaill();
-
-            emailTemplateService.navigateToConfirmationLink();
-            adminService.clickClosePopupWarningBrowser();
-            auditorSignUpService.createPassword(auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Input information firm sign up page: PASSED", LogAs.PASSED, null);
-        } catch (AssertionError e) {
-            getLogger().info(e);
-            NXGReports.addStep("Input information sign up page: FAILED", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 5, enabled = true, description = "Verify Auditor User can log in with user and password. ",
-            dataProvider = "verifyLoginAuditorUser", dataProviderClass = SmokeDataProvider.class)
-    public void verifyLoginAuditorUser(String emailCreate, String auditorPwd) throws Exception {
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-
-        emailCreate = GenericService.sBrowserData + emailCreate;
-
-        try {
-            marketingService.loginUsingUsernamePassword(emailCreate, auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            marketingService.logout();
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Test positive tests case login and logout: PASSED", LogAs.PASSED, (CaptureScreen) null);
-        } catch (AssertionError e) {
-            NXGReports.addStep("Test positive tests case login and logout: FAILED", LogAs.FAILED,
+            NXGReports.addStep("Admin auditor sign up from marketing page: FAILED", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             throw e;
         }
     }
 
-    @Test(priority = 6, enabled = true, description = "Auditor create new Engagement (simple engagement)",
-            dataProvider = "verifyCreateSimpleEngagement", dataProviderClass = SmokeDataProvider.class)
-    public void verifyCreateSimpleEngagement(String auditorId, String auditorPassword, String engagementName, String company) {
-        getLogger().info("Auditor create new Engagement (simple engagement).");
+    @Test(/*priority = 2, */enabled = true, description = "Verify Admin user can change status of Auditor User from Wait-List to On Boarding.",
+            testName = "if_2", dependsOnMethods = {"verifySignUpAuditorUser"}, dataProvider = "verifyAdminChangeStatusUserToOnBoarding",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAdminChangeStatusUserToOnBoarding(String adminAuditorEmail, String adminEmail, String adminAuditorEmailPwd,
+            String adminAuvenirPwd) throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+
+        adminAuditorEmail = GenericService.addBrowserPrefix(adminAuditorEmail);
+        adminEmail = GenericService.addBrowserPrefix(adminEmail);
+
+        try {
+            gmailLoginService.deleteAllExistedEmail(adminAuditorEmail, adminAuditorEmailPwd);
+            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            adminService.changeTheStatusUser(adminAuditorEmail, "Onboarding");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Admin change status of admin Auditor to On-Boarding: PASSED", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            NXGReports.addStep("Admin change status of admin Auditor to On-Boarding: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 3, */enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_3",
+            dependsOnMethods = {"verifyAdminChangeStatusUserToOnBoarding"}, dataProvider = "verifyAuditorLoginGmailAndActiveUser",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAuditorLoginGmailAndActiveUser(String adminAuditorEmail, String adminAuditorEmailPwd,
+            String adminAuditorAuvenirPwd) throws Exception {
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+
+        adminAuditorEmail = GenericService.addBrowserPrefix(adminAuditorEmail);
+
+        try {
+            gmailLoginService.gmailLogin(adminAuditorEmail, adminAuditorEmailPwd);
+            gmailLoginService.selectActiveEmaill();
+            emailTemplateService.navigateToConfirmationLink();
+            adminService.clickClosePopupWarningBrowser();
+            auditorSignUpService.createPassword(adminAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Admin Auditor be active via Mail link: PASSED", LogAs.PASSED, null);
+        } catch (AssertionError e) {
+            getLogger().info(e);
+            NXGReports.addStep("Admin Auditor be active via Mail link: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 4, */enabled = true, description = "Admin Auditor create new Engagement1", testName = "if_4",
+            dependsOnMethods = {"verifyAuditorLoginGmailAndActiveUser"}, dataProvider = "verifyAdminAuditorCreateSimpleEngagement",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAdminAuditorCreateSimpleEngagement(String adminAuditorEmail, String engagementName1, String companyName,
+            String adminAuditorAuvenirPwd) {
+        getLogger().info("Admin Auditor create new Engagement1 (simple engagement).");
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
 
-        auditorId = GenericService.sBrowserData + auditorId;
+        adminAuditorEmail = GenericService.addBrowserPrefix(adminAuditorEmail);
+        MongoDBService.removeEngagementCreatedByLeadAuditor(adminAuditorEmail, engagementName1);
+        MongoDBService.removeAllBusinessByName(companyName);
 
         try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
+
+            marketingService.loginUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.clickNewEnagementButton();
             auditorNewEngagementService.verifyNewEngagementPage();
-            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName, "", company);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName1, "", companyName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName1);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
+            NXGReports.addStep("Auditor create new Engagement: Passed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.FAILED,
+            NXGReports.addStep("Auditor create new Engagement: Failed.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
 
-    @Test(priority = 7, enabled = true, description = "Verify that Auditor can invite a client", dataProvider = "verifyAuditorInvitingTheClient",
+    @Test(/*priority = 6,*/ enabled = true, description = "Verify that Admin Auditor can invite new member.", testName = "if_6, if_9",
+            dependsOnMethods = {"verifyAdminAuditorCreateSimpleEngagement"}, dataProvider = "verifyAdminAuditorInviteNewMemberAuditor",
             dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorInvitingTheClient(String clientId, String adminId, String auditorId, String adminPassword, String auditorPassword,
-            String engagementName, String clientEmailPassword, String clientFullName, String userOnBoardingStatus,
-            String roleClient) throws Exception {
-        getLogger().info("Verify Auditor inviting a client.");
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        adminService = new AdminService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-
-        adminId = GenericService.addBrowserPrefix(adminId);
-        auditorId = GenericService.addBrowserPrefix(auditorId);
-        clientId = GenericService.addBrowserPrefix(clientId);
-
-        //        timeStamp = GeneralUtilities.getTimeStampForNameSuffix();
-        //        MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), clientId);
-        //        MongoDBService.removeEngagementObjectByName(MongoDBService.getCollection("engagements"), engagementName);
-        MongoDBService.removeClientAndIndicatedValueByEmail(clientId);
-        //need precondition for save engagement name, and delete this engagement or client on acl
-
-        try {
-            gmailLoginService.deleteAllExistedEmail(clientId, clientEmailPassword);
-
-
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName,"Auvenir01");
-
-            auditorTodoListService.navigateToInviteClientPage();
-            clientService.selectAddNewClient();
-            clientService.fillInfoToInviteNewClient(clientFullName, clientId, roleClient);
-            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
-
-            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
-            adminService.verifyPageLoad();
-            adminService.scrollToFooter(getDriver());
-            adminService.verifyUserStatusOnAdminUserTable(clientId, userOnBoardingStatus);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 8, enabled = true, description = "Verify that Admin change the status of the client to OnBoarding",
-            dataProvider = "verifyChangeTheStatusClientToOnBoarding", dataProviderClass = SmokeDataProvider.class)
-    public void verifyChangeTheStatusClientToOnBoarding(String adminId, String clientId, String adminPassword, String chooseOptionValue) {
-        getLogger().info("Verify change the status of the client to OnBoarding.");
-        adminService = new AdminService(getLogger(), getDriver());
-        auvenirService = new AuvenirService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        adminId = GenericService.sBrowserData + adminId;
-        clientId = GenericService.sBrowserData + clientId;
-
-        try {
-            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
-            adminService.verifyPageLoad();
-            adminService.scrollToFooter(getDriver());
-            adminService.changeTheStatusUser(clientId, chooseOptionValue);
-            adminService.verifyUserStatusOnAdminUserTable(clientId, chooseOptionValue);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify change the status of the client to OnBoarding.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify change the status of the client to OnBoarding.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 9, enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed",
-            dataProvider = "verifyClientLogsInAndActive", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientLogsInAndActive(String adminId, String clientId, String clientEmailPassword, String clientAuvenirPassword,
-            String engagementName, String phoneNumber, String parentStackHolder) throws Exception {
-        getLogger().info("Verify client logs in and OnBoarding page is displayed.");
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
-
-        adminId = GenericService.sBrowserData + adminId;
-        clientId = GenericService.sBrowserData + clientId;
-
-
-        try {
-            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
-            gmailLoginService.signInGmail(clientId, clientEmailPassword);
-            gmailLoginService.filterEmail();
-            gmailLoginService.navigateAuvenirFromInvitationLink();
-
-            clientSignUpService.navigateToSignUpForm();
-            clientSignUpService.fillUpPersonalForm(phoneNumber);//10 number required
-            clientSignUpService.fillUpBusinessForm(parentStackHolder);
-            clientSignUpService.fillUpBankForm();
-            clientSignUpService.fillUpFileForm();
-            clientSignUpService.fillUpSecurityForm(clientAuvenirPassword);
-            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 10, enabled = true, description = "Verify that client user is active successful and client log in system",
-            dataProvider = "verifyClientActiveAfterSignUpSuccess", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientActiveAfterSignUpSuccess(String adminId, String clientId, String adminPassword, String clientPassword,
-            String userActiveStatus) {
-        getLogger().info("Verify client logs in and OnBoarding page is displayed.");
-        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        adminService = new AdminService(getLogger(), getDriver());
-        auvenirService = new AuvenirService(getLogger(), getDriver());
-        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
-        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        adminId = GenericService.sBrowserData + adminId;
-        clientId = GenericService.sBrowserData + clientId;
-
-        try {
-            marketingService.loginUsingUsernamePassword(adminId, adminPassword);
-            adminService.verifyPageLoad();
-            adminService.scrollToFooter(getDriver());
-            adminService.verifyUserStatusOnAdminUserTable(clientId, userActiveStatus);
-
-            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
-            clientEngagementService.verifyNavigatedToClientEngagementPage();
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify client logs in and OnBoarding page is displayed.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            e.printStackTrace();
-        }
-    }
-
-    @Test(priority = 11, enabled = true, description = "Verify that Auditor can create to-do pages", dataProvider = "verifyAuditorCreateTodoPage",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorCreateTodoPage(String auditorId, String auditorPassword, String engagement, String todoName) throws Exception {
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorId = GenericService.sBrowserData + auditorId;
-        try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagement);
-            auditorCreateToDoService.navigatetoCreateToDoTab();
-            auditorCreateToDoService.verifyInputDataToDoNameTextBox(todoName);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify create to-do pages.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify create to-do pages.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 12, enabled = true, description = "Verify that Audit Assignee box", dataProvider = "verifyAuditAssignee",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditAssignee(String auditorId, String auditorPassword, String engagement, String toDoName,
-            String auditorAssign) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorId = GenericService.sBrowserData + auditorId;
-        try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagement);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
-
-            auditorCreateToDoService.selectAuditorAssigneeByName(toDoName, auditorAssign);
-            auditorCreateToDoService.verifyAuditorAssigneeSelected(toDoName, auditorAssign);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Client Assignee ComboBox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    @Test(priority = 13, enabled = true, description = "Verify Client Assignee", dataProvider = "verifyClientAssignee",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientAssignee(String auditorId, String auditorPassword, String engagement, String toDoName,
-            String clientAssign) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEditCategoryService = new AuditorEditCategoryService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorId = GenericService.sBrowserData + auditorId;
-        try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagement);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
-
-            auditorCreateToDoService.selectClientAssigneeByName(toDoName, clientAssign);
-            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, clientAssign);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Client Assignee.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify Client Assignee.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    @Test(priority = 14, enabled = true, description = "Client verify engagement, assigned To-Do", dataProvider = "verifyClientEngagementOverView",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientEngagementOverView(String clientId, String clientPassword, String engagement, String toDoName) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        clientId = GenericService.sBrowserData + clientId;
-        try {
-            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
-            clientService.verifyClientHomePage();
-            auditorEngagementService.verifyEngagementExisted(engagement);
-            auditorEngagementService.viewEngagementDetailsPage(engagement);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagement);
-            clientService.verifyToDoTaskExist(toDoName, true);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Client verify engagement, assigned To-Do.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Client verify engagement, assigned To-Do.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    @Test(priority = 15, enabled = true, description = "Verify Auditor post new comment on a ToDo.", dataProvider = "verifyAuditorPostComment",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorPostComment(String auditorId, String auditorPwd, String engagementName, String toDoName,
-            String commentContent) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
-        try {
-
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-
-            // Will uncomment when the code is updated with the new xpath and business.
-            // auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName);
-            auditorCreateToDoService.verifyInputAComment(commentContent);
-            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickOnPostCommentButton();
-            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-            NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-
-    @Test(priority = 16, enabled = true, description = "Verify Client can see Auditor's post comment.",
-            dataProvider = "verifyClientViewAuditorComment", dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientViewAuditorComment(String clientId, String clientPassword, String engagementName, String toDoName, String commentContent,
-            boolean isClient,String strFullName) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-
-        clientId = GenericService.sBrowserData + clientId;
-
-        try {
-
-            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
-            clientService.verifyClientHomePage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-
-            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName, isClient);
-            auditorCreateToDoService.verifyLastCommentOfUserDisplayed(commentContent, strFullName);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify client post comment.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify client post comment.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 17, enabled = true, description = "Verify client post comment.", dataProvider = "verifyClientPostComment",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientPostComment(String clientId, String clientPassword, String engagementName, String toDoName, String commentContent,
-            boolean isClient) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-
-        clientId = GenericService.sBrowserData + clientId;
-
-        try {
-
-            marketingService.loginUsingUsernamePassword(clientId, clientPassword);
-            clientService.verifyClientHomePage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-
-            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName, isClient);
-            auditorCreateToDoService.verifyInputAComment(commentContent);
-            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
-            auditorCreateToDoService.clickOnPostCommentButton();
-            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, commentContent);
-
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify client post comment.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify client post comment.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            throw e;
-        }
-    }
-
-    @Test(priority = 18, enabled = true, description = "Verify Auditor can see client's post comment.",
-            dataProvider = "verifyAuditorViewClientComment", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorViewClientComment(String auditorId, String auditorPwd, String engagementName, String toDoName, String commentContent,
-            String clientFullName, boolean isClient) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
-        try {
-
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-
-            auditorCreateToDoService.clickCommentIconPerTaskName(toDoName, isClient);
-            auditorCreateToDoService.verifyLastCommentOfUserDisplayed(commentContent, clientFullName);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
-            NXGReports.addStep("Verify To Do Details Commenting.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify To Do Details Commenting.", LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-
-    @Test(priority = 19, enabled = true, description = "Verify to create new request on ToDo page", dataProvider = "verifyAddNewRequestOnToDoPage",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAddNewRequestOnToDoPage(String auditorId, String auditorPwd, String engagementName, String pathOfUploadLocation,
-            String fileName, String toDoName, String deadlineDate, String endDate, String startDate, String request01Value, String request02Value,
-            String position01Value, String position02Value) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
-        try {
-            marketingService.goToAuvenirMarketingPageURL();
-            marketingService.selectLoginBtn();
-            marketingService.loginWithUserPwd(auditorId, auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName, deadlineDate, endDate, startDate);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.verifyClickAddRequestBtn();
-            auditorCreateToDoService.createNewRequest("request 01", "1");
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.verifyClickAddRequestBtn();
-            auditorCreateToDoService.createNewRequest("request 02", "2");
-            // temporary return Engagement to verify newRequest.
-            auditorCreateToDoService.reselectEngagementName(engagementName);
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, fileName, "request 01");
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.verifyUploadFileSuccessfully(fileName);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify auditor add new request", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify auditor add new request", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-
-    /**
-     * Added by Vien.pham July, 2017
-     */
-    @Test(priority = 20, enabled = true, description = "Verify to client upload file as requested", dataProvider = "verifyClientUploadOnRequest",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientUploadOnRequest(String clientId, String clientPwd, String engagementName, String pathOfUploadLocation, String fileName,
-            String requestValue) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        clientId = GenericService.sBrowserData + clientId;
-
-        try {
-            marketingService.loginUsingUsernamePassword(clientId, clientPwd);
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.uploadeNewFileByRequestName(pathOfUploadLocation, fileName, "request 02");
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.verifyUploadFileSuccessfully(fileName);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client upload file", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify the client upload file", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-
-    /**
-     * Added by Vien Pham on July 10, 2017
-     */
-    @Test(priority = 21, enabled = true, description = "Verify auditor can download.", dataProvider = "verifyAuditorDownloadOnRequest",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorDownloadOnRequest(String auditorId, String auditorPwd, String engagementName, String pathOfUploadLocation,
-            String fileName, String pathOfDownloadLocation) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
-        try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.downloadRequestFile(pathOfUploadLocation, pathOfDownloadLocation, fileName, false);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the auditor download file", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify the auditor download file", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-
-    @Test(priority = 22, enabled = true, description = "Verify that Auditor can add new member.", dataProvider = "verifyInviteNewMemberAuditor",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyInviteNewMemberAuditor(String auditorId, String auditorPwd, String engagementName, String auditorInvitedUserEmail,
-            String fullNameMember, String roleMember, String auditorInvitedUserPwd) throws Exception {
+    public void verifyAdminAuditorInviteNewMemberAuditor(String leadAuditorEmail, String leadAuditorAuvenirPwd, String adminAuditorEmail,
+            String adminAuditorAuvenirPwd, String engagementName1, String leadAuditorFullName, String partnerRole,
+            String leadAuditorEmailPwd) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
@@ -722,40 +239,35 @@ public class SmokeTest extends AbstractTest {
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
 
-        auditorId = GenericService.sBrowserData + auditorId;
-        auditorInvitedUserEmail = GenericService.sBrowserData + auditorInvitedUserEmail;
+        adminAuditorEmail = GenericService.addBrowserPrefix(adminAuditorEmail);
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+
+        MongoDBService.removeAllActivitiesCollectionOfAUser(leadAuditorEmail);
+        MongoDBService.removeEngagementCreatedByLeadAuditor(leadAuditorEmail);
+        auditorSignUpService.deleteUserUsingApi(leadAuditorEmail);
 
         try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            auditorEngagementTeamService.clickEngagementTeamMenu();
-            // auditorEngagementTeamService.deleteAllMemberInEngagement();
-            auditorEngagementTeamService.deleteMemberInEngagementByName(fullNameMember);
+            gmailLoginService.deleteAllExistedEmail(leadAuditorEmail, leadAuditorAuvenirPwd);
 
-            // auditorSignUpService.deleteUserUsingApi(auditorInvitedUserEmail);
-            gmailLoginService.deleteAllExistedEmail(auditorInvitedUserEmail, auditorInvitedUserPwd);
-
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
+            marketingService.loginUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName1);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName1);
             auditorEngagementTeamService.clickEngagementTeamMenu();
+            auditorEngagementTeamService.deleteMemberInEngagementByName(leadAuditorFullName);
+
             auditorEngagementTeamService.clickInviteMember();
-            auditorEngagementTeamService.inputInviteNewMemberInfo(fullNameMember, auditorInvitedUserEmail, roleMember);
-            auditorEngagementTeamService.verifyAddNewInvitedMember(fullNameMember, roleMember);
+            auditorEngagementTeamService.inputInviteNewMemberInfo(leadAuditorFullName, leadAuditorEmail, partnerRole);
+            auditorEngagementTeamService.verifyAddNewInvitedMember(leadAuditorFullName, partnerRole);
 
             // Invited Auditor User Login gmail and active user.
-            gmailLoginService.gmailReLogin(auditorInvitedUserPwd);
+            gmailLoginService.gmailReLogin(leadAuditorEmailPwd);
             gmailLoginService.selectActiveEmaill();
             emailTemplateService.navigateToConfirmationLink();
             adminService.clickClosePopupWarningBrowser();
 
-            auditorSignUpService.confirmInfomationNewAuditorUser(fullNameMember, auditorInvitedUserEmail, auditorInvitedUserPwd);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            // Business rule changed. The Engagement is selected after signup successfully.
-            // auditorEngagementService.verifyAuditorEngagementPage();
+            auditorSignUpService.confirmInfomationNewAuditorUser(leadAuditorFullName, leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName1);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Add New Member Auditor", LogAs.PASSED, null);
@@ -767,446 +279,1150 @@ public class SmokeTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 23, enabled = true, description = "verify that Assign ToDo Bulk Action", dataProvider = "verifyAssignToDoBulkAction",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAssignToDoBulkAction(String auditorId, String auditorPwd, String engagementName, String fullNameInvitedMember,
-            String auditorInvitedId, String auditorInvitedUserPwd, String fullNameInvitedClient, String clientInvitedId, String clientInvitedUserPwd,
-            String toDoName) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        clientService = new ClientService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+    /////// Test case verifyAdminAuditorInvitingNewClient, verifyClientLogsInAndActive, verifyClientActiveAfterSignUpSuccess will be uncomment to
+    // run after the issue ( the System cannot add client member ) is fixed.
 
-        auditorId = GenericService.sBrowserData + auditorId;
-        auditorInvitedId = GenericService.sBrowserData + auditorInvitedId;
-        clientInvitedId = GenericService.sBrowserData + clientInvitedId;
+    @Test(/*priority = 8,*/ enabled = true, description = "Verify that Auditor can invite a client", testName = "if_8",
+            dependsOnMethods = {"verifyAdminAuditorInviteNewMemberAuditor"}, dataProvider = "verifyAdminAuditorInvitingNewClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyAdminAuditorInvitingNewClient(String adminEmail, String adminAuvenirPwd, String adminClientEmail, String adminClientEmailPwd,
+            String adminAuditorEmail, String adminAuditorAuvenirPwd, String engagementName1, String adminClientFullName, String roleClient,
+            String onboardingStatus, String leadClientEmail, String clientEmail) throws Exception {
+        getLogger().info("Verify Auditor inviting a client.");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+
+        adminAuditorEmail = GenericService.addBrowserPrefix(adminAuditorEmail);
+        adminEmail = GenericService.addBrowserPrefix(adminEmail);
+        adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
+
+        MongoDBService.removeClientAndIndicatedValueByEmail(adminClientEmail);
+        MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
+        MongoDBService.removeClientAndIndicatedValueByEmail(clientEmail);
+        //need precondition for save engagement name, and delete this engagement or client on acl
 
         try {
+            gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
 
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
+
+            marketingService.loginUsingUsernamePassword(adminAuditorEmail, adminAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName1);
 
-            auditorCreateToDoService.createNewToDoTask(toDoName);
+            auditorTodoListService.navigateToInviteClientPage();
+            clientService.selectAddNewClient();
+            clientService.fillInfoToInviteNewClient(adminClientFullName, adminClientEmail, roleClient);
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
-
-            int index = auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction(fullNameInvitedMember);
-            auditorCreateToDoService.verifyAuditorAssigneeSelected(toDoName, fullNameInvitedMember);
-
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction(fullNameInvitedClient);
-            auditorCreateToDoService.verifyClientAssigneeSelected(toDoName, fullNameInvitedClient);
-            marketingService.logout();
-
-            //Client verify To Do Assigned.
-            marketingService.loginUsingUsernamePassword(clientInvitedId, clientInvitedUserPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            clientService.verifyToDoTaskExist(toDoName, true);
-            Thread.sleep(3000);
-            marketingService.logout();
-
-            //Auditor Member verify To Do Assigned.
-            marketingService.loginUsingUsernamePassword(auditorInvitedId, auditorInvitedUserPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            clientService.verifyToDoTaskExist(toDoName, false);
-            Thread.sleep(5000);
-            marketingService.logout();
+            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            adminService.verifyPageLoad();
+            adminService.scrollToFooter(getDriver());
+            adminService.verifyUserStatusOnAdminUserTable(adminClientEmail, onboardingStatus);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify client post comment.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify Admin Auditor inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify client post comment.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Verify Admin Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 9,*/ enabled = true, description = "Verify that Client logs in and OnBoarding page is displayed", testName = "if_8",
+            dependsOnMethods = {"verifyAdminAuditorInvitingNewClient"}, dataProvider = "verifyClientLogsInAndActive",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyClientLogsInAndActive(String adminClientEmail, String adminClientEmailPwd, String clientPhoneNumber, String parentStackHolder,
+            String adminClientAuvenirPwd, String engagementName1) throws Exception {
+        getLogger().info("Verify client logs in and OnBoarding page is displayed.");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+
+        adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
+
+        try {
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail(adminClientEmail, adminClientEmailPwd);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
+
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm(clientPhoneNumber);//10 number required
+            clientSignUpService.fillUpBusinessForm(parentStackHolder);
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm(adminClientAuvenirPwd);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName1);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Admin client logs in and OnBoarding page is displayed.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Admin client logs in and OnBoarding page is displayed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 10,*/ enabled = true, description = "Verify that lead auditor user create a engagement 2", testName = "if_10",
+            dependsOnMethods = {"verifyClientLogsInAndActive"}, dataProvider = "verifyLeadAuditorCreateNewEngagement",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorCreateNewEngagement(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
+            String companyName) {
+        getLogger().info("Lead Auditor create new Engagement2.");
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+
+        try {
+            MongoDBService.removeEngagementCreatedByLeadAuditor(leadAuditorEmail, engagementName2);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.clickNewEnagementButton();
+            auditorNewEngagementService.verifyNewEngagementPage();
+            auditorNewEngagementService.enterDataForNewEngagementPage(engagementName2, "", companyName);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Auditor create new Engagament (simple engagement).", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 11,*/ enabled = true, description = "Verify that Lead Auditor can invite a admin client", testName = "if_11",
+            dependsOnMethods = {"verifyLeadAuditorCreateNewEngagement"}, dataProvider = "verifyLeadAuditorInvitingAdminClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorInvitingAdminClient(String adminEmail, String leadAuditorEmail, String adminClientEmail, String adminClientEmailPwd,
+            String leadAuditorAuvenirPwd, String engagementName2, String adminClientFullName, String roleClient, String clientPhoneNumber,
+            String parentStackHolder, String adminClientAuvenirPwd, String leadClientEmail, String clientEmail) throws Exception {
+        getLogger().info("Verify Lead Auditor inviting a admin client.");
+        // This test case should invite a admin client by add member client (a client is existed in the system)
+        // But due to the issue that system cannot add a client member, this test case will invite new Admin client.
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorNewEngagementService = new AuditorNewEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+
+        adminEmail = GenericService.addBrowserPrefix(adminEmail);
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+        adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+
+        //need precondition for save engagement name, and delete this engagement or client on acl
+
+        MongoDBService.removeClientAndIndicatedValueByEmail(adminClientEmail);
+        MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
+        MongoDBService.removeClientAndIndicatedValueByEmail(clientEmail);
+
+        try {
+            gmailLoginService.deleteAllExistedEmail(adminClientEmail, adminClientEmailPwd);
+
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+
+            auditorTodoListService.navigateToInviteClientPage();
+            clientService.selectAddNewClient();
+            clientService.fillInfoToInviteNewClient(adminClientFullName, adminClientEmail, roleClient);
+            clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
+
+            gmailLoginService.gmailReLogin(adminClientEmailPwd);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
+
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm(clientPhoneNumber);//10 number required
+            clientSignUpService.fillUpBusinessForm(parentStackHolder);
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm(adminClientAuvenirPwd);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
             throw e;
         }
     }
 
-    @Test(priority = 24, enabled = true, description = "Verify Create And Delete ToDo.", dataProvider = "verifyDeleteSingleAndMultipleToDo",
+    @Test(/*priority = 12,*/ enabled = true, description = "Verify that lead auditor user create a engagement 2", testName = "if_12, if_13",
+            dependsOnMethods = {"verifyLeadAuditorInvitingAdminClient"}, dataProvider = "verifyLeadAuditorInviteNewAuditorMember",
             dataProviderClass = SmokeDataProvider.class)
-    public void verifyDeleteSingleAndMultipleToDo(String auditorId, String auditorPwd, String engagementNameT, String toDoNameDeleteSingle,
-            String toDoNameDeleteMultiple01, String toDoNameDeleteMultiple02, String toDoNameDeleteMultiple03) throws Exception {
-        marketingService = new MarketingService(getLogger(), getDriver());
+    public void verifyLeadAuditorInviteNewAuditorMember(String leadAuditorEmail, String leadAuditorAuvenirPwd, String auditorEmail,
+            String auditorEmailPwd, String auditorAuvenirPwd, String engagementName2, String auditorFullName, String partnerRole) throws Exception {
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
+        auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
 
-        auditorId = GenericService.sBrowserData + auditorId;
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
 
         try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
+            MongoDBService.removeAllActivitiesCollectionOfAUser(auditorEmail);
+            auditorSignUpService.deleteUserUsingApi(auditorEmail);
+
+            gmailLoginService.deleteAllExistedEmail(auditorEmail, auditorEmailPwd);
+
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementNameT);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementNameT);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+            auditorEngagementTeamService.clickEngagementTeamMenu();
+            auditorEngagementTeamService.deleteMemberInEngagementByName(auditorFullName);
 
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteSingle);
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple01);
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple02);
-            auditorCreateToDoService.createNewToDoTask(toDoNameDeleteMultiple03);
+            auditorEngagementTeamService.clickInviteMember();
+            auditorEngagementTeamService.inputInviteNewMemberInfo(auditorFullName, auditorEmail, partnerRole);
+            auditorEngagementTeamService.verifyAddNewInvitedMember(auditorFullName, partnerRole);
 
-            auditorCreateToDoService.scrollDown(getDriver());
+            // Invited Auditor User Login gmail and active user.
+            gmailLoginService.gmailReLogin(auditorEmailPwd);
+            gmailLoginService.selectActiveEmaill();
+            emailTemplateService.navigateToConfirmationLink();
+            adminService.clickClosePopupWarningBrowser();
 
-            auditorCreateToDoService.selectToDoTaskName(toDoNameDeleteSingle);
+            auditorSignUpService.confirmInfomationNewAuditorUser(auditorFullName, auditorEmail, auditorAuvenirPwd);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Add New Member Auditor", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Test script Failed: Verify Add New Member Auditor", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+
+    @Test(/*priority = 15,*/ enabled = true, description = "Verify Admin Client have permission to invite client via email.", testName = "if_15",
+            dependsOnMethods = {"verifyLeadAuditorInviteNewAuditorMember"}, dataProvider = "verifyPermissionAdminClientCanInviteClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyPermissionAdminClientCanInviteClient(String adminClientEmail, String adminClientAuvenirPwd, String leadClientEmail,
+            String leadClientEmailPwd, String adminEmail, String adminAuvenirPwd, String engagementName2, String leadClientFullName,
+            String successMessageInvitation, String onboardingStatus, String roleClient) throws Exception {
+
+        getLogger().info("Verify Admin Client have permission to invite client via email.");
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        adminService = new AdminService(getLogger(), getDriver());
+
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
+        adminEmail = GenericService.addBrowserPrefix(adminEmail);
+
+        MongoDBService.removeClientAndIndicatedValueByEmail(leadClientEmail);
+        try {
+            gmailLoginService.deleteAllExistedEmail(leadClientEmail, leadClientEmailPwd);
+
+            marketingService.loginUsingUsernamePassword(adminClientEmail, adminClientAuvenirPwd);
+
+            clientEngagementService.verifyNavigatedToClientEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+            clientDetailsEngagementService.navigateToTeamTab();
+            clientDetailsEngagementService.inviteNewMemberToTeam();
+            clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientEmail, roleClient);
+            clientService.verifyInviteClientSuccess(successMessageInvitation);
+
+            marketingService.loginUsingUsernamePassword(adminEmail, adminAuvenirPwd);
+            adminService.verifyPageLoad();
+            adminService.scrollToFooter(getDriver());
+            adminService.verifyUserStatusOnAdminUserTable(leadClientEmail, onboardingStatus);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 16,*/ enabled = true, description = "Verify Invited Client have permission to seft-active via email.", testName = "if_16",
+            dependsOnMethods = {"verifyPermissionAdminClientCanInviteClient"}, dataProvider = "verifyPermissionClientCanActiveViaEmail",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyPermissionClientCanActiveViaEmail(String leadClientEmail, String leadClientEmailPwd, String clientPhoneNumber,
+            String parentStackHolder, String leadClientAuvenirPwd, String engagementName2) throws Exception {
+        getLogger().info("Verify Invited Client have permission to seft-active via email.");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+
+        try {
+            gmailLoginService.navigateToURL(GenericService.getConfigValue(GenericService.sConfigFile, "GMAIL_URL"));
+            gmailLoginService.signInGmail(leadClientEmail, leadClientEmailPwd);
+            gmailLoginService.filterEmail();
+            gmailLoginService.navigateAuvenirFromInvitationLink();
+
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm(clientPhoneNumber);//10 number required
+            clientSignUpService.fillUpBusinessForm(parentStackHolder);
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm(leadClientAuvenirPwd);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Invited Client have permission to seft-active via email.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Invited Client have permission to seft-active via email.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 17,*/ enabled = true,
+            description = "Verify Lead Client have permission to tranfer their Lead Permission to other Client on team", testName = "if_17",
+            dependsOnMethods = {"verifyPermissionClientCanActiveViaEmail"}, dataProvider = "verifyPermissionLeadPermissionCanBeTranfered",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyPermissionLeadPermissionCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2,
+            String leadClientFullName, String leadText) throws Exception {
+        getLogger().info("Verify Admin Client have permission to invite client via email.");
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+
+        adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
+
+        try {
+            marketingService.loginUsingUsernamePassword(adminClientEmail, adminClientAuvenirPwd);
+
+            clientEngagementService.verifyNavigatedToClientEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientDetailsEngagementService.navigateToTeamTab();
+            clientDetailsEngagementService.chooseLeadClientWithTeamMemberName(leadClientFullName);
+            clientDetailsEngagementService.verifyLeadSetByName(leadClientFullName, leadText);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 18,*/ enabled = true, description = "Verify group permission Lead auditor create todo.", testName = "if_18, if_19, if_20",
+            dependsOnMethods = {"verifyPermissionLeadPermissionCanBeTranfered"}, dataProvider = "verifyLeadAuditorCreateTodoAndAssignClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorCreateTodoAndAssignClient(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
+            String todo1, String todo2, String todo3, String leadClientFullName, String categoryName) throws Exception {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+        //        leadAuditorEmail = "duongauvenir01@gmail.com";
+        //        engagementName2 = "Engagement HD";
+        //        leadClientFullName = "Client ABC";
+        List<String> listTodo = new ArrayList<>();
+        listTodo.add(todo1);
+        listTodo.add(todo2);
+        listTodo.add(todo3);
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, categoryName);
+            auditorCreateToDoService.verifyLeadAuditorSeeListToDoTask(true, listTodo);
+            for (String todo : listTodo) {
+                auditorCreateToDoService.selectClientAssigneeByName(todo, leadClientFullName);
+                auditorCreateToDoService.verifyClientAssigneeSelected(todo, leadClientFullName);
+            }
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission Lead auditor create todo.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission Lead auditor create todo: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 21,*/ enabled = true, description = "Verify group permission Lead auditor assign todo to general auditor.", testName = "if_21",
+            dependsOnMethods = {"verifyLeadAuditorCreateTodoAndAssignClient"}, dataProvider = "verifyLeadAuditorAssignToGeneralAuditor",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorAssignToGeneralAuditor(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
+            String auditorFullName) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String auditorAssign = "Auditor 007";
+        //        String toDoName = "To-do 1";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            auditorCreateToDoService.selectAuditorAssigneeByName(todo1, auditorFullName);
+            auditorCreateToDoService.verifyAuditorAssigneeSelected(todo1, auditorFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission Lead auditor assign todo to general auditor.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission Lead auditor assign todo to general auditor.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 25,*/ enabled = true, description = "Verify group permission Lead auditor commenting.", testName = "if_25",
+            dependsOnMethods = {"verifyLeadAuditorAssignToGeneralAuditor"}, dataProvider = "verifyLeadAuditorCommenting",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorCommenting(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
+            String leadClientFullName) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "To-do 1";
+        //        String commentContent = "Comment on To--do 1";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo1);
+            auditorCreateToDoService.clickCommentIconPerTaskName(todo1);
+            auditorCreateToDoService.verifyInputAComment(leadClientFullName);
+            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
+            auditorCreateToDoService.clickOnPostCommentButton();
+            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, leadClientFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify group permission Lead auditor commenting.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission Lead auditor commenting.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 26,*/ enabled = true, description = "Verify group permission Lead auditor mark completed todo.", testName = "if_26",
+            dependsOnMethods = {"verifyLeadAuditorCommenting"}, dataProvider = "verifyLeadAuditorMarkCompleted",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorMarkCompleted(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo2) {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "To-do 2";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo2);
+            // Click on Bulk Action drop down
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            // Verify GUI Mark As Complete popup
+            auditorCreateToDoService.verifyCompleteMarkPopup();
+            auditorCreateToDoService.clickOnArchiveButtonInMarkAsCompletePopup();
+            // Verify mark as complete popup
+            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
+
+            auditorCreateToDoService.verifyTodoMarkCompleted(todo2);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission Lead auditor mark completed todo.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission Lead auditor mark completed todo.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 27,*/ enabled = true, description = "Verify Lead auditor Assign ToDo Bulk Action.", testName = "if_27",
+            dependsOnMethods = {"verifyLeadAuditorMarkCompleted"}, dataProvider = "verifyLeadAuditorAssignToDoBulkAction",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorAssignToDoBulkAction(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo3,
+            String auditorFullName, String leadClientFullName) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String auditorAuvenirPwd = "Changeit@123";
+        //        String engagementName = "Firm Auvenir Duong";
+        //        String toDoName = "To-do 3";
+        //        String fullNameInvitedMember = "Auditor 007";
+        //        String fullNameInvitedClient = "Duong Client";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo3);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction(auditorFullName);
+            auditorCreateToDoService.verifyAuditorAssigneeSelected(todo3, auditorFullName);
+
+            auditorCreateToDoService.selectToDoTaskName(todo3);
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.selectAssigneeToDoUsingBulkAction(leadClientFullName);
+            auditorCreateToDoService.verifyClientAssigneeSelected(todo3, leadClientFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead auditor Assign ToDo Bulk Action.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead auditor Assign ToDo Bulk Action.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 28,*/ enabled = true, description = "Verify group permission Lead auditor delete todo.", testName = "if_28",
+            dependsOnMethods = {"verifyLeadAuditorAssignToDoBulkAction"}, dataProvider = "verifyLeadAuditorDeleteTodo",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorDeleteTodo(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
+            String todo3) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "To-do 3";
+        try {
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo3);
             auditorCreateToDoService.scrollUp(getDriver());
             auditorCreateToDoService.clickBulkActionsDropdown();
             auditorCreateToDoService.selectDeleteToDoUsingBulkAction();
             auditorCreateToDoService.confirmDeleteButton();
-            auditorCreateToDoService.verifyToDoNotExist(toDoNameDeleteSingle);
+            auditorCreateToDoService.verifyToDoNotExist(todo3);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission Lead auditor delete todo.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify group permission Lead auditor delete todo.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 29,*/ enabled = true, description = "Verify group permission Lead auditor download from all todo.", testName = "if_29",
+            dependsOnMethods = {"verifyLeadAuditorDeleteTodo"}, dataProvider = "verifyLeadAuditorDownloadFromAllTodo",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadAuditorDownloadFromAllTodo(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
+            String pathDownload) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        leadAuditorEmail = GenericService.addBrowserPrefix(leadAuditorEmail);
+        String fileName = pathDownload + engagementName2 + ".zip";
+        //        String auditorId = "duongauvenir01@gmail.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
+        try {
+            auditorCreateToDoService.checkFileDownloadExisted(fileName);
+            marketingService.loginUsingUsernamePassword(leadAuditorEmail, leadAuditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
 
             auditorCreateToDoService.checkAllCheckBox();
             auditorCreateToDoService.clickBulkActionsDropdown();
-            auditorCreateToDoService.selectDeleteToDoUsingBulkAction();
-            auditorCreateToDoService.confirmDeleteButton();
-            auditorCreateToDoService.verifyEmptyToDoList();
+            auditorCreateToDoService.clickToBulkDownloadAttachmentButton();
+            auditorCreateToDoService.clickDownloadAllTodo();
+            auditorCreateToDoService.verifyDownloadFileAllTodoSuccess(fileName);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Create And Delete ToDo.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify group permission Lead auditor download from all todo.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Create And Delete ToDo.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-        }
-    }
-
-    @Test(priority = 25, enabled = true, description = "Verify download all attachment file form all ToDo.",
-            dataProvider = "verifyDownloadAttachmentFromAllToDo", dataProviderClass = SmokeDataProvider.class)
-    public void verifyDownloadAttachmentFromAllToDo(String auditorId, String auditorPwd, String engagementName) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
-        try {
-            //Go to marketing page
-            marketingService.goToBaseURL();
-            // Click on button login
-            marketingService.openLoginDialog();
-            // Login with user name and password
-            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
-            // Verify GUI engagement page
-            auditorEngagementService.verifyAuditorEngagementPage();
-            // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            // Verify GUI engagement detail page
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            // Move file manager tab
-            auditorDetailsEngagementService.clickOnFileManagerLink();
-            // Click on all file check box
-            auditorDetailsEngagementService.clickOnAllFileCheckBox();
-            // Click on down load icon
-            auditorDetailsEngagementService.clickOnDownLoadIcon();
-
-            auditorDetailsEngagementService.closeBrowserAfterDownLoad();
-            // verify down load popup
-            // auditorDetailsEngagementService.verifyDownLoadPopup();
-            // Click on down load button in popup
-            // auditorDetailsEngagementService.clickOnDownLoadButtonInPopup();
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify download all attachment file form all ToDo.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify download all attachment file form all ToDo.", LogAs.FAILED,
+            NXGReports.addStep("TestScript Failed: Verify group permission Lead auditor download from all todo.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 26, enabled = true, description = "Verify check list team.", dataProvider = "verifyCheckListTeam",
+    @Test(/*priority = 30,*/ enabled = true, description = "Verify group permission General auditor create todo.", testName = "if_30, if_31, if_33",
+            dependsOnMethods = {"verifyLeadAuditorDownloadFromAllTodo"}, dataProvider = "verifyGeneralAuditorCreateTodo",
             dataProviderClass = SmokeDataProvider.class)
-    public void verifyCheckListTeam(String auditorId, String auditorPwd, String engagementName, String fullNameMember,
-            String roleMember) throws Exception {
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorEngagementTeamService = new AuditorEngagementTeamService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
-        try {
-            //Go to marketing page
-            marketingService.goToBaseURL();
-            // Click on button login
-            marketingService.openLoginDialog();
-            // Login with user name and password
-            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
-            // Verify GUI engagement page
-            auditorEngagementService.verifyAuditorEngagementPage();
-            // Move to engagement detail
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            // Verify GUI engagement detail page
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            // Click on team link
-            auditorEngagementTeamService.clickEngagementTeamMenu();
-            // Verify member is already exist in team list data
-            auditorEngagementTeamService.verifyMemberIsShownInTeamList(fullNameMember, roleMember);
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify check list team.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports
-                    .addStep("Test script Failed: Verify check list team.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-
-    @Test(priority = 27, enabled = true, description = "Verify check contact list.", dataProvider = "verifyCheckContactList",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyCheckContactList(String auditorId, String auditorPassword, String contactName, String emailContact) throws Exception {
+    public void verifyGeneralAuditorCreateTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo4, String todo5,
+            String todo6, String leadClientFullName, String categoryName) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorService = new AuditorService(getLogger(), getDriver());
-        contactsService = new ContactsService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String todo4 = "To-do 4";
+        //        String todo5 = "To-do 5";
+        //        String todo6 = "To-do 6";
+        //        String clientAssign = "Duong Client";
+        List<String> listTodo = new ArrayList<>();
+        listTodo.add(todo4);
+        listTodo.add(todo5);
+        listTodo.add(todo6);
         try {
-
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPassword);
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            auditorService.clickClientsLink();
-            contactsService.verifyAuditorContactsPage();
-            contactsService.verifyContactDisplayedInContactsPage(contactName, emailContact);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorCreateToDoService.createListTodoTaskWithCategoryName(listTodo, categoryName);
+            auditorCreateToDoService.checkToDoListIsExists(true, listTodo);
+
+            auditorCreateToDoService.selectClientAssigneeByName(todo4, leadClientFullName);
+            auditorCreateToDoService.verifyClientAssigneeSelected(todo4, leadClientFullName);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify check contact list.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify group permission General auditor create todo.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Test script Failed: Verify check contact list.", LogAs.FAILED,
+            NXGReports.addStep("Verify group permission General auditor create todo: FAILED", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-
-    }
-
-    @Test(priority = 28, enabled = true, description = "Verify auditor attach file.", dataProvider = "verifyAuditorAttachFile",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorAttachFile(String auditorId, String auditorPwd, String engagementName, String pathOfAttachLocation, String fileName,
-            String toDoName) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        auditorId = GenericService.sBrowserData + auditorId;
-
-        try {
-            marketingService.loginUsingUsernamePassword(auditorId, auditorPwd);
-            auditorEngagementService.verifyAuditorEngagementPage();
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            getLogger().info("Verifying auditor attach a TXT file..");
-            auditorCreateToDoService.auditorAttachNewFile(pathOfAttachLocation, fileName);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify auditor attach file.", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify auditor attach file.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-        }
-    }
-
-    @Test(priority = 29, enabled = true, description = "Verify client download attach file.", dataProvider = "verifyClientDownloadAttachFile",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientDownloadAttachFile(String clientId, String clientPwd, String engagementName, String fileName,
-            String pathOfDownloadLocation, String pathOfUploadLocation) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        clientId = GenericService.sBrowserData + clientId;
-
-        try {
-            marketingService.loginUsingUsernamePassword(clientId, clientPwd);
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.verifyColorAddRequestBtn();
-            auditorCreateToDoService.clientDownloadAttachFile(pathOfUploadLocation, pathOfDownloadLocation, fileName);
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify the client download attach file", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("Verify the client download attach file", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
             throw e;
         }
     }
 
-    @Test(priority = 30, enabled = true,
-            description = "Verify engagement overview status, todo when complete todo by using marking as complete popup",
-            dataProvider = "verifyAuditorMarkAsComplete", dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorMarkAsComplete(String auditorId, String auditorPwd, String toDoName, String engagementName) throws Exception {
+    @Test(/*priority = 36,*/ enabled = true, description = "Verify group permission General auditor commenting.", testName = "if_36",
+            dependsOnMethods = {"verifyGeneralAuditorCreateTodo"}, dataProvider = "verifyGeneralAuditorCommenting",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralAuditorCommenting(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo4,
+            String generalAuditorCmt) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
 
-        auditorId = GenericService.sBrowserData + auditorId;
-
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "To-do 4";
+        //        String commentContent = "Comment on To-do 4";
         try {
-            //Go to marketing page
-            marketingService.goToBaseURL();
-            // Click on button login
-            marketingService.openLoginDialog();
-            // Login with user name and password
-            marketingService.loginWithUserNamePassword(auditorId, auditorPwd);
-
-            //Work flow when click on close icon popup - Start
-            // Verify GUI engagement page
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
-            // Get engagement status and todo
-            auditorEngagementService.getEngagementStatusAndToDoBefor(engagementName);
-            // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            // Verify GUI engagement detail page
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            // Create new to do
-            //auditorCreateToDoService.verifyAddNewToDoTask(toDoName);
-            // Select to do follow to do name
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo4);
+            auditorCreateToDoService.clickCommentIconPerTaskName(todo4);
+            auditorCreateToDoService.verifyInputAComment(generalAuditorCmt);
+            int numberOfListCommentlist = auditorCreateToDoService.getNumberOfListComment();
+            auditorCreateToDoService.clickOnPostCommentButton();
+            auditorCreateToDoService.verifyNewCommentIsDisplayed(numberOfListCommentlist, generalAuditorCmt);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script should be passed all steps");
+            NXGReports.addStep("Verify group permission General auditor commenting.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify group permission General auditor commenting.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 37,*/ enabled = true, description = "Verify group permission General auditor mark completed todo.", testName = "if_37",
+            dependsOnMethods = {"verifyGeneralAuditorCommenting"}, dataProvider = "verifyGeneralAuditorMarkCompleted",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralAuditorMarkCompleted(String auditorEmail, String auditorAuvenirPwd, String engagementName2,
+            String todo5) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "To-do 5";
+        try {
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo5);
             // Click on Bulk Action drop down
             auditorCreateToDoService.clickBulkActionsDropdown();
             // Verify GUI Mark As Complete popup
             auditorCreateToDoService.verifyCompleteMarkPopup();
-            // Click on close icon popup
-            auditorCreateToDoService.clickOnCloseIconInMarkAsCompletePopup();
-            // Verify mark as complete popup
-            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
-            // Verify engagement overview status after click on close icon popup
-            auditorCreateToDoService.verifyEngagementOverViewStatusWhenClickOnCloseIconPopup();
-            // Verify engagement overview todo after click on close icon popup
-            auditorCreateToDoService.verifyEngagementOverViewToDoWhenClickOnCloseIconPopup();
-            // Click on engagement link
-            auditorCreateToDoService.clickOnEngagementLink();
-            // Verify GUI engagement page
-            auditorEngagementService.verifyAuditorEngagementPage();
-            // Verify engagement status
-            auditorEngagementService.verifyEngagementStatusWhenClickOnCloseIconPopup(engagementName);
-            // Verify engagement todo
-            auditorEngagementService.verifyEngagementToDoWhenClickOnCloseIconPopup(engagementName);
-            //Work flow when click on close icon popup - End
-
-            //Work flow when click on cancel button - Start
-            // Get engagement status and todo
-            auditorEngagementService.getEngagementStatusAndToDoBefor(engagementName);
-            // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            // Verify GUI engagement detail page
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            // Select to do follow to do name
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
-            // Click on Bulk Action drop down
-            auditorCreateToDoService.clickBulkActionsDropdown();
-            // Verify GUI Mark As Complete popup
-            auditorCreateToDoService.verifyCompleteMarkPopup();
-            // Click on cancel button in popup
-            auditorCreateToDoService.clickOnCancelButtonInMarkAsCompletePopup();
-            // Verify mark as complete popup
-            auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
-            // Verify engagement overview status after click on cancel button
-            auditorCreateToDoService.verifyEngagementOverViewStatusWhenClickOnCancelButton();
-            // Verify engagement overview todo after click on cancel button
-            auditorCreateToDoService.verifyEngagementOverViewToDoWhenClickOnCancelButton();
-            // Click on engagement link
-            auditorCreateToDoService.clickOnEngagementLink();
-            // Verify GUI engagement page
-            auditorEngagementService.verifyAuditorEngagementPage();
-            // Verify engagement status
-            auditorEngagementService.verifyEngagementStatusWhenClickOnCancelButtonPopup(engagementName);
-            // Verify engagement todo
-            auditorEngagementService.verifyEngagementToDoWhenClickOnCancelButtonPopup(engagementName);
-            //Work flow when click on cancel button - End
-
-            //Work flow when click on archive button - Start.
-            // Get engagement status and todo
-            auditorEngagementService.getEngagementStatusAndToDoBefor(engagementName);
-            // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            // Verify GUI engagement detail page
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            // Select to do follow to do name
-            auditorCreateToDoService.selectToDoTaskName(toDoName);
-            // Click on Bulk Action drop down
-            auditorCreateToDoService.clickBulkActionsDropdown();
-            // Verify GUI Mark As Complete popup
-            auditorCreateToDoService.verifyCompleteMarkPopup();
-            // Click on cancel button in popup
             auditorCreateToDoService.clickOnArchiveButtonInMarkAsCompletePopup();
             // Verify mark as complete popup
             auditorCreateToDoService.verifyMarksAsCompletePopupIsClose();
-            // Verify engagement overview status after click on archive button
-            auditorCreateToDoService.verifyEngagementOverviewStatusWhenClickOnArchiveButton();
-            // Verify engagement overview todo after click on archive button
-            auditorCreateToDoService.verifyEngagementOverViewToDoWhenClickOnArchiveButton();
-            // Click on engagement link
-            auditorCreateToDoService.clickOnEngagementLink();
-            // Verify GUI engagement page
-            auditorEngagementService.verifyAuditorEngagementPage();
-            // Verify engagement status
-            auditorEngagementService.verifyEngagementStatusWhenClickOnArchiveButtonPopup(engagementName);
-            // Verify engagement todo
-            auditorEngagementService.verifyEngagementToDoWhenClickOnArchiveButtonPopup(engagementName);
-            //Work flow when click on cancel button - End
+
+            auditorCreateToDoService.verifyTodoMarkCompleted(todo5);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify engagement overview status, todo when complete todo by using marking as complete popup", LogAs.PASSED, null);
+            NXGReports.addStep("Verify group permission General auditor mark completed todo.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify engagement overview status, todo when complete todo by using marking as complete popup",
-                    LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
-            getLogger().info(e);
-            throw e;
-        }
-    }
-
-    @Test(priority = 31, enabled = true, description = "Verify Client see Todo mark as complete", dataProvider = "verifyClientSeeMarkAsComplete",
-            dataProviderClass = SmokeDataProvider.class)
-    public void verifyClientSeeMarkAsComplete(String clientId, String clientPassword, String engagementName) throws Exception {
-        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
-        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
-        marketingService = new MarketingService(getLogger(), getDriver());
-
-        clientId = GenericService.sBrowserData + clientId;
-
-        try {
-            //Go to marketing page
-            marketingService.goToBaseURL();
-            // Click on button login
-            marketingService.openLoginDialog();
-            // Login with user name and password
-            marketingService.loginWithUserNamePassword(clientId, clientPassword);
-            // Verify GUI engagement page
-            auditorEngagementService.verifyAuditorEngagementPage();
-            // Verify engagement status complete
-            auditorEngagementService.verifyEngagementStatusIsComplete(engagementName);
-            // verify engagement ToDo complete
-            //auditorEngagementService.verifyEngagementToDoIsComplete(engagementName);
-            // Move to engagement detail page
-            auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            // Verify GUI engagement detail page
-            auditorDetailsEngagementService.verifyDetailsEngagementPage(engagementName);
-            // Verify engagement overview status complete
-            auditorCreateToDoService.verifyEngagementOverviewStatusIsComplete();
-            // Verify engagement overview ToDo complete
-            auditorCreateToDoService.verifyEngagementOverviewToDoIsComplete();
-
-            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Client see Todo mark as complete", LogAs.PASSED, null);
-        } catch (Exception e) {
-            NXGReports.addStep("TestScript Failed: Verify Client see Todo mark as complete", LogAs.FAILED,
+            NXGReports.addStep("Verify group permission General auditor mark completed todo.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             getLogger().info(e);
             throw e;
         }
     }
+
+    @Test(/*priority = 38,*/ enabled = true, description = "Verify group permission General auditor delete todo.", testName = "if_38",
+            dependsOnMethods = {"verifyGeneralAuditorCommenting"}, dataProvider = "verifyGeneralAuditorDeleteTodo",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralAuditorDeleteTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2, String todo5) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String toDoName = "To-do 6";
+        try {
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
+            auditorCreateToDoService.selectToDoTaskName(todo5);
+            auditorCreateToDoService.scrollUp(getDriver());
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.selectDeleteToDoUsingBulkAction();
+            auditorCreateToDoService.confirmDeleteButton();
+            auditorCreateToDoService.verifyToDoNotExist(todo5);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission General auditor delete todo.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify group permission General auditor delete todo.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 39,*/ enabled = true, description = "Verify group permission General auditor download from all todo.", testName = "if_39",
+            dependsOnMethods = {"verifyGeneralAuditorDeleteTodo"}, dataProvider = "verifyGeneralAuditorDownloadFromAllTodo",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralAuditorDownloadFromAllTodo(String auditorEmail, String auditorAuvenirPwd, String engagementName2,
+            String pathDownload) throws Exception {
+        auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEmail = GenericService.addBrowserPrefix(auditorEmail);
+        //        String auditorId = "auditor007@mailinator.com";
+        //        String password = "Changeit@123";
+        //        String engagement = "Firm Auvenir Duong";
+        //        String fileDownload = GenericService.sDirPath + "\\src\\test\\resources\\download\\" + engagement + ".zip";
+        String fileName = pathDownload + engagementName2 + ".zip";
+        try {
+            auditorCreateToDoService.checkFileDownloadExisted(fileName);
+            marketingService.loginUsingUsernamePassword(auditorEmail, auditorAuvenirPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName2);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
+
+            auditorCreateToDoService.checkAllCheckBox();
+            auditorCreateToDoService.clickBulkActionsDropdown();
+            auditorCreateToDoService.clickToBulkDownloadAttachmentButton();
+            auditorCreateToDoService.clickDownloadAllTodo();
+            auditorCreateToDoService.verifyDownloadFileAllTodoSuccess(fileName);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify group permission General auditor download from all todo.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("TestScript Failed: Verify group permission General auditor download from all todo.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            getLogger().info(e);
+            throw e;
+        }
+    }
+
+    /**
+     * Vien.Pham added to verify Lead Client on To-do.
+     */
+
+    @Test(/*priority = 40,*/ enabled = true, description = "Verify Lead Client can see all to-dos", testName = "if_40",
+            dependsOnMethods = {"verifyGeneralAuditorDownloadFromAllTodo"}, dataProvider = "verifyLeadClientSeeToDo",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadClientSeeToDo(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2, String todo1, String todo2,
+            String todo3, String todo4) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        String toDoListNames[] = {todo1, todo2, todo3, todo4};
+
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(leadClientEmail, leadClientAuvenirPwd);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientTodoService.verifyClientSeeListTodos(Arrays.asList(toDoListNames));
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Permission Admin Auditor See ToDos.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Permission Admin Auditor See ToDos: FAILED", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            throw e;
+        }
+    }
+
+    @Test(/*priority = 41,*/ enabled = true, description = "To verify Lead Client can remove Admin client", testName = "if_41",
+            dependsOnMethods = {"verifyLeadClientSeeToDo"}, dataProvider = "verifyLeadClientRemoveAdminClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadClientRemoveAdminClient(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2,
+            String adminClientFullName, String successMessageRemoveTeamMember) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        //        String leadClientPassword = "Changeit@123";
+        //        String engagementName = "Engagement GP02";
+        //        String adminClientFullName = "Admin Client";
+        //        String successMessageRemoveTeamMember = "Your team member has been removed.";
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(leadClientEmail, leadClientAuvenirPwd);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientEngagementTeamService.selectEngagementTeamMenu();
+            clientEngagementTeamService.removeAdminClient(adminClientFullName);
+            clientEngagementTeamService.verifyMessageFromRemovingAdminClient(successMessageRemoveTeamMember);
+            clientEngagementTeamService.verifyRemoveAdminClient(adminClientFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead client can remove Admin client: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead client can remove Admin client: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 42,*/ enabled = true, description = "To verify Lead Client can invite a general client", testName = "if_42",
+            dependsOnMethods = {"verifyLeadClientRemoveAdminClient"}, dataProvider = "verifyLeadClientInviteClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadClientInviteClient(String leadClientEmail, String leadClientAuvenirPwd, String clientEmail, String clientEmailPwd,
+            String engagementName2, String clientFullName, String successMessageInvitation, String roleClient) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        //        String leadClientPassword = "Changeit@123";
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        //        String generalClientEmailPassword = "Changeit@123";
+        //        String engagementName = "Engagement GP02";
+        //        String generalClientFullName = "General Client";
+        //        String successMessage = "Your engagement invitation has been sent.";
+
+        MongoDBService.removeClientAndIndicatedValueByEmail(clientEmail);
+        try {
+            gmailLoginService.deleteAllExistedEmail(clientEmail, clientEmailPwd);
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(leadClientEmail, leadClientAuvenirPwd);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientEngagementTeamService.selectEngagementTeamMenu();
+            clientService.selectInviteNewMemberButton();
+            clientService.fillInfoToInviteNewMember(clientFullName, clientEmail, roleClient);
+            clientService.verifyInviteClientSuccess(successMessageInvitation);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead client can invite a new general client: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead client can invite a new general client: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 43,*/ enabled = true, description = "Verify general Client can active from invited", testName = "if_43",
+            dependsOnMethods = {"verifyLeadClientInviteClient"}, dataProvider = "verifyGeneralClientActive",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralClientActive(String clientEmail, String clientEmailPwd, String clientAuvenirPwd, String engagementName2,
+            String phoneNumber, String parentStackHolder) {
+        gmailLoginService = new GmailLoginService(getLogger(), getDriver());
+        clientSignUpService = new ClientSignUpService(getLogger(), getDriver());
+        clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        //        String generalClientEmailPassword = "Changeit@123";
+        //        String generalClientAuvenirPassword = "Changeit@123";
+        //        String engagementName = "Vien_Engagement";
+        //        String phoneNumber = "1234567890";
+        //        String stackerHolder = "Titancorpvn";
+        try {
+            gmailLoginService.gmailLogin(clientEmail, clientEmailPwd);
+            gmailLoginService.selectActiveEmaill();
+            gmailLoginService.selectStartEngagementBtnToNavigateToAuvenirPage();
+            clientSignUpService.navigateToSignUpForm();
+            clientSignUpService.fillUpPersonalForm(phoneNumber);
+            clientSignUpService.fillUpBusinessForm(parentStackHolder);
+            clientSignUpService.fillUpBankForm();
+            clientSignUpService.fillUpFileForm();
+            clientSignUpService.fillUpSecurityForm(clientAuvenirPwd);
+            clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead client can invite a new general client: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead client can invite a new general client: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 44,*/ enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44, if_48",
+            dependsOnMethods = {"verifyGeneralClientActive"}, dataProvider = "verifyLeadClientAssignTodoTaskToClient",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadClientAssignTodoTaskToClient(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2, String todo1,
+            String clientFullName) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(leadClientEmail, leadClientAuvenirPwd);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientService.selectClientAssigneeByName(todo1, clientFullName);
+            clientService.verifyClientAssigneeSelected(todo1, clientFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead client can assign task to general client: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead client can assign task to general client: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 47,*/ enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47",
+            dependsOnMethods = {"verifyLeadClientAssignTodoTaskToClient"}, dataProvider = "verifyLeadClientPostComment",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadClientMakeComment(String leadClientEmail, String leadClientPassword, String engagementName, String todoName,
+            String commentContent) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
+       /* String leadClientEmail = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
+        String leadClientPassword = "Changeit@123";
+        String todoName = "vientodo4";
+        String commentContent = "Comment 01";
+        String engagementName = "Vien_Engagement";*/
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(leadClientEmail, leadClientPassword);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
+            clientTodoService.clickCommentIconPerTaskName(todoName, true);
+            clientTodoService.verifyInputAComment(commentContent);
+            int numberOfListCommentList = clientTodoService.getNumberOfListComment();
+            clientTodoService.clickOnPostCommentButton();
+            clientTodoService.verifyNewCommentIsDisplayed(numberOfListCommentList, commentContent);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead Client can make a comment on todo assigned: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify Lead Client can make a comment on todo assigned: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 48,*/ enabled = true, description = "Verify general Client can view a comment made by lead client ", testName = "if_47",
+            dependsOnMethods = {"verifyLeadClientMakeComment"}, dataProvider = "verifyGeneralClientViewComment",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralClientCanViewComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
+            String commentContent, String leadClientFullName) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+       /* String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
+        String generalClientAuvenirPassword = "Changeit@123";
+        String todoName = "vientodo4";
+        String commentContent = "Comment 01";
+        String engagementName = "Vien_Engagement";
+        String leadClientFullName = "Lead Client";*/
+        generalClient = GenericService.addBrowserPrefix(generalClient);
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
+            clientTodoService.clickCommentIconPerTaskName(todoName, true);
+            clientTodoService.verifyLastCommentOfUserDisplayed(commentContent, leadClientFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify general Client can view a comment made by lead client: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify general Client can view a comment made by lead client: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 50,*/ enabled = true, description = "To verify general Client can view Todo task assigned ", testName = "if_50",
+            dependsOnMethods = {"verifyGeneralClientCanViewComment"}, dataProvider = "verifyGeneralClientCanViewTodoTaskAssigned",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralClientCanViewTodoTaskAssigned(String clientEmail, String clientAuvenirPwd, String engagementName2, String todo1) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientService = new ClientService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+
+        clientEmail = GenericService.addBrowserPrefix(clientEmail);
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(clientEmail, clientAuvenirPwd);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName2);
+            clientEngagementService.verifyDetailsEngagement(engagementName2);
+            clientService.verifyToDoTaskExist(todo1, true);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify general Client can view Todo task assigned: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify general Client can view Todo task assigned: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 53,*/ enabled = true, description = "Verify general Client can make a comment on todo assigned", testName = "if_53",
+            dependsOnMethods = {"verifyGeneralClientCanViewTodoTaskAssigned"}, dataProvider = "verifyGeneralClientPostComment",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyGeneralClientMakeComment(String generalClient, String generalClientAuvenirPassword, String engagementName, String todoName,
+            String commentContent) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
+        /*String generalClient = GenericService.addBrowserPrefix("auvenirclient2@gmail.com");
+        String generalClientAuvenirPassword = "Changeit@123";
+        String todoName = "vientodo4";
+        String commentContent = "Comment 02";
+        String engagementName = "Vien_Engagement";*/
+        generalClient = GenericService.addBrowserPrefix(generalClient);
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(generalClient, generalClientAuvenirPassword);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
+            clientTodoService.clickCommentIconPerTaskName(todoName, true);
+            clientTodoService.verifyInputAComment(commentContent);
+            int numberOfListCommentList = clientTodoService.getNumberOfListComment();
+            clientTodoService.clickOnPostCommentButton();
+            clientTodoService.verifyNewCommentIsDisplayed(numberOfListCommentList, commentContent);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify general Client can make a comment on todo assigned: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify general Client can make a comment on todo assigned: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+
+    @Test(/*priority = 54,*/ enabled = true, description = "Verify Lead Client can view a comment made by general client ", testName = "if_53",
+            dependsOnMethods = {"verifyGeneralClientMakeComment"}, dataProvider = "verifyLeadClientViewComment",
+            dataProviderClass = SmokeDataProvider.class)
+    public void verifyLeadClientCanViewComment(String leadClientEmail, String leadClientPassword, String engagementName, String todoName,
+            String commentContent, String generalClientFullName) {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        clientTodoService = new ClientTodoService(getLogger(), getDriver());
+        clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
+       /* String leadClientEmail = GenericService.addBrowserPrefix("vienpham.client.lead@gmail.com");
+        String leadClientPassword = "Changeit@123";
+        String todoName = "vientodo4";
+        String commentContent = "Comment 02";
+        String engagementName = "Vien_Engagement";
+        String generalClientFullName = "General Client";*/
+        leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
+        try {
+            marketingService.goToBaseURL();
+            marketingService.openLoginDialog();
+            marketingService.loginWithUserPwd(leadClientEmail, leadClientPassword);
+            clientEngagementService.verifyEngagementPage();
+            clientEngagementService.viewEngagementDetailsPage(engagementName);
+            clientEngagementService.verifyDetailsEngagement(engagementName);
+            clientTodoService.clickCommentIconPerTaskName(todoName, true);
+            clientTodoService.verifyLastCommentOfUserDisplayed(commentContent, generalClientFullName);
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("Verify Lead Client can view a comment made by general client: Pass.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("Verify lead Client can view a comment made by general client: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            e.printStackTrace();
+        }
+    }
+    /**
+     * End of Vien Pham
+     */
 }
