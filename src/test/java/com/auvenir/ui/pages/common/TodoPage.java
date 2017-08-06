@@ -368,7 +368,7 @@ public abstract class TodoPage extends AbstractPage {
     }
 
     private int findRowByTodoName(String todoName, boolean editablePage) {
-        int index = 0;
+        int index = -1;
         for (int i = 0; i < listRow.size(); i++) {
             if (editablePage) {
                 String actualName = listEnableTodoTextbox.get(i).getAttribute("value").trim();

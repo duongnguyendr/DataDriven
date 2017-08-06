@@ -54,32 +54,59 @@ public abstract class TeamPage extends AbstractPage {
         } else {
             if (index == -1) {
                 getLogger().info("Can not see member: " + memberFullName + " in list");
-                NXGReports.addStep("Verify can " + (permissionToSee ? "see member: " : "not see member: " + memberFullName + " in list :Pass"),
-                        LogAs.PASSED, null);
+                NXGReports.addStep("Can not see member: " + memberFullName + " in list", LogAs.PASSED, null);
             } else {
                 getLogger().info("Can see member: " + memberFullName + " in list");
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify can " + (permissionToSee ? "see member: " : "not see member: " + memberFullName + " in list :Fail"),
-                        LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+                NXGReports.addStep("Fail: Can see member: " + memberFullName + " in list", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         }
     }
 
-    public void verifyPermisionToSeclectMemberCheckbox(String memberFullName, boolean permissionToSelect) {
+    public void verifyPermisionToSelectMemberCheckbox(String memberFullName, boolean permissionToSelect) {
         getLogger().info("Finding member in list...");
         int index = findMemberByName(memberFullName);
         getLogger().info("Verifying checkbox is disabled..");
         if (permissionToSelect) {
 
         } else {
-            Boolean isDisplayed = validateDisPlayedElement(listDisableCheckboxTeamMember.get(index),"disable checkbox");
-                    if(isDisplayed){
-            NXGReports.addStep("Verify can " + (permissionToSelect ? "select member Checkbox " : "not select member Checkbox "), LogAs.PASSED, null);
-        } else{
-            AbstractService.sStatusCnt++;
-            NXGReports.addStep("Verify can " + (permissionToSelect ? "select member Checkbox " : "not select member Checkbox "), LogAs.FAILED,
-                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            Boolean isDisplayed = validateDisPlayedElement(listDisableCheckboxTeamMember.get(index), "disable checkbox");
+            if (isDisplayed) {
+                NXGReports.addStep("Cannot select member Checkbox ", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: Can select member Checkbox ", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
         }
     }
-}
+
+    @FindBy(id = "team-inviteMember-btn")
+    private WebElement buttonInviteNewMember;
+
+    @FindBy(xpath = "//img[contains(@id,'Set User To Lead')]/following-sibling::div//button[@class='auvbtn warning']")
+    private WebElement buttonConfirmSetUserToLead;
+
+    public void clickInviteNewMember() {
+        clickElement(buttonInviteNewMember, "Button Invite New Member");
+    }
+
+    public void chooseLeadWithTeamMemberName(String name) {
+        //        String xpathRadioButtonLeadClient = "//td[text()='%s']/following-sibling::td/input";
+        String xpathSelectPermissionLevel = "//td[text()='%s']/following-sibling::td/div";
+        String xpathOptionLead = "//td[text()='%s']/following-sibling::td/div//div[@data-id='Lead']";
+        clickElement(getElementByXpath(xpathSelectPermissionLevel, name), "Select Permission Level");
+        clickElement(getElementByXpath(xpathOptionLead, name), "Option Lead");
+    }
+
+    public void confirmSetUserToLead() {
+        waitSomeSeconds(1);
+        clickElement(buttonConfirmSetUserToLead, "Button Confirm Set User To Lead");
+    }
+
+    public void verifyLeadSetByName(String name, String leadText) {
+        waitSomeSeconds(1);
+        String xpathCellPermissionLevel = "//td[text()='%s']/following-sibling::td[2]";
+        validateElementText(getElementByXpath(xpathCellPermissionLevel, name), leadText);
+    }
 }

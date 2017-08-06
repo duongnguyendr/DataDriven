@@ -46,6 +46,7 @@ public class SmokeTest extends AbstractTest {
     private ClientEngagementService clientEngagementService;
     private ClientTodoService clientTodoService;
     private AdminAuditorService adminAuditorService;
+    private ClientTeamService clientTeamService;
 
     @Test(/*priority = 1,*/ enabled = true, description = "Verify Normal Admin is able to login", alwaysRun = true,
             dataProvider = "verifySuperAdminLogin", dataProviderClass = SmokeDataProvider.class)
@@ -62,8 +63,8 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("SmokeTest: Verify Super Admin is able to login.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("SmokeTest: Verify Super Admin is able to login.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
-                    .BROWSER_PAGE));
+            NXGReports.addStep("SmokeTest: Verify Super Admin is able to login.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
@@ -83,8 +84,8 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("SmokeTest: Verify Normal Admin is able to login:Passed", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("SmokeTest: Verify Normal Admin is able to login:Failed", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
-                    .BROWSER_PAGE));
+            NXGReports.addStep("SmokeTest: Verify Normal Admin is able to login:Failed", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
@@ -166,7 +167,8 @@ public class SmokeTest extends AbstractTest {
     @Test(/*priority = 5, */enabled = true, description = "Verify Auditor user status: Active Auditor User and create a password.", testName = "if_3",
             dependsOnMethods = {"verifyAdminChangeStatusUserToOnBoarding"}, alwaysRun = true, dataProvider = "verifyAuditorLoginGmailAndActiveUser",
             dataProviderClass = SmokeDataProvider.class)
-    public void verifyAuditorLoginGmailAndActiveUser(String adminAuditorEmail, String adminAuditorEmailPwd, String adminAuditorAuvenirPwd) throws Exception {
+    public void verifyAuditorLoginGmailAndActiveUser(String adminAuditorEmail, String adminAuditorEmailPwd,
+            String adminAuditorAuvenirPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
@@ -220,7 +222,8 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("SmokeTest: Auditor create new Engagement: Passed.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("SmokeTest: Auditor create new Engagement: Failed.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("SmokeTest: Auditor create new Engagement: Failed.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
@@ -329,7 +332,8 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("SmokeTest: Verify Admin Auditor inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("SmokeTest: Verify Admin Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("SmokeTest: Verify Admin Auditor inviting a client.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
         }
     }
@@ -460,7 +464,8 @@ public class SmokeTest extends AbstractTest {
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("SmokeTest: Verify Auditor inviting a client.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("SmokeTest: Verify Auditor inviting a client.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("SmokeTest: Verify Auditor inviting a client.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             e.printStackTrace();
             throw e;
         }
@@ -534,6 +539,7 @@ public class SmokeTest extends AbstractTest {
         clientService = new ClientService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
+        clientTeamService = new ClientTeamService(getLogger(), getDriver());
 
         leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
         adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
@@ -548,8 +554,8 @@ public class SmokeTest extends AbstractTest {
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientDetailsEngagementService.verifyDetailsEngagementPage(engagementName2);
-            clientDetailsEngagementService.navigateToTeamTab();
-            clientDetailsEngagementService.inviteNewMemberToTeam();
+            clientTeamService.navigateToTeamTab();
+            clientTeamService.inviteNewMemberToTeam();
             clientService.fillInfoToInviteNewMember(leadClientFullName, leadClientEmail, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);
 
@@ -614,6 +620,7 @@ public class SmokeTest extends AbstractTest {
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         clientDetailsEngagementService = new ClientDetailsEngagementService(getLogger(), getDriver());
+        clientTeamService = new ClientTeamService(getLogger(), getDriver());
 
         adminClientEmail = GenericService.addBrowserPrefix(adminClientEmail);
 
@@ -623,9 +630,9 @@ public class SmokeTest extends AbstractTest {
             clientEngagementService.verifyNavigatedToClientEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientEngagementService.verifyDetailsEngagement(engagementName2);
-            clientDetailsEngagementService.navigateToTeamTab();
-            clientDetailsEngagementService.chooseLeadClientWithTeamMemberName(leadClientFullName);
-            clientDetailsEngagementService.verifyLeadSetByName(leadClientFullName, leadText);
+            clientTeamService.navigateToTeamTab();
+            clientTeamService.chooseLeadClientWithTeamMemberName(leadClientFullName);
+            clientTeamService.verifyLeadSetByName(leadClientFullName, leadText);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Client have permission to invite client via email.", LogAs.PASSED, null);
@@ -1148,7 +1155,7 @@ public class SmokeTest extends AbstractTest {
             clientEngagementService.verifyEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientEngagementService.verifyDetailsEngagement(engagementName2);
-            clientEngagementTeamService.selectEngagementTeamMenu();
+            clientTeamService.navigateToTeamTab();
             clientEngagementTeamService.removeAdminClient(adminClientFullName);
             clientEngagementTeamService.verifyMessageFromRemovingAdminClient(successMessageRemoveTeamMember);
             clientEngagementTeamService.verifyRemoveAdminClient(adminClientFullName);
@@ -1170,6 +1177,8 @@ public class SmokeTest extends AbstractTest {
         clientEngagementTeamService = new ClientEngagementTeamService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
+        clientTeamService = new ClientTeamService(getLogger(), getDriver());
+
         leadClientEmail = GenericService.addBrowserPrefix(leadClientEmail);
         //        String leadClientPassword = "Changeit@123";
         clientEmail = GenericService.addBrowserPrefix(clientEmail);
@@ -1187,7 +1196,7 @@ public class SmokeTest extends AbstractTest {
             clientEngagementService.verifyEngagementPage();
             clientEngagementService.viewEngagementDetailsPage(engagementName2);
             clientEngagementService.verifyDetailsEngagement(engagementName2);
-            clientEngagementTeamService.selectEngagementTeamMenu();
+            clientTeamService.navigateToTeamTab();
             clientService.selectInviteNewMemberButton();
             clientService.fillInfoToInviteNewMember(clientFullName, clientEmail, roleClient);
             clientService.verifyInviteClientSuccess(successMessageInvitation);

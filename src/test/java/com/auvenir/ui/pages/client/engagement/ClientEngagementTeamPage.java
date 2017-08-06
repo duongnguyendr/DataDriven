@@ -31,8 +31,6 @@ public class ClientEngagementTeamPage extends ClientDetailsEngagementPage {
     @FindBy(xpath = "//div[@class='fl-a-container fl-a-container-show']")
     WebElement popUpRemoveMemberDone;
 
-
-
     /**
      * Vien.Pham added method removeTeamMember() for removing member in list.
      *

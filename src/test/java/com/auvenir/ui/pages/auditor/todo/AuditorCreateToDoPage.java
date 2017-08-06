@@ -4708,7 +4708,7 @@ public class AuditorCreateToDoPage extends TodoPage {
     Vien.Pham added new method
     @param : mode 1 for downloading request file, mode 2 for downloading attachfile.
      */
-    public void downloadNewRequestFile(String pathDownloadFolder, String fileName, boolean fileInComment) {
+   /* public void downloadNewRequestFile(String pathDownloadFolder, String fileName, boolean fileInComment) {
         try {
             //Delete file before download
             String concatDownload = pathDownloadFolder.concat(fileName);
@@ -4724,7 +4724,7 @@ public class AuditorCreateToDoPage extends TodoPage {
             AbstractService.sStatusCnt++;
             NXGReports.addStep("Check sum failed_Exception", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
-    }
+    }*/
 
    /* public void downloadCreateRequestNewFileClient(String concatUpload, String concatDownload) {
         try {

@@ -103,7 +103,7 @@ public class AdminAuditorService extends AbstractService {
     }
 
     public void verifyAdminAuditorCanNotRemoveAuditor(String auditorFullName) {
-        auditorTeamPage.verifyPermisionToSeclectMemberCheckbox(auditorFullName, false);
+        auditorTeamPage.verifyPermisionToSelectMemberCheckbox(auditorFullName, false);
     }
 
     public void verifyCanSeeAllToDosWithinEngagement(List<String> todoListNames, List<Boolean> todoListSeeable) {
