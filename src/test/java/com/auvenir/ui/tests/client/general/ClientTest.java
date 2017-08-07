@@ -2,7 +2,7 @@ package com.auvenir.ui.tests.client.general;
 
 import com.auvenir.ui.dataprovider.client.ClientDataProvider;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.ClientDetailsEngagementService;
+import com.auvenir.ui.services.client.ClientDetailsEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
