@@ -22,7 +22,7 @@ public class AuditorGmailLoginPage extends AbstractPage {
         return eleSignInLink;
     }
 
-    @FindBy(css = "span[class='gb_8a gbii']")
+    @FindBy(xpath = "//span[contains(@class,'gbii')]")
     private WebElement eleProfileIcn;
 
     public WebElement getEleProfileIcn() {

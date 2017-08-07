@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -879,16 +880,12 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.verifyUploadFileSuccessfullyByClient(fileName);
     }*/
 
-    public void downloadRequestFile(String uploadLocation, String downloadLocation, String fileName, boolean fileInComment) {
-        createToDoPage.downloadNewRequestFile(uploadLocation.concat(fileName), downloadLocation.concat(fileName),fileName , fileInComment);
-    }
-
     public void auditorAttachNewFile(String attachLocation, String fileName) {
         createToDoPage.attachFile(attachLocation, fileName);
     }
 
-    public void clientDownloadAttachFile(String pathOfUpload, String pathOfDownload, String fileName) {
-        createToDoPage.downloadAttachFile(pathOfUpload, pathOfDownload, fileName);
+    public void clientDownloadAttachFile(String pathOfDownload, String fileName) {
+        createToDoPage.downloadAttachFile(pathOfDownload, fileName);
     }
 
    /* public void downloadCreateRequestNewFileClient(String uploadLocation, String downloadLocation, String fileName) {
@@ -1281,6 +1278,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.clickCommentIconPerTaskName(toDoTaskName, isClient);
     }
 
+
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
      *
@@ -1356,6 +1354,75 @@ public class AuditorCreateToDoService extends AbstractService {
 
     public void verifyDownloadFileAllTodoSuccess(String pathLocation){
         createToDoPage.verifyDownloadFileAllTodoSuccess(pathLocation);
+    }
+    
+    public void verifyRequestCreated(List<String> listRequest){
+    	createToDoPage.verifyRequestCreated(listRequest);
+    }
+    
+    public void closeAddNewRequestWindow(){
+    	createToDoPage.closeAddNewRequestWindow();
+    }
+
+    public void verifyAssignTodotoClient(List<String> listTodo, String clientFullName){
+        for (String todo : listTodo){
+            selectClientAssigneeByName(todo, clientFullName);
+            verifyClientAssigneeSelected(todo, clientFullName);
+        }
+    }
+
+    public void verifyCreateNewRequest(List<String> listTodo, List<String> listRequest){
+        for (String todo : listTodo){
+            clickCommentIconPerTaskName(todo);
+            for (int i = 1; i <= listRequest.size(); i++) {
+                verifyClickAddRequestBtn();
+                createNewRequest(listRequest.get(i-1), String.valueOf(i));
+            }
+            closeAddNewRequestWindow();
+            clickCommentIconPerTaskName(todo);
+            verifyRequestCreated(listRequest);
+        }
+    }
+
+    /**
+     *
+     * @param todoName: Todo name
+     * @param pathUploadFile: path location contains file upload
+     * @param listRequest: list request will create
+     * @param listFile: List file upload in request
+     * @throws Exception: InterruptedException, AWTException, IOException
+     */
+    public void verifyAddFileToNewRequest(String todoName, String pathUploadFile, List<String> listRequest, List<String> listFile) throws Exception{
+        for (int i = 0; i < listRequest.size(); i ++){
+            clickCommentIconPerTaskName(todoName);
+            uploadeNewFileByRequestName(pathUploadFile, listFile.get(i), listRequest.get(i));
+            closeAddNewRequestWindow();
+            clickCommentIconPerTaskName(todoName);
+            verifyUploadFileSuccessfully(listFile.get(i));
+            closeAddNewRequestWindow();
+        }
+    }
+
+    public void downloadFileFromRequest(String downloadLocation, String fileName){
+        createToDoPage.downloadRequestFile(downloadLocation, fileName);
+    }
+
+    public void verifyDownloadFileFromRequestSuccessful(String pathUpload, String pathDownload, String fileName){
+        createToDoPage.verifyDownloadFileRequestSuccess(pathUpload, pathDownload, fileName);
+    }
+
+    public void uploadFileByRequestName(String pathOfUploadLocation, List<String> listFile, List<String> listRequest) {
+        for (int i = 0; i < listRequest.size(); i++) {
+            createToDoPage.uploadeNewFileByRequestName(pathOfUploadLocation.concat(listFile.get(i)), listRequest.get(i));
+
+        }
+    }
+
+    public void verifyUploadFileSuccessfully(List<String> listFile, List<String> listRequest) {
+        for (int i = 0; i < listRequest.size(); i++) {
+            createToDoPage.verifyUploadFileSuccessfully(listFile.get(i));
+        }
+
     }
 }
 

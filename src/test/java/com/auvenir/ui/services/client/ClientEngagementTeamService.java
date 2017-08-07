@@ -35,8 +35,4 @@ public class ClientEngagementTeamService extends AbstractService {
     public void verifyRemoveAdminClient(String adminFullName) {
         clientEngagementTeamPage.verifyRemoveTeamMember(adminFullName);
     }
-
-    public void selectEngagementTeamMenu(){
-        clientEngagementTeamPage.selectEngagementTeamMenu();
-    }
 }

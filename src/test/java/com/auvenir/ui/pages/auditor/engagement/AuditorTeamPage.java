@@ -1,15 +1,15 @@
 package com.auvenir.ui.pages.auditor.engagement;
 
-import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.TeamPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
-import org.testng.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ import java.util.List;
 /**
  * Created by thuan.duong on 6/16/2017.
  */
-public class AuditorEngagementTeamPage extends AbstractPage {
+public class AuditorTeamPage extends TeamPage {
 
-    public AuditorEngagementTeamPage(Logger logger, WebDriver driver) {
+    public AuditorTeamPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
 
@@ -166,9 +166,12 @@ public class AuditorEngagementTeamPage extends AbstractPage {
         getLogger().info("Verify new Auditor Member is added.");
         try {
             int index = findTeamMemberByName(fullName);
-            //        validateElementText(auditorTeamMemberNameEle.get(0), fullName);
+//                    validateElementText(auditorTeamMemberNameEle.get(0), fullName);
             if (index != -1)
                 validateElementText(roleTeamMemberNameEle.get(index), roleMember);
+            else{
+                NXGReports.addStep("New auditor member is not added.", LogAs.FAILED, null);
+            }
         } catch (Exception e) {
             AbstractService.sStatusCnt ++;
             getLogger().info(e);

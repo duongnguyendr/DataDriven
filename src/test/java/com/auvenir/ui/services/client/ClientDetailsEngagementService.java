@@ -1,6 +1,7 @@
-package com.auvenir.ui.services;
+package com.auvenir.ui.services.client;
 
 import com.auvenir.ui.pages.client.engagement.ClientDetailsEngagementPage;
+import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
@@ -9,6 +10,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class ClientDetailsEngagementService extends AbstractService {
     ClientDetailsEngagementPage clientDetailsEngagementPage;
+
 
     public ClientDetailsEngagementService(Logger logger, WebDriver driver) {
         super(logger, driver);
@@ -19,20 +21,4 @@ public class ClientDetailsEngagementService extends AbstractService {
         clientDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
     }
 
-    public void navigateToTeamTab() {
-        clientDetailsEngagementPage.navigateToTeamTab();
-    }
-
-    public void inviteNewMemberToTeam() {
-        clientDetailsEngagementPage.clickInviteNewMember();
-    }
-
-    public void chooseLeadClientWithTeamMemberName(String name) {
-        clientDetailsEngagementPage.chooseLeadWithTeamMemberName(name);
-        clientDetailsEngagementPage.confirmSetUserToLead();
-    }
-
-    public void verifyLeadSetByName(String name, String leadText) {
-        clientDetailsEngagementPage.verifyLeadSetByName(name, leadText);
-    }
 }

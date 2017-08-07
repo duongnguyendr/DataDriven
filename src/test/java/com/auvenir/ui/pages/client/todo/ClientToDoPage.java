@@ -23,12 +23,19 @@ public class ClientToDoPage extends TodoPage {
     }
 
     AuditorCreateToDoPage auditorCreateToDoPage = new AuditorCreateToDoPage(getLogger(), getDriver());
-//    ClientToDoPage clientToDoPage = new ClientToDoPage(getLogger(),getDriver());
+    //    ClientToDoPage clientToDoPage = new ClientToDoPage(getLogger(),getDriver());
 
 
-//    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
-//    private List<WebElement> toDoTaskRowEle;
+    //    @FindBy(xpath = "//*[@id='todo-table']/tbody/tr")
+    //    private List<WebElement> toDoTaskRowEle;
 
+
+    @FindBy(xpath = "//div[contains(@id,'todo-bulk-dropdown')]")
+    private  WebElement bulkActionsDropdownEle;
+    @FindBy(xpath = "//div[contains(text(),'Assign to')]")
+    WebElement optionAssignTo;
+    @FindBy(xpath = "//div[contains(text(),'Assign to')]/div[@class='menu']/button")
+    private List<WebElement> childItemAssigneeBulkDrpEle;
 
     public int findToDoTaskName(String toDoName) {
         getLogger().info("Find Position of To Do Task Name");
@@ -74,8 +81,8 @@ public class ClientToDoPage extends TodoPage {
             int index = findToDoTaskName(todoName);
             clickElement(listClientAssigneeDdl.get(index), "listClientAssigneeDdl");
             waitSomeSeconds(2);
-            WebElement clientAssigneeSelected = listClientAssigneeDdl.get(index)
-                    .findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
+            WebElement clientAssigneeSelected =
+                    listClientAssigneeDdl.get(index).findElement(By.xpath(String.format(assineeClientEle, clientAssignee)));
             clickElement(clientAssigneeSelected, "clientAssigneeSelected");
         } catch (Exception e) {
             getLogger().info(e);
@@ -85,7 +92,6 @@ public class ClientToDoPage extends TodoPage {
         }
 
     }
-
 
     public void verifyClientAssigneeSelected(String todoName, String clientAssignee) {
         try {
@@ -105,5 +111,53 @@ public class ClientToDoPage extends TodoPage {
             NXGReports.addStep("verify auditor assignee selected with name: " + clientAssignee, LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
+    }
+
+    public int selectToDoCheckboxByName(String todoName) {
+        getLogger().info("Select To Do Task Check Box by Name");
+        int index = findToDoTaskName(todoName);
+        System.out.println("Index: " + index);
+        if (index != -1) {
+            if (!eleToDoCheckboxRow.get(index).isSelected())
+                clickElement(eleToDoCheckboxRow.get(index), String.format("Check box of Task Name: %s", todoName));
+        }
+        return index;
+    }
+
+    public void clickBulkActionsDropdown() throws InterruptedException {
+        clickElement(bulkActionsDropdownEle, "Bulk Actions Dropdown List");
+        Thread.sleep(2000);
+    }
+
+    public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName){
+        getLogger().info(String.format("Choose Assignee '%s' in Bulk Dropdown list", assigneeName));
+        try {
+            String listUser = "";
+            boolean result = false;
+            clickElement(optionAssignTo, "Assign To Option");
+            for (int i = 0; i < childItemAssigneeBulkDrpEle.size(); i++) {
+                listUser = childItemAssigneeBulkDrpEle.get(i).getText();
+                if (listUser.contains(assigneeName)) {
+                    result = clickElement(childItemAssigneeBulkDrpEle.get(i), "Child Item Assignee");
+                    NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+                    break;
+                }
+            }
+            if (result) {
+                NXGReports.addStep("Choose first assignee(any) to assign.", LogAs.PASSED, null);
+            } else {
+                //            getDriver().findElement(By.xpath("//button[contains(text(),'" + assigneeName + "')]")).click();
+                getLogger().info(String.format("Cannot choose assignee '%s' in Bulk Dropdown list", assigneeName));
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED,
+                        new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
+        } catch (Exception ex) {
+            getLogger().info(ex);
+            AbstractService.sStatusCnt++;
+            NXGReports
+                    .addStep("Fail: Choose first assignee(any) to assign.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-package com.auvenir.ui.pages;
+package com.auvenir.ui.pages.client.engagement;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import org.apache.log4j.Logger;
@@ -222,8 +222,9 @@ public class CreateNewAuditPage extends AbstractPage {
 
     @FindBy(id = "m-ac-role")
     private WebElement inputRoleEmail;
+
     @FindBy(id = "m-inm-jobTitle")
-    private WebElement inputRoleEmailMember;
+    private WebElement inputRoleMember;
 
     @FindBy(id = "m-ac-addBtn")
     private WebElement buttonInviteNewClient;
@@ -240,11 +241,21 @@ public class CreateNewAuditPage extends AbstractPage {
     /**
      * Choose 'Add New Client' option
      */
-    public void selectAddNewClient() throws InterruptedException {
-        Thread.sleep(smallerTimeOut);
+    public void selectAddNewClient() {
+        prepareSelectClientToInvite();
+        clickElement(optionAddNewClient, "Option Add New Client");
+    }
+
+    public void prepareSelectClientToInvite() {
+        waitSomeSeconds(1);
         validateElementText(titleInviteClient, "Invite Your Client");
         clickElement(eleSelectYourClientDrpDwn, "Select Client");
-        clickElement(optionAddNewClient, "Option Add New Client");
+    }
+
+    public void selectClientWithFullName(String fullName) {
+        prepareSelectClientToInvite();
+        String xpathOptionAdminClientName = "//ul[@class='ddlLink inputDdl inputDdl-after']//a[text()='%s']";
+        clickElement(getElementByXpath(xpathOptionAdminClientName, fullName), "Option Admin Client Name");
     }
 
     /**
@@ -259,9 +270,10 @@ public class CreateNewAuditPage extends AbstractPage {
         sendKeyTextBox(inputFullNameMember, fullName, "Full Name Input");
         sendKeyTextBox(inputEmailMember, email, "Email Input");
         sendKeyTextBox(inputVerifyEmailMember, email, "Verify Email Input");
-        clickElement(inputRoleEmailMember, "Input Member Role In Their Company");
-        clickElement(optionFirstOnMemberRoleList, "First Option member Role");
-        waitSomeSeconds(3);
+        sendKeyTextBox(inputRoleMember, role, "Input Role Member");
+        //        clickElement(inputRoleEmailMember, "Input Member Role In Their Company");
+        //        clickElement(optionFirstOnMemberRoleList, "First Option member Role");
+        //        waitSomeSeconds(3);
         clickElement(buttonInviteNewMember, "Button Invite");
     }
 
@@ -277,7 +289,6 @@ public class CreateNewAuditPage extends AbstractPage {
 
         clickElement(buttonInviteNewClient, "Button Invite");
     }
-
 
     @FindBy(xpath = "//button[@id='team-inviteMember-btn']")
     WebElement inviteMemberBtn;
@@ -308,4 +319,17 @@ public class CreateNewAuditPage extends AbstractPage {
         closeWarningToastMessage();
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
+
+    /**
+     * Refactored by huy.huynh on 02/06/2017.
+     * New for smoke test
+     */
+
+     @FindBy(id = "m-ic-continueBtn")
+     WebElement buttonInviteClient;
+
+    public void clickButtonInvite(){
+        clickElement(buttonInviteClient, "Button Invite Client");
+    }
+    /*-----------end of huy.huynh on 03/08/2017.*/
 }
