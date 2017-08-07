@@ -587,4 +587,41 @@ public class AdminAuditorTest extends AbstractTest {
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
+
+    @Test(priority = 26, enabled = true, description = "To Verify Admin Auditor can see all file in an engagement")
+    public void verifyAdminAuditorCanSeeAllFiles() {
+        marketingService = new MarketingService(getLogger(), getDriver());
+        auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
+        adminAuditorService = new AdminAuditorService(getLogger(), getDriver());
+        auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
+        String adminAuditorId = "thuan.auditor.adm@mailinator.com";
+        String adminAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement02";
+        String toDo1 = "todo2";
+        List<String> listFile = new ArrayList<>();
+        //        listTodo.add(todo1);
+        //        listTodo.add(todo2);
+        //        listTodo.add(todo3);
+        //        listTodo.add(todo4);
+        //        listTodo.add(todo5);
+        //        listTodo.add(todo6);
+        listFile.add("test auvenir.docx");
+        listFile.add("test auvenir.jpg");
+        listFile.add("test auvenir.png");
+        listFile.add("test auvenir.txt");
+        try {
+            marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
+            auditorEngagementService.verifyAuditorEngagementPage();
+            auditorEngagementService.viewEngagementDetailsPage(engagementName);
+            auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
+            adminAuditorService.clickCommentIconByTodoName(toDo1, false);
+            adminAuditorService.verifyAdminAuditorCanSeeAllFileWithinToDo(listFile);
+
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
+            NXGReports.addStep("verify Admin Auditor Can See All Files in an engagement: Pass", LogAs.PASSED, null);
+        } catch (Exception e) {
+            NXGReports.addStep("verify Admin Auditor Can See All Files in an engagement: Fail", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+        }
+    }
 }
