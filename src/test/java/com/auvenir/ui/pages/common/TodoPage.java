@@ -764,7 +764,7 @@ public abstract class TodoPage extends AbstractPage {
 
             } else {
                 clickElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "");
-                Thread.sleep(500);
+                waitSomeSeconds(1);
                 boolean isCheck =
                         validateCssValueElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "display", "inline-block");
 
