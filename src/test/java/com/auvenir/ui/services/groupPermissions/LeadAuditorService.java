@@ -55,4 +55,8 @@ public class LeadAuditorService extends AbstractService {
     public void verifyLeadAuditorCanEditCategory(String todoName) {
         auditorToDoPage.verifyCategoryEditableCapability(todoName,true);
     }
+
+    public void clickCommentIconByTodoName(String todoName) {
+        auditorToDoPage.clickCommentIconByTodoName(todoName, true);
+    }
 }

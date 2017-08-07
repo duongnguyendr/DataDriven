@@ -32,7 +32,7 @@ public class GmailPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//span[@class='gb_7a gbii']")
+    @FindBy(xpath = "//span[contains(@class,'gbii')]")
     private WebElement eleProfileIcn;
 
     public WebElement getEleProfileIcn() {

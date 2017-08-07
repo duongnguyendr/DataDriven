@@ -494,16 +494,16 @@ public class AdminAuditorTest extends AbstractTest {
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
         String adminAuditorId = "chr.vienpham.admin.auditor@gmail.com";
         String adminAuditorPwd = "Changeit@123";
-        String engagementName = "Engagement_LeadAuditor";
+        String engagementName = "Engagement Duong";
         String todoName = "lead vien1";
-        String requequestName = "lead request1";
-        String newRequestName = "lead request modify1";
+        String requequestName = "request1";
+        String newRequestName = "request1 modify";
         try {
             marketingService.loginUsingUsernamePassword(adminAuditorId, adminAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
-            adminAuditorService.clickCommentIconByTodoName(todoName, false);
+            adminAuditorService.clickCommentIconByTodoName(todoName);
             adminAuditorService.verifyAdminAuditorCanNotChangeRequestName(requequestName, newRequestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not change request Name created by Lead auditor: Pass.", LogAs.PASSED, null);
@@ -530,7 +530,7 @@ public class AdminAuditorTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
-            adminAuditorService.clickCommentIconByTodoName(todoName, false);
+            adminAuditorService.clickCommentIconByTodoName(todoName);
             adminAuditorService.verifyAdminAuditorCanNotDeleteRequest(anyRequest);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Admin Auditor can not delete request created by Lead auditor: Pass.", LogAs.PASSED, null);

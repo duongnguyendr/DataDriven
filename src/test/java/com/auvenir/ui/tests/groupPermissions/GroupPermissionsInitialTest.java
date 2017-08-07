@@ -601,8 +601,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             description = "Verify Lead Client have permission to tranfer their Lead Permission to other Client on team", testName = "if_17",
             dependsOnMethods = {"verifyClientCanActiveViaEmail"}, alwaysRun = true, dataProvider = "verifyLeadPermissionCanBeTranfered",
             dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadPermissionCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2, String leadClientFullName,
-            String leadText) throws Exception {
+    public void verifyLeadPermissionCanBeTranfered(String adminClientEmail, String adminClientAuvenirPwd, String engagementName2,
+            String leadClientFullName, String leadText) throws Exception {
         getLogger().info("Verify Admin Client have permission to invite client via email.");
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         clientEngagementService = new ClientEngagementService(getLogger(), getDriver());
@@ -632,8 +632,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 18,*/ enabled = true, description = "Verify group permission Lead auditor create todo.", testName = "if_18, if_19, if_20",
-            dependsOnMethods = {"verifyLeadPermissionCanBeTranfered"}, alwaysRun = true,
-            dataProvider = "verifyLeadAuditorCreateTodoAndAssignClient", dataProviderClass = GroupPermissionsDataProvider.class)
+            dependsOnMethods = {"verifyLeadPermissionCanBeTranfered"}, alwaysRun = true, dataProvider = "verifyLeadAuditorCreateTodoAndAssignClient",
+            dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadAuditorCreateTodoAndAssignClient(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
             String todo1, String todo2, String todo3, String leadClientFullName, String categoryName) throws Exception {
         marketingService = new MarketingService(getLogger(), getDriver());
@@ -758,7 +758,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorCreateToDoService.verifyUploadFileSuccessfully(Arrays.asList(listFile), Arrays.asList(listRequest));
             //            auditorCreateToDoService.verifyAddFileToNewRequest(todo1, pathOfUploadLocation, Arrays.asList(listRequest), Arrays.asList(listFile));
 
-            Assert.assertTrue(AbstractService.sStatusCnt == 0,"Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission Lead auditor add file to new request.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify group permission Lead auditor add file to new request.", LogAs.FAILED,
@@ -769,10 +769,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(enabled = true, description = "Verify group permission Lead auditor download file from request.",
-            dependsOnMethods = {"verifyLeadAuditorAddFileToNewRequest"}, alwaysRun = true,
-            dataProvider = "verifyLeadAuditorDownloadRequestFile", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyLeadAuditorDownloadRequestFile(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2,
-            String todo1, String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
+            dependsOnMethods = {"verifyLeadAuditorAddFileToNewRequest"}, alwaysRun = true, dataProvider = "verifyLeadAuditorDownloadRequestFile",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyLeadAuditorDownloadRequestFile(String leadAuditorEmail, String leadAuditorAuvenirPwd, String engagementName2, String todo1,
+            String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -1025,10 +1025,10 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(enabled = true, description = "Verify group permission general auditor add new request.",
-            dependsOnMethods = {"verifyGeneralAuditorCreateTodo"}, alwaysRun = true,
-            dataProvider = "verifyGeneralAuditorAddNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralAuditorAddNewRequest(String auditorUser, String auditorPwd, String engagementName2, String todo4,
-            String todo7, String todo8, String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
+            dependsOnMethods = {"verifyGeneralAuditorCreateTodo"}, alwaysRun = true, dataProvider = "verifyGeneralAuditorAddNewRequest",
+            dataProviderClass = GroupPermissionsDataProvider.class)
+    public void verifyGeneralAuditorAddNewRequest(String auditorUser, String auditorPwd, String engagementName2, String todo4, String todo7,
+            String todo8, String requestName1, String requestName2, String requestName3, String requestName4, String requestName5,
             String requestName6) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
@@ -1057,9 +1057,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
         }
     }
 
-    @Test(description = "Verify group permission General auditor add file to new request.",
-            dependsOnMethods = {"verifyGeneralAuditorAddNewRequest"}, alwaysRun = true,
-            dataProvider = "verifyGeneralAuditorAddFileToNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
+    @Test(description = "Verify group permission General auditor add file to new request.", dependsOnMethods = {"verifyGeneralAuditorAddNewRequest"},
+            alwaysRun = true, dataProvider = "verifyGeneralAuditorAddFileToNewRequest", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralAuditorAddFileToNewRequest(String auditorUser, String auditorPwd, String engagementName2, String todo4,
             String requestName1, String requestName2, String requestName3, String requestName4, String requestName5, String requestName6,
             String fileRequestName1, String fileRequestName2, String fileRequestName3, String fileRequestName4, String fileRequestName5,
@@ -1079,14 +1078,14 @@ public class GroupPermissionsInitialTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName2);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName2);
-            auditorCreateToDoService = new AuditorCreateToDoService(getLogger(),getDriver());
+            auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
             auditorCreateToDoService.clickCommentIconPerTaskName(todo4);
             auditorCreateToDoService.uploadFileByRequestName(pathOfUploadLocation, Arrays.asList(listFile), Arrays.asList(listRequest));
             auditorCreateToDoService.closeAddNewRequestWindow();
             auditorCreateToDoService.clickCommentIconPerTaskName(todo4);
             auditorCreateToDoService.verifyUploadFileSuccessfully(Arrays.asList(listFile), Arrays.asList(listRequest));
 
-            Assert.assertTrue(AbstractService.sStatusCnt == 0,"Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify group permission General auditor add file to new request.", LogAs.PASSED, null);
         } catch (Exception e) {
             NXGReports.addStep("Verify group permission General auditor add file to new request.", LogAs.FAILED,
@@ -1099,8 +1098,8 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     @Test(enabled = true, description = "Verify group permission General auditor download file from request.",
             dependsOnMethods = {"verifyGeneralAuditorAddFileToNewRequest"}, alwaysRun = true,
             dataProvider = "verifyGeneralAuditorDownloadRequestFile", dataProviderClass = GroupPermissionsDataProvider.class)
-    public void verifyGeneralAuditorDownloadRequestFile(String auditorUser, String auditorPwd, String engagementName2,
-            String todo4, String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
+    public void verifyGeneralAuditorDownloadRequestFile(String auditorUser, String auditorPwd, String engagementName2, String todo4,
+            String pathOfUploadLocation, String pathOfDownloadLocation, String fileName) throws Exception {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -1401,7 +1400,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 44,*/ enabled = true, description = "To verify Lead Client can assign todo task to general client", testName = "if_44, if_48",
-            /*dependsOnMethods = {"verifyGeneralClientActive"}, */alwaysRun = true, dataProvider = "verifyLeadClientAssignTodoTaskToClient",
+            dependsOnMethods = {"verifyGeneralClientActive"}, alwaysRun = true, dataProvider = "verifyLeadClientAssignTodoTaskToClient",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientAssignTodoTaskToClient(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2, String todo1,
             String todo7, String todo8, String clientFullName) {
@@ -1431,7 +1430,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 45,*/ enabled = true, description = "To verify Lead Client use Bulk Action to assign todo task to general client",
-            /*dependsOnMethods = {"verifyLeadClientAssignTodoTaskToClient"}, */alwaysRun = true,
+            dependsOnMethods = {"verifyLeadClientAssignTodoTaskToClient"}, alwaysRun = true,
             dataProvider = "verifyLeadClientUseBulkActionToAssignTodoTask", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientUseBulkActionToAssignTodoTask(String leadClientEmail, String leadClientAuvenirPwd, String engagementName2,
             String todoName4, String clientFullName) {
@@ -1467,7 +1466,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
 
     @Test(/*priority = 50,*/ enabled = true, description = "To verify general Client can view All Todos task assigned ", testName = "if_50",
-            /*dependsOnMethods = {"verifyLeadClientUseBulkActionToAssignTodoTask"}, */alwaysRun = true,
+            dependsOnMethods = {"verifyLeadClientUseBulkActionToAssignTodoTask"}, alwaysRun = true,
             dataProvider = "verifyGeneralClientCanViewTodoTaskAssigned", dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyGeneralClientCanViewTodoTaskAssigned(String clientEmail, String clientAuvenirPwd, String engagementName2, String todo1,
             String todo4, String todo7, String todo8) {
@@ -1495,7 +1494,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
     }
 
     @Test(/*priority = 46,*/ description = "Verify Lead client add file to new request.",
-            /*dependsOnMethods = {"verifyGeneralClientCanViewTodoTaskAssigned"}, */alwaysRun = true, dataProvider = "verifyLeadClientAddFileToNewRequest",
+            dependsOnMethods = {"verifyGeneralClientCanViewTodoTaskAssigned"}, alwaysRun = true, dataProvider = "verifyLeadClientAddFileToNewRequest",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientAddFileToNewRequest(String leadClientID, String leadClientAuvenirPwd, String engagementName2, String todo7,
             String request1, String request2, String request3, String request4, String request5, String request6, String file1, String file2,
@@ -1541,8 +1540,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
 
     @Test(/*priority = 24,*/ enabled = true, description = "Verify group permission Lead client download file from request.",
-            /*dependsOnMethods = {"verifyLeadClientAddFileToNewRequest"},*/ alwaysRun = true, dataProvider =
-            "verifyLeadClientDownloadFileToNewRequest",
+            dependsOnMethods = {"verifyLeadClientAddFileToNewRequest"}, alwaysRun = true, dataProvider = "verifyLeadClientDownloadFileToNewRequest",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientDownloadRequestFile(String leadClientID, String leadClientAuvenirPwd, String engagementName2, String todo7,
             String fileName, String pathUploadLocation, String pathDownloadLocation) throws Exception {
@@ -1578,7 +1576,7 @@ public class GroupPermissionsInitialTest extends AbstractTest {
 
 
     @Test(/*priority = 47,*/ enabled = true, description = "Verify Lead Client can make a comment on todo assigned", testName = "if_47",
-            dependsOnMethods = {"verifyLeadClientDownloadRequestFile"}, alwaysRun = true, dataProvider = "verifyLeadClientPostComment",
+            dependsOnMethods = {"verifyLeadClientDownloadRequestFile"}, alwaysRun = true, dataProvider = "verifyLeadClientMakeComment",
             dataProviderClass = GroupPermissionsDataProvider.class)
     public void verifyLeadClientMakeComment(String leadClientEmail, String leadClientPassword, String engagementName, String todoName,
             String commentContent) {

@@ -26,7 +26,6 @@ public class LeadAuditorTest extends AbstractTest {
     private LeadAuditorService leadAuditorService;
     private MarketingService marketingService;
     private AuditorEngagementService auditorEngagementService;
-    private AdminAuditorService adminAuditorService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
     AuditorCreateToDoService auditorCreateToDoService;
 
@@ -38,15 +37,15 @@ public class LeadAuditorTest extends AbstractTest {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(),getDriver());
         String leadAuditorId = "chr.vienpham.lead.auditor@gmail.com";
         String leadAuditorPwd = "Changeit@123";
-        String engagementName = "Engagement_LeadAuditor";
+        String engagementName = "Engagement Duong";
         String todoName = "lead vien1";
-        String oldRequestName = "lead request1";
-        String newRequestName = "lead request modify1";
+        String oldRequestName = "request1";
+        String newRequestName = "request1 modify";
         try {
             marketingService.loginUsingUsernamePassword(leadAuditorId, leadAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
-            auditorCreateToDoService.clickCommentIconPerTaskName(todoName, false);
+            leadAuditorService.clickCommentIconByTodoName(todoName);
             leadAuditorService.verifyLeadAuditorCanChangeRequestName(oldRequestName,newRequestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Lead auditor change request name: Pass.", LogAs.PASSED, null);
