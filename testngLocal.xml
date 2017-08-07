@@ -4,13 +4,19 @@
         <listener class-name="com.auvenir.utilities.listeners.SuiteListener"/>
         <listener class-name="com.auvenir.utilities.htmlreport.com.nxgreport.listners.NXGTestListner"></listener>
     </listeners>
+<<<<<<< HEAD
 
     <test name="InitData">
+=======
+    <!--Initialize data before run test-->
+    <!--<test name="InitData">
+>>>>>>> origin/dev
         <parameter name="browser" value="chrome"/>
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
             <class name="com.auvenir.utilities.initialize.InitData"/>
+<<<<<<< HEAD
         </classes>
     </test>
     <test name="SmokeTest-Chrome">
@@ -23,6 +29,23 @@
     </test>
 
     <!--<test name="Regression2" preserve-order="false">
+=======
+        </classes>
+    </test>-->
+    <test name="SmokeTest - Chrome">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="version" value="59.0.3071.115"/>
+        <parameter name="os" value="WIN10"/>
+        <classes>
+            <class name="com.auvenir.ui.tests.groupPermissions.AuditorTest"/>
+            <methods>
+                <include name="verifyGeneralAuditorCannotAssignToGeneralClient"></include>
+            </methods>
+        </classes>
+    </test>
+    <!--
+    <test name="Regression - Chrome - Win8">
+>>>>>>> origin/dev
         <parameter name="browser" value="chrome"/>
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN8"/>
@@ -30,7 +53,7 @@
             <class name="com.auvenir.ui.tests.SmokeTest"/>
         </classes>
     </test>
-   <test name="Regression2-1" preserve-order="false">
+   <test name="Regression - IE - Win10">
        <parameter name="browser" value="internet explorer"/>
        <parameter name="version" value="11"/>
        <parameter name="os" value="WIN10"/>
@@ -38,16 +61,22 @@
            <class name="com.auvenir.ui.tests.marketing.MarketingTest"/>
        </classes>
    </test>
-   <test name="Regression4" preserve-order="false">
+   <test name="Regression - FireFox - Win10">
        <parameter name="browser" value="firefox"/>
        <parameter name="version" value="50.1.0"/>
        <parameter name="os" value="WIN10"/>
        <classes>
            <class name="com.auvenir.ui.tests.SmokeTest"/>
        </classes>
+<<<<<<< HEAD
    </test>-->
     <!--
     <test name="SmokeTest-MarketingTest-Chrome">
+=======
+   </test>
+   -->
+    <!--<test name="Regression - Safari - MAC">
+>>>>>>> origin/dev
         <parameter name="browser" value="safari"/>
         <parameter name="version" value="10.1.1"/>
         <parameter name="os" value="MAC"/>
