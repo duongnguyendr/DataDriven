@@ -1656,32 +1656,6 @@ public class AuditorCreateToDoPage extends TodoPage {
         }
     }
 
-    public int findToDoTaskName(String toDoName) {
-        getLogger().info("Find Position of To Do Task Name");
-        try{
-        String actualAttributeValue;
-        String classAttribute;
-        for (int i = 0; i < toDoTaskRowEle.size(); i++) {
-            classAttribute = toDoTaskRowEle.get(i).getAttribute("class");
-            if (classAttribute.equals("newRow")) {
-                boolean elementExisted = validateNotExistedElement(toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']")), "toDoTaskRowEle");
-                if (!elementExisted) {
-                    WebElement toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']"));
-                    actualAttributeValue = toDoNameCell.getAttribute("value").trim();
-
-                    if (actualAttributeValue.equals(toDoName)) {
-                        getLogger().info("Element is found at " + i);
-                        NXGReports.addStep(String.format("The position of To Do task: '%s' at %d", toDoName, i), LogAs.PASSED, null);
-                        return i;
-                    }
-                }
-            }
-        }
-        	return -1;
-	    }catch (NoSuchElementException e) {
-	    	return -1;
-		}
-    }
 
     public int findCategoryName(String categoryName) {
         getLogger().info("Find Position of category Name");

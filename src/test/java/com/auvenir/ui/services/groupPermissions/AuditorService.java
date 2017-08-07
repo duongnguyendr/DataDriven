@@ -5,6 +5,8 @@ import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 /**
  * Created by vien.pham on 8/7/2017.
  */
@@ -29,5 +31,13 @@ public class AuditorService extends AbstractService {
 
     public void verifyAuditorCanChangeRequestNameBeAssigned(String oldRequestName, String newRequestName) {
         auditorToDoPage.verifyEditRequestNameCapability(oldRequestName,newRequestName,true);
+    }
+
+    public void verifyGeneralAuditorCanNotAssignTodoToAuditor(List<String> listTodo){
+        auditorToDoPage.verifyGroupPermissionCanAssignTodoToAuditor(listTodo, false, true);
+    }
+
+    public void verifyGeneralAuditorCannotAssignToDoToGeneralClient(List<String> listTodo, String clientFullName){
+        auditorToDoPage.verifyGroupPermissionCanAssignTodoToClient(listTodo, clientFullName, false, true);
     }
 }

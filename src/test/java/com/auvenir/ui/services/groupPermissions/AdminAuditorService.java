@@ -51,7 +51,7 @@ public class AdminAuditorService extends AbstractService {
     }
 
     public void verifyAdminAuditorCannotAssignAuditor(List<String> listTodo) {
-        auditorToDoPage.verifyGroupPermissionCanAssignTodoToAuditor(listTodo, false);
+        auditorToDoPage.verifyGroupPermissionCanAssignTodoToAuditor(listTodo, false, false);
     }
 
     public void verifyAdminAuditorCannotCreateTodo(List<String> listTodoName) {

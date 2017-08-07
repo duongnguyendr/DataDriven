@@ -6,6 +6,7 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
 import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureScreen;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -90,7 +91,8 @@ public abstract class TodoPage extends AbstractPage {
     @FindBy(id = "engOverview-status")
     protected WebElement engOveviewStatus;
 
-    String auditAssignPath = "//td/span[text()='%s']/../../td[6]/p";
+    String auditAssignNotEditPath = "//td/span[text()='%s']/../../td[6]/p";
+    String auditAssignCanEditPath = "//td/input[@value='%s']/../../td[6]/p";
     String clientAssignPath = "//td/span[text()='%s']/../../td[4]/p";
     @FindBy(xpath = "//*[@id='todo-table']/tbody/tr[@class='newRow']//input[contains(@class,'newTodoInput')]")
     protected List<WebElement> toDoNameTextColumnEle;
@@ -519,14 +521,20 @@ public abstract class TodoPage extends AbstractPage {
     public void verifyCompleteMarkPopup() {
     }
 
-    public void verifyGroupPermissionCanAssignTodoToAuditor(List<String> listTodo, boolean possibleAssign) {
+    public void verifyGroupPermissionCanAssignTodoToAuditor(List<String> listTodo, boolean possibleAssign, boolean canEdit) {
         try {
             for (int i = 0; i < listTodo.size(); i++) {
                 if (possibleAssign) {
 
                 } else {
-                    boolean result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(auditAssignPath, listTodo.get(i)))),
-                            listTodo.get(i));
+                    boolean result = false;
+                    if (canEdit){
+                        result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(auditAssignCanEditPath, listTodo.get(i)))),
+                                listTodo.get(i));
+                    }else{
+                        result = validateDisPlayedElement(getDriver().findElement(By.xpath(String.format(auditAssignNotEditPath, listTodo.get(i)))),
+                                listTodo.get(i));
+                    }
                     Assert.assertTrue(result, "verify auditor assign element.");
                     NXGReports.addStep(String.format("verify auditor assign element.", listTodo.get(i)), LogAs.PASSED, null);
                     if (!result) {
@@ -701,10 +709,6 @@ public abstract class TodoPage extends AbstractPage {
     }
 
     public void createToDoTaskWithCategoryName(String todoName, String categoryName) {
-    }
-
-    public int findToDoTaskName(String todoName) {
-        return -1;
     }
 
     public void chooseOptionAssignToAssigneeOnBulkActionsDropDownWithName(String assigneeName) {
@@ -1071,5 +1075,32 @@ public abstract class TodoPage extends AbstractPage {
             ex.printStackTrace();
         }
         return result;
+    }
+    
+    public int findToDoTaskName(String toDoName) {
+        getLogger().info("Find Position of To Do Task Name");
+        try{
+        String actualAttributeValue;
+        String classAttribute;
+        for (int i = 0; i < toDoTaskRowEle.size(); i++) {
+            classAttribute = toDoTaskRowEle.get(i).getAttribute("class");
+            if (classAttribute.equals("newRow")) {
+                boolean elementExisted = validateNotExistedElement(toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']")), "toDoTaskRowEle");
+                if (!elementExisted) {
+                    WebElement toDoNameCell = toDoTaskRowEle.get(i).findElement(By.xpath("td/input[@type='text']"));
+                    actualAttributeValue = toDoNameCell.getAttribute("value").trim();
+
+                    if (actualAttributeValue.equals(toDoName)) {
+                        getLogger().info("Element is found at " + i);
+                        NXGReports.addStep(String.format("The position of To Do task: '%s' at %d", toDoName, i), LogAs.PASSED, null);
+                        return i;
+                    }
+                }
+            }
+        }
+        	return -1;
+	    }catch (NoSuchElementException e) {
+	    	return -1;
+		}
     }
 }
