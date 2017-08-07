@@ -479,10 +479,12 @@ public abstract class TodoPage extends AbstractPage {
                     verifyCompleteMarkPopup();
                     clickOnArchiveButtonInMarkAsCompletePopup();
                     verifyTodoMarkCompleted(listTodo.get(i));
+                    NXGReports.addStep("Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.", LogAs.PASSED,
+                            null);
                 } else {
                     int todoIndexCanChecked = selectToDoCheckboxByName(listTodo.get(i));
                     if (todoIndexCanChecked == -1) {
-                        NXGReports.addStep("Test Failed: Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.", LogAs.PASSED,
+                        NXGReports.addStep("Verify " + (possibleCompleted ? "can" : "cannot") + " mark complete todo.", LogAs.PASSED,
                                 null);
                     } else {
                         AbstractService.sStatusCnt++;

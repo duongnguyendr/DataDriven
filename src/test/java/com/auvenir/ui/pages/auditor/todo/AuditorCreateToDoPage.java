@@ -72,7 +72,7 @@ public class AuditorCreateToDoPage extends TodoPage {
     private static final String todoDetailName = "//*[@id='todoDetailsName']";
     private static final String displayImageInPopup = "img[src='../../images/icons/clipboard-yellow.png']";
     private static final String markCompletePopupCancelBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Cancel')]";
-    private static final String markCompletePopupArchiveBtn = "//div[@class='ce-footerBtnHolder']/button[contains(text(),'Archive')]";
+    private static final String markCompletePopupArchiveBtn = "//*[contains(@id,'Mark As Complete')]//button[@class='auvbtn primary']";
     private static final String popUpWindowsToClose = "//div[starts-with(@id, 'categoryModel')and contains(@style,'display: block')]";
     private static final String GreenColor = "rgb(92, 155, 160)";
     private static final String defaultValueComboBox = "Select Category";
