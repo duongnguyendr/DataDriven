@@ -1278,6 +1278,7 @@ public class AuditorCreateToDoService extends AbstractService {
         createToDoPage.clickCommentIconPerTaskName(toDoTaskName, isClient);
     }
 
+
     /**
      * verifyAuditorMarkAsComplete - TanPh - 2017/06/20 - Start
      *

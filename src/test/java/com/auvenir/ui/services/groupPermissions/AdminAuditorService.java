@@ -66,8 +66,8 @@ public class AdminAuditorService extends AbstractService {
         auditorToDoPage.verifyRequestDeletionCapability(requestName, false);
     }
 
-    public void clickCommentIconByTodoName(String todoName, boolean editablePage) {
-        auditorToDoPage.clickCommentIconByTodoName(todoName, editablePage);
+    public void clickCommentIconByTodoName(String todoName) {
+        auditorToDoPage.clickCommentIconByTodoName(todoName, false);
     }
 
     public void verifyAdminAuditorCannotRemoveTodo(List<String> listTodo) {

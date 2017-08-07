@@ -1,4 +1,4 @@
-package com.auvenir.ui.pages;
+package com.auvenir.ui.pages.client.engagement;
 
 import com.auvenir.ui.pages.common.AbstractPage;
 import org.apache.log4j.Logger;
