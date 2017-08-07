@@ -109,4 +109,8 @@ public class AdminAuditorService extends AbstractService {
     public void verifyCanSeeAllToDosWithinEngagement(List<String> todoListNames, List<Boolean> todoListSeeable) {
         auditorToDoPage.verifyCanSeeAllToDosWithinEngagement(todoListNames, todoListSeeable, "Admin Auditor");
     }
+
+    public void verifyAdminAuditorCanSeeAllFileWithinToDo(List<String> listFile) {
+            auditorToDoPage.verifyCanSeeAllFileWithinToDo(listFile);
+    }
 }

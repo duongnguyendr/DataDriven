@@ -166,7 +166,7 @@ public class AuditorTeamPage extends TeamPage {
         getLogger().info("Verify new Auditor Member is added.");
         try {
             int index = findTeamMemberByName(fullName);
-            //        validateElementText(auditorTeamMemberNameEle.get(0), fullName);
+//                    validateElementText(auditorTeamMemberNameEle.get(0), fullName);
             if (index != -1)
                 validateElementText(roleTeamMemberNameEle.get(index), roleMember);
             else{

@@ -950,16 +950,16 @@ public abstract class TodoPage extends AbstractPage {
             int isFind = findUploadFile(fileName);
             System.out.println("value is: " + isFind);
             if (isFind != -1) {
-                NXGReports.addStep("Verify file was uploaded successfully", LogAs.PASSED, null);
+                NXGReports.addStep(String.format("File '%s' is displayed successfully.", fileName), LogAs.PASSED, null);
             } else {
                 AbstractService.sStatusCnt++;
-                NXGReports.addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED,
+                NXGReports.addStep(String.format("File '%s' is NOT displayed", fileName), LogAs.FAILED,
                         new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt++;
             NXGReports
-                    .addStep("Verify file was uploaded successfully: Fail", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    .addStep(String.format("File '%s' is NOT displayed", fileName), LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
                             e.getMessage());
             e.printStackTrace();
         }
@@ -967,7 +967,7 @@ public abstract class TodoPage extends AbstractPage {
 
 
     public int findUploadFile(String fileName) {
-        getLogger().info("Verifying this file existed in the list..");
+        getLogger().info(String.format("Verifying this file '%s' existed in the list..", fileName));
         int isFind = -1;
         for (int i = 0; i < uploadRequestList.size(); i++) {
             System.out.println("UploadName at position: " + i + " is " + uploadRequestList.get(i).getText());
@@ -1081,7 +1081,7 @@ public abstract class TodoPage extends AbstractPage {
         }
         return result;
     }
-    
+
     public int findToDoTaskName(String toDoName) {
         getLogger().info("Find Position of To Do Task Name");
         try{
@@ -1107,5 +1107,40 @@ public abstract class TodoPage extends AbstractPage {
 	    }catch (NoSuchElementException e) {
 	    	return -1;
 		}
+    }
+
+    /**
+     * Created by Thuan Duong.
+     * Verify all File will be displayed.
+     *
+     * @param listFileName list file will be verified
+     */
+    public void verifyCanSeeAllFileWithinToDo(List<String> listFileName) {
+        try {
+            int isFind = -1;
+            boolean result = true;
+            for (int i = 0; i < listFileName.size(); i++) {
+                isFind = findUploadFile(listFileName.get(i));
+                System.out.println("value is: " + isFind);
+                if (isFind == -1) {
+                    result = false;
+                    System.out.println(String.format("File Name '%s' is not displayed: ", listFileName.get(i)));
+                    break;
+                }
+            }
+            if(result) {
+                NXGReports.addStep("All file '%s' is displayed successfully.", LogAs.PASSED, null);
+            } else {
+                AbstractService.sStatusCnt++;
+                NXGReports.addStep("All file '%s' is NOT displayed successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf
+                        .BROWSER_PAGE));
+            }
+
+        } catch (Exception e) {
+            AbstractService.sStatusCnt++;
+            NXGReports.addStep("All file '%s' is NOT displayed successfully", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),
+                    e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
