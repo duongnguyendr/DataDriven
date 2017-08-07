@@ -76,8 +76,12 @@ public abstract class TodoPage extends AbstractPage {
     private List<WebElement> listRequestOptionBtn;
     @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]/div[@class='menu']/a")
     private List<WebElement> listRequestSelection;
-    @FindBy(xpath = "//div[contains(@class,'auvicon-line-circle-more')]/div[@class='menu']/a[text()='Delete request']")
-    private WebElement deleteRequestSelection;
+    @FindBy(xpath = "//div[@class='menu']/a[text()='Delete request']")
+    private List<WebElement> deleteRequestSelection;
+
+    @FindBy(xpath = "(//div[@class='menu']/a[text()='Delete request'])[1]")
+    private WebElement firstDeleteRequestSelection;
+
     @FindBy(xpath = "//div[@class='auvicon-ex']")
     WebElement requestCloseBtn;
     @FindBy(xpath = "//div[@id='auv-todo-details']")
@@ -396,8 +400,10 @@ public abstract class TodoPage extends AbstractPage {
     public void verifyRequestDeletionCapability(String requestName, boolean deleteRequestCapability) {
         try {
             if (deleteRequestCapability) {
+                int index = findRequestByName(requestName);
+                clickElement(listRequestOptionBtn.get(index - 1));
                 int numberRequestBefore = listNewRequest.size();
-                deleteRequestByName(requestName);
+                clickElement(deleteRequestSelection.get(index));
                 boolean isVerify = verifyDeleteRequest(numberRequestBefore);
                 if (isVerify) {
                     NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED,
@@ -408,8 +414,10 @@ public abstract class TodoPage extends AbstractPage {
                             new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
                 }
             } else {
-                boolean isVerify = validateNotExistedElement(deleteRequestSelection, "delete selection");
+                clickElement(listRequestOptionBtn.get(0),"");
+                boolean isVerify = validateNotExistedElement(firstDeleteRequestSelection, "delete selection");
                 if (isVerify) {
+                    getLogger().info("Delete request option is invisible");
                     NXGReports.addStep("Verify request can  " + (deleteRequestCapability ? "be deleted" : "not be deleted") + " :Pass.", LogAs.PASSED,
                             null);
                 } else {
@@ -427,11 +435,6 @@ public abstract class TodoPage extends AbstractPage {
 
     }
 
-    public void deleteRequestByName(String requestName) {
-        int index = findRequestByName(requestName);
-        clickElement(listRequestOptionBtn.get(index - 1));
-        clickElement(deleteRequestSelection, "delete request");
-    }
 
     public boolean verifyDeleteRequest(int numberRequestBefore) {
         boolean isVerify = false;
@@ -443,7 +446,7 @@ public abstract class TodoPage extends AbstractPage {
                 isVerify = true;
             }
         } else {
-            boolean isNotDisplayed = validateNotExistedElement(firstRequest, "");
+            boolean isNotDisplayed = validateNotExistedElement(firstRequest, "Request");
             if (isNotDisplayed) {
                 isVerify = true;
                 System.out.println("List of request is empty after deleted");
@@ -458,6 +461,7 @@ public abstract class TodoPage extends AbstractPage {
         for (int i = 1; i < (listNewRequest.size() + 1); i++) {
             if (newRequestTable.findElement(By.xpath("./div[" + i + "]/span")).getText().equals(requestName)) {
                 isFind = i;
+                getLogger().info("Request " + requestName + " at position: " + isFind);
                 break;
             }
         }
@@ -743,7 +747,7 @@ public abstract class TodoPage extends AbstractPage {
     /**
      * Vien.Pham own this function
      *
-     * @param requestName:            to find corresponding requestName.
+     * @param requestName:               to find corresponding requestName.
      * @param editRequestNameCapability: true: can change requestName or False: can not change
      */
     public void verifyEditRequestNameCapability(String requestName, String newRequestName, boolean editRequestNameCapability) {
@@ -793,7 +797,7 @@ public abstract class TodoPage extends AbstractPage {
      * @param requestName
      */
     public void inputRequestName(int position, String requestName) {
-//        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
+        //        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
         clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
         clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
         sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), requestName, "");

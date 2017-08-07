@@ -30,10 +30,10 @@ public class GeneralAuditorTest extends AbstractTest {
         auditorService = new GeneralAuditorService(getLogger(), getDriver());
         String generalAuditor = "chr.vienpham.auditor@gmail.com";
         String generalAuditorPwd = "Changeit@123";
-        String engagementName = "Engagement Duong";
+        String engagementName = "Engagement LeadAuditor";
         String todoName = "lead vien1";
-        String oldRequestName = "request1";
-        String newRequestName = "request1 modify";
+        String oldRequestName = "request2";
+        String newRequestName = "request2 modify";
         try {
             marketingService.loginUsingUsernamePassword(generalAuditor, generalAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
