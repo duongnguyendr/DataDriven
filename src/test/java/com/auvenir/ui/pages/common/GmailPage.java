@@ -741,7 +741,7 @@ public class GmailPage extends AbstractPage {
 
     /**
      * Refactored by huy.huynh on 26/06/2017.
-     * Refactor ClientTest
+     * Refactor GeneralClientTest
      */
     @FindBy(className = "CToWUd")
     private WebElement imgAuvenirHeader;

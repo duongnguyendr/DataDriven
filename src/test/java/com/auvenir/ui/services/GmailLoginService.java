@@ -150,7 +150,7 @@ public class GmailLoginService extends AbstractService {
     }
     /**
      * Refactored by huy.huynh on 26/06/2017.
-     * Refactor ClientTest
+     * Refactor GeneralClientTest
      */
     public void verifyHeaderImage(String partialSrc) {
         gmailLoginPo.verifyHeaderImage(partialSrc);

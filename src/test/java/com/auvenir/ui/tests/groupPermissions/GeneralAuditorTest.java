@@ -1,13 +1,9 @@
 package com.auvenir.ui.tests.groupPermissions;
 
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.auditor.AuditorCreateToDoService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
 import com.auvenir.ui.services.auditor.AuditorEngagementService;
-import com.auvenir.ui.services.auditor.AuditorToDoService;
-import com.auvenir.ui.services.groupPermissions.AdminAuditorService;
-import com.auvenir.ui.services.groupPermissions.AuditorService;
-import com.auvenir.ui.services.groupPermissions.LeadAuditorService;
+import com.auvenir.ui.services.groupPermissions.GeneralAuditorService;
 import com.auvenir.ui.services.marketing.MarketingService;
 import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
@@ -16,41 +12,38 @@ import com.auvenir.utilities.htmlreport.com.nxgreport.selenium.reports.CaptureSc
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by vien.pham on 8/7/2017.
  */
-public class AuditorTest extends AbstractTest {
-    private AuditorToDoService auditorToDoService;
+public class GeneralAuditorTest extends AbstractTest {
     private MarketingService marketingService;
     private AuditorEngagementService auditorEngagementService;
     private AuditorDetailsEngagementService auditorDetailsEngagementService;
-    private AuditorService auditorService;
+    private GeneralAuditorService auditorService;
 
     @Test(priority = 22, enabled = true, description = "To Verify auditor can change request name assigned to it.")
-    public void verifyLeadAuditorCanChangeRequestName() {
+    public void verifyAuditorCanChangeRequestNameBeAssigned() {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
-        auditorService = new AuditorService(getLogger(), getDriver());
-        String leadAuditorId = "chr.vienpham.auditor@gmail.com";
-        String leadAuditorPwd = "Changeit@123";
-        String engagementName = "Engagement Duong";
+        auditorService = new GeneralAuditorService(getLogger(), getDriver());
+        String generalAuditor = "chr.vienpham.auditor@gmail.com";
+        String generalAuditorPwd = "Changeit@123";
+        String engagementName = "Engagement LeadAuditor";
         String todoName = "lead vien1";
-        String oldRequestName = "request1";
-        String newRequestName = "request1 modify";
+        String oldRequestName = "request2";
+        String newRequestName = "request2 modify";
         try {
-            marketingService.loginUsingUsernamePassword(leadAuditorId, leadAuditorPwd);
+            marketingService.loginUsingUsernamePassword(generalAuditor, generalAuditorPwd);
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorService.clickCommentIconByTodoName(todoName);
             auditorService.verifyAuditorCanChangeRequestNameBeAssigned(oldRequestName, newRequestName);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
-            NXGReports.addStep("Verify Lead auditor change request name: Pass.", LogAs.PASSED, null);
+            NXGReports.addStep("Verify general auditor can change request name assigned: Pass.", LogAs.PASSED, null);
         } catch (Exception e) {
-            NXGReports.addStep("Verify Lead auditor change request name: Fail.", LogAs.FAILED,
+            NXGReports.addStep("Verify general auditor can change request name assigned: Fail.", LogAs.FAILED,
                     new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
     }
@@ -60,7 +53,7 @@ public class AuditorTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorService = new AuditorService(getLogger(), getDriver());
+        auditorService = new GeneralAuditorService(getLogger(), getDriver());
         String todoName = "todo1";
         String adminUser = "duong.auditor@mailinator.com";
         String adminPassword = "Changeit@123";
@@ -87,7 +80,7 @@ public class AuditorTest extends AbstractTest {
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
-        auditorService = new AuditorService(getLogger(), getDriver());
+        auditorService = new GeneralAuditorService(getLogger(), getDriver());
         String adminUser = "chr.vienpham.auditor@gmail.com";
         String adminPassword = "Changeit@123";
         String engagementName2 = "Engagement LeadAuditor";
