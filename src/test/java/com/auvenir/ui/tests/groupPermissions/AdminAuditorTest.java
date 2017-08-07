@@ -614,7 +614,7 @@ public class AdminAuditorTest extends AbstractTest {
             auditorEngagementService.verifyAuditorEngagementPage();
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorDetailsEngagementService.verifyDetailsEngagementAtGeneralPage(engagementName);
-            adminAuditorService.clickCommentIconByTodoName(toDo1, false);
+            adminAuditorService.clickCommentIconByTodoName(toDo1);
             adminAuditorService.verifyAdminAuditorCanSeeAllFileWithinToDo(listFile);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
