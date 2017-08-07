@@ -743,14 +743,14 @@ public abstract class TodoPage extends AbstractPage {
     /**
      * Vien.Pham own this function
      *
-     * @param requequestName:            to find corresponding requestName.
+     * @param requestName:            to find corresponding requestName.
      * @param editRequestNameCapability: true: can change requestName or False: can not change
      */
-    public void verifyEditRequestNameCapability(String requequestName, String newRequestName, boolean editRequestNameCapability) {
+    public void verifyEditRequestNameCapability(String requestName, String newRequestName, boolean editRequestNameCapability) {
         try {
-            int index = findRequestByName(requequestName);
+            int index = findRequestByName(requestName);
             if (editRequestNameCapability) {
-                System.out.println("Name of old request: " + requequestName);
+                System.out.println("Name of old request: " + requestName);
                 inputRequestName(index, newRequestName);
                 boolean isVerify = verifyNewRequestSaved(newRequestName);
                 if (isVerify) {
@@ -767,7 +767,6 @@ public abstract class TodoPage extends AbstractPage {
                 waitSomeSeconds(1);
                 boolean isCheck =
                         validateCssValueElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "display", "inline-block");
-
                 if (isCheck) {
                     NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
                             LogAs.PASSED, null);
@@ -793,10 +792,8 @@ public abstract class TodoPage extends AbstractPage {
      * @param requestName
      */
     public void inputRequestName(int position, String requestName) {
-        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
+//        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "", "display", "inline-block");
         clickElement(newRequestTable.findElement(By.xpath("./div[" + position + "]/span")), "");
-        //        getLogger().info("Waiting for textbox border is Green while clicked..");
-        //        waitForCssValueChanged(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "", "border", "1px solid rgb(89, 155, 161)");
         clearTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
         sendKeyTextBox(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), requestName, "");
         sendTabkey(newRequestTable.findElement(By.xpath("./div[" + position + "]/input")), "");
@@ -1051,7 +1048,7 @@ public abstract class TodoPage extends AbstractPage {
 
     //    public boolean checkFileExists(String downloadFile, boolean isDeletedFile){return false;}
     public boolean checkFileExists(String pathLocation, boolean deleteExisted) {
-//        waitSomeSeconds(3);
+        //        waitSomeSeconds(3);
         Path path = Paths.get(pathLocation);
         System.out.println("file: " + path);
         boolean result = false;
