@@ -170,8 +170,7 @@ public class AuditorTeamPage extends TeamPage {
             if (index != -1)
                 validateElementText(roleTeamMemberNameEle.get(index), roleMember);
             else{
-                NXGReports.addStep("New auditor member is not added.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE),e
-                        .getMessage());
+                NXGReports.addStep("New auditor member is not added.", LogAs.FAILED, null);
             }
         } catch (Exception e) {
             AbstractService.sStatusCnt ++;
