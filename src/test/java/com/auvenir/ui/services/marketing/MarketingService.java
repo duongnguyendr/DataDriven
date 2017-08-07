@@ -249,7 +249,7 @@ Vien.Pham added login With New User Role
         loginWithUserNamePassword(username, pwd);
     }
 
-    public void loginWithUserRolesUsingUsernamePassword(String username, String password) {
+    public void loginUsingUsernamePassword(String username, String password) {
         goToBaseURL();
         openLoginDialog();
         loginWithUserNamePassword(username, password);
@@ -299,5 +299,12 @@ Vien.Pham added login With New User Role
     public void verifyConfirmPasswordErrorMessage(){
         marketingPage.verifyConfirmPasswordErrorMessage();
 
+    }
+
+    public void verifyBambooContentPage(){
+        marketingPage.verifyBambooContentPage();
+    }
+
+    public void loginWithUsernamePassword(String adminUser, String adminPassword) {
     }
 }

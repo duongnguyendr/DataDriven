@@ -1,6 +1,7 @@
 package com.auvenir.rests.api.tests;
 
-import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.RestAssured;
@@ -22,7 +23,7 @@ import java.net.UnknownHostException;
  * Created by doai.tran on 4/26/2017.
  */
 
-public class AuthSessionTest extends AbstractAPIService {
+public class AuthSessionTest extends AbstractTest {
     //public static final String restBaseUrl = "http://finicity-qa-334.com";
     //public static final String database = "serviceFinicity";
     static String[] sData = null;
@@ -32,7 +33,7 @@ public class AuthSessionTest extends AbstractAPIService {
     public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath = "http://finicity-qa-334.com";
         //MongoDBService.connectDBServer(dataBaseServer,port, database);
-        MongoDBService.connectDBServer(dataBaseServer, port, dataBaseServer, userName, password, ssl);
+        MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
         MongoDBService.deleteConsumer("Consumer1");
@@ -50,7 +51,7 @@ public class AuthSessionTest extends AbstractAPIService {
     @BeforeMethod
     public void preCondition() {
         getBaseUrl();
-        AbstractAPIService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
     }
 
     /*
@@ -74,7 +75,7 @@ public class AuthSessionTest extends AbstractAPIService {
             this.assertionEquals(jp.get("dateCreated").toString(), sData[4]);
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[27]));
             NXGReports.addStep("Correct Schema of Json", LogAs.PASSED, null);
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with AuthSessionTest", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -102,7 +103,7 @@ public class AuthSessionTest extends AbstractAPIService {
             JsonPath jp = new JsonPath(json);
             this.assertionEquals(jp.get("code").toString(), "api-001");
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -130,7 +131,7 @@ public class AuthSessionTest extends AbstractAPIService {
             JsonPath jp = new JsonPath(json);
             this.assertionEquals(jp.get("code").toString(), "api-001");
             this.assertionEquals(jp.get("msg").toString(), "Error, not authorized.");
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Request successfully with invalid ownerID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);

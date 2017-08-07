@@ -1,6 +1,6 @@
 package com.auvenir.ui.pages.client.engagement;
 
-import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.EngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
 import com.auvenir.utilities.htmlreport.com.nxgreport.logging.LogAs;
@@ -15,10 +15,7 @@ import java.util.List;
 /**
  * Created by huy.huynh on 15/06/2017.
  */
-public class ClientEngagementPage extends AbstractPage {
-
-    @FindBy(xpath = "//div[@id='allClientEngagement']//span[@id='c-header-title']")
-    private WebElement titleAllEngagement;
+public class ClientEngagementPage extends EngagementPage {
 
     @FindBy(id = "header-blue-logo")
     private WebElement imageLogoHeaderBlue;
@@ -113,20 +110,19 @@ public class ClientEngagementPage extends AbstractPage {
     @FindBy(id = "newAuditBtn")
     private WebElement buttonNewEngagement;
 
+    @FindBy(xpath = "//span[@id='a-header-title']")
+    private WebElement dashboardTextAtPage;
+
     public ClientEngagementPage(Logger logger, WebDriver driver) {
         super(logger, driver);
     }
 
-    public void verifyNavigatedToClientEngagementPage() {
-        waitForVisibleElement(titleAllEngagement, "Title All Engagement");
-        validateElementText(titleAllEngagement, "All Engagements");
-    }
 
     /**
      * verify UI of List Engagement page - Header
      */
     public void verifyUIListEngagementHeader(String logoHeaderBluePartialLink, String headerEngagementsText, String headerContactsText,
-                                             String dashboardUsernameText, String dashboardSettingsText, String dashboardSignOutText) {
+            String dashboardUsernameText, String dashboardSettingsText, String dashboardSignOutText) {
         try {
             closeWarningToastMessage();
             //waitSomeSeconds(2);
@@ -147,12 +143,10 @@ public class ClientEngagementPage extends AbstractPage {
      * verify UI of List Engagement page - Body
      */
     public void verifyUIListEngagementBody(String previewHeaderText, String engagementFiltersText, String filterAllText,
-                                           String filterTypeOfEngagementText, String typeOfEngagementFinancialAuditText,
-                                           String typeOfEngagementReviewText, String typeOfEngagementNoticeToReaderCompilationText,
-                                           String typeOfEngagementOtherText, String engagementSearchText, String engagementColumnText,
-                                           String auditFirmColumnText, String statusColumnText, String auditAssigneeColumnText,
-                                           String completedDocsColumnText, String clientColumnText, String activityColumnText,
-                                           String dueDateColumnText) {
+            String filterTypeOfEngagementText, String typeOfEngagementFinancialAuditText, String typeOfEngagementReviewText,
+            String typeOfEngagementNoticeToReaderCompilationText, String typeOfEngagementOtherText, String engagementSearchText,
+            String engagementColumnText, String auditFirmColumnText, String statusColumnText, String auditAssigneeColumnText,
+            String completedDocsColumnText, String clientColumnText, String activityColumnText, String dueDateColumnText) {
         try {
             validateElementText(titlePreviewHeader, previewHeaderText);
             //validateElementText(buttonNewEngagement, "New Engagement");
@@ -190,8 +184,7 @@ public class ClientEngagementPage extends AbstractPage {
      * verify UI of List Engagement page - Footer
      */
     public void verifyUIListEngagementFooter(String companyInfoText, String termsOfServiceText, String termsOfServicePartialLink,
-                                             String privacyStatementText, String privacyStatementPartialLink, String cookieNoticeText,
-                                             String cookieNoticePartialLink) {
+            String privacyStatementText, String privacyStatementPartialLink, String cookieNoticeText, String cookieNoticePartialLink) {
         try {
             validateElementText(titleCompanyInfo, companyInfoText);
             validateElementText(titleTermsOfService, termsOfServiceText);
@@ -205,5 +198,10 @@ public class ClientEngagementPage extends AbstractPage {
             NXGReports.addStep("Error:  List Engagement Footer", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
             ex.printStackTrace();
         }
+    }
+
+    public void verifyDetailsEngagement(String engagementName) {
+        waitForVisibleElement(dashboardTextAtPage, "dashboard text");
+        validateElementText(dashboardTextAtPage, engagementName);
     }
 }

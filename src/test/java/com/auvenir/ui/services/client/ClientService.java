@@ -364,10 +364,9 @@ public class ClientService extends AbstractService {
         addNewClientPage.inputDataKeyContactInfo(name, email, phoneNumber);
     }
 
-    public void inputDataCompanyInfo(String legalName, String pleaseListParent, String address, String unitNumber,
-                                     String city, String provinceState, String country, String postalCode) {
-        addNewClientPage.inputDataCompanyInfo(legalName, pleaseListParent, address, unitNumber,
-                city, provinceState, country, postalCode);
+    public void inputDataCompanyInfo(String legalName, String pleaseListParent, String address, String unitNumber, String city, String provinceState,
+            String country, String postalCode) {
+        addNewClientPage.inputDataCompanyInfo(legalName, pleaseListParent, address, unitNumber, city, provinceState, country, postalCode);
     }
 
     public void selectAllCheckboxInCompanyInformation() {
@@ -406,12 +405,17 @@ public class ClientService extends AbstractService {
      * Refactored by huy.huynh on 02/06/2017.
      * New for smoke test
      */
-    public void selectAddNewClient() throws InterruptedException {
+    public void selectAddNewClient() {
         createNewAuditPage.selectAddNewClient();
     }
 
-    public void inviteNewClient(String fullName, String email, String role) {
-        createNewAuditPage.inviteNewClient(fullName, email, role);    }
+    public void selectClientWithFullName(String fullName) {
+        createNewAuditPage.selectClientWithFullName(fullName);
+    }
+
+    public void fillInfoToInviteNewClient(String fullName, String email, String role) {
+        createNewAuditPage.fillInfoToInviteNewClient(fullName, email, role);
+    }
 
 
     public void verifyInviteClientSuccess(String message) {
@@ -423,11 +427,27 @@ public class ClientService extends AbstractService {
     }
      /*-----------end of huy.huynh on 02/06/2017.*/
 
-    public void inviteNewMember(String fullName,String email,String role){
-        createNewAuditPage.inviteNewMember(fullName,email,role);
+    public void fillInfoToInviteNewMember(String fullName, String email, String role) {
+        createNewAuditPage.fillInfoToInviteNewMember(fullName, email, role);
+    }
+
+    public void selectInviteNewMemberButton() {
+        createNewAuditPage.selectInviteNewMemberButton();
     }
 
     public void verifyToDoTaskExist(String toDoName, boolean isClient) {
         clientToDoPage.verifyToDoTaskExist(toDoName, isClient);
+    }
+
+    public void selectClientAssigneeByName(String todoName, String clientAssignee) {
+        clientToDoPage.selectClientAssigneeByName(todoName, clientAssignee);
+    }
+
+    public void verifyClientAssigneeSelected(String todoName, String clientAssignee) {
+        clientToDoPage.verifyClientAssigneeSelected(todoName, clientAssignee);
+    }
+
+    public void inviteExistedClient() {
+        createNewAuditPage.clickButtonInvite();
     }
 }

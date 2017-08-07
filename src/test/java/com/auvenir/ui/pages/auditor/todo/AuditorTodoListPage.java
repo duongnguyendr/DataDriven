@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class AuditorTodoListPage extends AbstractPage {
     List<WebElement> tableTodoList;
 
     /////////////////////////////////////////////////
-    public void verifyTodoListPageColumnHeader(){
+    public void verifyTodoListPageColumnHeader() {
         getLogger().info("verify To Do List page.");
         verifyButtonCreateToDo();
         verifyFilterDropDownList();
@@ -130,7 +131,8 @@ public class AuditorTodoListPage extends AbstractPage {
         result = validateCssValueElement(eleCreateToDoBtn, "background-color", "rgba(89, 155, 161, 1)");
         if (!result) {
             countFail++;
-            NXGReports.addStep("Fail: Verify background-color create to do button.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            NXGReports.addStep("Fail: Verify background-color create to do button.", LogAs.FAILED,
+                    new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
         result = validateCssValueElement(eleCreateToDoBtn, "color", "rgba(255, 255, 255, 1)");
         if (!result) {
@@ -232,9 +234,9 @@ public class AuditorTodoListPage extends AbstractPage {
             NXGReports.addStep("Verify uncheck on checkbox.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
     }
 
-    public void clickCreateToDoBtn() throws Exception{
+    public void clickCreateToDoBtn() throws Exception {
         getLogger().info("Click Create ToDo Button");
-        waitForTextValueChanged(eleCreateToDoBtn,"Create Todo Butto","Create To-Do");
+        waitForTextValueChanged(eleCreateToDoBtn, "Create Todo Butto", "Create To-Do");
         clickElement(eleCreateToDoBtn, "Create Todo Button");
     }
 
@@ -296,10 +298,10 @@ public class AuditorTodoListPage extends AbstractPage {
             NXGReports.addStep("Verify filter button.", LogAs.PASSED, null);
         waitForVisibleElement(eleShowAllBTN, "eleShowAllBTN");
         // Busniess rule is changed, remove Due Date and FlagForRequest Option.
-//        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
-//        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
-//        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
-//        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+        //        waitForVisibleElement(eleDueDateBTN, "eleDueDateBTN");
+        //        waitForClickableOfElement(eleFlaggedForRequest, "eleFlaggedForRequest");
+        //        waitForClickableOfElement(eleDueDateBTN, "eleDueDateBTN");
+        //        waitForVisibleElement(eleFlaggedForRequest, "eleFlaggedForRequest");
         waitForVisibleElement(eleAssignedBTN, "eleAssignedBTN");
         waitForVisibleElement(eleWithCommentBTN, "eleWithCommentBTN");
         waitForVisibleElement(eleCompleteBTN, "eleCompleteBTN");
@@ -444,12 +446,11 @@ public class AuditorTodoListPage extends AbstractPage {
     @FindBy(xpath = "//div[@id='engagement-team']")
     WebElement engagementTeam;
 
-    public void navigateToInviteGeneralMember(){
+    public void navigateToInviteGeneralMember() {
         clickElement(teamBtn);
-        waitForCssValueChanged(engagementTeam,"engagementTeam","display","block");
-//        waitForTextValueChanged(inviteMemberBtn,"invite auditor Btn","Invite New Member");
+        waitForCssValueChanged(engagementTeam, "engagementTeam", "display", "block");
+        //        waitForTextValueChanged(inviteMemberBtn,"invite auditor Btn","Invite New Member");
         clickElement(inviteMemberBtn);
     }
-
 
 }

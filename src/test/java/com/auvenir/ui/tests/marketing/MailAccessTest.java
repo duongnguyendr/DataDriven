@@ -1,6 +1,7 @@
 package com.auvenir.ui.tests.marketing;
 
 
+import com.auvenir.ui.dataprovider.marketing.MailAccessDataProvider;
 import com.auvenir.ui.pages.auditor.engagement.AuditorDetailsEngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.ui.services.admin.AdminService;
@@ -39,16 +40,20 @@ public class MailAccessTest extends AbstractTest {
 
 
     //MailAccessTest
-    @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set status to On-boarding")
-    public void verifyAdminGiveAuditorAccess() throws Exception {
+    @Test(priority = 1, enabled = true, description = "Verify Auditor sign up and Admin set status to On-boarding", dataProvider =
+            "verifyAdminGiveAuditorAccess",dataProviderClass = MailAccessDataProvider.class)
+    public void verifyAdminGiveAuditorAccess(String auditorID, String password,String strAdminEmail, String strAdminPwd) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         adminService = new AdminService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+        auditorID = GenericService.sBrowserData + auditorID;
+        strAdminEmail = GenericService.sBrowserData + auditorID;
+
+        /*String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
         String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
         String strAdminEmail = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Admin");
-        String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "PasswordAdmin");
+        String strAdminPwd = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "PasswordAdmin");*/
         try {
             gmailLoginService.deleteAllExistedEmail(auditorID, password);
             auditorSignUpService.deleteUserUsingApi(auditorID);
@@ -69,12 +74,13 @@ public class MailAccessTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 2, enabled = true, description = "Verify template of Active Email")
-    public void verifyActiveEmailTemplate() throws Exception {
+    @Test(priority = 2, enabled = true, description = "Verify template of Active Email", dataProvider = "verifyActiveEmailTemplate",
+                        dataProviderClass = MailAccessDataProvider.class)
+    public void verifyActiveEmailTemplate(String auditorID, String password) throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
-        String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
-        String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+        /*String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+        String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");*/
         try {
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
@@ -92,13 +98,14 @@ public class MailAccessTest extends AbstractTest {
     Vien.Pham refactor
      */
     // MailAuditorInviteClientTest
-    @Test(priority = 3, enabled = true, description = "Verify Auditor sign up and Active")
-    public void verifyAuditorSignUp() throws Exception {
+    @Test(priority = 3, enabled = true, description = "Verify Auditor sign up and Active", dataProvider = "verifyAuditorSignUp",
+                    dataProviderClass = MailAccessDataProvider.class)
+    public void verifyAuditorSignUp(String auditorID, String clientID, String password, String auditorFullName) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
-        String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+        /*String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
         String clientID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Client");
-        String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+        String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");*/
 
         try {
             getLogger().info("Delete user and client email before..");
@@ -108,7 +115,7 @@ public class MailAccessTest extends AbstractTest {
             MongoDBService.removeUserObjectByEmail(MongoDBService.getCollection("users"), auditorID);
             getLogger().info("Auditor sign up..");
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test",  auditorID, password);
+            auditorSignUpService.verifyRegisterNewAuditorUser(auditorFullName,  auditorID, password);
             auditorSignUpService.updateUserActiveUsingAPI( auditorID);
             auditorSignUpService.updateUserActiveUsingMongoDB( auditorID);
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -118,29 +125,32 @@ public class MailAccessTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 4, enabled = true, description = "Verify Auditor login and invite client..")
-    public void verifyAuditorInviteClient() throws Exception {
+    @Test(priority = 4, enabled = true, description = "Verify Auditor login and invite client..", dataProvider = "verifyAuditorInviteClient",
+            dataProviderClass = MailAccessDataProvider.class)
+    public void verifyAuditorInviteClient(String auditorID, String clientID, String password,
+                                          String engagementName, String engagementType, String companyName,
+                                          String fullNameClient, String roleName, String engagementMessage) throws Exception {
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         auditorDetailsEngagementPage = new AuditorDetailsEngagementPage(getLogger(), getDriver());
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+        /*String auditorID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
         String clientID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Client");
-        String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+        String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");*/
         try {
             auditorSignUpService.deleteUserUsingApi( clientID);
             getLogger().info("Auditor log in..");
             auditorSignUpService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithNewUserRole( auditorID, password);
-            auditorEngagementService.createAndSelectNewEnagement("New World", "", "Company");
-            auditorDetailsEngagementPage.verifyDetailsEngagementPage("New World");
+            auditorEngagementService.createAndSelectNewEnagement(engagementName, engagementType, companyName);
+            auditorDetailsEngagementPage.verifyDetailsEngagementPage(engagementName);
             auditorTodoListService.verifyTodoListPage();
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientID, "Leader");
+            clientService.fillInfoToInviteNewClient("Titan client", clientID, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Verify Auditor login and invite client.", LogAs.PASSED, null);
@@ -149,12 +159,15 @@ public class MailAccessTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 5, enabled = true, description = "Verify template of Invite Client")
-    public void verifyClentInviteEmailTemplate() throws Exception {
+    @Test(priority = 5, enabled = true, description = "Verify template of Invite Client", dataProvider = "verifyClientInviteEmailTemplate",
+            dataProviderClass = MailAccessDataProvider.class)
+    public void verifyClientInviteEmailTemplate(String clientID, String password) throws Exception {
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
+/*
         String clientID = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Client");
         String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+*/
         try {
             getLogger().info("Auditor open Email and verify it.. ");
             getLogger().info("Auditor login his email to verify Welcome email template");
@@ -172,17 +185,18 @@ public class MailAccessTest extends AbstractTest {
      *  Refactor by Duong Nguyen
      *  Date: 7/6/2017
      */
-    @Test(priority = 6, description = "Open gmail to verify content mail")
-    public void openGmailforAuditorRegister(){
+    @Test(priority = 6, description = "Open gmail to verify content mail", dataProvider = "openGMailForAuditorRegister", dataProviderClass =
+            MailAccessDataProvider.class)
+    public void openGMailForAuditorRegister(String auditorId, String password, String auditorFullName){
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         try{
-            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
-            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+            /*String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");*/
             auditorSignUpService.deleteUserUsingApi(auditorId);
             auditorSignUpService.deleteUserUsingMongoDB(auditorId);
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorId, password);
+            auditorSignUpService.verifyRegisterNewAuditorUser(auditorFullName, auditorId, password);
             gmailLoginService.verifyOpenGmailIndexRegisterAccount(auditorId, password);
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
@@ -192,18 +206,19 @@ public class MailAccessTest extends AbstractTest {
         }
     }
 
-    @Test(priority = 7, description = "Verify template mail : Auditor joins and is on Waitlist")
-    public void verifyMailAuditorJoin(){
+    @Test(priority = 7, description = "Verify template mail : Auditor joins and is on Waitlist", dataProvider = "verifyMailAuditorJoin",
+            dataProviderClass = MailAccessDataProvider.class)
+    public void verifyMailAuditorJoin(String auditorId, String password, String auditorFullName){
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         gmailLoginService = new GmailLoginService(getLogger(), getDriver());
         emailTemplateService = new EmailTemplateService(getLogger(), getDriver());
         try{
-            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
-            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
+            /*String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");*/
             auditorSignUpService.deleteUserUsingApi(auditorId);
             auditorSignUpService.deleteUserUsingMongoDB(auditorId);
             auditorSignUpService.goToBaseURL();
-            auditorSignUpService.verifyRegisterNewAuditorUser("Auditor Test", auditorId, password);
+            auditorSignUpService.verifyRegisterNewAuditorUser(auditorFullName, auditorId, password);
             gmailLoginService.verifyOpenGmailIndexRegisterAccount(auditorId, password);
             emailTemplateService.verifyWaitListPageContent();
 
@@ -220,8 +235,10 @@ public class MailAccessTest extends AbstractTest {
      * Update by: Duong Nguyen
      */
 
-    @Test(priority = 8, description = "Verify template of Notification Mail when SO is invited ")
-    public void verifyNotificationMailAuditorInvite() {
+    @Test(priority = 8, description = "Verify template of Notification Mail when SO is invited ", dataProvider =
+            "verifyNotificationMailAuditorInvite", dataProviderClass = MailAccessDataProvider.class)
+    public void verifyNotificationMailAuditorInvite(String auditorId, String password, String clientId, String engagementName,
+                                                    String fullNameClient, String roleName, String engagementMessage) {
         auditorCreateToDoService = new AuditorCreateToDoService(getLogger(), getDriver());
         auditorEngagementService = new AuditorEngagementService(getLogger(), getDriver());
         auditorDetailsEngagementService = new AuditorDetailsEngagementService(getLogger(), getDriver());
@@ -229,13 +246,13 @@ public class MailAccessTest extends AbstractTest {
         auditorTodoListService = new AuditorTodoListService(getLogger(), getDriver());
         marketingService = new MarketingService(getLogger(), getDriver());
         clientService = new ClientService(getLogger(), getDriver());
-        String engagementName = "Engagement-Test";
+        /*String engagementName = "Engagement-Test";*/
         auditorSignUpService = new AuditorSignUpService(getLogger(), getDriver());
         try{
-            String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
+            /*String auditorId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Auditor");
             String clientId = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Client");
             String password = GenericService.getTestDataFromExcelNoBrowserPrefix("EmailTemplateData", "Valid User", "Password");
-
+*/
             marketingService.goToBaseURL();
             marketingService.openLoginDialog();
             marketingService.loginWithUserNamePassword(auditorId, password);
@@ -248,7 +265,7 @@ public class MailAccessTest extends AbstractTest {
 
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient("Titan client", clientId, "Leader");
+            clientService.fillInfoToInviteNewClient("Titan client", clientId, "Leader");
             clientService.verifyInviteClientSuccess("Your engagement invitation has been sent.");
 
             Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");

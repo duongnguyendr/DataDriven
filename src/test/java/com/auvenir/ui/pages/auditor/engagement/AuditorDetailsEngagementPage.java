@@ -1,20 +1,17 @@
 package com.auvenir.ui.pages.auditor.engagement;
 
-import com.auvenir.ui.pages.common.AbstractPage;
-
+import com.auvenir.ui.pages.common.DetailsEngagementPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.security.cert.X509Certificate;
 
 /**
  * Created by cuong.nguyen on 5/8/2017.
  */
 
 
-public class AuditorDetailsEngagementPage extends AbstractPage {
+public class AuditorDetailsEngagementPage extends DetailsEngagementPage {
 
 
     public AuditorDetailsEngagementPage(Logger logger, WebDriver driver) {
@@ -30,8 +27,9 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     @FindBy(xpath = "//input[@id='a-header-title']")
     private WebElement dashboardTextEle;
 
-    @FindBy(xpath = "//span[@id='a-header-title']")
+    @FindBy(id = "a-header-title")
     private WebElement dashboardTextAtGeneralPage;
+
     @FindBy(xpath = "//div[contains(text(),'To-Dos')]")
     private WebElement toDoLinkTextEle;
 
@@ -40,6 +38,9 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
 
     @FindBy(id = "h-clientListLink")
     private WebElement eleContactLink;
+
+    @FindBy (id = "engagementOverview")
+    private WebElement engagementOverviewEle;
 
     /**
      * verifyDownloadAttachmentFromAllToDo - TanPh - 2017/06/22 - Start
@@ -54,9 +55,8 @@ public class AuditorDetailsEngagementPage extends AbstractPage {
     public void verifyDetailsEngagementPage(String engagementName) {
         waitForVisibleElement(dashboardTextEle, "dashboard text");
         clickElement(dashboardTextEle);
-        sendTabkey(dashboardTextEle,"");
+        clickElement(engagementOverviewEle);
         validateAttributeElement(dashboardTextEle, "placeholder", engagementName);
-//        validateElementText(dashboardTextEle,engagementName);
     }
 
     public void verifyDetailsEngagementAtGeneralPage(String engagementName) {

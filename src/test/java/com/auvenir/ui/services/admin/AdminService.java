@@ -191,5 +191,9 @@ public class AdminService extends AbstractService {
     public void scrollToUser(String email) {
         adminPage.scrollToUser(email);
     }
+
+    public void verifyUserTypeOnAdminUserTable(String email, String userType) {
+        adminPage.verifyUserTypeOnAdminUserTable(email, userType, false);
+    }
 }
 

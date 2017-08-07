@@ -1,6 +1,7 @@
 package com.auvenir.rests.api.tests;
 
-import com.auvenir.rests.api.services.AbstractAPIService;
+import com.auvenir.ui.services.AbstractService;
+import com.auvenir.ui.tests.AbstractTest;
 import com.auvenir.utilities.GenericService;
 import com.auvenir.utilities.MongoDBService;
 import com.jayway.restassured.response.Response;
@@ -21,7 +22,7 @@ import static com.jayway.restassured.RestAssured.given;
  * Created by Doai.tran on 4/25/2017.
  * Updated by Doai.Tran on 5/9/2017: Refactor parameter dataBaseServer on maven
  */
-public class InstitutionTest extends AbstractAPIService {
+public class InstitutionTest extends AbstractTest {
     //public static final String restBaseUrl="http://finicity-qa-331.com";
     //public static final String database ="serviceFinicity";
     static String[] sData = null;
@@ -29,7 +30,7 @@ public class InstitutionTest extends AbstractAPIService {
     @BeforeClass
     public void getRestBaseUrl() throws UnknownHostException, SyncFactoryException {
         //RestAssured.basePath=restBaseUrl;
-        MongoDBService.connectDBServer(dataBaseServer, port, dataBaseServer, userName, password, ssl);
+        MongoDBService.connectDBServer(dataBaseServer, port, dataBase, userName, password, ssl);
 
         MongoDBService.deleteOwner("Owner1");
         MongoDBService.insertOwner("Owner1");
@@ -46,7 +47,7 @@ public class InstitutionTest extends AbstractAPIService {
     @BeforeMethod
     public void preCondition() {
         getBaseUrl();
-        AbstractAPIService.sStatusCnt = 0;
+        AbstractService.sStatusCnt = 0;
     }
 
     /*
@@ -73,7 +74,7 @@ public class InstitutionTest extends AbstractAPIService {
             assertionEquals(response.then().extract().jsonPath().getString("address"), sData[14]);
             //Verify Schema
             response.then().body(JsonSchemaValidator.matchesJsonSchema(sData[16]));
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account customer", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -95,7 +96,7 @@ public class InstitutionTest extends AbstractAPIService {
             Assert.assertEquals(response.statusCode(), 401);
             NXGReports.addStep("Get account customer with correct code.", LogAs.PASSED, null);
 
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account from out Customer ID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -119,7 +120,7 @@ public class InstitutionTest extends AbstractAPIService {
             assertionEquals(response.then().extract().jsonPath().getString("code"), "api-024");
             assertionEquals(response.then().extract().jsonPath().getString("msg"), "Error, missing or invalid params.");
 
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account with wrong Customer ID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -141,7 +142,7 @@ public class InstitutionTest extends AbstractAPIService {
             NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
             assertionEquals(response.then().extract().jsonPath().getString("code"), "api-024");
             assertionEquals(response.then().extract().jsonPath().getString("msg"), "Error, missing or invalid params.");
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account with wrong Customer ID", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);
@@ -161,7 +162,7 @@ public class InstitutionTest extends AbstractAPIService {
             Response response = given().get(baseUrl + "/v1/institution/zzzzzzzzzz?consumerID=8283407");
             Assert.assertEquals(response.statusCode(), 404);
             NXGReports.addStep("Get correct code.", LogAs.PASSED, null);
-            Assert.assertTrue(AbstractAPIService.sStatusCnt == 0, "Script Failed");
+            Assert.assertTrue(AbstractService.sStatusCnt == 0, "Script Failed");
             NXGReports.addStep("Get account with wrong institutionIDformat", LogAs.PASSED, null);
         } catch (AssertionError e) {
             NXGReports.addStep("Testscript Failed", LogAs.FAILED, null);

@@ -1,6 +1,7 @@
 package com.auvenir.ui.services.client;
 
 import com.auvenir.ui.pages.client.engagement.ClientEngagementPage;
+import com.auvenir.ui.pages.common.EngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -10,14 +11,16 @@ import org.openqa.selenium.WebDriver;
  */
 public class ClientEngagementService extends AbstractService {
     private ClientEngagementPage clientEngagementPage;
+    private EngagementPage engagementPage;
 
     public ClientEngagementService(Logger logger, WebDriver driver) {
         super(logger, driver);
         clientEngagementPage = new ClientEngagementPage(getLogger(), getDriver());
+        engagementPage = new EngagementPage(getLogger(),getDriver());
     }
 
     public void verifyNavigatedToClientEngagementPage() {
-        clientEngagementPage.verifyNavigatedToClientEngagementPage();
+        clientEngagementPage.verifyNavigatedToEngagementPage();
     }
 
     public void verifyUIListEngagementHeader(String logoHeaderBluePartialLink, String headerEngagementsText, String headerContactsText,
@@ -41,5 +44,18 @@ public class ClientEngagementService extends AbstractService {
             String privacyStatementText, String privacyStatementPartialLink, String cookieNoticeText, String cookieNoticePartialLink) {
         clientEngagementPage.verifyUIListEngagementFooter(companyInfoText, termsOfServiceText, termsOfServicePartialLink, privacyStatementText,
                 privacyStatementPartialLink, cookieNoticeText, cookieNoticePartialLink);
+    }
+
+
+    public void verifyEngagementPage() {
+        clientEngagementPage.verifyEngagementPage();
+    }
+
+    public void viewEngagementDetailsPage(String engagementName) {
+        clientEngagementPage.viewEngagementDetailsPage(engagementName);
+    }
+
+    public void verifyDetailsEngagement(String engagementName) {
+        clientEngagementPage.verifyDetailsEngagement(engagementName);
     }
 }

@@ -1,7 +1,7 @@
 package com.auvenir.ui.pages.auditor.engagement;
 
 import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.common.AbstractPage;
+import com.auvenir.ui.pages.common.EngagementPage;
 import com.auvenir.ui.services.AbstractService;
 import com.auvenir.utilities.GeneralUtilities;
 import com.auvenir.utilities.htmlreport.com.nxgreport.NXGReports;
@@ -20,7 +20,7 @@ import java.util.*;
 
 //import com.auvenir.ui.pages.marketing.engagement.BaseEngagementPO;
 
-public class AuditorEngagementPage extends AbstractPage {
+public class AuditorEngagementPage extends EngagementPage {
 
 
     AuvenirPage auvenirPage = null;
@@ -43,9 +43,6 @@ public class AuditorEngagementPage extends AbstractPage {
     public WebElement getEleMyEngmntTxt() {
         return eleMyEngmntTxt;
     }
-
-    @FindBy(id = "newAuditBtn")
-    private WebElement buttonNewEngagement;
 
     @FindBy(id = "tooltip-createEngagement-mainText")
     private WebElement eleClickhereTipTxt;
@@ -144,11 +141,6 @@ public class AuditorEngagementPage extends AbstractPage {
     @FindBy(id = "h-clientListLink")
     private WebElement contactsLinkEle;
 
-    // Old version
-    //    @FindBy(xpath = "//div[@id='cpa-main']/div")
-    @FindBy(xpath = "//tbody[@id='engagement-tbody']//td/a")
-    private List<WebElement> engagementListEle;
-
     @FindBy(xpath = "//button[contains(text(),'Add New')]")
     private WebElement eleAddNewBtn;
 
@@ -161,9 +153,6 @@ public class AuditorEngagementPage extends AbstractPage {
 
     @FindBy(xpath = "//*[@id='CreateEnagementParent']/../../../..")
     WebElement popUpCreateEngagement;
-
-    @FindBy(xpath = "//*[@id='auditPageNoEngagement']")
-    WebElement noEngagementDivEle;
 
     public WebElement getEleAddNewBtn() {
         return eleAddNewBtn;
@@ -538,7 +527,8 @@ public class AuditorEngagementPage extends AbstractPage {
     }
 
     public void verifyAuditorEngagementFilter() {
-        boolean isAuditorEngagementFilter, isFilterTypeOfEngagement, isFilterEngaFinancialAudit, isFilterEngaNoticeCompilation, isFilterEngaReview, isFilterEngaOther = false;
+        boolean isAuditorEngagementFilter, isFilterTypeOfEngagement, isFilterEngaFinancialAudit, isFilterEngaNoticeCompilation, isFilterEngaReview,
+                isFilterEngaOther = false;
         isAuditorEngagementFilter = clickElement(auditorEngagementFilter, "click to auditorEngagementFilter");
         isFilterTypeOfEngagement = clickElement(filterTypeOfEngagement, "click to filterTypeOfEngagement");
         isFilterEngaFinancialAudit = validateDisPlayedElement(filterEngaFinancialAudit, "display filterEngaFinancialAudit");
@@ -578,28 +568,9 @@ public class AuditorEngagementPage extends AbstractPage {
         clickElement(buttonNewEngagement, "click to buttonNewEngagement");
     }
 
-    /**
-     * Click on the Engagement with the engagement Name.
-     *
-     * @param engagementName The Engagement Name which be found on Engagement page.
-     */
-    public void viewEngagementDetailsPage(String engagementName) throws Exception {
-        int index = findEngagementName(engagementName);
-        System.out.println("Position: " + index);
-        //        hoverElement(engagementListEle.get(index), engagementName);
-        waitForClickableOfElement(engagementListEle.get(index), engagementName);
-
-        if (index == engagementListEle.size() - 1) {
-            scrollToFooter();
-        } else
-            hoverElement(engagementListEle.get(index + 1), engagementName);
-        clickElement(engagementListEle.get(index), engagementName);
-
-    }
-
     public void enterEngagementDetailWithName(String engagementTitle, String engagementName) throws Exception {
-        WebElement webElement = getDriver()
-                .findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
+        WebElement webElement =
+                getDriver().findElement(By.xpath("//p[contains(text(),'" + engagementTitle + "')]/ancestor::div[@id='cpa-main']//input"));
         System.out.println("+++++++++++++++++++++++++++++  " + engagementTitle);
         //current we cannot view engagement by name we test with first engagment
         //TODO bug here, fix later
@@ -611,20 +582,6 @@ public class AuditorEngagementPage extends AbstractPage {
     /*
     Vien.Pham moved createAndSelectNewEnagement Method
      */
-
-    /*
-     * Find the index(position) of Engagement in the list Engagement by Engagement Name
-     *
-     * @param engagementName String Engagement Name
-     * @return the number of the position if the WebElement is matched, otherwise return -1.
-     */
-    public int findEngagementName(String engagementName) {
-        getLogger().info("Find Position of Engagement Name");
-        String displayValue = noEngagementDivEle.getCssValue("display");
-        if (displayValue.equals("block"))
-            return -1;
-        return findElementByText(engagementListEle, engagementName);
-    }
 
     /**
      * Get the list ID of Engagement on Engagement Page.
@@ -1767,7 +1724,7 @@ public class AuditorEngagementPage extends AbstractPage {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+
     public void clickOnCompanyIconSortDown() {
         this.clickOnIconSortDown(eleCompanyIconSortDown, "company");
     }
@@ -1783,9 +1740,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyCompanyDataListSortDescending() {
         this.verifyDataListIsSortDescending(listCompanyEle, "company", false);
     }
-    ///////////////////////////////////////////////////////////////////////////////
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementNameIconSortDown() {
         this.clickOnIconSortDown(eleEngagementNameIconSortDown, "engagement name");
     }
@@ -1801,9 +1756,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementNameDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementNameEle, "engagement name", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementStatusIconSortDown() {
         this.clickOnIconSortDown(eleEngagementStatusIconSortDown, "engagement status");
     }
@@ -1819,9 +1772,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementStatusDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementStatusEle, "engagement status", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementAuditIconSortDown() {
         this.clickOnIconSortDown(eleEngagementAuditIconSortDown, "engagement audit");
     }
@@ -1837,10 +1788,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementAuditDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementAssigneeEle, "engagement audit", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementToDoIconSortDown() {
         this.clickOnIconSortDown(eleEngagementToDoIconSortDown, "engagement todo");
     }
@@ -1856,9 +1804,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementToDoDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementCompleteToDosEle, "engagement todo", true);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementClientIconSortDown() {
         this.clickOnIconSortDown(eleEngagementClientIconSortDown, "engagement client");
     }
@@ -1874,9 +1820,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementClientDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementClientAssigneeEle, "engagement client", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementDocIconSortDown() {
         this.clickOnIconSortDown(eleEngagementDocIconSortDown, "engagement doc");
     }
@@ -1892,9 +1836,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementDocDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementCompleteDocsEle, "engagement doc", true);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementActivityIconSortDown() {
         this.clickOnIconSortDown(eleEngagementActivityIconSortDown, "engagement activity");
     }
@@ -1910,9 +1852,7 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementActivityDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementLastActivityEle, "engagement activity", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickOnEngagementDueDateIconSortDown() {
         this.clickOnIconSortDown(eleEngagementDueDateIconSortDown, "engagement due date");
     }
@@ -1928,6 +1868,4 @@ public class AuditorEngagementPage extends AbstractPage {
     public void verifyEngagementDueDateDataListSortDescending() {
         this.verifyDataListIsSortDescending(listEngagementDueDateEle, "engagement due date", false);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-
 }

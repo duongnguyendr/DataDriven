@@ -1,10 +1,9 @@
 package com.auvenir.ui.tests.marketing;
 
-import com.auvenir.ui.dataprovider.SmokeDataProvider;
 import com.auvenir.ui.dataprovider.marketing.AuditorSignUpDataProvider;
 import com.auvenir.ui.services.AbstractService;
-import com.auvenir.ui.services.AuditorEngagementTeamService;
-import com.auvenir.ui.services.ClientDetailsEngagementService;
+import com.auvenir.ui.services.auditor.AuditorEngagementTeamService;
+import com.auvenir.ui.services.client.ClientDetailsEngagementService;
 import com.auvenir.ui.services.GmailLoginService;
 import com.auvenir.ui.services.admin.AdminService;
 import com.auvenir.ui.services.auditor.AuditorDetailsEngagementService;
@@ -369,7 +368,7 @@ public class AuditorSignUpTest extends AbstractTest {
             //auditor invite client
             auditorTodoListService.navigateToInviteClientPage();
             clientService.selectAddNewClient();
-            clientService.inviteNewClient(leadClientFullName, leadClient, "");
+            clientService.fillInfoToInviteNewClient(leadClientFullName, leadClient, "");
             clientService.verifyInviteClientSuccess(inviteClientSuccessfulMessage);
             gmailLoginService.gmailReLoginUseAnotherAccount(leadClient, leadClientEmailPwd);
             gmailLoginService.selectActiveEmaill();
@@ -519,7 +518,7 @@ public class AuditorSignUpTest extends AbstractTest {
             auditorEngagementService.viewEngagementDetailsPage(engagementName);
             auditorTodoListService.navigateToInviteGeneralMember();
 
-            clientService.inviteNewMember(generalClientFullName, generalClient, "");
+            clientService.fillInfoToInviteNewMember(generalClientFullName, generalClient, "");
             clientService.verifyInviteClientSuccess(inviteClientSuccessfulMessage);
             // client login Gmail to Signup
             gmailLoginService.gmailReLoginUseAnotherAccount(generalClient, generalClientEmailPwd);
