@@ -504,8 +504,8 @@ public class GroupPermissionsDataProvider extends CommonDataProvider {
         return arrayData;
     }
 
-    @DataProvider(name = "verifyLeadClientPostComment")
-    public static Object[][] verifyLeadClientPostComment() {
+    @DataProvider(name = "verifyLeadClientMakeComment")
+    public static Object[][] verifyLeadClientMakeComment() {
         Object[][] arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, leadClientCmt}};
         if (GenericService.sLanguage.equals("French")) {
             arrayData = new Object[][]{{leadClientUser, leadClientAuvenirPwd, engagementName2, todo1, leadClientCmt}};
