@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by vien.pham on 8/7/2017.
  */
-public class AuditorService extends AbstractService {
+public class GeneralAuditorService extends AbstractService {
     /**
      * Updated by Minh.Nguyen on June 19, 2017
      *
@@ -17,7 +17,7 @@ public class AuditorService extends AbstractService {
      */
 
     AuditorToDoPage auditorToDoPage;
-    public AuditorService(Logger logger, WebDriver driver) {
+    public GeneralAuditorService(Logger logger, WebDriver driver) {
         super(logger, driver);
         auditorToDoPage = new AuditorToDoPage(getLogger(),getDriver());
     }

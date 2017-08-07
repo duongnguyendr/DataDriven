@@ -768,6 +768,7 @@ public abstract class TodoPage extends AbstractPage {
                 boolean isCheck =
                         validateCssValueElement(newRequestTable.findElement(By.xpath("./div[" + index + "]/span")), "display", "inline-block");
                 if (isCheck) {
+
                     NXGReports.addStep("Verify request Name can  " + (editRequestNameCapability ? "be changed" : "not be changed") + " :Pass.",
                             LogAs.PASSED, null);
 
