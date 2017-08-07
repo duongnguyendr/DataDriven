@@ -9,10 +9,32 @@
         <parameter name="version" value="59.0.3071.115"/>
         <parameter name="os" value="WIN10"/>
         <classes>
-            <class name="com.auvenir.ui.tests.groupPermissions.LeadAuditorTest"/>
-            <methods>
-            <include name="verifyLeadAuditorSeeAllFileRequest"></include>
-         </methods>
+            <!--<class name="com.auvenir.utilities.initialize.InitData"/>-->
+            <!--<methods>
+                <include priority="1" name="deleteAllOldRecord"></include>
+                <include priority="2" name="initUser"></include>
+            </methods>-->
+            <class name="com.auvenir.ui.tests.groupPermissions.GroupPermissionsInitialTest"/>
+              <methods>
+                 <include name="verifySignUpAuditorUser"></include>
+                 <include name="verifyAdminChangeStatusUserToOnBoarding"></include>
+                 <!--<include name="verifyAuditorLoginGmailAndActiveUser"></include>-->
+                 <!--<include name="verifyLoginAuditorUser"></include>-->
+                 <!--<include name="verifyAdminAuditorCreateSimpleEngagement"></include>-->
+                 <!--<include name="verifyAdminAuditorInviteNewMemberAuditor"></include>-->
+                 <!--<include name="verifyAdminAuditorInvitingNewClient"></include>-->
+                 <!--<include name="verifyClientLogsInAndActive"></include>-->
+                 <!--<include name="verifyClientActiveAfterSignUpSuccess"></include>-->
+                 <!--<include name="verifyLeadAuditorCreateNewEngagement"></include>-->
+                 <!--<include name="verifyLeadAuditorInviteNewAuditorMember"></include>-->
+                 <!--<include name="verifyLeadAuditorInvitingAdminClient"></include>-->
+                 <!--<include name="verifyPermissionAdminClientCanInviteClient"></include>-->
+                 <!--<include name="verifyPermissionClientCanActiveViaEmail"></include>-->
+                 <!--<include name="verifyPermissionLeadPermissionCanBeTranfered"></include>-->
+                 <!--<include name="verifyLeadClientRemoveAdminClient"></include>-->
+                 <!--<include name="verifyLeadClientInviteClient"></include>-->
+                 <!--<include name="verifyGeneralClientActive"></include>-->
+             </methods>
         </classes>
     </test>
      <!--<test name="Regression2" preserve-order="false">
