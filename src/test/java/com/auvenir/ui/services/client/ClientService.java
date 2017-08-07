@@ -1,7 +1,7 @@
 package com.auvenir.ui.services.client;
 
 import com.auvenir.ui.pages.AuvenirPage;
-import com.auvenir.ui.pages.CreateNewAuditPage;
+import com.auvenir.ui.pages.client.engagement.CreateNewAuditPage;
 import com.auvenir.ui.pages.admin.AdminPage;
 import com.auvenir.ui.pages.auditor.auditorclient.AddNewClientPage;
 import com.auvenir.ui.pages.client.general.*;
