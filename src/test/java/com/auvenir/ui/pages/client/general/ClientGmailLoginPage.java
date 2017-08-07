@@ -1,12 +1,12 @@
 package com.auvenir.ui.pages.client.general;
 
 import com.auvenir.ui.pages.common.AbstractPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+
 //import org.testng.log4testng.Logger;
-import org.apache.log4j.Logger;
 
 public class ClientGmailLoginPage extends AbstractPage {
 
@@ -23,7 +23,7 @@ public class ClientGmailLoginPage extends AbstractPage {
         return eleSignInLink;
     }
 
-    @FindBy(css = "span[class='gb_8a gbii']")
+    @FindBy(xpath = "//span[contains(@class,'gbii')]")
     private WebElement eleProfileIcn;
 
     public WebElement getEleProfileIcn() {
